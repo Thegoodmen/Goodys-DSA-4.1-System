@@ -1,0 +1,54 @@
+{
+    "GDSA": {
+        "meleeskill": {
+            "none": "",
+            "bastardsword": "Anderthalbhänder",
+            "dagger": "Dolch",
+            "rapier": "Fechtwaffen",
+            "club": "Hiebwaffen",
+            "halberd": "Infanteriewaffen",
+            "chainstaff": "Kettenstäbe",
+            "chainweapon": "Kettenwaffen",
+            "lance": "Lanzenreiten",
+            "whip": "Peitsche",
+            "brawl": "Raufen",
+            "wrestle": "Ringen",
+            "saber": "Säbel",
+            "sword": "Schwerter",
+            "spear": "Speere",
+            "staff": "Stäbe",
+            "twohandflail": "Zweihandflegel",
+            "twohandclub": "Zweihand-Hiebwaffen",
+            "twohandsword": "Zweihandschwerter/-säbel"
+        },
+        "rangeskill": {
+            "none": "",
+            "crossbow": "Armbrust",
+            "siegeweapon": "Belagerungswaffen",
+            "blowgun": "Blasrohr",
+            "bow": "Bogen",
+            "disk": "Diskus",
+            "slingshot": "Schleuder",
+            "throwingaxe": "Wurfbeile",
+            "throwingknife": "Wurfmesser",
+            "throwingspear": "Wurfspeere"
+        },
+        "itemsheet": {
+            "name": "Name",
+            "skill": "Talent",
+            "type": "Regeltechnische Waffe",
+            "damage": "Trefferpunkte",
+            "TP/KK": "TP/KK",
+            "INI": "INI",
+            "WM": "WM",
+            "DK": "DK",
+            "BF": "Bruchfaktor",
+            "length": "Länge",
+            "weight": "Gewicht",
+            "value": "Preis",
+            "improvised": "Improvisiert",
+            "twohanded": "Zweihändig",
+            "description": "Beschreibung"
+        }
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "name": "GDSA",
+    "title": "Goody's DSA 4.1",
+    "description": "A system for DSA 4.1 made by Goody",
+    "author": "Goody",
+    "version": "0.0.1",
+    "minimumCoreVersion": "9",
+    "compatibleCoreVersion": "9",
+    "esmodules": [
+        "GDSA.js"
+    ],
+    "styles": [
+        "GDSA.css"
+    ],
+    "packs": [
+
+    ],
+    "languages": [
+        {
+            "lang": "de",
+            "name": "Deutsch",
+            "path": "lang/de.json"
+        }
+    ],
+    "gridDistance": 10,
+    "gridUnits": "ft",
+    "primaryTokenAttribute": "LeP",
+    "Initiative": "1d6 + @IniBase"
+}

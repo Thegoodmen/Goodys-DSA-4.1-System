@@ -1,0 +1,41 @@
+{
+    "GDSA": {
+        "meleeskill": {
+            "none": "",
+            "bastardsword": "Bastardsword",
+            "dagger": "Dagger",
+            "rapier": "Rapier",
+            "club": "Club",
+            "halberd": "Halberd",
+            "chainstaff": "Chain-Staff",
+            "chainweapon": "Chainweapons",
+            "lance": "Lance",
+            "whip": "Whip",
+            "brawl": "Brawl",
+            "wrestle": "Wrestle",
+            "saber": "Saber",
+            "sword": "Sword",
+            "spear": "Spear",
+            "staff": "Staff",
+            "twohandflail": "Two-handed Flail",
+            "twohandclub": "Two-handed Club",
+            "twohandsword": "Two-handed Sword/Saber"
+        },
+        "rangeskill": {
+            "none": "",
+            "crossbow": "Crossbow",
+            "siegeweapon": "Siegeweapon",
+            "blowgun": "Blowgun",
+            "bow": "Bow",
+            "disk": "Disk",
+            "slingshot": "Slingshot",
+            "throwingaxe": "Throwingaxe",
+            "throwingknife": "Throwingknife",
+            "throwingspear": "Throwingspear"
+        },
+        "itemsheet": {
+            "name": "Name",
+            "skill": "Skill"
+        }
+    }
+}
