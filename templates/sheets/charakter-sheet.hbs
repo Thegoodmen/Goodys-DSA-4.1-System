@@ -1,0 +1,170 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <div class="sheet">
+	    <div class="menuBar">
+			{{> "systems/GDSA/templates/partials/character-sheet-menu.hbs"}}
+	    </div>
+	    <div class="fillerHead"></div>
+	    <div class="infoBox">
+		    <div class="imgBox">
+			    <img class="img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+		    </div>
+		    <div class="infoDivider"></div>
+	    	<div class="factBox">
+			    <div class="factType">Name:</div><div data-edit="name" class="factValue editableValue" contenteditable>{{actor.name}}</div><br />
+		    	<hr class="factDivider" />
+	    		<div class="factType">Rasse:</div><div class="factValue">{{data.race}}</div><br />
+    			<hr class="factDivider"  />
+			    <div class="factType">Kultur:</div><div class="factValue">{{data.kulture}}</div><br />
+		    	<hr class="factDivider"  />
+	    		<div class="factType">Profession:</div><div class="factValue">{{data.profession}}</div><br />
+    			<hr class="factDivider"  />
+			    <div class="factType">Geschlecht:</div><div data-edit="data.gender" class="factValue editableValue" contenteditable>{{data.gender}}</div><br />
+		    	<hr class="factDivider"  />
+	    		<div class="factType">Alter:</div><div data-edit="data.age" class="factValue editableValue" contenteditable>{{data.age}}</div><br />
+    			<hr class="factDivider"  />
+			    <div class="factType">Größe:</div><div data-edit="data.height" class="factValue editableValue" contenteditable>{{data.height}}</div><br />
+		    	<hr class="factDivider"  />
+	    		<div class="factType">Gewicht:</div><div data-edit="data.weight" class="factValue editableValue" contenteditable>{{data.weight}}</div><br />
+    			<hr class="factDivider"  />
+			    <div class="factType">Sozialstatus:</div><div data-edit="data.SO" class="factValue editableValue" contenteditable>{{data.SO}}</div>
+		    </div>
+	    </div>
+    	<div class="filler"></div>
+	    <div class="valueBox">
+		    <div class="flawBox">
+				<div class="flawhead">Vorteile</div>
+				<hr class="flawhr" />
+			    <section class="advantages">
+					{{#each advantages as |advantage id|}}
+					<div class="flaw">{{advantage.name}}</div>
+					<hr class="flawhr" />
+					{{/each}}
+				</section>
+		    </div>
+		    <div class="flawDivider"></div>
+		    <div class="flawBox">
+				<div class="flawhead">Nachteile</div>
+				<hr class="flawhr" />
+		    </div>
+	    </div>	
+	    <div class="filler"></div>	
+	    <div class="valueBox">
+		    <div class="valueBox1">
+			    <div class="bigValueBox"></div>
+				<div class="smallValueBox valueHead">Wert</div>
+				<div class="smallValueBox valueHead">Mod.</div>
+				<div class="smallValueBox"></div><br />
+			    <div class="bigValueBox">Mut</div>
+			    <div class="smallValueBox">{{data.MU.value}}</div>
+			    <div class="smallValueBox editableValue" data-edit="data.Stats.MU.temp" contenteditable>{{data.Stats.MU.temp}}</div>
+			    <div class="smallValueBox">roll</div><br />
+			    <div class="bigValueBox">Klugheit</div>
+			    <div class="smallValueBox">12</div>
+			    <div class="smallValueBox editableValue">0</div>
+			    <div class="smallValueBox">roll</div><br />
+			    <div class="bigValueBox">Intuiton</div>
+			    <div class="smallValueBox">12</div>
+			    <div class="smallValueBox editableValue">0</div>
+			    <div class="smallValueBox">roll</div><br />
+			    <div class="bigValueBox">Charisma</div>
+			    <div class="smallValueBox">12</div>
+			    <div class="smallValueBox editableValue">0</div>
+			    <div class="smallValueBox">roll</div><br />
+			    <div class="bigValueBox">Fingerfertigkeit</div>
+			    <div class="smallValueBox">12</div>
+			    <div class="smallValueBox editableValue">0</div>
+			    <div class="smallValueBox">roll</div><br />
+			    <div class="bigValueBox">Gewandheit</div>
+			    <div class="smallValueBox">12</div>
+			    <div class="smallValueBox editableValue">0</div>
+			    <div class="smallValueBox">roll</div><br />
+			    <div class="bigValueBox">Konstitution</div>
+			    <div class="smallValueBox">12</div>
+			    <div class="smallValueBox editableValue">0</div>
+			    <div class="smallValueBox">roll</div><br />
+			    <div class="bigValueBox">Körperkraft</div>
+			    <div class="smallValueBox">12</div>
+			    <div class="smallValueBox editableValue">0</div>
+			    <div class="smallValueBox">roll</div><br />
+			    <div class="bigValueBox">Geschwindigkeit</div>
+			    <div class="smallValueBox">8</div>
+			    <div class="smallValueBox editableValue">0</div>
+			    <div class="smallValueBox"></div>
+		    </div>
+		    <div class="valueDivider"></div>
+		    <div class="valueBox2">
+		    	<div class="bigValueBox"></div>
+	    		<div class="smallValueBox valueHead">Max</div>
+    			<div class="smallValueBox valueHead">Wert</div>
+			    <div class="smallValueBox valueHead">Mod</div>
+		    	<div class="smallValueBox"></div>
+	    		<div class="smallValueBox"></div><br />
+    			<div class="bigValueBox">Lebenspunkte</div>
+			    <div class="smallValueBox">36</div>
+		    	<div class="smallValueBox">36</div>
+	    		<div class="smallValueBox editableValue">0</div>
+    			<div class="smallValueBox">+</div>
+			    <div class="smallValueBox">-</div><br />
+		    	<div class="bigValueBox">Ausdauer</div>
+	    		<div class="smallValueBox">36</div>
+    			<div class="smallValueBox">36</div>
+			    <div class="smallValueBox editableValue">0</div>
+		    	<div class="smallValueBox">+</div>
+	    		<div class="smallValueBox">-</div><br />
+    			<div class="bigValueBox">Astralenergie</div>
+			    <div class="smallValueBox">36</div>
+			    <div class="smallValueBox">36</div>
+		    	<div class="smallValueBox editableValue">0</div>
+	    		<div class="smallValueBox">+</div>
+    			<div class="smallValueBox">-</div><br />
+			    <div class="bigValueBox">Karmaenergie</div>
+		    	<div class="smallValueBox">36</div>
+	    		<div class="smallValueBox">36</div>
+    			<div class="smallValueBox editableValue">0</div>
+			    <div class="smallValueBox"></div>
+			    <div class="smallValueBox"></div><br />
+			    <div class="bigValueBox">Magieresistenz</div>
+			    <div class="smallValueBox"></div>
+			    <div class="smallValueBox">8</div>
+			    <div class="smallValueBox editableValue">0</div>
+			    <div class="smallValueBox"></div>
+			    <div class="smallValueBox"></div><br />
+			    <div class="bigValueBox">INI-Basis</div>
+			    <div class="smallValueBox"></div>
+			    <div class="smallValueBox">12</div>
+			    <div class="smallValueBox editableValue">0</div>
+			    <div class="smallValueBox"></div>
+			    <div class="smallValueBox"></div><br />
+			    <div class="bigValueBox">AT-Basis</div>
+			    <div class="smallValueBox"></div>
+			    <div class="smallValueBox">8</div>
+		    	<div class="smallValueBox editableValue">0</div>
+			    <div class="smallValueBox"></div>
+			    <div class="smallValueBox"></div><br />
+			    <div class="bigValueBox">PA-Basis</div>
+			    <div class="smallValueBox"></div>
+			    <div class="smallValueBox">8</div>
+			    <div class="smallValueBox editableValue">0</div>
+			    <div class="smallValueBox"></div>
+			    <div class="smallValueBox"></div><br />
+			    <div class="bigValueBox">FK-Basis</div>
+			    <div class="smallValueBox"></div>
+			    <div class="smallValueBox">8</div>
+			    <div class="smallValueBox editableValue">0</div>
+			    <div class="smallValueBox"></div>
+			    <div class="smallValueBox"></div>
+		    </div>
+	    </div>
+	    <div class="filler"></div>
+	    <div class="footerBox">
+		    <div class="footer">
+			    <div class="footerFirst">Gesammt AP</div>
+			    <div class="footerBig"><b>1500</b></div>
+			    <div class="footerSmall">Eingesetzt</div>
+			    <div class="footerBig"><b>1480</b></div>
+			    <div class="footerSmall">Frei</div>
+			    <div class="footerBig"><b>20</b></div>
+		    </div>
+	    </div>
+    </div>
+</form>

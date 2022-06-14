@@ -2,7 +2,7 @@ export default class GDSAItemSheet extends ItemSheet {
 
     get template() {
 
-        return `systems/GDSA/templates/sheets/${this.item.data.type}-sheet.html`
+        return `systems/GDSA/templates/sheets/${this.item.data.type}-sheet.hbs`
     }
 
     getData() {

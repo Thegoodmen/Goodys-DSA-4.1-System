@@ -1,18 +1,77 @@
 {
-    "Actor": {},
+    "Actor": {
+        "types": [
+            "PlayerCharakter"
+        ],
+        "templates": {
+            "Stats": {
+                "MU": {
+                    "value": 12,
+                    "temp": 0
+                },
+                "KL": {
+                    "value": 12,
+                    "temp": 0
+                },
+                "IN": {
+                    "value": 12,
+                    "temp": 0
+                },
+                "CH": {
+                    "value": 12,
+                    "temp": 0
+                },
+                "FF": {
+                    "value": 12,
+                    "temp": 0
+                },
+                "GE": {
+                    "value": 12,
+                    "temp": 0
+                },
+                "KO": {
+                    "value": 12,
+                    "temp": 0
+                },
+                "KK": {
+                    "value": 12,
+                    "temp": 0
+                }
+            }
+        },
+        "PlayerCharakter": {
+            "templates": [
+                "Stats"
+            ],
+            "race": "Mittelländer",
+            "kulture": "Mittelländische Landbevölkerung",
+            "profession": "Geweihter: Ifirn",
+            "gender": "männlich",
+            "age": "23",
+            "height": "186",
+            "weight": "72",
+            "SO": "5"
+        }
+    },
     "Item": {
         "types":[
             "general",
             "melee-weapons",
             "range-weapons",
             "shields",
-            "armour"
+            "armour",
+            "advantage",
+            "flaw"
         ],
         "templates": {
             "generalItems": {
                 "weight": 10,
                 "value": 100,
                 "description": ""
+            },
+            "trait":{
+                "name": "Arroganz",
+                "value": 5
             }
         },
         "general" : {
@@ -75,6 +134,16 @@
             "leftleg": 0,
             "gRS": 3,
             "gBE": 2
+        },
+        "advantage": {
+            "templates": [
+                "trait"
+            ]
+        },
+        "flaw": {
+            "templates": [
+                "trait"
+            ]
         }
     }
 }
