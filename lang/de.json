@@ -87,7 +87,16 @@
             "GE": "Gewandheit",
             "KO": "Konstitution",
             "KK": "Körperkraft",
-            "GS": "Geschwindikeit"
+            "GS": "Geschwindikeit",
+            "sMU": "MU",
+            "sKL": "KL",
+            "sIN": "IN",
+            "sCH": "CH",
+            "sFF": "FF",
+            "sGE": "GE",
+            "sKO": "KO",
+            "sKK": "KK",
+            "sBE": "BE"
         },
         "chat":{
             "flaw": {
