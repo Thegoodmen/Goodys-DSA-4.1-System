@@ -36,6 +36,10 @@
                 "KK": {
                     "value": 12,
                     "temp": 0
+                },
+                "GS": {
+                    "value": 8,
+                    "temp": 0
                 }
             }
         },
@@ -71,7 +75,7 @@
             },
             "trait":{
                 "name": "Arroganz",
-                "value": 5
+                "value": 0
             }
         },
         "general" : {

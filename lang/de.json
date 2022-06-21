@@ -1,5 +1,9 @@
 {
     "GDSA": {
+        "system": {
+            "edit": "Editieren",
+            "delete": "Löschen"
+        },
         "meleeskill": {
             "none": "",
             "bastardsword": "Anderthalbhänder",
@@ -49,6 +53,53 @@
             "improvised": "Improvisiert",
             "twohanded": "Zweihändig",
             "description": "Beschreibung"
+        },
+        "charactersheet": {
+            "system": "Das schwarze Auge",
+            "charMenu": "Charakter",
+            "skillMenu": "Talente",
+            "combatMenu": "Kampf",
+            "magicMenu": "Magie",
+            "holyMenu": "Karmal",
+            "itemMenu": "Inventar",
+            "name": "Name:",
+            "race": "Rasse:",
+            "culture": "Kultur:",
+            "profession": "Profession:",
+            "gender": "Geschlecht:",
+            "age": "Alter:",
+            "height": "Größe:",
+            "weight": "Gewicht:",
+            "so": "Sozialstatus:",
+            "advantage": "Vorteile",
+            "addAdvantage": "Vorteil hinzufügen",
+            "newadvantage": "Neuer Vorteil",
+            "flaw": "Nachteile",
+            "addFlaw": "Nachteil hinzufügen",
+            "newflaw": "Neuer Nachteil",
+            "valueLabel": "Wert",
+            "modLabel": "Mod.",
+            "MU": "Mut",
+            "KL": "Klugheit",
+            "IN": "Intutition",
+            "CH": "Charisma",
+            "FF": "Fingerfertigkeit",
+            "GE": "Gewandheit",
+            "KO": "Konstitution",
+            "KK": "Körperkraft",
+            "GS": "Geschwindikeit"
+        },
+        "chat":{
+            "flaw": {
+                "success": "Triggert nicht!",
+                "fail": "Triggert!"
+            },
+            "stat": {
+                "success": "Geschafft!",
+                "fail": "Nicht Geschafft!",
+                "critt": "Kritischer Erfolg!",
+                "goof": "Patzer!"
+            }
         }
     }
 }

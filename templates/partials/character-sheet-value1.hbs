@@ -1,0 +1,53 @@
+<section>
+    <div class="valueBox1">
+	    <div class="bigValueBox"></div>
+		<div class="smallValueBox valueHead">{{localize "GDSA.charactersheet.valueLabel"}}</div>
+		<div class="smallValueBox valueHead">{{localize "GDSA.charactersheet.modLabel"}}</div>
+		<div class="smallValueBox"></div><br />
+
+	    <a class=" item stat-roll" data-statValue="{{data.MU.value}}" data-statName="{{localize "GDSA.charactersheet.MU"}}" data-statMod="{{data.MU.temp}}" title="roll"><div class="bigValueBox">{{localize "GDSA.charactersheet.MU"}}</div></a>
+	    <div class="smallValueBox">{{data.MU.value}}</div>
+	    <div class="smallValueBox editableValue"><input class="statTemp" name="tempMod" type="number" value="{{data.MU.temp}}" /></div>
+	    <div class="smallValueBox"><a class=" item stat-roll" data-statValue="{{data.MU.value}}" data-statName="{{localize "GDSA.charactersheet.MU"}}" data-statMod="{{data.MU.temp}}" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a></div><br />
+
+	    <a class=" item stat-roll" data-statValue="{{data.KL.value}}" data-statName="{{localize "GDSA.charactersheet.KL"}}" title="roll"><div class="bigValueBox">{{localize "GDSA.charactersheet.KL"}}</div></a>
+	    <div class="smallValueBox">{{data.KL.value}}</div>
+	    <div class="smallValueBox editableValue" data-edit="data.KL.temp" contenteditable>{{data.KL.temp}}</div>
+	    <div class="smallValueBox"><a class=" item stat-roll" data-statValue="{{data.KL.value}}" data-statName="{{localize "GDSA.charactersheet.KL"}}" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a></div><br />
+
+	    <a class=" item stat-roll" data-statValue="{{data.IN.value}}" data-statName="{{localize "GDSA.charactersheet.IN"}}" title="roll"><div class="bigValueBox">{{localize "GDSA.charactersheet.IN"}}</div></a>
+	    <div class="smallValueBox">{{data.IN.value}}</div>
+	    <div class="smallValueBox editableValue" data-edit="data.IN.temp" contenteditable>{{data.IN.temp}}</div>
+	    <div class="smallValueBox"><a class=" item stat-roll" data-statValue="{{data.IN.value}}" data-statName="{{localize "GDSA.charactersheet.IN"}}" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a></div><br />
+
+	    <a class=" item stat-roll" data-statValue="{{data.CH.value}}" data-statName="{{localize "GDSA.charactersheet.CH"}}" title="roll"><div class="bigValueBox">{{localize "GDSA.charactersheet.CH"}}</div></a>
+	    <div class="smallValueBox">{{data.CH.value}}</div>
+	    <div class="smallValueBox editableValue" data-edit="data.CH.temp" contenteditable>{{data.CH.temp}}</div>
+	    <div class="smallValueBox"><a class=" item stat-roll" data-statValue="{{data.CH.value}}" data-statName="{{localize "GDSA.charactersheet.CH"}}" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a></div><br />
+
+	    <a class=" item stat-roll" data-statValue="{{data.FF.value}}" data-statName="{{localize "GDSA.charactersheet.FF"}}" title="roll"><div class="bigValueBox">{{localize "GDSA.charactersheet.FF"}}</div></a>
+	    <div class="smallValueBox">{{data.FF.value}}</div>
+	    <div class="smallValueBox editableValue" data-edit="data.FF.temp" contenteditable>{{data.FF.temp}}</div>
+	    <div class="smallValueBox"><a class=" item stat-roll" data-statValue="{{data.FF.value}}" data-statName="{{localize "GDSA.charactersheet.FF"}}" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a></div><br />
+
+	    <a class=" item stat-roll" data-statValue="{{data.GE.value}}" data-statName="{{localize "GDSA.charactersheet.GE"}}" title="roll"><div class="bigValueBox">{{localize "GDSA.charactersheet.GE"}}</div></a>
+	    <div class="smallValueBox">{{data.GE.value}}</div>
+	    <div class="smallValueBox editableValue" data-edit="data.GE.temp" contenteditable>{{data.GE.temp}}</div>
+	    <div class="smallValueBox"><a class=" item stat-roll" data-statValue="{{data.GE.value}}" data-statName="{{localize "GDSA.charactersheet.GE"}}" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a></div><br />
+
+	    <a class=" item stat-roll" data-statValue="{{data.KO.value}}" data-statName="{{localize "GDSA.charactersheet.KO"}}" title="roll"><div class="bigValueBox">{{localize "GDSA.charactersheet.KO"}}</div></a>
+	    <div class="smallValueBox">{{data.KO.value}}</div>
+	    <div class="smallValueBox editableValue" data-edit="data.KO.temp" contenteditable>{{data.KO.temp}}</div>
+	    <div class="smallValueBox"><a class=" item stat-roll" data-statValue="{{data.KO.value}}" data-statName="{{localize "GDSA.charactersheet.KO"}}" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a></div><br />
+
+	    <a class=" item stat-roll" data-statValue="{{data.KK.value}}" data-statName="{{localize "GDSA.charactersheet.KK"}}" title="roll"><div class="bigValueBox">{{localize "GDSA.charactersheet.KK"}}</div></a>
+	    <div class="smallValueBox">{{data.KK.value}}</div>
+	    <div class="smallValueBox editableValue" data-edit="data.KK.temp" contenteditable>{{data.KK.temp}}</div>
+	    <div class="smallValueBox"><a class=" item stat-roll" data-statValue="{{data.KK.value}}" data-statName="{{localize "GDSA.charactersheet.KK"}}" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a></div><br />
+
+	    <div class="bigValueBox">{{localize "GDSA.charactersheet.GS"}}</div>
+	    <div class="smallValueBox">{{data.GS.value}}</div>
+	    <div class="smallValueBox editableValue" data-edit="data.GS.temp" contenteditable>{{data.GS.temp}}</div>
+	    <div class="smallValueBox"></div>
+	</div>
+</section>

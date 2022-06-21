@@ -1,0 +1,57 @@
+<section>
+    <div class="infoBox">
+		<div class="imgBox">
+	    	<img class="img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+	   	</div>
+	   	<div class="infoDivider"></div>
+		{{> "systems/GDSA/templates/partials/character-sheet-facts.hbs"}}
+    </div>
+
+    <div class="filler"></div>
+
+	<div class="valueBox">
+	    <div class="flawBox">
+			<div class="flawhead">{{localize "GDSA.charactersheet.advantage"}}</div>
+            <div class="flawbnt"><a class="item-create" data-type="advantage" title="{{localize "GDSA.charactersheet.addAdvantage"}}"><i class="fas fa-plus plusSym"></i></a></div>
+			<div class="flawhrbox"><hr class="flawhr" /></div>
+	    	<section class="advantages">
+				{{#each advantages as |advantage id|}}
+					{{> "systems/GDSA/templates/partials/advantages.hbs" advantage}}
+				{{/each}}
+			</section>
+	   	</div>
+
+	   	<div class="flawDivider"></div>
+
+	    <div class="flawBox">
+			<div class="flawhead">{{localize "GDSA.charactersheet.flaw"}}</div><div class="flawbnt"><a class="item-create" data-type="flaw" title="{{localize "GDSA.charactersheet.addFlaw"}}"><i class="fas fa-plus plusSym"></i></a></div>
+			<div class="flawhrbox"><hr class="flawhr" /></div>
+	    	<section class="advantages">
+				{{#each flaws as |flaw id|}}
+					{{> "systems/GDSA/templates/partials/advantages.hbs" flaw}}
+				{{/each}}
+			</section>
+	   	</div>
+	</div>	
+
+	<div class="filler"></div>
+
+	   <div class="valueBox">
+	   	{{> "systems/GDSA/templates/partials/character-sheet-value1.hbs"}}
+	   	<div class="valueDivider"></div>
+	   	{{> "systems/GDSA/templates/partials/character-sheet-value2.hbs"}}
+    </div>
+    
+    <div class="filler"></div>
+	    
+	<div class="footerBox">
+	   	<div class="footer">
+	    	<div class="footerFirst">Gesammt AP</div>
+	    	<div class="footerBig"><b>1500</b></div>
+	    	<div class="footerSmall">Eingesetzt</div>
+	    	<div class="footerBig"><b>1480</b></div>
+	    	<div class="footerSmall">Frei</div>
+	    	<div class="footerBig"><b>20</b></div>
+	   	</div>
+ 	</div>
+</section>

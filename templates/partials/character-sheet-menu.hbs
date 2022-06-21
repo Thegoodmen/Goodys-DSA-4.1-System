@@ -1,36 +1,63 @@
 <section>
-    <div class="menuItemBox">
-		<div class="menuItemBoxHelper"></div><br />
-		<div class="menuItem">
-			<div class="menuItemHelper"></div><br />
-			Charakter
-	    </div>
-	    <div class="menuItem">
-	   		<div class="menuItemHelper"></div><br />
-			Talente
-  		</div>
-	    <div class="menuItem">
-		    <div class="menuItemHelper"></div><br />
-		    Kampf
-	    </div>
-    </div>
-    <div class="menuDivider">
-	    <div class="menuDividerHelper"></div><br />
-	    <b>Das schwarze Auge</b>
-    </div>
-    <div class="menuItemBox">
-	    <div class="menuItemBoxHelper"></div><br />
-	    <div class="menuItem">
-		    <div class="menuItemHelper"></div><br />
-		    Magie
-	    </div>
-	    <div class="menuItem">
-		    <div class="menuItemHelper"></div><br />
-		    Karmal
-	    </div>
-	    <div class="menuItem">
-		    <div class="menuItemHelper"></div><br />
-		    Inventar
-	    </div>
-    </div>
+	<nav class="sheet-tabs tabs nav" data-group="primary">
+		<div class="menuItemBox">
+
+			<div class="menuItemBoxHelper"></div><br />
+			
+			<a class="item" data-tab="mainPage">
+				<div class="menuItem">
+					<div class="menuItemHelper"></div><br />
+					{{localize "GDSA.charactersheet.charMenu"}}
+	    		</div>
+			</a>
+
+			<a class="item" data-tab="skillPage">
+	    		<div class="menuItem">
+	   				<div class="menuItemHelper"></div><br />
+					{{localize "GDSA.charactersheet.skillMenu"}}
+  				</div>
+			</a>
+
+			<a class="item" data-tab="combatePage">
+	    		<div class="menuItem">
+		    		<div class="menuItemHelper"></div><br />
+					{{localize "GDSA.charactersheet.combatMenu"}}
+	    		</div>
+			</a>
+    	</div>
+
+		<a class="item" data-tab="gmPage">
+    		<div class="menuDivider">
+	    		<div class="menuDividerHelper"></div><br />
+				<!-- <img src="systems/GDSA/templates/img/logo.webp"> -->
+	    		<b>{{localize "GDSA.charactersheet.system"}}</b>
+    		</div>
+		</a>
+
+    	<div class="menuItemBox">
+
+	    	<div class="menuItemBoxHelper"></div><br />
+
+			<a class="item" data-tab="magicPage">
+	    		<div class="menuItem">
+		    		<div class="menuItemHelper"></div><br />
+					{{localize "GDSA.charactersheet.magicMenu"}}
+		    	</div>
+			</a>
+
+			<a class="item" data-tab="holyPage">
+		    	<div class="menuItem">
+		    		<div class="menuItemHelper"></div><br />
+					{{localize "GDSA.charactersheet.holyMenu"}}
+	    		</div>
+			</a>
+
+			<a class="item" data-tab="itemPage">
+	    		<div class="menuItem">
+		    		<div class="menuItemHelper"></div><br />
+					{{localize "GDSA.charactersheet.itemMenu"}}
+	    		</div>
+			</a>
+    	</div>
+	</nav>
 </section>

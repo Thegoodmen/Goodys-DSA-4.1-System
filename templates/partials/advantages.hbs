@@ -1,1 +1,8 @@
-<div>Test</div>
+<div class="item item-context flaw-roll" data-type="{{data.type}}" data-item-id="{{_id}}" data-flawValue="{{data.value}}" data-flawName="{{name}}">
+    <a class="test" data-type="advantage"><div class="flaw">{{name}}
+        {{#if (ne data.value 0)}}
+        {{data.value}}
+        {{/if}}
+    </div></a>
+	<hr class="flawhr" />
+</div>
