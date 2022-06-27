@@ -241,6 +241,63 @@
   height: 100%;
   width: 100%;
 }
+.GDSA.sheet.characterSheet .SkillFiller {
+  width: 620px;
+  height: 10px;
+}
+.GDSA.sheet.characterSheet .skillMenu {
+  height: 23px;
+  border: 1px solid black;
+  display: inline-block;
+  text-align: center;
+  padding-top: 2px;
+}
+.GDSA.sheet.characterSheet .skillMenuBox {
+  width: 620px;
+  height: 28px;
+  text-align: center;
+}
+.GDSA.sheet.characterSheet .skillsBox {
+  width: 620px;
+  height: 607px;
+  text-align: center;
+}
+.GDSA.sheet.characterSheet .skillTableName {
+  width: 454px;
+  text-align: left;
+  border: 1px solid black;
+  padding-left: 10px;
+}
+.GDSA.sheet.characterSheet .skillTableNameBig {
+  width: 519px;
+  text-align: left;
+  border: 1px solid black;
+  padding-left: 10px;
+}
+.GDSA.sheet.characterSheet .skillTableBE {
+  width: 65px;
+  text-align: center;
+  border: 1px solid black;
+  padding: 0px;
+}
+.GDSA.sheet.characterSheet .skillTableValue {
+  width: 50px;
+  text-align: center;
+  border: 1px solid black;
+  padding: 0px;
+}
+.GDSA.sheet.characterSheet .skillTableRoll {
+  width: 50px;
+  text-align: center;
+  border: 1px solid black;
+}
+.GDSA.sheet.characterSheet .skillTemp {
+  border: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.45);
+}
 .GDSA.chat.message .flawBox {
   height: 132px;
 }
@@ -270,6 +327,11 @@
 .GDSA.chat.message .dices {
   height: 60px;
   width: 120px;
+  margin: auto;
+}
+.GDSA.chat.message .dices2 {
+  height: 60px;
+  width: 180px;
   margin: auto;
 }
 .GDSA.chat.message .dice {
@@ -316,4 +378,38 @@
   font-size: 18px;
   text-align: center;
   background-color: goldenrod;
+}
+.GDSA.chat.message .rollSkillSuccess {
+  float: left;
+  background-color: green;
+  width: 100%;
+  height: 44px;
+  font-size: 18px;
+  text-align: center;
+  color: white;
+}
+.GDSA.chat.message .rollSkillFail {
+  float: left;
+  background-color: darkred;
+  width: 100%;
+  height: 44px;
+  font-size: 18px;
+  text-align: center;
+  color: white;
+}
+.GDSA.chat.message .rollposMod {
+  height: 22px;
+  float: left;
+  width: 100%;
+  font-size: 18px;
+  text-align: center;
+  background-color: #cddc39;
+}
+.GDSA.chat.message .rollnegMod {
+  height: 22px;
+  float: left;
+  width: 100%;
+  font-size: 18px;
+  text-align: center;
+  background-color: #cd0e00;
 }

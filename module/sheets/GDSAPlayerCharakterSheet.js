@@ -8,7 +8,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             width: 632,
             height: 825,
             resizable: false,
-            tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "mainPage" }],
+            tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "mainPage" },
+                    {navSelector: ".skill-tabs", contentSelector: ".skill-body", initial: "combatSkills"}],
             classes: ["GDSA", "sheet", "characterSheet"]
         });
     }
@@ -64,6 +65,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
             html.find(".flaw-roll").click(this._onFlawRoll.bind(this));
             html.find(".stat-roll").click(this._onStatRoll.bind(this));
+            html.find(".skill-roll").click(this._onSkillRoll.bind(this));
 
             new ContextMenu(html, ".item-context", this.itemContextMenu);
         }
@@ -129,10 +131,45 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         //console.log(element.closest(".statTemp").value);
 
+        let statname = element.closest(".item").dataset.statname;
         let statvalue = element.closest(".item").dataset.statvalue;
         let statmod = statObjekt.temp; // element.closest(".item").dataset.statmod;
-        let statname = element.closest(".item").dataset.statname;
+        
         
         Dice.statCheck(statname,statvalue, statmod, actor);
+    }
+
+    async _onSkillRoll(event) {
+
+        event.preventDefault();
+
+        let element = event.currentTarget;
+        let actor = this.actor;
+
+        let statname = element.closest(".item").dataset.statname;
+        let statvalue = element.closest("tr").querySelector("[class=skillTemp]").value;
+        let statone = element.closest(".item").dataset.stat_one;
+        let stattwo = element.closest(".item").dataset.stat_two;
+        let statthree = element.closest(".item").dataset.stat_three;
+        let beMod = element.closest(".item").dataset.bemod;
+        let check = this.getData().flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.goofy")})[0];
+        let options = true;
+        let goofy = false;
+        let be = actor.data.data.BE;
+
+        if(beMod = 0)
+            be = 0;
+        else if (beMod > 0)
+            be = parseInt(be) * parseInt(beMod);
+        else if (beMod < 0)
+            be = parseInt(be) + parseInt(beMod);
+
+        if(check != null)
+            goofy = true;
+        
+        if (event.shiftKey)
+            options = false;
+
+        Dice.skillCheck(statname, statvalue, statone, stattwo, statthree, be, actor, options, goofy);
     }
 }

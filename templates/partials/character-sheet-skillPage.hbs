@@ -33,48 +33,51 @@
 		
 		<div style="width: 4px; height: 40px; float: left"></div>
 		<div style="width: 40px; height: 38px; border: 1px solid black; float: left; text-align: center;">
-			{{localize "GDSA.charactersheet.sBE"}}<br /><b>0</b></div>
+			{{localize "GDSA.charactersheet.sBE"}}<br /><b>{{data.BE}}</b></div>
 	</div>
 </div>
 	
-<div style="width: 620px; height: 10px;"></div>
+<div class="skillFiller"></div>
 	
-<div style="width: 620px; height: 28px; text-align: center;">
-	
-	<div style="width: 58px; height: 23px; border: 1px solid black; display: inline-block; text-align: center; padding-top: 2px;">
-		Kampf</div>
-			
-	<div style="width: 88px; height: 23px; border: 1px solid black; display: inline-block; text-align: center; padding-top: 2px;">
-		Körperlich</div>
-			
-	<div style="width: 100px; height: 23px; border: 1px solid black; display: inline-block; text-align: center; padding-top: 2px;">
-		Gesselschaft</div>
-			
-	<div style="width: 60px; height: 23px; border: 1px solid black; display: inline-block; text-align: center; padding-top: 2px;">
-		Natur</div>
-			
-	<div style="width: 63px; height: 23px; border: 1px solid black; display: inline-block; text-align: center; padding-top: 2px;">
-		Wissen</div>
-			
-	<div style="width: 70px; height: 23px; border: 1px solid black; display: inline-block; text-align: center; padding-top: 2px;">
-		Sprachen</div>
-			
-	<div style="width: 89px; height: 23px; border: 1px solid black; display: inline-block; text-align: center; padding-top: 2px;">
-		Handwerk</div>
-			
-	<div style="width: 56px; height: 23px; border: 1px solid black; display: inline-block; text-align: center; padding-top: 2px;">
-		Gaben</div>
+<div class="skillMenuBox">
+	<nav class="skill-tabs tabs nav" data-group="secondary">
+		<a class="item" data-tab="combatSkills"><div class="skillMenu" style="width: 58px;">{{localize "GDSA.charactersheet.combatSkills"}}</div></a>
+		<a class="item" data-tab="bodySkills"><div class="skillMenu" style="width: 88px;">{{localize "GDSA.charactersheet.bodySkills"}}</div></a>
+		<a class="item" data-tab="socialSkills"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.socialSkills"}}</div></a>
+		<a class="item" data-tab="natureSkills"><div class="skillMenu" style="width: 60px;">{{localize "GDSA.charactersheet.natureSkills"}}</div></a>
+		<a class="item" data-tab="knowledgeSkills"><div class="skillMenu" style="width: 63px;">{{localize "GDSA.charactersheet.knowledgeSkills"}}</div></a>
+		<a class="item" data-tab="langSkills"><div class="skillMenu" style="width: 70px;">{{localize "GDSA.charactersheet.langSkills"}}</div></a>
+		<a class="item" data-tab="craftSkills"><div class="skillMenu" style="width: 89px;">{{localize "GDSA.charactersheet.craftSkils"}}</div></a>
+		<a class="item" data-tab="giftSkills"><div class="skillMenu" style="width: 56px;">{{localize "GDSA.charactersheet.giftSkills"}}</div></a>
+	</nav>
 </div>
 	
-<div style="width: 620px; height: 607px; text-align: center">
+<div class="skillsBox">
+	<section class="skill-body">
+		<div class="skillsBox tab combatSkills" data-group="secondary" data-tab="combatSkills">
 		
-	<table style="display: inline-block">
-        <tr>
-			<td style="width: 454px; text-align: left; border: 1px solid black; padding-left: 10px;">Akrobatik <i>(MU/GE/KK)</i></td>
-			<td style="width: 65px; text-align: left; border: 1px solid black; padding-left: 4px;">BE x 2</td>
-			<td style="width: 50px; text-align: center; border: 1px solid black;">3</td>
-			<td style="width: 50px; text-align: center; border: 1px solid black;"><i class="fas fa-dice-d20 faD20Stat"></i></td>
-		</tr>
+			<table style="display: inline-block">
+		        <tr>
+					<td class="skillTableName">Akrobatik <i>(MU/GE/KK)</i></td><td class="skillTableBE">BE x 2</td>
+					<td class="skillTableValue">3</td><td class="skillTableRoll">
+					<a class="item skill-roll" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a></td>
+				</tr>
 	
-    </table>
+    		</table>
+		</div>
+
+
+		<div class="skillsBox tab bodySkills" data-group="secondary" data-tab="bodySkills">
+			{{> "systems/GDSA/templates/partials/character-sheet-bodySkills.hbs"}}
+		</div>
+		<div class="skillsBox tab socialSkills" data-group="secondary" data-tab="socialSkills">
+			{{> "systems/GDSA/templates/partials/character-sheet-socialSkills.hbs"}}
+		</div>
+		<div class="skillsBox tab natureSkills" data-group="secondary" data-tab="natureSkills">
+			{{> "systems/GDSA/templates/partials/character-sheet-natureSkills.hbs"}}
+		</div>
+		<div class="skillsBox tab knowledgeSkills" data-group="secondary" data-tab="knowledgeSkills">
+			{{> "systems/GDSA/templates/partials/character-sheet-knowledgeSkills.hbs"}}
+		</div>
+	</section>
 </div>
