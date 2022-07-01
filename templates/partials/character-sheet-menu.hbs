@@ -26,13 +26,17 @@
 			</a>
     	</div>
 
-		<a class="item" data-tab="gmPage">
+		{{#if isGM}}
+			<a class="item" data-tab="gmPage">
+		{{/if}}
     		<div class="menuDivider">
-	    		<div class="menuDividerHelper"></div><br />
-				<!-- <img src="systems/GDSA/templates/img/logo.webp"> -->
+	    		<div class="menuDividerHelper"><img class="logoImg" src="systems/GDSA/templates/img/logo.webp"></div><br />
+				<!--  -->
 	    		<b>{{localize "GDSA.charactersheet.system"}}</b>
     		</div>
-		</a>
+		{{#if isGM}}
+			</a>
+		{{/if}}
 
     	<div class="menuItemBox">
 

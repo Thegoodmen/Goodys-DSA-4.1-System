@@ -5,11 +5,19 @@
         height: 765px;
         font-family: MasonSerifBold;
     };
+    .logoImg{
+        height: 46px;
+        border: 0px;
+    };
     .editableValue{
         background-color: rgba(255,255,255,0.45);
     };
     .plusSym{
         font-size: 15px;
+        padding-top: 3px;
+    };
+    .inTableSym{
+        font-size: 12px;
         padding-top: 3px;
     };
     .faD20Stat{
@@ -20,12 +28,12 @@
     };
     .menuBar{
         width: 616px;
-        height: 60px;
+        height: 60px;        
+        border: 2px solid black;
     };
     .menuDivider{
-        width: 160px;
+        width: 156px;
         height: 60px;
-        border: 2px solid black;
         float: left;
         text-align: center;
     };
@@ -38,9 +46,15 @@
         width: 76px;
         height: 40px;    
         border: 2px transparent;
-        background: darkgoldenrod;
+        // background: darkgoldenrod;
         float: left;
         text-align: center;
+    };
+    .item.active > .menuItem{
+        // background: rgba(184 134 11 / 44%);
+    };
+    .item:hover > .menuItem{
+        background: rgba(0 0 0 / 3%);
     };
     .menuItemHelper{
         width: 100%;
@@ -177,6 +191,7 @@
         float: left;
         text-align: center;
         border: 1px solid black;
+        padding-top: 1px;
     };
     .bigValueBox{
         width: 140px;
@@ -208,23 +223,23 @@
         height: 20px;
     };
     .footerSmall{
-        width: 100px;
+        width: 110px;
         height: 20px;
         float: left;
         text-align: center;  
     };
     .footerBig{
-        width: 102px;
+        width: 70px;
         height: 20px;
         float: left;
         text-align: center;  
     };
     .footerFirst{
-        width: 100px;
+        width: 165px;
         height: 20px;
         float: left;
         text-align: left;
-        padding-left: 10px;  
+        padding-left: 40px;  
     };
     .gmBox{
         float: left;
@@ -264,6 +279,12 @@
         height: 607px;
         text-align: center;
     };
+    .skillTableNameCombat{
+        width: 394px;
+        text-align: left;
+        border: 1px solid black;
+        padding-left: 10px;
+    };
     .skillTableName{
         width: 454px;
         text-align: left;
@@ -271,7 +292,7 @@
         padding-left: 10px;
     };
     .skillTableNameBig{
-        width: 519px;
+        width: 514px;
         text-align: left;
         border: 1px solid black;
         padding-left: 10px;
@@ -288,6 +309,12 @@
         border: 1px solid black;
         padding: 0px;
     };
+    .skillTableFiller{
+        width: 5px;
+        text-align: center;
+        border: 1px solid black;
+        padding: 0px;
+    };
     .skillTableRoll{
         width: 50px;
         text-align: center;
@@ -299,5 +326,58 @@
         width: 100%;
         height: 24px;
         background-color: rgba(255,255,255,0.45);
+    };
+    .langbox{
+        width: 100%;
+        height: 310px;
+    };
+    .langtext{
+        float: left;
+        width: 570px;
+        text-align: left;
+        padding-left: 10px;
+        padding-top: 9px;
+        font-size: 19px;
+    };
+    .langbnt{
+        float: left;
+        height: 20px;
+        padding-top: 10px;
+        width: 50px;
+    };
+    .langhr{
+        float: left;
+        height: 2px;
+        width: 100%;
+        margin-bottom: 0px;
+    };
+    .langtab{       
+        height: 255px;
+        width: 620px;
+        float: left;
+        overflow-x: scroll;
+    };
+    .skillHeaderBox{
+        width: 620px;
+        height: 40px;
+        text-align: center;
+    };
+    .skillHeaderSkillBox{
+        width: 410px;
+        height: 40px;
+        display: inline-block;
+        margin: auto;
+    };
+    .skillHeaderFiller{
+        width: 4px;
+        height: 40px;
+        float: left;
+    };
+    .skillHeaderStat{
+        width: 40px;
+        height: 38px;
+        border: 1px solid black;
+        float: left;
+        text-align: center;
     }
 }

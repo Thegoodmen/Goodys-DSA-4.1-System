@@ -25,23 +25,21 @@
         {{/if}}
         
         <div class="dice-formula">
-            {{#unless confirm}}
-                {{#if result}}
-                    {{#if critt}}
-                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.critt"}}</div>
-                    {{else}}
-                        <div class="rollSkillSuccess">{{localize "GDSA.chat.stat.sucessWith"}} {{tap}} {{localize "GDSA.chat.stat.TaPS"}}<br />
-                        {{tapMax}}{{localize "GDSA.chat.stat.maxMod"}}</div>
-                    {{/if}}
+            {{#if result}}
+                {{#if critt}}
+                    <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.critt"}}</div>
                 {{else}}
-                    {{#if goof}}
-                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.goof"}}</div>
-                    {{else}}
-                        <div class="rollSkillFail">{{localize "GDSA.chat.stat.fail"}} <br />
-                        {{tap}}{{localize "GDSA.chat.stat.maxErl"}}</div>
-                    {{/if}}
+                    <div class="rollSkillSuccess">{{localize "GDSA.chat.stat.sucessWith"}} {{tap}} {{localize "GDSA.chat.stat.TaPS"}}<br />
+                    {{tapMax}}{{localize "GDSA.chat.stat.maxMod"}}</div>
                 {{/if}}
-            {{/unless}}
+            {{else}}
+                {{#if goof}}
+                    <div class="rollFlawFail">{{localize "GDSA.chat.stat.goof"}}</div>
+                {{else}}
+                    <div class="rollSkillFail">{{localize "GDSA.chat.stat.fail"}} <br />
+                    {{tap}}{{localize "GDSA.chat.stat.maxErl"}}</div>
+                {{/if}}
+            {{/if}}
         </div>
         
     </div>

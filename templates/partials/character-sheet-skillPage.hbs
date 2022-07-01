@@ -1,39 +1,22 @@
-<div style="width: 620px; height: 40px; text-align: center;">
-	<div style="width: 410px; height: 40px; display: inline-block; margin: auto;">
-		<div style="width: 40px; height: 38px; border: 1px solid black; float: left; text-align: center;">
-			{{localize "GDSA.charactersheet.sMU"}}<br /><b>{{data.MU.value}}</b></div>
-		
-		<div style="width: 4px; height: 40px; float: left"></div>
-		<div style="width: 40px; height: 38px; border: 1px solid black; float: left; text-align: center;">
-			{{localize "GDSA.charactersheet.sKL"}}<br /><b>{{data.KL.value}}</b></div>
-		
-		<div style="width: 4px; height: 40px; float: left"></div>
-		<div style="width: 40px; height: 38px; border: 1px solid black; float: left; text-align: center;">
-			{{localize "GDSA.charactersheet.sIN"}}<br /><b>{{data.IN.value}}</b></div>
-		
-		<div style="width: 4px; height: 40px; float: left"></div>
-		<div style="width: 40px; height: 38px; border: 1px solid black; float: left; text-align: center;">
-	    	{{localize "GDSA.charactersheet.sCH"}}<br /><b>{{data.CH.value}}</b></div>
-		
-		<div style="width: 4px; height: 40px; float: left"></div>
-		<div style="width: 40px; height: 38px; border: 1px solid black; float: left; text-align: center;">
-			{{localize "GDSA.charactersheet.sFF"}}<br /><b>{{data.FF.value}}</b></div>
-		
-		<div style="width: 4px; height: 40px; float: left"></div>
-		<div style="width: 40px; height: 38px; border: 1px solid black; float: left; text-align: center;">
-			{{localize "GDSA.charactersheet.sGE"}}<br /><b>{{data.GE.value}}</b></div>
-		
-		<div style="width: 4px; height: 40px; float: left"></div>
-		<div style="width: 40px; height: 38px; border: 1px solid black; float: left; text-align: center;">
-			{{localize "GDSA.charactersheet.sKO"}}<br /><b>{{data.KO.value}}</b></div>
-		
-		<div style="width: 4px; height: 40px; float: left"></div>
-		<div style="width: 40px; height: 38px; border: 1px solid black; float: left; text-align: center;">
-			{{localize "GDSA.charactersheet.sKK"}}<br /><b>{{data.KK.value}}</b></div>
-		
-		<div style="width: 4px; height: 40px; float: left"></div>
-		<div style="width: 40px; height: 38px; border: 1px solid black; float: left; text-align: center;">
-			{{localize "GDSA.charactersheet.sBE"}}<br /><b>{{data.BE}}</b></div>
+<div class="skillHeaderBox">
+	<div class="skillHeaderSkillBox">
+		<a class="item stat-roll" data-stattype="MU" title="roll"><div class="skillHeaderStat">{{localize "GDSA.charactersheet.sMU"}}<br /><b>{{data.MU.value}}</b></div></a>
+		<div class="skillHeaderFiller"></div>
+		<a class="item stat-roll" data-stattype="KL" title="roll"><div class="skillHeaderStat">{{localize "GDSA.charactersheet.sKL"}}<br /><b>{{data.KL.value}}</b></div></a>
+		<div class="skillHeaderFiller"></div>
+		<a class="item stat-roll" data-stattype="IN" title="roll"><div class="skillHeaderStat">{{localize "GDSA.charactersheet.sIN"}}<br /><b>{{data.IN.value}}</b></div></a>
+		<div class="skillHeaderFiller"></div>
+		<a class="item stat-roll" data-stattype="CH" title="roll"><div class="skillHeaderStat">{{localize "GDSA.charactersheet.sCH"}}<br /><b>{{data.CH.value}}</b></div></a>
+		<div class="skillHeaderFiller"></div>
+		<a class="item stat-roll" data-stattype="FF" title="roll"><div class="skillHeaderStat">{{localize "GDSA.charactersheet.sFF"}}<br /><b>{{data.FF.value}}</b></div></a>
+		<div class="skillHeaderFiller"></div>
+		<a class="item stat-roll" data-stattype="GE" title="roll"><div class="skillHeaderStat">{{localize "GDSA.charactersheet.sGE"}}<br /><b>{{data.GE.value}}</b></div></a>
+		<div class="skillHeaderFiller"></div>
+		<a class="item stat-roll" data-stattype="KO" title="roll"><div class="skillHeaderStat">{{localize "GDSA.charactersheet.sKO"}}<br /><b>{{data.KO.value}}</b></div></a>
+		<div class="skillHeaderFiller"></div>
+		<a class="item stat-roll" data-stattype="KK" title="roll"><div class="skillHeaderStat">{{localize "GDSA.charactersheet.sKK"}}<br /><b>{{data.KK.value}}</b></div></a>
+		<div class="skillHeaderFiller"></div>
+		<div class="skillHeaderStat">{{localize "GDSA.charactersheet.sBE"}}<br /><b>{{data.BE}}</b></div>
 	</div>
 </div>
 	
@@ -55,18 +38,8 @@
 <div class="skillsBox">
 	<section class="skill-body">
 		<div class="skillsBox tab combatSkills" data-group="secondary" data-tab="combatSkills">
-		
-			<table style="display: inline-block">
-		        <tr>
-					<td class="skillTableName">Akrobatik <i>(MU/GE/KK)</i></td><td class="skillTableBE">BE x 2</td>
-					<td class="skillTableValue">3</td><td class="skillTableRoll">
-					<a class="item skill-roll" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a></td>
-				</tr>
-	
-    		</table>
+			{{> "systems/GDSA/templates/partials/character-sheet-combatSkills.hbs"}}			
 		</div>
-
-
 		<div class="skillsBox tab bodySkills" data-group="secondary" data-tab="bodySkills">
 			{{> "systems/GDSA/templates/partials/character-sheet-bodySkills.hbs"}}
 		</div>
@@ -78,6 +51,15 @@
 		</div>
 		<div class="skillsBox tab knowledgeSkills" data-group="secondary" data-tab="knowledgeSkills">
 			{{> "systems/GDSA/templates/partials/character-sheet-knowledgeSkills.hbs"}}
+		</div>
+		<div class="skillsBox tab langSkills" data-group="secondary" data-tab="langSkills">
+			{{> "systems/GDSA/templates/partials/character-sheet-langSkills.hbs"}}
+		</div>
+		<div class="skillsBox tab craftSkills" data-group="secondary" data-tab="craftSkills">
+			{{> "systems/GDSA/templates/partials/character-sheet-craftSkills.hbs"}}
+		</div>
+		<div class="skillsBox tab giftSkills" data-group="secondary" data-tab="giftSkills">
+			{{> "systems/GDSA/templates/partials/character-sheet-giftSkills.hbs"}}
 		</div>
 	</section>
 </div>

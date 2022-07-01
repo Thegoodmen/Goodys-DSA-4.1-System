@@ -17,11 +17,16 @@ async function preloadHandlebarsTemplates(){
         "systems/GDSA/templates/partials/character-sheet-facts.hbs",
         "systems/GDSA/templates/partials/character-sheet-value1.hbs",
         "systems/GDSA/templates/partials/character-sheet-value2.hbs",
+        "systems/GDSA/templates/partials/character-sheet-combatSkills.hbs",
         "systems/GDSA/templates/partials/character-sheet-bodySkills.hbs",
         "systems/GDSA/templates/partials/character-sheet-socialSkills.hbs",
         "systems/GDSA/templates/partials/character-sheet-natureSkills.hbs",
+        "systems/GDSA/templates/partials/character-sheet-langSkills.hbs",
         "systems/GDSA/templates/partials/character-sheet-knowledgeSkills.hbs",
-        "systems/GDSA/templates/partials/advantages.hbs"
+        "systems/GDSA/templates/partials/character-sheet-craftSkills.hbs",
+        "systems/GDSA/templates/partials/character-sheet-giftSkills.hbs",
+        "systems/GDSA/templates/partials/advantages.hbs",
+        "systems/GDSA/templates/partials/lang.hbs"
     ];
     
     return loadTemplates(templatePaths);

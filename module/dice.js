@@ -42,23 +42,33 @@ export async function statCheck(statName, statValue, statMod, actor) {
 
     const template = "systems/GDSA/templates/chat/stat-check.hbs";
     const rollFormula  = "1d20";
-
-    let rollData = {};
-
-    let rollResult = await new Roll(rollFormula, rollData).roll({ async: true});
-    let rollResult2 = await new Roll(rollFormula, rollData).roll({ async: true});
-
+    
     let confirm = false;
     let critt = false;
     let goof = false;
     let modPresent = false;
+    let isAdvantage = false;
+    let isDisadvantage = false;
+    let advantage = 0;
+    let disadvantage = 0;
 
+    let rollResult = await new Roll(rollFormula, {}).roll({ async: true});
+    let rollResult2 = await new Roll(rollFormula, {}).roll({ async: true});
     let statValueTotal = parseInt(statValue,10) + parseInt(statMod,10);
-
     let resultStat = rollResult.total <= statValueTotal ? true : false;
 
-    if (statMod > 0)
+    if(statMod > 0) {
+        advantage = parseInt(statMod);
+        disadvantage = 0;
+        isAdvantage = true;
         modPresent = true;
+
+    } else if(statMod < 0) {
+        disadvantage = parseInt(statMod) * (-1);
+        advantage = 0;
+        isDisadvantage = true;
+        modPresent = true;
+    }
 
     if (rollResult.total == 1 || rollResult.total == 20)
         confirm = true;
@@ -74,8 +84,11 @@ export async function statCheck(statName, statValue, statMod, actor) {
         roll2: rollResult2,
         statName: statName,
         statValue: statValue,
-        statMod: statMod,
         modPresent: modPresent,
+        isAdv: isAdvantage,
+        adv: advantage,
+        isDis: isDisadvantage,
+        dis: disadvantage,
         confirm: confirm,
         critt: critt,
         goof: goof,
@@ -107,7 +120,7 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
 
         advantage = checkOptions.advantage;
         disadvantage = checkOptions.disadvantage;
-        goofy = checkOptions.goofy;
+        //goofy = checkOptions.goofy;
     }
 
     disadvantage = parseInt(disadvantage) + parseInt(beMod);
@@ -301,6 +314,5 @@ function _processSkillCheckOptions(form) {
     return {
         advantage: parseInt(form.advantage.value),
         disadvantage: parseInt(form.disadvantage.value),
-        goofy: form.goofy.checked
     }
 }

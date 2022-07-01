@@ -39,7 +39,62 @@
                 },
                 "GS": {
                     "value": 8,
+                    "modi": 0,
                     "temp": 0
+                },
+                "LeP": {
+                    "max": 0,
+                    "value": 0
+                },
+                "LePInfo": {
+                    "modi": 0,
+                    "temp": 0
+                },
+                "AuP": {
+                    "max": 0,
+                    "value": 0
+                },
+                "AuPInfo": {
+                    "modi": 0,
+                    "temp": 0
+                },
+                "AsP": {
+                    "max": 0,
+                    "value": 0
+                },
+                "AsPInfo": {
+                    "modi": 0,
+                    "temp": 0
+                },
+                "KaP": {
+                    "max": 0,
+                    "value": 0
+                },
+                "KaPInfo": {
+                    "modi": 0,
+                    "temp": 0
+                },
+                "MR": {
+                    "value": 0,
+                    "modi": 0,
+                    "tempmodi": 0
+                },
+                "INIBasis": {
+                    "value": 0,
+                    "modi": 0,
+                    "tempmodi": 0
+                },
+                "ATBasis": {
+                    "value": 0,
+                    "tempmodi": 0
+                },
+                "PABasis": {
+                    "value": 0,
+                    "tempmodi": 0
+                },
+                "FKBasis": {
+                    "value": 0,
+                    "tempmodi": 0
                 }
             }
         },
@@ -56,7 +111,147 @@
             "weight": "72",
             "SO": "5",
             "BE": 0,
+            "AP": {
+                "value": 0,
+                "free": 0,
+                "spent": 0
+            },
             "skill": {
+                "andr": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "armb": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "bela": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "blas": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "bogn": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "disk": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "dolc": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "fech": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "hieb": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "infa": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "kets": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "ketw": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "lanz": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "peit": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "rauf": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "ring": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "saeb": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "sleu": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "swer": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "sper": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "stab": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "wbei": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "wmes": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "wspe": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "zfle": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "zhie": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
+                "zswe": {
+                    "value": 0,
+                    "atk": 0,
+                    "def": 0
+                },
                 "akro": 0,
                 "ath": 0,
                 "fly": 0,
@@ -119,7 +314,63 @@
                 "spra": 0,
                 "staa": 0,
                 "ster": 0,
-                "tier": 0
+                "tier": 0,
+                "abri": 0,
+                "acke": 0,
+                "alch": 0,
+                "berg": 0,
+                "boge": 0,
+                "boot": 0,
+                "brau": 0,
+                "druc": 0,
+                "fahr": 0,
+                "fals": 0,
+                "fein": 0,
+                "feue": 0,
+                "flei": 0,
+                "gerb": 0,
+                "glas": 0,
+                "grob": 0,
+                "hand": 0,
+                "haus": 0,
+                "hgif": 0,
+                "hkra": 0,
+                "hsee": 0,
+                "hwun": 0,
+                "holz": 0,
+                "inst": 0,
+                "kart": 0,
+                "koch": 0,
+                "kris": 0,
+                "lede": 0,
+                "male": 0,
+                "maur": 0,
+                "meta": 0,
+                "musi": 0,
+                "shlo": 0,
+                "shna": 0,
+                "shne": 0,
+                "seef": 0,
+                "seil": 0,
+                "stme": 0,
+                "stsh": 0,
+                "stel": 0,
+                "stof": 0,
+                "taet": 0,
+                "toep": 0,
+                "vieh": 0,
+                "webk": 0,
+                "winz": 0,
+                "zimm": 0,
+                "empa": 0,
+                "gefa": 0,
+                "gera": 0,
+                "krae": 0,
+                "magg": 0,
+                "prop": 0,
+                "tale": 0,
+                "tiem": 0,
+                "zwer": 0
             }
         }
     },
@@ -131,7 +382,9 @@
             "shields",
             "armour",
             "advantage",
-            "flaw"
+            "flaw",
+            "langu",
+            "signs"
         ],
         "templates": {
             "generalItems": {
@@ -214,6 +467,16 @@
             "templates": [
                 "trait"
             ]
+        },
+        "langu": {
+            "name": "Garethi",
+            "komp": 21,
+            "value": 0
+        },
+        "signs": {
+            "name": "Kusliker Zeichen",
+            "komp": 10,
+            "value": 0
         }
     }
 }

@@ -1,0 +1,24 @@
+<div class="langbox">
+    <div class="langtext">{{localize "GDSA.charactersheet.lang"}}</div>
+    <div class="langbnt"><a class="item-create" data-type="langu" title="{{localize "GDSA.charactersheet.addLang"}}"><i class="fas fa-plus plusSym"></i></a></div>
+    <hr class="langhr">
+    <div class="langtab">
+        <table>
+			{{#each langs as |lang id|}}
+				{{> "systems/GDSA/templates/partials/lang.hbs" lang}}
+			{{/each}}
+        </table>
+    </div>
+</div>
+<div class="langbox">
+    <div class="langtext">{{localize "GDSA.charactersheet.lang"}}</div>
+    <div class="langbnt"><a class="item-create" data-type="signs" title="{{localize "GDSA.charactersheet.addSign"}}"><i class="fas fa-plus plusSym"></i></a></div>
+    <hr class="langhr">
+    <div class="langtab">
+        <table>
+			{{#each signs as |sign id|}}
+				{{> "systems/GDSA/templates/partials/lang.hbs" sign}}
+			{{/each}}
+        </table>
+    </div>
+</div>

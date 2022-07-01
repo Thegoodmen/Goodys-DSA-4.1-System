@@ -45,13 +45,32 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             actor: baseData.actor,
             data: baseData.actor.data.data,
             items: baseData.items,
-            config: CONFIG.GDSA
+            config: CONFIG.GDSA,
+            isGM: game.user.isGM
         };
+
+        const data = baseData.actor.data.data;
 
         sheetData.advantages = baseData.items.filter(function(item) {return item.type == "advantage"});
         sheetData.flaws = baseData.items.filter(function(item) {return item.type == "flaw"});
+        sheetData.langs = baseData.items.filter(function(item) {return item.type == "langu"});
+        sheetData.signs = baseData.items.filter(function(item) {return item.type == "signs"});
 
-        sheetData.ATBasis = baseData.data.KL;
+        //Sonderfertigkeiten Abfrage bezüglich INI
+        data.INIBasis.modi = 4;
+
+        let checkFlink = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.flink")})[0];
+        if(checkFlink != null) {
+
+            data.GS.modi = checkFlink.data.value;
+            data.GS.value = 8 + parseInt(data.GS.modi);
+        } else {
+
+            data.GS.modi = 0;
+            data.GS.value = 8 + parseInt(data.GS.modi);
+        }
+
+        data.AP.spent = parseInt(data.AP.value) - parseInt(data.AP.free);
 
         return sheetData;
     }
@@ -66,6 +85,9 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".flaw-roll").click(this._onFlawRoll.bind(this));
             html.find(".stat-roll").click(this._onStatRoll.bind(this));
             html.find(".skill-roll").click(this._onSkillRoll.bind(this));
+
+            html.find(".stat-plus").click(this._addStat.bind(this));
+            html.find(".stat-minus").click(this._decreaseStat.bind(this));
 
             new ContextMenu(html, ".item-context", this.itemContextMenu);
         }
@@ -125,16 +147,12 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let element = event.currentTarget;
         let actor = this.actor;
 
-        let statObjekt = actor.data.data.MU;
+        let statType = element.closest(".item").dataset.stattype;
+        let statObjekt = actor.data.data[statType];
 
-        //actor.sheet.render(false);
-
-        //console.log(element.closest(".statTemp").value);
-
-        let statname = element.closest(".item").dataset.statname;
-        let statvalue = element.closest(".item").dataset.statvalue;
-        let statmod = statObjekt.temp; // element.closest(".item").dataset.statmod;
-        
+        let statname = game.i18n.localize("GDSA.charactersheet."+statType);
+        let statvalue = statObjekt.value;
+        let statmod = statObjekt.temp;        
         
         Dice.statCheck(statname,statvalue, statmod, actor);
     }
@@ -171,5 +189,38 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             options = false;
 
         Dice.skillCheck(statname, statvalue, statone, stattwo, statthree, be, actor, options, goofy);
+    }
+
+    async _addStat(event) {
+
+        event.preventDefault();
+
+        let element = event.currentTarget;
+        let actor = this.actor;
+
+        let statType = element.closest(".item").dataset.stattype;
+        
+        if (actor.data.data[statType].value >= actor.data.data[statType].max) return;
+
+        actor.data.data[statType].value++;
+
+        this.render();
+    }
+
+    async _decreaseStat(event) {
+
+        event.preventDefault();
+
+        let element = event.currentTarget;
+        let actor = this.actor;
+
+        let statType = element.closest(".item").dataset.stattype;
+        
+        if (statType != "LeP" && actor.data.data[statType].value == 0) return;
+
+        actor.data.data[statType].value--;
+
+        this.render();
+
     }
 }
