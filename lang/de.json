@@ -2,7 +2,11 @@
     "GDSA": {
         "system": {
             "edit": "Editieren",
-            "delete": "Löschen"
+            "delete": "Löschen",
+            "createGeneral": "Allgemeines Item",
+            "createMeele": "Nahkampfwaffe",
+            "generals": "Allgemeines Item",
+            "melee-weapons": "Nahkampfwaffe"
         },
         "meleeskill": {
             "none": "",
@@ -275,8 +279,15 @@
             "zwerSkill": "Zwergennase",
             "lang": "Sprachen:",
             "addLang": "Sprache hinzufügen",
-            "addSign": "Schrift hinzufügen"
-
+            "addSign": "Schrift hinzufügen",
+            "addItem": "Gegenstand hinzufügen",
+            "newGeneralItem": "Neuer Gegenstand",
+            "newgenerals": "Neuer Gegenstand",
+            "newmelee-weapons": "Neue Nahkampfwaffe",
+            "gold": "Dukaten",
+            "silver": "Silber",
+            "copper": "Heller",
+            "nikel": "Kreuzer"
         },
         "chat":{
             "flaw": {

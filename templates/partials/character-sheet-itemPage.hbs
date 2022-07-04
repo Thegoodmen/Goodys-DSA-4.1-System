@@ -1,0 +1,28 @@
+<div class="invFiller"></div>
+<div class="skillHeaderBox">
+    <div class="invMenuHelper">
+	    <div class="skillHeaderSkillBox3">
+            <div class="headerLable">{{localize "GDSA.charactersheet.gold"}}</div><div class="headerValue">
+                <input class="headerValue moneylable editableValue" name="data.money.gold" type="number" value="{{data.money.gold}}" /></div> 
+            <div class="headerLable">{{localize "GDSA.charactersheet.silver"}}</div><div class="headerValue">
+                <input class="headerValue moneylable editableValue" name="data.money.silver" type="number" value="{{data.money.silver}}" /></div>
+            <div class="headerLable">{{localize "GDSA.charactersheet.copper"}}</div><div class="headerValue">
+                <input class="headerValue moneylable editableValue" name="data.money.copper" type="number" value="{{data.money.copper}}" /></div> 
+            <div class="headerLable">{{localize "GDSA.charactersheet.nikel"}}</div><div class="headerValue">
+                <input class="headerValue moneylable editableValue" name="data.money.nickel" type="number" value="{{data.money.nickel}}" /></div>
+	    </div>
+        <div class="invAddBox">
+            <a class="inv-create" title="{{localize "GDSA.charactersheet.addItem"}}"><i class="fas fa-plus plusSym2"></i></a>
+        </div>
+    </div>
+</div>
+
+<div class="inventory">
+    <div class="invtableborder">
+	    {{#each inventar as |item id|}}
+            <div class="invItem item-context" data-item-id="{{_id}}">{{name}} <br /> > <i>{{localize data.loc}}</i>
+                <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
+            </div>
+	    {{/each}}
+    </div>
+</div>

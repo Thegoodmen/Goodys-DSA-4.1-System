@@ -116,6 +116,12 @@
                 "free": 0,
                 "spent": 0
             },
+            "money": {
+                "gold": 2500,
+                "silver": 25,
+                "copper": 10,
+                "nickel": 55
+            },
             "skill": {
                 "andr": {
                     "value": 0,
@@ -376,7 +382,7 @@
     },
     "Item": {
         "types":[
-            "general",
+            "generals",
             "melee-weapons",
             "range-weapons",
             "shields",
@@ -397,7 +403,7 @@
                 "value": 0
             }
         },
-        "general" : {
+        "generals" : {
             "templates": [
                 "generalItems"
             ]

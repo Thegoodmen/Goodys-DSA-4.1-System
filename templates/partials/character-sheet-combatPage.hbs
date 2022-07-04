@@ -1,0 +1,25 @@
+<div class="skillHeaderBox">
+	<div class="skillHeaderSkillBox2">
+        <div class="headerLable">{{localize "GDSA.charactersheet.ATBasis"}}</div><div class="headerValue">{{data.ATBasis.value}}</div> 
+        <div class="headerLable">{{localize "GDSA.charactersheet.PABasis"}}</div><div class="headerValue">{{data.PABasis.value}}</div>
+        <div class="headerLable">{{localize "GDSA.charactersheet.FKBasis"}}</div><div class="headerValue">{{data.FKBasis.value}}</div> 
+        <div class="headerLable">{{localize "GDSA.charactersheet.INIBasis"}}</div><div class="headerValue">{{data.INIBasis.value}}</div>
+	</div>
+</div>
+
+<div class="skillFiller"></div>
+	
+<div class="skillMenuBox">
+    <div class="lepbar">
+      <div class="lepbar_fill" style="width: {{data.LeP.prozent}}%;"></div>
+      <span class="lepbar_text">{{data.LeP.value}} / {{data.LeP.max}}</span>
+    </div>
+</div>
+	
+<div class="skillsBox">
+    {{> "systems/GDSA/templates/partials/character-sheet-woundChart.hbs"}}
+
+    <div class="combatWindow">
+        <div class="iniBar">Initative: 21 + 1W6  roll</div>
+    </div>
+</div>

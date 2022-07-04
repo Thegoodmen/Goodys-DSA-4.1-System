@@ -14,9 +14,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         });
     }
 
-    itemContextMenu = [
-        
-        {
+    itemContextMenu = [{
+
           name: game.i18n.localize("GDSA.system.edit"),
           icon: '<i class="fas fa-edit"></i>',
           callback: element => {
@@ -32,6 +31,22 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
           }
         }
     ];
+
+    invContextMenu = [{
+
+        name: game.i18n.localize("GDSA.system.createGeneral"),
+        icon: '<i class="fas fa-plus"></i>',
+        callback: element => {
+            this._onCreateInv("generals")
+        }
+    },{
+
+        name: game.i18n.localize("GDSA.system.createMeele"),
+        icon: '<i class="fas fa-plus"></i>',
+        callback: element => {
+            this._onCreateInv("melee-weapons")
+        }
+    }];
     
 
     getData() {
@@ -55,6 +70,10 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         sheetData.flaws = baseData.items.filter(function(item) {return item.type == "flaw"});
         sheetData.langs = baseData.items.filter(function(item) {return item.type == "langu"});
         sheetData.signs = baseData.items.filter(function(item) {return item.type == "signs"});
+        sheetData.generals = baseData.items.filter(function(item) {return item.type == "generals"});
+        sheetData.meleeweapons = baseData.items.filter(function(item) {return item.type == "melee-weapons"});
+
+        sheetData.inventar = sheetData.generals.concat(sheetData.meleeweapons);
 
         //Sonderfertigkeiten Abfrage bezüglich INI
         data.INIBasis.modi = 4;
@@ -71,6 +90,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         }
 
         data.AP.spent = parseInt(data.AP.value) - parseInt(data.AP.free);
+        data.LeP.prozent = 100 / parseInt(data.LeP.max) * parseInt(data.LeP.value);
 
         return sheetData;
     }
@@ -88,8 +108,11 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
             html.find(".stat-plus").click(this._addStat.bind(this));
             html.find(".stat-minus").click(this._decreaseStat.bind(this));
+            html.find(".inv-create").click(this._onCreateGeneralInv.bind(this));
+            html.find(".invItem").click(this._openItem.bind(this));
 
             new ContextMenu(html, ".item-context", this.itemContextMenu);
+            new ContextMenu(html, ".inv-create", this.invContextMenu);
         }
 
         if(this.actor.owner){
@@ -105,6 +128,35 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         let element = event.currentTarget;
         let itemtype = element.dataset.type;
+        let name = "GDSA.charactersheet.new" + itemtype;
+
+        let itemData = {
+
+            name: game.i18n.localize(name),
+            type: itemtype
+        };
+
+        return this.actor.createEmbeddedDocuments("Item", [itemData]);
+    }
+
+    _onCreateGeneralInv(event) {
+
+        event.preventDefault();
+
+        let name = "GDSA.charactersheet.newGeneralItem";
+        let itemtype = "generals";
+
+        let itemData = {
+
+            name: game.i18n.localize(name),
+            type: itemtype
+        };
+
+        return this.actor.createEmbeddedDocuments("Item", [itemData]);
+    }
+
+    _onCreateInv(itemtype) {
+
         let name = "GDSA.charactersheet.new" + itemtype;
 
         let itemData = {
@@ -222,5 +274,16 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         this.render();
 
+    }
+
+    _openItem(event) {
+
+        event.preventDefault();
+
+        let element = event.currentTarget;
+        let itemId = element.closest(".invItem").dataset.itemId;
+        let item = this.actor.items.get(itemId);
+        
+        item.sheet.render(true);
     }
 }

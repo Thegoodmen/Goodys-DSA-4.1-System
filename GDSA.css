@@ -14,6 +14,11 @@
   font-size: 15px;
   padding-top: 3px;
 }
+.GDSA.sheet.characterSheet .plusSym2 {
+  font-size: 20px;
+  padding-top: 1px;
+  margin-left: 10px;
+}
 .GDSA.sheet.characterSheet .inTableSym {
   font-size: 12px;
   padding-top: 3px;
@@ -357,10 +362,24 @@
   text-align: center;
 }
 .GDSA.sheet.characterSheet .skillHeaderSkillBox {
-  width: 410px;
+  width: 392px;
   height: 40px;
   display: inline-block;
   margin: auto;
+}
+.GDSA.sheet.characterSheet .skillHeaderSkillBox2 {
+  width: 500px;
+  height: 22px;
+  border: 2px solid black;
+  display: inline-block;
+  margin: auto;
+}
+.GDSA.sheet.characterSheet .skillHeaderSkillBox3 {
+  width: 500px;
+  height: 22px;
+  margin: auto;
+  border: 2px solid black;
+  float: left;
 }
 .GDSA.sheet.characterSheet .skillHeaderFiller {
   width: 4px;
@@ -373,6 +392,218 @@
   border: 1px solid black;
   float: left;
   text-align: center;
+}
+.GDSA.sheet.characterSheet .woundChart {
+  float: left;
+  height: 375px;
+  width: 190px;
+  background-image: url("templates/img/shape.png");
+  background-size: cover;
+  border: 2px solid black;
+  background-position-x: -43px;
+  background-repeat: no-repeat;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.GDSA.sheet.characterSheet .RSBox {
+  float: left;
+  height: 25px;
+  width: 25px;
+  background-color: lightgrey;
+  padding-top: 4px;
+}
+.GDSA.sheet.characterSheet .RSHelper1 {
+  float: left;
+  height: 20px;
+  width: 100%;
+}
+.GDSA.sheet.characterSheet .RSHelper2 {
+  float: left;
+  height: 40px;
+  width: 63px;
+}
+.GDSA.sheet.characterSheet .RSBoxHelper1 {
+  float: left;
+  height: 40px;
+  width: 65px;
+}
+.GDSA.sheet.characterSheet .RSBoxHelper2 {
+  float: right;
+  height: 60px;
+  width: 25px;
+}
+.GDSA.sheet.characterSheet .RSBoxHelper3 {
+  float: right;
+  height: 70px;
+  width: 65px;
+}
+.GDSA.sheet.characterSheet .RSBoxHelper4 {
+  float: right;
+  height: 40px;
+  width: 65px;
+}
+.GDSA.sheet.characterSheet .RSHelper3 {
+  float: left;
+  height: 25px;
+  width: 20px;
+}
+.GDSA.sheet.characterSheet .RSHelper4 {
+  float: left;
+  height: 40px;
+  width: 40px;
+}
+.GDSA.sheet.characterSheet .RSHelper5 {
+  float: left;
+  height: 175px;
+  width: 49px;
+}
+.GDSA.sheet.characterSheet .RSHelper6 {
+  float: left;
+  height: 70px;
+  width: 93px;
+}
+.GDSA.sheet.characterSheet .RSHelper7 {
+  float: left;
+  height: 175px;
+  width: 79px;
+}
+.GDSA.sheet.characterSheet .RSHelper8 {
+  float: right;
+  height: 20px;
+  width: 79px;
+}
+.GDSA.sheet.characterSheet .RSHelper9 {
+  float: right;
+  height: 30px;
+  width: 79px;
+}
+.GDSA.sheet.characterSheet .RSHelper10 {
+  float: left;
+  height: 175px;
+  width: 35px;
+}
+.GDSA.sheet.characterSheet .RSHelper11 {
+  float: left;
+  height: 90px;
+  width: 71px;
+}
+.GDSA.sheet.characterSheet .RSHelper12 {
+  float: left;
+  height: 20px;
+  width: 71px;
+}
+.GDSA.sheet.characterSheet .RSHelper13 {
+  float: left;
+  height: 90px;
+  width: 71px;
+}
+.GDSA.sheet.characterSheet .RSHelper14 {
+  float: left;
+  height: 20px;
+  width: 71px;
+}
+.GDSA.sheet.characterSheet .WPBox1 {
+  float: left;
+  height: 18px;
+  width: 65px;
+}
+.GDSA.sheet.characterSheet .WPBox2 {
+  float: left;
+  height: 50px;
+  width: 25px;
+}
+.GDSA.sheet.characterSheet .wp {
+  color: lightgrey;
+  font-size: 11px;
+}
+.GDSA.sheet.characterSheet .headerLable {
+  float: left;
+  height: 18px;
+  width: 76px;
+}
+.GDSA.sheet.characterSheet .headerValue {
+  float: left;
+  height: 18px;
+  width: 47px;
+}
+.GDSA.sheet.characterSheet .lepbar {
+  position: relative;
+  width: 500px;
+  height: 20px;
+  background: #9cbab4;
+  border-radius: 5px;
+  overflow: hidden;
+  display: inline-block;
+}
+.GDSA.sheet.characterSheet .lepbar_fill {
+  width: 0%;
+  height: 100%;
+  background: #009579;
+  transition: all 0.2s;
+}
+.GDSA.sheet.characterSheet .lepbar_text {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translateY(-50%);
+  font: bold 14px "Quicksand", sans-serif;
+  color: #ffffff;
+}
+.GDSA.sheet.characterSheet .combatWindow {
+  width: 415px;
+  height: 376px;
+  float: left;
+  margin-left: 10px;
+}
+.GDSA.sheet.characterSheet .invFiller {
+  width: 100%;
+  height: 30px;
+}
+.GDSA.sheet.characterSheet .inventory {
+  width: 100%;
+  height: 640px;
+  padding-left: 20px;
+}
+.GDSA.sheet.characterSheet .invItem {
+  border: 1px solid black;
+  padding-left: 40px;
+  height: 41px;
+  padding-top: 1px;
+  width: 580px;
+  position: relative;
+}
+.GDSA.sheet.characterSheet .invAddBox {
+  width: 20px;
+  height: 20px;
+  margin-left: 12px;
+  float: left;
+}
+.GDSA.sheet.characterSheet .invMenuHelper {
+  height: 22px;
+  width: 550px;
+  display: inline-block;
+}
+.GDSA.sheet.characterSheet .inv-create > nav#context-menu {
+  left: -180px;
+  top: 5px;
+  width: 200px;
+}
+.GDSA.sheet.characterSheet .itemImgBox {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+}
+.GDSA.sheet.characterSheet .itemImg {
+  width: 30px;
+  height: 30px;
+}
+.GDSA.sheet.characterSheet .invtableborder {
+  width: 580px;
+  border: 1px solid black;
+}
+.GDSA.sheet.characterSheet .moneylable {
+  font-size: 12px;
 }
 .GDSA.chat.message .flawBox {
   height: 132px;

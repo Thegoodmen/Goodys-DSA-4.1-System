@@ -1,5 +1,6 @@
 import { GDSA } from "./module/config.js";
-import GDSActor from "./module/objects/GDSAActor.js";
+import GDSAActor from "./module/objects/GDSAActor.js";
+import GDSAItem from "./module/objects/GDSAItem.js";
 import GDSAItemSheet from "./module/sheets/GDSAItemSheet.js";
 import GDSAPlayerCharakterSheet from "./module/sheets/GDSAPlayerCharakterSheet.js";
 
@@ -25,6 +26,7 @@ async function preloadHandlebarsTemplates(){
         "systems/GDSA/templates/partials/character-sheet-knowledgeSkills.hbs",
         "systems/GDSA/templates/partials/character-sheet-craftSkills.hbs",
         "systems/GDSA/templates/partials/character-sheet-giftSkills.hbs",
+        "systems/GDSA/templates/partials/character-sheet-woundChart.hbs",
         "systems/GDSA/templates/partials/advantages.hbs",
         "systems/GDSA/templates/partials/lang.hbs"
     ];
@@ -37,7 +39,8 @@ Hooks.once("init", function () {
     console.log("GDSA | Initalizing Goodys DSA 4.1 System");
 
     CONFIG.GDSA = GDSA;
-    CONFIG.Actor.documentClass = GDSActor;
+    CONFIG.Actor.documentClass = GDSAActor;
+    CONFIG.Item.documentClass = GDSAItem;
 
     Items.unregisterSheet("core", ItemSheet);
     Items.registerSheet("GDSA", GDSAItemSheet, { makeDefault: true });
