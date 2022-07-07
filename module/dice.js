@@ -30,6 +30,7 @@ export async function flawCheck(flawName, flawValue, actor) {
         user: game.user.id,
         speaker: ChatMessage.getSpeaker({ actor }),
         roll: rollResult,
+        sound: CONFIG.sounds.dice,
         content: await renderTemplate(template, templateContext)
     };
     
@@ -99,6 +100,7 @@ export async function statCheck(statName, statValue, statMod, actor) {
         user: game.user.id,
         speaker: ChatMessage.getSpeaker({actor}),
         roll: rollResult,
+        sound: CONFIG.sounds.dice,
         content: await renderTemplate(template, templateContext)
     };
 
@@ -276,6 +278,7 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
         user: game.user.id,
         speaker: ChatMessage.getSpeaker({actor}),
         roll: rollResult,
+        sound: CONFIG.sounds.dice,
         content: await renderTemplate(template, templateContext)
     };
 

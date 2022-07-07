@@ -73,7 +73,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         sheetData.generals = baseData.items.filter(function(item) {return item.type == "generals"});
         sheetData.meleeweapons = baseData.items.filter(function(item) {return item.type == "melee-weapons"});
 
-        sheetData.inventar = sheetData.generals.concat(sheetData.meleeweapons);
+        sheetData.inventar = sheetData.meleeweapons.concat(sheetData.generals);
 
         //Sonderfertigkeiten Abfrage bezüglich INI
         data.INIBasis.modi = 4;
@@ -115,7 +115,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             new ContextMenu(html, ".inv-create", this.invContextMenu);
         }
 
-        if(this.actor.owner){
+        if(this.actor.isOwner){
 
         }
 
@@ -283,7 +283,41 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let element = event.currentTarget;
         let itemId = element.closest(".invItem").dataset.itemId;
         let item = this.actor.items.get(itemId);
-        
+
         item.sheet.render(true);
+    }
+
+    _onSortItem(event, itemData) {
+
+        const source = this.actor.items.get(itemData._id);
+
+        switch(source.data.type) {
+
+            case "generals":
+            case "melee-weapons":
+            case "range-weapons":
+            case "shields":
+            case "armour":
+
+                const siblings = this.actor.items.filter(i => {
+                    return (i.data._id !== source.data._id);
+                });
+
+                const dropTarget = event.target.closest(".item");
+                const targetId = dropTarget ? dropTarget.dataset.itemId : null;
+                const target = siblings.find(s => s.data._id === targetId);
+                const sortUpdates = SortingHelpers.performIntegerSort(source, { target: target, siblings });
+                
+                const updateData = sortUpdates.map(u => {
+                    const update = u.update;
+                    update._id = u.target.data._id;
+                    return update;
+                });
+                
+                return this.actor.updateEmbeddedDocuments("Item", updateData);
+
+            default:
+                return super._onSortItem(event, itemData);
+        }
     }
 }

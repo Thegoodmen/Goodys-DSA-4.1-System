@@ -8,6 +8,13 @@
             "generals": "Allgemeines Item",
             "melee-weapons": "Nahkampfwaffe"
         },
+        "combat": {
+            "NPC": "NSC",
+            "PC": "SC",
+            "Enemy": "Gegner",
+            "Ini": "Initative",
+            "IniOf": "Initative von "
+        },
         "meleeskill": {
             "none": "",
             "bastardsword": "Anderthalbhänder",

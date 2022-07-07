@@ -554,6 +554,25 @@
   float: left;
   margin-left: 10px;
 }
+.GDSA.sheet.characterSheet .iniBar {
+  width: 120px;
+  text-align: left;
+  float: left;
+}
+.GDSA.sheet.characterSheet .iniValue {
+  width: 25px;
+  text-align: left;
+  float: left;
+}
+.GDSA.sheet.characterSheet .iniDice {
+  width: 110px;
+  text-align: left;
+  float: left;
+}
+.GDSA.sheet.characterSheet .iniRoll {
+  width: 70px;
+  float: left;
+}
 .GDSA.sheet.characterSheet .invFiller {
   width: 100%;
   height: 30px;
@@ -608,6 +627,9 @@
 .GDSA.chat.message .flawBox {
   height: 132px;
 }
+.GDSA.chat.message .iniBox {
+  height: 120px;
+}
 .GDSA.chat.message .statModBoxAdd {
   height: 157px;
 }
@@ -631,6 +653,11 @@
   height: 60px;
   width: 100%;
 }
+.GDSA.chat.message .diceCol2 {
+  float: left;
+  height: 48px;
+  width: 100%;
+}
 .GDSA.chat.message .dices {
   height: 60px;
   width: 120px;
@@ -644,6 +671,25 @@
 .GDSA.chat.message .dice {
   background-image: url(templates/img/dice.png);
   background-size: contain;
+  height: 60px;
+  width: 60px;
+  color: white;
+  text-align: center;
+  padding-top: 23px;
+  float: left;
+}
+.GDSA.chat.message .diceD6 {
+  background-image: url(templates/img/d6black.svg);
+  background-size: contain;
+  height: 60px;
+  width: 60px;
+  color: white;
+  text-align: center;
+  padding-top: 10px;
+  font-size: 22px;
+  float: left;
+}
+.GDSA.chat.message .nodice {
   height: 60px;
   width: 60px;
   color: white;

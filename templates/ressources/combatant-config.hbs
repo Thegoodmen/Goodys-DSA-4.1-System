@@ -1,0 +1,71 @@
+<form>
+    <div class="form-group">
+        <label>{{ localize "COMBAT.CombatantActor" }}</label>
+        <div class="form-fields">
+            <input type="text" name="actorName" value="{{ document.actor.name }}" disabled/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>{{ localize "COMBAT.CombatantToken" }}</label>
+        <div class="form-fields">
+            <input type="text" name="tokenName" value="{{ document.token.name }}" disabled/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>{{ localize "COMBAT.CombatantName" }}</label>
+        <div class="form-fields">
+            <input type="text" name="name" value="{{ data.name }}"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>{{ localize "COMBAT.CombatantImage" }}</label>
+        <div class="form-fields">
+            {{filePicker target="img" type="image"}}
+            <input class="image" type="text" name="img" placeholder="path/image.png" value="{{data.img}}"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>{{ localize "COMBAT.CombatantInitiative" }}</label>
+        <div class="form-fields">
+            <input type="number" name="initiative" value="{{ data.initiative }}" step="any"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Combat Type</label>
+        <div class="form-fields">
+            <select name="flags.GDSA.combatType">
+                {{#select data.flags.GDSA.combatType}}
+                    <option value="" selected></option>
+                    <option value="NPC">{{ localize "GDSA.combat.NPC" }}</option>
+                    <option value="PC">{{ localize "GDSA.combat.PC" }}</option>
+                    <option value="Enemy">{{ localize "GDSA.combat.Enemy" }}</option>
+                {{/select}}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "COMBAT.CombatantStatus"}}</label>
+        <div class="form-fields">
+            <label class="checkbox">
+                <input type="checkbox" name="hidden" {{ checked data.hidden }}/>
+                {{ localize "COMBAT.CombatantHidden" }}
+            </label>
+            <label class="checkbox">
+                <input type="checkbox" name="defeated" {{ checked data.defeated }}/>
+                {{ localize "COMBAT.CombatantDefeated" }}
+            </label>
+        </div>
+    </div>
+
+    <footer>
+        <button type="submit" title="{{ title }}">
+            <i class="fas fa-save"></i> {{ title }}
+        </button>
+    </footer>
+</form>

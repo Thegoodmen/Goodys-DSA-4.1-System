@@ -1,12 +1,16 @@
 import { GDSA } from "./module/config.js";
 import GDSAActor from "./module/objects/GDSAActor.js";
 import GDSAItem from "./module/objects/GDSAItem.js";
+import GDSACombat from "./module/combat/combat.js";
+import GDSACombatTracker from "./module/combat/combatTracker.js";
+import { _getInitiativeFormula } from "./module/combat/initative.js";
 import GDSAItemSheet from "./module/sheets/GDSAItemSheet.js";
 import GDSAPlayerCharakterSheet from "./module/sheets/GDSAPlayerCharakterSheet.js";
 
 async function preloadHandlebarsTemplates(){
 
     const templatePaths = [
+
         "systems/GDSA/templates/partials/character-sheet-menu.hbs",
         "systems/GDSA/templates/partials/character-sheet-mainPage.hbs",
         "systems/GDSA/templates/partials/character-sheet-skillPage.hbs",
@@ -38,9 +42,14 @@ Hooks.once("init", function () {
 
     console.log("GDSA | Initalizing Goodys DSA 4.1 System");
 
+    CONFIG.Combat.initiative.formula = "1d6 + @INIBasis.value + @INIBasis.modi";
+	Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
+    
     CONFIG.GDSA = GDSA;
     CONFIG.Actor.documentClass = GDSAActor;
     CONFIG.Item.documentClass = GDSAItem;
+    CONFIG.Combat.documentClass = GDSACombat;
+    CONFIG.ui.combat = GDSACombatTracker;
 
     Items.unregisterSheet("core", ItemSheet);
     Items.registerSheet("GDSA", GDSAItemSheet, { makeDefault: true });
@@ -60,5 +69,13 @@ Hooks.once("init", function () {
         }
 
         return result;
+    });
+
+    Handlebars.registerHelper("equals", function(v1, v2, options) {
+        
+        if(v1 === v2)
+            return options.fn(this);
+
+        return options.inverse(this);
     });
 });
