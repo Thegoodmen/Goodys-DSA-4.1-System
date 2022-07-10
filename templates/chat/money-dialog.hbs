@@ -1,0 +1,27 @@
+<form>
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.dialog.operation"}}</label>
+        <select name="operation">
+            {{#select operation}}
+                <option value="add" selected>{{localize "GDSA.chat.dialog.add"}}</option>
+                <option value="remove">{{localize "GDSA.chat.dialog.remove"}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.charactersheet.gold"}}</label>
+        <input type="number" name="gold" value="0" />
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.charactersheet.silver"}}</label>
+        <input type="number" name="silver" value="0" />
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.charactersheet.copper"}}</label>
+        <input type="number" name="copper" value="0" />
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.charactersheet.nikel"}}</label>
+        <input type="number" name="nikel" value="0" />
+    </div>
+</form>

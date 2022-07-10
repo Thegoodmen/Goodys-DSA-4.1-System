@@ -308,6 +308,7 @@
             "newgeneralTrait": "Neue Sonderfertigkeit",
             "newcombatTrait": "Neue Sonderfertigkeit",
             "addItem": "Gegenstand hinzufügen",
+            "addMoney": "Geld hinzufügen",
             "newGeneralItem": "Neuer Gegenstand",
             "newgenerals": "Neuer Gegenstand",
             "newmelee-weapons": "Neue Nahkampfwaffe",
@@ -367,7 +368,10 @@
             "dialog": {
                 "dmg": "Wie viel Schaden soll zugefügt werden?",
                 "heal": "Wie viel Heilung soll erfolgen?",
-                "reg": "Was ist der Regenerations Modifikator?"
+                "reg": "Was ist der Regenerations Modifikator?",
+                "operation": "Aktion:",
+                "add": "Hinzufügen",
+                "remove": "Ausgeben"
             },
             "rangeOpt": {
                 "noWind": "Kein Wind",

@@ -102,6 +102,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".invItem").click(this._openItem.bind(this));
             html.find(".item-remove").click(this._onRemoveEquip.bind(this));
             html.find(".item-apply").click(this._onEquipEquip.bind(this));
+            html.find(".change-money").click(this._onMoneyChange.bind(this));
 
             new ContextMenu(html, ".item-context", this.itemContextMenu);
         }
@@ -150,6 +151,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let item = this.actor.items.get(itemId);
 
         item.data.data.worn = false;
+        item.update({ "data.worn": false });
         this.render(); 
     }
 
@@ -162,6 +164,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let item = this.actor.items.get(itemId);
 
         item.data.data.worn = true;
+        item.update({ "data.worn": true });
         this.render(); 
     }
 
@@ -363,6 +366,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let DMGValue = DMGInfo.value;
 
         data.LeP.value -= parseInt(DMGValue);
+        this.actor.update({ "data.LeP.value": data.LeP.value });
         this.render();
 
         let templateContext = {
@@ -396,6 +400,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             HealValue = data.LeP.max - data.LeP.value;
 
         data.LeP.value += parseInt(HealValue);
+        this.actor.update({ "data.LeP.value": data.LeP.value });
         this.render();
 
         let templateContext = {
@@ -403,6 +408,63 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             value: HealValue,
             heal: true,
             dmg: false}; 
+    
+        let chatData = {
+            user: game.user.id,
+            speaker: ChatMessage.getSpeaker({ actor }),
+            roll: true,
+            content: await renderTemplate(template, templateContext)};
+        
+        ChatMessage.create(chatData);  
+    }
+
+    async _onMoneyChange(event) {
+
+        event.preventDefault();
+        const template = "systems/GDSA/templates/chat/MoneyInfo.hbs";
+
+        let MonyInfo = await Dialog.GetMoneyOptions();
+        if (MonyInfo.cancelled) return;
+        let operation = MonyInfo.operation;
+        let gold = parseInt(MonyInfo.gold);
+        let silver = parseInt(MonyInfo.silver);
+        let copper = parseInt(MonyInfo.copper);
+        let nikel = parseInt(MonyInfo.nikel);
+        let isAdd = false;
+
+        let actor = this.actor;
+        let data = actor.data.data;
+
+        if (operation == "add") {
+        
+            data.money.gold += gold;
+            data.money.silver += silver;
+            data.money.copper += copper;
+            data.money.nickel += nikel;
+            isAdd = true;
+
+        } else {
+        
+            data.money.gold -= gold;
+            data.money.silver -= silver;
+            data.money.copper -= copper;
+            data.money.nickel -= nikel;
+            isAdd = false;
+        }
+
+        this.actor.update({ "data.money.gold": data.money.gold });
+        this.actor.update({ "data.money.silver": data.money.silver });
+        this.actor.update({ "data.money.copper": data.money.copper });
+        this.actor.update({ "data.money.nickel": data.money.nickel });
+        await this.render();
+        
+        let templateContext = {
+            actor: actor,
+            add: isAdd,
+            gold: gold,
+            silver: silver,
+            copper: copper,
+            nikel: nikel}; 
     
         let chatData = {
             user: game.user.id,
@@ -460,6 +522,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         this.actor.data.data.LeP.value += parseInt(regtLeP);
         this.actor.data.data.AsP.value += parseInt(regtAsP);
+        this.actor.update({ "data.LeP.value": data.LeP.value });
+        this.actor.update({ "data.AsP.value": data.AsP.value });
         this.render(); 
     }
 
@@ -475,7 +539,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if (actor.data.data[statType].value >= actor.data.data[statType].max) return;
 
         actor.data.data[statType].value++;
-
+        let valueString = "data." + statType + ".value";
+        this.actor.update({ valueString: actor.data.data[statType].value });
         this.render();
     }
 
@@ -491,7 +556,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if (statType != "LeP" && actor.data.data[statType].value == 0) return;
 
         actor.data.data[statType].value--;
-
+        let valueString = "data." + statType + ".value";
+        this.actor.update({ valueString: actor.data.data[statType].value });
         this.render();
     }
 

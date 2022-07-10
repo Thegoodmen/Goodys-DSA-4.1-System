@@ -487,8 +487,6 @@ export async function PACheck(PAValue, Mod, Actor) {
     ChatMessage.create(chatData);
 }
 
-
-
 export async function DMGRoll(formula, Actor) {
 
     if(formula == 0) return;

@@ -208,3 +208,41 @@ function _processGetRangeAtkInfo(form) {
         hidea: parseInt(form.hidea.value),
         sizeX: parseInt(form.sizeX.value)}
 }
+
+export async function GetMoneyOptions() {
+
+    const template = "systems/GDSA/templates/chat/money-dialog.hbs";
+    const html = await renderTemplate(template, {});
+
+    return new Promise(resolve => {
+        const data = {
+
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+
+                normal: {
+                    label: game.i18n.format("GDSA.chat.skill.do"),
+                    callback: html => resolve(_processGetMoneyInfo(html[0].querySelector("form")))},
+                cancel: {
+                    label: game.i18n.format("GDSA.chat.skill.cancel"),
+                    callback: html => resolve({cancelled: true})}
+            },
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        new Dialog(data, null).render(true);
+    });
+}
+
+function _processGetMoneyInfo(form) {
+
+    return {
+
+        operation: form.operation.value,
+        gold: parseInt(form.gold.value),
+        silver: parseInt(form.silver.value),
+        copper: parseInt(form.copper.value),
+        nikel: parseInt(form.nikel.value)}
+}
