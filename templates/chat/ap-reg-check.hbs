@@ -1,0 +1,20 @@
+<div class="GDSA chat message">
+    <div class="iniBox">
+        
+        <div class="flawName">{{localize "GDSA.combat.RegAsP"}}</div>
+        <div class="dicefiller"></div>
+        {{#unless isMaster}}
+            <div class="diceCol">
+                <div class="dices">
+                    <div class="diceD62">{{roll.total}}</div>
+                    <div class="dice">{{roll2.total}}</div>
+                </div>
+            </div>
+        {{/unless}}
+
+        <div class="dicefiller"></div>
+        <div class="dice-formula">
+            <div class="rollFlawSuccess">{{regtotal}}{{localize "GDSA.combat.AsPRegOf"}}</div>
+        </div>
+    </div>
+</div>

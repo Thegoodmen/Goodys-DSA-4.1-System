@@ -111,6 +111,11 @@
             "weight": "72",
             "SO": "5",
             "BE": 0,
+            "WS": 0,
+            "Dogde": 0,
+            "equipINI": 0,
+            "INIDice": "1d6",
+            "editInv": false,
             "AP": {
                 "value": 0,
                 "free": 0,
@@ -390,13 +395,18 @@
             "advantage",
             "flaw",
             "langu",
-            "signs"
+            "signs",
+            "generalTrait",
+            "combatTrait",
+            "magicTrait",
+            "holyTrait"
         ],
         "templates": {
             "generalItems": {
                 "weight": 10,
                 "value": 100,
-                "description": ""
+                "description": "",
+                "worn": false
             },
             "trait":{
                 "name": "Arroganz",
@@ -434,7 +444,7 @@
             "skill": "Bogen",
             "damage": "1d6 + 6",
             "range": "10/25/50/100/200",
-            "tp+": "+3/+2/+1/0/-1",
+            "tp": "+3/+2/+1/0/-1",
             "loadActions": "4"
         },
         "shields": {
@@ -483,6 +493,18 @@
             "name": "Kusliker Zeichen",
             "komp": 10,
             "value": 0
+        },
+        "generalTrait": {
+            "name": "Kulturkunde: Mittelreich"
+        },
+        "combatTrait": {
+            "name": "Aufmerksamkeit"
+        },
+        "magicTrait": {
+            "name": "Verbotene Pforten"
+        },
+        "holyTrait": {
+            "name": "Karmalquest"
         }
     }
 }

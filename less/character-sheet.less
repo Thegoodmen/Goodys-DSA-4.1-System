@@ -55,9 +55,6 @@
         float: left;
         text-align: center;
     };
-    .item.active > .menuItem{
-        // background: rgba(184 134 11 / 44%);
-    };
     .item:hover > .menuItem{
         background: rgba(0 0 0 / 3%);
     };
@@ -279,6 +276,11 @@
         height: 28px;
         text-align: center;
     };
+    .skillMenuBox2{
+        width: 620px;
+        height: 33px;
+        text-align: center;
+    };
     .skillsBox{
         width: 620px;
         height: 607px;
@@ -365,6 +367,15 @@
     .skillHeaderBox{
         width: 620px;
         height: 40px;
+        text-align: center;
+    };
+    .skillFiller2{
+        width: 100%;
+        height: 5px;
+    }
+    .skillHeaderBox2{
+        width: 620px;
+        height: 30px;
         text-align: center;
     };
     .skillHeaderSkillBox{
@@ -550,24 +561,53 @@
     .lepbar_text{
         position: absolute;
         top: 50%;
-        right: 50%;
+        right: 46%;
         transform: translateY(-50%);
         font: bold 14px "Quicksand", sans-serif;
         color: #ffffff;
     };
     .combatWindow{     
-        width: 415px;
-        height: 376px;
+        width: 360px;
+        height: 375px;
         float: left;
         margin-left: 10px;
+        border: 2px solid;
+        margin-bottom: 12px;
+        padding: 6px 10px;
     };
-    .iniBar{
-        width: 120px;
-        text-align: left;
+    .combatFiller1{
+        height: 375px;
+        width: 25px;
         float: left;
     };
+    .combatBntBar{
+        text-align: left;
+        padding-left: 10px;
+        padding-bottom: 6px;
+    };
+    .tableBnt{
+        width: 30px;
+    };
+    .tableLbl{
+        text-align: left;
+        padding-left: 13px;
+    };
+    .combatTable{
+        width: 335px;
+    };
+    .combatTableBox{
+        width: 335px;
+        height: 110px;
+        float: left;
+    };
+    .iniBar{
+        width: 130px;
+        text-align: left;
+        float: left;
+        padding-bottom: 10px;
+    };
     .iniValue{
-        width: 25px;
+        width: 35px;
         text-align: left;
         float: left;
     };
@@ -580,6 +620,35 @@
         width: 70px;
         float: left;
     };
+    .sonderfBox{
+        width: 562px;
+        height: 100px;
+        float: left;
+        border: 2px solid black;
+        margin: 5px 24px;
+    };
+    .traithead{
+        width: 532px;
+        height: 20px;
+        text-align: center;
+        font-size: 20px;
+        float: left;
+    };
+    .traithrbox{
+        width: 558px;
+        float: left;
+    };
+    .traits{
+        float: left;
+        overflow-y: scroll;
+        height: 70px;
+    };
+    .trait{
+        width: 552px;
+        height: 20px;
+        text-align: left;
+        padding-left: 10px;
+    };
     .invFiller{
         width: 100%;
         height: 30px;
@@ -588,14 +657,30 @@
         width: 100%;
         height: 640px;        
         padding-left: 20px;
+    };    
+    .invHeader{
+        height: 30px;
+        width: 580px;
+        border: 1px solid black;
+        border-bottom-width: 2px;
+        position: relative;
+        font-size: 16px;
+        padding-top: 4px;
+        padding-left: 16px;
+        background-color: rgba(0,0,0,0.07);
     };
     .invItem{        
         border: 1px solid black;
+        border-top-width: 0px;
         padding-left: 40px;
         height: 41px;
         padding-top: 1px;
         width: 580px;
         position: relative;
+    };
+    .invDivider{
+        height: 10px;
+        width: 580px;
     };
     .invAddBox{
         width: 20px;
@@ -628,7 +713,43 @@
         width: 580px;
         border: 1px solid black;
     };
+    .addItemBox{
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 2px;
+        left: 546px;
+    };
+    .itemWorn{
+        position: absolute;
+        top: 3px;
+        right: 3px;
+    };
     .moneylable{
         font-size: 12px;
+        border: 0px;
+    };
+    .myButton {
+        box-shadow:inset 0px 1px 0px 0px #ffffff;
+        background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+        background-color:#ededed;
+        border-radius:6px;
+        border:1px solid #dcdcdc;
+        display:inline-block;
+        cursor:pointer;
+        color:#777777;
+        font-size:15px;
+        font-weight:bold;
+        padding:2px 12px;
+        text-decoration:none;
+        text-shadow:0px 1px 0px #ffffff;
+    };
+    .myButton:hover {
+        background:linear-gradient(to bottom, #dfdfdf 5%, #ededed 100%);
+        background-color:#dfdfdf;
+    };
+    .myButton:active {
+        position:relative;
+        top:1px;
     };
 }

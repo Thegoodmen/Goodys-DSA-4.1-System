@@ -273,6 +273,11 @@
   height: 28px;
   text-align: center;
 }
+.GDSA.sheet.characterSheet .skillMenuBox2 {
+  width: 620px;
+  height: 33px;
+  text-align: center;
+}
 .GDSA.sheet.characterSheet .skillsBox {
   width: 620px;
   height: 607px;
@@ -359,6 +364,15 @@
 .GDSA.sheet.characterSheet .skillHeaderBox {
   width: 620px;
   height: 40px;
+  text-align: center;
+}
+.GDSA.sheet.characterSheet .skillFiller2 {
+  width: 100%;
+  height: 5px;
+}
+.GDSA.sheet.characterSheet .skillHeaderBox2 {
+  width: 620px;
+  height: 30px;
   text-align: center;
 }
 .GDSA.sheet.characterSheet .skillHeaderSkillBox {
@@ -543,24 +557,53 @@
 .GDSA.sheet.characterSheet .lepbar_text {
   position: absolute;
   top: 50%;
-  right: 50%;
+  right: 46%;
   transform: translateY(-50%);
   font: bold 14px "Quicksand", sans-serif;
   color: #ffffff;
 }
 .GDSA.sheet.characterSheet .combatWindow {
-  width: 415px;
-  height: 376px;
+  width: 360px;
+  height: 375px;
   float: left;
   margin-left: 10px;
+  border: 2px solid;
+  margin-bottom: 12px;
+  padding: 6px 10px;
 }
-.GDSA.sheet.characterSheet .iniBar {
-  width: 120px;
-  text-align: left;
+.GDSA.sheet.characterSheet .combatFiller1 {
+  height: 375px;
+  width: 25px;
   float: left;
 }
+.GDSA.sheet.characterSheet .combatBntBar {
+  text-align: left;
+  padding-left: 10px;
+  padding-bottom: 6px;
+}
+.GDSA.sheet.characterSheet .tableBnt {
+  width: 30px;
+}
+.GDSA.sheet.characterSheet .tableLbl {
+  text-align: left;
+  padding-left: 13px;
+}
+.GDSA.sheet.characterSheet .combatTable {
+  width: 335px;
+}
+.GDSA.sheet.characterSheet .combatTableBox {
+  width: 335px;
+  height: 110px;
+  float: left;
+}
+.GDSA.sheet.characterSheet .iniBar {
+  width: 130px;
+  text-align: left;
+  float: left;
+  padding-bottom: 10px;
+}
 .GDSA.sheet.characterSheet .iniValue {
-  width: 25px;
+  width: 35px;
   text-align: left;
   float: left;
 }
@@ -573,6 +616,35 @@
   width: 70px;
   float: left;
 }
+.GDSA.sheet.characterSheet .sonderfBox {
+  width: 562px;
+  height: 100px;
+  float: left;
+  border: 2px solid black;
+  margin: 5px 24px;
+}
+.GDSA.sheet.characterSheet .traithead {
+  width: 532px;
+  height: 20px;
+  text-align: center;
+  font-size: 20px;
+  float: left;
+}
+.GDSA.sheet.characterSheet .traithrbox {
+  width: 558px;
+  float: left;
+}
+.GDSA.sheet.characterSheet .traits {
+  float: left;
+  overflow-y: scroll;
+  height: 70px;
+}
+.GDSA.sheet.characterSheet .trait {
+  width: 552px;
+  height: 20px;
+  text-align: left;
+  padding-left: 10px;
+}
 .GDSA.sheet.characterSheet .invFiller {
   width: 100%;
   height: 30px;
@@ -582,13 +654,29 @@
   height: 640px;
   padding-left: 20px;
 }
+.GDSA.sheet.characterSheet .invHeader {
+  height: 30px;
+  width: 580px;
+  border: 1px solid black;
+  border-bottom-width: 2px;
+  position: relative;
+  font-size: 16px;
+  padding-top: 4px;
+  padding-left: 16px;
+  background-color: rgba(0, 0, 0, 0.07);
+}
 .GDSA.sheet.characterSheet .invItem {
   border: 1px solid black;
+  border-top-width: 0px;
   padding-left: 40px;
   height: 41px;
   padding-top: 1px;
   width: 580px;
   position: relative;
+}
+.GDSA.sheet.characterSheet .invDivider {
+  height: 10px;
+  width: 580px;
 }
 .GDSA.sheet.characterSheet .invAddBox {
   width: 20px;
@@ -621,14 +709,54 @@
   width: 580px;
   border: 1px solid black;
 }
+.GDSA.sheet.characterSheet .addItemBox {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 2px;
+  left: 546px;
+}
+.GDSA.sheet.characterSheet .itemWorn {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+}
 .GDSA.sheet.characterSheet .moneylable {
   font-size: 12px;
+  border: 0px;
+}
+.GDSA.sheet.characterSheet .myButton {
+  box-shadow: inset 0px 1px 0px 0px #ffffff;
+  background: linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+  background-color: #ededed;
+  border-radius: 6px;
+  border: 1px solid #dcdcdc;
+  display: inline-block;
+  cursor: pointer;
+  color: #777777;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 2px 12px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #ffffff;
+}
+.GDSA.sheet.characterSheet .myButton:hover {
+  background: linear-gradient(to bottom, #dfdfdf 5%, #ededed 100%);
+  background-color: #dfdfdf;
+}
+.GDSA.sheet.characterSheet .myButton:active {
+  position: relative;
+  top: 1px;
 }
 .GDSA.chat.message .flawBox {
   height: 132px;
 }
 .GDSA.chat.message .iniBox {
   height: 120px;
+}
+.GDSA.chat.message .infoBox {
+  font-size: 15px;
+  padding-top: 8px;
 }
 .GDSA.chat.message .statModBoxAdd {
   height: 157px;
@@ -681,6 +809,18 @@
 .GDSA.chat.message .diceD6 {
   background-image: url(templates/img/d6black.svg);
   background-size: contain;
+  height: 60px;
+  width: 60px;
+  color: white;
+  text-align: center;
+  padding-top: 10px;
+  font-size: 22px;
+  float: left;
+}
+.GDSA.chat.message .diceD62 {
+  background-image: url(templates/img/d6black.svg);
+  background-size: contain;
+  margin-top: 7px;
   height: 60px;
   width: 60px;
   color: white;

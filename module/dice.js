@@ -1,3 +1,5 @@
+import * as Dialog from "./dialog.js";
+
 export async function flawCheck(flawName, flawValue, actor) {
 
     if(flawValue == 0) return;
@@ -115,14 +117,13 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
 
     if(askForOptions) {
 
-        let checkOptions = await GetSkillCheckOptions();
+        let checkOptions = await Dialog.GetSkillCheckOptions();
 
         if (checkOptions.cancelled)
             return;
 
         advantage = checkOptions.advantage;
         disadvantage = checkOptions.disadvantage;
-        //goofy = checkOptions.goofy;
     }
 
     disadvantage = parseInt(disadvantage) + parseInt(beMod);
@@ -285,37 +286,227 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
     ChatMessage.create(chatData);
 }
 
-async function GetSkillCheckOptions() {
+export async function doLePReg(actor, HPBonus, statValue) {
 
-    const template = "systems/GDSA/templates/chat/skill-check-dialog.hbs";
-    const html = await renderTemplate(template, {});
+    const template = "systems/GDSA/templates/chat/hp-reg-check.hbs";
 
-    return new Promise(resolve => {
-        const data = {
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                normal: {
-                    label: game.i18n.format("GDSA.chat.skill.roll"),
-                    callback: html => resolve(_processSkillCheckOptions(html[0].querySelector("form")))
-                },
-                cancel: {
-                    label: game.i18n.format("GDSA.chat.skill.cancel"),
-                    callback: html => resolve({cancelled: true})
-                }
-            },
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
+    let rollResult = await new Roll("1d6", {}).roll({ async: true });
+    let rollResult2 = await new Roll("1d20", {}).roll({ async: true });
+    let regtotal = parseInt(rollResult.total) + parseInt(HPBonus);
+    let lostLeP = actor.data.data.LeP.max - actor.data.data.LeP.value;
+    let resultStat = rollResult2.total <= statValue ? true : false;
+    if(resultStat) regtotal += 1;
+    if(lostLeP < regtotal) regtotal = lostLeP;
+    if(regtotal < 0) regtotal = 0;
 
-        new Dialog(data, null).render(true);
-    });
+    let templateContext = {
+        roll: rollResult,
+        roll2: rollResult2,
+        regtotal: regtotal
+      }; 
+
+    let chatData = {        
+        user: game.user.id,
+        speaker: ChatMessage.getSpeaker({ actor }),
+        roll: rollResult,
+        sound: CONFIG.sounds.dice,
+        content: await renderTemplate(template, templateContext)
+    };
+    
+    ChatMessage.create(chatData);
+    return regtotal;
 }
 
-function _processSkillCheckOptions(form) {
+export async function doAsPReg(actor, APBonus, statValue, isMaster) {
 
-    return {
-        advantage: parseInt(form.advantage.value),
-        disadvantage: parseInt(form.disadvantage.value),
+    const template = "systems/GDSA/templates/chat/ap-reg-check.hbs";
+
+    let rollResult = await new Roll("1d6", {}).roll({ async: true });
+    let rollResult2 = await new Roll("1d20", {}).roll({ async: true });
+    let regtotal = parseInt(rollResult.total) + parseInt(APBonus);
+    let lostAsP = actor.data.data.AsP.max - actor.data.data.AsP.value;
+    let resultStat = rollResult2.total <= statValue ? true : false;
+    if(resultStat) regtotal += 1;
+    if(lostAsP < regtotal) regtotal = lostLeP;
+    if(regtotal < 0) regtotal = 0;
+
+    let templateContext = {
+        roll: rollResult,
+        roll2: rollResult2,
+        regtotal: regtotal,
+        isMaster: isMaster
+      }; 
+
+    let chatData = {        
+        user: game.user.id,
+        speaker: ChatMessage.getSpeaker({ actor }),
+        roll: rollResult,
+        sound: CONFIG.sounds.dice,
+        content: await renderTemplate(template, templateContext)
+    };
+    
+    ChatMessage.create(chatData);
+    return regtotal;
+}
+
+export async function ATKCheck(ATKValue, Mod, Actor, wucht, finte, hammer, sturm) {
+
+    if(ATKValue == 0) return;
+    const template = "systems/GDSA/templates/chat/atk-check.hbs";
+    
+    let confirm = false;
+    let critt = false;
+    let goof = false;
+    let modPresent = false;
+    let isAdvantage = false;
+    let isDisadvantage = false;
+    let advantage = 0;
+    let disadvantage = 0;
+
+    let rollResult = await new Roll("1d20", {}).roll({ async: true});
+    let rollResult2 = await new Roll("1d20", {}).roll({ async: true});
+    let statValueTotal = parseInt(ATKValue) + parseInt(Mod);
+    let resultStat = rollResult.total <= statValueTotal ? true : false;
+
+    if(Mod > 0) {
+        advantage = parseInt(Mod);
+        disadvantage = 0;
+        isAdvantage = true;
+        modPresent = true;
+
+    } else if(Mod < 0) {
+        disadvantage = parseInt(Mod) * (-1);
+        advantage = 0;
+        isDisadvantage = true;
+        modPresent = true;
     }
+
+    if (rollResult.total == 1 || rollResult.total == 20)
+        confirm = true;
+
+    if(confirm && rollResult.total == 1 && rollResult2.total <= statValueTotal)
+        critt = true;
+
+    if(confirm && rollResult.total == 20 && rollResult2.total > statValueTotal)
+        goof = true;
+
+    let templateContext = {
+        roll: rollResult,
+        roll2: rollResult2,
+        ATKValue: ATKValue,
+        modPresent: modPresent,
+        isAdv: isAdvantage,
+        adv: advantage,
+        isDis: isDisadvantage,
+        dis: disadvantage,
+        confirm: confirm,
+        critt: critt,
+        goof: goof,
+        wucht: wucht, 
+        finte: finte, 
+        hammer: hammer,
+        sturm: sturm,
+        result: resultStat
+    };
+
+    let chatData = {
+        user: game.user.id,
+        speaker: ChatMessage.getSpeaker({Actor}),
+        roll: rollResult,
+        sound: CONFIG.sounds.dice,
+        content: await renderTemplate(template, templateContext)
+    };
+
+    ChatMessage.create(chatData);
+}
+
+export async function PACheck(PAValue, Mod, Actor) {
+
+    if(PAValue == 0) return;
+    const template = "systems/GDSA/templates/chat/pa-check.hbs";
+    
+    let confirm = false;
+    let critt = false;
+    let goof = false;
+    let modPresent = false;
+    let isAdvantage = false;
+    let isDisadvantage = false;
+    let advantage = 0;
+    let disadvantage = 0;
+
+    let rollResult = await new Roll("1d20", {}).roll({ async: true});
+    let rollResult2 = await new Roll("1d20", {}).roll({ async: true});
+    let statValueTotal = parseInt(PAValue) + parseInt(Mod);
+    let resultStat = rollResult.total <= statValueTotal ? true : false;
+
+    if(Mod > 0) {
+        advantage = parseInt(Mod);
+        disadvantage = 0;
+        isAdvantage = true;
+        modPresent = true;
+
+    } else if(Mod < 0) {
+        disadvantage = parseInt(Mod) * (-1);
+        advantage = 0;
+        isDisadvantage = true;
+        modPresent = true;
+    }
+
+    if (rollResult.total == 1 || rollResult.total == 20)
+        confirm = true;
+
+    if(confirm && rollResult.total == 1 && rollResult2.total <= statValueTotal)
+        critt = true;
+
+    if(confirm && rollResult.total == 20 && rollResult2.total > statValueTotal)
+        goof = true;
+
+    let templateContext = {
+        roll: rollResult,
+        roll2: rollResult2,
+        PAValue: PAValue,
+        modPresent: modPresent,
+        isAdv: isAdvantage,
+        adv: advantage,
+        isDis: isDisadvantage,
+        dis: disadvantage,
+        confirm: confirm,
+        critt: critt,
+        goof: goof,
+        result: resultStat
+    };
+
+    let chatData = {
+        user: game.user.id,
+        speaker: ChatMessage.getSpeaker({Actor}),
+        roll: rollResult,
+        sound: CONFIG.sounds.dice,
+        content: await renderTemplate(template, templateContext)
+    };
+
+    ChatMessage.create(chatData);
+}
+
+
+
+export async function DMGRoll(formula, Actor) {
+
+    if(formula == 0) return;
+    const template = "systems/GDSA/templates/chat/dmg-roll.hbs";
+
+    let rollResult = await new Roll(formula, {}).roll({ async: true});
+
+    let templateContext = {
+        roll: rollResult
+    };
+
+    let chatData = {
+        user: game.user.id,
+        speaker: ChatMessage.getSpeaker({Actor}),
+        roll: rollResult,
+        sound: CONFIG.sounds.dice,
+        content: await renderTemplate(template, templateContext)
+    };
+
+    ChatMessage.create(chatData);
 }

@@ -5,15 +5,23 @@
             "delete": "Löschen",
             "createGeneral": "Allgemeines Item",
             "createMeele": "Nahkampfwaffe",
+            "createRange": "Fernkampfwaffe",
             "generals": "Allgemeines Item",
-            "melee-weapons": "Nahkampfwaffe"
+            "melee-weapons": "Nahkampfwaffe",
+            "range-weapons": "Fernkampfwaffe"
         },
         "combat": {
             "NPC": "NSC",
             "PC": "SC",
             "Enemy": "Gegner",
             "Ini": "Initative",
-            "IniOf": "Initative von "
+            "IniOf": "Initative von ",
+            "RegLeP": "LeP Regeneration",
+            "RegOf": " LeP regeneriert!",
+            "RegAsP": "AsP Regeneration",
+            "AsPRegOf": " AsP regeneriert!",
+            "DMG": "Schadenswurf",
+            "DMGOf": "Schaden"
         },
         "meleeskill": {
             "none": "",
@@ -63,7 +71,10 @@
             "value": "Preis",
             "improvised": "Improvisiert",
             "twohanded": "Zweihändig",
-            "description": "Beschreibung"
+            "description": "Beschreibung",
+            "loadtime": "Ladezeit",
+            "range": "Reichweite",
+            "tpPlus": "TP+"
         },
         "charactersheet": {
             "system": "Das schwarze Auge",
@@ -287,14 +298,32 @@
             "lang": "Sprachen:",
             "addLang": "Sprache hinzufügen",
             "addSign": "Schrift hinzufügen",
+            "dmg": "Schaden",
+            "reg": "Regeneration",
+            "heal": "Heilung",
+            "WS": "Wundschwelle",
+            "dogde": "Ausweichen",
+            "generalTrait": "Allgemeine Sonderfertigkeiten",
+            "combatTrait": "Kampf Sonderfertigkeiten",
+            "newgeneralTrait": "Neue Sonderfertigkeit",
+            "newcombatTrait": "Neue Sonderfertigkeit",
             "addItem": "Gegenstand hinzufügen",
             "newGeneralItem": "Neuer Gegenstand",
             "newgenerals": "Neuer Gegenstand",
             "newmelee-weapons": "Neue Nahkampfwaffe",
+            "newrange-weapons": "Neue Fernkampfwaffe",
+            "newshields": "Neuer Schild",
+            "newarmour": "Neue Rüstung",
             "gold": "Dukaten",
             "silver": "Silber",
             "copper": "Heller",
-            "nikel": "Kreuzer"
+            "nikel": "Kreuzer",
+            "meleeWeapons": "Nahkampfwaffen",
+            "rangeWeapons": "Fernkampfwaffen",
+            "shields": "Schilde",
+            "armour": "Rüstung",
+            "generals": "Allgemeine Gegenstände",
+            "InvEdit": "Darf Inventar hinzufügen ?"
         },
         "chat":{
             "flaw": {
@@ -314,19 +343,92 @@
             "skill": {
                 "optionDialog": "Optionen",
                 "roll": "Würfeln",
+                "do": "Ausführen",
                 "cancel": "Abbrechen",
                 "advantage": "Erleichterung",
                 "disadvantage": "Erschwernis",
                 "advantageOf": "Erleichterung von",
                 "disadvantageOf": "Erschwernis von",
-                "goofy": "Tollpatsch ?"
+                "goofy": "Tollpatsch ?",
+                "wucht": "Wuchtschlag",
+                "finte": "Finte",
+                "sturm": "Sturmangriff",
+                "hamme": "Hammerschlag",
+                "bonusDMG": "Gezielter Schuß (Ansage)",
+                "aimed": "Zielen",
+                "winds": "Windstärke",
+                "sight": "Sichtverhältnisse",
+                "movem": "Bewegung des Ziels",
+                "dista": "Distanz",
+                "hidea": "Deckung",
+                "sizeX": "Größe des Ziels"
+
+            },
+            "dialog": {
+                "dmg": "Wie viel Schaden soll zugefügt werden?",
+                "heal": "Wie viel Heilung soll erfolgen?",
+                "reg": "Was ist der Regenerations Modifikator?"
+            },
+            "rangeOpt": {
+                "noWind": "Kein Wind",
+                "lightWind": "Böhiger Seitenwind",
+                "heavyWind": "Starker Seitenwind",
+                "goodSight": "Gute Sicht",
+                "dust": "Dunst",
+                "cloud": "Nebel",
+                "evening": "Dämmerung",
+                "moon": "Mondlicht",
+                "star": "Sternenlicht",
+                "night": "Finsternis",
+                "invis": "Unsichtbar",
+                "screwed": "Festmontiert",
+                "still": "Still stehend",
+                "lightMovement": "Leichte Bewegungen",
+                "movement": "Schnelle Bewegung",
+                "fastMovement": "Sehr schnelle Bewegung",
+                "veryClose": "Sehr Nah",
+                "close": "Nah",
+                "near": "Mittlere Entfernung",
+                "far": "Weit",
+                "veryFar": "Sehr Weit",
+                "noHide": "Keine Deckung",
+                "halfHide": "Halbe Deckung",
+                "threeQuarterHide": "Drei-viertel Deckung",
+                "veryTiny": "Kleiner als Winzig",
+                "tiny": "Winzig",
+                "verySmall": "Sehr Klein",
+                "small": "Klein",
+                "normal": "Mittlere Größe",
+                "tall": "Groß",
+                "veryTall": "Sehr Groß",
+                "huge": "Größer als Groß"
             }
         },
         "advantage": {
-            "flink": "Flink"
+            "flink": "Flink",
+            "iron": "Eisern",
+            "fastHeal": "Schnelle Heilung",
+            "astralHeal": "Astrale Regeneration"
         },
         "flaws": {
-            "goofy": "Tollpatsch"
+            "goofy": "Tollpatsch",
+            "glass": "Glasknochen",
+            "unsporty": "Behäbig",
+            "small": "Kleinwüchsig",
+            "dwarf": "Zwergenwuchs",
+            "badReg": "Schlechte Regeneration",
+            "astralBlock": "Astraler Block"
+        },
+        "trait": {
+            "kampfge": "Kampfgespür",
+            "kampfre": "Kampfreflexe",
+            "klingen": "Klingentänzer",
+            "dogde1": "Ausweichen I",
+            "dogde2": "Ausweichen II",
+            "dogde3": "Ausweichen III",
+            "regI": "Regeneration I",
+            "regII": "Regeneration II",
+            "regIII": "Meisterliche Regeneration"
         }
     }
 }

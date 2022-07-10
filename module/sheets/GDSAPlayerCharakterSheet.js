@@ -1,4 +1,6 @@
 import * as Dice from "../dice.js";
+import * as Dialog from "../dialog.js";
+import * as Util from "../../Util.js";
 
 export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
@@ -30,24 +32,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             this.actor.deleteEmbeddedDocuments("Item", [element.data("item-id")]);
           }
         }
-    ];
-
-    invContextMenu = [{
-
-        name: game.i18n.localize("GDSA.system.createGeneral"),
-        icon: '<i class="fas fa-plus"></i>',
-        callback: element => {
-            this._onCreateInv("generals")
-        }
-    },{
-
-        name: game.i18n.localize("GDSA.system.createMeele"),
-        icon: '<i class="fas fa-plus"></i>',
-        callback: element => {
-            this._onCreateInv("melee-weapons")
-        }
-    }];
-    
+    ];    
 
     getData() {
 
@@ -68,29 +53,27 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         sheetData.advantages = baseData.items.filter(function(item) {return item.type == "advantage"});
         sheetData.flaws = baseData.items.filter(function(item) {return item.type == "flaw"});
+
         sheetData.langs = baseData.items.filter(function(item) {return item.type == "langu"});
         sheetData.signs = baseData.items.filter(function(item) {return item.type == "signs"});
+
+        sheetData.generalTraits = baseData.items.filter(function(item) {return item.type == "generalTrait"});
+        sheetData.combatTraits = baseData.items.filter(function(item) {return item.type == "combatTrait"});
+
         sheetData.generals = baseData.items.filter(function(item) {return item.type == "generals"});
         sheetData.meleeweapons = baseData.items.filter(function(item) {return item.type == "melee-weapons"});
+        sheetData.rangeweapons = baseData.items.filter(function(item) {return item.type == "range-weapons"});
+        sheetData.shields = baseData.items.filter(function(item) {return item.type == "shields"});
+        sheetData.armour = baseData.items.filter(function(item) {return item.type == "armour"});
 
-        sheetData.inventar = sheetData.meleeweapons.concat(sheetData.generals);
+        sheetData.equiptMelee = sheetData.meleeweapons.filter(function(item) {return item.data.worn == true});
+        sheetData.equiptRange = sheetData.rangeweapons.filter(function(item) {return item.data.worn == true});
+        sheetData.equiptShield = sheetData.shields.filter(function(item) {return item.data.worn == true});
+        sheetData.equiptArmour = sheetData.armour.filter(function(item) {return item.data.worn == true});
 
-        //Sonderfertigkeiten Abfrage bezüglich INI
-        data.INIBasis.modi = 4;
+        sheetData.inventar = sheetData.meleeweapons.concat(sheetData.rangeweapons, sheetData.shields, sheetData.shields, sheetData.armour, sheetData.generals);
 
-        let checkFlink = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.flink")})[0];
-        if(checkFlink != null) {
-
-            data.GS.modi = checkFlink.data.value;
-            data.GS.value = 8 + parseInt(data.GS.modi);
-        } else {
-
-            data.GS.modi = 0;
-            data.GS.value = 8 + parseInt(data.GS.modi);
-        }
-
-        data.AP.spent = parseInt(data.AP.value) - parseInt(data.AP.free);
-        data.LeP.prozent = 100 / parseInt(data.LeP.max) * parseInt(data.LeP.value);
+        sheetData = this.calculateValues(sheetData);
 
         return sheetData;
     }
@@ -105,14 +88,22 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".flaw-roll").click(this._onFlawRoll.bind(this));
             html.find(".stat-roll").click(this._onStatRoll.bind(this));
             html.find(".skill-roll").click(this._onSkillRoll.bind(this));
+            html.find(".dogde-roll").click(this._onDogdeRoll.bind(this));
+            html.find(".attack-roll").click(this._onAttackRoll.bind(this));
+            html.find(".parry-roll").click(this._onParryRoll.bind(this));
+            html.find(".damage-roll").click(this._onDMGRoll.bind(this));
+
+            html.find(".getDMG").click(this.getDMG.bind(this));
+            html.find(".getHeal").click(this.getHeal.bind(this));
+            html.find(".doReg").click(this.doReg.bind(this));
 
             html.find(".stat-plus").click(this._addStat.bind(this));
             html.find(".stat-minus").click(this._decreaseStat.bind(this));
-            html.find(".inv-create").click(this._onCreateGeneralInv.bind(this));
             html.find(".invItem").click(this._openItem.bind(this));
+            html.find(".item-remove").click(this._onRemoveEquip.bind(this));
+            html.find(".item-apply").click(this._onEquipEquip.bind(this));
 
             new ContextMenu(html, ".item-context", this.itemContextMenu);
-            new ContextMenu(html, ".inv-create", this.invContextMenu);
         }
 
         if(this.actor.isOwner){
@@ -139,35 +130,6 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         return this.actor.createEmbeddedDocuments("Item", [itemData]);
     }
 
-    _onCreateGeneralInv(event) {
-
-        event.preventDefault();
-
-        let name = "GDSA.charactersheet.newGeneralItem";
-        let itemtype = "generals";
-
-        let itemData = {
-
-            name: game.i18n.localize(name),
-            type: itemtype
-        };
-
-        return this.actor.createEmbeddedDocuments("Item", [itemData]);
-    }
-
-    _onCreateInv(itemtype) {
-
-        let name = "GDSA.charactersheet.new" + itemtype;
-
-        let itemData = {
-
-            name: game.i18n.localize(name),
-            type: itemtype
-        };
-
-        return this.actor.createEmbeddedDocuments("Item", [itemData]);
-    }
-
     _onItemEdit(event) {
 
         event.preventDefault();
@@ -177,6 +139,30 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let item = this.actor.items.get(itemId);
     
         item.sheet.render(true);    
+    }
+
+    _onRemoveEquip(event) {
+
+        event.preventDefault();
+
+        let element = event.currentTarget;
+        let itemId = element.closest(".invItem").dataset.itemId;
+        let item = this.actor.items.get(itemId);
+
+        item.data.data.worn = false;
+        this.render(); 
+    }
+
+    _onEquipEquip(event) {
+
+        event.preventDefault();
+
+        let element = event.currentTarget;
+        let itemId = element.closest(".invItem").dataset.itemId;
+        let item = this.actor.items.get(itemId);
+
+        item.data.data.worn = true;
+        this.render(); 
     }
 
     _onFlawRoll(event) {
@@ -192,7 +178,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         Dice.flawCheck(flawname, flawvalue, actor);
     }
 
-    async _onStatRoll(event) {
+    _onStatRoll(event) {
 
         event.preventDefault();
 
@@ -209,7 +195,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         Dice.statCheck(statname,statvalue, statmod, actor);
     }
 
-    async _onSkillRoll(event) {
+    _onSkillRoll(event) {
 
         event.preventDefault();
 
@@ -243,6 +229,240 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         Dice.skillCheck(statname, statvalue, statone, stattwo, statthree, be, actor, options, goofy);
     }
 
+    async _onAttackRoll(event) {
+
+        event.preventDefault();
+
+        let actor = this.actor;
+        let element = event.currentTarget;
+        let itemId = element.closest("tr").dataset.itemId;
+        let item = this.actor.items.get(itemId);
+        let Modi = 0;
+
+        let skill = item.data.data.skill;
+        let weapon = item.data.data.type;
+
+        let ATKValue = Util.getSkillATKValue(actor, skill);
+
+        let isSpezi = this.getData().generalTraits.filter(function(item) {return item.name.includes(weapon)});
+        if(isSpezi.length > 0) ATKValue += 1;
+
+        if(item.data.type == "melee-weapons") {
+        
+            let ATKInfo = await Dialog.GetAtkInfo();
+            if (ATKInfo.cancelled) return;
+            let advan = ATKInfo.advan;
+            let disad = ATKInfo.disad;
+            let wucht = ATKInfo.wucht;
+            let finte = ATKInfo.finte;
+            let hammer = ATKInfo.hamme;
+            let sturm = ATKInfo.sturm;
+
+            Modi += advan;
+            Modi -= disad;
+            Modi -= wucht;
+            Modi -= finte;
+            if(hammer) Modi -= 8;
+            if(sturm) Modi -= 4;
+
+            Dice.ATKCheck(ATKValue, Modi, actor, wucht, finte, hammer, sturm);
+
+        } else {
+
+            let ATKInfo = await Dialog.GetRangeAtkInfo();
+            if (ATKInfo.cancelled) return;
+            let disad = parseInt(ATKInfo.disad);
+            let bonus = parseInt(ATKInfo.bonus);
+            let aimed = parseInt(ATKInfo.aimed);
+            let winds = parseInt(ATKInfo.winds);
+            let sight = parseInt(ATKInfo.sight);
+            let movem = parseInt(ATKInfo.movem);
+            let dista = parseInt(ATKInfo.dista);
+            let hidea = parseInt(ATKInfo.hidea);
+            let sizeX = parseInt(ATKInfo.sizeX);
+            if(aimed > 4) aimed = 4;
+
+            Modi -= disad;
+            Modi -= bonus;
+            Modi += aimed;
+            Modi += winds;
+            Modi += sight;
+            Modi += movem;
+            Modi += dista;
+            Modi += hidea;
+            Modi += sizeX;
+
+            Dice.ATKCheck(ATKValue, Modi, actor, bonus, 0, false, false);
+        }
+    }
+
+    async _onParryRoll(event) {
+
+        event.preventDefault();
+
+        let actor = this.actor;
+        let element = event.currentTarget;
+        let itemId = element.closest("tr").dataset.itemId;
+        let item = this.actor.items.get(itemId);
+        let Modi = 0;
+
+        let skill = item.data.data.skill;
+        let weapon = item.data.data.type;
+
+        let PAValue = Util.getSkillPAValue(actor, skill);
+
+        let isSpezi = this.getData().generalTraits.filter(function(item) {return item.name.includes(weapon)});
+        if(isSpezi.length > 0) PAValue += 1;
+
+        let PAInfo = await Dialog.GetSkillCheckOptions();
+        if (PAInfo.cancelled) return;
+        let advan = parseInt(PAInfo.advantage);
+        let disad = parseInt(PAInfo.disadvantage);
+
+        Modi -= disad;
+        Modi += advan;
+
+        Dice.PACheck(PAValue, Modi, actor);
+    }
+
+    async _onDMGRoll(event) {
+
+        event.preventDefault();
+
+        let actor = this.actor;
+        let element = event.currentTarget;
+        let itemId = element.closest("tr").dataset.itemId;
+        let item = this.actor.items.get(itemId);
+
+        let dmgString = item.data.data.damage;
+
+        Dice.DMGRoll(dmgString, actor);
+    }
+
+    _onDogdeRoll(event) {
+
+        event.preventDefault();
+
+        let actor = this.actor;
+        let statvalue = actor.data.data.Dogde;
+        let statname = game.i18n.localize("GDSA.charactersheet.dogde");        
+
+        Dice.statCheck(statname,statvalue, 0, actor);
+    }
+
+    async getDMG(event) {
+
+        event.preventDefault();
+        const template = "systems/GDSA/templates/chat/HPInfo.hbs";
+
+        let DMGInfo = await Dialog.GetDMGInfo();
+        let actor = this.actor;
+        let data = actor.data.data;
+
+        if (DMGInfo.cancelled) return;
+        let DMGValue = DMGInfo.value;
+
+        data.LeP.value -= parseInt(DMGValue);
+        this.render();
+
+        let templateContext = {
+            actor: actor,
+            value: DMGValue,
+            heal: false,
+            dmg: true}; 
+    
+        let chatData = {
+            user: game.user.id,
+            speaker: ChatMessage.getSpeaker({ actor }),
+            roll: true,
+            content: await renderTemplate(template, templateContext)};
+        
+        ChatMessage.create(chatData);  
+    }
+
+    async getHeal(event) {
+
+        event.preventDefault();
+        const template = "systems/GDSA/templates/chat/HPInfo.hbs";
+
+        let HealInfo = await Dialog.GetHealInfo();
+        let actor = this.actor;
+        let data = actor.data.data;
+
+        if (HealInfo.cancelled) return;
+        let HealValue = HealInfo.value;
+
+        if (data.LeP.max < (data.LeP.value + parseInt(HealValue)))
+            HealValue = data.LeP.max - data.LeP.value;
+
+        data.LeP.value += parseInt(HealValue);
+        this.render();
+
+        let templateContext = {
+            actor: actor,
+            value: HealValue,
+            heal: true,
+            dmg: false}; 
+    
+        let chatData = {
+            user: game.user.id,
+            speaker: ChatMessage.getSpeaker({ actor }),
+            roll: true,
+            content: await renderTemplate(template, templateContext)};
+        
+        ChatMessage.create(chatData);  
+    }
+
+    async doReg(event) {
+
+        event.preventDefault();
+
+        let regtLeP = 0;
+        let regtAsP = 0;
+        let regDialog = await Dialog.GetRegInfo();
+        if (regDialog.cancelled) return;
+        let regModi = parseInt(regDialog.value);
+
+        let HPBonus = 0 + regModi;
+        let APBonus = 0 + regModi;
+        let magActive = false;
+        let actor = this.actor;
+        let data = actor.data.data;
+        let advantages = actor.items.filter(function(item) {return item.type == "advantage"});
+        let flaws = actor.items.filter(function(item) {return item.type == "flaw"});
+        let magicTraits = actor.items.filter(function(item) {return item.type == "magicTrait"});
+        let statValueKO = data.KO.value;
+        let statValueIN = data.IN.value;
+        let statValueKL = data.KL.value;
+
+        let checkFastHeal = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.fastHeal")})[0];
+        let checkAstralHeal = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.astralHeal")})[0];
+        let checkBadReg = flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.badReg")})[0];
+        let checkAstralBlock = flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.astralBlock")})[0];
+        let checkRegI = magicTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.regI")})[0];
+        let checkRegII = magicTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.regII")})[0];
+        let checkRegIII = magicTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.regIII")})[0];
+
+        if(checkFastHeal != null) HPBonus += parseInt(checkFastHeal.data.data.value);
+        if(checkBadReg != null) HPBonus -= 1;
+        if(checkAstralHeal != null) APBonus += parseInt(checkAstralHeal.data.data.value);
+        if(checkAstralBlock != null) APBonus -= 1;
+        if(checkRegI != null) APBonus += 1;
+        if(checkRegII != null) APBonus += 1;
+        if(checkRegIII != null) APBonus = (statValueKL / 5) + 3;
+        if(checkRegIII != null) magActive = true;
+
+        if(data.LeP.max != data.LeP.value)
+            regtLeP = await Dice.doLePReg(actor, HPBonus, statValueKO);
+        
+        if(data.AsP.max > 0 && data.AsP.max != data.AsP.value)
+            regtAsP = await Dice.doAsPReg(actor, APBonus,statValueIN, magActive);
+
+        this.actor.data.data.LeP.value += parseInt(regtLeP);
+        this.actor.data.data.AsP.value += parseInt(regtAsP);
+        this.render(); 
+    }
+
     async _addStat(event) {
 
         event.preventDefault();
@@ -273,7 +493,6 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         actor.data.data[statType].value--;
 
         this.render();
-
     }
 
     _openItem(event) {
@@ -319,5 +538,79 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             default:
                 return super._onSortItem(event, itemData);
         }
+    }
+
+    calculateValues(sheetData) {
+        
+        let advantages = sheetData.items.filter(function(item) {return item.type == "advantage"});
+        let flaws = sheetData.items.filter(function(item) {return item.type == "flaw"});
+        let combatTraits = sheetData.items.filter(function(item) {return item.type == "combatTrait"});
+
+        let BE = parseInt(sheetData.data.BE);
+
+        // Geschwindigkeit
+
+        let checkFlink = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.flink")})[0];
+        let checkUnsporty = flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.unsporty")})[0];
+        let checkSmall = flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.small")})[0];
+        let checkDwarf = flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.dwarf")})[0];
+        
+        sheetData.data.GS.modi = 0;
+
+        if(checkFlink != null) sheetData.data.GS.modi = checkFlink.data.data.value;
+        if(parseInt(sheetData.data.GE.value) >= 16) sheetData.data.GS.modi += 1;
+        if(checkUnsporty != null) sheetData.data.GS.modi -= 1;
+        if(parseInt(sheetData.data.GE.value) <= 10) sheetData.data.GS.modi -= 1;
+        if(checkSmall != null) sheetData.data.GS.modi -= 1;
+        if(checkDwarf != null) sheetData.data.GS.modi -= 2;
+        if(checkDwarf != null) sheetData.data.GS.modi -= (BE / 2);
+        else sheetData.data.GS.modi -= BE;
+
+        sheetData.data.GS.value = 8 + parseInt(sheetData.data.GS.modi);
+
+        // INI Basis
+
+        sheetData.data.INIBasis.value = sheetData.data.INIBasis.value - sheetData.data.INIBasis.modi + BE; // - sheetData.data.equipINI;
+        sheetData.data.INIBasis.modi = 0;
+
+        let checkKampfge = combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.kampfge")})[0];
+        let checkKampfre = combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.kampfre")})[0];
+        let checkKlingen = combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.klingen")})[0];
+
+        if(checkKampfge != null) sheetData.data.INIBasis.modi += 2;
+        if(checkKampfre != null) sheetData.data.INIBasis.modi += 4;
+
+        sheetData.data.INIBasis.value = sheetData.data.INIBasis.value + sheetData.data.INIBasis.modi - BE; // + sheetData.data.equipINI;
+
+        sheetData.data.INIDice = "1d6";
+        if(checkKlingen != null) sheetData.data.INIDice = "2d6";
+
+        // Wundschwelle
+
+        let checkEisern = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.iron")})[0];
+        let checkGlass = flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.glass")})[0];
+
+        sheetData.data.WS = parseInt(sheetData.data.KO.value) / 2;
+        if(checkEisern != null) sheetData.data.WS += 2;
+        if(checkGlass != null) sheetData.data.WS -= 2;
+
+        // Ausweichen
+        
+        let checkDogde1 = combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.dogde1")})[0];
+        let checkDogde2 = combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.dogde2")})[0];
+        let checkDogde3 = combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.dogde3")})[0];
+
+        sheetData.data.Dogde = parseInt(sheetData.data.PABasis.value);
+        if(checkUnsporty != null) sheetData.data.Dogde -= 1;
+        if(checkDogde1 != null) sheetData.data.Dogde += 3;
+        if(checkDogde2 != null) sheetData.data.Dogde += 3;
+        if(checkDogde3 != null) sheetData.data.Dogde += 3;
+        
+        // Simple Values / Grapical Values
+
+        sheetData.data.AP.spent = parseInt(sheetData.data.AP.value) - parseInt(sheetData.data.AP.free);        
+        sheetData.data.LeP.prozent = 100 / parseInt(sheetData.data.LeP.max) * parseInt(sheetData.data.LeP.value);
+
+        return sheetData;
     }
 }

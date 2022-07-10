@@ -1,4 +1,4 @@
-<div class="skillHeaderBox">
+<div class="skillHeaderBox2">
 	<div class="skillHeaderSkillBox2">
         <div class="headerLable">{{localize "GDSA.charactersheet.ATBasis"}}</div><div class="headerValue">{{data.ATBasis.value}}</div> 
         <div class="headerLable">{{localize "GDSA.charactersheet.PABasis"}}</div><div class="headerValue">{{data.PABasis.value}}</div>
@@ -7,9 +7,9 @@
 	</div>
 </div>
 
-<div class="skillFiller"></div>
+<div class="skillFiller2"></div>
 	
-<div class="skillMenuBox">
+<div class="skillMenuBox2">
     <div class="lepbar">
       <div class="lepbar_fill" style="width: {{data.LeP.prozent}}%;"></div>
       <span class="lepbar_text">{{data.LeP.value}} / {{data.LeP.max}}</span>
@@ -17,11 +17,95 @@
 </div>
 	
 <div class="skillsBox">
+
+    <div class="combatFiller1"></div>
+
     {{> "systems/GDSA/templates/partials/character-sheet-woundChart.hbs"}}
 
     <div class="combatWindow">
-        <div class="iniBar">Initative:</div><div class="iniValue">{{data.INIBasis.value}}</div>
-        <div class="iniBar">Wundschwelle:</div><div class="iniValue">{{data.INIBasis.value}}</div>
-        <div class="iniBar">Ausweichen:</div><div class="iniValue">{{data.INIBasis.value}}</div>
+        <div class="combatBntBar">
+            <a class="myButton getDMG">{{localize "GDSA.charactersheet.dmg"}}</a> 
+            <a class="myButton doReg">{{localize "GDSA.charactersheet.reg"}}</a> 
+            <a class="myButton getHeal">{{localize "GDSA.charactersheet.heal"}}</a>
+        </div>
+        <div class="iniBar">{{localize "GDSA.charactersheet.WS"}}:</div><div class="iniValue">{{data.WS}}</div>
+        <a class="item dogde-roll" title="roll"><div class="iniBar">{{localize "GDSA.charactersheet.dogde"}}:</div><div class="iniValue">{{data.Dogde}}</div></a>
+    
+        <div class="combatTableBox">
+            <table class="combatTable">
+                <tr>
+                    <td class="tableLbl">{{localize "GDSA.charactersheet.meleeWeapons"}}</td>
+                    <td class="tableBnt"></td><td class="tableBnt"></td><td class="tableBnt"></td>
+                </tr>
+                {{#each equiptMelee as |item id|}}
+                    <tr data-item-id="{{_id}}">
+                        <td class="tableLbl">{{name}}</td>
+                        <td class="tableBnt"><a class="item attack-roll" title="roll"><i class="fas fa-gavel faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item parry-roll" title="roll"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item damage-roll" title="roll"><i class="fas fa-tint faD20Stat"></i></a></td>
+                    </tr>
+                {{/each}}
+            </table>
+        </div>
+
+        <div class="combatTableBox">
+            <table class="combatTable">
+                <tr>
+                    <td class="tableLbl">{{localize "GDSA.charactersheet.rangeWeapons"}}</td>
+                    <td class="tableBnt"></td><td class="tableBnt"></td><td class="tableBnt"></td>
+                </tr>
+                {{#each equiptRange as |item id|}}
+                    <tr data-item-id="{{_id}}">
+                        <td class="tableLbl">{{name}}</td>
+                        <td class="tableBnt"></td>
+                        <td class="tableBnt"><a class="item attack-roll" title="roll"><i class="fas fa-bullseye faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item damage-roll" title="roll"><i class="fas fa-tint faD20Stat"></i></a></td>
+                    </tr>
+                {{/each}}
+            </table>
+        </div>
+
+        <div class="combatTableBox">
+            <table class="combatTable">
+                <tr>
+                    <td class="tableLbl">{{localize "GDSA.charactersheet.shields"}}</td>
+                    <td class="tableBnt"></td><td class="tableBnt"></td><td class="tableBnt"></td>
+                </tr>
+                {{#each equiptShield as |item id|}}
+                    <tr>
+                        <td class="tableLbl">{{name}}</td>
+                        <td class="tableBnt"></td>
+                        <td class="tableBnt"></td>
+                        <td class="tableBnt"><a class="item" title="roll"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                    </tr>
+                {{/each}}
+            </table>
+        </div>
+
+    </div>
+
+    <div class="sonderfBox">
+        <div class="traithead">{{localize "GDSA.charactersheet.generalTrait"}}</div>
+        <div class="flawbnt"><a class="item-create" data-type="generalTrait"><i class="fas fa-plus plusSym"></i></a></div>
+		<div class="traithrbox"><hr class="flawhr" /></div>
+    	<section class="traits">
+			{{#each generalTraits as |Trait id|}}
+				<div class="item item-context" data-type="{{data.type}}" data-item-id="{{_id}}">
+                    <div class="trait">{{name}}</div><hr class="flawhr" />
+                </div>
+			{{/each}}
+		</section>
+    </div>
+    <div class="sonderfBox">
+        <div class="traithead">{{localize "GDSA.charactersheet.combatTrait"}}</div>
+        <div class="flawbnt"><a class="item-create" data-type="combatTrait"><i class="fas fa-plus plusSym"></i></a></div>
+		<div class="traithrbox"><hr class="flawhr" /></div>
+    	<section class="traits">
+			{{#each combatTraits as |Trait id|}}
+				<div class="item item-context" data-type="{{data.type}}" data-item-id="{{_id}}">
+                    <div class="trait">{{name}}</div><hr class="flawhr" />
+                </div>
+			{{/each}}
+		</section>
     </div>
 </div>

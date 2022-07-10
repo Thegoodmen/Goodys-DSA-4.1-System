@@ -3,16 +3,6 @@ export default class GDSAActor extends Actor {
     prepareData() {
 
         super.prepareData();
-
-        let actorData = this.data;
-        let data = actorData.data;
-
-        this._setCharacterValues(data);
-        this._setAnsitzjagd(data);
-        this._setPirschjagd(data);
-        this._setNahrungsuchen(data);
-        this._setKraeutersuchen(data);
-        this._setWachehalten(data); 
     }
     
     prepareBaseData() {
@@ -29,9 +19,17 @@ export default class GDSAActor extends Actor {
 
     _prepareCharacterData(actorData) {
 
-        if (actorData.type != 'character') return;
+        if (actorData.type != 'PlayerCharakter') return;
       
         const data = actorData.data;
+
+        this._setCharacterValues(data);
+        
+        this._setAnsitzjagd(data);
+        this._setPirschjagd(data);
+        this._setNahrungsuchen(data);
+        this._setKraeutersuchen(data);
+        this._setWachehalten(data); 
     }
 
     _setAnsitzjagd(data) {
@@ -211,5 +209,8 @@ export default class GDSAActor extends Actor {
             data.KaP.max = 0;
 
         data.MR.value = Math.round(((parseInt(data.MU.value) + parseInt(data.KL.value) + parseInt(data.KO.value)) / 5) + parseInt(data.MR.modi));
+
+        data.WS = parseInt(data.KO.value) / 2;
+        data.Dogde = parseInt(data.PABasis.value);
     }
 }
