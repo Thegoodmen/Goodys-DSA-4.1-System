@@ -25,5 +25,8 @@
     "gridDistance": 10,
     "gridUnits": "ft",
     "primaryTokenAttribute": "LeP",
-    "Initiative": "1d6 + @IniBase"
+    "Initiative": "1d6 + @IniBase",
+    "url": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System",
+    "manifest": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System/releases/latest/download/system.json",
+    "download": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System/releases/download/0.1.2/system.zip"
 }
