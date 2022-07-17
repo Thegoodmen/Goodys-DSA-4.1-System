@@ -6,6 +6,7 @@ import GDSACombatTracker from "./module/combat/combatTracker.js";
 import { _getInitiativeFormula } from "./module/combat/initative.js";
 import GDSAItemSheet from "./module/sheets/GDSAItemSheet.js";
 import GDSAPlayerCharakterSheet from "./module/sheets/GDSAPlayerCharakterSheet.js";
+import GDSALootActorSheet from "./module/sheets/GDSALootActorSheet.js";
 
 async function preloadHandlebarsTemplates(){
 
@@ -55,7 +56,8 @@ Hooks.once("init", function () {
     Items.registerSheet("GDSA", GDSAItemSheet, { makeDefault: true });
 
     Actors.unregisterSheet("core", ActorSheet);
-    Actors.registerSheet("GDSA", GDSAPlayerCharakterSheet, { makeDefault: true });
+    Actors.registerSheet("GDSA", GDSAPlayerCharakterSheet, { makeDefault: true, types: ["PlayerCharakter"] });
+    Actors.registerSheet("GDSA", GDSALootActorSheet, { types: ["LootActor"]});
   
     preloadHandlebarsTemplates();
 
