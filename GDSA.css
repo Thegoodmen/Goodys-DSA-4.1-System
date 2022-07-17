@@ -748,6 +748,96 @@
   position: relative;
   top: 1px;
 }
+.GDSA.sheet.itemSheet .nameLable {
+  width: 373px;
+}
+.GDSA.sheet.itemSheet .itemMain {
+  width: 450px;
+  height: 305px;
+}
+.GDSA.sheet.itemSheet .itemRow {
+  width: 450px;
+  height: 50px;
+}
+.GDSA.sheet.itemSheet .itemDescBox {
+  width: 450px;
+  height: 150px;
+}
+.GDSA.sheet.itemSheet .itemDesc {
+  width: 450px;
+  height: 235px;
+}
+.GDSA.sheet.itemSheet .itemDesc2 {
+  width: 450px;
+  height: 135px;
+}
+.GDSA.sheet.itemSheet .itemDesc3 {
+  width: 450px;
+  height: 185px;
+}
+.GDSA.sheet.itemSheet .box230 {
+  width: 230px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .box175 {
+  width: 175px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .box160 {
+  width: 160px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .box150 {
+  width: 150px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .box140 {
+  width: 140px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .box75 {
+  width: 75px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .box70 {
+  width: 70px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .lbox30 {
+  width: 30px;
+  height: 10px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .input220 {
+  width: 220px;
+}
+.GDSA.sheet.itemSheet .input165 {
+  width: 165px;
+}
+.GDSA.sheet.itemSheet .input150 {
+  width: 150px;
+}
+.GDSA.sheet.itemSheet .input140 {
+  width: 140px;
+}
+.GDSA.sheet.itemSheet .input60 {
+  width: 60px;
+}
+.GDSA.sheet.itemSheet .input30 {
+  width: 30px;
+}
+.GDSA.sheet.itemSheet .divider1 {
+  width: 5px;
+  height: 10px;
+  float: left;
+}
 .GDSA.chat.message .flawBox {
   height: 132px;
 }

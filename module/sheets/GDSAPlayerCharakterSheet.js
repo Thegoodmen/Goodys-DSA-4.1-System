@@ -92,6 +92,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".attack-roll").click(this._onAttackRoll.bind(this));
             html.find(".parry-roll").click(this._onParryRoll.bind(this));
             html.find(".damage-roll").click(this._onDMGRoll.bind(this));
+            html.find(".shield-roll").click(this._onShieldParryRoll.bind(this));
 
             html.find(".getDMG").click(this.getDMG.bind(this));
             html.find(".getHeal").click(this.getHeal.bind(this));
@@ -245,7 +246,11 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let skill = item.data.data.skill;
         let weapon = item.data.data.type;
 
+        let wm = item.data.data["WM-ATK"];
+
         let ATKValue = Util.getSkillATKValue(actor, skill);
+
+        ATKValue += wm;
 
         let isSpezi = this.getData().generalTraits.filter(function(item) {return item.name.includes(weapon)});
         if(isSpezi.length > 0) ATKValue += 1;
@@ -260,6 +265,13 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             let finte = ATKInfo.finte;
             let hammer = ATKInfo.hamme;
             let sturm = ATKInfo.sturm;
+
+            let equiptShields =  this.getData().shields.filter(function(item) {return item.data.worn == true})[0];
+            if(equiptShields != null) {
+                
+                let shildwm = equiptShields.data["WM-ATK"];
+                ATKValue += parseInt(shildwm);
+            }
 
             Modi += advan;
             Modi -= disad;
@@ -312,7 +324,11 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let skill = item.data.data.skill;
         let weapon = item.data.data.type;
 
+        let wm = item.data.data["WM-DEF"];
+
         let PAValue = Util.getSkillPAValue(actor, skill);
+
+        PAValue += wm;
 
         let isSpezi = this.getData().generalTraits.filter(function(item) {return item.name.includes(weapon)});
         if(isSpezi.length > 0) PAValue += 1;
@@ -328,6 +344,59 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         Dice.PACheck(PAValue, Modi, actor);
     }
 
+    async _onShieldParryRoll(event){
+
+        event.preventDefault();
+
+        let actor = this.actor;
+        let element = event.currentTarget;
+        let itemId = element.closest("tr").dataset.itemId;
+        let item = this.actor.items.get(itemId);
+        let Modi = 0;
+
+        let wm = item.data.data["WM-DEF"];
+        let PABasis = parseInt(actor.data.data.PABasis.value);
+
+        PABasis += parseInt(wm);
+
+        let isLefthand = this.getData().combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.leftHand")})[0];
+        let isShildI = this.getData().combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.schildI")})[0];
+        let isShildII = this.getData().combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.schildII")})[0];
+        if(isLefthand != null) PABasis += 1;
+        if(isShildI != null) PABasis += 2;
+        if(isShildII != null) PABasis += 2;
+
+        let PAInfo = await Dialog.GetSkillCheckOptions();
+        if (PAInfo.cancelled) return;
+        let advan = parseInt(PAInfo.advantage);
+        let disad = parseInt(PAInfo.disadvantage);
+
+
+        let equiptMelee =  this.getData().meleeweapons.filter(function(item) {return item.data.worn == true});
+        let higestParry = 0;
+        for(const itemM of equiptMelee) {
+
+            let skill = itemM.data.skill;
+            let weapon = itemM.data.type;
+            let itemwm = itemM.data["WM-DEF"];    
+            let PAValue = Util.getSkillPAValue(actor, skill);
+
+            PAValue += itemwm;
+
+            let isSpezi = this.getData().generalTraits.filter(function(item) {return item.name.includes(weapon)});
+            if(isSpezi.length > 0) PAValue += 1;
+            if(PAValue > higestParry) higestParry = PAValue;
+        }
+        
+        if(higestParry >= 15) PABasis += 1;
+        if(higestParry >= 18) PABasis += 1;
+        if(higestParry >= 21) PABasis += 1;
+
+        Modi -= disad;
+        Modi += advan;
+        Dice.PACheck(PABasis, Modi, actor);
+    }
+
     async _onDMGRoll(event) {
 
         event.preventDefault();
@@ -337,8 +406,16 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let itemId = element.closest("tr").dataset.itemId;
         let item = this.actor.items.get(itemId);
 
-        let dmgString = item.data.data.damage;
+        let tpkkString = item.data.data.TPKK;
+        let tp = tpkkString.split("/")[0];
+        let kk = tpkkString.split("/")[1];
 
+        let x = actor.data.data.KK.value - tp;
+        let y = Math.ceil(x / kk);
+        y --;
+
+        let dmgString = item.data.data.damage + "+" + y;
+        console.log(dmgString);
         Dice.DMGRoll(dmgString, actor);
     }
 
@@ -539,9 +616,11 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if (actor.data.data[statType].value >= actor.data.data[statType].max) return;
 
         actor.data.data[statType].value++;
-        let valueString = "data." + statType + ".value";
-        this.actor.update({ valueString: actor.data.data[statType].value });
         this.render();
+        this.actor.update({ "data.LeP.value": this.actor.data.data.LeP.value });
+        this.actor.update({ "data.AuP.value": this.actor.data.data.AuP.value });
+        this.actor.update({ "data.AsP.value": this.actor.data.data.AsP.value });
+        this.actor.update({ "data.KaP.value": this.actor.data.data.KaP.value });
     }
 
     async _decreaseStat(event) {
@@ -556,9 +635,11 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if (statType != "LeP" && actor.data.data[statType].value == 0) return;
 
         actor.data.data[statType].value--;
-        let valueString = "data." + statType + ".value";
-        this.actor.update({ valueString: actor.data.data[statType].value });
         this.render();
+        this.actor.update({ "data.LeP.value": this.actor.data.data.LeP.value });
+        this.actor.update({ "data.AuP.value": this.actor.data.data.AuP.value });
+        this.actor.update({ "data.AsP.value": this.actor.data.data.AsP.value });
+        this.actor.update({ "data.KaP.value": this.actor.data.data.KaP.value });
     }
 
     _openItem(event) {
@@ -611,6 +692,12 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let advantages = sheetData.items.filter(function(item) {return item.type == "advantage"});
         let flaws = sheetData.items.filter(function(item) {return item.type == "flaw"});
         let combatTraits = sheetData.items.filter(function(item) {return item.type == "combatTrait"});
+        let meleeweapons = sheetData.items.filter(function(item) {return item.type == "melee-weapons"});
+        let armour = sheetData.items.filter(function(item) {return item.type == "armour"});
+        let shields = sheetData.items.filter(function(item) {return item.type == "shields"});
+        let equiptMelee = meleeweapons.filter(function(item) {return item.data.worn == true});
+        let equiptArmour = armour.filter(function(item) {return item.data.worn == true});
+        let equiptShields = shields.filter(function(item) {return item.data.worn == true});
 
         let BE = parseInt(sheetData.data.BE);
 
@@ -636,8 +723,21 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         // INI Basis
 
-        sheetData.data.INIBasis.value = sheetData.data.INIBasis.value - sheetData.data.INIBasis.modi + BE; // - sheetData.data.equipINI;
+        sheetData.data.INIBasis.value = sheetData.data.INIBasis.value - sheetData.data.INIBasis.modi + BE - sheetData.data.equipINI;
         sheetData.data.INIBasis.modi = 0;
+
+        let weaponModi = 0;
+        for(const item of equiptMelee) {
+
+            weaponModi += parseInt(item.data.INI);
+        }
+
+        for(const item of equiptShields) {
+
+            weaponModi += parseInt(item.data.INI);
+        }
+
+        sheetData.data.equipINI = weaponModi;
 
         let checkKampfge = combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.kampfge")})[0];
         let checkKampfre = combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.kampfre")})[0];
@@ -646,7 +746,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if(checkKampfge != null) sheetData.data.INIBasis.modi += 2;
         if(checkKampfre != null) sheetData.data.INIBasis.modi += 4;
 
-        sheetData.data.INIBasis.value = sheetData.data.INIBasis.value + sheetData.data.INIBasis.modi - BE; // + sheetData.data.equipINI;
+        sheetData.data.INIBasis.value = sheetData.data.INIBasis.value + sheetData.data.INIBasis.modi - BE + sheetData.data.equipINI;
 
         sheetData.data.INIDice = "1d6";
         if(checkKlingen != null) sheetData.data.INIDice = "2d6";
@@ -671,6 +771,44 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if(checkDogde1 != null) sheetData.data.Dogde += 3;
         if(checkDogde2 != null) sheetData.data.Dogde += 3;
         if(checkDogde3 != null) sheetData.data.Dogde += 3;
+
+        // Rüstung
+
+        let headArmour = 0;
+        let bodyArmour = 0;
+        let backArmour = 0;
+        let stomachArmour = 0;
+        let rightarmArmour = 0;
+        let leftarmArmour = 0;
+        let rightlegArmour = 0;
+        let leftlegArmour = 0;
+        let gRSArmour = 0;
+        let gBEArmour = 0;
+
+        for (const item of equiptArmour) {
+
+            headArmour += parseInt(item.data.head);
+            bodyArmour += parseInt(item.data.body);
+            backArmour += parseInt(item.data.back);
+            stomachArmour += parseInt(item.data.stomach);
+            rightarmArmour += parseInt(item.data.rightarm);
+            leftarmArmour += parseInt(item.data.leftarm);
+            rightlegArmour += parseInt(item.data.rightleg);
+            leftlegArmour += parseInt(item.data.leftleg);
+            gRSArmour += parseInt(item.data.gRS);
+            gBEArmour += parseInt(item.data.gBE);
+        }
+
+        sheetData.data.headArmour = headArmour;
+        sheetData.data.bodyArmour = bodyArmour;
+        sheetData.data.backArmour = backArmour;
+        sheetData.data.stomachArmour = stomachArmour;
+        sheetData.data.rightarmArmour = rightarmArmour;
+        sheetData.data.leftarmArmour = leftarmArmour;
+        sheetData.data.rightlegArmour = rightlegArmour;
+        sheetData.data.leftlegArmour = leftlegArmour;
+        sheetData.data.gRSArmour = gRSArmour;
+        sheetData.data.gBEArmour = gBEArmour;
         
         // Simple Values / Grapical Values
 

@@ -1,0 +1,26 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <img src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64"/>
+        <h1><input class="nameLable" name="name" type="text" value="{{item.name}}" placeholder="{{ localize 'Name' }}"/></h1>
+    </header>
+    <div class="itemMain">
+        <div class="itemRow">
+            <div class="box160">
+                <b>{{localize "GDSA.itemsheet.typeItem"}}</b><br />
+                <input class="input150" name="data.type" type="text" value="{{data.type}}"/>
+            </div>
+            <div class="box150">
+                <b>{{localize "GDSA.itemsheet.weight"}}</b><br />
+                <input class="input140" name="data.weight" type="text" value="{{data.weight}}"/>
+            </div>     
+            <div class="box140">
+                <b>{{localize "GDSA.itemsheet.value"}}</b><br />
+                <input class="input140" name="data.value" type="text" value="{{data.value}}"/>
+            </div>
+        </div>
+        <div class="itemDescBox">
+            <b>{{localize "GDSA.itemsheet.description"}}</b><br />
+            <textarea class="itemDesc" name="data.description">{{data.description}}</textarea>
+        </div>       
+    </div>
+</form>

@@ -210,7 +210,7 @@ export default class GDSAActor extends Actor {
 
         data.MR.value = Math.round(((parseInt(data.MU.value) + parseInt(data.KL.value) + parseInt(data.KO.value)) / 5) + parseInt(data.MR.modi));
 
-        data.WS = parseInt(data.KO.value) / 2;
+        data.WS =  Math.round(parseInt(data.KO.value) / 2);
         data.Dogde = parseInt(data.PABasis.value);
     }
 }

@@ -72,11 +72,11 @@
                     <td class="tableBnt"></td><td class="tableBnt"></td><td class="tableBnt"></td>
                 </tr>
                 {{#each equiptShield as |item id|}}
-                    <tr>
+                    <tr data-item-id="{{_id}}">
                         <td class="tableLbl">{{name}}</td>
                         <td class="tableBnt"></td>
                         <td class="tableBnt"></td>
-                        <td class="tableBnt"><a class="item" title="roll"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item shield-roll" title="roll"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
                     </tr>
                 {{/each}}
             </table>
