@@ -1,0 +1,74 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <img src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64"/>
+        <h1><input name="name" type="text" value="{{item.name}}" placeholder="{{ localize 'Name' }}" style="width: 373px;"/></h1>
+    </header>
+    <div style="width: 450px; height: 305px;">
+        <div style="width: 450px; height: 50px;">
+            <div style="width: 175px; height: 50px; float: left;">
+                <b>{{localize "GDSA.itemsheet.typeArmor"}}</b><br />
+                <input name="data.type" type="text" value="{{data.type}}" style="width: 165px;" />
+            </div>
+            <div style="width: 100px; height: 50px; float: left;">
+                <b>{{localize "GDSA.itemsheet.gRS"}}</b><br />
+                <input name="data.gRS" type="text" value="{{data.gRS}}" style="width: 90px;" />
+            </div>
+            <div style="width: 100px; height: 50px; float: left;">
+                <b>{{localize "GDSA.itemsheet.gBE"}}</b><br />
+                <input name="data.gBE" type="text" value="{{data.gBE}}" style="width: 90px;" />
+            </div>
+            <div style="width: 75px; height: 50px; float: left; text-align: center;">
+                <b>{{localize "GDSA.itemsheet.worn"}}</b><br />
+                <input name="data.worn" type="checkbox" value="{{data.worn}}" style="width: 65px;">
+            </div>
+        </div>
+        <div style="width: 450px; height: 50px;">
+            <div style="width: 70px; height: 50px; float: left;">
+                <b>{{localize "GDSA.itemsheet.head"}}</b><br />
+                <input name="data.head" type="text" value="{{data.head}}" style="width: 60px;" />
+            </div>
+            <div style="width: 70px; height: 50px; float: left;">
+                <b>{{localize "GDSA.itemsheet.body"}}</b><br />
+                <input name="data.body" type="text" value="{{data.body}}" style="width: 60px;" />
+            </div>
+            <div style="width: 70px; height: 50px; float: left;">
+                <b>{{localize "GDSA.itemsheet.back"}}</b><br />
+                <input name="data.back" type="text" value="{{data.back}}" style="width: 60px;" />
+            </div>
+            <div style="width: 70px; height: 50px; float: left;">
+                <b>{{localize "GDSA.itemsheet.stomach"}}</b><br />
+                <input name="data.stomach" type="text" value="{{data.stomach}}" style="width: 60px;" />
+            </div>
+            <div style="width: 150px; height: 50px; float: left;">
+                <b>{{localize "GDSA.itemsheet.weight"}}</b><br />
+                <input name="data.weight" type="text" value="{{data.weight}}" style="width: 140px;" />
+            </div>
+        </div>
+        <div style="width: 450px; height: 50px;">       
+            <div style="width: 70px; height: 50px; float: left;">
+                <b>{{localize "GDSA.itemsheet.rArm"}}</b><br />
+                <input name="data.rightarm" type="text" value="{{data.rightarm}}" style="width: 60px;" />
+            </div>
+            <div style="width: 70px; height: 50px; float: left;">
+                <b>{{localize "GDSA.itemsheet.lArm"}}</b><br />
+                <input name="data.leftarm" type="text" value="{{data.leftarm}}" style="width: 60px;" />
+            </div>
+            <div style="width: 70px; height: 50px; float: left;">
+                <b>{{localize "GDSA.itemsheet.rLeg"}}</b><br />
+                <input name="data.rightleg" type="text" value="{{data.rightleg}}" style="width: 60px;" />
+            </div>
+            <div style="width: 70px; height: 50px; float: left;">
+                <b>{{localize "GDSA.itemsheet.lLeg"}}</b><br />
+                <input name="data.leftleg" type="text" value="{{data.leftleg}}" style="width: 60px;" />
+            </div>
+            <div style="width: 150px; height: 50px; float: left;">
+                <b>{{localize "GDSA.itemsheet.value"}}</b><br />
+                <input name="data.value" type="text" value="{{data.value}}" style="width: 140px;" />
+            </div>
+        </div>
+        <div style="width: 450px; height: 150px;">
+            <b>{{localize "GDSA.itemsheet.description"}}</b><br />
+            <textarea name="data.description" style="width: 450px; height: 135px;">{{data.description}}</textarea>
+        </div>       
+    </div>
+</form>

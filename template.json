@@ -122,266 +122,266 @@
                 "spent": 0
             },
             "money": {
-                "gold": 2500,
-                "silver": 25,
-                "copper": 10,
-                "nickel": 55
+                "gold": 0,
+                "silver": 0,
+                "copper": 0,
+                "nickel": 0
             },
             "skill": {
                 "andr": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "armb": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "bela": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "blas": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "bogn": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "disk": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "dolc": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "fech": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "hieb": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "infa": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "kets": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "ketw": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "lanz": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "peit": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "rauf": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "ring": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "saeb": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "sleu": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "swer": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "sper": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "stab": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "wbei": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "wmes": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "wspe": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "zfle": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "zhie": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
                 "zswe": {
-                    "value": 0,
-                    "atk": 0,
-                    "def": 0
+                    "value": "",
+                    "atk": "",
+                    "def": ""
                 },
-                "akro": 0,
-                "ath": 0,
-                "fly": 0,
-                "gau": 0,
-                "klet": 0,
-                "koer": 0,
-                "reit": 0,
-                "schl": 0,
-                "swim": 0,
-                "selb": 0,
-                "sich": 0,
-                "sing": 0,
-                "sinn": 0,
-                "ski": 0,
-                "stim": 0,
-                "danc": 0,
-                "tasc": 0,
-                "zech": 0,
-                "beto": 0,
-                "etik": 0,
-                "gass": 0,
-                "lehr": 0,
-                "mens": 0,
-                "acti": 0,
-                "writ": 0,
-                "clot": 0,
-                "uber": 0,
-                "zeug": 0,
-                "faer": 0,
-                "fall": 0,
-                "fess": 0,
-                "fisc": 0,
-                "orie": 0,
-                "wett": 0,
-                "wild": 0,
-                "ansi": 0,
-                "pirs": 0,
-                "nahr": 0,
-                "krau": 0,
-                "wach": 0,
-                "anat": 0,
-                "bauk": 0,
-                "buks": 0,
-                "geog": 0,
-                "gesc": 0,
-                "gest": 0,
-                "goet": 0,
-                "hera": 0,
-                "huet": 0,
-                "krie": 0,
-                "kryp": 0,
-                "magi": 0,
-                "mech": 0,
-                "pfla": 0,
-                "phil": 0,
-                "calc": 0,
-                "rect": 0,
-                "sage": 0,
-                "shae": 0,
-                "spra": 0,
-                "staa": 0,
-                "ster": 0,
-                "tier": 0,
-                "abri": 0,
-                "acke": 0,
-                "alch": 0,
-                "berg": 0,
-                "boge": 0,
-                "boot": 0,
-                "brau": 0,
-                "druc": 0,
-                "fahr": 0,
-                "fals": 0,
-                "fein": 0,
-                "feue": 0,
-                "flei": 0,
-                "gerb": 0,
-                "glas": 0,
-                "grob": 0,
-                "hand": 0,
-                "haus": 0,
-                "hgif": 0,
-                "hkra": 0,
-                "hsee": 0,
-                "hwun": 0,
-                "holz": 0,
-                "inst": 0,
-                "kart": 0,
-                "koch": 0,
-                "kris": 0,
-                "lede": 0,
-                "male": 0,
-                "maur": 0,
-                "meta": 0,
-                "musi": 0,
-                "shlo": 0,
-                "shna": 0,
-                "shne": 0,
-                "seef": 0,
-                "seil": 0,
-                "stme": 0,
-                "stsh": 0,
-                "stel": 0,
-                "stof": 0,
-                "taet": 0,
-                "toep": 0,
-                "vieh": 0,
-                "webk": 0,
-                "winz": 0,
-                "zimm": 0,
-                "empa": 0,
-                "gefa": 0,
-                "gera": 0,
-                "krae": 0,
-                "magg": 0,
-                "prop": 0,
-                "tale": 0,
-                "tiem": 0,
-                "zwer": 0
+                "akro": "",
+                "ath": "",
+                "fly": "",
+                "gau": "",
+                "klet": "",
+                "koer": "",
+                "reit": "",
+                "schl": "",
+                "swim": "",
+                "selb": "",
+                "sich": "",
+                "sing": "",
+                "sinn": "",
+                "ski": "",
+                "stim": "",
+                "danc": "",
+                "tasc": "",
+                "zech": "",
+                "beto": "",
+                "etik": "",
+                "gass": "",
+                "lehr": "",
+                "mens": "",
+                "acti": "",
+                "writ": "",
+                "clot": "",
+                "uber": "",
+                "zeug": "",
+                "faer": "",
+                "fall": "",
+                "fess": "",
+                "fisc": "",
+                "orie": "",
+                "wett": "",
+                "wild": "",
+                "ansi": "",
+                "pirs": "",
+                "nahr": "",
+                "krau": "",
+                "wach": "",
+                "anat": "",
+                "bauk": "",
+                "buks": "",
+                "geog": "",
+                "gesc": "",
+                "gest": "",
+                "goet": "",
+                "hera": "",
+                "huet": "",
+                "krie": "",
+                "kryp": "",
+                "magi": "",
+                "mech": "",
+                "pfla": "",
+                "phil": "",
+                "calc": "",
+                "rect": "",
+                "sage": "",
+                "shae": "",
+                "spra": "",
+                "staa": "",
+                "ster": "",
+                "tier": "",
+                "abri": "",
+                "acke": "",
+                "alch": "",
+                "berg": "",
+                "boge": "",
+                "boot": "",
+                "brau": "",
+                "druc": "",
+                "fahr": "",
+                "fals": "",
+                "fein": "",
+                "feue": "",
+                "flei": "",
+                "gerb": "",
+                "glas": "",
+                "grob": "",
+                "hand": "",
+                "haus": "",
+                "hgif": "",
+                "hkra": "",
+                "hsee": "",
+                "hwun": "",
+                "holz": "",
+                "inst": "",
+                "kart": "",
+                "koch": "",
+                "kris": "",
+                "lede": "",
+                "male": "",
+                "maur": "",
+                "meta": "",
+                "musi": "",
+                "shlo": "",
+                "shna": "",
+                "shne": "",
+                "seef": "",
+                "seil": "",
+                "stme": "",
+                "stsh": "",
+                "stel": "",
+                "stof": "",
+                "taet": "",
+                "toep": "",
+                "vieh": "",
+                "webk": "",
+                "winz": "",
+                "zimm": "",
+                "empa": "",
+                "gefa": "",
+                "gera": "",
+                "krae": "",
+                "magg": "",
+                "prop": "",
+                "tale": "",
+                "tiem": "",
+                "zwer": ""
             }
         }
     },
@@ -416,7 +416,8 @@
         "generals" : {
             "templates": [
                 "generalItems"
-            ]
+            ],
+            "type": "Wertgegenstand"
         },
         "melee-weapons": {
             "templates": [
@@ -455,7 +456,8 @@
             "heigt": "groß",
             "WM-ATK": 0,
             "WM-DEF": 0,
-            "BF": 1,
+            "BF-min": 1,
+            "BF-cur": 1,
             "INI": 0
         },
         "armour": {
@@ -464,15 +466,15 @@
             ],
             "type": "Kürass",
             "head": 0,
-            "body": 5,
-            "back": 1,
-            "stomach": 2,
+            "body": 0,
+            "back": 0,
+            "stomach": 0,
             "rightarm": 0,
             "leftarm": 0,
             "rightleg": 0,
             "leftleg": 0,
-            "gRS": 3,
-            "gBE": 2
+            "gRS": 0,
+            "gBE": 0
         },
         "advantage": {
             "templates": [

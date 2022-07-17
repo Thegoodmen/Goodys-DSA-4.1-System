@@ -1,0 +1,61 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <img src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64" />
+        <h1><input class="nameLable" name="name" type="text" value="{{item.name}}" placeholder="{{ localize 'Name' }}" /></h1>
+    </header>
+    <div class="itemMain">
+        <div class="itemRow">
+            <div class="box230">
+                <b>{{localize "GDSA.itemsheet.type"}}</b><br />
+                <input class="input220" name="data.type" type="text" value="{{data.type}}" />
+            </div>
+
+            <div class="box70">
+                <b>{{localize "GDSA.itemsheet.INI"}}</b><br />
+                <input class="input60" name="data.INI" type="number" value="{{data.INI}}" />
+            </div>
+
+            <div class="box75">
+                <b>{{localize "GDSA.itemsheet.WM"}}</b><br />
+                <div class="lbox30">
+                    <input class="input30" name="data.WM-ATK" type="number" value="{{data.WM-ATK}}" />
+                </div>
+                <div class="divider1"></div>
+                <div  class="lbox30">
+                    <input class="input30" name="data.WM-DEF" type="number" value="{{data.WM-DEF}}" />
+                </div>
+            </div>
+
+            <div class="box75">
+                <b>{{localize "GDSA.itemsheet.BF"}}</b><br />
+                <div class="lbox30">
+                    <input class="input30" name="data.BF-cur" type="number" value="{{data.BF-cur}}" />
+                </div>
+                <div class="divider1"></div>
+                <div class="lbox30">
+                    <input class="input30" name="data.BF-min" type="number" value="{{data.BF-min}}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="itemRow">
+            <div class="box150">
+                <b>{{localize "GDSA.itemsheet.heigt"}}</b><br />
+                <input class="input140" name="data.heigt" type="text" value="{{data.heigt}}" />
+            </div>
+            <div class="box150">
+                <b>{{localize "GDSA.itemsheet.weight"}}</b><br />
+                <input class="input140" name="data.weight" type="text" value="{{data.weight}}" />
+            </div>
+            <div class="box150">
+                <b>{{localize "GDSA.itemsheet.value"}}</b><br />
+                <input class="input140" name="data.value" type="text" value="{{data.value}}" />
+            </div>
+        </div>
+
+        <div class="itemDescBox">
+            <b>{{localize "GDSA.itemsheet.description"}}</b><br />
+            <textarea class="itemDesc3" name="data.description">{{data.description}}</textarea>
+        </div>       
+    </div>
+</form>

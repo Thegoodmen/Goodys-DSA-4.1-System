@@ -60,6 +60,7 @@
             "name": "Name",
             "skill": "Talent",
             "type": "Regeltechnische Waffe",
+            "typeArmor": "Regeltechnische Rüstung",
             "damage": "Trefferpunkte",
             "TP/KK": "TP/KK",
             "INI": "INI",
@@ -74,7 +75,20 @@
             "description": "Beschreibung",
             "loadtime": "Ladezeit",
             "range": "Reichweite",
-            "tpPlus": "TP+"
+            "tpPlus": "TP+",
+            "worn": "Angelegt",
+            "gRS": "Gesamte RS",
+            "gBE": "Gesamte BE",
+            "head": "Kopf",
+            "body": "Brust",
+            "back": "Rücken",
+            "stomach": "Bauch",
+            "rArm": "r. Arm",
+            "lArm": "l. Arm",
+            "rLeg": "r. Bein",
+            "lLeg": "l. Bein",
+            "typeItem": "Art des Gegenstandes",
+            "heigt": "Größe"
         },
         "charactersheet": {
             "system": "Das schwarze Auge",
@@ -143,7 +157,7 @@
             "BE-5": "BE - 5",
             "combatSkills": "Kampf",
             "bodySkills": "Körperlich",
-            "socialSkills": "Gesselschaft",
+            "socialSkills": "Gesellschaft",
             "natureSkills": "Natur",
             "knowledgeSkills": "Wissen",
             "langSkills": "Sprachen",
@@ -296,6 +310,7 @@
             "tiemSkill": "Tierempathie",
             "zwerSkill": "Zwergennase",
             "lang": "Sprachen:",
+            "sign": "Schriften:",
             "addLang": "Sprache hinzufügen",
             "addSign": "Schrift hinzufügen",
             "dmg": "Schaden",
@@ -432,7 +447,10 @@
             "dogde3": "Ausweichen III",
             "regI": "Regeneration I",
             "regII": "Regeneration II",
-            "regIII": "Meisterliche Regeneration"
+            "regIII": "Meisterliche Regeneration",
+            "leftHand": "Linkhand",
+            "schildI": "Schildkampf I",
+            "schildII": "Schildkampf II"
         }
     }
 }
