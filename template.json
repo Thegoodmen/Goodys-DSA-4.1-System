@@ -1,7 +1,8 @@
 {
     "Actor": {
         "types": [
-            "PlayerCharakter"
+            "PlayerCharakter",
+            "LootActor"
         ],
         "templates": {
             "Stats": {
@@ -97,6 +98,16 @@
                     "tempmodi": 0
                 }
             }
+        },
+        "LootActor": {
+            "money": {
+                "gold": 0,
+                "silver": 0,
+                "copper": 0,
+                "nickel": 0
+            },
+            "weight": 10,
+            "description": ""
         },
         "PlayerCharakter": {
             "templates": [
