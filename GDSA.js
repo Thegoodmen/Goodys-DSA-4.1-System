@@ -32,6 +32,7 @@ async function preloadHandlebarsTemplates(){
         "systems/GDSA/templates/partials/character-sheet-craftSkills.hbs",
         "systems/GDSA/templates/partials/character-sheet-giftSkills.hbs",
         "systems/GDSA/templates/partials/character-sheet-woundChart.hbs",
+        "systems/GDSA/templates/partials/character-sheet-magicCast.hbs",
         "systems/GDSA/templates/partials/advantages.hbs",
         "systems/GDSA/templates/partials/lang.hbs"
     ];
@@ -80,4 +81,71 @@ Hooks.once("init", function () {
 
         return options.inverse(this);
     });
+
+    Handlebars.registerHelper("concat", function(s1, s2, s3) {
+
+        if(s3 == null) s3 = "";
+        return s1 + s2 + s3;
+    });
+
+    Handlebars.registerHelper("isGreater", function(p1, p2) {
+    
+        if(p1 > p2)
+            return true;
+        return false;
+    });
+
+    Handlebars.registerHelper("getData", function(object1, value1) {
+
+        return object1[value1];
+    });
+
+    Handlebars.registerHelper("getDataValue", function(object1, value1) {
+
+        return object1[value1].value;
+    });
+
+    Handlebars.registerHelper("ifOR", function(conditional1, conditional2, options) {
+ 
+        if (conditional1 || conditional2)
+          return true;
+        return false;
+    });
+
+    Handlebars.registerHelper("notEmpty", function(value) {
+
+        if (value == 0 || value == "0")
+            return true;
+        if (value == null|| value  == "")
+            return false;
+        return true;
+    });
+
+    Handlebars.registerHelper("hasSpez", function(object, value) {
+
+        let isPres = object.filter(function(item) {return item.talentshort.includes(value)})[0];
+
+        if(isPres != null)
+            return true;
+        
+        return false;
+    });
+
+    Handlebars.registerHelper("getSpez", function(object, value) {
+
+        let isPres = object.filter(function(item) {return item.talentshort.includes(value)});
+
+        if(isPres.length > 0)
+            return isPres;
+        
+        return null;
+    });
+
+    Handlebars.registerHelper("addSpez", function(value) {
+
+        let newValue = parseInt(value) + 2;
+        
+        return newValue;
+    });
+
 });

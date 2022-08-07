@@ -1,0 +1,22 @@
+<div style="overflow-y: scroll; height: 600px;">
+    <table style="display: inline-block">
+        {{#each spells as |item id|}}
+            <tr class="item-context item" data-item-id="{{_id}}">
+                <td class="skillTableNameBig">{{name}} 
+                    <i>({{data.att1}}/{{data.att2}}/{{data.att3}})</i>
+                    <div class="itemWorn"><a class="openSpell" data-page="{{data.lcdPage}}"><i class="fas fa-book"></i></a></div>
+                </td>
+                <td class="skillTableValue"><input class="skillTemp" name="data.zfw" type="number" value="{{data.zfw}}" disabled/></td>
+                <td class="skillTableRoll"><a class="item skill-roll" data-statName="{{name}}"
+                    data-stat_one="{{getDataValue ../data ./data.att1}}" data-stat_two="{{getDataValue ../data ./data.att2}}" 
+                    data-stat_three="{{getDataValue ../data ./data.att3}}" data-bemod="0" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+                </td>
+            </tr>
+	    {{/each}}
+        <tr>
+            <td class="addCast" colspan="3">
+                <a class="item-create" data-type="spell" title="{{localize "GDSA.charactersheet.addSpell"}}"><b>+</b></a>
+            </td>
+        </tr>
+    </table>
+</div>

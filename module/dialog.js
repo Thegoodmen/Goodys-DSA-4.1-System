@@ -244,5 +244,6 @@ function _processGetMoneyInfo(form) {
         gold: parseInt(form.gold.value),
         silver: parseInt(form.silver.value),
         copper: parseInt(form.copper.value),
-        nikel: parseInt(form.nikel.value)}
+        nikel: parseInt(form.nikel.value)
+    }
 }
