@@ -1,0 +1,47 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <div style="float: left; width: 400px; height: 55px">
+            <div style="float: left; width: 370px;">Name</div><div style="float: left; width: 40px;">ZfW</div>
+            <div style="float: left; width: 370px;"><input name="name" type="text" value="{{item.name}}" style="float: left; width: 350px;" /></div>
+            <div style="float: left; width: 60px;"><input name="data.zfw" type="text" value="{{data.zfw}}" style="float: left; width: 60px;" /></div>
+        </div>
+    </header>
+
+    <select name="data.att1" style="width: 99px; margin-right: 10px;">
+        {{#select data.att1}}
+            <option value="MU">MU</option>
+            <option value="KL">KL</option>
+            <option value="IN">IN</option>
+            <option value="CH">CH</option>
+            <option value="FF">FF</option>
+            <option value="GE">GE</option>
+            <option value="KO">KO</option>
+            <option value="KK">KK</option>
+        {{/select}}
+    </select>
+    <select name="data.att2" style="width: 99px; margin-right: 10px;">
+        {{#select data.att2}}
+            <option value="MU">MU</option>
+            <option value="KL">KL</option>
+            <option value="IN">IN</option>
+            <option value="CH">CH</option>
+            <option value="FF">FF</option>
+            <option value="GE">GE</option>
+            <option value="KO">KO</option>
+            <option value="KK">KK</option>
+        {{/select}}
+    </select>
+    <select name="data.att3" style="width: 99px; margin-right: 10px;">
+        {{#select data.att3}}
+            <option value="MU">MU</option>
+            <option value="KL">KL</option>
+            <option value="IN">IN</option>
+            <option value="CH">CH</option>
+            <option value="FF">FF</option>
+            <option value="GE">GE</option>
+            <option value="KO">KO</option>
+            <option value="KK">KK</option>
+        {{/select}}
+    </select>
+    PDF<input name="data.lcdPage" type="text" value="{{data.lcdPage}}" style="width: 60px; margin-left: 10px;" />
+</form>

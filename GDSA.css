@@ -291,6 +291,11 @@
   height: 607px;
   text-align: center;
 }
+.GDSA.sheet.characterSheet .magicBox {
+  width: 620px;
+  height: 607px;
+  text-align: center;
+}
 .GDSA.sheet.characterSheet .skillTableNameCombat {
   width: 394px;
   text-align: left;
@@ -298,7 +303,7 @@
   padding-left: 10px;
 }
 .GDSA.sheet.characterSheet .skillTableName {
-  width: 454px;
+  width: 449px;
   text-align: left;
   border: 1px solid black;
   padding-left: 10px;
@@ -308,6 +313,7 @@
   text-align: left;
   border: 1px solid black;
   padding-left: 10px;
+  position: relative;
 }
 .GDSA.sheet.characterSheet .skillTableBE {
   width: 65px;
@@ -570,6 +576,29 @@
   font: bold 14px "Quicksand", sans-serif;
   color: #ffffff;
 }
+.GDSA.sheet.characterSheet .aspbar {
+  position: relative;
+  width: 500px;
+  height: 20px;
+  background: #9cbab4;
+  border-radius: 5px;
+  overflow: hidden;
+  display: inline-block;
+}
+.GDSA.sheet.characterSheet .aspbar_fill {
+  width: 0%;
+  height: 100%;
+  background: #004195;
+  transition: all 0.2s;
+}
+.GDSA.sheet.characterSheet .aspbar_text {
+  position: absolute;
+  top: 50%;
+  right: 46%;
+  transform: translateY(-50%);
+  font: bold 14px "Quicksand", sans-serif;
+  color: #ffffff;
+}
 .GDSA.sheet.characterSheet .combatWindow {
   width: 360px;
   height: 375px;
@@ -769,6 +798,11 @@
 .GDSA.sheet.characterSheet .myButton:active {
   position: relative;
   top: 1px;
+}
+.GDSA.sheet.characterSheet .addCast {
+  width: 514px;
+  text-align: center;
+  border: 1px solid black;
 }
 .GDSA.sheet.itemSheet .nameLable {
   width: 373px;

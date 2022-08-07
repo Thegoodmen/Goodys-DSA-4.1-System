@@ -75,7 +75,11 @@
             </tr>
             <tr>
                 <td class="gmTableHelper">{{localize "GDSA.charactersheet.InvEdit"}}</td>
-                <td><input class="gmInput" name="data.editInv" type="checkbox" value="{{data.editInv}}" /></td>
+                <td><input class="gmInput" name="data.editInv" type="checkbox"  {{checked data.editInv}} /></td>
+            </tr>
+            <tr>
+                <td class="gmTableHelper">{{localize "GDSA.charactersheet.AllSkills"}}</td>
+                <td><input class="gmInput" name="data.allSkills" type="checkbox"  {{checked data.allSkills}} /></td>
             </tr>
         </table>
     </div>

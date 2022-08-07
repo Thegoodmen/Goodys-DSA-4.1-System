@@ -1,0 +1,32 @@
+<div class="skillMenuBox">
+	<nav class="magic-tabs tabs nav" data-group="magic">
+		<a class="item" data-tab="mgeneral"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.mgeneral"}}</div></a>
+		<a class="item" data-tab="cast"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.cast"}}</div></a>
+		<a class="item" data-tab="ritual"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.ritual"}}</div></a>
+		<a class="item" data-tab="madditional"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.madditional"}}</div></a>
+	</nav>
+</div>
+
+<div class="skillMenuBox2">
+    <div class="aspbar">
+      <div class="aspbar_fill" style="width: {{data.AsP.prozent}}%;"></div>
+      <span class="aspbar_text">{{data.AsP.value}} / {{data.AsP.max}}</span>
+    </div>
+</div>
+
+<div class="magicBox">
+	<section class="magic-body">
+		<div class="magicBox tab mgeneral" data-group="magic" data-tab="mgeneral">
+						
+		</div>
+		<div class="magicBox tab cast" data-group="magic" data-tab="cast">
+            {{> "systems/GDSA/templates/partials/character-sheet-magicCast.hbs"}}
+		</div>
+		<div class="magicBox tab ritual" data-group="magic" data-tab="ritual">
+			
+		</div>
+		<div class="magicBox tab madditional" data-group="magic" data-tab="madditional">
+			
+		</div>
+	</section>
+</div>

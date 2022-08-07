@@ -88,7 +88,8 @@
             "rLeg": "r. Bein",
             "lLeg": "l. Bein",
             "typeItem": "Art des Gegenstandes",
-            "heigt": "Größe"
+            "heigt": "Größe",
+            "star": "Sternchen"
         },
         "charactersheet": {
             "system": "Das schwarze Auge",
@@ -271,10 +272,10 @@
             "grobSkill": "Grobschmied",
             "handSkill": "Handel",
             "hausSkill": "Hauswirtschaft",
-            "hgifSkill": "Heilkunde Gift",
-            "hkraSkill": "Heilkunde Krankheiten",
-            "hseeSkill": "Heilkunde Seele",
-            "hwunSkill": "Heilkunde Wunden",
+            "hgifSkill": "Heilkunde: Gift",
+            "hkraSkill": "Heilkunde: Krankheiten",
+            "hseeSkill": "Heilkunde: Seele",
+            "hwunSkill": "Heilkunde: Wunden",
             "holzSkill": "Holzbearbeitung",
             "instSkill": "Instrumentenbauer",
             "kartSkill": "Kartographie",
@@ -324,6 +325,8 @@
             "newcombatTrait": "Neue Sonderfertigkeit",
             "addItem": "Gegenstand hinzufügen",
             "addMoney": "Geld hinzufügen",
+            "addSpell": "Zauber hinzufügen",
+            "newspell": "Neuer Zauber",
             "newGeneralItem": "Neuer Gegenstand",
             "newgenerals": "Neuer Gegenstand",
             "newmelee-weapons": "Neue Nahkampfwaffe",
@@ -339,7 +342,12 @@
             "shields": "Schilde",
             "armour": "Rüstung",
             "generals": "Allgemeine Gegenstände",
-            "InvEdit": "Darf Inventar hinzufügen ?"
+            "InvEdit": "Darf Inventar hinzufügen ?",
+            "AllSkills": "Alle Skills angezeigt ?",
+            "mgeneral": "Allgemein",
+            "cast": "Zauber",
+            "ritual": "Rituale",
+            "madditional": "Sonstiges"
         },
         "chat":{
             "flaw": {
@@ -450,7 +458,11 @@
             "regIII": "Meisterliche Regeneration",
             "leftHand": "Linkhand",
             "schildI": "Schildkampf I",
-            "schildII": "Schildkampf II"
+            "schildII": "Schildkampf II",
+            "armour1": "Rüstungsgewöhnung I",
+            "armour2": "Rüstungsgewöhnung II",
+            "armour3": "Rüstungsgewöhnung III",
+            "talentSp": "Talentspezialisierung"
         }
     }
 }

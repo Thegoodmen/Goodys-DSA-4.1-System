@@ -10,16 +10,16 @@
                 <input name="data.type" type="text" value="{{data.type}}" style="width: 165px;" />
             </div>
             <div style="width: 100px; height: 50px; float: left;">
-                <b>{{localize "GDSA.itemsheet.gRS"}}</b><br />
-                <input name="data.gRS" type="text" value="{{data.gRS}}" style="width: 90px;" />
+                <b>{{localize "GDSA.itemsheet.star"}}</b><br />
+                <input name="data.star" type="text" value="{{data.star}}" style="width: 90px;" />
             </div>
-            <div style="width: 100px; height: 50px; float: left;">
-                <b>{{localize "GDSA.itemsheet.gBE"}}</b><br />
-                <input name="data.gBE" type="text" value="{{data.gBE}}" style="width: 90px;" />
+            <div style="width: 35px; height: 50px; float: left; text-align: center;">
+                <b>Z</b><br />
+                <input name="data.Z" type="checkbox" {{checked data.Z}} style="width: 25px;" />
             </div>
             <div style="width: 75px; height: 50px; float: left; text-align: center;">
                 <b>{{localize "GDSA.itemsheet.worn"}}</b><br />
-                <input name="data.worn" type="checkbox" value="{{data.worn}}" style="width: 65px;">
+                <input name="data.worn" type="checkbox" {{checked data.worn}} style="width: 65px;">
             </div>
         </div>
         <div style="width: 450px; height: 50px;">

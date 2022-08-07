@@ -11,7 +11,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             height: 825,
             resizable: false,
             tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "mainPage" },
-                    {navSelector: ".skill-tabs", contentSelector: ".skill-body", initial: "combatSkills"}],
+                    {navSelector: ".skill-tabs", contentSelector: ".skill-body", initial: "combatSkills"},
+                    {navSelector: ".magic-tabs", contentSelector: ".magic-body", initial: "mgeneral"}],
             classes: ["GDSA", "sheet", "characterSheet"]
         });
     }
@@ -66,6 +67,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         sheetData.shields = baseData.items.filter(function(item) {return item.type == "shields"});
         sheetData.armour = baseData.items.filter(function(item) {return item.type == "armour"});
 
+        sheetData.spells = baseData.items.filter(function(item) {return item.type == "spell"});
+
         sheetData.equiptMelee = sheetData.meleeweapons.filter(function(item) {return item.data.worn == true});
         sheetData.equiptRange = sheetData.rangeweapons.filter(function(item) {return item.data.worn == true});
         sheetData.equiptShield = sheetData.shields.filter(function(item) {return item.data.worn == true});
@@ -104,6 +107,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".item-remove").click(this._onRemoveEquip.bind(this));
             html.find(".item-apply").click(this._onEquipEquip.bind(this));
             html.find(".change-money").click(this._onMoneyChange.bind(this));
+
+            html.find(".openSpell").click(this._openSpell.bind(this));
 
             new ContextMenu(html, ".item-context", this.itemContextMenu);
         }
@@ -687,10 +692,43 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         }
     }
 
+    _openSpell(event) {
+
+        event.preventDefault();
+
+        let element = event.currentTarget;
+        let pageString = element.closest(".openSpell").dataset.page;
+        let code = "LCD";
+        let page = "0";
+
+        if (pageString != "") {
+            if (pageString.split(" ").length > 1) {
+
+                code = pageString.split(" ")[0];
+                page = pageString.split(" ")[1];
+            } else {
+                
+                page = pageString;
+            }
+        }
+
+        page = parseInt(page);
+        if (ui.PDFoundry) {
+
+            ui.PDFoundry.openPDFByCode(code, { page });
+
+        } else {
+
+            ui.notifications.warn('PDFoundry must be installed to use source links.');
+
+        }
+    }
+
     calculateValues(sheetData) {
         
         let advantages = sheetData.items.filter(function(item) {return item.type == "advantage"});
         let flaws = sheetData.items.filter(function(item) {return item.type == "flaw"});
+        let generalTraits = sheetData.items.filter(function(item) {return item.type == "generalTrait"});
         let combatTraits = sheetData.items.filter(function(item) {return item.type == "combatTrait"});
         let meleeweapons = sheetData.items.filter(function(item) {return item.type == "melee-weapons"});
         let armour = sheetData.items.filter(function(item) {return item.type == "armour"});
@@ -698,8 +736,81 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let equiptMelee = meleeweapons.filter(function(item) {return item.data.worn == true});
         let equiptArmour = armour.filter(function(item) {return item.data.worn == true});
         let equiptShields = shields.filter(function(item) {return item.data.worn == true});
+       
+        // Rüstung
 
-        let BE = parseInt(sheetData.data.BE);
+        let headArmour = 0;
+        let bodyArmour = 0;
+        let backArmour = 0;
+        let stomachArmour = 0;
+        let rightarmArmour = 0;
+        let leftarmArmour = 0;
+        let rightlegArmour = 0;
+        let leftlegArmour = 0;
+        let gRSArmour = 0;
+        let gBEArmour = 0;
+        let stars = 0;
+
+        for (const item of equiptArmour) {
+
+            let n = 0;
+            let m = 1;
+            if (item.data.z && parseInt(item.data.star) > 0) m = 2;
+
+            headArmour += parseInt(item.data.head);
+            n += (parseInt(item.data.head) * 2)
+            bodyArmour += parseInt(item.data.body);
+            n += (parseInt(item.data.body) * 4)
+            backArmour += parseInt(item.data.back);
+            n += (parseInt(item.data.back) * 4)
+            stomachArmour += parseInt(item.data.stomach);
+            n += (parseInt(item.data.stomach) * 4)
+            rightarmArmour += parseInt(item.data.rightarm);
+            n += (parseInt(item.data.rightarm) * 1)
+            leftarmArmour += parseInt(item.data.leftarm);
+            n += (parseInt(item.data.leftarm) * 1)
+            rightlegArmour += parseInt(item.data.rightleg);
+            n += (parseInt(item.data.rightleg) * 2)
+            leftlegArmour += parseInt(item.data.leftleg);
+            n += (parseInt(item.data.leftleg) * 2)
+
+            if (item.data.z != true) stars += parseInt(item.data.star);
+
+            gRSArmour += (n / 20);
+            gBEArmour += ((n / 20) / m);
+        }
+
+        sheetData.data.headArmour = headArmour;
+        sheetData.data.bodyArmour = bodyArmour;
+        sheetData.data.backArmour = backArmour;
+        sheetData.data.stomachArmour = stomachArmour;
+        sheetData.data.rightarmArmour = rightarmArmour;
+        sheetData.data.leftarmArmour = leftarmArmour;
+        sheetData.data.rightlegArmour = rightlegArmour;
+        sheetData.data.leftlegArmour = leftlegArmour;
+        sheetData.data.gRSArmour = Math.round(gRSArmour);
+
+        let o = 0;
+
+        let checkArmour1 = combatTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.trait.armour1"))})[0];
+        
+        if(checkArmour1 != null) { 
+        
+            let isrightArmour = equiptArmour.filter(function(item) {return item.data.type.includes(checkArmour1.split("(")[1].slice(0, -1))});
+            if(isrightArmour.length > 0) o = 1;
+        }    
+
+        let checkArmour2 = combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.armour2")})[0];
+        let checkArmour3 = combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.armour3")})[0];
+
+        if(checkArmour2 != null) o = 1;
+        if(checkArmour3 != null) o += 1;
+
+        gBEArmour = gBEArmour - stars - o;
+        if(gBEArmour < 0) gBEArmour = 0;
+        sheetData.data.gBEArmour = Math.round(gBEArmour);
+        
+        let BE = parseInt(sheetData.data.gBEArmour);
 
         // Geschwindigkeit
 
@@ -723,7 +834,13 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         // INI Basis
 
-        sheetData.data.INIBasis.value = sheetData.data.INIBasis.value - sheetData.data.INIBasis.modi + BE - sheetData.data.equipINI;
+        let eBE = BE;
+        let checkArmour = combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.armour3")})[0];
+        if(checkArmour != null) eBE = (BE - 2) / 2;
+        if(eBE < 0) eBE = 0;
+
+        let INIBasis = Math.round(((parseInt(sheetData.data.MU.value) + parseInt(sheetData.data.MU.value) + parseInt(sheetData.data.IN.value) + parseInt(sheetData.data.GE.value)) / 5));
+        sheetData.data.INIBasis.value = INIBasis;
         sheetData.data.INIBasis.modi = 0;
 
         let weaponModi = 0;
@@ -746,7 +863,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if(checkKampfge != null) sheetData.data.INIBasis.modi += 2;
         if(checkKampfre != null) sheetData.data.INIBasis.modi += 4;
 
-        sheetData.data.INIBasis.value = sheetData.data.INIBasis.value + sheetData.data.INIBasis.modi - BE + sheetData.data.equipINI;
+        sheetData.data.INIBasis.value = sheetData.data.INIBasis.value + sheetData.data.INIBasis.modi - eBE + sheetData.data.equipINI;
 
         sheetData.data.INIDice = "1d6";
         if(checkKlingen != null) sheetData.data.INIDice = "2d6";
@@ -772,48 +889,34 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if(checkDogde2 != null) sheetData.data.Dogde += 3;
         if(checkDogde3 != null) sheetData.data.Dogde += 3;
 
-        // Rüstung
+        // Talentspezialisierungen
 
-        let headArmour = 0;
-        let bodyArmour = 0;
-        let backArmour = 0;
-        let stomachArmour = 0;
-        let rightarmArmour = 0;
-        let leftarmArmour = 0;
-        let rightlegArmour = 0;
-        let leftlegArmour = 0;
-        let gRSArmour = 0;
-        let gBEArmour = 0;
+        let skillSpez = generalTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.trait.talentSp"))});
 
-        for (const item of equiptArmour) {
+        let SpezObj = [];
 
-            headArmour += parseInt(item.data.head);
-            bodyArmour += parseInt(item.data.body);
-            backArmour += parseInt(item.data.back);
-            stomachArmour += parseInt(item.data.stomach);
-            rightarmArmour += parseInt(item.data.rightarm);
-            leftarmArmour += parseInt(item.data.leftarm);
-            rightlegArmour += parseInt(item.data.rightleg);
-            leftlegArmour += parseInt(item.data.leftleg);
-            gRSArmour += parseInt(item.data.gRS);
-            gBEArmour += parseInt(item.data.gBE);
+        for (const spezi of skillSpez) {
+
+            let skillName = spezi.name.split("(")[0].substr(22).slice(0,-1);
+            let spezilation = spezi.name.split("(")[1].slice(0, -1);
+
+            const objekt = {
+                fullstring: spezi.name,
+                talentname: skillName,
+                talentshort: Util.getSkillShort(skillName),
+                spezi: spezilation
+            };
+
+            SpezObj.push(objekt);
         }
 
-        sheetData.data.headArmour = headArmour;
-        sheetData.data.bodyArmour = bodyArmour;
-        sheetData.data.backArmour = backArmour;
-        sheetData.data.stomachArmour = stomachArmour;
-        sheetData.data.rightarmArmour = rightarmArmour;
-        sheetData.data.leftarmArmour = leftarmArmour;
-        sheetData.data.rightlegArmour = rightlegArmour;
-        sheetData.data.leftlegArmour = leftlegArmour;
-        sheetData.data.gRSArmour = gRSArmour;
-        sheetData.data.gBEArmour = gBEArmour;
+        sheetData.data.SkillSpez = SpezObj;
         
         // Simple Values / Grapical Values
 
         sheetData.data.AP.spent = parseInt(sheetData.data.AP.value) - parseInt(sheetData.data.AP.free);        
-        sheetData.data.LeP.prozent = 100 / parseInt(sheetData.data.LeP.max) * parseInt(sheetData.data.LeP.value);
+        sheetData.data.LeP.prozent = 100 / parseInt(sheetData.data.LeP.max) * parseInt(sheetData.data.LeP.value);        
+        sheetData.data.AsP.prozent = 100 / parseInt(sheetData.data.AsP.max) * parseInt(sheetData.data.AsP.value);
 
         return sheetData;
     }

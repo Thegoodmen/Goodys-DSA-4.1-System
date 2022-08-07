@@ -410,7 +410,8 @@
             "generalTrait",
             "combatTrait",
             "magicTrait",
-            "holyTrait"
+            "holyTrait",
+            "spell"
         ],
         "templates": {
             "generalItems": {
@@ -484,8 +485,8 @@
             "leftarm": 0,
             "rightleg": 0,
             "leftleg": 0,
-            "gRS": 0,
-            "gBE": 0
+            "star": 0,
+            "Z": false
         },
         "advantage": {
             "templates": [
@@ -518,6 +519,14 @@
         },
         "holyTrait": {
             "name": "Karmalquest"
+        },
+        "spell": {
+            "name": "Blitz dich find",
+            "att1": "KL",
+            "att2": "KL",
+            "att3": "KL",
+            "zfw": 0,
+            "lcdPage": "0"
         }
     }
 }
