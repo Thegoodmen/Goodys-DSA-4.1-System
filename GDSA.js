@@ -7,6 +7,7 @@ import { _getInitiativeFormula } from "./module/combat/initative.js";
 import GDSAItemSheet from "./module/sheets/GDSAItemSheet.js";
 import GDSAPlayerCharakterSheet from "./module/sheets/GDSAPlayerCharakterSheet.js";
 import GDSALootActorSheet from "./module/sheets/GDSALootActorSheet.js";
+import GDSANonPlayerSheet from "./module/sheets/GDSANonPlayerSheet.js";
 
 async function preloadHandlebarsTemplates(){
 
@@ -33,6 +34,8 @@ async function preloadHandlebarsTemplates(){
         "systems/GDSA/templates/partials/character-sheet-giftSkills.hbs",
         "systems/GDSA/templates/partials/character-sheet-woundChart.hbs",
         "systems/GDSA/templates/partials/character-sheet-magicCast.hbs",
+        "systems/GDSA/templates/partials/character-sheet-magicGeneral.hbs",
+        "systems/GDSA/templates/partials/character-sheet-magicRitu.hbs",
         "systems/GDSA/templates/partials/advantages.hbs",
         "systems/GDSA/templates/partials/lang.hbs"
     ];
@@ -59,6 +62,7 @@ Hooks.once("init", function () {
     Actors.unregisterSheet("core", ActorSheet);
     Actors.registerSheet("GDSA", GDSAPlayerCharakterSheet, { makeDefault: true, types: ["PlayerCharakter"] });
     Actors.registerSheet("GDSA", GDSALootActorSheet, { types: ["LootActor"]});
+    Actors.registerSheet("GDSA", GDSANonPlayerSheet, { types: ["NonPlayer"]});
   
     preloadHandlebarsTemplates();
 
@@ -98,6 +102,12 @@ Hooks.once("init", function () {
     Handlebars.registerHelper("getData", function(object1, value1) {
 
         return object1[value1];
+    });
+
+    Handlebars.registerHelper("getRitData", function(object1, value1) {
+        
+        let fullValue = "rit" + value1; 
+        return object1[fullValue];
     });
 
     Handlebars.registerHelper("getDataValue", function(object1, value1) {

@@ -10,7 +10,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             width: 632,
             height: 825,
             resizable: false,
-            tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "mainPage" },
+            tabs: [ {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "mainPage"},
                     {navSelector: ".skill-tabs", contentSelector: ".skill-body", initial: "combatSkills"},
                     {navSelector: ".magic-tabs", contentSelector: ".magic-body", initial: "mgeneral"}],
             classes: ["GDSA", "sheet", "characterSheet"]
@@ -20,7 +20,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
     itemContextMenu = [{
 
           name: game.i18n.localize("GDSA.system.edit"),
-          icon: '<i class="fas fa-edit"></i>',
+          icon: '<i class="fas fa-edit" />',
           callback: element => {
             const item = this.actor.items.get(element.data("item-id"));
             item.sheet.render(true);
@@ -28,7 +28,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         },
         {
           name: game.i18n.localize("GDSA.system.delete"),
-          icon: '<i class="fas fa-trash"></i>',
+          icon: '<i class="fas fa-trash" />',
           callback: element => {
             this.actor.deleteEmbeddedDocuments("Item", [element.data("item-id")]);
           }
@@ -68,13 +68,17 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         sheetData.armour = baseData.items.filter(function(item) {return item.type == "armour"});
 
         sheetData.spells = baseData.items.filter(function(item) {return item.type == "spell"});
+        sheetData.rituals = baseData.items.filter(function(item) {return item.type == "ritual"});
+        sheetData.ritualSkills = baseData.items.filter(function(item) {return item.type == "ritualSkill"});
+        sheetData.magicTraits = baseData.items.filter(function(item) {return item.type == "magicTrait"});
+        sheetData.objectTraits = baseData.items.filter(function(item) {return item.type == "objectTrait"});
 
         sheetData.equiptMelee = sheetData.meleeweapons.filter(function(item) {return item.data.worn == true});
         sheetData.equiptRange = sheetData.rangeweapons.filter(function(item) {return item.data.worn == true});
         sheetData.equiptShield = sheetData.shields.filter(function(item) {return item.data.worn == true});
         sheetData.equiptArmour = sheetData.armour.filter(function(item) {return item.data.worn == true});
 
-        sheetData.inventar = sheetData.meleeweapons.concat(sheetData.rangeweapons, sheetData.shields, sheetData.shields, sheetData.armour, sheetData.generals);
+        sheetData.inventar = sheetData.meleeweapons.concat(sheetData.rangeweapons, sheetData.shields, sheetData.armour, sheetData.generals);
 
         sheetData = this.calculateValues(sheetData);
 
@@ -100,6 +104,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".getDMG").click(this.getDMG.bind(this));
             html.find(".getHeal").click(this.getHeal.bind(this));
             html.find(".doReg").click(this.doReg.bind(this));
+            html.find(".lossAsP").click(this.lossAsP.bind(this));
+            html.find(".getAsP").click(this.getAsP.bind(this));
 
             html.find(".stat-plus").click(this._addStat.bind(this));
             html.find(".stat-minus").click(this._decreaseStat.bind(this));
@@ -109,6 +115,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".change-money").click(this._onMoneyChange.bind(this));
 
             html.find(".openSpell").click(this._openSpell.bind(this));
+            html.find(".openRitual").click(this._openRitual.bind(this));
 
             new ContextMenu(html, ".item-context", this.itemContextMenu);
         }
@@ -500,6 +507,68 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         ChatMessage.create(chatData);  
     }
 
+    async lossAsP(event) {
+
+        event.preventDefault();
+        const template = "systems/GDSA/templates/chat/AsPInfo.hbs";
+
+        let AsPLossInfo = await Dialog. GetAsPLossInfo();
+        let actor = this.actor;
+        let data = actor.data.data;
+
+        if (AsPLossInfo.cancelled) return;
+        let LossValue = AsPLossInfo.value;
+
+        data.AsP.value -= parseInt(LossValue);
+        this.actor.update({ "data.AsP.value": data.AsP.value });
+        this.render();
+
+        let templateContext = {
+            actor: actor,
+            value: LossValue,
+            heal: false,
+            dmg: true}; 
+    
+        let chatData = {
+            user: game.user.id,
+            speaker: ChatMessage.getSpeaker({ actor }),
+            roll: true,
+            content: await renderTemplate(template, templateContext)};
+        
+        ChatMessage.create(chatData);  
+    }
+
+    async getAsP(event) {
+
+        event.preventDefault();
+        const template = "systems/GDSA/templates/chat/AsPInfo.hbs";
+
+        let AsPInfo = await Dialog. GetAsPInfo();
+        let actor = this.actor;
+        let data = actor.data.data;
+
+        if (AsPInfo.cancelled) return;
+        let GainValue = AsPInfo.value;
+
+        data.AsP.value += parseInt(GainValue);
+        this.actor.update({ "data.AsP.value": data.AsP.value });
+        this.render();
+
+        let templateContext = {
+            actor: actor,
+            value: GainValue,
+            heal: true,
+            dmg: false}; 
+    
+        let chatData = {
+            user: game.user.id,
+            speaker: ChatMessage.getSpeaker({ actor }),
+            roll: true,
+            content: await renderTemplate(template, templateContext)};
+        
+        ChatMessage.create(chatData);  
+    }
+
     async _onMoneyChange(event) {
 
         event.preventDefault();
@@ -669,6 +738,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             case "range-weapons":
             case "shields":
             case "armour":
+            case "spell":
+            case "ritual":
 
                 const siblings = this.actor.items.filter(i => {
                     return (i.data._id !== source.data._id);
@@ -699,6 +770,38 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let element = event.currentTarget;
         let pageString = element.closest(".openSpell").dataset.page;
         let code = "LCD";
+        let page = "0";
+
+        if (pageString != "") {
+            if (pageString.split(" ").length > 1) {
+
+                code = pageString.split(" ")[0];
+                page = pageString.split(" ")[1];
+            } else {
+                
+                page = pageString;
+            }
+        }
+
+        page = parseInt(page);
+        if (ui.PDFoundry) {
+
+            ui.PDFoundry.openPDFByCode(code, { page });
+
+        } else {
+
+            ui.notifications.warn('PDFoundry must be installed to use source links.');
+
+        }
+    }
+
+    _openRitual(event) {
+
+        event.preventDefault();
+
+        let element = event.currentTarget;
+        let pageString = element.closest(".openRitual").dataset.page;
+        let code = "wdz";
         let page = "0";
 
         if (pageString != "") {
@@ -792,11 +895,11 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         let o = 0;
 
-        let checkArmour1 = combatTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.trait.armour1"))})[0];
+        let checkArmour1 = combatTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.trait.armour1") + " (")})[0];
         
         if(checkArmour1 != null) { 
         
-            let isrightArmour = equiptArmour.filter(function(item) {return item.data.type.includes(checkArmour1.split("(")[1].slice(0, -1))});
+            let isrightArmour = equiptArmour.filter(function(item) {return item.data.type.includes(checkArmour1.name.split("(")[1].slice(0, -1))});
             if(isrightArmour.length > 0) o = 1;
         }    
 

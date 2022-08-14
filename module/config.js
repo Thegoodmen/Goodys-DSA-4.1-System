@@ -35,6 +35,26 @@ GDSA.rangeSkills = {
     throwingspear: "GDSA.rangeskill.throwingspear"
 }
 
+GDSA.ritualSkills = {
+    gild: "GDSA.ritualSkills.gild",
+    scha: "GDSA.ritualSkills.scha",
+    alch: "GDSA.ritualSkills.alch",
+    kris: "GDSA.ritualSkills.kris",
+    hexe: "GDSA.ritualSkills.hexe",
+    drui: "GDSA.ritualSkills.drui",
+    geod: "GDSA.ritualSkills.geod",
+    zibi: "GDSA.ritualSkills.zibi",
+    durr: "GDSA.ritualSkills.durr",
+    derw: "GDSA.ritualSkills.derw",
+    tanz: "GDSA.ritualSkills.tanz",
+    bard: "GDSA.ritualSkills.bard",
+    gruf: "GDSA.ritualSkills.gruf",
+    gban: "GDSA.ritualSkills.gban",
+    gbin: "GDSA.ritualSkills.gbin",
+    gauf: "GDSA.ritualSkills.gauf",
+    petr: "GDSA.ritualSkills.petr"
+}
+
 GDSA.meleeSkill = {
     andr: {
         skill: "andr",
@@ -389,141 +409,141 @@ GDSA.natureSkill = {
 GDSA.knowledgeSkill = {
     anat: {
         skill: "anat",
+        att1: "MU",
+        att2: "KL",
+        att3: "FF"
+    },
+    bauk: {
+        skill: "bauk",
+        att1: "KL",
+        att2: "KL",
+        att3: "FF"
+    },
+    buks: {
+        skill: "buks",
+        att1: "KL",
+        att2: "KL",
+        att3: "IN"
+    },
+    geog: {
+        skill: "geog",
+        att1: "KL",
+        att2: "KL",
+        att3: "IN"
+    },
+    gesc: {
+        skill: "gesc",
+        att1: "KL",
+        att2: "KL",
+        att3: "IN"
+    },
+    gest: {
+        skill: "gest",
+        att1: "KL",
+        att2: "IN",
+        att3: "FF"
+    },
+    goet: {
+        skill: "goet",
+        att1: "KL",
+        att2: "KL",
+        att3: "IN"
+    },
+    hera: {
+        skill: "hera",
+        att1: "KL",
+        att2: "KL",
+        att3: "FF"
+    },
+    huet: {
+        skill: "huet",
         att1: "KL",
         att2: "IN",
         att3: "KO"
     },
-    bauk: {
-        skill: "bauk",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
-    },
-    buks: {
-        skill: "buks",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
-    },
-    geog: {
-        skill: "geog",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
-    },
-    gesc: {
-        skill: "gesc",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
-    },
-    gest: {
-        skill: "gest",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
-    },
-    goet: {
-        skill: "goet",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
-    },
-    hera: {
-        skill: "hera",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
-    },
-    huet: {
-        skill: "huet",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
-    },
     krie: {
         skill: "krie",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
+        att1: "MU",
+        att2: "KL",
+        att3: "CH"
     },
     kryp: {
         skill: "kryp",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
+        att1: "KL",
+        att2: "KL",
+        att3: "IN"
     },
     magi: {
         skill: "magi",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
+        att1: "KL",
+        att2: "KL",
+        att3: "IN"
     },
     mech: {
         skill: "mech",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
+        att1: "KL",
+        att2: "KL",
+        att3: "FF"
     },
     pfla: {
         skill: "pfla",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
+        att1: "KL",
+        att2: "IN",
+        att3: "FF"
     },
     phil: {
         skill: "phil",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
+        att1: "KL",
+        att2: "KL",
+        att3: "IN"
     },
     calc: {
         skill: "calc",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
+        att1: "KL",
+        att2: "KL",
+        att3: "IN"
     },
     rect: {
         skill: "rect",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
+        att1: "KL",
+        att2: "KL",
+        att3: "IN"
     },
     sage: {
         skill: "sage",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
+        att1: "KL",
+        att2: "IN",
+        att3: "CH"
     },
     shae: {
         skill: "shae",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
+        att1: "KL",
+        att2: "IN",
+        att3: "IN"
     },
     spra: {
         skill: "spra",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
+        att1: "KL",
+        att2: "KL",
+        att3: "IN"
     },
     staa: {
         skill: "staa",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
+        att1: "KL",
+        att2: "IN",
+        att3: "CH"
     },
     ster: {
         skill: "ster",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
+        att1: "KL",
+        att2: "KL",
+        att3: "IN"
     },
     tier: {
         skill: "tier",
-        att1: "IN",
-        att2: "GE",
-        att3: "KO"
+        att1: "MU",
+        att2: "KL",
+        att3: "IN"
     }
 }
 

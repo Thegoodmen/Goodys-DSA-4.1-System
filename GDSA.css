@@ -617,6 +617,7 @@
   text-align: left;
   padding-left: 10px;
   padding-bottom: 6px;
+  display: inline-block;
 }
 .GDSA.sheet.characterSheet .tableBnt {
   width: 30px;
@@ -675,6 +676,11 @@
   float: left;
   overflow-y: scroll;
   height: 70px;
+}
+.GDSA.sheet.characterSheet .magtraits {
+  float: left;
+  overflow-y: scroll;
+  height: 140px;
 }
 .GDSA.sheet.characterSheet .trait {
   width: 552px;
@@ -803,6 +809,27 @@
   width: 514px;
   text-align: center;
   border: 1px solid black;
+}
+.GDSA.sheet.characterSheet .spellButtonBox {
+  width: 610px;
+  text-align: center;
+}
+.GDSA.sheet.characterSheet .skill-rit {
+  width: 400px;
+  overflow-y: scroll;
+  display: inline-block;
+  height: 180px;
+}
+.GDSA.sheet.characterSheet .magicTraitBox {
+  width: 562px;
+  height: 170px;
+  float: left;
+  border: 2px solid black;
+  margin: 20px 24px 0px 24px;
+}
+.GDSA.sheet.characterSheet .addRitKenn {
+  width: 100%;
+  text-align: center;
 }
 .GDSA.sheet.itemSheet .nameLable {
   width: 373px;

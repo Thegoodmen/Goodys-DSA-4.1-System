@@ -60,6 +60,60 @@ export async function GetDMGInfo() {
     });
 }
 
+export async function GetAsPLossInfo() {
+
+    const template = "systems/GDSA/templates/chat/getAsPLoss-dialog.hbs";
+    const html = await renderTemplate(template, {});
+
+    return new Promise(resolve => {
+        const data = {
+
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+
+                normal: {
+                    label: game.i18n.format("GDSA.chat.skill.do"),
+                    callback: html => resolve(_processGetDMGOptions(html[0].querySelector("form")))},
+                cancel: {
+                    label: game.i18n.format("GDSA.chat.skill.cancel"),
+                    callback: html => resolve({cancelled: true})}
+            },
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        new Dialog(data, null).render(true);
+    });
+}
+
+export async function GetAsPInfo() {
+
+    const template = "systems/GDSA/templates/chat/getAsP-dialog.hbs";
+    const html = await renderTemplate(template, {});
+
+    return new Promise(resolve => {
+        const data = {
+
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+
+                normal: {
+                    label: game.i18n.format("GDSA.chat.skill.do"),
+                    callback: html => resolve(_processGetHealOptions(html[0].querySelector("form")))},
+                cancel: {
+                    label: game.i18n.format("GDSA.chat.skill.cancel"),
+                    callback: html => resolve({cancelled: true})}
+            },
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        new Dialog(data, null).render(true);
+    });
+}
+
 function _processGetDMGOptions(form) {
 
     return {value: parseInt(form.dmg.value)}

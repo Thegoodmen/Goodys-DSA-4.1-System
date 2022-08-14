@@ -2,7 +2,8 @@
     "Actor": {
         "types": [
             "PlayerCharakter",
-            "LootActor"
+            "LootActor",
+            "NonPlayer"
         ],
         "templates": {
             "Stats": {
@@ -98,6 +99,9 @@
                     "tempmodi": 0
                 }
             }
+        },
+        "NonPlayer": {
+            "name": ""
         },
         "LootActor": {
             "money": {
@@ -392,7 +396,24 @@
                 "prop": "",
                 "tale": "",
                 "tiem": "",
-                "zwer": ""
+                "zwer": "",
+                "ritgild": "",
+                "ritscha": "",
+                "ritalch": "",
+                "ritkris": "",
+                "rithexe": "",
+                "ritdrui": "",
+                "ritgeod": "",
+                "ritzibi": "",
+                "ritdurr": "",
+                "ritderw": "",
+                "rittanz": "",
+                "ritbard": "",
+                "ritgruf": "",
+                "ritgban": "",
+                "ritgbin": "",
+                "ritgauf": "",
+                "ritpetr": ""
             }
         }
     },
@@ -410,8 +431,11 @@
             "generalTrait",
             "combatTrait",
             "magicTrait",
+            "objectTrait",
             "holyTrait",
-            "spell"
+            "spell",
+            "ritual",
+            "ritualSkill"
         ],
         "templates": {
             "generalItems": {
@@ -517,6 +541,9 @@
         "magicTrait": {
             "name": "Verbotene Pforten"
         },
+        "objectTrait": {
+            "name": "Stabzauber: Bindung"
+        },
         "holyTrait": {
             "name": "Karmalquest"
         },
@@ -527,6 +554,19 @@
             "att3": "KL",
             "zfw": 0,
             "lcdPage": "0"
+        },
+        "ritual": {
+            "name": "Stab: Bindung",
+            "att1": "KL",
+            "att2": "KL",
+            "att3": "KL",
+            "skill": "gild",
+            "disad": 4,
+            "wdzPage": "0"
+        },
+        "ritualSkill": {
+            "skill": "gild",
+            "rkw": 0
         }
     }
 }

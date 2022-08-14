@@ -14,6 +14,23 @@ export default class GDSALootActorSheet extends ActorSheet {
         });
     }
 
+    itemContextMenu = [{
+
+            name: game.i18n.localize("GDSA.system.edit"),
+            icon: '<i class="fas fa-edit" />',
+            callback: element => {
+                const item = this.actor.items.get(element.data("item-id"));
+                item.sheet.render(true);
+            }
+        },{
+            name: game.i18n.localize("GDSA.system.delete"),
+            icon: '<i class="fas fa-trash" />',
+            callback: element => {
+                this.actor.deleteEmbeddedDocuments("Item", [element.data("item-id")]);
+            }
+        }
+    ]; 
+
     getData() {
 
         const baseData = super.getData();
@@ -37,5 +54,19 @@ export default class GDSALootActorSheet extends ActorSheet {
         sheetData.armour = baseData.items.filter(function(item) {return item.type == "armour"});
         
         return sheetData;
+    }
+
+    activateListeners(html) {
+
+        if(this.isEditable) {
+
+            new ContextMenu(html, ".item-context", this.itemContextMenu);
+        }
+
+        if(this.actor.isOwner){
+
+        }
+
+        super.activateListeners(html);
     }
 }
