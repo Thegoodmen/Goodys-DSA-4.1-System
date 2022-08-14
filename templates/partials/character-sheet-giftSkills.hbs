@@ -1,6 +1,6 @@
 <table style="display: inline-block">
 
-    {{#each configgiftSkill}}
+    {{#each config.giftSkill}}
         {{#if (ifOR ../data.allSkills (notEmpty (getData ../data/skill ./skill) includeZero=true))}}
             <tr>
                 <td class="skillTableNameBig">{{localize (concat "GDSA.charactersheet." skill "Skill")}} 
