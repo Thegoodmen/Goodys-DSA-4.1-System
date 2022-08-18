@@ -1,0 +1,77 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <div class="sheet2">
+
+    <header class="sheet-header">
+        <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="64" width="64"/>
+        <h1><input class="nameLable" name="name" type="text" value="{{actor.name}}" placeholder="{{ localize 'Name' }}"/></h1>
+    </header>
+
+        <div class="invFiller2"></div>
+
+		<section class="sheet-body">
+
+            <div class="merchantInfo">
+                <textarea class="merchantDisc" name="data.description">{{data.description}}</textarea>
+                <div class="affiliate">
+                    Zugehörigkeit:<br />
+                    {{#each affiliation as |item id|}}
+                        <div class="affiliateBar {{#if ../isGM}}item-context{{/if}}" data-item-id="{{_id}}">
+                            <div class="affiImg"><img class="affiIMG" src="{{item.img}}" title="{{item.name}}" /></div>
+                            <div class="affiName" style="color: {{data.fontColo}}; background-color: {{data.backgroundColor}}">{{item.name}}</div>
+                        </div>
+                    {{/each}}
+                </div>
+                <div class="classification">
+                    Qualität: <select class="classificationSelection" name="data.skill">
+                        {{#select data.skill}}
+                        <option value="1">Krämer</option>
+                        <option value="2">Dorfhändler</option>
+                        <option value="3">Reisender</option>
+                        <option value="4">Stadthändler</option>
+                        <option value="5">Großhändler</option>
+                        {{/select}}
+                    </select><br />
+                    {{localize "GDSA.charactersheet.uberSkill"}}<a class="merch-roll" data-skill="uber" title="roll"><i class="fas fa-dice-d20 merchRoll"></i></a><br />
+                    {{localize "GDSA.charactersheet.handSkill"}}<a class="merch-roll" data-skill="hand" title="roll"><i class="fas fa-dice-d20 merchRoll"></i></a>
+                </div>
+            </div>
+
+            <div class="inventory2">
+                <section class="item-list">
+            
+                    <div class="invtableborder2">
+                        <div class="invHeader2">{{localize "GDSA.charactersheet.goods"}}
+                            {{#if isGM}}
+                                <div class="addItemBox2"><a class="item-create" data-type="generals" title="{{localize "GDSA.charactersheet.addItem"}}">
+                                    <i class="fas fa-plus plusSym2"></i>
+                                </a></div>
+                            {{/if}}
+                        </div>
+                        {{#each inventar as |item id|}}
+                            <div class="invItem2 {{#if ../isGM}}item-context{{/if}} item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{data.type}}</i>
+                                {{#if ../isGM}}
+                                    <div class="changeAmount">
+                                        <a class="addQuant"><i class="fas fa-plus"></i></a>
+                                        <a class="removeQuant"><i class="fas fa-minus"></i></a>
+                                    </div>
+                                {{/if}}
+                                <div class="itemAmountBox Quantity"><input class="itemAmount Quantity" name="data.quantity" value="{{data.quantity}}" type="number" disabled></div>
+                                <div class="itemImgBox2"><img class="itemImg" src="{{img}}"></div>
+                                <div class="addItemBox3">
+                                    {{#if (hasGold data.value)}}{{getGold data.value}} <i class="fas fa-coins gCoinSym"></i>{{/if}}
+                                    {{#if (hasSilver data.value)}}{{getSilver data.value}} <i class="fas fa-coins sCoinSym"></i>{{/if}}
+                                    {{#if (hasCopper data.value)}}{{getCopper data.value}} <i class="fas fa-coins cCoinSym"></i>{{/if}}
+                                    {{#if (hasNickel data.value)}}{{getNickel data.value}} <i class="fas fa-coins iCoinSym"></i>{{/if}}
+                                </div>
+                                <div class="addItemBox2">{{#if (isGreater data.quantity 0)}}<a class="buyItem">{{/if}}
+                                    <i class="fas fa-shopping-cart plusSym3 {{#unless (isGreater data.quantity 0)}}shopSymHide{{/unless}}"></i>
+                                {{#if (isGreater data.quantity 0)}}</a>{{/if}}</div>
+                            </div>
+	                    {{/each}}
+                    </div>
+        
+                </section>
+            </div>
+		</section>
+    </div>
+</form>

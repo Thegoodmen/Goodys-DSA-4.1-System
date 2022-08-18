@@ -7,6 +7,7 @@ import { _getInitiativeFormula } from "./module/combat/initative.js";
 import GDSAItemSheet from "./module/sheets/GDSAItemSheet.js";
 import GDSAPlayerCharakterSheet from "./module/sheets/GDSAPlayerCharakterSheet.js";
 import GDSALootActorSheet from "./module/sheets/GDSALootActorSheet.js";
+import GDSAMerchantSheet from "./module/sheets/GDSAMerchantSheet.js";
 import GDSANonPlayerSheet from "./module/sheets/GDSANonPlayerSheet.js";
 
 async function preloadHandlebarsTemplates(){
@@ -61,6 +62,7 @@ Hooks.once("init", function () {
 
     Actors.unregisterSheet("core", ActorSheet);
     Actors.registerSheet("GDSA", GDSAPlayerCharakterSheet, { makeDefault: true, types: ["PlayerCharakter"] });
+    Actors.registerSheet("GDSA", GDSAMerchantSheet, { types: ["LootActor"]});
     Actors.registerSheet("GDSA", GDSALootActorSheet, { types: ["LootActor"]});
     Actors.registerSheet("GDSA", GDSANonPlayerSheet, { types: ["NonPlayer"]});
   
@@ -156,6 +158,81 @@ Hooks.once("init", function () {
         let newValue = parseInt(value) + 2;
         
         return newValue;
+    });
+
+    Handlebars.registerHelper("doLog", function(value) {
+
+        console.log(value);
+
+        return "";
+    });
+
+    Handlebars.registerHelper("getGold", function(value) {
+
+        let gold = value.slice(0, -3);
+
+        return gold;
+    });
+
+    Handlebars.registerHelper("hasGold", function(value) {
+        
+        if(parseInt(value) > 999) return true;
+        
+        return false;
+    });
+
+    Handlebars.registerHelper("getSilver", function(value) {
+
+        let lengt = value.length;
+        let silver = value[lengt-3]
+
+        return silver;
+    });
+
+    Handlebars.registerHelper("hasSilver", function(value) {
+
+        let lengt = value.length;
+        let silver = value[lengt-3]
+
+        if(silver != null && parseInt(silver) != 0) return true;
+
+        return false;
+    });
+
+    Handlebars.registerHelper("getCopper", function(value) {
+
+        let lengt = value.length;
+        let copper = value[lengt-2]
+
+        return copper;
+    });
+
+    Handlebars.registerHelper("hasCopper", function(value) {
+
+        let lengt = value.length;
+        let copper = value[lengt-2]
+
+        if(copper != null && parseInt(copper) != 0) return true;
+
+        return false;
+    });
+
+    Handlebars.registerHelper("getNickel", function(value) {
+
+        let lengt = value.length;
+        let nickel = value[lengt-1]
+
+        return nickel;
+    });
+
+    Handlebars.registerHelper("hasNickel", function(value) {
+
+        let lengt = value.length;
+        let nickel = value[lengt-1]
+
+        if(nickel != null && parseInt(nickel) != 0) return true;
+
+        return false;
     });
 
 });

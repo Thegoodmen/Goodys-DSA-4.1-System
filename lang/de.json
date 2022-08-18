@@ -108,7 +108,8 @@
             "lLeg": "l. Bein",
             "typeItem": "Art des Gegenstandes",
             "heigt": "Größe",
-            "star": "Sternchen"
+            "star": "Sternchen",
+            "parryWeapon": "Paradewaffe"
         },
         "charactersheet": {
             "system": "Das schwarze Auge",
@@ -374,7 +375,9 @@
             "mgeneral": "Allgemein",
             "cast": "Zauber",
             "ritual": "Rituale",
-            "madditional": "Sonstiges"
+            "madditional": "Sonstiges",
+            "goods": "Waren",
+            "sell": "Einkauf"
         },
         "chat":{
             "flaw": {
@@ -491,7 +494,9 @@
             "armour1": "Rüstungsgewöhnung I",
             "armour2": "Rüstungsgewöhnung II",
             "armour3": "Rüstungsgewöhnung III",
-            "talentSp": "Talentspezialisierung"
+            "talentSp": "Talentspezialisierung",
+            "parryW1": "Parierwaffen I",
+            "parryW2": "Parierwaffen II"
         }
     }
 }

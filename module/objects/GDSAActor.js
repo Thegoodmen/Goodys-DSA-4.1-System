@@ -198,7 +198,7 @@ export default class GDSAActor extends Actor {
         data.LeP.max = Math.round(((parseInt(data.KO.value) + parseInt(data.KO.value) + parseInt(data.KK.value)) / 2) + parseInt(data.LePInfo.modi));
         data.AuP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.KO.value) + parseInt(data.GE.value)) / 2) + parseInt(data.AuPInfo.modi));
 
-        if (data.AsPInfo.modi > 0)
+        if (data.AsPInfo.modi != 0)
             data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value)) / 2) + parseInt(data.AsPInfo.modi));
         else
             data.AsP.max =  0;

@@ -435,14 +435,16 @@
             "holyTrait",
             "spell",
             "ritual",
-            "ritualSkill"
+            "ritualSkill",
+            "affiliation"
         ],
         "templates": {
             "generalItems": {
                 "weight": 10,
                 "value": 100,
                 "description": "",
-                "worn": false
+                "worn": false,
+                "quantity": 1
             },
             "trait":{
                 "name": "Arroganz",
@@ -567,6 +569,10 @@
         "ritualSkill": {
             "skill": "gild",
             "rkw": 0
+        },
+        "affiliation": {
+            "fontColo": "#ffffff",
+            "backgroundColor": "#000000"
         }
     }
 }

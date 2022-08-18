@@ -29,6 +29,33 @@
         padding-top: 1px;
         margin-left: 10px;
     };
+    .plusSym3{
+        font-size: 20px;
+        padding-top: 8px;
+    };
+    .shopSymHide{
+        color: rgba(0,0,0,0.4);
+    };
+    .gCoinSym{
+        font-size: 14px;
+        padding-top: 11px;
+        color: goldenrod;
+    };
+    .sCoinSym{
+        font-size: 14px;
+        padding-top: 11px;
+        color: silver;
+    };
+    .cCoinSym{
+        font-size: 14px;
+        padding-top: 11px;
+        color: rgb(184,115,51);
+    };
+    .iCoinSym{
+        font-size: 14px;
+        padding-top: 11px;
+        color: gray;
+    };
     .inTableSym{
         font-size: 12px;
         padding-top: 3px;
@@ -706,9 +733,11 @@
         padding-left: 20px;
     };  
     .inventory2{
-        width: 100%;
-        height: 455px;        
+        width: 71%;
+        height: 480px;        
         padding-left: 20px;
+        float: left;
+        overflow-y: scroll;
     };  
     .invHeader{
         height: 30px;
@@ -720,6 +749,22 @@
         padding-top: 4px;
         padding-left: 16px;
         background-color: rgba(0,0,0,0.07);
+    };  
+    .invHeader2{
+        height: 30px;
+        width: 410px;
+        border: 1px solid black;
+        border-bottom-width: 2px;
+        position: relative;
+        font-size: 16px;
+        padding-top: 4px;
+        padding-left: 16px;
+        background-color: rgba(0,0,0,0.07);
+    };
+    .merchantInfo {
+        width: 170px;
+        height: 485px;
+        float: left;
     };
     .invItem{        
         border: 1px solid black;
@@ -728,6 +773,15 @@
         height: 41px;
         padding-top: 1px;
         width: 580px;
+        position: relative;
+    };
+    .invItem2{        
+        border: 1px solid black;
+        border-top-width: 0px;
+        padding-left: 75px;
+        height: 41px;
+        padding-top: 1px;
+        width: 410px;
         position: relative;
     };
     .invDivider{
@@ -762,6 +816,35 @@
         top: 4px;
         left: 4px;
     };
+    .itemImgBox2{
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        top: 4px;
+        left: 35px;
+    };
+    .itemAmountBox {
+        height: 22px;
+        width: 20px;
+        position: absolute;
+        left: 10px;
+        top: 8px;
+        background: rgba(255,255,255,0.5);
+        text-align: center;
+        padding-top: 3px;
+    };
+    .changeAmount {
+        position: absolute;
+        top: 10px;
+        left: 1px;
+        font-size: 9px;
+        width: 6px;
+    };
+    .itemAmount {
+        position: absolute;
+        left: 0px;
+        top: -2px;
+    };
     .itemImg{
         width: 30px;
         height: 30px;
@@ -770,12 +853,31 @@
         width: 580px;
         border: 1px solid black;
     };
+    .invtableborder2{
+        width: 410px;
+        border: 1px solid black;
+    };
     .addItemBox{
         width: 20px;
         height: 20px;
         position: absolute;
         top: 2px;
         left: 546px;
+    };
+    .addItemBox2{
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 2px;
+        left: 375px;
+    };
+    .addItemBox3{
+        width: 160px;
+        height: 20px;
+        position: absolute;
+        top: 2px;
+        right: 45px;
+        text-align: right;
     };
     .itemWorn{
         position: absolute;
@@ -834,5 +936,62 @@
     .addRitKenn {
         width: 100%;
         text-align: center;
+    };
+    .merchantDisc {
+        width: 175px;
+        height: 310px;
+        resize: none;
+    };
+    .affiliate {
+        height: 85px;
+        width: 175px;
+        margin-top: 10px;
+        font-size: 15px;
+        border: 1px solid black;
+        padding: 3px 6px;
+    };
+    .classification {
+        height: 60px;
+        width: 175px;
+        margin-top: 10px;
+        border: 1px solid black;
+        padding: 3px 6px;
+    };
+    .classificationSelection {
+        width: 89px;
+        height: 16px;
+        font-size: 10px;
+    };
+    .affiliateBar {
+        margin-top: 3px;
+        float: left;
+    };
+    .affiImg {
+        width: 25px;
+        height: 25px;
+        float: left;
+        border: 2px solid black;
+    };
+    .affiName {
+        height: 25px;
+        width: 135px;
+        float: left;
+        border: 2px solid black;
+        border-left-width: 0px;
+        padding: 1px;
+        padding-left: 5px;
+        background-color: darkblue;
+        color: white;
+    };
+    .affiIMG {
+        border: 0px;
+        height: 23px;
+        width: 23px;
+    };
+    .merchRoll {
+        font-size: 12px;
+        position: absolute;
+        left: 126px;
+        margin-top: 4px;
     };
 }

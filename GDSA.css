@@ -27,6 +27,33 @@
   padding-top: 1px;
   margin-left: 10px;
 }
+.GDSA.sheet.characterSheet .plusSym3 {
+  font-size: 20px;
+  padding-top: 8px;
+}
+.GDSA.sheet.characterSheet .shopSymHide {
+  color: rgba(0, 0, 0, 0.4);
+}
+.GDSA.sheet.characterSheet .gCoinSym {
+  font-size: 14px;
+  padding-top: 11px;
+  color: goldenrod;
+}
+.GDSA.sheet.characterSheet .sCoinSym {
+  font-size: 14px;
+  padding-top: 11px;
+  color: silver;
+}
+.GDSA.sheet.characterSheet .cCoinSym {
+  font-size: 14px;
+  padding-top: 11px;
+  color: #b87333;
+}
+.GDSA.sheet.characterSheet .iCoinSym {
+  font-size: 14px;
+  padding-top: 11px;
+  color: gray;
+}
 .GDSA.sheet.characterSheet .inTableSym {
   font-size: 12px;
   padding-top: 3px;
@@ -702,9 +729,11 @@
   padding-left: 20px;
 }
 .GDSA.sheet.characterSheet .inventory2 {
-  width: 100%;
-  height: 455px;
+  width: 71%;
+  height: 480px;
   padding-left: 20px;
+  float: left;
+  overflow-y: scroll;
 }
 .GDSA.sheet.characterSheet .invHeader {
   height: 30px;
@@ -717,6 +746,22 @@
   padding-left: 16px;
   background-color: rgba(0, 0, 0, 0.07);
 }
+.GDSA.sheet.characterSheet .invHeader2 {
+  height: 30px;
+  width: 410px;
+  border: 1px solid black;
+  border-bottom-width: 2px;
+  position: relative;
+  font-size: 16px;
+  padding-top: 4px;
+  padding-left: 16px;
+  background-color: rgba(0, 0, 0, 0.07);
+}
+.GDSA.sheet.characterSheet .merchantInfo {
+  width: 170px;
+  height: 485px;
+  float: left;
+}
 .GDSA.sheet.characterSheet .invItem {
   border: 1px solid black;
   border-top-width: 0px;
@@ -724,6 +769,15 @@
   height: 41px;
   padding-top: 1px;
   width: 580px;
+  position: relative;
+}
+.GDSA.sheet.characterSheet .invItem2 {
+  border: 1px solid black;
+  border-top-width: 0px;
+  padding-left: 75px;
+  height: 41px;
+  padding-top: 1px;
+  width: 410px;
   position: relative;
 }
 .GDSA.sheet.characterSheet .invDivider {
@@ -758,6 +812,35 @@
   top: 4px;
   left: 4px;
 }
+.GDSA.sheet.characterSheet .itemImgBox2 {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 4px;
+  left: 35px;
+}
+.GDSA.sheet.characterSheet .itemAmountBox {
+  height: 22px;
+  width: 20px;
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  padding-top: 3px;
+}
+.GDSA.sheet.characterSheet .changeAmount {
+  position: absolute;
+  top: 10px;
+  left: 1px;
+  font-size: 9px;
+  width: 6px;
+}
+.GDSA.sheet.characterSheet .itemAmount {
+  position: absolute;
+  left: 0px;
+  top: -2px;
+}
 .GDSA.sheet.characterSheet .itemImg {
   width: 30px;
   height: 30px;
@@ -766,12 +849,31 @@
   width: 580px;
   border: 1px solid black;
 }
+.GDSA.sheet.characterSheet .invtableborder2 {
+  width: 410px;
+  border: 1px solid black;
+}
 .GDSA.sheet.characterSheet .addItemBox {
   width: 20px;
   height: 20px;
   position: absolute;
   top: 2px;
   left: 546px;
+}
+.GDSA.sheet.characterSheet .addItemBox2 {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 2px;
+  left: 375px;
+}
+.GDSA.sheet.characterSheet .addItemBox3 {
+  width: 160px;
+  height: 20px;
+  position: absolute;
+  top: 2px;
+  right: 45px;
+  text-align: right;
 }
 .GDSA.sheet.characterSheet .itemWorn {
   position: absolute;
@@ -830,6 +932,63 @@
 .GDSA.sheet.characterSheet .addRitKenn {
   width: 100%;
   text-align: center;
+}
+.GDSA.sheet.characterSheet .merchantDisc {
+  width: 175px;
+  height: 310px;
+  resize: none;
+}
+.GDSA.sheet.characterSheet .affiliate {
+  height: 85px;
+  width: 175px;
+  margin-top: 10px;
+  font-size: 15px;
+  border: 1px solid black;
+  padding: 3px 6px;
+}
+.GDSA.sheet.characterSheet .classification {
+  height: 60px;
+  width: 175px;
+  margin-top: 10px;
+  border: 1px solid black;
+  padding: 3px 6px;
+}
+.GDSA.sheet.characterSheet .classificationSelection {
+  width: 89px;
+  height: 16px;
+  font-size: 10px;
+}
+.GDSA.sheet.characterSheet .affiliateBar {
+  margin-top: 3px;
+  float: left;
+}
+.GDSA.sheet.characterSheet .affiImg {
+  width: 25px;
+  height: 25px;
+  float: left;
+  border: 2px solid black;
+}
+.GDSA.sheet.characterSheet .affiName {
+  height: 25px;
+  width: 135px;
+  float: left;
+  border: 2px solid black;
+  border-left-width: 0px;
+  padding: 1px;
+  padding-left: 5px;
+  background-color: darkblue;
+  color: white;
+}
+.GDSA.sheet.characterSheet .affiIMG {
+  border: 0px;
+  height: 23px;
+  width: 23px;
+}
+.GDSA.sheet.characterSheet .merchRoll {
+  font-size: 12px;
+  position: absolute;
+  left: 126px;
+  margin-top: 4px;
 }
 .GDSA.sheet.itemSheet .nameLable {
   width: 373px;
