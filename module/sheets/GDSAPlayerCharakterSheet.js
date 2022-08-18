@@ -471,6 +471,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let y = Math.ceil(x / kk);
         y --;
 
+        if(y < 0) y = 0;
+
         let dmgString = item.data.data.damage + "+" + y;
         console.log(dmgString);
         Dice.DMGRoll(dmgString, actor);
