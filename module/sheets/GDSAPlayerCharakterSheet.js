@@ -366,6 +366,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let item = this.actor.items.get(itemId);
         let Modi = 0;
 
+        let type = item.data.data.heigt;
         let wm = item.data.data["WM-DEF"];
         let PABasis = parseInt(actor.data.data.PABasis.value);
 
@@ -374,39 +375,83 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let isLefthand = this.getData().combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.leftHand")})[0];
         let isShildI = this.getData().combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.schildI")})[0];
         let isShildII = this.getData().combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.schildII")})[0];
-        if(isLefthand != null) PABasis += 1;
-        if(isShildI != null) PABasis += 2;
-        if(isShildII != null) PABasis += 2;
+        let isParryI = this.getData().combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.parryW1")})[0];
+        let isParryII = this.getData().combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.parryW2")})[0];
 
-        let PAInfo = await Dialog.GetSkillCheckOptions();
-        if (PAInfo.cancelled) return;
-        let advan = parseInt(PAInfo.advantage);
-        let disad = parseInt(PAInfo.disadvantage);
+        if(type != game.i18n.localize("GDSA.itemsheet.parryWeapon")) {
+
+            if(isLefthand != null) PABasis += 1;
+            if(isShildI != null) PABasis += 2;
+            if(isShildII != null) PABasis += 2;
+
+            let PAInfo = await Dialog.GetSkillCheckOptions();
+            if (PAInfo.cancelled) return;
+            let advan = parseInt(PAInfo.advantage);
+            let disad = parseInt(PAInfo.disadvantage);
 
 
-        let equiptMelee =  this.getData().meleeweapons.filter(function(item) {return item.data.worn == true});
-        let higestParry = 0;
-        for(const itemM of equiptMelee) {
+            let equiptMelee =  this.getData().meleeweapons.filter(function(item) {return item.data.worn == true});
+            let higestParry = 0;
 
-            let skill = itemM.data.skill;
-            let weapon = itemM.data.type;
-            let itemwm = itemM.data["WM-DEF"];    
-            let PAValue = Util.getSkillPAValue(actor, skill);
+            for(const itemM of equiptMelee) {
 
-            PAValue += itemwm;
+                let skill = itemM.data.skill;
+                let weapon = itemM.data.type;
+                let itemwm = itemM.data["WM-DEF"];    
+                let PAValue = Util.getSkillPAValue(actor, skill);
 
-            let isSpezi = this.getData().generalTraits.filter(function(item) {return item.name.includes(weapon)});
-            if(isSpezi.length > 0) PAValue += 1;
-            if(PAValue > higestParry) higestParry = PAValue;
+                PAValue += itemwm;
+
+                let isSpezi = this.getData().generalTraits.filter(function(item) {return item.name.includes(weapon)});
+                if(isSpezi.length > 0) PAValue += 1;
+                if(PAValue > higestParry) higestParry = PAValue;
+            }
+            
+            if(higestParry >= 15) PABasis += 1;
+            if(higestParry >= 18) PABasis += 1;
+            if(higestParry >= 21) PABasis += 1;
+
+            Modi -= disad;
+            Modi += advan;
+            Dice.PACheck(PABasis, Modi, actor);
+
+        } else {
+
+            PABasis = 0;
+
+            if(isLefthand != null) PABasis -= 4;
+            if(isParryI != null) PABasis += 3;
+            if(isParryII != null) PABasis += 3;
+
+            let PAInfo = await Dialog.GetSkillCheckOptions();
+            if (PAInfo.cancelled) return;
+            let advan = parseInt(PAInfo.advantage);
+            let disad = parseInt(PAInfo.disadvantage);
+            
+            let equiptMelee =  this.getData().meleeweapons.filter(function(item) {return item.data.worn == true});
+            let higestParry = 0;
+
+            for(const itemM of equiptMelee) {
+
+                let skill = itemM.data.skill;
+                let weapon = itemM.data.type;
+                let itemwm = itemM.data["WM-DEF"];    
+                let PAValue = Util.getSkillPAValue(actor, skill);
+
+                PAValue += itemwm;
+
+                let isSpezi = this.getData().generalTraits.filter(function(item) {return item.name.includes(weapon)});
+                if(isSpezi.length > 0) PAValue += 1;
+                if(PAValue > higestParry) higestParry = PAValue;
+            }
+
+            PABasis += higestParry;
+            PABasis += parseInt(wm);
+
+            Modi -= disad;
+            Modi += advan;
+            Dice.PACheck(PABasis, Modi, actor);
         }
-        
-        if(higestParry >= 15) PABasis += 1;
-        if(higestParry >= 18) PABasis += 1;
-        if(higestParry >= 21) PABasis += 1;
-
-        Modi -= disad;
-        Modi += advan;
-        Dice.PACheck(PABasis, Modi, actor);
     }
 
     async _onDMGRoll(event) {
@@ -425,6 +470,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let x = actor.data.data.KK.value - tp;
         let y = Math.ceil(x / kk);
         y --;
+
+        if(y < 0) y = 0;
 
         let dmgString = item.data.data.damage + "+" + y;
         console.log(dmgString);
@@ -976,7 +1023,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let checkEisern = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.iron")})[0];
         let checkGlass = flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.glass")})[0];
 
-        sheetData.data.WS = parseInt(sheetData.data.KO.value) / 2;
+        let WSG = parseInt(sheetData.data.KO.value) / 2;
+        sheetData.data.WS = Math.round(WSG);
         if(checkEisern != null) sheetData.data.WS += 2;
         if(checkGlass != null) sheetData.data.WS -= 2;
 

@@ -14,5 +14,38 @@ export default class GDSANonPlayerSheet extends ActorSheet {
         });
     }
 
+    
+    getData() {
+
+        const baseData = super.getData();
+
+        let sheetData = {
+
+            owner: this.actor.isOwner,
+            editable: this.isEditable,
+            actor: baseData.actor,
+            data: baseData.actor.data.data,
+            items: baseData.items,
+            config: CONFIG.GDSA,
+            isGM: game.user.isGM
+        };
+        
+        return sheetData;
+    }
+
+    activateListeners(html) {
+
+        if(this.isEditable) {
+
+
+        }
+
+        if(this.actor.isOwner){
+
+        }
+
+        super.activateListeners(html);
+    }
+
 
 }
