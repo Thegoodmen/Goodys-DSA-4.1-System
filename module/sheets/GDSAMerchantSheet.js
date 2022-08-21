@@ -61,20 +61,26 @@ export default class GDSAMerchantSheet extends ActorSheet {
 
     activateListeners(html) {
 
+        
+        html.find(".merch-roll").click(this.merchRoll.bind(this));
+
         if(this.isEditable) {
 
-            html.find(".item-create").click(this._onItemCreate.bind(this));
-            html.find(".item-edit").click(this._onItemEdit.bind(this));
-            html.find(".buyItem").click(this.buyItem.bind(this));
-            html.find(".addQuant").click(this.addQuantity.bind(this));
-            html.find(".removeQuant").click(this.removeQuantity.bind(this));
-            html.find(".merch-roll").click(this.merchRoll.bind(this));
-
-            new ContextMenu(html, ".item-context", this.itemContextMenu);
+            html.find(".buyItem").click(this.buyItem.bind(this))
         }
 
         if(this.actor.isOwner){
 
+        }
+
+        if(game.user.isGM) {
+
+            html.find(".item-create").click(this._onItemCreate.bind(this));
+            html.find(".item-edit").click(this._onItemEdit.bind(this));
+            html.find(".addQuant").click(this.addQuantity.bind(this));
+            html.find(".removeQuant").click(this.removeQuantity.bind(this));
+
+            new ContextMenu(html, ".item-context", this.itemContextMenu);
         }
 
         super.activateListeners(html);

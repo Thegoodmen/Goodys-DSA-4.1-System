@@ -3,7 +3,7 @@
 
     <header class="sheet-header">
         <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="64" width="64"/>
-        <h1><input class="nameLable" name="name" type="text" value="{{actor.name}}" placeholder="{{ localize 'Name' }}"/></h1>
+        <h1><input class="nameLable" name="name" type="text" value="{{actor.name}}" placeholder="{{ localize 'Name' }}" {{#unless isGM}}disabled{{/unless}}/></h1>
     </header>
 
         <div class="invFiller2"></div>
@@ -11,7 +11,7 @@
 		<section class="sheet-body">
 
             <div class="merchantInfo">
-                <textarea class="merchantDisc" name="data.description">{{data.description}}</textarea>
+                <textarea class="merchantDisc" name="data.description" {{#unless isGM}}disabled{{/unless}}>{{data.description}}</textarea>
                 <div class="affiliate">
                     Zugehörigkeit:<br />
                     {{#each affiliation as |item id|}}
@@ -22,7 +22,7 @@
                     {{/each}}
                 </div>
                 <div class="classification">
-                    Qualität: <select class="classificationSelection" name="data.skill">
+                    Qualität: <select class="classificationSelection" name="data.skill" {{#unless isGM}}disabled{{/unless}}>
                         {{#select data.skill}}
                         <option value="1">Krämer</option>
                         <option value="2">Dorfhändler</option>
@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <div class="inventory2">
+            <div class="inventory3">
                 <section class="item-list">
             
                     <div class="invtableborder2">

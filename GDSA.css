@@ -729,6 +729,13 @@
   padding-left: 20px;
 }
 .GDSA.sheet.characterSheet .inventory2 {
+  width: 100%;
+  height: 445px;
+  padding-left: 20px;
+  float: left;
+  overflow-y: scroll;
+}
+.GDSA.sheet.characterSheet .inventory3 {
   width: 71%;
   height: 480px;
   padding-left: 20px;
