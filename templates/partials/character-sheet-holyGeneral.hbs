@@ -1,0 +1,38 @@
+<div style="height: 600px; text-align: center">
+    
+    <div class="combatBntBar">
+        <a class="myButton lossKaP">{{localize "GDSA.charactersheet.mkap"}}</a> 
+        <a class="myButton doMedi">{{localize "GDSA.charactersheet.medi"}}</a> 
+        <a class="myButton getKaP">{{localize "GDSA.charactersheet.pkap"}}</a>
+    </div>
+
+    <div class="skill-lit">
+        <table style="display: inline-block">
+                <tr class="item-context">
+                    <td class="skillTableNameBig"><a class="item skill-roll" data-statName="{{localize "GDSA.charactersheet.wonderskill"}}"
+                    data-stat_one="{{data.MU.value}}" data-stat_two="{{data.IN.value}}" data-stat_three="{{data.CH.value}}" title="roll">
+                        {{localize "GDSA.charactersheet.wonderskill"}}   
+                    </a></td> 
+                    <td class="skillTableValue"><input class="skillTemp" name="data.skill.liturgy" type="number" value="{{data.skill.liturgy}}" /></td>
+                </tr>
+        </table>
+    </div>
+
+    <div class="god-outer">
+        <div class="god-inner"></div>
+    </div>
+
+    <div class="holyTraitBox">
+        <div class="traithead">{{localize "GDSA.charactersheet.holyTrait"}}</div>
+        <div class="flawbnt"><a class="item-create" data-type="holyTrait"><i class="fas fa-plus plusSym"></i></a></div>
+		<div class="traithrbox"><hr class="flawhr" /></div>
+    	<section class="holytraits">
+			{{#each holyTraits as |Trait id|}}
+				<div class="item item-context" data-type="{{data.type}}" data-item-id="{{_id}}">
+                    <div class="trait">{{name}}</div><hr class="flawhr" />
+                </div>
+			{{/each}}
+		</section>
+    </div>
+
+</div>

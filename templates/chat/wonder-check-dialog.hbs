@@ -1,0 +1,69 @@
+<form>
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.motivation"}}</label>
+        <select class="mediOpt" name="motivation">
+            {{#select motivation}}
+                <option value="-7">{{localize "GDSA.chat.medi.godlyReason"}}</option>
+                <option value="-5">{{localize "GDSA.chat.medi.churchReason"}}</option>
+                <option value="-3">{{localize "GDSA.chat.medi.inNeed"}}</option>
+                <option value="0" selected>{{localize "GDSA.chat.medi.normal"}}</option>
+                <option value="+5">{{localize "GDSA.chat.medi.selfish"}}</option>
+                <option value="+7">{{localize "GDSA.chat.medi.hardSelfish"}}</option>
+                <option value="+12">{{localize "GDSA.chat.medi.controlled"}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.place"}}</label>
+        <select class="mediOpt" name="place">
+            {{#select place}}
+                <option value="0" selected>{{localize "GDSA.chat.medi.neutral"}}</option>
+                <option value="-1">{{localize "GDSA.chat.medi.diffrentGod"}}</option>
+                <option value="-2">{{localize "GDSA.chat.medi.chapel"}}</option>
+                <option value="-3">{{localize "GDSA.chat.medi.kathedrial"}}</option>
+                <option value="-4">{{localize "GDSA.chat.medi.holyPlace"}}</option>
+                <option value="+3">{{localize "GDSA.chat.medi.placeOfDisbelive"}}</option>
+                <option value="+3">{{localize "GDSA.chat.medi.disbeliverPresent"}}</option>
+                <option value="+7">{{localize "GDSA.chat.medi.diffrentPlane"}}</option>
+                <option value="+7">{{localize "GDSA.chat.medi.demonicPlace"}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.time"}}</label>
+        <select class="mediOpt" name="time">
+            {{#select time}}
+                <option value="0" selected>{{localize "GDSA.chat.medi.normalDay"}}</option>
+                <option value="-1">{{localize "GDSA.chat.medi.monthOfGod"}}</option>
+                <option value="-3">{{localize "GDSA.chat.medi.dayOfGod"}}</option>
+                <option value="+7">{{localize "GDSA.chat.medi.namelessDays"}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.situation"}}</label>
+        <select class="mediOpt" name="situation">
+            {{#select situation}}
+                <option value="-2">{{localize "GDSA.chat.medi.ordert"}}</option>
+                <option value="0" selected>{{localize "GDSA.chat.medi.normal"}}</option>
+                <option value="+3">{{localize "GDSA.chat.medi.strange"}}</option>
+                <option value="+7">{{localize "GDSA.chat.medi.havok"}}</option>
+                <option value="+2">{{localize "GDSA.chat.medi.oathbreaker"}}</option>
+                <option value="+2">{{localize "GDSA.chat.medi.minorPackt"}}</option>
+                <option value="+5">{{localize "GDSA.chat.medi.frevler"}}</option>
+            {{/select}}
+        </select>        
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.help"}}</label>
+        <select class="mediOpt" name="help">
+            {{#select help}}
+                <option value="0" selected>{{localize "GDSA.chat.medi.none"}}</option>
+                <option value="-1">{{localize "GDSA.chat.medi.upSix"}}</option>
+                <option value="-2">{{localize "GDSA.chat.medi.upTwelth"}}</option>
+                <option value="-3">{{localize "GDSA.chat.medi.upSixthy"}}</option>
+                <option value="-5">{{localize "GDSA.chat.medi.wayMore"}}</option>
+            {{/select}}
+        </select>        
+    </div>
+</form>

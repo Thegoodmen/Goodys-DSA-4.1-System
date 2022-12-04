@@ -37,6 +37,9 @@ async function preloadHandlebarsTemplates(){
         "systems/GDSA/templates/partials/character-sheet-magicCast.hbs",
         "systems/GDSA/templates/partials/character-sheet-magicGeneral.hbs",
         "systems/GDSA/templates/partials/character-sheet-magicRitu.hbs",
+        "systems/GDSA/templates/partials/character-sheet-holyMirikal.hbs",
+        "systems/GDSA/templates/partials/character-sheet-holyGeneral.hbs",
+        "systems/GDSA/templates/partials/character-sheet-holyWonder.hbs",
         "systems/GDSA/templates/partials/advantages.hbs",
         "systems/GDSA/templates/partials/lang.hbs"
     ];

@@ -1,0 +1,31 @@
+<div class="skillMenuBox">
+	<nav class="holy-tabs tabs nav" data-group="holy">
+		<a class="item" data-tab="hgeneral"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.hgeneral"}}</div></a>
+		<a class="item" data-tab="mirikal"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.mirikal"}}</div></a>
+		<a class="item" data-tab="wonder"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.wonder"}}</div></a>
+		<a class="item" data-tab="hadditional"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.hadditional"}}</div></a>
+	</nav>
+</div>
+
+<div class="skillMenuBox2">
+    <div class="aspbar">
+      <div class="kapbar_fill" style="width: {{data.KaP.prozent}}%;"></div>
+      <span class="aspbar_text">{{data.KaP.value}} / {{data.KaP.max}}</span>
+    </div>
+</div>
+
+<div class="magicBox">
+	<section class="holy-body">
+		<div class="magicBox tab hgeneral" data-group="holy" data-tab="hgeneral">
+            {{> "systems/GDSA/templates/partials/character-sheet-holyGeneral.hbs"}}						
+		</div>
+		<div class="magicBox tab mirikal" data-group="holy" data-tab="mirikal">
+            {{> "systems/GDSA/templates/partials/character-sheet-holyMirikal.hbs"}}
+		</div>
+		<div class="magicBox tab wonder" data-group="holy" data-tab="wonder">
+			{{> "systems/GDSA/templates/partials/character-sheet-holyWonder.hbs"}}
+		</div>
+		<div class="magicBox tab hadditional" data-group="holy" data-tab="hadditional">
+		</div>
+	</section>
+</div>

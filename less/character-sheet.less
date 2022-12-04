@@ -345,6 +345,13 @@
         padding-left: 10px;
         position: relative;
     };
+    .skillTableNameBig2{
+        width: 563px;
+        text-align: left;
+        border: 1px solid black;
+        padding-left: 10px;
+        position: relative;
+    };
     .skillTableBE{
         width: 65px;
         text-align: center;
@@ -374,6 +381,11 @@
         width: 100%;
         height: 24px;
         background-color: rgba(255,255,255,0.45);
+    };
+    .wonderBox{
+        overflow-y: scroll; 
+        height: 600px; 
+        overflow-x: hidden;
     };
     .langbox{
         width: 100%;
@@ -629,6 +641,12 @@
         transform: translateY(-50%);
         font: bold 14px "Quicksand", sans-serif;
         color: #ffffff;
+    };      
+    .kapbar_fill{
+        width: 0%;
+        height: 100%;
+        background: #e5be00;
+        transition: all 0.2s;
     };
     .combatWindow{     
         width: 360px;
@@ -923,6 +941,11 @@
         text-align: center;
         border: 1px solid black;
     };
+    .addWonder {
+        width: 514px;
+        text-align: center;
+        border: 1px solid black;
+    };    
     .spellButtonBox {
         width: 610px;
         text-align: center;
@@ -1001,4 +1024,37 @@
         left: 126px;
         margin-top: 4px;
     };
-}
+    .holyTraitBox {
+        width: 562px;
+        height: 340px;
+        float: left;
+        border: 2px solid black;
+        margin: 20px 24px 0px 24px;
+    };
+    .skill-lit {
+        width: 400px;
+        display: inline-block;
+        height: 45px;
+    };
+    .god-outer {
+        width: 400px;
+        display: inline-block;
+        height: 160px;
+    };
+    .god-inner {
+        width: 400px;
+        height: 175px;
+        background-image: url(templates/img/Zwölfgötter.png);
+        background-size: contain;
+        background-position-x: 110px;
+        background-repeat: no-repeat;
+    };
+    .holytraits {
+        float: left;
+        overflow-y: scroll;
+        height: 310px;
+    };
+};
+.mediOpt {
+    width: 232px;
+};

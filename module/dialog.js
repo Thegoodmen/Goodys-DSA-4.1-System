@@ -33,6 +33,99 @@ function _processSkillCheckOptions(form) {
         disadvantage: parseInt(form.disadvantage.value)}
 }
 
+export async function GetWonderOptions() {
+
+    const template = "systems/GDSA/templates/chat/wonder-check-dialog.hbs";
+    const html = await renderTemplate(template, {});
+
+    return new Promise(resolve => {
+        const data = {
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                normal: {
+                    label: game.i18n.format("GDSA.chat.skill.roll"),
+                    callback: html => resolve(_processWonderCheckOptions(html[0].querySelector("form")))
+                },
+                cancel: {
+                    label: game.i18n.format("GDSA.chat.skill.cancel"),
+                    callback: html => resolve({cancelled: true})
+                }
+            },
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        new Dialog(data, null).render(true);
+    });
+}
+
+function _processWonderCheckOptions(form) {
+
+    let advantage = 0;
+    let disadvantage = 0;
+
+    if (parseInt(form.time.value) > 0) disadvantage += parseInt(form.time.value);
+        else advantage += (parseInt(form.time.value) * (-1))
+    
+        
+    if (parseInt(form.place.value) > 0) disadvantage += parseInt(form.place.value);
+        else advantage += (parseInt(form.place.value) * (-1))
+
+    
+    if (parseInt(form.motivation.value) > 0) disadvantage += parseInt(form.motivation.value);
+        else advantage += (parseInt(form.motivation.value) * (-1))
+
+        
+    if (parseInt(form.motivation.value) > 0) disadvantage += parseInt(form.motivation.value);
+        else advantage += (parseInt(form.motivation.value) * (-1))
+
+    
+    if (parseInt(form.help.value) > 0) disadvantage += parseInt(form.help.value);
+        else advantage += (parseInt(form.help.value) * (-1))
+
+    return {
+
+        advantage: advantage,
+        disadvantage: disadvantage
+    }
+}
+
+export async function GetMeditationOptions() {
+
+    const template = "systems/GDSA/templates/chat/medi-check-dialog.hbs";
+    const html = await renderTemplate(template, {});
+
+    return new Promise(resolve => {
+        const data = {
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                normal: {
+                    label: game.i18n.format("GDSA.chat.skill.roll"),
+                    callback: html => resolve(_processMediCheckOptions(html[0].querySelector("form")))
+                },
+                cancel: {
+                    label: game.i18n.format("GDSA.chat.skill.cancel"),
+                    callback: html => resolve({cancelled: true})
+                }
+            },
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        new Dialog(data, null).render(true);
+    });
+}
+
+function _processMediCheckOptions(form) {
+
+    return {
+        
+        disadvantage: parseInt(form.time.value) + parseInt(form.place.value) + parseInt(form.last.value)
+    }
+}
+
 export async function GetDMGInfo() {
 
     const template = "systems/GDSA/templates/chat/getDMG-dialog.hbs";
@@ -102,6 +195,60 @@ export async function GetAsPInfo() {
                 normal: {
                     label: game.i18n.format("GDSA.chat.skill.do"),
                     callback: html => resolve(_processGetHealOptions(html[0].querySelector("form")))},
+                cancel: {
+                    label: game.i18n.format("GDSA.chat.skill.cancel"),
+                    callback: html => resolve({cancelled: true})}
+            },
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        new Dialog(data, null).render(true);
+    });
+}
+
+export async function GetKaPInfo() {
+
+    const template = "systems/GDSA/templates/chat/getKaP-dialog.hbs";
+    const html = await renderTemplate(template, {});
+
+    return new Promise(resolve => {
+        const data = {
+
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+
+                normal: {
+                    label: game.i18n.format("GDSA.chat.skill.do"),
+                    callback: html => resolve(_processGetHealOptions(html[0].querySelector("form")))},
+                cancel: {
+                    label: game.i18n.format("GDSA.chat.skill.cancel"),
+                    callback: html => resolve({cancelled: true})}
+            },
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        new Dialog(data, null).render(true);
+    });
+}
+
+export async function GetKaPLossInfo() {
+
+    const template = "systems/GDSA/templates/chat/getKaPLoss-dialog.hbs";
+    const html = await renderTemplate(template, {});
+
+    return new Promise(resolve => {
+        const data = {
+
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+
+                normal: {
+                    label: game.i18n.format("GDSA.chat.skill.do"),
+                    callback: html => resolve(_processGetDMGOptions(html[0].querySelector("form")))},
                 cancel: {
                     label: game.i18n.format("GDSA.chat.skill.cancel"),
                     callback: html => resolve({cancelled: true})}

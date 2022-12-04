@@ -413,7 +413,8 @@
                 "ritgban": "",
                 "ritgbin": "",
                 "ritgauf": "",
-                "ritpetr": ""
+                "ritpetr": "",
+                "liturgy": ""
             }
         }
     },
@@ -436,7 +437,8 @@
             "spell",
             "ritual",
             "ritualSkill",
-            "affiliation"
+            "affiliation",
+            "wonder"
         ],
         "templates": {
             "generalItems": {
@@ -573,6 +575,11 @@
         "affiliation": {
             "fontColo": "#ffffff",
             "backgroundColor": "#000000"
+        },
+        "wonder": {
+            "name": "Objektweihe II",
+            "grad": 2,
+            "lltPage": "0"
         }
     }
 }
