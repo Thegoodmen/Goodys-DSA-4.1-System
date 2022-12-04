@@ -12,7 +12,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             resizable: false,
             tabs: [ {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "mainPage"},
                     {navSelector: ".skill-tabs", contentSelector: ".skill-body", initial: "combatSkills"},
-                    {navSelector: ".magic-tabs", contentSelector: ".magic-body", initial: "mgeneral"}],
+                    {navSelector: ".magic-tabs", contentSelector: ".magic-body", initial: "mgeneral"},
+                    {navSelector: ".holy-tabs", contentSelector: ".holy-body", initial: "hgeneral"}],
             classes: ["GDSA", "sheet", "characterSheet"]
         });
     }
@@ -50,8 +51,6 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             isGM: game.user.isGM
         };
 
-        const data = baseData.actor.data.data;
-
         sheetData.advantages = baseData.items.filter(function(item) {return item.type == "advantage"});
         sheetData.flaws = baseData.items.filter(function(item) {return item.type == "flaw"});
 
@@ -72,6 +71,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         sheetData.ritualSkills = baseData.items.filter(function(item) {return item.type == "ritualSkill"});
         sheetData.magicTraits = baseData.items.filter(function(item) {return item.type == "magicTrait"});
         sheetData.objectTraits = baseData.items.filter(function(item) {return item.type == "objectTrait"});
+        sheetData.holyTraits = baseData.items.filter(function(item) {return item.type == "holyTrait"});
+        sheetData.wonders = baseData.items.filter(function(item) {return item.type == "wonder"});
 
         sheetData.equiptMelee = sheetData.meleeweapons.filter(function(item) {return item.data.worn == true});
         sheetData.equiptRange = sheetData.rangeweapons.filter(function(item) {return item.data.worn == true});
@@ -100,12 +101,16 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".parry-roll").click(this._onParryRoll.bind(this));
             html.find(".damage-roll").click(this._onDMGRoll.bind(this));
             html.find(".shield-roll").click(this._onShieldParryRoll.bind(this));
+            html.find(".wonder-roll").click(this._onWonderRoll.bind(this));
 
             html.find(".getDMG").click(this.getDMG.bind(this));
             html.find(".getHeal").click(this.getHeal.bind(this));
             html.find(".doReg").click(this.doReg.bind(this));
             html.find(".lossAsP").click(this.lossAsP.bind(this));
             html.find(".getAsP").click(this.getAsP.bind(this));
+            html.find(".doMedi").click(this.doMedi.bind(this));
+            html.find(".lossKaP").click(this.lossKaP.bind(this));
+            html.find(".getKaP").click(this.getKaP.bind(this));
 
             html.find(".stat-plus").click(this._addStat.bind(this));
             html.find(".stat-minus").click(this._decreaseStat.bind(this));
@@ -116,6 +121,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
             html.find(".openSpell").click(this._openSpell.bind(this));
             html.find(".openRitual").click(this._openRitual.bind(this));
+            html.find(".openWonder").click(this._openWonder.bind(this));
 
             new ContextMenu(html, ".item-context", this.itemContextMenu);
         }
@@ -242,7 +248,33 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if (event.shiftKey)
             options = false;
 
-        Dice.skillCheck(statname, statvalue, statone, stattwo, statthree, be, actor, options, goofy);
+        Dice.skillCheck(statname, statvalue, statone, stattwo, statthree, be, actor, options, goofy, "normal");
+    }
+
+    _onWonderRoll(event) {
+
+        event.preventDefault();
+
+        let element = event.currentTarget;
+        let actor = this.actor;
+
+        let statname = element.closest(".item").dataset.statname;
+        let statvalue = actor.data.data.skill.liturgy;
+        let statone = actor.data.data.MU.value;
+        let stattwo = actor.data.data.IN.value;
+        let statthree = actor.data.data.CH.value;
+        let check = this.getData().flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.goofy")})[0];
+        let options = true;
+        let goofy = false;
+        let be = 0;
+
+        if(check != null)
+            goofy = true;
+        
+        if (event.shiftKey)
+            options = false;
+
+        Dice.skillCheck(statname, statvalue, statone, stattwo, statthree, be, actor, options, goofy, "wonder");
     }
 
     async _onAttackRoll(event) {
@@ -254,21 +286,25 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let itemId = element.closest("tr").dataset.itemId;
         let item = this.actor.items.get(itemId);
         let Modi = 0;
+        let result = false;
+        let bDMG = 0;
+        let multi = 1;
 
         let skill = item.data.data.skill;
         let weapon = item.data.data.type;
 
-        let wm = item.data.data["WM-ATK"];
-
         let ATKValue = Util.getSkillATKValue(actor, skill);
 
-        ATKValue += wm;
-
         let isSpezi = this.getData().generalTraits.filter(function(item) {return item.name.includes(weapon)});
-        if(isSpezi.length > 0) ATKValue += 1;
+
 
         if(item.data.type == "melee-weapons") {
-        
+
+            let wm = item.data.data["WM-ATK"];
+
+            if(isSpezi.length > 0) ATKValue += 1;
+            ATKValue += wm;
+            
             let ATKInfo = await Dialog.GetAtkInfo();
             if (ATKInfo.cancelled) return;
             let advan = ATKInfo.advan;
@@ -292,10 +328,16 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             if(hammer) Modi -= 8;
             if(sturm) Modi -= 4;
 
-            Dice.ATKCheck(ATKValue, Modi, actor, wucht, finte, hammer, sturm);
+            result = Dice.ATKCheck(ATKValue, Modi, actor, wucht, finte, hammer, sturm);
+
+            bDMG = wucht;
+
+            if(sturm) bDMG += 4 + (Math.round(actor.data.data.GS.value / 2));
+            if(hammer) multi = 3;
 
         } else {
 
+            if(isSpezi.length > 0) ATKValue += 2;
             let ATKInfo = await Dialog.GetRangeAtkInfo();
             if (ATKInfo.cancelled) return;
             let disad = parseInt(ATKInfo.disad);
@@ -319,7 +361,53 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             Modi += hidea;
             Modi += sizeX;
 
-            Dice.ATKCheck(ATKValue, Modi, actor, bonus, 0, false, false);
+            result = Dice.ATKCheck(ATKValue, Modi, actor, bonus, 0, false, false);
+            
+            bDMG = bonus;
+
+            switch(dista) {
+            
+                case 2:
+                    bDMG += parseInt(item.data.data.tp.split("/")[0]);
+                    break;
+                
+                case 0:
+                    bDMG += parseInt(item.data.data.tp.split("/")[1]);
+                    break;
+                
+                case -4:
+                    bDMG += parseInt(item.data.data.tp.split("/")[2]);
+                    break;
+                
+                case -8:
+                    bDMG += parseInt(item.data.data.tp.split("/")[3]);
+                    break;
+                
+                case -12:
+                    bDMG += parseInt(item.data.data.tp.split("/")[4]);
+                    break;                    
+            }
+        }
+
+        if(result = true) {
+
+            let y = 0;
+
+            if(item.data.data.TPKK != "") {
+            
+                let tpkkString = item.data.data.TPKK;
+                let tp = tpkkString.split("/")[0];
+                let kk = tpkkString.split("/")[1];
+    
+                let x = actor.data.data.KK.value - tp;
+                y = Math.ceil(x / kk);
+                y --;
+    
+                if(y < 0) y = 0;
+            }
+    
+            let dmgString = item.data.data.damage + "+" + y + "+" + bDMG;
+            Dice.DMGRoll(dmgString, actor, multi);
         }
     }
 
@@ -462,20 +550,24 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let element = event.currentTarget;
         let itemId = element.closest("tr").dataset.itemId;
         let item = this.actor.items.get(itemId);
+        let y = 0;
 
-        let tpkkString = item.data.data.TPKK;
-        let tp = tpkkString.split("/")[0];
-        let kk = tpkkString.split("/")[1];
+        if(item.data.data.TPKK != "") {
+        
+            let tpkkString = item.data.data.TPKK;
+            let tp = tpkkString.split("/")[0];
+            let kk = tpkkString.split("/")[1];
 
-        let x = actor.data.data.KK.value - tp;
-        let y = Math.ceil(x / kk);
-        y --;
+            let x = actor.data.data.KK.value - tp;
+            y = Math.ceil(x / kk);
+            y --;
 
-        if(y < 0) y = 0;
+            if(y < 0) y = 0;
+        }
 
         let dmgString = item.data.data.damage + "+" + y;
-        console.log(dmgString);
-        Dice.DMGRoll(dmgString, actor);
+        console.log(item.data.data.TPKK);
+        Dice.DMGRoll(dmgString, actor, 1);
     }
 
     _onDogdeRoll(event) {
@@ -616,6 +708,68 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         ChatMessage.create(chatData);  
     }
 
+    async lossKaP(event) {
+
+        event.preventDefault();
+        const template = "systems/GDSA/templates/chat/KaPInfo.hbs";
+
+        let KaPLossInfo = await Dialog. GetKaPLossInfo();
+        let actor = this.actor;
+        let data = actor.data.data;
+
+        if (KaPLossInfo.cancelled) return;
+        let LossValue = KaPLossInfo.value;
+
+        data.KaP.value -= parseInt(LossValue);
+        this.actor.update({ "data.KaP.value": data.KaP.value });
+        this.render();
+
+        let templateContext = {
+            actor: actor,
+            value: LossValue,
+            heal: false,
+            dmg: true}; 
+    
+        let chatData = {
+            user: game.user.id,
+            speaker: ChatMessage.getSpeaker({ actor }),
+            roll: true,
+            content: await renderTemplate(template, templateContext)};
+        
+        ChatMessage.create(chatData);  
+    }
+
+    async getKaP(event) {
+
+        event.preventDefault();
+        const template = "systems/GDSA/templates/chat/KaPInfo.hbs";
+
+        let KaPInfo = await Dialog. GetKaPInfo();
+        let actor = this.actor;
+        let data = actor.data.data;
+
+        if (KaPInfo.cancelled) return;
+        let GainValue = KaPInfo.value;
+
+        data.KaP.value += parseInt(GainValue);
+        this.actor.update({ "data.KaP.value": data.KaP.value });
+        this.render();
+
+        let templateContext = {
+            actor: actor,
+            value: GainValue,
+            heal: true,
+            dmg: false}; 
+    
+        let chatData = {
+            user: game.user.id,
+            speaker: ChatMessage.getSpeaker({ actor }),
+            roll: true,
+            content: await renderTemplate(template, templateContext)};
+        
+        ChatMessage.create(chatData);  
+    }
+
     async _onMoneyChange(event) {
 
         event.preventDefault();
@@ -722,6 +876,20 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         this.actor.data.data.AsP.value += parseInt(regtAsP);
         this.actor.update({ "data.LeP.value": data.LeP.value });
         this.actor.update({ "data.AsP.value": data.AsP.value });
+        this.render(); 
+    }
+
+    async doMedi(event) {
+
+        event.preventDefault();
+
+        let actor = this.actor;
+        let data = actor.data.data;
+
+        let regtKaP = await Dice.doKaPReg(actor);
+
+        this.actor.data.data.KaP.value += parseInt(regtKaP);
+        this.actor.update({ "data.KaP.value": data.KaP.value });
         this.render(); 
     }
 
@@ -849,6 +1017,38 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let element = event.currentTarget;
         let pageString = element.closest(".openRitual").dataset.page;
         let code = "wdz";
+        let page = "0";
+
+        if (pageString != "") {
+            if (pageString.split(" ").length > 1) {
+
+                code = pageString.split(" ")[0];
+                page = pageString.split(" ")[1];
+            } else {
+                
+                page = pageString;
+            }
+        }
+
+        page = parseInt(page);
+        if (ui.PDFoundry) {
+
+            ui.PDFoundry.openPDFByCode(code, { page });
+
+        } else {
+
+            ui.notifications.warn('PDFoundry must be installed to use source links.');
+
+        }
+    }
+
+    _openWonder(event) {
+
+        event.preventDefault();
+
+        let element = event.currentTarget;
+        let pageString = element.closest(".openWonder").dataset.page;
+        let code = "LLT";
         let page = "0";
 
         if (pageString != "") {
@@ -1068,6 +1268,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         sheetData.data.AP.spent = parseInt(sheetData.data.AP.value) - parseInt(sheetData.data.AP.free);        
         sheetData.data.LeP.prozent = 100 / parseInt(sheetData.data.LeP.max) * parseInt(sheetData.data.LeP.value);        
         sheetData.data.AsP.prozent = 100 / parseInt(sheetData.data.AsP.max) * parseInt(sheetData.data.AsP.value);
+        sheetData.data.KaP.prozent = 100 / parseInt(sheetData.data.KaP.max) * parseInt(sheetData.data.KaP.value);
 
         return sheetData;
     }

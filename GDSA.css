@@ -342,6 +342,13 @@
   padding-left: 10px;
   position: relative;
 }
+.GDSA.sheet.characterSheet .skillTableNameBig2 {
+  width: 563px;
+  text-align: left;
+  border: 1px solid black;
+  padding-left: 10px;
+  position: relative;
+}
 .GDSA.sheet.characterSheet .skillTableBE {
   width: 65px;
   text-align: center;
@@ -371,6 +378,11 @@
   width: 100%;
   height: 24px;
   background-color: rgba(255, 255, 255, 0.45);
+}
+.GDSA.sheet.characterSheet .wonderBox {
+  overflow-y: scroll;
+  height: 600px;
+  overflow-x: hidden;
 }
 .GDSA.sheet.characterSheet .langbox {
   width: 100%;
@@ -625,6 +637,12 @@
   transform: translateY(-50%);
   font: bold 14px "Quicksand", sans-serif;
   color: #ffffff;
+}
+.GDSA.sheet.characterSheet .kapbar_fill {
+  width: 0%;
+  height: 100%;
+  background: #e5be00;
+  transition: all 0.2s;
 }
 .GDSA.sheet.characterSheet .combatWindow {
   width: 360px;
@@ -919,6 +937,11 @@
   text-align: center;
   border: 1px solid black;
 }
+.GDSA.sheet.characterSheet .addWonder {
+  width: 514px;
+  text-align: center;
+  border: 1px solid black;
+}
 .GDSA.sheet.characterSheet .spellButtonBox {
   width: 610px;
   text-align: center;
@@ -996,6 +1019,39 @@
   position: absolute;
   left: 126px;
   margin-top: 4px;
+}
+.GDSA.sheet.characterSheet .holyTraitBox {
+  width: 562px;
+  height: 340px;
+  float: left;
+  border: 2px solid black;
+  margin: 20px 24px 0px 24px;
+}
+.GDSA.sheet.characterSheet .skill-lit {
+  width: 400px;
+  display: inline-block;
+  height: 45px;
+}
+.GDSA.sheet.characterSheet .god-outer {
+  width: 400px;
+  display: inline-block;
+  height: 160px;
+}
+.GDSA.sheet.characterSheet .god-inner {
+  width: 400px;
+  height: 175px;
+  background-image: url(templates/img/Zwölfgötter.png);
+  background-size: contain;
+  background-position-x: 110px;
+  background-repeat: no-repeat;
+}
+.GDSA.sheet.characterSheet .holytraits {
+  float: left;
+  overflow-y: scroll;
+  height: 310px;
+}
+.mediOpt {
+  width: 232px;
 }
 .GDSA.sheet.itemSheet .nameLable {
   width: 373px;
@@ -1113,6 +1169,11 @@
 .GDSA.chat.message .dicefiller {
   float: left;
   height: 10px;
+  width: 100%;
+}
+.GDSA.chat.message .dicefiller1 {
+  float: left;
+  height: 4px;
   width: 100%;
 }
 .GDSA.chat.message .diceCol {
@@ -1244,4 +1305,22 @@
   font-size: 18px;
   text-align: center;
   background-color: #cd0e00;
+}
+.GDSA.chat.message .rollMediSuccess {
+  float: left;
+  background-color: green;
+  width: 100%;
+  height: 23px;
+  font-size: 18px;
+  text-align: center;
+  color: white;
+}
+.GDSA.chat.message .rollMediFail {
+  float: left;
+  background-color: darkred;
+  width: 100%;
+  height: 23px;
+  font-size: 18px;
+  text-align: center;
+  color: white;
 }

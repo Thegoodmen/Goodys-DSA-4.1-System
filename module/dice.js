@@ -1,4 +1,5 @@
 import * as Dialog from "./dialog.js";
+import * as Util from "../Util.js";
 
 export async function flawCheck(flawName, flawValue, actor) {
 
@@ -109,7 +110,7 @@ export async function statCheck(statName, statValue, statMod, actor) {
     ChatMessage.create(chatData);
 }
 
-export async function skillCheck(statName, statValue, statOne, statTwo, statThree, beMod, actor, askForOptions, isGoofy) {
+export async function skillCheck(statName, statValue, statOne, statTwo, statThree, beMod, actor, askForOptions, isGoofy, type) {
 
     let advantage = 0;
     let disadvantage = 0;
@@ -117,13 +118,27 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
 
     if(askForOptions) {
 
-        let checkOptions = await Dialog.GetSkillCheckOptions();
+        if(type == "normal") {
 
-        if (checkOptions.cancelled)
-            return;
+            let checkOptions = await Dialog.GetSkillCheckOptions();
 
-        advantage = checkOptions.advantage;
-        disadvantage = checkOptions.disadvantage;
+            if (checkOptions.cancelled)
+                return;
+
+            advantage = checkOptions.advantage;
+            disadvantage = checkOptions.disadvantage;
+
+        } else if (type == "wonder") {
+
+            let checkOptions = await Dialog.GetWonderOptions();
+
+            if (checkOptions.cancelled)
+                return;
+
+            advantage = checkOptions.advantage;
+            disadvantage = checkOptions.disadvantage;
+
+        }
     }
 
     disadvantage = parseInt(disadvantage) + parseInt(beMod);
@@ -241,6 +256,7 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
             tapMax = tempInt;
 
         } else {
+
             if (tempInt == 0) {
 
                 resultSkill = true;
@@ -349,6 +365,158 @@ export async function doAsPReg(actor, APBonus, statValue, isMaster) {
     return regtotal;
 }
 
+export async function doKaPReg(actor) {
+    
+    let checkOptions = await Dialog.GetMeditationOptions();
+
+    if (checkOptions.cancelled)
+        return;
+
+    let modi = checkOptions.disadvantage;
+    let disadvantage = checkOptions.disadvantage;
+    let advantage = checkOptions.advantage;
+    let statValue = actor.data.data.skill.liturgy; 
+    let statOne = actor.data.data.MU.value; 
+    let statTwo = actor.data.data.IN.value; 
+    let statThree = actor.data.data.CH.value; 
+
+    const template = "systems/GDSA/templates/chat/medi-check.hbs";
+    const rollFormula  = "1d20";
+
+    let rollResult = await new Roll(rollFormula, {}).roll({ async: true});
+    let rollResult2 = await new Roll(rollFormula, {}).roll({ async: true});
+    let rollResult3 = await new Roll(rollFormula, {}).roll({ async: true});
+
+    let resultSkill = true;
+    let modPresent = false;
+
+    let res1 = false;
+    let res2 = false;
+    let res3 = false;
+
+    let tap = 0;
+    let tapMax = 0;
+    let tempInt = parseInt(statValue);
+    let isDisadvantage = false;
+    let isAdvantage = false;
+    let disAdTemp = 0;
+    let mTaP1 = parseInt(statOne) - parseInt(rollResult.total);
+    let mTaP2 = parseInt(statTwo) - parseInt(rollResult2.total);
+    let mTaP3 = parseInt(statThree) - parseInt(rollResult3.total);
+
+    if(modi < 0) {
+        advantage = parseInt(modi) * (-1);
+        disadvantage = 0;
+        isAdvantage = true;
+        modPresent = true;
+        tempInt = parseInt(tempInt) + parseInt(advantage);
+
+    } else if(modi > 0) {
+        disadvantage = parseInt(modi);
+        isDisadvantage = true;
+        modPresent = true;
+        tempInt = parseInt(tempInt) - parseInt(disadvantage);
+
+        if(tempInt < 0)
+            disAdTemp = tempInt;
+    }
+
+    if (rollResult.total <= (statOne - disAdTemp))
+        res1 = true;
+
+    if (rollResult2.total <= (statTwo - disAdTemp))
+        res2 = true;
+
+    if (rollResult3.total <= (statThree - disAdTemp))
+        res3 = true;
+
+    if (mTaP1 <= mTaP2 && mTaP1 <= mTaP3)
+        tapMax = mTaP1;
+
+    if (mTaP2 <= mTaP1 && mTaP2 <= mTaP3)
+        tapMax = mTaP2;
+
+    if (mTaP3 <= mTaP1 && mTaP3 <= mTaP2)
+        tapMax = mTaP3;    
+
+    tapMax = parseInt(tapMax) + parseInt(tempInt);
+
+    if(res1 == true && res2 == true && res3 == true && tapMax >= 0) {
+
+        tap = parseInt(tempInt);
+        if (parseInt(tap) <= 0) tap = 1;    
+        resultSkill = true;
+    
+    } else {   
+        
+        if (rollResult.total > statOne)
+            tempInt = parseInt(tempInt) + (parseInt(statOne) - parseInt(rollResult.total));
+
+        if (rollResult2.total > statTwo)
+            tempInt = parseInt(tempInt) + (parseInt(statTwo) - parseInt(rollResult2.total));
+
+        if (rollResult3.total > statThree)
+            tempInt = parseInt(tempInt) + (parseInt(statThree) - parseInt(rollResult3.total));
+
+        if (tempInt > 0) {
+
+            let tempTap = tempInt;
+            if(tempInt > parseInt(statValue))
+                tempTap = parseInt(statValue);
+
+            resultSkill = true;
+            tap = tempTap;
+            tapMax = tempInt;
+
+        } else {
+            if (tempInt == 0) {
+
+                resultSkill = true;
+                tap = 1;
+                tapMax = 0;
+            } else {
+
+                resultSkill = false;
+                tempInt = tempInt * (-1);
+                tap = 0;
+                tapMax = 0;
+            }
+        }
+    }
+    
+    let lostKaP = actor.data.data.KaP.max - actor.data.data.KaP.value;
+    if(lostKaP < tap) tap = lostKaP;
+    if(tap < 0) tap = 0;
+
+    let templateContext = {
+        roll: rollResult,
+        roll2: rollResult2,
+        roll3: rollResult3,
+        statValue: statValue,
+        modPresent: modPresent,
+        modValue: modi,
+        isAdv: isAdvantage,
+        adv: advantage,
+        isDis: isDisadvantage,
+        dis: disadvantage,
+        result: resultSkill,
+        tap: tap,
+        tapMax: tapMax
+    };
+
+    let chatData = {
+        user: game.user.id,
+        speaker: ChatMessage.getSpeaker({actor}),
+        roll: rollResult,
+        sound: CONFIG.sounds.dice,
+        content: await renderTemplate(template, templateContext)
+    };
+
+    ChatMessage.create(chatData);
+
+    return tap;
+}
+
 export async function ATKCheck(ATKValue, Mod, Actor, wucht, finte, hammer, sturm) {
 
     if(ATKValue == 0) return;
@@ -418,6 +586,8 @@ export async function ATKCheck(ATKValue, Mod, Actor, wucht, finte, hammer, sturm
     };
 
     ChatMessage.create(chatData);
+
+    return resultStat;
 }
 
 export async function PACheck(PAValue, Mod, Actor) {
@@ -487,15 +657,24 @@ export async function PACheck(PAValue, Mod, Actor) {
     ChatMessage.create(chatData);
 }
 
-export async function DMGRoll(formula, Actor) {
+export async function DMGRoll(formula, Actor, multi) {
 
     if(formula == 0) return;
     const template = "systems/GDSA/templates/chat/dmg-roll.hbs";
 
     let rollResult = await new Roll(formula, {}).roll({ async: true});
 
+    let total = parseInt(rollResult.total) * parseInt(multi);
+
+
+    let zone = await new Roll("1d20", {}).roll({ async: true});
+
+    let hitZone = Util.getZone(zone.total);
+
     let templateContext = {
-        roll: rollResult
+        roll: rollResult,
+        totalDMG: total,
+        zone: hitZone
     };
 
     let chatData = {

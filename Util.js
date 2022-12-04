@@ -541,3 +541,50 @@ export function getSkillShort(fullName) {
             return "unknown"
     }
 }
+
+export function getZone(value) {
+
+    switch(value){
+
+        case 1:
+            return game.i18n.localize("GDSA.zone.leftLeg");
+        case 2:
+            return game.i18n.localize("GDSA.zone.rightLeg");
+        case 3:
+            return game.i18n.localize("GDSA.zone.leftLeg");
+        case 4:
+            return game.i18n.localize("GDSA.zone.rightLeg");
+        case 5:
+            return game.i18n.localize("GDSA.zone.leftLeg");
+        case 6:
+            return game.i18n.localize("GDSA.zone.rightLeg");
+        case 7:
+            return game.i18n.localize("GDSA.zone.tammy");
+        case 8:
+            return game.i18n.localize("GDSA.zone.tammy");
+        case 9:
+            return game.i18n.localize("GDSA.zone.leftArm");
+        case 10:
+            return game.i18n.localize("GDSA.zone.rightArm");
+        case 11:
+            return game.i18n.localize("GDSA.zone.leftArm");
+        case 12:
+            return game.i18n.localize("GDSA.zone.rightArm");
+        case 13:
+            return game.i18n.localize("GDSA.zone.leftArm");
+        case 14:
+            return game.i18n.localize("GDSA.zone.rightArm");
+        case 15:
+            return game.i18n.localize("GDSA.zone.breast");
+        case 16:
+            return game.i18n.localize("GDSA.zone.breast");
+        case 17:
+            return game.i18n.localize("GDSA.zone.breast");
+        case 18:
+            return game.i18n.localize("GDSA.zone.breast");
+        case 19:
+            return game.i18n.localize("GDSA.zone.Head");
+        case 20:
+            return game.i18n.localize("GDSA.zone.Head");
+    }
+}
