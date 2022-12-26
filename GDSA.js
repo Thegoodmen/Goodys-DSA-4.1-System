@@ -68,6 +68,9 @@ Hooks.once("init", function () {
     Actors.registerSheet("GDSA", GDSAMerchantSheet, { types: ["LootActor"]});
     Actors.registerSheet("GDSA", GDSALootActorSheet, { types: ["LootActor"]});
     Actors.registerSheet("GDSA", GDSANonPlayerSheet, { types: ["NonPlayer"]});
+
+    console.log(
+        JournalEntry);
   
     preloadHandlebarsTemplates();
 

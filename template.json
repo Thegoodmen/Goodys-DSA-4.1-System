@@ -101,6 +101,9 @@
             }
         },
         "NonPlayer": {
+            "templates": [
+                "Stats"
+            ],
             "name": ""
         },
         "LootActor": {
