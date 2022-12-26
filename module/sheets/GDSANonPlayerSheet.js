@@ -7,8 +7,8 @@ export default class GDSANonPlayerSheet extends ActorSheet {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             template: "systems/GDSA/templates/sheets/nonPlayer-sheet.hbs",
-            width: 850,
-            height: 525,
+            width: 632,
+            height: 625,
             resizable: false,
             classes: ["GDSA", "sheet", "nonPlayerSheet"]
         });
@@ -35,14 +35,7 @@ export default class GDSANonPlayerSheet extends ActorSheet {
 
     activateListeners(html) {
 
-        if(this.isEditable) {
-
-
-        }
-
-        if(this.actor.isOwner){
-
-        }
+        
 
         super.activateListeners(html);
     }
