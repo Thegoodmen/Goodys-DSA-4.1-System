@@ -70,7 +70,7 @@
   border: 2px solid black;
 }
 .GDSA.sheet.characterSheet .menuDivider {
-  width: 156px;
+  width: 144px;
   height: 60px;
   float: left;
   text-align: center;
@@ -80,8 +80,12 @@
   height: 38px;
   float: left;
 }
+.GDSA.sheet.characterSheet .menuMainItem {
+  float: left;
+  padding: 0px 0px;
+}
 .GDSA.sheet.characterSheet .menuItem {
-  width: 76px;
+  width: 78px;
   height: 40px;
   border: 2px transparent;
   float: left;
@@ -96,7 +100,7 @@
   float: left;
 }
 .GDSA.sheet.characterSheet .menuItemBox {
-  width: 228px;
+  width: 234px;
   height: 60px;
   float: left;
 }
@@ -1090,6 +1094,11 @@
   height: 50px;
   float: left;
 }
+.GDSA.sheet.itemSheet .box165 {
+  width: 165px;
+  height: 50px;
+  float: left;
+}
 .GDSA.sheet.itemSheet .box160 {
   width: 160px;
   height: 50px;
@@ -1105,6 +1114,16 @@
   height: 50px;
   float: left;
 }
+.GDSA.sheet.itemSheet .box120 {
+  width: 120px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .box100 {
+  width: 100px;
+  height: 50px;
+  float: left;
+}
 .GDSA.sheet.itemSheet .box75 {
   width: 75px;
   height: 50px;
@@ -1112,6 +1131,11 @@
 }
 .GDSA.sheet.itemSheet .box70 {
   width: 70px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .box50 {
+  width: 50px;
   height: 50px;
   float: left;
 }
@@ -1126,14 +1150,26 @@
 .GDSA.sheet.itemSheet .input165 {
   width: 165px;
 }
+.GDSA.sheet.itemSheet .input160 {
+  width: 160px;
+}
 .GDSA.sheet.itemSheet .input150 {
   width: 150px;
 }
 .GDSA.sheet.itemSheet .input140 {
   width: 140px;
 }
+.GDSA.sheet.itemSheet .input110 {
+  width: 110px;
+}
+.GDSA.sheet.itemSheet .input100 {
+  width: 100px;
+}
 .GDSA.sheet.itemSheet .input60 {
   width: 60px;
+}
+.GDSA.sheet.itemSheet .input40 {
+  width: 40px;
 }
 .GDSA.sheet.itemSheet .input30 {
   width: 30px;
@@ -1142,6 +1178,236 @@
   width: 5px;
   height: 10px;
   float: left;
+}
+.GDSA.sheet.itemSheet .adHelper1 {
+  width: 350px;
+  float: left;
+  margin-right: 10px;
+  margin-left: 5px;
+  flex: none;
+}
+.GDSA.sheet.itemSheet .adHelper2 {
+  width: 80px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .adHelper3 {
+  width: 350px;
+  float: left;
+  margin-right: 10px;
+  margin-left: 5px;
+  flex: none;
+  padding-left: 10px;
+}
+.GDSA.sheet.itemSheet .adHelper4 {
+  width: 315px;
+  float: left;
+  margin-left: 5px;
+  flex: none;
+  padding-left: 10px;
+}
+.GDSA.sheet.itemSheet .adHelper5 {
+  width: 80px;
+  float: left;
+  margin-right: 15px;
+}
+.GDSA.sheet.itemSheet .afHelper1 {
+  height: 68px;
+}
+.GDSA.sheet.itemSheet .afHelper2 {
+  width: 372px;
+  height: 36px;
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+.GDSA.sheet.itemSheet .afHelper3 {
+  float: left;
+  width: 180px;
+  flex: none;
+  margin-right: 6px;
+}
+.GDSA.sheet.itemSheet .afHelper4 {
+  float: left;
+  width: 180px;
+  flex: none;
+  margin-left: 6px;
+}
+.GDSA.sheet.itemSheet .arHelper1 {
+  width: 450px;
+  height: 305px;
+}
+.GDSA.sheet.itemSheet .arHelper2 {
+  width: 450px;
+  height: 50px;
+}
+.GDSA.sheet.itemSheet .arHelper3 {
+  width: 240px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .arHelper4 {
+  width: 230px;
+}
+.GDSA.sheet.itemSheet .arHelper5 {
+  width: 100px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .arHelper6 {
+  width: 90px;
+}
+.GDSA.sheet.itemSheet .arHelper7 {
+  width: 35px;
+  height: 50px;
+  float: left;
+  text-align: center;
+}
+.GDSA.sheet.itemSheet .arHelper8 {
+  width: 25px;
+}
+.GDSA.sheet.itemSheet .arHelper9 {
+  width: 75px;
+  height: 50px;
+  float: left;
+  text-align: center;
+}
+.GDSA.sheet.itemSheet .arHelper10 {
+  width: 65px;
+}
+.GDSA.sheet.itemSheet .arHelper11 {
+  width: 70px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .arHelper12 {
+  width: 60px;
+}
+.GDSA.sheet.itemSheet .arHelper13 {
+  width: 170px;
+}
+.GDSA.sheet.itemSheet .arHelper14 {
+  width: 450px;
+  height: 150px;
+}
+.GDSA.sheet.itemSheet .arHelper15 {
+  width: 450px;
+  height: 135px;
+}
+.GDSA.sheet.itemSheet .arHelper16 {
+  width: 170px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .arHelper17 {
+  height: 75px;
+}
+.GDSA.sheet.itemSheet .ctHelper1 {
+  width: 450px;
+  height: 36px;
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+.GDSA.sheet.itemSheet .laHelper1 {
+  float: left;
+  width: 305px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.GDSA.sheet.itemSheet .laHelper2 {
+  float: left;
+  width: 305px;
+  margin-left: 5px;
+}
+.GDSA.sheet.itemSheet .laHelper3 {
+  float: left;
+  width: 40px;
+  margin-left: 20px;
+  margin-right: 5px;
+}
+.GDSA.sheet.itemSheet .laHelper4 {
+  float: left;
+  width: 40px;
+}
+.GDSA.sheet.itemSheet .mwHelper1 {
+  width: 10px;
+  height: 10px;
+}
+.GDSA.sheet.itemSheet .mwHelper2 {
+  width: 75px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .mwHelper3 {
+  width: 100px;
+  height: 5px;
+}
+.GDSA.sheet.itemSheet .adBnt {
+  margin-top: 20px;
+  width: 145px;
+  margin-left: 155px;
+}
+.GDSA.sheet.itemSheet .ritHelper1 {
+  float: left;
+  width: 400px;
+  height: 55px;
+}
+.GDSA.sheet.itemSheet .ritHelper2 {
+  float: left;
+  width: 270px;
+}
+.GDSA.sheet.itemSheet .ritHelper3 {
+  float: left;
+  width: 150px;
+}
+.GDSA.sheet.itemSheet .ritHelper4 {
+  float: left;
+  width: 250px;
+}
+.GDSA.sheet.itemSheet .ritHelper5 {
+  width: 99px;
+  margin-right: 10px;
+}
+.GDSA.sheet.itemSheet .ritHelper6 {
+  width: 60px;
+  margin-left: 10px;
+}
+.GDSA.sheet.itemSheet .sgHelper1 {
+  float: left;
+  width: 350px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.GDSA.sheet.itemSheet .sgHelper2 {
+  float: left;
+  width: 350px;
+}
+.GDSA.sheet.itemSheet .sgHelper3 {
+  float: left;
+  width: 40px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.GDSA.sheet.itemSheet .sgHelper4 {
+  float: left;
+  width: 40px;
+}
+.GDSA.sheet.itemSheet .spHelper1 {
+  float: left;
+  width: 370px;
+}
+.GDSA.sheet.itemSheet .spHelper2 {
+  float: left;
+  width: 350px;
+}
+.GDSA.sheet.itemSheet .spHelper3 {
+  float: left;
+  width: 40px;
+}
+.GDSA.sheet.itemSheet .spHelper4 {
+  float: left;
+  width: 60px;
+}
+.GDSA.sheet.itemSheet .itemImg {
+  height: 64px;
+  width: 64px;
 }
 .GDSA.chat.message .flawBox {
   height: 132px;
@@ -1193,7 +1459,7 @@
 }
 .GDSA.chat.message .dices2 {
   height: 60px;
-  width: 180px;
+  width: fit-content;
   margin: auto;
 }
 .GDSA.chat.message .dice {

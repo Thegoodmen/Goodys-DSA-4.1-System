@@ -1,60 +1,72 @@
 <form class="{{cssClass}}" autocomplete="off">
-    <header class="sheet-header">
-        <img src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64"/>
-        <h1><input name="name" type="text" value="{{item.name}}" placeholder="{{ localize 'Name' }}" style="width: 373px;"/></h1>
+
+    <header class="sheet-header arHelper17">
+        <img class="itemImg" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+        <input class="afHelper2" name="name" type="text" value="{{item.name}}" placeholder="{{localize 'Name'}}" />
     </header>
-    <div style="width: 450px; height: 305px;">
-        <div style="width: 450px; height: 50px;">
-            <div style="width: 175px; height: 50px; float: left;">
+
+    <div class="itemMain">
+
+        <div class="itemRow">
+            <div class="box175">
                 <b>{{localize "GDSA.itemsheet.type"}}</b><br />
-                <input name="data.type" type="text" value="{{data.type}}" style="width: 165px;" />
+                <input class="input165" name="system.type" type="text" value="{{system.type}}" />
             </div>
-            <div style="width: 175px; height: 50px; float: left;">
+
+            <div class="box175">
                 <b>{{localize "GDSA.itemsheet.skill"}}</b><br />
-                <select name="data.skill" style="width: 165px;">
-                    {{#select data.skill}}
-                    {{#each config.rangeSkills as |name type|}}
-                    <option value="{{type}}">{{localize name}}</option>
-                    {{/each}}
+                <select class="input165" name="system.skill">
+                    {{#select system.skill}}
+                        {{#each config.rangeSkills as |name type|}}
+                            <option value="{{type}}">{{localize name}}</option>
+                        {{/each}}
                     {{/select}}
                 </select>
             </div>
-            <div style="width: 100px; height: 50px; float: left;">
+
+            <div class="box100">
                 <b>{{localize "GDSA.itemsheet.loadtime"}}</b><br />
-                <input name="data.loadActions" type="text" value="{{data.loadActions}}" style="width: 100px;" />
+                <input class="input100" name="system.loadActions" type="text" value="{{system.loadActions}}" />
             </div>
         </div>
-        <div style="width: 450px; height: 50px;">
-            <div style="width: 120px; height: 50px; float: left;">
+
+        <div class="itemRow">
+            <div class="box120">
                 <b>{{localize "GDSA.itemsheet.damage"}}</b><br />
-                <input name="data.damage" type="text" value="{{data.damage}}" style="width: 110px;" />
+                <input class="input110" name="system.damage" type="text" value="{{system.damage}}" />
             </div>
-            <div style="width: 165px; height: 50px; float: left;">
+
+            <div class="box165">
                 <b>{{localize "GDSA.itemsheet.range"}}</b><br />
-                <input name="data.range" type="text" value="{{data.range}}" style="width: 160px;" />
+                <input class="input160" name="system.range" type="text" value="{{system.range}}" />
             </div>
-            <div style="width: 165px; height: 50px; float: left;">
+
+            <div class="box165">
                 <b>{{localize "GDSA.itemsheet.tpPlus"}}</b><br />
-                <input name="data.tp" type="text" value="{{data.tp}}" style="width: 165px;" />
+                <input class="input165" name="system.tp" type="text" value="{{system.tp}}" />
             </div>
         </div>
-        <div style="width: 450px; height: 50px;">
-            <div style="width: 150px; height: 50px; float: left;">
+
+        <div class="itemRow">
+            <div class="box150">
                 <b>{{localize "GDSA.itemsheet.length"}}</b><br />
-                <input name="data.length" type="text" value="{{data.length}}" style="width: 140px;" />
+                <input class="input140" name="system.length" type="text" value="{{system.length}}" />
             </div>
-            <div style="width: 150px; height: 50px; float: left;">
+
+            <div class="box150">
                 <b>{{localize "GDSA.itemsheet.weight"}}</b><br />
-                <input name="data.weight" type="text" value="{{data.weight}}" style="width: 140px;" />
+                <input class="input140" name="system.weight" type="text" value="{{system.weight}}" />
             </div>
-            <div style="width: 150px; height: 50px; float: left;">
+
+            <div class="box150">
                 <b>{{localize "GDSA.itemsheet.value"}}</b><br />
-                <input name="data.value" type="text" value="{{data.value}}" style="width: 140px;" />
+                <input class="input140" name="system.value" type="text" value="{{system.value}}" />
             </div>
         </div>
-        <div style="width: 450px; height: 150px;">
+
+        <div class="itemDescBox">
             <b>{{localize "GDSA.itemsheet.description"}}</b><br />
-            <textarea name="data.description" style="width: 450px; height: 135px;">{{data.description}}</textarea>
-        </div>       
+            <textarea class="itemDesc2" name="system.description">{{system.description}}</textarea>
+        </div>     
     </div>
 </form>

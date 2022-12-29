@@ -1,9 +1,11 @@
 <form class="{{cssClass}}" autocomplete="off">
     <header class="sheet-header">
-        <img src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64"/>
-        <h1><input class="nameLable" name="name" type="text" value="{{item.name}}" placeholder="{{ localize 'Name' }}"/></h1>
+        <img class="itemImg" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+        <div class="afHelper1">
+            <input class="afHelper2" name="name" type="text" value="{{item.name}}" placeholder="{{localize 'Name'}}" />
+            <input class="afHelper3" name="system.fontColo" type="color" value="{{system.fontColo}}" />
+            <input class="afHelper4" name="system.backgroundColor" type="color" value="{{system.backgroundColor}}" />
+        </div>
     </header>
-    </header>
-    <input name="data.fontColo" type="color" value="{{data.fontColo}}" style="float: left; width: 375px;" />
-    <input name="data.backgroundColor" type="color" value="{{data.backgroundColor}}" style="float: left; width: 375px;" />
+    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
 </form>

@@ -9,6 +9,7 @@ import GDSAPlayerCharakterSheet from "./module/sheets/GDSAPlayerCharakterSheet.j
 import GDSALootActorSheet from "./module/sheets/GDSALootActorSheet.js";
 import GDSAMerchantSheet from "./module/sheets/GDSAMerchantSheet.js";
 import GDSANonPlayerSheet from "./module/sheets/GDSANonPlayerSheet.js";
+import * as LsFunction from "./module/listenerFunctions.js"
 
 async function preloadHandlebarsTemplates(){
 
@@ -68,9 +69,6 @@ Hooks.once("init", function () {
     Actors.registerSheet("GDSA", GDSAMerchantSheet, { types: ["LootActor"]});
     Actors.registerSheet("GDSA", GDSALootActorSheet, { types: ["LootActor"]});
     Actors.registerSheet("GDSA", GDSANonPlayerSheet, { types: ["NonPlayer"]});
-
-    console.log(
-        JournalEntry);
   
     preloadHandlebarsTemplates();
 
@@ -240,5 +238,11 @@ Hooks.once("init", function () {
 
         return false;
     });
+
+});
+
+Hooks.once("renderChatMessage", function () {
+
+    $(document).on('click', '.chat_test', function (event) { LsFunction.testFunc(event) })
 
 });

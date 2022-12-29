@@ -1,11 +1,19 @@
-import * as Dice from "../dice.js";
-import * as Dialog from "../dialog.js";
-import * as Util from "../../Util.js";
+import * as LsFunction from "../listenerFunctions.js"
 
 export default class GDSALootActorSheet extends ActorSheet { 
 
     static get defaultOptions() {
+
+        // #################################################################################################
+        // #################################################################################################
+        // ##                                                                                             ##
+        // ##            Returns the General HTML of the Sheet and defines some general Stats             ##
+        // ##                                                                                             ##
+        // #################################################################################################
+        // #################################################################################################
+
         return mergeObject(super.defaultOptions, {
+
             template: "systems/GDSA/templates/sheets/lootActor-sheet.hbs",
             width: 632,
             height: 625,
@@ -14,57 +22,58 @@ export default class GDSALootActorSheet extends ActorSheet {
         });
     }
 
-    itemContextMenu = [{
-
-            name: game.i18n.localize("GDSA.system.edit"),
-            icon: '<i class="fas fa-edit" />',
-            callback: element => {
-                const item = this.actor.items.get(element.data("item-id"));
-                item.sheet.render(true);
-            }
-        },{
-            name: game.i18n.localize("GDSA.system.delete"),
-            icon: '<i class="fas fa-trash" />',
-            callback: element => {
-                this.actor.deleteEmbeddedDocuments("Item", [element.data("item-id")]);
-            }
-        }
-    ]; 
-
     getData() {
+
+        // #################################################################################################
+        // #################################################################################################
+        // ##                                                                                             ##
+        // ## Creates Basic Datamodel, which is used to fill the HTML together with Handelbars with Data. ##
+        // ##                                                                                             ##
+        // #################################################################################################
+        // #################################################################################################
 
         const baseData = super.getData();
 
         let sheetData = {
 
+            // Set General Values
+
             owner: this.actor.isOwner,
             editable: this.isEditable,
             actor: baseData.actor,
-            data: baseData.actor.data.data,
+            system: baseData.actor.system,
             items: baseData.items,
             config: CONFIG.GDSA,
-            isGM: game.user.isGM
+            isGM: game.user.isGM,
+
+            // Create for each Item Type its own Array
+
+            generals: Util.getItems(baseData, "generals", false),
+            meleeweapons: Util.getItems(baseData, "melee-weapons", false),
+            rangeweapons: Util.getItems(baseData, "range-weapons", false),
+            shields: Util.getItems(baseData, "shields", false),
+            armour: Util.getItems(baseData, "armour", false)
         };
 
-        
-        sheetData.generals = baseData.items.filter(function(item) {return item.type == "generals"});
-        sheetData.meleeweapons = baseData.items.filter(function(item) {return item.type == "melee-weapons"});
-        sheetData.rangeweapons = baseData.items.filter(function(item) {return item.type == "range-weapons"});
-        sheetData.shields = baseData.items.filter(function(item) {return item.type == "shields"});
-        sheetData.armour = baseData.items.filter(function(item) {return item.type == "armour"});
-        
         return sheetData;
     }
 
     activateListeners(html) {
 
+        // #################################################################################################
+        // #################################################################################################
+        // ##                                                                                             ##
+        // ##    Set Listener for Buttons and Links with Functions to be executed on action. e.g. Roll    ##
+        // ##                                                                                             ##
+        // #################################################################################################
+        // #################################################################################################
+
+
         if(this.isEditable) {
 
-            new ContextMenu(html, ".item-context", this.itemContextMenu);
-        }
+            // Set Listener for Context / Right-Click Menu
 
-        if(this.actor.isOwner){
-
+            new ContextMenu(html, ".item-context", LsFunction.getItemContextMenu());
         }
 
         super.activateListeners(html);

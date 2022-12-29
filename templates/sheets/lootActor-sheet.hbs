@@ -3,7 +3,7 @@
 
     <header class="sheet-header">
         <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="64" width="64"/>
-        <h1><input class="nameLable" name="name" type="text" value="{{actor.name}}" placeholder="{{ localize 'Name' }}"/></h1>
+        <h1><input class="nameLable" name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'Name'}}"/></h1>
     </header>
 
         <div class="invFiller2"></div>
@@ -14,13 +14,13 @@
                 <div class="invMenuHelper2">
 	                <div class="skillHeaderSkillBox3">
                         <div class="headerLable">{{localize "GDSA.charactersheet.gold"}}</div><div class="headerValue">
-                            <input class="headerValue moneylable editableValue" name="data.money.gold" type="number" value="{{data.money.gold}}" {{#unless isGM}}disabled{{/unless}} /></div> 
+                            <input class="headerValue moneylable editableValue" name="system.money.gold" type="number" value="{{system.money.gold}}" {{#unless isGM}}disabled{{/unless}} /></div> 
                         <div class="headerLable">{{localize "GDSA.charactersheet.silver"}}</div><div class="headerValue">
-                            <input class="headerValue moneylable editableValue" name="data.money.silver" type="number" value="{{data.money.silver}}" {{#unless isGM}}disabled{{/unless}} /></div>
+                            <input class="headerValue moneylable editableValue" name="system.money.silver" type="number" value="{{system.money.silver}}" {{#unless isGM}}disabled{{/unless}} /></div>
                         <div class="headerLable">{{localize "GDSA.charactersheet.copper"}}</div><div class="headerValue">
-                            <input class="headerValue moneylable editableValue" name="data.money.copper" type="number" value="{{data.money.copper}}" {{#unless isGM}}disabled{{/unless}} /></div> 
+                            <input class="headerValue moneylable editableValue" name="system.money.copper" type="number" value="{{system.money.copper}}" {{#unless isGM}}disabled{{/unless}} /></div> 
                         <div class="headerLable">{{localize "GDSA.charactersheet.nikel"}}</div><div class="headerValue">
-                            <input class="headerValue moneylable editableValue" name="data.money.nickel" type="number" value="{{data.money.nickel}}" {{#unless isGM}}disabled{{/unless}} /></div>
+                            <input class="headerValue moneylable editableValue" name="system.money.nickel" type="number" value="{{system.money.nickel}}" {{#unless isGM}}disabled{{/unless}} /></div>
 	                </div>
                 </div>
             </div>
@@ -30,14 +30,14 @@
             
                     <div class="invtableborder">
                         <div class="invHeader">{{localize "GDSA.charactersheet.meleeWeapons"}}
-                            {{#if data.editInv}}
+                            {{#if system.editInv}}
                                 <div class="addItemBox"><a class="item-create" data-type="melee-weapons" title="{{localize "GDSA.charactersheet.addItem"}}">
                                     <i class="fas fa-plus plusSym2"></i>
                                 </a></div>
                             {{/if}}
                         </div>
                         {{#each meleeweapons as |item id|}}
-                            <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{data.type}}</i>
+                            <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
                                 <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
                             </div>
 	                    {{/each}}
@@ -47,14 +47,14 @@
         
                     <div class="invtableborder">
                          <div class="invHeader">{{localize "GDSA.charactersheet.rangeWeapons"}}
-                            {{#if data.editInv}}
+                            {{#if system.editInv}}
                                 <div class="addItemBox"><a class="item-create" data-type="range-weapons" title="{{localize "GDSA.charactersheet.addItem"}}">
                                     <i class="fas fa-plus plusSym2"></i>
                                 </a></div>
                             {{/if}}
                         </div>
 	                    {{#each rangeweapons as |item id|}}
-                            <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{data.type}}</i>
+                            <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
                                 <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
                             </div>
 	                    {{/each}}
@@ -64,14 +64,14 @@
         
                     <div class="invtableborder">
                         <div class="invHeader">{{localize "GDSA.charactersheet.shields"}}
-                            {{#if data.editInv}}
+                            {{#if system.editInv}}
                                 <div class="addItemBox"><a class="item-create" data-type="shields" title="{{localize "GDSA.charactersheet.addItem"}}">
                                     <i class="fas fa-plus plusSym2"></i>
                                 </a></div>
                             {{/if}}
                         </div>
 	                    {{#each shields as |item id|}}
-                            <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{data.type}}</i>
+                            <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
                                 <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
                             </div>
 	                    {{/each}}
@@ -81,14 +81,14 @@
         
                     <div class="invtableborder">
                         <div class="invHeader">{{localize "GDSA.charactersheet.armour"}}
-                            {{#if data.editInv}}
+                            {{#if system.editInv}}
                                 <div class="addItemBox"><a class="item-create" data-type="armour" title="{{localize "GDSA.charactersheet.addItem"}}">
                                     <i class="fas fa-plus plusSym2"></i>
                                 </a></div>
                             {{/if}}
                         </div>
 	                    {{#each armour as |item id|}}
-                            <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{data.type}}</i>
+                            <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
                                 <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
                             </div>
 	                    {{/each}}
@@ -98,14 +98,14 @@
         
                     <div class="invtableborder">
                         <div class="invHeader">{{localize "GDSA.charactersheet.generals"}}
-                            {{#if data.editInv}}
+                            {{#if system.editInv}}
                                 <div class="addItemBox"><a class="item-create" data-type="generals" title="{{localize "GDSA.charactersheet.addItem"}}">
                                     <i class="fas fa-plus plusSym2"></i>
                                 </a></div>
                             {{/if}}
                         </div>
 	                    {{#each generals as |item id|}}
-                            <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{data.type}}</i>
+                            <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
                                 <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
                             </div>
 	                    {{/each}}

@@ -1,12 +1,12 @@
 <table style="display: inline-block">
     
     {{#each config.meleeSkill}}
-        {{#if (ifOR ../data.allSkills (notEmpty (getData (getData ../data/skill ./skill) "value") includeZero=true))}}
+        {{#if (ifOR ../system.allSkills (notEmpty (getData (getData ../system/skill ./skill) "value") includeZero=true))}}
             <tr>
                 <td class="skillTableNameCombat">{{localize (concat "GDSA.charactersheet." skill "Skill")}}</td>
-                <td class="skillTableValue"><input class="skillTemp" name="{{concat "data.skill." skill ".atk"}}" type="number" value="{{getData (getData ../data/skill ./skill) "atk"}}" title="AT"/></td>
+                <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." skill ".atk"}}" type="number" value="{{getData (getData ../system/skill ./skill) "atk"}}" title="AT"/></td>
                 <td class="skillTableFiller"></td>
-                <td class="skillTableValue"><input class="skillTemp" name="{{concat "data.skill." skill ".def"}}" type="number" value="{{getData (getData ../data/skill ./skill) "def"}}" title="PA"/></td>
+                <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." skill ".def"}}" type="number" value="{{getData (getData ../system/skill ./skill) "def"}}" title="PA"/></td>
                 {{#if (isGreater beMod 0)}}
                     <td class="skillTableBE">{{localize "GDSA.charactersheet.BE"}}</td>
                 {{else}}
@@ -16,16 +16,16 @@
                         <td class="skillTableBE"></td>
                     {{/if}}
                 {{/if}}
-                <td class="skillTableValue"><input class="skillTemp" name="{{concat "data.skill." skill ".value"}}" type="number" value="{{getData (getData ../data/skill ./skill) "value"}}" /></td>
+                <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." skill ".value"}}" type="number" value="{{getData (getData ../system/skill ./skill) "value"}}" /></td>
             </tr>
 
-            {{#if (hasSpez ../data.SkillSpez skill)}}
-                {{#each (getSpez ../data.SkillSpez skill)}}
+            {{#if (hasSpez ../system.SkillSpez skill)}}
+                {{#each (getSpez ../system.SkillSpez skill)}}
                     <tr>
                       <td class="skillTableNameCombat">{{localize (concat "GDSA.charactersheet." ../skill "Skill")}} [{{spezi}}]</td>
-                      <td class="skillTableValue"><input class="skillTemp" name="{{concat "data.skill." ../skill ".atk"}}" type="number" value="{{getData (getData ../../data/skill ../skill) "atk"}}" title="AT"/></td>
+                      <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." ../skill ".atk"}}" type="number" value="{{getData (getData ../../system/skill ../skill) "atk"}}" title="AT"/></td>
                       <td class="skillTableFiller"></td>
-                      <td class="skillTableValue"><input class="skillTemp" name="{{concat "data.skill." ../skill ".def"}}" type="number" value="{{getData (getData ../../data/skill ../skill) "def"}}" title="PA"/></td>
+                      <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." ../skill ".def"}}" type="number" value="{{getData (getData ../../system/skill ../skill) "def"}}" title="PA"/></td>
                       {{#if (isGreater ../beMod 0)}}
                           <td class="skillTableBE">{{localize "GDSA.charactersheet.BE"}}</td>
                       {{else}}
@@ -35,7 +35,7 @@
                               <td class="skillTableBE"></td>
                           {{/if}}
                       {{/if}}
-                      <td class="skillTableValue"><input class="skillTemp" name="spezi" type="number" value="{{addSpez (getData (getData ../../data/skill ../skill) "value")}}" disabled/></td>
+                      <td class="skillTableValue"><input class="skillTemp" name="spezi" type="number" value="{{addSpez (getData (getData ../../system/skill ../skill) "value")}}" disabled/></td>
                     </tr>
                 {{/each}}
             {{/if}}
@@ -44,10 +44,10 @@
     {{/each}}
 
     {{#each config.rangeSkill}}
-        {{#if (ifOR ../data.allSkills (notEmpty (getData (getData ../data/skill ./skill) "value") includeZero=true))}}
+        {{#if (ifOR ../system.allSkills (notEmpty (getData (getData ../system/skill ./skill) "value") includeZero=true))}}
             <tr>
                 <td class="skillTableNameCombat">{{localize (concat "GDSA.charactersheet." skill "Skill")}}</td>
-                <td class="skillTableValue"><input class="skillTemp" name="{{concat "data.skill." skill ".atk"}}" type="number" value="{{getData (getData ../data/skill ./skill) "atk"}}" title="AT"/></td>
+                <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." skill ".atk"}}" type="number" value="{{getData (getData ../system/skill ./skill) "atk"}}" title="AT"/></td>
                 <td class="skillTableFiller"></td>
                 <td class="skillTableValue"></td>
                 {{#if (isGreater beMod 0)}}
@@ -59,14 +59,14 @@
                         <td class="skillTableBE"></td>
                     {{/if}}
                 {{/if}}
-                <td class="skillTableValue"><input class="skillTemp" name="{{concat "data.skill." skill ".value"}}" type="number" value="{{getData (getData ../data/skill ./skill) "value"}}" /></td>
+                <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." skill ".value"}}" type="number" value="{{getData (getData ../system/skill ./skill) "value"}}" /></td>
             </tr>
 
-            {{#if (hasSpez ../data.SkillSpez skill)}}
-                {{#each (getSpez ../data.SkillSpez skill)}}
+            {{#if (hasSpez ../system.SkillSpez skill)}}
+                {{#each (getSpez ../system.SkillSpez skill)}}
                     <tr>
                       <td class="skillTableNameCombat">{{localize (concat "GDSA.charactersheet." ../skill "Skill")}} [{{spezi}}]</td>
-                      <td class="skillTableValue"><input class="skillTemp" name="{{concat "data.skill." ../skill ".atk"}}" type="number" value="{{getData (getData ../../data/skill ../skill) "atk"}}" title="AT"/></td>
+                      <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." ../skill ".atk"}}" type="number" value="{{getData (getData ../../system/skill ../skill) "atk"}}" title="AT"/></td>
                       <td class="skillTableFiller"></td>
                       <td class="skillTableValue"></td>
                       {{#if (isGreater ../beMod 0)}}
@@ -78,7 +78,7 @@
                               <td class="skillTableBE"></td>
                           {{/if}}
                       {{/if}}
-                      <td class="skillTableValue"><input class="skillTemp" name="spezi" type="number" value="{{addSpez (getData (getData ../../data/skill ../skill) "value")}}" disabled/></td>
+                      <td class="skillTableValue"><input class="skillTemp" name="spezi" type="number" value="{{addSpez (getData (getData ../../system/skill ../skill) "value")}}" disabled/></td>
                     </tr>
                 {{/each}}
             {{/if}}

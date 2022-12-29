@@ -11,8 +11,8 @@
 
             {{#each ritualSkills as |item id|}}
                 <tr class="item-context item" data-item-id="{{_id}}">
-                    <td class="skillTableNameBig">{{localize (concat "GDSA.ritualSkills." ./data/skill "")}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="{{concat "data.skill.rit" ./data/skill ""}}" type="number" value="{{getRitData ../data/skill ./data/skill}}" /></td>
+                    <td class="skillTableNameBig">{{localize (concat "GDSA.ritualSkills." ./system/skill "")}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill.rit" ./system/skill ""}}" type="number" value="{{getRitData ../system/skill ./system/skill}}" /></td>
                 </tr>
             {{/each}}
                 <tr class="item-context item" data-item-id="{{_id}}">
@@ -27,7 +27,7 @@
 		<div class="traithrbox"><hr class="flawhr" /></div>
     	<section class="magtraits">
 			{{#each magicTraits as |Trait id|}}
-				<div class="item item-context" data-type="{{data.type}}" data-item-id="{{_id}}">
+				<div class="item item-context" data-type="{{system.type}}" data-item-id="{{_id}}">
                     <div class="trait">{{name}}</div><hr class="flawhr" />
                 </div>
 			{{/each}}
@@ -40,7 +40,7 @@
 		<div class="traithrbox"><hr class="flawhr" /></div>
     	<section class="magtraits">
 			{{#each objectTraits as |Trait id|}}
-				<div class="item item-context" data-type="{{data.type}}" data-item-id="{{_id}}">
+				<div class="item item-context" data-type="{{system.type}}" data-item-id="{{_id}}">
                     <div class="trait">{{name}}</div><hr class="flawhr" />
                 </div>
 			{{/each}}

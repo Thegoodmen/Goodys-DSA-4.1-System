@@ -1,11 +1,14 @@
 {
-    "name": "GDSA",
+    "id": "GDSA",
     "title": "Goody's DSA 4.1",
     "description": "A system for DSA 4.1 made by Goody",
-    "author": "Goody",
-    "version": "0.1.10",
-    "minimumCoreVersion": "9.269",
-    "compatibleCoreVersion": "9.269",
+    "authors": [
+        {
+            "name": "Goody",
+            "discord": "Goody#2054"
+        }
+    ],
+    "version": "0.2.1",
     "esmodules": [
         "GDSA.js"
     ],
@@ -22,10 +25,16 @@
             "path": "lang/de.json"
         }
     ],
-    "gridDistance": 10,
+    "compatibility": {
+        "minimum": 10,
+        "verified": "10.290",
+        "maximum": 10
+    },
+    "gridDistance": 1,
     "gridUnits": "Schritt",
-    "primaryTokenAttribute": "LeP",
-    "Initiative": "1d6 + @IniBase",
+    "primaryTokenAttribute": "LeP.value",
+    "secondaryTokenAttribute": "AuP.value",
+    "Initiative": "1d6 + @IniBase.value",
     "url": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System",
     "manifest": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System/releases/latest/download/system.json",
     "download": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System/releases/download/v0.1.9/system.zip"

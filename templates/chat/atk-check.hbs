@@ -1,7 +1,7 @@
 <div class="GDSA chat message">
     <div class="flawBox {{#if modPresent}}statModBoxAdd{{/if}}">
         
-        <div class="flawName">Angriff ({{ATKValue}})</div>
+        <div class="flawName"><a class="test" >{{localize "GDSA.chat.dialog.attack"}} ({{ATKValue}})</a></div>
         <div class="dicefiller"></div>
         <div class="diceCol">
             <div class="dices">
@@ -27,15 +27,15 @@
         <div class="dice-formula">
                 {{#if result}}
                     {{#if critt}}
-                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.critt"}}</div>
+                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.critt"}} <button class="test item" data-stattype="KL" data-actor="{{actor}}">Test</button></div>
                     {{else}}
-                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.success"}}</div>
+                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.success"}} <button class="test item" data-stattype="KL" data-actor="{{actor}}">Test</button></div>
                     {{/if}}
                 {{else}}               
                     {{#if goof}}
-                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.goof"}}</div>
+                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.goof"}} <button class="test item" data-stattype="KL" data-actor="{{actor}}">Test</button></div>
                     {{else}}
-                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.fail"}}</div>
+                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.fail"}} <button class="test item" data-stattype="KL" data-actor="{{actor}}">Test</button></div>
                     {{/if}}
                 {{/if}}
         </div>

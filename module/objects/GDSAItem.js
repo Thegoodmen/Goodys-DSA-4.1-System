@@ -4,9 +4,8 @@ export default class GDSAItem extends Item {
 
         super.prepareDerivedData();
 
-        const itemData = this.data;
-        const data = itemData.data;
+        const system = this.system;
 
-        data.loc = "GDSA.system." + itemData.type;
+        system.loc = "GDSA.system." + this.type;
     }
 }

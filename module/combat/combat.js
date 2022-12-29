@@ -9,15 +9,15 @@ export default class GDSACombat extends Combat {
         if(iniDifference != 0)
             return iniDifference;
 
-        const InIBaseA = a.actor.data.data.INIBasis.value;
-        const InIBaseB = b.actor.data.data.INIBasis.value;
+        const InIBaseA = a.actor.system.INIBasis.value;
+        const InIBaseB = b.actor.system.INIBasis.value;
         
         let baseDifference = InIBaseB - InIBaseA;
         if(baseDifference != 0)
             return baseDifference;
         
-        const IntBaseA = a.actor.data.data.IN.value;
-        const IntBaseB = b.actor.data.data.IN.value;
+        const IntBaseA = a.actor.system.IN.value;
+        const IntBaseB = b.actor.system.IN.value;
 
         let inDifference = IntBaseB - IntBaseA;
         if(inDifference != 0)

@@ -1,9 +1,9 @@
 <div class="GDSA chat message">
     <div class="infoBox">
         {{#if add}}
-            {{actor.name}} hat {{gold}} Dukaten {{silver}} Silber {{copper}} Heller {{nikel}} Kreuzer erhalten!
+            {{actor.name}} {{localize "GDSA.chat.dialog.has"}} {{gold}} {{localize "GDSA.charactersheet.gold"}} {{silver}} {{localize "GDSA.charactersheet.silver"}} {{copper}} {{localize "GDSA.charactersheet.copper"}} {{nikel}} {{localize "GDSA.charactersheet.nikel"}} {{localize "GDSA.chat.dialog.get"}}
         {{else}}
-            {{actor.name}} hat {{gold}} Dukaten {{silver}} Silber {{copper}} Heller {{nikel}} Kreuzer ausgegeben!
+            {{actor.name}} {{localize "GDSA.chat.dialog.has"}} {{gold}} {{localize "GDSA.charactersheet.gold"}} {{silver}} {{localize "GDSA.charactersheet.silver"}} {{copper}} {{localize "GDSA.charactersheet.copper"}} {{nikel}} {{localize "GDSA.charactersheet.nikel"}} {{localize "GDSA.chat.dialog.spent"}}
         {{/if}}
     </div>
 </div>

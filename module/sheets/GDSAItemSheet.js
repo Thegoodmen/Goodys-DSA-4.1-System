@@ -1,3 +1,5 @@
+import * as LsFunction from "../listenerFunctions.js"
+
 export default class GDSAItemSheet extends ItemSheet {
 
     static get defaultOptions() {
@@ -5,7 +7,6 @@ export default class GDSAItemSheet extends ItemSheet {
         return mergeObject(super.defaultOptions, {
 
             width: 466,
-            height: 415,
             resizable: false,
             classes: ["GDSA", "sheet", "itemSheet"]
         });
@@ -13,7 +14,7 @@ export default class GDSAItemSheet extends ItemSheet {
 
     get template() {
 
-        return `systems/GDSA/templates/sheets/${this.item.data.type}-sheet.hbs`
+        return `systems/GDSA/templates/sheets/${this.item.type}-sheet.hbs`
     }
 
     getData() {
@@ -25,21 +26,41 @@ export default class GDSAItemSheet extends ItemSheet {
             owner: this.item.isOwner,
             editable: this.isEditable,
             item: baseData.item,
-            data: baseData.item.data.data,
+            system: baseData.item.system,
             config: CONFIG.GDSA
         };
 
-        if(sheetData.data.value > 0) {
+        if(sheetData.system.value > 0) {
 
             let length = 0;
-            let value = sheetData.data.value;
+            let value = sheetData.system.value;
 
-            sheetData.data.gold = 0;
-            sheetData.data.silver = value[length-3];
-            sheetData.data.copper = value[length-2];
-            sheetData.data.nickel = value[length-1];
+            sheetData.system.gold = 0;
+            sheetData.system.silver = value[length-3];
+            sheetData.system.copper = value[length-2];
+            sheetData.system.nickel = value[length-1];
         }
 
         return sheetData;
+    }
+
+    activateListeners(html) {
+
+        // #################################################################################################
+        // #################################################################################################
+        // ##                                                                                             ##
+        // ##    Set Listener for Buttons and Links with Functions to be executed on action. e.g. Roll    ##
+        // ##                                                                                             ##
+        // #################################################################################################
+        // #################################################################################################
+
+        if(this.isEditable) {
+
+            // Set Listener for Item Events
+
+            html.find(".item-close").click(LsFunction.onItemClose.bind(this));
+        }
+
+        super.activateListeners(html);
     }
 }

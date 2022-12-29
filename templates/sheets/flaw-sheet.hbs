@@ -1,6 +1,12 @@
 <form class="{{cssClass}}" autocomplete="off">
+
     <header class="sheet-header">
-        <div style="float: left; width: 373px;"><input name="name" type="text" value="{{item.name}}" style="float: left; width: 375px;" /></div>
-        <div style="float: left; width: 80px;"><input name="data.value" type="number" value="{{data.value}}" style="float: left; width: 80px;" /></div>
+        <div class="adHelper3">{{localize "GDSA.charactersheet.flaw"}}</div>
+        <div class="adHelper2">{{localize "GDSA.charactersheet.valueLabel"}}</div>
+        <div class="adHelper1"><input class="adHelper1" name="name" type="text" value="{{item.name}}" /></div>
+        <div class="adHelper2"><input class="adHelper2" name="system.value" type="number" value="{{system.value}}" /></div>
     </header>
+
+    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+    
 </form>
