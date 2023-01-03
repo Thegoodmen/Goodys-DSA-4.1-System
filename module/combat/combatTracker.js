@@ -1,4 +1,6 @@
 import GDSACombatantConfig from "./combatantConfig.js";
+import * as LsFunction from "../listenerFunctions.js"
+
 
 export default class GDSACombatTracker extends CombatTracker {
 
@@ -14,23 +16,16 @@ export default class GDSACombatTracker extends CombatTracker {
         new GDSACombatantConfig(combatant, {
           top: Math.min(li[0].offsetTop, window.innerHeight - 350),
           left: window.innerWidth - 720,
-          width: 400
+          width: 400,
+          classes: ["GDSA", "sidebar", "cbt"]
         }).render(true);
     }
 
-    async getData(options) {
+    activateListeners(html) {
 
-        const data = await super.getData(options);
-    
-        if (!data.hasCombat) return data;
-    
-        for (let [i, combatant] of data.combat.turns.entries()) {
-          data.turns[i].combatType = combatant.getFlag("GDSA", "combatType")
-        }
+      super.activateListeners(html);
 
-        return data;
-      }
-    
-    
-
+      html.find(".toggelAT").click(LsFunction.onATCountToggel.bind(this, this.getData()));
+      html.find(".toggelPA").click(LsFunction.onPACountToggel.bind(this, this.getData()));
+    }
 }

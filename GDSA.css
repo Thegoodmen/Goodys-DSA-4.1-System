@@ -1057,6 +1057,277 @@
 .mediOpt {
   width: 232px;
 }
+.GDSA.sheet.npcSheet .namelbl {
+  width: 500px;
+  height: 50px;
+  flex: none;
+  margin: 8px 0px;
+  font-size: 38px;
+}
+.GDSA.sheet.npcSheet .actorImg {
+  width: 96px;
+  height: 96px;
+  flex: none;
+}
+.GDSA.sheet.npcSheet .headBox {
+  height: 96px;
+  width: 505px;
+  float: left;
+  flex: none;
+}
+.GDSA.sheet.npcSheet .atInput {
+  width: 28px;
+  float: left;
+  flex: none;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 8px;
+  margin-left: 2px;
+}
+.GDSA.sheet.npcSheet .atlbl {
+  width: 25px;
+  float: left;
+  flex: none;
+  font-size: 16px;
+  padding-top: 3px;
+}
+.GDSA.sheet.npcSheet .atCorner {
+  margin-right: 4px;
+}
+.GDSA.sheet.npcSheet .mainColum {
+  width: 615px;
+  height: 220px;
+  float: left;
+}
+.GDSA.sheet.npcSheet .mainColum2 {
+  width: 615px;
+  min-height: 70px;
+  float: left;
+  position: relative;
+}
+.GDSA.sheet.npcSheet .mainColum3 {
+  width: 615px;
+  min-height: 95px;
+  float: left;
+  position: relative;
+}
+.GDSA.sheet.npcSheet .mainRow {
+  width: 305px;
+  height: 220px;
+  float: left;
+  margin-right: 20px;
+}
+.GDSA.sheet.npcSheet .mainRow2 {
+  width: 305px;
+  max-height: 110px;
+  float: left;
+}
+.GDSA.sheet.npcSheet .mainRow3 {
+  width: 285px;
+  max-height: 110px;
+  float: left;
+  position: relative;
+}
+.GDSA.sheet.npcSheet .hrMenu {
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-bottom: 4px;
+  width: 300px;
+}
+.GDSA.sheet.npcSheet .hrMenu2 {
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-bottom: 4px;
+  width: 600px;
+}
+.GDSA.sheet.npcSheet .hrMenu3 {
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-bottom: 4px;
+  width: 275px;
+}
+.GDSA.sheet.npcSheet .subhead {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 8px;
+  margin-left: 10px;
+}
+.GDSA.sheet.npcSheet .subrow {
+  height: 20px;
+  width: 300px;
+  margin-top: 6px;
+}
+.GDSA.sheet.npcSheet .subrow2 {
+  max-height: 80px;
+  width: 285px;
+  overflow-y: visible;
+}
+.GDSA.sheet.npcSheet .statName {
+  height: 20px;
+  width: 55px;
+  float: left;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 15px;
+}
+.GDSA.sheet.npcSheet .statInput {
+  height: 20px;
+  width: 30px;
+  float: left;
+  font-size: 14px;
+  text-align: center;
+}
+.GDSA.sheet.npcSheet .secondRow {
+  margin: 0px 24px;
+}
+.GDSA.sheet.npcSheet .bigRow {
+  width: 78px;
+}
+.GDSA.sheet.npcSheet .subdivider {
+  height: 20px;
+  width: 10px;
+  float: left;
+  font-size: 14px;
+  margin: 1px 4px;
+  text-align: center;
+}
+.GDSA.sheet.npcSheet .progress {
+  width: 130px;
+  height: 16px;
+  float: left;
+  margin-top: 6px;
+  margin-left: 15px;
+}
+.GDSA.sheet.npcSheet .bar {
+  width: 130px;
+  height: 8px;
+  overflow: hidden;
+  background-color: #e9ecef;
+  border-radius: 0.25rem;
+}
+.GDSA.sheet.npcSheet .bar_fill {
+  height: 16px;
+  transition: width 0.6s ease;
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-size: 1rem 1rem;
+}
+.GDSA.sheet.npcSheet .lep {
+  background-color: #00c900;
+}
+.GDSA.sheet.npcSheet .aup {
+  background-color: #f8d71c;
+}
+.GDSA.sheet.npcSheet .asp {
+  background-color: #073ce7;
+}
+.GDSA.sheet.npcSheet .kap {
+  background-color: #af09d8;
+}
+.GDSA.sheet.npcSheet .traitName {
+  height: 20px;
+  width: 214px;
+  float: left;
+  font-size: 14px;
+  margin-left: 20px;
+}
+.GDSA.sheet.npcSheet .combatline {
+  height: 20px;
+  width: 615px;
+  float: left;
+  margin-bottom: 5px;
+}
+.GDSA.sheet.npcSheet .cmbtName {
+  height: 20px;
+  width: 100px;
+  float: left;
+  font-size: 14px;
+  margin-left: 20px;
+  margin-top: 1px;
+  font-weight: bold;
+}
+.GDSA.sheet.npcSheet .cmbtlbl {
+  height: 20px;
+  width: 30px;
+  float: left;
+  font-size: 14px;
+  margin-left: 20px;
+  margin-top: 1px;
+}
+.GDSA.sheet.npcSheet .cmbtInput {
+  height: 20px;
+  width: 35px;
+  float: left;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 10px;
+}
+.GDSA.sheet.npcSheet .cmbtInput2 {
+  height: 20px;
+  width: 60px;
+  float: left;
+  font-size: 14px;
+  text-align: center;
+  margin-right: 10px;
+  border-radius: 10px;
+}
+.GDSA.sheet.npcSheet .cmbtdivider {
+  height: 20px;
+  width: 10px;
+  float: left;
+}
+.GDSA.sheet.npcSheet .cmbticon {
+  height: 20px;
+  width: 18px;
+  float: left;
+}
+.GDSA.sheet.npcSheet .cmbtTrait {
+  height: 20px;
+  float: left;
+  background-color: orange;
+  padding: 1px 6px;
+  border-radius: 6px;
+  margin: 3px 5px;
+}
+.GDSA.sheet.npcSheet .itemDesc {
+  width: 590px;
+  height: 130px;
+  margin: 5px 12px;
+}
+.GDSA.sheet.npcSheet .addItemBox {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 15px;
+  left: 260px;
+}
+.GDSA.sheet.npcSheet .addItemBox2 {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 15px;
+  left: 595px;
+}
+.GDSA.sheet.npcSheet .trait-type {
+  background-color: #008f40;
+  color: white;
+}
+.GDSA.sheet.npcSheet .trait-immu {
+  background-color: #06dd35;
+  color: black;
+}
+.GDSA.sheet.npcSheet .trait-ressi {
+  background-color: #d2e003;
+  color: black;
+}
+.GDSA.sheet.npcSheet .trait-vunalb {
+  background-color: #c40606;
+  color: white;
+}
+.GDSA.sheet.npcSheet .trait-combt {
+  background-color: #1d66ec;
+  color: white;
+}
 .GDSA.sheet.itemSheet .nameLable {
   width: 373px;
 }
@@ -1109,6 +1380,11 @@
   height: 50px;
   float: left;
 }
+.GDSA.sheet.itemSheet .box150s {
+  width: 150px;
+  height: 30px;
+  float: left;
+}
 .GDSA.sheet.itemSheet .box140 {
   width: 140px;
   height: 50px;
@@ -1127,6 +1403,11 @@
 .GDSA.sheet.itemSheet .box75 {
   width: 75px;
   height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .box75s {
+  width: 75px;
+  height: 30px;
   float: left;
 }
 .GDSA.sheet.itemSheet .box70 {
@@ -1300,6 +1581,22 @@
 .GDSA.sheet.itemSheet .arHelper17 {
   height: 75px;
 }
+.GDSA.sheet.itemSheet .arHelper18 {
+  width: 450px;
+}
+.GDSA.sheet.itemSheet .arHelper19 {
+  width: 137px;
+  height: 60px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .arHelper20 {
+  width: 450px;
+  height: 65px;
+}
+.GDSA.sheet.itemSheet .arHelper21 {
+  width: 450px;
+  height: 35px;
+}
 .GDSA.sheet.itemSheet .ctHelper1 {
   width: 450px;
   height: 36px;
@@ -1338,6 +1635,11 @@
 .GDSA.sheet.itemSheet .mwHelper3 {
   width: 100px;
   height: 5px;
+}
+.GDSA.sheet.itemSheet .mwHelper4 {
+  width: 75px;
+  float: left;
+  margin-top: 5px;
 }
 .GDSA.sheet.itemSheet .adBnt {
   margin-top: 20px;
@@ -1409,18 +1711,12 @@
   height: 64px;
   width: 64px;
 }
-.GDSA.chat.message .flawBox {
-  height: 132px;
-}
-.GDSA.chat.message .iniBox {
-  height: 120px;
+.GDSA.sheet.itemSheet .labelspacer {
+  margin-right: 10px;
 }
 .GDSA.chat.message .infoBox {
   font-size: 15px;
   padding-top: 8px;
-}
-.GDSA.chat.message .statModBoxAdd {
-  height: 157px;
 }
 .GDSA.chat.message .flawName {
   height: 29px;
@@ -1589,4 +1885,246 @@
   font-size: 18px;
   text-align: center;
   color: white;
+}
+.GDSA.chat.message .bntChat3 {
+  width: 86px;
+  border-radius: 10px;
+}
+.GDSA.chat.message .bntChat4 {
+  width: 43px;
+  margin: 0px;
+  border-radius: 10px;
+}
+.GDSA.chat.message .bntChat5 {
+  width: 46px;
+  margin: 0px;
+  border-radius: 10px;
+}
+.GDSA.chat.message .switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 18px;
+}
+.GDSA.chat.message .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.GDSA.chat.message .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 16px;
+}
+.GDSA.chat.message .slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 1px;
+  bottom: 1px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+.GDSA.chat.message input:checked + .slider {
+  background-color: #2196F3;
+}
+.GDSA.chat.message input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+.GDSA.chat.message input:checked + .slider:before {
+  transform: translateX(20px);
+}
+.cbt-Box {
+  height: 40px;
+  width: 298px;
+  background-color: green;
+  border-radius: 20px;
+  line-height: normal;
+  margin: 2px;
+}
+.cbt-imgBorder {
+  height: 40px;
+  width: 40px;
+  float: left;
+  border-radius: 20px;
+  margin-left: 2px;
+}
+.directory .directory-item img {
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  padding: 1px;
+  object-fit: cover;
+  object-position: 50% 0;
+}
+.cbt-middle {
+  height: 40px;
+  width: 155px;
+  float: left;
+}
+.cbt-left {
+  height: 40px;
+  width: 28px;
+  float: left;
+}
+.cbt-Name {
+  height: 20px;
+  width: 155px;
+  float: left;
+  font-size: 13px;
+  text-shadow: 1px 1px 4px var(--color-shadow-dark);
+  padding-left: 5px;
+  padding-top: 2px;
+}
+.cbt-bnt {
+  height: 20px;
+  width: 150px;
+  float: left;
+  font-size: 12px;
+  padding-top: 2px;
+  padding-left: 8px;
+}
+.cbt-ini {
+  height: 34px;
+  width: 28px;
+  float: left;
+  background-color: white;
+  color: black;
+  border-radius: 0px 17px 17px 0px;
+  margin-top: 3px;
+  padding-top: 8px;
+  padding-left: 5px;
+  font-weight: bold;
+}
+.cbt-ini-bnt {
+  height: 32px;
+  width: 32px;
+  margin-top: 4px;
+  margin-left: -4px;
+  background: url(../GDSA/templates/img/d20.svg) no-repeat 50% 50%;
+  background-size: 32px;
+  display: block;
+}
+.cbt-stats {
+  height: 40px;
+  width: 67px;
+  float: left;
+  text-align: right;
+  font-size: 12px;
+  padding-top: 5px;
+  padding-right: 6px;
+  color: darkslategrey;
+}
+.cbt-radius {
+  border-radius: 15px;
+}
+.cbt-activ {
+  color: white;
+}
+#hud {
+  font-size: 16px;
+  font-family: MasonSerifBold;
+}
+#token-hud .col {
+  height: calc(100% + 67px);
+  top: -33px;
+}
+.placeable-hud .control-icon {
+  width: 25px;
+  height: 23px;
+  flex: none;
+  margin: 2px;
+  font-size: 18px;
+  line-height: 0px;
+  color: var(--color-text-light-3);
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 15px var(--color-shadow-dark);
+  border: 2px solid #333;
+  pointer-events: all;
+  padding: 3px 0px 0px 2px;
+}
+.placeable-hud .control-icon img {
+  display: block;
+  margin: 0px;
+  padding: 0px 0px 0px 1px;
+  border: none;
+  opacity: 0.7;
+  height: 20px;
+  width: 19px;
+}
+#token-hud .col.right {
+  justify-content: center;
+  right: -70px;
+  width: 100px;
+}
+#token-hud .col.left {
+  justify-content: center;
+  left: -70px;
+  width: 97px;
+}
+.placeable-hud .col.left .control-icon {
+  border-radius: 20px 0px 0px 20px;
+}
+.placeable-hud .col.right .control-icon {
+  border-radius: 0px 20px 20px 0px;
+}
+.placeable-hud .control-icon.active {
+  border: 2px solid #af0a0a;
+}
+#token-hud .attribute.elevation {
+  position: relative;
+  width: 31px;
+  height: 32px;
+  flex: none;
+  border: 2px solid #333;
+  margin: 1px;
+  border-radius: 20px 0px 0px 20px;
+}
+.placeable-hud input[type="text"] {
+  width: 27px;
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 15px var(--color-shadow-dark);
+  border: 0px;
+  color: var(--color-text-light-2);
+  height: 28px;
+  line-height: 40px;
+  margin: 0px;
+  border-radius: 14px 0px 0px 14px;
+  font-size: 18px;
+  font-weight: bold;
+  pointer-events: all;
+}
+#token-hud .attribute i.fas {
+  position: absolute;
+  top: -3px;
+  left: -5px;
+  font-size: 15px;
+  color: var(--color-text-light-5);
+}
+#token-hud .attribute.bar2 input {
+  border: 1px solid #659db5;
+  width: 92px;
+  height: 15px;
+  border-radius: 20px 20px 6px 6px;
+  font-size: 11px;
+  padding-top: 2px;
+  margin-top: 13px;
+}
+#token-hud .attribute.bar1 input {
+  border: 1px solid #7cd000;
+  width: 92px;
+  height: 15px;
+  border-radius: 6px 6px 20px 20px;
+  font-size: 11px;
+  padding-top: 2px;
+  margin-top: 11px;
 }

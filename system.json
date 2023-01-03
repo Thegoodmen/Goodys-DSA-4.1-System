@@ -5,10 +5,16 @@
     "authors": [
         {
             "name": "Goody",
-            "discord": "Goody#2054"
+            "discord": "Goody#2054",
+            "email": "maron.moeller@gmail.com"
         }
     ],
     "version": "0.2.1",
+    "compatibility": {
+        "minimum": 10,
+        "verified": "10.290",
+        "maximum": 10
+    },
     "esmodules": [
         "GDSA.js"
     ],
@@ -25,11 +31,13 @@
             "path": "lang/de.json"
         }
     ],
-    "compatibility": {
-        "minimum": 10,
-        "verified": "10.290",
-        "maximum": 10
-    },
+    "dependencies": [
+        {
+            "name": "socketlib",
+            "manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/develop/module.json"
+        }
+    ],
+    "socket": true,
     "gridDistance": 1,
     "gridUnits": "Schritt",
     "primaryTokenAttribute": "LeP.value",

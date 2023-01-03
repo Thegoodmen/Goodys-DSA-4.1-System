@@ -55,7 +55,7 @@ export default class GDSAMerchantSheet extends ActorSheet {
             rangeweapons: Util.getItems(baseData, "range-weapons", false),
             shields: Util.getItems(baseData, "shields", false),
             armour: Util.getItems(baseData, "armour", false),
-            maffiliation: Util.getItems(baseData, "affiliation", false),
+            affiliation: Util.getItems(baseData, "affiliation", false),
         };
 
         // Create one Array with everything that is part of the Inventory

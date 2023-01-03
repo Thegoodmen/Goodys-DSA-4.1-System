@@ -63,6 +63,8 @@ export async function statCheck(statName, statValue, statMod, actor) {
     const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
     if(rollResult.total == 1 || rollResult.total == 20) dices.push(rollResult2.dice[0].values[0]);
     await doXD20XD6Roll(chatModel, dices, []);
+
+    return rollResult.total <= statValueTotal ? true : false;
 }
 
 export async function flawCheck(flawName, flawValue, actor) {
@@ -548,7 +550,7 @@ export async function doKaPReg(actor, modi) {
     return tap;
 }
 
-export async function ATKCheck(atk, modi, actor) {
+export async function ATKCheck(atk, modi, actor, auto = false, chatId = "") {
 
     // #################################################################################################
     // #################################################################################################
@@ -586,7 +588,9 @@ export async function ATKCheck(atk, modi, actor) {
         roll: rollResult,
         roll2: rollResult2,
         ATKValue: atk,
-        adv: modi
+        adv: modi,
+        auto: auto,
+        chatId: chatId
     };
     
     // Checks the Result of the Roll, if it needs to be confirmed and there if its a Critt or a Goof
@@ -609,7 +613,7 @@ export async function ATKCheck(atk, modi, actor) {
     let dices = [rollResult.dice[0].values[0]];
     const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
     if(rollResult.total == 1 || rollResult.total == 20) dices.push(rollResult2.dice[0].values[0]);
-    await doXD20XD6Roll(chatModel, dices, []);
+    let status = await doXD20XD6Roll(chatModel, dices, []);
     
     // Return if the ATK was successful or not
 
@@ -734,6 +738,8 @@ export async function DMGRoll(formula, actor, multi) {
 
     const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
     await doXD20XD6Roll(chatModel, d20, d6);
+
+    return total;
 }
 
 async function doXD20XD6Roll(chatData, result1, result2) {
@@ -751,16 +757,19 @@ async function doXD20XD6Roll(chatData, result1, result2) {
     // Act depend of the Status of the Module Dice-so-nice in the World to trigger respectivly
     // Also, in Case that there are only 2d20 roll first one and the second after the first to immers the conformation Roll
 
-    if(!game.modules.get("dice-so-nice")?.active) {
+    return new Promise(resolve => {
+        if(!game.modules.get("dice-so-nice")?.active) {
 
-        chatData.sound = CONFIG.sounds.dice;
-        ChatMessage.create(chatData);
+            chatData.sound = CONFIG.sounds.dice;
+            ChatMessage.create(chatData);
+            resolve(true)
 
-    } else if (result1.length == 2 && result2.length <= 0) 
-        await game.dice3d.show({ throws:[{dice: [d20Model(result1[0])]}]}).then(displayed => 
+        } else if (result1.length == 2 && result2.length <= 0) 
+            game.dice3d.show({ throws:[{dice: [d20Model(result1[0])]}]}).then(displayed => 
                 { game.dice3d.show({ throws:[{dice: [d20Model(result1[1])]}]}).then(displayed => 
-                    { ChatMessage.create(chatData); });});
-    else await game.dice3d.show(data).then(displayed => { ChatMessage.create(chatData); });
+                        { ChatMessage.create(chatData); resolve(true)});});
+        else game.dice3d.show(data).then(displayed => { ChatMessage.create(chatData); resolve(true)});
+    });
 }
 
 function d20Model(result) {

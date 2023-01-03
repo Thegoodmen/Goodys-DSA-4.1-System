@@ -1,17 +1,8 @@
 // main: ./GDSA.less
 .GDSA.chat.message {
-    .flawBox {
-        height: 132px;
-    };
-    .iniBox {
-        height: 120px;
-    };
     .infoBox {
         font-size: 15px;
         padding-top: 8px;
-    };
-    .statModBoxAdd {
-        height: 157px;
     };
     .flawName {
         height: 29px;
@@ -181,4 +172,62 @@
         text-align: center;
         color: white;
     };
+    .bntChat3 {
+        width: 86px;
+        border-radius: 10px;
+    };
+    .bntChat4 {
+        width: 43px;
+        margin: 0px;
+        border-radius: 10px;
+    };
+    .bntChat5 {
+        width: 46px;
+        margin: 0px;
+        border-radius: 10px;
+    };
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 38px;
+        height: 18px;
+    };
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+        border-radius: 16px;
+    }
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 1px;
+        bottom: 1px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+    input:checked + .slider:before {
+        transform: translateX(20px);
+    }
 }

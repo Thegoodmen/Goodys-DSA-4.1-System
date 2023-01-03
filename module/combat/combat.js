@@ -9,34 +9,25 @@ export default class GDSACombat extends Combat {
         if(iniDifference != 0)
             return iniDifference;
 
-        const InIBaseA = a.actor.system.INIBasis.value;
-        const InIBaseB = b.actor.system.INIBasis.value;
+        const aBaseData = a.actor.sheet?.getData();
+        if(!aBaseData) return a.tokenId - b.tokenId;
+        const bBaseData = b.actor.sheet?.getData();
+        if(!bBaseData) return a.tokenId - b.tokenId;
+        const InIBaseA = (aBaseData.actor.type == "PlayerCharakter") ? aBaseData.system.INIBasis.value : aBaseData.system.INI.split(" + ")[1];
+        const InIBaseB = (bBaseData.actor.type == "PlayerCharakter") ? bBaseData.system.INIBasis.value : bBaseData.system.INI.split(" + ")[1];
         
         let baseDifference = InIBaseB - InIBaseA;
         if(baseDifference != 0)
             return baseDifference;
         
-        const IntBaseA = a.actor.system.IN.value;
-        const IntBaseB = b.actor.system.IN.value;
+        const IntA = a.actor.system.IN.value;
+        const IntB = b.actor.system.IN.value;
 
-        let inDifference = IntBaseB - IntBaseA;
+        let inDifference = IntB - IntA;
         if(inDifference != 0)
             return inDifference;
         
         return a.tokenId - b.tokenId;
-    }
-
-    _prepareCombatant(c, scene, players, settings = {}) {
-
-        let combatant = super._prepareCombatant(c, scene, players, settings);
-
-        return combatant;
-    }
-
-    async startCombat(){
-
-        await this.setupTurns();
-        return super.startCombat();
     }
 
     async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}}={}) {
@@ -46,6 +37,7 @@ export default class GDSACombat extends Combat {
         const currentId = this.combatant?.id;
         const updates = [];
         const messages = [];
+        const rollModels = [];
 
         for ( let [i, id] of ids.entries() ) {
     
@@ -57,26 +49,72 @@ export default class GDSACombat extends Combat {
             updates.push({_id: id, initiative: roll.total});   
             let templateContext = {roll: roll};
 
+            combatant.setFlag("GDSA", "attacksMax", game.actors.get(combatant.actorId).system.ATCount);
+            combatant.setFlag("GDSA", "attacks", game.actors.get(combatant.actorId).system.ATCount);     
+            combatant.setFlag("GDSA", "parriesMax", game.actors.get(combatant.actorId).system.PACount);     
+            combatant.setFlag("GDSA", "parries", game.actors.get(combatant.actorId).system.PACount); 
+
             let chatData2 = {
                 user: game.user.id,
                 speaker: ChatMessage.getSpeaker(combatant.actor),
-                roll: roll,
-                sound: CONFIG.sounds.dice,
                 content: await renderTemplate(template, templateContext)
             };
           
-            if ( i > 0 ) chatData2.sound = null;
+            if (!game.modules.get("dice-so-nice")?.active) chatData2.sound = CONFIG.sounds.dice;
+            
+            for (let i = 0; i < roll.dice[0].results.length; i++) {
+                
+                let model = {
+                    result: roll.dice[0].results[i].result,
+                    resultLabel: roll.dice[0].results[i].result,
+                    type: "d6",
+                    vectors:[],
+                    options:{}};
+                rollModels.push(model);
+            }
 
             messages.push(chatData2);
         }
 
+        let result = new Promise(resolve => {
+            if(!game.modules.get("dice-so-nice")?.active) { ChatMessage.implementation.create(messages); resolve(true)} 
+            else game.dice3d.show({ throws:[{dice: rollModels}]}).then(displayed => { ChatMessage.implementation.create(messages); resolve(true)});
+        });
+
+        await result;
+
         if ( !updates.length ) return this;
         await this.updateEmbeddedDocuments("Combatant", updates);
 
-        if ( updateTurn && currentId )
-          await this.update({turn: this.turns.findIndex(t => t.id === currentId)});
+        if ( updateTurn && currentId ) await this.update({turn: this.turns.findIndex(t => t.id === currentId)});
 
-        await ChatMessage.implementation.create(messages);  
         return this;
-      }
+    }
+
+    async startCombat() {
+
+        super.startCombat();
+
+        const combatants = this.combatants.contents;
+
+        for (let i = 0; i < combatants.length; i++) {
+
+            this.combatants.get(combatants[i]._id).setFlag("GDSA", "attacksMax", game.actors.get(combatants[i].actorId).system.ATCount);
+            this.combatants.get(combatants[i]._id).setFlag("GDSA", "attacks", game.actors.get(combatants[i].actorId).system.ATCount);     
+            this.combatants.get(combatants[i]._id).setFlag("GDSA", "parriesMax", game.actors.get(combatants[i].actorId).system.PACount);     
+            this.combatants.get(combatants[i]._id).setFlag("GDSA", "parries", game.actors.get(combatants[i].actorId).system.PACount);           
+        }
+    }
+
+    async nextRound() {
+ 
+        super.nextRound();
+        const combatants = this.combatants.contents;
+
+        for (let i = 0; i < combatants.length; i++) {
+
+            this.combatants.get(combatants[i]._id).setFlag("GDSA", 'attacks', game.actors.get(combatants[i].actorId).system.ATCount);
+            this.combatants.get(combatants[i]._id).setFlag("GDSA", 'parries', game.actors.get(combatants[i].actorId).system.PACount);           
+        }
+    }
 }

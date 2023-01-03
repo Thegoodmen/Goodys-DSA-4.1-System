@@ -1,3 +1,6 @@
+import * as Util from "../../Util.js";
+import * as LSFunction from "../listenerFunctions.js"
+
 export default class GDSAActor extends Actor {
 
     prepareData() {
@@ -14,6 +17,36 @@ export default class GDSAActor extends Actor {
         // Add diffrent Handlers for diffrent Actor Subtypes
 
         if (this.type == 'PlayerCharakter') this._preparePlayerCharacterData(actorData);
+        if (this.type == 'NonPlayer') this._prepareNPCData(actorData);
+    }
+
+    _prepareNPCData(actorData) {
+
+        // Set highest Parry for automated Combat
+
+        let weapons = Util.getItems(this, "simple-weapon",false);
+        actorData.mainPA = 0;
+        for(let weapon of weapons) if(weapon.system.pa > actorData.mainPA) actorData.mainPA = weapon.system.pa;
+        actorData.Dogde = actorData.mainPA;
+
+        // Set the Number of Attacks and Parrys per Round
+
+        let traits = Util.getItems(this, "generalTrait", false);
+        actorData.ATCount = 1;
+        actorData.PACount = 1;
+        let at1 = traits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.twohanded2")})[0];
+        let at2 = traits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.deathleft")})[0];
+        let pa1 = traits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.schildII")})[0];
+        let pa2 = traits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.parryW2")})[0];
+
+        if(at1 != null || at2) actorData.ATCount = 2;
+        if(pa1 != null || pa2) actorData.PACount = 2;
+
+        let mat = traits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.trait.mAttacks"))})[0];
+        let mpa = traits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.trait.mParrys"))})[0];
+
+        if(mat != null) actorData.ATCount = parseInt(mat.name.charAt(0));
+        if(mpa != null) actorData.PACount = parseInt(mpa.name.charAt(0));
     }
 
     _preparePlayerCharacterData(actorData) {
@@ -194,7 +227,7 @@ export default class GDSAActor extends Actor {
         data.skill.wach = Math.round(tempInt);
     }
 
-    _setCharacterValues(data) {
+    async _setCharacterValues(data) {
 
         // Calculate AT, PA and FK Base Values and store them in the Actor
 
@@ -215,6 +248,70 @@ export default class GDSAActor extends Actor {
         else data.KaP.max = 0;
 
         data.MR.value = Math.round(((parseInt(data.MU.value) + parseInt(data.KL.value) + parseInt(data.KO.value)) / 5) + parseInt(data.MR.modi));
+
+        // Set up Number of Attacks in Combat
+
+        let traits = Util.getItems(this, "combatTrait", false);
+        this.combatTraits = Util.getItems(this, "combatTrait", false);
+        this.equiptMelee = Util.getItems(this, "melee-weapons", true);
+        this.generalTraits = Util.getItems(this, "generalTrait", false);
+        data.ATCount = 1;
+        data.PACount = 1;
+        let at1 = traits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.twohanded2")})[0];
+        let at2 = traits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.deathleft")})[0];
+        let pa1 = traits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.schildII")})[0];
+        let pa2 = traits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.parryW2")})[0];
+
+        if(at1 != null || at2) data.ATCount = 2;
+        if(pa1 != null || pa2) data.PACount = 2;
+
+        // Set highest Parry for automated Combat
+
+        let weapons = Util.getItems(this, "melee-weapons", false);
+        let shields = Util.getItems(this, "shields", false);
+
+        data.mainPA = 0;
+
+        for(let weapon of weapons) {
+
+            let skill = weapon.system.skill;
+            let weap = weapon.system.type;
+
+            // Calculate PAValue
+
+            let PAValue = Util.getSkillPAValue(this, skill);
+            let wm = weapon.system["WM-DEF"];
+            PAValue += wm;
+
+            // Has Specilazation ?
+
+            let Spezi = Util.getItems(this, "generalTrait", false).filter(function(item) {return item.name.includes(weap)});
+            let isSpezi= (Spezi.length > 0) ? true : false;
+            if(isSpezi) PAValue += 1;
+
+            if(PAValue > data.mainPA) data.mainPA = PAValue;
+        }
+
+        for(let shield of shields) {
+
+            // Get Shield    
+
+            let item = shield; 
+            let type = item.system.heigt;
+            let wm = item.system["WM-DEF"];
+
+            // Calculate Parry Value
+
+            let PABasis = parseInt(data.PABasis.value);
+            PABasis += parseInt(wm);
+            
+            // Do Shield or ParryWeapon Weapon
+
+            if(type != game.i18n.localize("GDSA.itemsheet.parryWeapon"))  PABasis = await LSFunction.getShildPABasis(this, PABasis);
+            else  PABasis = await LSFunction.getParryWeaponPABasis(this, wm);
+
+            if(PABasis > data.mainPA) data.mainPA = PABasis;
+        }
     }
 
     setStatData(type, value) {

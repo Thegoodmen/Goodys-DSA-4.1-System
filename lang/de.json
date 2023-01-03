@@ -111,7 +111,19 @@
             "star": "Sternchen",
             "parryWeapon": "Paradewaffe",
             "zfw": "ZfW",
-            "lvl": "Grad"
+            "lvl": "Grad",
+            "stat": "Stats",
+            "lep": "LeP",
+            "aup": "AuP",
+            "asp": "AsP",
+            "kap": "KaP",
+            "rs": "RS",
+            "gw": "GW",
+            "gs": "GS",
+            "mr": "MR",
+            "at": "AT",
+            "pa": "PA",
+            "tp": "TP"
         },
         "charactersheet": {
             "system": "Das schwarze Auge",
@@ -371,6 +383,7 @@
             "newgenerals": "Neuer Gegenstand",
             "newmelee-weapons": "Neue Nahkampfwaffe",
             "newrange-weapons": "Neue Fernkampfwaffe",
+            "newsimple-weapon": "Neue Waffe",
             "newshields": "Neuer Schild",
             "newarmour": "Neue Rüstung",
             "gold": "Dukaten",
@@ -394,7 +407,16 @@
             "hadditional": "Sonstiges",
             "goods": "Waren",
             "sell": "Einkauf",
-            "wonderskill": "Liturgiekenntnis"
+            "wonderskill": "Liturgiekenntnis",
+            "gift": "Vorteil / Nachteil",
+            "talent": "Talent",
+            "talente": "Talente",
+            "giflaw": "Vor- / Nachteile",
+            "cmbt": "Kampf",
+            "spcmbt": "Besondere Kampfregeln",
+            "notes": "Notizen",
+            "newgiftflaw": "Neuer Vor- / Nachteil",
+            "newtalent": "Neues Talent"
         },
         "chat":{
             "flaw": {
@@ -461,7 +483,9 @@
                 "lvl2": "Dorfhändler",
                 "lvl3": "Reisender",
                 "lvl4": "Stadthändler",
-                "lvl5": "Großhändler"     
+                "lvl5": "Großhändler",
+                "dogde": "Ausweichen",
+                "damage": "Schaden"    
             },
             "rangeOpt": {
                 "noWind": "Kein Wind",
@@ -577,7 +601,11 @@
             "armour3": "Rüstungsgewöhnung III",
             "talentSp": "Talentspezialisierung",
             "parryW1": "Parierwaffen I",
-            "parryW2": "Parierwaffen II"
+            "parryW2": "Parierwaffen II",
+            "twohanded2": "Beidhändiger Kampf II",
+            "deathleft": "Tod von Links",
+            "mAttacks": "Angriffe",
+            "mParrys": "Paraden"
         },
         "zone": {
             "leftLeg": "Linkes Bein",

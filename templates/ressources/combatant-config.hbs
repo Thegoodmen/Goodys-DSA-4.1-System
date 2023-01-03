@@ -1,22 +1,8 @@
 <form>
     <div class="form-group">
-        <label>{{ localize "COMBAT.CombatantActor" }}</label>
-        <div class="form-fields">
-            <input type="text" name="actorName" value="{{document.actor.name}}" disabled/>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>{{ localize "COMBAT.CombatantToken" }}</label>
-        <div class="form-fields">
-            <input type="text" name="tokenName" value="{{document.token.name}}" disabled/>
-        </div>
-    </div>
-
-    <div class="form-group">
         <label>{{ localize "COMBAT.CombatantName" }}</label>
         <div class="form-fields">
-            <input type="text" name="name" value="{{system.name}}"/>
+            <input type="text" name="document.name" value="{{document.name}}" disabled/>
         </div>
     </div>
 
@@ -24,14 +10,14 @@
         <label>{{ localize "COMBAT.CombatantImage" }}</label>
         <div class="form-fields">
             {{filePicker target="img" type="image"}}
-            <input class="image" type="text" name="img" placeholder="path/image.png" value="{{system.img}}"/>
+            <input class="image" type="text" name="document.img" placeholder="path/image.png" value="{{data.img}}"/>
         </div>
     </div>
 
     <div class="form-group">
         <label>{{ localize "COMBAT.CombatantInitiative" }}</label>
         <div class="form-fields">
-            <input type="number" name="initiative" value="{{system.initiative}}" step="any"/>
+            <input type="number" name="initiative" value="{{data.initiative}}" step="any"/>
         </div>
     </div>
 
@@ -39,7 +25,7 @@
         <label>Combat Type</label>
         <div class="form-fields">
             <select name="flags.GDSA.combatType">
-                {{#select system.flags.GDSA.combatType}}
+                {{#select data.flags.GDSA.combatType}}
                     <option value="" selected></option>
                     <option value="NPC">{{ localize "GDSA.combat.NPC" }}</option>
                     <option value="PC">{{ localize "GDSA.combat.PC" }}</option>
@@ -53,11 +39,11 @@
         <label>{{localize "COMBAT.CombatantStatus"}}</label>
         <div class="form-fields">
             <label class="checkbox">
-                <input type="checkbox" name="hidden" {{ checked system.hidden }}/>
+                <input type="checkbox" name="hidden" {{ checked data.hidden }}/>
                 {{ localize "COMBAT.CombatantHidden" }}
             </label>
             <label class="checkbox">
-                <input type="checkbox" name="defeated" {{ checked system.defeated }}/>
+                <input type="checkbox" name="defeated" {{ checked data.defeated }}/>
                 {{ localize "COMBAT.CombatantDefeated" }}
             </label>
         </div>

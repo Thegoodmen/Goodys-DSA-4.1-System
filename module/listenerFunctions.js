@@ -1,6 +1,7 @@
 import * as Dice from "./dice.js";
 import * as Util from "../Util.js";
 import * as Dialog from "./dialog.js";
+import { GDSA } from "./config.js";
 
 export async function onSkillRoll(data, type, event) {
 
@@ -82,6 +83,29 @@ export function onStatRoll(data, event) {
     Dice.statCheck(statname, statObjekt.value, statObjekt.temp, actor);
 }
 
+export function onNPCRoll(data, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+
+    // Get Stat from HTML
+
+    let dataset = element.closest(".item").dataset;
+
+    // Get Stat Name and Value
+
+    let statname = dataset.name;
+    let value = dataset.value;
+
+    // Execute Roll
+    
+    Dice.statCheck(statname, value, 0, actor);
+}
+
 export function onFlawRoll(data, event) {
 
     event.preventDefault();
@@ -110,6 +134,15 @@ export async function onAttackRoll(data, event) {
     let actor = data.actor;
     let system = data.system;
 
+    // Get the Users Combatant
+
+    let attacksLeft = 0;
+    let userCombatant;
+    if (game.combats.contents.length > 0) {
+    let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]._id;
+    userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
+    attacksLeft = userCombatant.getFlag("GDSA", "attacks");}
+
     // Get Weapon
 
     let itemId = element.closest("tr").dataset.itemId;
@@ -121,36 +154,95 @@ export async function onAttackRoll(data, event) {
     let ATKValue = Util.getSkillATKValue(actor, skill);
     let answer;
 
+    // Get Target of Attack
+
+    let targetId = game.users.get(game.userId).targets.ids[0];
+
+    // Get Type of Target
+
+    let targetToken = (targetId == null) ?  null : game.actors.tokens[targetId];
+    let targetType = targetToken?.type;
+    let auto = (targetType == "NonPlayer");
+
     // Do ATK Rolls
 
-    if(item.type == "melee-weapons") answer = await onMeeleAttack(data, actor, item, ATKValue, isSpezi);
-    else answer = await onRangeAttack(actor, ATKValue, isSpezi, item);
+    if(item.type == "melee-weapons") answer = await onMeeleAttack(data, actor, item, ATKValue, isSpezi, auto);
+    else answer = await onRangeAttack(actor, ATKValue, isSpezi, item, auto);
 
-    // Do DMG Rolls
+    if (game.combats.contents.length > 0) { 
+        attacksLeft--;
+        userCombatant.setFlag("GDSA", "attacks", attacksLeft)
+    }
+
+    // If the Attack was Successfull and Target is present go further
 
     if(await answer.result != true) return;
+    if(targetId == null) return;
 
-    let y = 0;
-
-    if(item.system.TPKK == "" && item.system.TPKK != null) {
-                
-        console.log(item)
-        let tpkkString = item.system.TPKK;
-        let tp = tpkkString.split("/")[0];
-        let kk = tpkkString.split("/")[1];
+    // If Target is a NPC Actor, let him try to Parry
     
-        let x = system.KK.value - tp;
-        y = Math.ceil(x / kk);
-        y --;
-        if(y < 0) y = 0;
+    if(targetType == "NonPlayer") {
+
+        let PAValue = targetToken.system.mainPA;
+
+        // Get Combatant
+
+        let targetCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.tokenId == targetId})[0]._id;
+        let combatant = game.combats.contents[0].combatants.get(targetCombatantId);
+        let parriesLeft = combatant.getFlag("GDSA", "parries");
+
+        // Check if the Target has a Parade left and if so execute Parade
+
+        if(parriesLeft > 0) {
+
+            parriesLeft --;
+            combatant.setFlag("GDSA", "parries", parriesLeft);
+            
+            targetToken.flags.GDSA.parries--;
+            let answer2 = await Dice.PACheck(PAValue, 0, targetToken);
+    
+            // If Parry is sucessfull return;
+
+            if(answer2 == true) return;
+        }
+
+        // Calculate TPKK
+
+        let y = 0;
+
+        if(item.system.TPKK == "" && item.system.TPKK != null) {
+                    
+            console.log(item)
+            let tpkkString = item.system.TPKK;
+            let tp = tpkkString.split("/")[0];
+            let kk = tpkkString.split("/")[1];
+        
+            let x = system.KK.value - tp;
+            y = Math.ceil(x / kk);
+            y --;
+            if(y < 0) y = 0;
+        }
+
+        // Do DMG Rolls
+        
+        let dmgString = item.system.damage + "+" + y + "+" + answer.bonusDMG;
+        let dmg = await Dice.DMGRoll(dmgString, actor, answer.multi);
+
+        let newHP = parseInt(targetToken.system.LeP.value) - parseInt(parseInt(dmg) - parseInt(targetToken.system.RS));
+
+        GDSA.socket.executeAsGM("adjustRessource", targetToken, newHP, "LeP")
+
+        // Test
+        
+        let userCharId = game.users.get(game.userId).character._id;
+        let userChar = game.actors.get(userCharId);
+
+        console.log(userChar);
+        console.log(game.combats.contents[0].combatants);
     }
-    
-    let dmgString = item.system.damage + "+" + y + "+" + answer.bonusDMG;
-
-    Dice.DMGRoll(dmgString, actor, answer.multi);
 }
 
-async function onMeeleAttack(data, actor, item, ATKValue, isSpezi) {
+async function onMeeleAttack(data, actor, item, ATKValue, isSpezi, auto) {
 
     let Modi = 0;
     let bDMG = 0;
@@ -196,7 +288,7 @@ async function onMeeleAttack(data, actor, item, ATKValue, isSpezi) {
 
     // Do ATK Roll
 
-    let result = await Dice.ATKCheck(ATKValue, Modi, actor, wucht, finte, hammer, sturm);
+    let result = await Dice.ATKCheck(ATKValue, Modi, actor, auto);
 
     // Create Result-Objekt
 
@@ -211,7 +303,7 @@ async function onMeeleAttack(data, actor, item, ATKValue, isSpezi) {
     }
 }
 
-async function onRangeAttack(actor, ATKValue, isSpezi, item) {
+async function onRangeAttack(actor, ATKValue, isSpezi, item, auto) {
 
     let Modi = 0;
     let bDMG = 0;
@@ -251,7 +343,7 @@ async function onRangeAttack(actor, ATKValue, isSpezi, item) {
     
     // Do ATK Roll
 
-    let result = Dice.ATKCheck(ATKValue, Modi, actor, bonus, 0, false, false);
+    let result = Dice.ATKCheck(ATKValue, Modi, actor, auto);
             
     // Create Result-Objekt
 
@@ -283,6 +375,129 @@ async function onRangeAttack(actor, ATKValue, isSpezi, item) {
         result: result,
         bonusDMG: bDMG,
         multi: multi 
+    }
+}
+
+export async function onNPCAttackRoll(data, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+
+    // Get Target of Attack
+
+    let targetId = game.users.get(game.userId).targets.ids[0];
+    let targetCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.tokenId == targetId})[0]._id;
+
+    // Get Type of Target
+
+    let targetToken = (targetId == null) ?  null : game.actors.tokens[targetId];
+    let targetType = targetToken?.type;
+    let auto = (targetType == "NonPlayer");
+
+    // Get Stat Name and Value
+
+    let value = element.closest(".item").dataset.at;
+    let dmgString = element.closest(".item").dataset.dmg;
+
+    // Check if in Combat and if ATKs left
+
+    let attacksLeft = 0;
+    let attackerparriesLeft = 0;
+    let userCombatant;
+    let modi = 0;
+    if (game.combats.contents.length > 0) {
+    let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]._id;
+    userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
+    attacksLeft = userCombatant.getFlag("GDSA", "attacks");
+    attackerparriesLeft = userCombatant.getFlag("GDSA", "parries");}
+    if(attacksLeft < 1 && attackerparriesLeft > 0 && game.combats.contents.length > 0) modi = -4;
+    if(attacksLeft < 1 && attackerparriesLeft < 1 && game.combats.contents.length > 0) return;
+
+    // Generate Chat Cache Object and store ID
+
+    let cacheObject = {
+
+        dmgString: dmgString,
+        multi: 1,
+        actor: actor.id,
+        targetToken: targetId,
+        combatant: targetCombatantId};
+
+    let chatId = CONFIG.cache.set(cacheObject);
+
+    // Execute Roll
+    
+    let result = await Dice.ATKCheck(value, modi, actor, auto, chatId);
+
+    // Remove one Attack from the Possible Attacks this round
+
+    if (game.combats.contents.length > 0) { 
+        attacksLeft--;
+        attackerparriesLeft --;
+        if(attacksLeft >= 0)userCombatant.setFlag("GDSA", "attacks", attacksLeft)
+        else userCombatant.setFlag("GDSA", "parries", attackerparriesLeft)
+    }
+
+    // If the Attack was Successfull and Target is present go further
+
+    if(result != true) return;
+    if(targetId == null) return;
+
+    // If Target is a NPC Actor, let him try to Parry
+    
+    if(targetType == "NonPlayer") {
+
+        let PAValue = targetToken.system.mainPA;
+
+        // Get Combatant
+
+        let combatant = game.combats.contents[0].combatants.get(targetCombatantId);
+        let parriesLeft = combatant.getFlag("GDSA", "parries");
+
+        // Check if the Target has a Parade left and if so execute Parade
+
+        if(parriesLeft > 0) {
+
+            parriesLeft --;
+            combatant.setFlag("GDSA", "parries", parriesLeft);
+            
+            targetToken.flags.GDSA.parries--;
+            let answer2 = await Dice.PACheck(PAValue, 0, targetToken);
+    
+            // If Parry is sucessfull return;
+
+            if(answer2 == true) return;
+        }
+
+        // Do DMG Rolls
+        
+        let dmg = await Dice.DMGRoll(dmgString, actor, 1);
+
+        // Set new HP to Target
+
+        let newHP = parseInt(targetToken.system.LeP.value) - parseInt(parseInt(dmg) - parseInt(targetToken.system.RS));
+        
+        GDSA.socket.executeAsGM("adjustRessource", targetToken, newHP, "LeP")
+
+        // If HP hits 0 or lower, Toggel defeted and push to Token
+
+        if(newHP > 0) return;
+
+        await combatant.update({defeated: true});
+        const token = combatant.token;
+        if ( !token ) return;
+
+        // Push the defeated status to the token
+    
+        const status = CONFIG.statusEffects.find(e => e.id === CONFIG.specialStatusEffects.DEFEATED);
+        if ( !status && !token.object ) return;
+        const effect = token.actor && status ? status : CONFIG.controlIcons.defeated;
+        if ( token.object ) await token.object.toggleEffect(effect, {overlay: true, active: true});
+        else await token.toggleActiveEffect(effect, {overlay: true, active: isDefeated});
     }
 }
 
@@ -332,6 +547,24 @@ export async function onParryRoll(data, event) {
     Dice.PACheck(PAValue, Modi, actor);
 }
 
+export function onNPCParryRoll(data, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+
+    // Get Stat Value
+
+    let value = element.closest(".item").dataset.pa;
+
+    // Execute Roll
+    
+    Dice.PACheck(value, 0, actor);
+}
+
 export async function onShildRoll(data, event) {
 
     event.preventDefault();
@@ -356,11 +589,27 @@ export async function onShildRoll(data, event) {
     
     // Do Shield or ParryWeapon Weapon
     
-    if(type != game.i18n.localize("GDSA.itemsheet.parryWeapon")) doShildParry(data, actor, PABasis);
-    else doParryWeapon(data, actor, wm);
+    if(type != game.i18n.localize("GDSA.itemsheet.parryWeapon"))  PABasis = await getShildPABasis(data, PABasis);
+    else  PABasis = await getParryWeaponPABasis(data, wm);
+
+    // Generate Parry Dialog
+
+    let PAInfo = await Dialog.GetSkillCheckOptions();
+    if (PAInfo.cancelled) return;
+
+    
+    // Calculate Modificator
+
+    let Modi = 0;
+    Modi -= parseInt(PAInfo.disadvantage);
+    Modi += parseInt(PAInfo.advantage);
+
+    // Execute Parry Roll
+
+    Dice.PACheck(PABasis, Modi, actor);
 }
 
-async function doShildParry(data, actor, PABasis) {
+export async function getShildPABasis(data, PABasis) {
 
     // Add Special Combat Trait Modifiers
 
@@ -372,22 +621,18 @@ async function doShildParry(data, actor, PABasis) {
     if(isShildI != null) PABasis += 2;
     if(isShildII != null) PABasis += 2;
 
-    // Generate Parry Dialog
-
-    let PAInfo = await Dialog.GetSkillCheckOptions();
-    if (PAInfo.cancelled) return;
-
     // Check for hightest Parry
 
-    let equiptMelee =  data.equiptMelee;
+    let equiptMelee = data.equiptMelee;
     let higestParry = 0;
+    if(!data.actor) data.actor = data;
 
     for(const itemM of equiptMelee) {
 
         let skill = itemM.system.skill;
         let weapon = itemM.system.type;
         let itemwm = itemM.system["WM-DEF"];
-        let PAValue = Util.getSkillPAValue(actor, skill);
+        let PAValue = Util.getSkillPAValue(data.actor, skill);
 
         PAValue += itemwm;
 
@@ -402,18 +647,10 @@ async function doShildParry(data, actor, PABasis) {
     if(higestParry >= 18) PABasis += 1;
     if(higestParry >= 21) PABasis += 1;
 
-    // Set Modifications
-
-    let Modi = 0;
-    Modi -= parseInt(PAInfo.disadvantage);
-    Modi += parseInt(PAInfo.advantage);
-
-    // Execute Parry Roll
-
-    Dice.PACheck(PABasis, Modi, actor);
+    return PABasis;
 }
 
-async function doParryWeapon(data, actor, wm) {
+export async function getParryWeaponPABasis(data, wm) {
 
     // Add Special Combat Trait Modifiers
 
@@ -425,11 +662,6 @@ async function doParryWeapon(data, actor, wm) {
     if(isLefthand != null) PABasis -= 4;
     if(isParryI != null) PABasis += 3;
     if(isParryII != null) PABasis += 3;
-
-    // Generate Parry Dialog
-
-    let PAInfo = await Dialog.GetSkillCheckOptions();
-    if (PAInfo.cancelled) return;
     
     // Check for highst equipt Meele Parry
 
@@ -441,7 +673,7 @@ async function doParryWeapon(data, actor, wm) {
         let skill = itemM.system.skill;
         let weapon = itemM.system.type;
         let itemwm = itemM.system["WM-DEF"];
-        let PAValue = Util.getSkillPAValue(actor, skill);
+        let PAValue = Util.getSkillPAValue(data.actor, skill);
 
         PAValue += itemwm;
 
@@ -455,15 +687,7 @@ async function doParryWeapon(data, actor, wm) {
     PABasis += higestParry;
     PABasis += parseInt(wm);
 
-    // Calculate Modificator
-
-    let Modi = 0;
-    Modi -= parseInt(PAInfo.disadvantage);
-    Modi += parseInt(PAInfo.advantage);
-
-    // Execute Parry Roll
-
-    Dice.PACheck(PABasis, Modi, actor);
+    return PABasis;
 }
 
 export function onDogdeRoll(data, event) {
@@ -521,6 +745,24 @@ export function onDMGRoll(data, event) {
     // Execute DMG Roll
 
     Dice.DMGRoll(dmgString, actor, 1);
+}
+
+export function onNPCDMGRoll(data, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+
+    // Get Stat Value
+
+    let value = element.closest(".item").dataset.dmg;
+
+    // Execute Roll
+    
+    Dice.DMGRoll(value, actor, 1);
 }
 
 export async function onStatLoss(data, type, event) {
@@ -748,6 +990,60 @@ export async function onMed(data, event) {
     actor.render();
 }
 
+export function onATCountToggel(data, event) {
+
+    event.preventDefault();
+
+    // Get Element
+
+    let element = event.currentTarget;
+    
+    // Get toggeld Counter and Combatant ID
+
+    let toggeldCounter = element.closest(".toggelAT").dataset.count;
+    let combatantId = element.closest(".toggelAT").dataset.id;
+
+    // Get ATs left from the Combatant
+
+    let combatant = game.combats.contents[0].combatants.get(combatantId);
+    let atLeft = combatant.getFlag("GDSA", "attacks");
+
+    // Set new AT Left Flag for Combatant
+
+    let newATLeft = 0;
+    if( toggeldCounter == atLeft) newATLeft = atLeft - 1;
+    else newATLeft = toggeldCounter;
+
+    combatant.setFlag("GDSA", "attacks", newATLeft);
+}
+
+export function onPACountToggel(data, event) {
+
+    event.preventDefault();
+
+    // Get Element
+
+    let element = event.currentTarget;
+    
+    // Get toggeld Counter and Combatant ID
+
+    let toggeldCounter = element.closest(".toggelPA").dataset.count;
+    let combatantId = element.closest(".toggelPA").dataset.id;
+
+    // Get PAs left from the Combatant
+
+    let combatant = game.combats.contents[0].combatants.get(combatantId);
+    let paLeft = combatant.getFlag("GDSA", "parries");
+
+    // Set new AT Left Flag for Combatant
+
+    let newPALeft = 0;
+    if( toggeldCounter == paLeft) newPALeft = paLeft - 1;
+    else newPALeft = toggeldCounter;
+
+    combatant.setFlag("GDSA", "parries", newPALeft);
+}
+
 export function onItemCreate(data, event) {
     
     event.preventDefault();
@@ -784,6 +1080,21 @@ export function onItemEdit(data, event) {
     // Open and Render Item Sheet
 
     item.sheet.render(true); 
+}
+
+export function onItemDelete(data, event) {
+    
+    event.preventDefault();
+
+    // Get Item
+
+    let element = event.currentTarget;
+    let itemId = element.closest(".item").dataset.itemId;
+    let actor = data.actor;
+
+    // Open and Render Item Sheet
+
+    actor.deleteEmbeddedDocuments("Item", [itemId]); 
 }
 
 export function onItemEquip(data, event) {
@@ -880,6 +1191,26 @@ function getItemFromActors(id) {
         let actorId = game.data.actors[i]._id;
         let actor = game.actors.get(actorId);
         result = actor.items.get(id);
+
+        // If the Item with the ID is present break the loop and return the result
+
+        if(result != null) return result;
+    }
+
+    return result;
+}
+
+function getActorFromItem(id) {
+
+    let result = null;
+
+    // For Loop to check all actors in the Foundry Game
+
+    for (let i = 0; i < game.data.actors.length; i++) {
+
+        let actorId = game.data.actors[i]._id;
+        let actor = game.actors.get(actorId);
+        if(actor.items.get(id) != null) result = actor;
 
         // If the Item with the ID is present break the loop and return the result
 
@@ -1152,14 +1483,244 @@ export function getItemContextMenu() {
 
             name: game.i18n.localize("GDSA.system.edit"),
             icon: '<i class="fas fa-edit" />',
-            callback: element => { const item = this.actor.items.get(element.data("item-id")).sheet.render(true);}
+            callback: element => { getItemFromActors(element.data("item-id")).sheet.render(true);}
 
         },{
 
             name: game.i18n.localize("GDSA.system.delete"),
             icon: '<i class="fas fa-trash" />',
-            callback: element => { this.actor.deleteEmbeddedDocuments("Item", [element.data("item-id")]);}
+            callback: element => { getActorFromItem(element.data("item-id")).deleteEmbeddedDocuments("Item", [element.data("item-id")]);}
     }];
+}
+
+export async function ownedCharParry(event) {
+
+    event.preventDefault();
+
+    // Get Element from Chat
+
+    let element = event.currentTarget;
+
+    // Get Chat Context from Memory
+
+    let chatId = element.closest(".item").dataset.chatid;
+    let chatContext = CONFIG.cache.get(chatId);
+
+    // Save Context in Variabels
+
+    let dmgString = chatContext.dmgString;
+    let multi = chatContext.multi;
+    let actorId = chatContext.actor;
+    let targetTokenId = chatContext.targetToken;
+    let combatantId = chatContext.combatant;
+
+    let useractor = game.users.get(game.userId).character;
+    
+    let actor = (actorId == "") ?  null : game.actors.get(actorId);
+    let targetToken = (targetTokenId == "") ?  null : game.actors.get(game.scenes.current.tokens.get(targetTokenId).actorId);
+    let combatant = (combatantId == "") ?  null : game.combats.contents[0].combatants.get(combatantId);
+
+    // Get Highest PA Value - If you are the owner of the Token with that  - if not with your own actor
+
+    let PAValue = 0;
+    let targetOwnership = targetToken.ownership[game.userId];
+    if(targetOwnership = 3) PAValue = targetToken.system.mainPA;
+    else  PAValue = useractor.system.mainPA;
+
+    // Generate Parry Dialog
+
+    let PAInfo = await Dialog.GetSkillCheckOptions();
+    if (PAInfo.cancelled) return;
+
+    
+    // Calculate Modificator
+
+    let Modi = 0;
+    Modi -= parseInt(PAInfo.disadvantage);
+    Modi += parseInt(PAInfo.advantage);
+
+    // Execute Parry Roll
+
+    let answer2 = await Dice.PACheck(PAValue, Modi, useractor);
+    
+    // If Parry is sucessfull return;
+
+    if(answer2 == true) return;
+
+    // Do DMG Rolls
+        
+    let dmg = await Dice.DMGRoll(dmgString, actor, multi);
+
+    // Set new HP to Target
+
+    let rs = 0;
+
+    if(targetToken.type == "PlayerCharakter") rs = targetToken.sheet.getData().system.gRSArmour;
+    if(targetToken.type == "NonPlayer") rs = targetToken.system.rs;
+
+    let newHP = parseInt(targetToken.system.LeP.value) - parseInt(parseInt(dmg) - parseInt(rs));
+       
+    GDSA.socket.executeAsGM("adjustRessource", targetToken, newHP, "LeP")
+
+    // If HP hits 0 or lower, Toggel defeted and push to Token
+
+    if(newHP > 0) return;
+
+    await combatant.update({defeated: true});
+    const token = combatant.token;
+    if ( !token ) return;
+
+    // Push the defeated status to the token
+    
+    const status = CONFIG.statusEffects.find(e => e.id === CONFIG.specialStatusEffects.DEFEATED);
+    if ( !status && !token.object ) return;
+    const effect = token.actor && status ? status : CONFIG.controlIcons.defeated;
+    if ( token.object ) await token.object.toggleEffect(effect, {overlay: true, active: true});
+    else await token.toggleActiveEffect(effect, {overlay: true, active: isDefeated});
+}
+
+export async function ownedCharDogde(event) {
+
+    event.preventDefault();
+
+    // Get Element from Chat
+
+    let element = event.currentTarget;
+
+    // Get Chat Context from Memory
+
+    let chatId = element.closest(".item").dataset.chatid;
+    let chatContext = CONFIG.cache.get(chatId);
+
+    // Save Context in Variabels
+
+    let dmgString = chatContext.dmgString;
+    let multi = chatContext.multi;
+    let actorId = chatContext.actor;
+    let targetTokenId = chatContext.targetToken;
+    let combatantId = chatContext.combatant;
+
+    let useractor = game.users.get(game.userId).character;
+    
+    let actor = (actorId == "") ?  null : game.actors.get(actorId);
+    let targetToken = (targetTokenId == "") ?  null : game.actors.get(game.scenes.current.tokens.get(targetTokenId).actorId);
+    let combatant = (combatantId == "") ?  null : game.combats.contents[0].combatants.get(combatantId);
+
+    // Get Dogde Value
+
+    let PAValue = 0;
+    let targetOwnership = targetToken.ownership[game.userId];
+    if(targetOwnership = 3) PAValue = targetToken.system.Dogde;
+    else  PAValue = useractor.system.Dogde;
+    let dogdename = game.i18n.localize("GDSA.charactersheet.dogde");        
+
+    // Generate Parry Dialog
+
+    let PAInfo = await Dialog.GetSkillCheckOptions();
+    if (PAInfo.cancelled) return;
+
+    
+    // Calculate Modificator
+
+    let Modi = 0;
+    Modi -= parseInt(PAInfo.disadvantage);
+    Modi += parseInt(PAInfo.advantage);
+
+    // Execute Parry Roll
+
+    let answer2 = await Dice.statCheck(dogdename, PAValue, Modi, useractor);
+    
+    // If Parry is sucessfull return;
+
+    if(answer2 == true) return;
+
+    // Do DMG Rolls
+        
+    let dmg = await Dice.DMGRoll(dmgString, actor, multi);
+
+    // Set new HP to Target
+
+    let rs = 0;
+
+    if(targetToken.type == "PlayerCharakter") rs = targetToken.sheet.getData().system.gRSArmour;
+    if(targetToken.type == "NonPlayer") rs = targetToken.system.rs;
+
+    let newHP = parseInt(targetToken.system.LeP.value) - parseInt(parseInt(dmg) - parseInt(rs));
+       
+    GDSA.socket.executeAsGM("adjustRessource", targetToken, newHP, "LeP")
+
+    // If HP hits 0 or lower, Toggel defeted and push to Token
+
+    if(newHP > 0) return;
+
+    await combatant.update({defeated: true});
+    const token = combatant.token;
+    if ( !token ) return;
+
+    // Push the defeated status to the token
+    
+    const status = CONFIG.statusEffects.find(e => e.id === CONFIG.specialStatusEffects.DEFEATED);
+    if ( !status && !token.object ) return;
+    const effect = token.actor && status ? status : CONFIG.controlIcons.defeated;
+    if ( token.object ) await token.object.toggleEffect(effect, {overlay: true, active: true});
+    else await token.toggleActiveEffect(effect, {overlay: true, active: isDefeated});
+}
+
+export async function executeDMGRoll(event) {
+    
+    event.preventDefault();
+
+    // Get Element from Chat
+
+    let element = event.currentTarget;
+
+    // Get Chat Context from Memory
+
+    let chatId = element.closest(".item").dataset.chatid;
+    let chatContext = CONFIG.cache.get(chatId);
+
+    // Save Context in Variabels
+
+    let dmgString = chatContext.dmgString;
+    let multi = chatContext.multi;
+    let actorId = chatContext.actor;
+    let targetTokenId = chatContext.targetToken;
+    let combatantId = chatContext.combatant;
+    
+    let actor = (actorId == "") ?  null : game.actors.get(actorId);
+    let targetToken = (targetTokenId == "") ?  null : game.actors.get(game.scenes.current.tokens.get(targetTokenId).actorId);
+    let combatant = (combatantId == "") ?  null : game.combats.contents[0].combatants.get(combatantId);
+
+    // Do DMG Rolls
+        
+    let dmg = await Dice.DMGRoll(dmgString, actor, multi);
+
+    // Set new HP to Target
+
+    let rs = 0;
+
+    if(targetToken.type == "PlayerCharakter") rs = targetToken.sheet.getData().system.gRSArmour;
+    if(targetToken.type == "NonPlayer") rs = targetToken.system.rs;
+
+    let newHP = parseInt(targetToken.system.LeP.value) - parseInt(parseInt(dmg) - parseInt(rs));
+       
+    GDSA.socket.executeAsGM("adjustRessource", targetToken, newHP, "LeP")
+
+    // If HP hits 0 or lower, Toggel defeted and push to Token
+
+    if(newHP > 0) return;
+
+    await combatant.update({defeated: true});
+    const token = combatant.token;
+    if ( !token ) return;
+
+    // Push the defeated status to the token
+    
+    const status = CONFIG.statusEffects.find(e => e.id === CONFIG.specialStatusEffects.DEFEATED);
+    if ( !status && !token.object ) return;
+    const effect = token.actor && status ? status : CONFIG.controlIcons.defeated;
+    if ( token.object ) await token.object.toggleEffect(effect, {overlay: true, active: true});
+    else await token.toggleActiveEffect(effect, {overlay: true, active: isDefeated});
 }
 
 export function testFunc(event) {
@@ -1169,6 +1730,7 @@ export function testFunc(event) {
     let element = event.currentTarget;
 
     // Get Actor
+
     let actorId = element.closest(".item").dataset.actor;
     let actor = game.actors.get(actorId);
 

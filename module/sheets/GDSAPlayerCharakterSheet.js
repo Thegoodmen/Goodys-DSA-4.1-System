@@ -127,12 +127,12 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
             // Set Listener for Item Events
 
-            html.find(".item-create").click(LsFunction.onItemCreate.bind(this, this.getData()));
-            html.find(".item-edit").click(LsFunction.onItemEdit.bind(this, this.getData()));
+            if(! this.id.includes("Token")) html.find(".item-create").click(LsFunction.onItemCreate.bind(this, this.getData()));
+            if(! this.id.includes("Token")) html.find(".item-edit").click(LsFunction.onItemEdit.bind(this, this.getData()));
             html.find(".item-apply").click(LsFunction.onItemEquip.bind(this, this.getData()));
             html.find(".item-remove").click(LsFunction.onItemRemove.bind(this, this.getData()));
-            html.find(".invItem").click(LsFunction.onItemOpen.bind(this, this.getData()));
-            html.find(".change-money").click(LsFunction.onMoneyChange.bind(this, this.getData()));
+            if(! this.id.includes("Token")) html.find(".invItem").click(LsFunction.onItemOpen.bind(this, this.getData()));
+            if(! this.id.includes("Token")) html.find(".change-money").click(LsFunction.onMoneyChange.bind(this, this.getData()));
 
             // Set Listener for PDFoundry
 
@@ -142,7 +142,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
             // Set Listener for Context / Right-Click Menu
 
-            new ContextMenu(html, ".item-context", LsFunction.getItemContextMenu());
+            if(! this.id.includes("Token")) new ContextMenu(html, ".item-context", LsFunction.getItemContextMenu());
         }
 
         super.activateListeners(html);
@@ -167,23 +167,27 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             case "range-weapons":
             case "shields":
             case "armour":
-            case "spell":
-            case "ritual":
 
                 const siblings = this.actor.items.filter(i => {
                     return (i.data._id !== source.data._id);
                 });
 
+                // Get the drop Target
+
                 const dropTarget = event.target.closest(".item");
                 const targetId = dropTarget ? dropTarget.dataset.itemId : null;
                 const target = siblings.find(s => s.data._id === targetId);
-                const sortUpdates = SortingHelpers.performIntegerSort(source, { target: target, siblings });
-                
+
+                // Perform Sort
+
+                const sortUpdates = SortingHelpers.performIntegerSort(source, { target: target, siblings }); 
                 const updateData = sortUpdates.map(u => {
                     const update = u.update;
                     update._id = u.target.data._id;
                     return update;
                 });
+
+                // Perform Update
                 
                 return this.actor.updateEmbeddedDocuments("Item", updateData);
 
@@ -345,7 +349,6 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         // Change Dice 
 
         sheetData.system.INIDice = "1d6";
-
         if(checkKlingen != null) sheetData.system.INIDice = "2d6";
 
         // Wundschwelle

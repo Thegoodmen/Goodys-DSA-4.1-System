@@ -27,17 +27,27 @@
         <div class="dice-formula">
                 {{#if result}}
                     {{#if critt}}
-                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.critt"}} <button class="test item" data-stattype="KL" data-actor="{{actor}}">Test</button></div>
+                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.critt"}}</div>
                     {{else}}
-                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.success"}} <button class="test item" data-stattype="KL" data-actor="{{actor}}">Test</button></div>
+                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.success"}}</div>
                     {{/if}}
                 {{else}}               
                     {{#if goof}}
-                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.goof"}} <button class="test item" data-stattype="KL" data-actor="{{actor}}">Test</button></div>
+                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.goof"}}</div>
                     {{else}}
-                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.fail"}} <button class="test item" data-stattype="KL" data-actor="{{actor}}">Test</button></div>
+                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.fail"}}</div>
                     {{/if}}
                 {{/if}}
         </div>
+
+        {{#unless auto}}
+            {{#if result}}
+                <div class="dicefiller"></div>
+
+                <button class="test item bntChat3 bntChatParry" data-chatId="{{chatId}}">{{localize "GDSA.chat.dialog.parry"}}</button>
+                <button class="test item bntChat3 bntChatDogde" data-chatId="{{chatId}}">{{localize "GDSA.chat.dialog.dogde"}}</button>
+                <button class="test item bntChat3 bntChatDamage" data-chatId="{{chatId}}">{{localize "GDSA.chat.dialog.damage"}}</button>
+            {{/if}}
+        {{/unless}}
     </div>
 </div>
