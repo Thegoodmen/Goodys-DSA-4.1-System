@@ -240,7 +240,6 @@ export async function onAttackRoll(data, event) {
             parriesLeft --;
             combatant.setFlag("GDSA", "parries", parriesLeft);
             
-            targetToken.flags.GDSA.parries--;
             let answer2 = await Dice.PACheck(PAValue, 0, targetToken);
     
             // If Parry is sucessfull return;
@@ -511,8 +510,7 @@ export async function onNPCAttackRoll(data, event) {
 
             parriesLeft --;
             combatant.setFlag("GDSA", "parries", parriesLeft);
-            
-            targetToken.flags.GDSA.parries--;
+
             let answer2 = await Dice.PACheck(PAValue, 0, targetToken);
     
             // If Parry is sucessfull return;
