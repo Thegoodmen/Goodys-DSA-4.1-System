@@ -216,7 +216,8 @@ export function getSkillATKValue(actor, skillname) {
 
 export function getSkillPAValue(actor, skillname) {
 
-    let actor = actor.system;
+    console.log(actor);
+    let data = actor.system;
 
     switch(skillname){
 
