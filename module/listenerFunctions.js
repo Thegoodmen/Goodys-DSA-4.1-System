@@ -133,6 +133,8 @@ export async function onAttackRoll(data, event) {
     let element = event.currentTarget;
     let actor = data.actor;
     let system = data.system;
+    console.log(data);
+    console.log(game);
 
     // Get the Users Combatant
 
@@ -429,6 +431,7 @@ export async function onNPCAttackRoll(data, event) {
     let element = event.currentTarget;
     let actor = data.actor;
     console.log(data);
+    console.log(game);
 
     // Get Target of Attack
 

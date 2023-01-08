@@ -9,7 +9,7 @@
             "email": "maron.moeller@gmail.com"
         }
     ],
-    "version": "0.2.2",
+    "version": "0.2.3",
     "compatibility": {
         "minimum": 10,
         "verified": "10.291",
@@ -48,5 +48,5 @@
     "secondaryTokenAttribute": "AuP.value",
     "url": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System",
     "manifest": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System/releases/latest/download/system.json",
-    "download": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System/releases/download/v0.2.2/system.zip"
+    "download": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System/releases/download/v0.2.3/system.zip"
 }
