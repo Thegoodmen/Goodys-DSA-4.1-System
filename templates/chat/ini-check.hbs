@@ -5,9 +5,9 @@
         <div class="dicefiller"></div>
         <div class="diceCol2">
             <div class="dices2">
-                <div class="nodice"></div>
-                <div class="diceD6">{{roll.dice.[0].values.[0]}}</div>
-                <div class="nodice"></div>
+                {{#each roll.dice.[0].values}}
+                    <div class="diceD6">{{this}}</div>
+                {{/each}}
             </div>
         </div>
 

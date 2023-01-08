@@ -1,11 +1,16 @@
 <form class="{{cssClass}}" autocomplete="off">
+
     <header class="sheet-header">
-        <div style="float: left; width: 400px; height: 55px">
-            <div style="float: left; width: 370px;">Name</div><div style="float: left; width: 40px;">Grad</div>
-            <div style="float: left; width: 370px;"><input name="name" type="text" value="{{item.name}}" style="float: left; width: 350px;" /></div>
-            <div style="float: left; width: 60px;"><input name="data.grad" type="text" value="{{data.grad}}" style="float: left; width: 60px;" /></div>
+        <div class="ritHelper1">
+            <div class="spHelper1">{{localize "GDSA.itemsheet.name"}}</div>
+            <div class="spHelper3">{{localize "GDSA.itemsheet.lvl"}}</div>
+            <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
+            <div class="spHelper4"><input class="spHelper4" name="system.grad" type="text" value="{{system.grad}}" /></div>
         </div>
     </header>
 
-    PDF<input name="data.lltPage" type="text" value="{{data.lltPage}}" style="width: 60px; margin-left: 10px;" />
+    PDF<input name="system.lltPage" type="text" value="{{system.lltPage}}" style="width: 60px; margin-left: 10px;" />
+
+    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+
 </form>

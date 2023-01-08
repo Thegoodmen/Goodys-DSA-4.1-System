@@ -1,11 +1,20 @@
 {
-    "name": "GDSA",
+    "id": "GDSA",
     "title": "Goody's DSA 4.1",
     "description": "A system for DSA 4.1 made by Goody",
-    "author": "Goody",
-    "version": "0.1.10",
-    "minimumCoreVersion": "9.269",
-    "compatibleCoreVersion": "9.269",
+    "authors": [
+        {
+            "name": "Goody",
+            "discord": "Goody#2054",
+            "email": "maron.moeller@gmail.com"
+        }
+    ],
+    "version": "0.2.2",
+    "compatibility": {
+        "minimum": 10,
+        "verified": "10.291",
+        "maximum": 10
+    },
     "esmodules": [
         "GDSA.js"
     ],
@@ -22,11 +31,22 @@
             "path": "lang/de.json"
         }
     ],
-    "gridDistance": 10,
+    "relationships": {
+        "requires": [{
+            "id": "socketlib",
+            "type": "module",
+            "manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/develop/module.json",
+            "compatibility": {
+                "verified": "1.0.12"
+            }
+        }]
+    },
+    "socket": true,
+    "gridDistance": 1,
     "gridUnits": "Schritt",
-    "primaryTokenAttribute": "LeP",
-    "Initiative": "1d6 + @IniBase",
+    "primaryTokenAttribute": "LeP.value",
+    "secondaryTokenAttribute": "AuP.value",
     "url": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System",
     "manifest": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System/releases/latest/download/system.json",
-    "download": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System/releases/download/v0.1.9/system.zip"
+    "download": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System/releases/download/v0.2.2/system.zip"
 }

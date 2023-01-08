@@ -1,5 +1,9 @@
 <form class="{{cssClass}}" autocomplete="off">
+
     <header class="sheet-header">
-        <div style="float: left; width: 373px;"><input name="name" type="text" value="{{item.name}}" style="float: left; width: 375px;" /></div>
+        <input class="ctHelper1" name="name" type="text" value="{{item.name}}" />
     </header>
+
+    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+    
 </form>

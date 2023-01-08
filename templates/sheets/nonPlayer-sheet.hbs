@@ -1,3 +1,168 @@
 <form class="{{cssClass}}" autocomplete="off">
-    
+    <div class="sheet2">
+
+        <header class="sheet-header">
+            <img class="actorImg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+            <div class="headBox">
+                <input class="namelbl" name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'Name'}}" />
+                <a class="npc-roll item" data-value="{{system.MU}}" data-name="{{localize "GDSA.charactersheet.MU"}}"><div class="atlbl atCorner">{{localize "GDSA.charactersheet.sMU"}}</div></a>
+                    <input class="atInput" name="system.MU" type="number" value="{{system.MU}}" />
+                <a class="npc-roll item" data-value="{{system.KL}}" data-name="{{localize "GDSA.charactersheet.KL"}}"><div class="atlbl">{{localize "GDSA.charactersheet.sKL"}}</div></a>
+                    <input class="atInput" name="system.KL" type="number" value="{{system.KL}}" />
+                <a class="npc-roll item" data-value="{{system.IN}}" data-name="{{localize "GDSA.charactersheet.IN"}}"><div class="atlbl">{{localize "GDSA.charactersheet.sIN"}}</div></a>
+                    <input class="atInput" name="system.IN" type="number" value="{{system.IN}}" />
+                <a class="npc-roll item" data-value="{{system.CH}}" data-name="{{localize "GDSA.charactersheet.CH"}}"><div class="atlbl">{{localize "GDSA.charactersheet.sCH"}}</div></a>
+                    <input class="atInput" name="system.CH" type="number" value="{{system.CH}}" />
+                <a class="npc-roll item" data-value="{{system.FF}}" data-name="{{localize "GDSA.charactersheet.FF"}}"><div class="atlbl">{{localize "GDSA.charactersheet.sFF"}}</div></a>
+                    <input class="atInput" name="system.FF" type="number" value="{{system.FF}}" />
+                <a class="npc-roll item" data-value="{{system.GE}}" data-name="{{localize "GDSA.charactersheet.GE"}}"><div class="atlbl">{{localize "GDSA.charactersheet.sGE"}}</div></a>
+                    <input class="atInput" name="system.GE" type="number" value="{{system.GE}}" />
+                <a class="npc-roll item" data-value="{{system.KO}}" data-name="{{localize "GDSA.charactersheet.KO"}}"><div class="atlbl">{{localize "GDSA.charactersheet.sKO"}}</div></a>
+                    <input class="atInput" name="system.KO" type="number" value="{{system.KO}}" />
+                <a class="npc-roll item" data-value="{{system.KK}}" data-name="{{localize "GDSA.charactersheet.KK"}}"><div class="atlbl">{{localize "GDSA.charactersheet.sKK"}}</div></a>
+                    <input class="atInput atCorner" name="system.KK" type="number" value="{{system.KK}}" />
+            </div>
+        </header>
+
+        <div class="mainColum">
+            <div class="mainRow">
+                <div class="subhead">{{localize "GDSA.itemsheet.stat"}}</div>
+                <hr class="hrMenu">
+                
+                <div class="subrow">
+                    <div class="statName">{{localize "GDSA.itemsheet.lep"}}</div> 
+                    <input class="statInput" name="system.LeP.value" type="number" value="{{system.LeP.value}}" />
+                    <div class="subdivider">/</div>
+                    <input class="statInput" name="system.LeP.max" type="number" value="{{system.LeP.max}}" />
+                    <div class="progress"><div class="bar"><div class="bar_fill lep" style="width: {{system.pLeP}}%;"></div></div></div>
+                </div>
+
+                <div class="subrow">
+                    <div class="statName">{{localize "GDSA.itemsheet.aup"}}</div> 
+                    <input class="statInput" name="system.AuP.value" type="number" value="{{system.AuP.value}}" />
+                    <div class="subdivider">/</div>
+                    <input class="statInput" name="system.AuP.max" type="number" value="{{system.AuP.max}}" />
+                    <div class="progress"><div class="bar"><div class="bar_fill aup" style="width: {{system.pAuP}}%;"></div></div></div>
+                </div>
+
+                <div class="subrow">
+                    <div class="statName">{{localize "GDSA.itemsheet.asp"}}</div> 
+                    <input class="statInput" name="system.AsP.value" type="number" value="{{system.AsP.value}}" />
+                    <div class="subdivider">/</div>
+                    <input class="statInput" name="system.AsP.max" type="number" value="{{system.AsP.max}}" />
+                    <div class="progress"><div class="bar"><div class="bar_fill asp" style="width: {{system.pAsP}}%;"></div></div></div>
+                </div>
+
+                <div class="subrow">
+                    <div class="statName">{{localize "GDSA.itemsheet.kap"}}</div> 
+                    <input class="statInput" name="system.KaP.value" type="number" value="{{system.KaP.value}}" />
+                    <div class="subdivider">/</div>
+                    <input class="statInput" name="system.KaP.max" type="number" value="{{system.KaP.max}}" />
+                    <div class="progress"><div class="bar"><div class="bar_fill kap" style="width: {{system.pKaP}}%;"></div></div></div>
+                </div>
+
+                <div class="subrow">
+                    <div class="statName">{{localize "GDSA.itemsheet.gs"}}</div> 
+                    <input class="statInput" name="system.GS.a" type="number" value="{{system.GS.a}}" />
+                    <div class="subdivider">/</div>
+                    <input class="statInput" name="system.GS.b" type="number" value="{{system.GS.b}}" />
+                    <div class="statName">{{localize "GDSA.itemsheet.mr"}}</div> 
+                    <input class="statInput" name="system.MR.a" type="number" value="{{system.MR.a}}" />
+                    <div class="subdivider">/</div>
+                    <input class="statInput" name="system.MR.b" type="number" value="{{system.MR.b}}" />
+                </div>
+
+                <div class="subrow">
+                    <div class="statName">{{localize "GDSA.itemsheet.gw"}}</div> 
+                    <input class="statInput secondRow" name="system.GW" type="number" value="{{system.GW}}" />
+                    <div class="statName">{{localize "GDSA.itemsheet.rs"}}</div> 
+                    <input class="statInput secondRow" name="system.RS" type="number" value="{{system.RS}}" />
+                </div>
+
+                <div class="subrow">
+                    <div class="statName">{{localize "GDSA.itemsheet.INI"}}</div> 
+                    <input class="statInput bigRow" name="system.INI" type="text" value="{{system.INI}}" />
+                </div>
+            </div>
+
+            <div class="mainRow3">
+                <div class="subhead">{{localize "GDSA.charactersheet.giflaw"}}</div>
+                <div class="addItemBox"><a class="item-create" data-type="giftflaw" title="{{localize "GDSA.charactersheet.addItem"}}">
+                    <i class="fas fa-plus plusSym2"></i>
+                </a></div>
+                <hr class="hrMenu3">
+                <div class="subrow2">                
+                    {{#each gifts as |gift id|}}
+                        <div class="item" data-item-id="{{_id}}" data-FlawValue="{{system.value}}" data-flawName="{{name}}">
+                        <a class="flaw-roll"><div class="traitName item-context" data-item-id="{{_id}}">{{name}} {{#if (ne system.value 0)}}{{system.value}}{{/if}}</div></a>
+                        <div class="cmbticon"><a class="item-edit" title="Edit"><i class="fas fa-gear faD20Stat"></i></a></div>
+                        <div class="cmbticon"><a class="item-delete" title="Delete"><i class="fas fa-trash-can faD20Stat"></i></a></div></div>
+                    {{/each}}
+                </div>
+            </div>
+
+            <div class="mainRow3">
+                <div class="subhead">{{localize "GDSA.charactersheet.talente"}}</div>
+                <div class="addItemBox"><a class="item-create" data-type="talent" title="{{localize "GDSA.charactersheet.addItem"}}">
+                    <i class="fas fa-plus plusSym2"></i>
+                </a></div>
+                <hr class="hrMenu3">
+                <div class="subrow2">       
+                    {{#each talents as |talent id|}}
+                        <div class="item" data-item-id="{{_id}}" data-value="{{system.value}}" data-name="{{name}}">
+                        <a class="npc-roll"><div class="traitName item-context" data-item-id="{{_id}}">{{name}} {{system.value}}</div></a>
+                        <div class="cmbticon"><a class="item-edit" title="Edit"><i class="fas fa-gear faD20Stat"></i></a></div>
+                        <div class="cmbticon"><a class="item-delete" title="Delete"><i class="fas fa-trash-can faD20Stat"></i></a></div></div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="mainColum2">
+            <div class="subhead">{{localize "GDSA.charactersheet.cmbt"}}</div>
+            <div class="addItemBox2"><a class="item-create" data-type="simple-weapon" title="{{localize "GDSA.charactersheet.addItem"}}">
+                <i class="fas fa-plus plusSym2"></i>
+            </a></div>
+            <hr class="hrMenu2">
+            {{#each weapons as |weapon id|}}
+                <div class="combatline item" data-item-id="{{_id}}" data-at="{{system.at}}" data-pa="{{system.pa}}" data-dmg="{{system.tp}}">
+                    <div class="cmbtName">{{name}}</div>
+                    <div class="cmbtlbl">{{localize "GDSA.itemsheet.at"}}</div>
+                    <input class="cmbtInput" name="system.at" type="number" value="{{system.at}}" disabled/>
+                    <div class="cmbtlbl">{{localize "GDSA.itemsheet.pa"}}</div>
+                    <input class="cmbtInput" name="system.pa" type="number" value="{{system.pa}}" disabled/>
+                    <div class="cmbtlbl">{{localize "GDSA.itemsheet.DK"}}</div>
+                    <input class="cmbtInput" name="system.dk" type="text" value="{{system.dk}}" disabled/>
+                    <div class="cmbtlbl">{{localize "GDSA.itemsheet.tp"}}</div>
+                    <input class="cmbtInput2" name="system.tp" type="text" value="{{system.tp}}" disabled/>
+                    <div class="cmbticon"><a class="npc-at" title="roll"><i class="fas fa-gavel faD20Stat"></i></a></div>
+                    <div class="cmbticon"><a class="npc-pa" title="roll"><i class="fas fa-shield-alt faD20Stat"></i></a></div>
+                    <div class="cmbticon"><a class="npc-dmg" title="roll"><i class="fas fa-tint faD20Stat"></i></a></div>
+                    <div class="cmbtdivider"></div>
+                    <div class="cmbticon"><a class="item-edit" title="Edit"><i class="fas fa-gear faD20Stat"></i></a></div>
+                    <div class="cmbticon"><a class="item-delete" title="Delete"><i class="fas fa-trash-can faD20Stat"></i></a></div>
+                </div>
+            {{/each}}
+        </div>
+
+        <div class="mainColum3">
+            <div class="subhead">{{localize "GDSA.charactersheet.spcmbt"}}</div>
+            <div class="addItemBox2"><a class="item-create" data-type="generalTrait" title="{{localize "GDSA.charactersheet.addItem"}}">
+                <i class="fas fa-plus plusSym2"></i>
+            </a></div>
+            <hr class="hrMenu2">
+            {{#each traits as |trait id|}}
+                <div class="cmbtTrait item-context {{getTraitCSS name}}" data-item-id="{{_id}}">{{name}}</div>
+            {{/each}}
+        </div>
+
+
+        <div class="mainColum3">
+            <div class="subhead">{{localize "GDSA.charactersheet.notes"}}</div>
+            <hr class="hrMenu2">            
+            <textarea class="itemDesc" name="system.description">{{system.description}}</textarea>
+        </div>
+
+    </div>
 </form>

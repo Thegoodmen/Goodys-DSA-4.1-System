@@ -3,7 +3,7 @@
 
     <header class="sheet-header">
         <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="64" width="64"/>
-        <h1><input class="nameLable" name="name" type="text" value="{{actor.name}}" placeholder="{{ localize 'Name' }}" {{#unless isGM}}disabled{{/unless}}/></h1>
+        <h1><input class="nameLable" name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'Name'}}" {{#unless isGM}}disabled{{/unless}}/></h1>
     </header>
 
         <div class="invFiller2"></div>
@@ -11,24 +11,24 @@
 		<section class="sheet-body">
 
             <div class="merchantInfo">
-                <textarea class="merchantDisc" name="data.description" {{#unless isGM}}disabled{{/unless}}>{{data.description}}</textarea>
+                <textarea class="merchantDisc" name="system.description" {{#unless isGM}}disabled{{/unless}}>{{system.description}}</textarea>
                 <div class="affiliate">
                     Zugehörigkeit:<br />
                     {{#each affiliation as |item id|}}
                         <div class="affiliateBar {{#if ../isGM}}item-context{{/if}}" data-item-id="{{_id}}">
                             <div class="affiImg"><img class="affiIMG" src="{{item.img}}" title="{{item.name}}" /></div>
-                            <div class="affiName" style="color: {{data.fontColo}}; background-color: {{data.backgroundColor}}">{{item.name}}</div>
+                            <div class="affiName" style="color: {{system.fontColo}}; background-color: {{system.backgroundColor}}">{{item.name}}</div>
                         </div>
                     {{/each}}
                 </div>
                 <div class="classification">
-                    Qualität: <select class="classificationSelection" name="data.skill" {{#unless isGM}}disabled{{/unless}}>
-                        {{#select data.skill}}
-                        <option value="1">Krämer</option>
-                        <option value="2">Dorfhändler</option>
-                        <option value="3">Reisender</option>
-                        <option value="4">Stadthändler</option>
-                        <option value="5">Großhändler</option>
+                    Qualität: <select class="classificationSelection" name="system.skill" {{#unless isGM}}disabled{{/unless}}>
+                        {{#select system.skill}}
+                        <option value="1">{{localize "GDSA.chat.dialog.lvl1"}}</option>
+                        <option value="2">{{localize "GDSA.chat.dialog.lvl2"}}</option>
+                        <option value="3">{{localize "GDSA.chat.dialog.lvl3"}}</option>
+                        <option value="4">{{localize "GDSA.chat.dialog.lvl4"}}</option>
+                        <option value="5">{{localize "GDSA.chat.dialog.lvl5"}}</option>
                         {{/select}}
                     </select><br />
                     {{localize "GDSA.charactersheet.uberSkill"}}<a class="merch-roll" data-skill="uber" title="roll"><i class="fas fa-dice-d20 merchRoll"></i></a><br />
@@ -48,24 +48,24 @@
                             {{/if}}
                         </div>
                         {{#each inventar as |item id|}}
-                            <div class="invItem2 {{#if ../isGM}}item-context{{/if}} item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{data.type}}</i>
+                            <div class="invItem2 {{#if ../isGM}}item-context{{/if}} item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
                                 {{#if ../isGM}}
                                     <div class="changeAmount">
                                         <a class="addQuant"><i class="fas fa-plus"></i></a>
                                         <a class="removeQuant"><i class="fas fa-minus"></i></a>
                                     </div>
                                 {{/if}}
-                                <div class="itemAmountBox Quantity"><input class="itemAmount Quantity" name="data.quantity" value="{{data.quantity}}" type="number" disabled></div>
+                                <div class="itemAmountBox Quantity"><input class="itemAmount Quantity" name="system.quantity" value="{{system.quantity}}" type="number" disabled></div>
                                 <div class="itemImgBox2"><img class="itemImg" src="{{img}}"></div>
                                 <div class="addItemBox3">
-                                    {{#if (hasGold data.value)}}{{getGold data.value}} <i class="fas fa-coins gCoinSym"></i>{{/if}}
-                                    {{#if (hasSilver data.value)}}{{getSilver data.value}} <i class="fas fa-coins sCoinSym"></i>{{/if}}
-                                    {{#if (hasCopper data.value)}}{{getCopper data.value}} <i class="fas fa-coins cCoinSym"></i>{{/if}}
-                                    {{#if (hasNickel data.value)}}{{getNickel data.value}} <i class="fas fa-coins iCoinSym"></i>{{/if}}
+                                    {{#if (hasGold system.value)}}{{getGold system.value}} <i class="fas fa-coins gCoinSym"></i>{{/if}}
+                                    {{#if (hasSilver system.value)}}{{getSilver system.value}} <i class="fas fa-coins sCoinSym"></i>{{/if}}
+                                    {{#if (hasCopper system.value)}}{{getCopper system.value}} <i class="fas fa-coins cCoinSym"></i>{{/if}}
+                                    {{#if (hasNickel system.value)}}{{getNickel system.value}} <i class="fas fa-coins iCoinSym"></i>{{/if}}
                                 </div>
-                                <div class="addItemBox2">{{#if (isGreater data.quantity 0)}}<a class="buyItem">{{/if}}
-                                    <i class="fas fa-shopping-cart plusSym3 {{#unless (isGreater data.quantity 0)}}shopSymHide{{/unless}}"></i>
-                                {{#if (isGreater data.quantity 0)}}</a>{{/if}}</div>
+                                <div class="addItemBox2">{{#if (isGreater system.quantity 0)}}<a class="buyItem">{{/if}}
+                                    <i class="fas fa-shopping-cart plusSym3 {{#unless (isGreater system.quantity 0)}}shopSymHide{{/unless}}"></i>
+                                {{#if (isGreater system.quantity 0)}}</a>{{/if}}</div>
                             </div>
 	                    {{/each}}
                     </div>

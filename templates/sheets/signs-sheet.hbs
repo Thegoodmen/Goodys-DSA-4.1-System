@@ -1,5 +1,7 @@
 <form class="{{cssClass}}" autocomplete="off">
-        <div style="float: left; width: 350px; margin-left: 5px; margin-right: 5px;"><input name="name" type="text" value="{{item.name}}" style="float: left; width: 350px;" /></div>
-        <div style="float: left; width: 40px; margin-left: 5px; margin-right: 5px;"><input name="data.value" type="number" value="{{data.value}}" style="float: left; width: 40px;" /></div>
-        <div style="float: left; width: 40px; margin-left: 5px; margin-right: 5px;"><input name="data.komp" type="number" value="{{data.komp}}" style="float: left; width: 40px;" /></div>
+    <div class="sgHelper1"><input class="sgHelper2" name="name" type="text" value="{{item.name}}" /></div>
+    <div class="sgHelper3"><input class="sgHelper4" name="system.value" type="number" value="{{system.value}}" /></div>
+    <div class="sgHelper3"><input class="sgHelper4" name="system.komp" type="number" value="{{system.komp}}" /></div>
+
+    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
 </form>

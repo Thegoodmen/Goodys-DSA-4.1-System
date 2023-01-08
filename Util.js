@@ -1,6 +1,133 @@
+export function getItems(data, type, worn) {
+
+    // #################################################################################################
+    // #################################################################################################
+    // ##                                                                                             ##
+    // ##      Helper-Function for filling up the Arrays with specific Types and also Worn Status     ##
+    // ##                                                                                             ##
+    // #################################################################################################
+    // #################################################################################################
+
+    // Filter items of a Type
+
+    let itemArray = data.items.filter(function(item) {return item.type == type})
+
+    if (!worn) return itemArray;
+
+    // If Indicated by worn, filter again for item Status worn
+
+    return itemArray.filter(function(item) {return item.system.worn == true});
+}
+
+export function getGoofyMelee(value) {
+
+    switch (value) {
+        case 2:
+            return "Waffe zerstört";
+        case 3:
+        case 4:
+        case 5:
+            return "Sturz";
+        case 6:
+        case 7:
+        case 8:
+            return "Stolpern";
+        case 9:
+        case 10:
+            return "Waffe verloren";
+        case 11:
+            return "Eigentreffer";
+        case 12:
+            return "Schwerer Eigentreffer";
+    }
+}
+
+export function getGoofyMeleeIniMod(value) {
+
+    switch (value) {
+        case 2:
+        case 12:
+            return -4;
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+            return -2;
+        case 11:
+            return -3;
+    }
+}
+
+export function getGoofyFK(value) {
+
+    switch (value) {
+        case 2:
+            return "Waffe zerstört";
+        case 3:
+            return "Waffe beschädigt";
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+            return "Fehlschuß";
+        case 11:
+        case 12:
+            return "Kameraden getroffen";
+    }
+}
+
+export function getGoofyFKIniMod(value) {
+
+    switch (value) {
+        case 2:
+            return -4;
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+            return -2;
+        case 3:
+        case 11:
+        case 12:
+            return -3;
+    }
+}
+
+export function getZoneArmour(data, zone) {
+
+    switch (zone) {
+        case "Linkes Bein":
+            return data.sheet.getData().system.leftlegArmour;
+        case "Rechtes Bein":
+            return data.sheet.getData().system.rightlegArmour;
+        case "Bauch":
+            return data.sheet.getData().system.stomachArmour;
+        case "Linker Arm":
+            return data.sheet.getData().system.leftarmArmour;
+        case "Rechter Arm":
+            return data.sheet.getData().system.rightarmArmour;
+        case "Brust / Rücken":
+            return data.sheet.getData().system.bodyArmour;
+        case "Kopf":
+            return data.sheet.getData().system.headArmour;
+        default:
+            return data.sheet.getData().system.gRSArmour;
+    }
+}
+
 export function getSkillATKValue(actor, skillname) {
 
-    let data = actor.data.data;
+    let data = actor.system;
 
     switch(skillname){
 
@@ -89,7 +216,7 @@ export function getSkillATKValue(actor, skillname) {
 
 export function getSkillPAValue(actor, skillname) {
 
-    let data = actor.data.data;
+    let data = actor.system;
 
     switch(skillname){
 
@@ -547,43 +674,36 @@ export function getZone(value) {
     switch(value){
 
         case 1:
-            return game.i18n.localize("GDSA.zone.leftLeg");
-        case 2:
-            return game.i18n.localize("GDSA.zone.rightLeg");
         case 3:
-            return game.i18n.localize("GDSA.zone.leftLeg");
-        case 4:
-            return game.i18n.localize("GDSA.zone.rightLeg");
         case 5:
             return game.i18n.localize("GDSA.zone.leftLeg");
+
+        case 2:
+        case 4:
         case 6:
             return game.i18n.localize("GDSA.zone.rightLeg");
+
         case 7:
-            return game.i18n.localize("GDSA.zone.tammy");
         case 8:
             return game.i18n.localize("GDSA.zone.tammy");
+
         case 9:
-            return game.i18n.localize("GDSA.zone.leftArm");
-        case 10:
-            return game.i18n.localize("GDSA.zone.rightArm");
         case 11:
-            return game.i18n.localize("GDSA.zone.leftArm");
-        case 12:
-            return game.i18n.localize("GDSA.zone.rightArm");
         case 13:
             return game.i18n.localize("GDSA.zone.leftArm");
+
+        case 10:
+        case 12:
         case 14:
             return game.i18n.localize("GDSA.zone.rightArm");
+
         case 15:
-            return game.i18n.localize("GDSA.zone.breast");
         case 16:
-            return game.i18n.localize("GDSA.zone.breast");
         case 17:
-            return game.i18n.localize("GDSA.zone.breast");
         case 18:
             return game.i18n.localize("GDSA.zone.breast");
+
         case 19:
-            return game.i18n.localize("GDSA.zone.Head");
         case 20:
             return game.i18n.localize("GDSA.zone.Head");
     }

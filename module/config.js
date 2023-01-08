@@ -1,5 +1,17 @@
 export const GDSA = {};
 
+GDSA.attributes = {
+    none: "",
+    MU: "MU",
+    KL: "KL",
+    IN: "IN",
+    CH: "CH",
+    FF: "FF",
+    GE: "GE",
+    KO: "KO",
+    KK: "KK"
+}
+
 GDSA.meleeSkills = {
     none: "",
     bastardsword: "GDSA.meleeskill.bastardsword",

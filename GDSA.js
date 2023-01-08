@@ -9,8 +9,58 @@ import GDSAPlayerCharakterSheet from "./module/sheets/GDSAPlayerCharakterSheet.j
 import GDSALootActorSheet from "./module/sheets/GDSALootActorSheet.js";
 import GDSAMerchantSheet from "./module/sheets/GDSAMerchantSheet.js";
 import GDSANonPlayerSheet from "./module/sheets/GDSANonPlayerSheet.js";
+import * as LsFunction from "./module/listenerFunctions.js";
+import MemoryCache from "./module/memory-cache.js";
 
-async function preloadHandlebarsTemplates(){
+Hooks.once("init", () => {
+
+    console.log("GDSA | Initalizing Goodys DSA 4.1 System");
+
+    if(!game.modules.get("socketlib")?.active) ui.notifications.warn('SocketLib must be installed and activated to use all Functions of the DSA System.');
+
+    CONFIG.Combat.initiative.formula = "1d6 + @INIBasis.value + @INIBasis.modi";
+	Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
+    
+    CONFIG.GDSA = GDSA;
+    CONFIG.Actor.documentClass = GDSAActor;
+    CONFIG.Item.documentClass = GDSAItem;
+    CONFIG.Combat.documentClass = GDSACombat;
+    CONFIG.ui.combat = GDSACombatTracker;
+    CONFIG.cache = new MemoryCache();
+
+    Items.unregisterSheet("core", ItemSheet);
+    Items.registerSheet("GDSA", GDSAItemSheet, { makeDefault: true });
+
+    Actors.unregisterSheet("core", ActorSheet);
+    Actors.registerSheet("GDSA", GDSAPlayerCharakterSheet, { makeDefault: true, types: ["PlayerCharakter"] });
+    Actors.registerSheet("GDSA", GDSAMerchantSheet, { types: ["LootActor"]});
+    Actors.registerSheet("GDSA", GDSALootActorSheet, { types: ["LootActor"]});
+    Actors.registerSheet("GDSA", GDSANonPlayerSheet, { types: ["NonPlayer"]});
+  
+    preloadHandlebarsTemplates();
+    registerHandelbarsHelpers();  
+});
+
+Hooks.once("renderChatMessage", () => {
+
+    $(document).on('click', '.bntChatParry', function (event) { LsFunction.ownedCharParry(event) });
+    $(document).on('click', '.bntChatDogde', function (event) { LsFunction.ownedCharDogde(event) });
+    $(document).on('click', '.bntChatDamage', function (event) { LsFunction.executeDMGRoll(event) });
+    $(document).on('click', '.bntChatDMG', function (event) { LsFunction.executeHealthLoss(event) });
+});
+
+Hooks.once("socketlib.ready", () => {
+
+    GDSA.socket = socketlib.registerSystem("GDSA");
+    GDSA.socket.register("adjustRessource", adjustRessource);
+});
+
+function adjustRessource(target, value, type) {
+
+    target.setStatData(type, value);
+}
+
+function preloadHandlebarsTemplates() {
 
     const templatePaths = [
 
@@ -47,32 +97,7 @@ async function preloadHandlebarsTemplates(){
     return loadTemplates(templatePaths);
 };
 
-Hooks.once("init", function () {
-
-    console.log("GDSA | Initalizing Goodys DSA 4.1 System");
-
-    CONFIG.Combat.initiative.formula = "1d6 + @INIBasis.value + @INIBasis.modi";
-	Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
-    
-    CONFIG.GDSA = GDSA;
-    CONFIG.Actor.documentClass = GDSAActor;
-    CONFIG.Item.documentClass = GDSAItem;
-    CONFIG.Combat.documentClass = GDSACombat;
-    CONFIG.ui.combat = GDSACombatTracker;
-
-    Items.unregisterSheet("core", ItemSheet);
-    Items.registerSheet("GDSA", GDSAItemSheet, { makeDefault: true });
-
-    Actors.unregisterSheet("core", ActorSheet);
-    Actors.registerSheet("GDSA", GDSAPlayerCharakterSheet, { makeDefault: true, types: ["PlayerCharakter"] });
-    Actors.registerSheet("GDSA", GDSAMerchantSheet, { types: ["LootActor"]});
-    Actors.registerSheet("GDSA", GDSALootActorSheet, { types: ["LootActor"]});
-    Actors.registerSheet("GDSA", GDSANonPlayerSheet, { types: ["NonPlayer"]});
-
-    console.log(
-        JournalEntry);
-  
-    preloadHandlebarsTemplates();
+function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("times", function(n, content) {
         
@@ -241,4 +266,39 @@ Hooks.once("init", function () {
         return false;
     });
 
-});
+    Handlebars.registerHelper("getTraitCSS", function(value) {
+
+        if(value.includes("Gegner")) return "trait-type";
+        if(value.includes("Immunität")) return "trait-immu";
+        if(value.includes("Ressistenz")) return "trait-ressi";
+        if(value.includes("Empfindlichkeit")) return "trait-vunalb";
+        if(value.includes("(")) return "trait-combt";
+
+        return "";
+    });
+
+    Handlebars.registerHelper("getFlagFromCTracker", function(data, id, flag) {
+        
+        let combatents = data.combats[0].combatants.contents;
+        let combatant = combatents.filter(function(cmb) {return cmb._id == id})[0];
+
+        return (combatant.flags.GDSA?.[flag] != undefined) ? combatant.flags.GDSA?.[flag] : "";        
+    });
+
+    Handlebars.registerHelper("getColorFromType", function(type) {
+
+        switch (type) {
+            case "Enemy":
+                return "rgba(255,0,0,0.3)";
+        
+            case "NPC":
+                return "rgba(0,95,255,0.7)";
+                    
+            case "PC":
+                return "rgba(0,255,0,0.3)";
+        
+            default:
+                return "rgba(0,0,0,0.4)";
+        }
+    });
+}

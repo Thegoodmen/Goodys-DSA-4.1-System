@@ -1,8 +1,8 @@
 <form class="{{cssClass}}" autocomplete="off">
     <header class="sheet-header">
-        <div style="float: left; width: 373px;">
-            <select name="data.skill" style="width: 165px;">
-                {{#select data.skill}}
+        <div class="nameLable">
+            <select class="input165" name="system.skill">
+                {{#select system.skill}}
                     {{#each config.ritualSkills as |name type|}}
                         <option value="{{type}}">{{localize name}}</option>
                     {{/each}}

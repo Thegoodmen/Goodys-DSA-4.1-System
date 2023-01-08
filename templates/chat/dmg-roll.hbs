@@ -1,13 +1,13 @@
 <div class="GDSA chat message">
-    <div class="iniBox">
+    <div class="iniBox" data-dmgValue="{{totalDMG}}" data-chatid="{{chatId}}" data-zone="{{zone}}">
         
         <div class="flawName">{{localize "GDSA.combat.DMG"}}</div>
         <div class="dicefiller"></div>
         <div class="diceCol2">
             <div class="dices2">
-                <div class="nodice"></div>
-                <div class="diceD6">{{roll.dice.[0].values.[0]}}</div>
-                <div class="nodice"></div>
+                {{#each roll.dice.[0].values}}
+                    <div class="diceD6">{{this}}</div>
+                {{/each}}
             </div>
         </div>
 
@@ -15,9 +15,21 @@
         <div class="dice-formula">
             <div class="rollFlawSuccess">{{totalDMG}} {{localize "GDSA.combat.DMGOf"}}</div>
         </div>
+
         <div class="dicefiller"></div>
         <div class="dice-formula">
             <div class="rollFlawSuccess">{{zone}}</div>
         </div>
+
+        <div class="dicefiller"></div>
+        <label class="switch">
+            <input class="armourCheck" type="checkbox" checked>
+            <span class="slider"></span>
+        </label>
+        <button class="item bntChat4 bntChatDMG" data-dmgModi="0.5">1/2</button>
+        <button class="item bntChat4 bntChatDMG" data-dmgModi="1">1</button>
+        <button class="item bntChat4 bntChatDMG" data-dmgModi="1.5">1.5</button>
+        <button class="item bntChat4 bntChatDMG" data-dmgModi="2">2</button>
+        <button class="item bntChat5 bntChatDMG" data-dmgModi="-1">Heal</button>
     </div>
 </div>

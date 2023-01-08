@@ -3,13 +3,13 @@
         {{#each rituals as |item id|}}
             <tr class="item-context item" data-item-id="{{_id}}">
                 <td class="skillTableNameBig">{{name}} 
-                    <i>({{data.att1}}/{{data.att2}}/{{data.att3}})</i>
-                    <div class="itemWorn"><a class="openRitual" data-page="{{data.wdzPage}}"><i class="fas fa-book"></i></a></div>
+                    <i>({{system.att1}}/{{system.att2}}/{{system.att3}})</i>
+                    <div class="itemWorn"><a class="openRitual" data-page="{{system.wdzPage}}"><i class="fas fa-book"></i></a></div>
                 </td>
-                <td class="skillTableValue"><input class="skillTemp" type="number" value="{{getData ../data.skill (concat "rit" data.skill "")}}" disabled/></td>
+                <td class="skillTableValue"><input class="skillTemp" type="number" value="{{getData ../system.skill (concat "rit" system.skill "")}}" disabled/></td>
                 <td class="skillTableRoll"><a class="item skill-roll" data-statName="{{name}}"
-                    data-stat_one="{{getDataValue ../data ./data.att1}}" data-stat_two="{{getDataValue ../data ./data.att2}}" 
-                    data-stat_three="{{getDataValue ../data ./data.att3}}" data-bemod="0" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+                    data-stat_one="{{getDataValue ../system ./system.att1}}" data-stat_two="{{getDataValue ../system ./system.att2}}" 
+                    data-stat_three="{{getDataValue ../system ./system.att3}}" data-bemod="0" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a>
                 </td>
             </tr>
 	    {{/each}}

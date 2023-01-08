@@ -1,0 +1,68 @@
+<form class="{{cssClass}}" autocomplete="off">
+    
+    <header class="sheet-header arHelper17">
+        <img class="itemImg" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+        <input class="afHelper2" name="name" type="text" value="{{item.name}}" placeholder="{{localize 'Name'}}" />
+    </header>
+    
+    <div class="arHelper18">
+
+        <div class="arHelper21">
+            <div class="box75s">
+                <b class="labelspacer">{{localize "GDSA.itemsheet.at"}}</b>
+                <input class="input40" name="system.at" type="number" value="{{system.at}}" />
+            </div>
+            <div class="box75s">
+                <b class="labelspacer">{{localize "GDSA.itemsheet.pa"}}</b>
+                <input class="input40" name="system.pa" type="number" value="{{system.pa}}" />
+            </div>
+            <div class="box75s">
+                <b class="labelspacer">{{localize "GDSA.itemsheet.DK"}}</b>
+                <input class="input40" name="system.dk" type="text" value="{{system.dk}}" />
+            </div>
+            <div class="box150s">
+                <b class="labelspacer">{{localize "GDSA.itemsheet.tp"}}</b>
+                <input class="input110" name="system.tp" type="text" value="{{system.tp}}" />
+            </div>
+
+            <div class="mwHelper4"><b>TP(A)</b><input class="mwHelper1" name="system.tpa" type="checkbox" {{checked system.tpa}} /></div>
+        </div>
+
+        <div class="arHelper20">
+            <div class="arHelper19">
+                <div class="mwHelper2"><b>Profan</b></div> 
+                <input class="mwHelper1" name="system.profan" type="checkbox" {{checked system.profan}} /> <br />
+                <div class="mwHelper3"></div>
+                <div class="mwHelper2"><b>Magic</b></div> 
+                <input class="mwHelper1" name="system.magic" type="checkbox" {{checked system.magic}} /> <br />
+                <div class="mwHelper3"></div>
+                <div class="mwHelper2"><b>Holy</b></div> 
+                <input class="mwHelper1" name="system.holy" type="checkbox" {{checked system.holy}} />
+            </div>
+
+            
+            <div class="arHelper19">
+                <div class="mwHelper2"><b>Fire</b></div> 
+                <input class="mwHelper1" name="system.fire" type="checkbox" {{checked system.fire}} /> <br />
+                <div class="mwHelper3"></div>
+                <div class="mwHelper2"><b>Humus</b></div> 
+                <input class="mwHelper1" name="system.plant" type="checkbox" {{checked system.plant}} /> <br />
+                <div class="mwHelper3"></div>
+                <div class="mwHelper2"><b>Earth</b></div> 
+                <input class="mwHelper1" name="system.earth" type="checkbox" {{checked system.earth}} />
+            </div>
+
+            
+            <div class="arHelper19">
+                <div class="mwHelper2"><b>Water</b></div> 
+                <input class="mwHelper1" name="system.water" type="checkbox" {{checked system.water}} /> <br />
+                <div class="mwHelper3"></div>
+                <div class="mwHelper2"><b>Ice</b></div> 
+                <input class="mwHelper1" name="system.ice" type="checkbox" {{checked system.ice}} /> <br />
+                <div class="mwHelper3"></div>
+                <div class="mwHelper2"><b>Air</b></div> 
+                <input class="mwHelper1" name="system.air" type="checkbox" {{checked system.air}} />
+            </div>
+        </div>       
+    </div>
+</form>

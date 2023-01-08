@@ -1,10 +1,10 @@
 <div class="GDSA chat message">
     <div class="infoBox">
         {{#if dmg}}
-            {{actor.name}} hat <i class="fas fa-sun faD20Stat"></i> {{value}} Astralpunkte verbraucht!
+            {{actor.name}} {{localize "GDSA.chat.dialog.has"}} <i class="fas fa-sun faD20Stat"></i> {{value}} {{localize "GDSA.chat.dialog.spentAsP"}}
         {{/if}}
         {{#if heal}}
-            {{actor.name}} hat <i class="fas fa-sun faD20Stat"></i> {{value}} Astralpunkte zurückerhalten!
+            {{actor.name}} {{localize "GDSA.chat.dialog.has"}} <i class="fas fa-sun faD20Stat"></i> {{value}} {{localize "GDSA.chat.dialog.gotAsP"}}
         {{/if}}
     </div>
 </div>

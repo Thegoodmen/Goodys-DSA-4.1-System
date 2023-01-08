@@ -109,7 +109,21 @@
             "typeItem": "Art des Gegenstandes",
             "heigt": "Größe",
             "star": "Sternchen",
-            "parryWeapon": "Paradewaffe"
+            "parryWeapon": "Paradewaffe",
+            "zfw": "ZfW",
+            "lvl": "Grad",
+            "stat": "Stats",
+            "lep": "LeP",
+            "aup": "AuP",
+            "asp": "AsP",
+            "kap": "KaP",
+            "rs": "RS",
+            "gw": "GW",
+            "gs": "GS",
+            "mr": "MR",
+            "at": "AT",
+            "pa": "PA",
+            "tp": "TP"
         },
         "charactersheet": {
             "system": "Das schwarze Auge",
@@ -140,6 +154,7 @@
             "addFlaw": "Nachteil hinzufügen",
             "newflaw": "Neuer Nachteil",
             "valueLabel": "Wert",
+            "closeLabel": "Schließen",
             "modLabel": "Mod.",
             "maxLabel": "Max",
             "MU": "Mut",
@@ -330,8 +345,10 @@
             "taleSkill": "Talentschub",
             "tiemSkill": "Tierempathie",
             "zwerSkill": "Zwergennase",
+            "langu": "Sprache:",
             "lang": "Sprachen:",
             "sign": "Schriften:",
+            "komplex": "Komplexität",
             "addLang": "Sprache hinzufügen",
             "addSign": "Schrift hinzufügen",
             "dmg": "Schaden",
@@ -366,6 +383,7 @@
             "newgenerals": "Neuer Gegenstand",
             "newmelee-weapons": "Neue Nahkampfwaffe",
             "newrange-weapons": "Neue Fernkampfwaffe",
+            "newsimple-weapon": "Neue Waffe",
             "newshields": "Neuer Schild",
             "newarmour": "Neue Rüstung",
             "gold": "Dukaten",
@@ -389,7 +407,16 @@
             "hadditional": "Sonstiges",
             "goods": "Waren",
             "sell": "Einkauf",
-            "wonderskill": "Liturgiekenntnis"
+            "wonderskill": "Liturgiekenntnis",
+            "gift": "Vorteil / Nachteil",
+            "talent": "Talent",
+            "talente": "Talente",
+            "giflaw": "Vor- / Nachteile",
+            "cmbt": "Kampf",
+            "spcmbt": "Besondere Kampfregeln",
+            "notes": "Notizen",
+            "newgiftflaw": "Neuer Vor- / Nachteil",
+            "newtalent": "Neues Talent"
         },
         "chat":{
             "flaw": {
@@ -428,7 +455,6 @@
                 "dista": "Distanz",
                 "hida": "Deckung",
                 "sizeX": "Größe des Ziels"
-
             },
             "dialog": {
                 "dmg": "Wie viel Schaden soll zugefügt werden?",
@@ -440,8 +466,26 @@
                 "add": "Hinzufügen",
                 "remove": "Ausgeben",
                 "KaPdmg": "Wie viele Karmalpunkte sollen abgezogen werden?",
-                "getKaP": "Wie viele Karmakpunkte sollen zurückgewonnen werden?"
-                
+                "getKaP": "Wie viele Karmakpunkte sollen zurückgewonnen werden?",
+                "has": "hat",
+                "got": "ist um",
+                "spent": "ausgegeben!",
+                "get": "erhalten!",
+                "spentLeP": "Schaden erhalten!",
+                "gotLeP": "Leben geheilt worden!",
+                "spentAsP": "Astralpunkte verbraucht!",
+                "gotAsP": "Astralpunkte zurückerhalten!",
+                "spentKaP": "Karmalpunkte verbraucht!",
+                "gotKaP": "Karmalpunkte zurückerhalten!",
+                "attack": "Angriff",
+                "parry": "Parade",
+                "lvl1": "Krämer",
+                "lvl2": "Dorfhändler",
+                "lvl3": "Reisender",
+                "lvl4": "Stadthändler",
+                "lvl5": "Großhändler",
+                "dogde": "Ausweichen",
+                "damage": "Schaden"    
             },
             "rangeOpt": {
                 "noWind": "Kein Wind",
@@ -557,7 +601,11 @@
             "armour3": "Rüstungsgewöhnung III",
             "talentSp": "Talentspezialisierung",
             "parryW1": "Parierwaffen I",
-            "parryW2": "Parierwaffen II"
+            "parryW2": "Parierwaffen II",
+            "twohanded2": "Beidhändiger Kampf II",
+            "deathleft": "Tod von Links",
+            "mAttacks": "Angriffe",
+            "mParrys": "Paraden"
         },
         "zone": {
             "leftLeg": "Linkes Bein",

@@ -1,9 +1,9 @@
 <div class="skillHeaderBox2">
 	<div class="skillHeaderSkillBox2">
-        <div class="headerLable">{{localize "GDSA.charactersheet.ATBasis"}}</div><div class="headerValue">{{data.ATBasis.value}}</div> 
-        <div class="headerLable">{{localize "GDSA.charactersheet.PABasis"}}</div><div class="headerValue">{{data.PABasis.value}}</div>
-        <div class="headerLable">{{localize "GDSA.charactersheet.FKBasis"}}</div><div class="headerValue">{{data.FKBasis.value}}</div> 
-        <div class="headerLable">{{localize "GDSA.charactersheet.INIBasis"}}</div><div class="headerValue">{{data.INIBasis.value}}</div>
+        <div class="headerLable">{{localize "GDSA.charactersheet.ATBasis"}}</div><div class="headerValue">{{system.ATBasis.value}}</div> 
+        <div class="headerLable">{{localize "GDSA.charactersheet.PABasis"}}</div><div class="headerValue">{{system.PABasis.value}}</div>
+        <div class="headerLable">{{localize "GDSA.charactersheet.FKBasis"}}</div><div class="headerValue">{{system.FKBasis.value}}</div> 
+        <div class="headerLable">{{localize "GDSA.charactersheet.INIBasis"}}</div><div class="headerValue">{{system.INIBasis.value}}</div>
 	</div>
 </div>
 
@@ -11,8 +11,8 @@
 	
 <div class="skillMenuBox2">
     <div class="lepbar">
-      <div class="lepbar_fill" style="width: {{data.LeP.prozent}}%;"></div>
-      <span class="lepbar_text">{{data.LeP.value}} / {{data.LeP.max}}</span>
+      <div class="lepbar_fill" style="width: {{system.LeP.prozent}}%;"></div>
+      <span class="lepbar_text">{{system.LeP.value}} / {{system.LeP.max}}</span>
     </div>
 </div>
 	
@@ -28,8 +28,8 @@
             <a class="myButton doReg">{{localize "GDSA.charactersheet.reg"}}</a> 
             <a class="myButton getHeal">{{localize "GDSA.charactersheet.heal"}}</a>
         </div>
-        <div class="iniBar">{{localize "GDSA.charactersheet.WS"}}:</div><div class="iniValue">{{data.WS}}</div>
-        <a class="item dogde-roll" title="roll"><div class="iniBar">{{localize "GDSA.charactersheet.dogde"}}:</div><div class="iniValue">{{data.Dogde}}</div></a>
+        <div class="iniBar">{{localize "GDSA.charactersheet.WS"}}:</div><div class="iniValue">{{system.WS}}</div>
+        <a class="item dogde-roll" title="roll"><div class="iniBar">{{localize "GDSA.charactersheet.dogde"}}:</div><div class="iniValue">{{system.Dogde}}</div></a>
     
         <div class="combatTableBox">
             <table class="combatTable">
@@ -90,7 +90,7 @@
 		<div class="traithrbox"><hr class="flawhr" /></div>
     	<section class="traits">
 			{{#each generalTraits as |Trait id|}}
-				<div class="item item-context" data-type="{{data.type}}" data-item-id="{{_id}}">
+				<div class="item item-context" data-type="{{system.type}}" data-item-id="{{_id}}">
                     <div class="trait">{{name}}</div><hr class="flawhr" />
                 </div>
 			{{/each}}
@@ -102,7 +102,7 @@
 		<div class="traithrbox"><hr class="flawhr" /></div>
     	<section class="traits">
 			{{#each combatTraits as |Trait id|}}
-				<div class="item item-context" data-type="{{data.type}}" data-item-id="{{_id}}">
+				<div class="item item-context" data-type="{{system.type}}" data-item-id="{{_id}}">
                     <div class="trait">{{name}}</div><hr class="flawhr" />
                 </div>
 			{{/each}}

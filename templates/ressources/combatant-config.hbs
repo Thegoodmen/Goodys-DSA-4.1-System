@@ -1,22 +1,8 @@
 <form>
     <div class="form-group">
-        <label>{{ localize "COMBAT.CombatantActor" }}</label>
-        <div class="form-fields">
-            <input type="text" name="actorName" value="{{ document.actor.name }}" disabled/>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>{{ localize "COMBAT.CombatantToken" }}</label>
-        <div class="form-fields">
-            <input type="text" name="tokenName" value="{{ document.token.name }}" disabled/>
-        </div>
-    </div>
-
-    <div class="form-group">
         <label>{{ localize "COMBAT.CombatantName" }}</label>
         <div class="form-fields">
-            <input type="text" name="name" value="{{ data.name }}"/>
+            <input type="text" name="document.name" value="{{document.name}}" disabled/>
         </div>
     </div>
 
@@ -24,14 +10,14 @@
         <label>{{ localize "COMBAT.CombatantImage" }}</label>
         <div class="form-fields">
             {{filePicker target="img" type="image"}}
-            <input class="image" type="text" name="img" placeholder="path/image.png" value="{{data.img}}"/>
+            <input class="image" type="text" name="document.img" placeholder="path/image.png" value="{{data.img}}"/>
         </div>
     </div>
 
     <div class="form-group">
         <label>{{ localize "COMBAT.CombatantInitiative" }}</label>
         <div class="form-fields">
-            <input type="number" name="initiative" value="{{ data.initiative }}" step="any"/>
+            <input type="number" name="initiative" value="{{data.initiative}}" step="any"/>
         </div>
     </div>
 

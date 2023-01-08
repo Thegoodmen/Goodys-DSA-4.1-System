@@ -1,7 +1,7 @@
 <div class="GDSA chat message">
     <div class="flawBox {{#if modPresent}}statModBoxAdd{{/if}}">
         
-        <div class="flawName">Angriff ({{ATKValue}})</div>
+        <div class="flawName"><a class="test" >{{localize "GDSA.chat.dialog.attack"}} ({{ATKValue}})</a></div>
         <div class="dicefiller"></div>
         <div class="diceCol">
             <div class="dices">
@@ -38,6 +38,20 @@
                         <div class="rollFlawFail">{{localize "GDSA.chat.stat.fail"}}</div>
                     {{/if}}
                 {{/if}}
-        </div>
+        </div>               
+        {{#if goof}}
+            <div class="dicefiller"></div>
+            <div class="rollFlawInfo">{{goofed}}</div>
+        {{/if}}
+
+        {{#unless auto}}
+            {{#if result}}
+                <div class="dicefiller"></div>
+
+                <button class="item bntChat3 bntChatParry" data-chatId="{{chatId}}">{{localize "GDSA.chat.dialog.parry"}}</button>
+                <button class="item bntChat3 bntChatDogde" data-chatId="{{chatId}}">{{localize "GDSA.chat.dialog.dogde"}}</button>
+                <button class="item bntChat3 bntChatDamage" data-chatId="{{chatId}}">{{localize "GDSA.chat.dialog.damage"}}</button>
+            {{/if}}
+        {{/unless}}
     </div>
 </div>

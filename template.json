@@ -101,10 +101,42 @@
             }
         },
         "NonPlayer": {
-            "templates": [
-                "Stats"
-            ],
-            "name": ""
+            "MU": 0,
+            "KL": 0,
+            "IN": 0,
+            "CH": 0,
+            "FF": 0,
+            "GE": 0,
+            "KO": 0,
+            "KK": 0,
+            "LeP": {
+                "max": 0,
+                "value": 0
+            },
+            "AuP": {
+                "max": 0,
+                "value": 0
+            },
+            "AsP": {
+                "max": 0,
+                "value": 0
+            },
+            "KaP": {
+                "max": 0,
+                "value": 0
+            },
+            "GS": {
+                "a": 0,
+                "b": 0
+            },
+            "MR": {
+                "a": 0,
+                "b": 0
+            },
+            "GW": 0,
+            "RS": 0,
+            "INI": "1d6 + 6",
+            "description": ""
         },
         "LootActor": {
             "money": {
@@ -418,6 +450,16 @@
                 "ritgauf": "",
                 "ritpetr": "",
                 "liturgy": ""
+            },
+            "wp": {
+                "head": 0,
+                "chest": 0,
+                "rArm": 0,
+                "lArm": 0,
+                "tummy": 0,
+                "rLeg": 0,
+                "lLeg": 0,
+                "all": 0
             }
         }
     },
@@ -441,7 +483,10 @@
             "ritual",
             "ritualSkill",
             "affiliation",
-            "wonder"
+            "wonder",
+            "simple-weapon",
+            "talent",
+            "giftflaw"
         ],
         "templates": {
             "generalItems": {
@@ -452,7 +497,6 @@
                 "quantity": 1
             },
             "trait":{
-                "name": "Arroganz",
                 "value": 0
             }
         },
@@ -529,6 +573,16 @@
                 "trait"
             ]
         },
+        "giftflaw": {
+            "templates": [
+                "trait"
+            ]
+        },
+        "talent": {
+            "templates": [
+                "trait"
+            ]
+        },
         "langu": {
             "name": "Garethi",
             "komp": 21,
@@ -583,6 +637,22 @@
             "name": "Objektweihe II",
             "grad": 2,
             "lltPage": "0"
+        },
+        "simple-weapon": {
+            "at": 12,
+            "pa": 12,
+            "dk": "H",
+            "tp": "1d6 + 5",
+            "profan": true,
+            "magic": false,
+            "fire": false,
+            "ice": false,
+            "earth": false,
+            "plant": false,
+            "water": false,
+            "air": false,
+            "holy": false,
+            "tpa": false
         }
     }
 }

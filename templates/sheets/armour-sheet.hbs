@@ -1,74 +1,80 @@
 <form class="{{cssClass}}" autocomplete="off">
-    <header class="sheet-header">
-        <img src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64"/>
-        <h1><input name="name" type="text" value="{{item.name}}" placeholder="{{ localize 'Name' }}" style="width: 373px;"/></h1>
+
+    <header class="sheet-header arHelper17">
+        <img class="itemImg" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+        <input class="afHelper2" name="name" type="text" value="{{item.name}}" placeholder="{{localize 'Name'}}" />
     </header>
-    <div style="width: 450px; height: 305px;">
-        <div style="width: 450px; height: 50px;">
-            <div style="width: 175px; height: 50px; float: left;">
+
+    <div class="arHelper1">
+
+        <div class="arHelper2">
+            <div class="arHelper3">
                 <b>{{localize "GDSA.itemsheet.typeArmor"}}</b><br />
-                <input name="data.type" type="text" value="{{data.type}}" style="width: 165px;" />
+                <input class="arHelper4" name="system.type" type="text" value="{{system.type}}" />
             </div>
-            <div style="width: 100px; height: 50px; float: left;">
+            <div class="arHelper5">
                 <b>{{localize "GDSA.itemsheet.star"}}</b><br />
-                <input name="data.star" type="text" value="{{data.star}}" style="width: 90px;" />
+                <input class="arHelper6" name="system.star" type="text" value="{{system.star}}" />
             </div>
-            <div style="width: 35px; height: 50px; float: left; text-align: center;">
+            <div class="arHelper7">
                 <b>Z</b><br />
-                <input name="data.Z" type="checkbox" {{checked data.Z}} style="width: 25px;" />
+                <input class="arHelper8" name="system.Z" type="checkbox" {{checked system.Z}} />
             </div>
-            <div style="width: 75px; height: 50px; float: left; text-align: center;">
+            <div class="arHelper9">
                 <b>{{localize "GDSA.itemsheet.worn"}}</b><br />
-                <input name="data.worn" type="checkbox" {{checked data.worn}} style="width: 65px;">
+                <input class="arHelper10" name="system.worn" type="checkbox" {{checked system.worn}}>
             </div>
         </div>
-        <div style="width: 450px; height: 50px;">
-            <div style="width: 70px; height: 50px; float: left;">
+
+        <div class="arHelper2">
+            <div class="arHelper11">
                 <b>{{localize "GDSA.itemsheet.head"}}</b><br />
-                <input name="data.head" type="text" value="{{data.head}}" style="width: 60px;" />
+                <input class="arHelper12" name="system.head" type="text" value="{{system.head}}" />
             </div>
-            <div style="width: 70px; height: 50px; float: left;">
+            <div class="arHelper11">
                 <b>{{localize "GDSA.itemsheet.body"}}</b><br />
-                <input name="data.body" type="text" value="{{data.body}}" style="width: 60px;" />
+                <input class="arHelper12" name="system.body" type="text" value="{{system.body}}" />
             </div>
-            <div style="width: 70px; height: 50px; float: left;">
+            <div class="arHelper11">
                 <b>{{localize "GDSA.itemsheet.back"}}</b><br />
-                <input name="data.back" type="text" value="{{data.back}}" style="width: 60px;" />
+                <input class="arHelper12" name="system.back" type="text" value="{{system.back}}" />
             </div>
-            <div style="width: 70px; height: 50px; float: left;">
+            <div class="arHelper11">
                 <b>{{localize "GDSA.itemsheet.stomach"}}</b><br />
-                <input name="data.stomach" type="text" value="{{data.stomach}}" style="width: 60px;" />
+                <input class="arHelper12" name="system.stomach" type="text" value="{{system.stomach}}" />
             </div>
-            <div style="width: 150px; height: 50px; float: left;">
+            <div class="arHelper16">
                 <b>{{localize "GDSA.itemsheet.weight"}}</b><br />
-                <input name="data.weight" type="text" value="{{data.weight}}" style="width: 140px;" />
+                <input class="arHelper13" name="system.weight" type="text" value="{{system.weight}}" />
             </div>
         </div>
-        <div style="width: 450px; height: 50px;">       
-            <div style="width: 70px; height: 50px; float: left;">
+
+        <div class="arHelper2">       
+            <div class="arHelper11">
                 <b>{{localize "GDSA.itemsheet.rArm"}}</b><br />
-                <input name="data.rightarm" type="text" value="{{data.rightarm}}" style="width: 60px;" />
+                <input class="arHelper12" name="system.rightarm" type="text" value="{{system.rightarm}}" />
             </div>
-            <div style="width: 70px; height: 50px; float: left;">
+            <div class="arHelper11">
                 <b>{{localize "GDSA.itemsheet.lArm"}}</b><br />
-                <input name="data.leftarm" type="text" value="{{data.leftarm}}" style="width: 60px;" />
+                <input class="arHelper12" name="system.leftarm" type="text" value="{{system.leftarm}}" />
             </div>
-            <div style="width: 70px; height: 50px; float: left;">
+            <div class="arHelper11">
                 <b>{{localize "GDSA.itemsheet.rLeg"}}</b><br />
-                <input name="data.rightleg" type="text" value="{{data.rightleg}}" style="width: 60px;" />
+                <input class="arHelper12" name="system.rightleg" type="text" value="{{system.rightleg}}" />
             </div>
-            <div style="width: 70px; height: 50px; float: left;">
+            <div class="arHelper11">
                 <b>{{localize "GDSA.itemsheet.lLeg"}}</b><br />
-                <input name="data.leftleg" type="text" value="{{data.leftleg}}" style="width: 60px;" />
+                <input class="arHelper12" name="system.leftleg" type="text" value="{{system.leftleg}}" />
             </div>
-            <div style="width: 150px; height: 50px; float: left;">
+            <div class="arHelper16">
                 <b>{{localize "GDSA.itemsheet.value"}}</b><br />
-                <input name="data.value" type="text" value="{{data.value}}" style="width: 140px;" />
+                <input class="arHelper13" name="system.value" type="text" value="{{system.value}}" />
             </div>
         </div>
-        <div style="width: 450px; height: 150px;">
+
+        <div class="arHelper14">
             <b>{{localize "GDSA.itemsheet.description"}}</b><br />
-            <textarea name="data.description" style="width: 450px; height: 135px;">{{data.description}}</textarea>
-        </div>       
+            <textarea class="arHelper15" name="system.description">{{system.description}}</textarea>
+        </div>
     </div>
 </form>
