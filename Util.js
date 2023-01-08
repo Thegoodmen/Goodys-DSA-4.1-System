@@ -216,8 +216,7 @@ export function getSkillATKValue(actor, skillname) {
 
 export function getSkillPAValue(actor, skillname) {
 
-    console.log(actor);
-    let data = actor.system;
+    let data = actor?.system;
 
     switch(skillname){
 
@@ -301,6 +300,9 @@ export function getSkillPAValue(actor, skillname) {
         
         case "throwingspear":
             return data.skill.wspe.def;
+        
+        default:
+            return 0;
     }
 }
 
