@@ -9,9 +9,9 @@ export default class GDSACombat extends Combat {
         if(iniDifference != 0)
             return iniDifference;
 
-        const aBaseData = a.actor.sheet?.getData();
+        const aBaseData = a.actor?.sheet?.getData();
         if(!aBaseData) return a.tokenId - b.tokenId;
-        const bBaseData = b.actor.sheet?.getData();
+        const bBaseData = b.actor?.sheet?.getData();
         if(!bBaseData) return a.tokenId - b.tokenId;
         const InIBaseA = (aBaseData.actor.type == "PlayerCharakter") ? aBaseData.system.INIBasis.value : aBaseData.system.INI.split(" + ")[1];
         const InIBaseB = (bBaseData.actor.type == "PlayerCharakter") ? bBaseData.system.INIBasis.value : bBaseData.system.INI.split(" + ")[1];
