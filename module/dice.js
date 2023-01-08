@@ -623,10 +623,9 @@ export async function ATKCheck(atk, modi, actor, auto = false, isMeele = true, c
     // If it was a Goof and combat is running, reduce the Ini accordingly of the actor
 
     if (game.combats.contents.length > 0) {
-        let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]._id;
+        
+        let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == actor.id})[0]._id;
         userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
-        attacksLeft = userCombatant.getFlag("GDSA", "attacks");
-        attackerparriesLeft = userCombatant.getFlag("GDSA", "parries");
     }
     
     // Return if the ATK was successful or not
