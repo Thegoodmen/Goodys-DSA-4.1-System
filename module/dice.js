@@ -624,7 +624,7 @@ export async function ATKCheck(atk, modi, actor, auto = false, isMeele = true, c
 
     if (game.combats.contents.length > 0) {
         
-        let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == actor.id})[0]._id;
+        let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == actor._id})[0]._id;
         userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
     }
     
