@@ -340,7 +340,7 @@ async function onMeeleAttack(data, actor, item, ATKValue, isSpezi, auto, cacheOb
     }
 }
 
-async function onRangeAttack(actor, ATKValue, isSpezi, item, auto) {
+async function onRangeAttack(actor, ATKValue, isSpezi, item, auto, cacheObject) {
 
     let Modi = 0;
     let bDMG = 0;
@@ -428,6 +428,7 @@ export async function onNPCAttackRoll(data, event) {
 
     let element = event.currentTarget;
     let actor = data.actor;
+    console.log(data);
 
     // Get Target of Attack
 
@@ -452,7 +453,7 @@ export async function onNPCAttackRoll(data, event) {
     let userCombatant;
     let modi = 0;
     if (game.combats.contents.length > 0) {
-    let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]._id;
+    let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]?._id;
     userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
     attacksLeft = userCombatant.getFlag("GDSA", "attacks");
     attackerparriesLeft = userCombatant.getFlag("GDSA", "parries");}
