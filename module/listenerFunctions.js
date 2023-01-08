@@ -162,7 +162,7 @@ export async function onAttackRoll(data, event) {
     let targetCombatantId = "";
     let targetType = "";
 
-    if( game.users.get(game.userId).targets.ids.length < 0) {
+    if( game.users.get(game.userId).targets.ids.length > 0) {
 
         targetId = game.users.get(game.userId).targets.ids[0];
         targetCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.tokenId == targetId})[0]._id;
@@ -170,7 +170,7 @@ export async function onAttackRoll(data, event) {
         // Get Type of Target
 
         let targetToken = (targetId == null) ?  null : game.actors.tokens[targetId];
-        targetType = targetToken?.type; 
+        targetType = targetToken?.type;
     };
     let auto = (targetType == "NonPlayer");
 
