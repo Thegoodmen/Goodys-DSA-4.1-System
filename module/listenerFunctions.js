@@ -156,18 +156,58 @@ export async function onAttackRoll(data, event) {
 
     // Get Target of Attack
 
-    let targetId = game.users.get(game.userId).targets.ids[0];
+    let targetId = "";
+    let targetCombatantId = "";
+    let targetType = "";
 
-    // Get Type of Target
+    if( game.users.get(game.userId).targets.ids.length < 0) {
 
-    let targetToken = (targetId == null) ?  null : game.actors.tokens[targetId];
-    let targetType = targetToken?.type;
+        targetId = game.users.get(game.userId).targets.ids[0];
+        targetCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.tokenId == targetId})[0]._id;
+
+        // Get Type of Target
+
+        let targetToken = (targetId == null) ?  null : game.actors.tokens[targetId];
+        targetType = targetToken?.type; 
+    };
     let auto = (targetType == "NonPlayer");
+
+    // Calculate TPKK
+
+    let y = 0;
+
+    if(item.system.TPKK == "" && item.system.TPKK != null) {
+                
+        console.log(item)
+        let tpkkString = item.system.TPKK;
+        let tp = tpkkString.split("/")[0];
+        let kk = tpkkString.split("/")[1];
+    
+        let x = system.KK.value - tp;
+        y = Math.ceil(x / kk);
+        y --;
+        if(y < 0) y = 0;
+    }
+
+    // Generate DMG String
+        
+    let dmgString = item.system.damage + "+" + y;
+
+    // Generate Chat Cache Object and store ID
+
+    let cacheObject = {
+
+        dmgString: dmgString,
+        multi: 1,
+        actor: actor.id,
+        targetToken: targetId,
+        combatant: targetCombatantId
+    };
 
     // Do ATK Rolls
 
-    if(item.type == "melee-weapons") answer = await onMeeleAttack(data, actor, item, ATKValue, isSpezi, auto);
-    else answer = await onRangeAttack(actor, ATKValue, isSpezi, item, auto);
+    if(item.type == "melee-weapons") answer = await onMeeleAttack(data, actor, item, ATKValue, isSpezi, auto, cacheObject);
+    else answer = await onRangeAttack(actor, ATKValue, isSpezi, item, auto, cacheObject);
 
     if (game.combats.contents.length > 0) { 
         attacksLeft--;
@@ -186,8 +226,7 @@ export async function onAttackRoll(data, event) {
         let PAValue = targetToken.system.mainPA;
 
         // Get Combatant
-
-        let targetCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.tokenId == targetId})[0]._id;
+        
         let combatant = game.combats.contents[0].combatants.get(targetCombatantId);
         let parriesLeft = combatant.getFlag("GDSA", "parries");
 
@@ -225,24 +264,16 @@ export async function onAttackRoll(data, event) {
 
         // Do DMG Rolls
         
-        let dmgString = item.system.damage + "+" + y + "+" + answer.bonusDMG;
-        let dmg = await Dice.DMGRoll(dmgString, actor, answer.multi);
+        let dmgString2 = item.system.damage + "+" + y + "+" + answer.bonusDMG;
+        let dmg = await Dice.DMGRoll(dmgString2, actor, answer.multi);
 
         let newHP = parseInt(targetToken.system.LeP.value) - parseInt(parseInt(dmg) - parseInt(targetToken.system.RS));
 
         GDSA.socket.executeAsGM("adjustRessource", targetToken, newHP, "LeP")
-
-        // Test
-        
-        let userCharId = game.users.get(game.userId).character._id;
-        let userChar = game.actors.get(userCharId);
-
-        console.log(userChar);
-        console.log(game.combats.contents[0].combatants);
     }
 }
 
-async function onMeeleAttack(data, actor, item, ATKValue, isSpezi, auto) {
+async function onMeeleAttack(data, actor, item, ATKValue, isSpezi, auto, cacheObject) {
 
     let Modi = 0;
     let bDMG = 0;
@@ -286,15 +317,21 @@ async function onMeeleAttack(data, actor, item, ATKValue, isSpezi, auto) {
     if(hammer) Modi -= 8;
     if(sturm) Modi -= 4;
 
-    // Do ATK Roll
-
-    let result = await Dice.ATKCheck(ATKValue, Modi, actor, auto);
-
     // Create Result-Objekt
 
     bDMG = wucht;
     if(sturm) bDMG += 4 + (Math.round(actor.system.GS.value / 2));
     if(hammer) multi = 3;
+
+    // Generate Temp Cache
+
+    cacheObject.dmgString = cacheObject.dmgString + "+" + bDMG;
+    cacheObject.multi = multi;
+    let chatId = CONFIG.cache.set(cacheObject);
+
+    // Do ATK Roll
+
+    let result = await Dice.ATKCheck(ATKValue, Modi, actor, auto, true, chatId);
 
     return {
         result: result,
@@ -339,11 +376,6 @@ async function onRangeAttack(actor, ATKValue, isSpezi, item, auto) {
     Modi += dista;
     Modi += parseInt(ATKInfo.hidea);
     Modi += parseInt(ATKInfo.sizeX);
-
-    
-    // Do ATK Roll
-
-    let result = Dice.ATKCheck(ATKValue, Modi, actor, auto);
             
     // Create Result-Objekt
 
@@ -371,6 +403,16 @@ async function onRangeAttack(actor, ATKValue, isSpezi, item, auto) {
             break;                    
     }
 
+    // Generate Temp Cache
+
+    cacheObject.dmgString = cacheObject.dmgString + "+" + bDMG;
+    cacheObject.multi = multi;
+    let chatId = CONFIG.cache.set(cacheObject);
+    
+    // Do ATK Roll
+
+    let result = Dice.ATKCheck(ATKValue, Modi, actor, auto, false, chatId);
+
     return {
         result: result,
         bonusDMG: bDMG,
@@ -390,7 +432,7 @@ export async function onNPCAttackRoll(data, event) {
     // Get Target of Attack
 
     let targetId = game.users.get(game.userId).targets.ids[0];
-    let targetCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.tokenId == targetId})[0]._id;
+    let targetCombatantId = game.combats.contents[0]?.combatants._source.filter(function(cbt) {return cbt.tokenId == targetId})[0]?._id;
 
     // Get Type of Target
 
@@ -431,7 +473,7 @@ export async function onNPCAttackRoll(data, event) {
 
     // Execute Roll
     
-    let result = await Dice.ATKCheck(value, modi, actor, auto, chatId);
+    let result = await Dice.ATKCheck(value, modi, actor, auto, true, chatId);
 
     // Remove one Attack from the Possible Attacks this round
 
@@ -742,9 +784,21 @@ export function onDMGRoll(data, event) {
 
     let dmgString = item.system.damage + "+" + y;
 
+    // Generate Chat Cache Object and store ID
+
+    let cacheObject = {
+
+        dmgString: dmgString,
+        multi: 1,
+        actor: actor.id,
+        targetToken: "",
+        combatant: ""};
+
+    let chatId = CONFIG.cache.set(cacheObject);
+
     // Execute DMG Roll
 
-    Dice.DMGRoll(dmgString, actor, 1);
+    Dice.DMGRoll(dmgString, actor, 1,chatId);
 }
 
 export function onNPCDMGRoll(data, event) {
@@ -902,6 +956,32 @@ export function onSubStat(data, event) {
     // Render and Update Actor
 
     actor.setStatData(statType, system[statType].value);
+    actor.render();
+}
+
+export function onWoundChange(data, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+    let system = data.system;
+
+    // Get Zone
+
+    let zone = element.closest(".wound").dataset.zone;
+
+    // Get Woundcount
+
+    let wound = (system.wp[zone] != null) ? system.wp[zone] : 0;
+    wound ++;
+    if(wound > 3) wound = 0;
+
+    // Update WS Stat and Render
+
+    actor.setWound(zone, wound);
     actor.render();
 }
 
@@ -1512,19 +1592,17 @@ export async function ownedCharParry(event) {
     let multi = chatContext.multi;
     let actorId = chatContext.actor;
     let targetTokenId = chatContext.targetToken;
-    let combatantId = chatContext.combatant;
 
     let useractor = game.users.get(game.userId).character;
     
-    let actor = (actorId == "") ?  null : game.actors.get(actorId);
-    let targetToken = (targetTokenId == "") ?  null : game.actors.get(game.scenes.current.tokens.get(targetTokenId).actorId);
-    let combatant = (combatantId == "") ?  null : game.combats.contents[0].combatants.get(combatantId);
+    let actor = (actorId == "") ?  game.users.get(game.userId).character : game.actors.get(actorId);
+    let targetToken = (targetTokenId == "") ?  game.users.get(game.userId).character : game.actors.get(game.scenes.current.tokens.get(targetTokenId).actorId);
 
     // Get Highest PA Value - If you are the owner of the Token with that  - if not with your own actor
 
     let PAValue = 0;
     let targetOwnership = targetToken.ownership[game.userId];
-    if(targetOwnership = 3) PAValue = targetToken.system.mainPA;
+    if(targetOwnership == 3) PAValue = targetToken.system.mainPA;
     else  PAValue = useractor.system.mainPA;
 
     // Generate Parry Dialog
@@ -1549,34 +1627,7 @@ export async function ownedCharParry(event) {
 
     // Do DMG Rolls
         
-    let dmg = await Dice.DMGRoll(dmgString, actor, multi);
-
-    // Set new HP to Target
-
-    let rs = 0;
-
-    if(targetToken.type == "PlayerCharakter") rs = targetToken.sheet.getData().system.gRSArmour;
-    if(targetToken.type == "NonPlayer") rs = targetToken.system.rs;
-
-    let newHP = parseInt(targetToken.system.LeP.value) - parseInt(parseInt(dmg) - parseInt(rs));
-       
-    GDSA.socket.executeAsGM("adjustRessource", targetToken, newHP, "LeP")
-
-    // If HP hits 0 or lower, Toggel defeted and push to Token
-
-    if(newHP > 0) return;
-
-    await combatant.update({defeated: true});
-    const token = combatant.token;
-    if ( !token ) return;
-
-    // Push the defeated status to the token
-    
-    const status = CONFIG.statusEffects.find(e => e.id === CONFIG.specialStatusEffects.DEFEATED);
-    if ( !status && !token.object ) return;
-    const effect = token.actor && status ? status : CONFIG.controlIcons.defeated;
-    if ( token.object ) await token.object.toggleEffect(effect, {overlay: true, active: true});
-    else await token.toggleActiveEffect(effect, {overlay: true, active: isDefeated});
+    await Dice.DMGRoll(dmgString, actor, multi);
 }
 
 export async function ownedCharDogde(event) {
@@ -1598,19 +1649,17 @@ export async function ownedCharDogde(event) {
     let multi = chatContext.multi;
     let actorId = chatContext.actor;
     let targetTokenId = chatContext.targetToken;
-    let combatantId = chatContext.combatant;
 
     let useractor = game.users.get(game.userId).character;
     
-    let actor = (actorId == "") ?  null : game.actors.get(actorId);
-    let targetToken = (targetTokenId == "") ?  null : game.actors.get(game.scenes.current.tokens.get(targetTokenId).actorId);
-    let combatant = (combatantId == "") ?  null : game.combats.contents[0].combatants.get(combatantId);
+    let actor = (actorId == "") ?  game.users.get(game.userId).character : game.actors.get(actorId);
+    let targetToken = (targetTokenId == "") ?  game.users.get(game.userId).character : game.actors.get(game.scenes.current.tokens.get(targetTokenId).actorId);
 
     // Get Dogde Value
 
     let PAValue = 0;
     let targetOwnership = targetToken.ownership[game.userId];
-    if(targetOwnership = 3) PAValue = targetToken.system.Dogde;
+    if(targetOwnership == 3) PAValue = targetToken.system.Dogde;
     else  PAValue = useractor.system.Dogde;
     let dogdename = game.i18n.localize("GDSA.charactersheet.dogde");        
 
@@ -1636,34 +1685,7 @@ export async function ownedCharDogde(event) {
 
     // Do DMG Rolls
         
-    let dmg = await Dice.DMGRoll(dmgString, actor, multi);
-
-    // Set new HP to Target
-
-    let rs = 0;
-
-    if(targetToken.type == "PlayerCharakter") rs = targetToken.sheet.getData().system.gRSArmour;
-    if(targetToken.type == "NonPlayer") rs = targetToken.system.rs;
-
-    let newHP = parseInt(targetToken.system.LeP.value) - parseInt(parseInt(dmg) - parseInt(rs));
-       
-    GDSA.socket.executeAsGM("adjustRessource", targetToken, newHP, "LeP")
-
-    // If HP hits 0 or lower, Toggel defeted and push to Token
-
-    if(newHP > 0) return;
-
-    await combatant.update({defeated: true});
-    const token = combatant.token;
-    if ( !token ) return;
-
-    // Push the defeated status to the token
-    
-    const status = CONFIG.statusEffects.find(e => e.id === CONFIG.specialStatusEffects.DEFEATED);
-    if ( !status && !token.object ) return;
-    const effect = token.actor && status ? status : CONFIG.controlIcons.defeated;
-    if ( token.object ) await token.object.toggleEffect(effect, {overlay: true, active: true});
-    else await token.toggleActiveEffect(effect, {overlay: true, active: isDefeated});
+    await Dice.DMGRoll(dmgString, actor, multi);
 }
 
 export async function executeDMGRoll(event) {
@@ -1684,38 +1706,82 @@ export async function executeDMGRoll(event) {
     let dmgString = chatContext.dmgString;
     let multi = chatContext.multi;
     let actorId = chatContext.actor;
-    let targetTokenId = chatContext.targetToken;
-    let combatantId = chatContext.combatant;
-    
     let actor = (actorId == "") ?  null : game.actors.get(actorId);
-    let targetToken = (targetTokenId == "") ?  null : game.actors.get(game.scenes.current.tokens.get(targetTokenId).actorId);
-    let combatant = (combatantId == "") ?  null : game.combats.contents[0].combatants.get(combatantId);
 
     // Do DMG Rolls
         
-    let dmg = await Dice.DMGRoll(dmgString, actor, multi);
+    await Dice.DMGRoll(dmgString, actor, multi, chatId);
+}
+
+export async function executeHealthLoss(event) {
+    
+    event.preventDefault();
+
+    // Get Element from Chat
+
+    let element = event.currentTarget;
+
+    // Get Chat Context from Memory
+
+    let chatId = element.closest(".iniBox").dataset.chatid;
+    let chatContext = CONFIG.cache.get(chatId);
+
+    let targetTokenId = chatContext.targetToken;
+    let combatantId = chatContext.combatant;
+    let useractor = game.users.get(game.userId).character;
+    let userCombatant = game.combats.contents[0].combatants.contents.filter(function(combatant) {return combatant.actorId == useractor._id})[0];
+
+    let targetToken = (targetTokenId == "") ? game.users.get(game.userId).character : game.actors.get(game.scenes.current.tokens.get(targetTokenId).actorId);
+    let combatant = (combatantId == "") ? userCombatant : game.combats.contents[0].combatants.get(combatantId);
+    let targetOwnership = (targetTokenId == "") ?  0 : targetToken.ownership[game.userId];
+
+    if(targetOwnership != 3) targetToken = useractor;
+
+    // Check if Armour is activated and what Button / Modifier was used
+
+    let isArmoured = element.closest(".iniBox").querySelector("[class=armourCheck]").checked;
+    let dmgAmmount = element.closest(".iniBox").dataset.dmgvalue;
+    let dmgZone = element.closest(".iniBox").dataset.zone;
+    let dmgModifier = element.closest(".item").dataset.dmgmodi;
 
     // Set new HP to Target
 
     let rs = 0;
+    let ws = 8;
 
-    if(targetToken.type == "PlayerCharakter") rs = targetToken.sheet.getData().system.gRSArmour;
-    if(targetToken.type == "NonPlayer") rs = targetToken.system.rs;
+    if(targetToken.type == "PlayerCharakter" && isArmoured && dmgModifier != -1) rs = Util.getZoneArmour(targetToken, dmgZone);
+    if(targetToken.type == "NonPlayer" && isArmoured && dmgModifier != -1) rs = targetToken.system.rs;
+    if(targetToken.type == "PlayerCharakter") ws = targetToken.sheet.getData().system.WS;
+    if(targetToken.type == "NonPlayer") ws = targetToken.system.KO / 2;
 
-    let newHP = parseInt(targetToken.system.LeP.value) - parseInt(parseInt(dmg) - parseInt(rs));
-       
+    let dmgCalc = Math.round(dmgAmmount * dmgModifier);
+    let dmgResult = (dmgCalc <= rs) ? 0 : dmgCalc - rs;
+    if(dmgCalc < 0) dmgResult = dmgCalc;  
+    let newHP = parseInt(targetToken.system.LeP.value) - dmgResult;
     GDSA.socket.executeAsGM("adjustRessource", targetToken, newHP, "LeP")
 
+    // Set Wounds if nessesary
+
+    if (dmgModifier != -1) {
+
+        let wounds = 0
+        if (dmgResult > ws) wounds ++;
+        if (dmgResult > (ws * 2)) wounds ++;
+        if (dmgResult > (ws * 3)) wounds ++;
+
+        if(targetToken.type == "PlayerCharakter") targetToken.setWound(dmgZone, wounds);
+    }
+ 
     // If HP hits 0 or lower, Toggel defeted and push to Token
-
+ 
     if(newHP > 0) return;
-
+ 
     await combatant.update({defeated: true});
     const token = combatant.token;
     if ( !token ) return;
-
+ 
     // Push the defeated status to the token
-    
+     
     const status = CONFIG.statusEffects.find(e => e.id === CONFIG.specialStatusEffects.DEFEATED);
     if ( !status && !token.object ) return;
     const effect = token.actor && status ? status : CONFIG.controlIcons.defeated;

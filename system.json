@@ -9,10 +9,10 @@
             "email": "maron.moeller@gmail.com"
         }
     ],
-    "version": "0.2.1",
+    "version": "0.2.2",
     "compatibility": {
         "minimum": 10,
-        "verified": "10.290",
+        "verified": "10.291",
         "maximum": 10
     },
     "esmodules": [
@@ -31,19 +31,22 @@
             "path": "lang/de.json"
         }
     ],
-    "dependencies": [
-        {
-            "name": "socketlib",
-            "manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/develop/module.json"
-        }
-    ],
+    "relationships": {
+        "requires": [{
+            "id": "socketlib",
+            "type": "module",
+            "manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/develop/module.json",
+            "compatibility": {
+                "verified": "1.0.12"
+            }
+        }]
+    },
     "socket": true,
     "gridDistance": 1,
     "gridUnits": "Schritt",
     "primaryTokenAttribute": "LeP.value",
     "secondaryTokenAttribute": "AuP.value",
-    "Initiative": "1d6 + @IniBase.value",
     "url": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System",
     "manifest": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System/releases/latest/download/system.json",
-    "download": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System/releases/download/v0.1.9/system.zip"
+    "download": "https://github.com/Thegoodmen/Goodys-DSA-4.1-System/releases/download/v0.2.2/system.zip"
 }

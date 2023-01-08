@@ -586,6 +586,9 @@
   color: lightgrey;
   font-size: 11px;
 }
+.GDSA.sheet.characterSheet .wpTaken {
+  color: darkred;
+}
 .GDSA.sheet.characterSheet .headerLable {
   float: left;
   height: 18px;
@@ -1820,6 +1823,15 @@
 .GDSA.chat.message .rollFlawFail {
   float: left;
   background-color: darkred;
+  width: 100%;
+  height: 22px;
+  font-size: 18px;
+  text-align: center;
+  color: white;
+}
+.GDSA.chat.message .rollFlawInfo {
+  float: left;
+  background-color: #605f57c7;
   width: 100%;
   height: 22px;
   font-size: 18px;

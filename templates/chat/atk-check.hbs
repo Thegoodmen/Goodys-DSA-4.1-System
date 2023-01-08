@@ -38,15 +38,19 @@
                         <div class="rollFlawFail">{{localize "GDSA.chat.stat.fail"}}</div>
                     {{/if}}
                 {{/if}}
-        </div>
+        </div>               
+        {{#if goof}}
+            <div class="dicefiller"></div>
+            <div class="rollFlawInfo">{{goofed}}</div>
+        {{/if}}
 
         {{#unless auto}}
             {{#if result}}
                 <div class="dicefiller"></div>
 
-                <button class="test item bntChat3 bntChatParry" data-chatId="{{chatId}}">{{localize "GDSA.chat.dialog.parry"}}</button>
-                <button class="test item bntChat3 bntChatDogde" data-chatId="{{chatId}}">{{localize "GDSA.chat.dialog.dogde"}}</button>
-                <button class="test item bntChat3 bntChatDamage" data-chatId="{{chatId}}">{{localize "GDSA.chat.dialog.damage"}}</button>
+                <button class="item bntChat3 bntChatParry" data-chatId="{{chatId}}">{{localize "GDSA.chat.dialog.parry"}}</button>
+                <button class="item bntChat3 bntChatDogde" data-chatId="{{chatId}}">{{localize "GDSA.chat.dialog.dogde"}}</button>
+                <button class="item bntChat3 bntChatDamage" data-chatId="{{chatId}}">{{localize "GDSA.chat.dialog.damage"}}</button>
             {{/if}}
         {{/unless}}
     </div>

@@ -1,5 +1,5 @@
 <div class="GDSA chat message">
-    <div class="iniBox">
+    <div class="iniBox" data-dmgValue="{{totalDMG}}" data-chatid="{{chatId}}" data-zone="{{zone}}">
         
         <div class="flawName">{{localize "GDSA.combat.DMG"}}</div>
         <div class="dicefiller"></div>
@@ -23,13 +23,13 @@
 
         <div class="dicefiller"></div>
         <label class="switch">
-            <input type="checkbox" checked>
+            <input class="armourCheck" type="checkbox" checked>
             <span class="slider"></span>
         </label>
-        <button class="test item bntChat4" data-chatId="{{chatId}}">1/2</button>
-        <button class="test item bntChat4" data-chatId="{{chatId}}">1</button>
-        <button class="test item bntChat4" data-chatId="{{chatId}}">1.5</button>
-        <button class="test item bntChat4" data-chatId="{{chatId}}">2</button>
-        <button class="test item bntChat5" data-chatId="{{chatId}}">Heal</button>
+        <button class="item bntChat4 bntChatDMG" data-dmgModi="0.5">1/2</button>
+        <button class="item bntChat4 bntChatDMG" data-dmgModi="1">1</button>
+        <button class="item bntChat4 bntChatDMG" data-dmgModi="1.5">1.5</button>
+        <button class="item bntChat4 bntChatDMG" data-dmgModi="2">2</button>
+        <button class="item bntChat5 bntChatDMG" data-dmgModi="-1">Heal</button>
     </div>
 </div>

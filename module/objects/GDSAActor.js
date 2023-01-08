@@ -337,4 +337,43 @@ export default class GDSAActor extends Actor {
                 break;
         }
     }
+
+    setWound(zone, wound) {
+
+        // Methode to update Wound Count directly
+
+        switch (zone) {
+            case "head":
+            case "Kopf":
+                this.update({ "system.wp.head": wound});
+                break;
+            case "chest":
+            case "Brust / Rücken":
+                this.update({ "system.wp.chest": wound});
+                break;
+            case "tummy":
+            case "Bauch":
+                this.update({ "system.wp.tummy": wound});
+                break;
+            case "lArm":
+            case "Linker Arm":
+                this.update({ "system.wp.lArm": wound});
+                break;
+            case "rArm":
+            case "Rechter Arm":
+                this.update({ "system.wp.rArm": wound});
+                break;
+            case "lLeg":
+            case "Linkes Bein":
+                this.update({ "system.wp.lLeg": wound});
+                break;
+            case "rLeg":
+            case "Rechtes Bein":
+                this.update({ "system.wp.rLeg": wound});
+                break;    
+            default:
+                this.update({ "system.wp.all": wound});
+                break;
+        }
+    }
 }

@@ -46,6 +46,7 @@ Hooks.once("renderChatMessage", () => {
     $(document).on('click', '.bntChatParry', function (event) { LsFunction.ownedCharParry(event) });
     $(document).on('click', '.bntChatDogde', function (event) { LsFunction.ownedCharDogde(event) });
     $(document).on('click', '.bntChatDamage', function (event) { LsFunction.executeDMGRoll(event) });
+    $(document).on('click', '.bntChatDMG', function (event) { LsFunction.executeHealthLoss(event) });
 });
 
 Hooks.once("socketlib.ready", () => {

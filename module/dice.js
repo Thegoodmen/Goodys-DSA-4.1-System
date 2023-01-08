@@ -550,7 +550,7 @@ export async function doKaPReg(actor, modi) {
     return tap;
 }
 
-export async function ATKCheck(atk, modi, actor, auto = false, chatId = "") {
+export async function ATKCheck(atk, modi, actor, auto = false, isMeele = true, chatId = "") {
 
     // #################################################################################################
     // #################################################################################################
@@ -576,6 +576,7 @@ export async function ATKCheck(atk, modi, actor, auto = false, chatId = "") {
 
     let rollResult = await new Roll("1d20", {}).roll({ async: true});
     let rollResult2 = await new Roll("1d20", {}).roll({ async: true});
+    let rollResult3 = await new Roll("2d6", {}).roll({ async: true});
 
     // Set up the Total Value of the Attribut Value +/- the Modifier
     
@@ -600,6 +601,7 @@ export async function ATKCheck(atk, modi, actor, auto = false, chatId = "") {
     templateContext.confirm = (rollResult.total == 1 || rollResult.total == 20) ? true : false
     templateContext.critt = (rollResult.total == 1 && rollResult2.total <= statValueTotal) ? true : false;
     templateContext.goof = (rollResult.total == 20 && rollResult2.total > statValueTotal) ? true : false;
+    templateContext.goofed = (isMeele) ? Util.getGoofyMelee(rollResult3.total) : Util.getGoofyFK(rollResult3.total);
     
     // Sets the Booleans and Values for the Modifikation Indikator in the Chat
     
@@ -610,10 +612,22 @@ export async function ATKCheck(atk, modi, actor, auto = false, chatId = "") {
 
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
+    let goofDices = [];
     let dices = [rollResult.dice[0].values[0]];
     const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
     if(rollResult.total == 1 || rollResult.total == 20) dices.push(rollResult2.dice[0].values[0]);
-    let status = await doXD20XD6Roll(chatModel, dices, []);
+    if(rollResult.total == 20 && rollResult2.total > statValueTotal) goofDices.push(rollResult3.dice[0].values[0]);
+    if(rollResult.total == 20 && rollResult2.total > statValueTotal) goofDices.push(rollResult3.dice[0].values[1]);
+    let status = await doXD20XD6Roll(chatModel, dices, goofDices);
+
+    // If it was a Goof and combat is running, reduce the Ini accordingly of the actor
+
+    if (game.combats.contents.length > 0) {
+        let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]._id;
+        userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
+        attacksLeft = userCombatant.getFlag("GDSA", "attacks");
+        attackerparriesLeft = userCombatant.getFlag("GDSA", "parries");
+    }
     
     // Return if the ATK was successful or not
 
@@ -688,7 +702,7 @@ export async function PACheck(parry, modi, actor) {
     return rollResult.total <= statValueTotal ? true : false;
 }
 
-export async function DMGRoll(formula, actor, multi) {
+export async function DMGRoll(formula, actor, multi, chatId = "") {
 
     // #################################################################################################
     // #################################################################################################
@@ -725,7 +739,8 @@ export async function DMGRoll(formula, actor, multi) {
     let templateContext = {
         totalDMG: total,
         roll: rollResult,
-        zone: hitZone
+        zone: hitZone,
+        chatId: chatId
     };
 
     // Fill the Results to the right Array for Display
@@ -756,6 +771,7 @@ async function doXD20XD6Roll(chatData, result1, result2) {
 
     // Act depend of the Status of the Module Dice-so-nice in the World to trigger respectivly
     // Also, in Case that there are only 2d20 roll first one and the second after the first to immers the conformation Roll
+    // And only post the Chatmessages after all rolls are displayed
 
     return new Promise(resolve => {
         if(!game.modules.get("dice-so-nice")?.active) {
@@ -768,6 +784,11 @@ async function doXD20XD6Roll(chatData, result1, result2) {
             game.dice3d.show({ throws:[{dice: [d20Model(result1[0])]}]}).then(displayed => 
                 { game.dice3d.show({ throws:[{dice: [d20Model(result1[1])]}]}).then(displayed => 
                         { ChatMessage.create(chatData); resolve(true)});});
+        else if (result1.length == 2 && result2.length == 2) 
+            game.dice3d.show({ throws:[{dice: [d20Model(result1[0])]}]}).then(displayed => 
+                { game.dice3d.show({ throws:[{dice: [d20Model(result1[1])]}]}).then(displayed => 
+                    { game.dice3d.show({ throws:[{dice: [d6Model(result2[0]), d6Model(result2[1])]}]}).then( displayed =>
+                        { ChatMessage.create(chatData); resolve(true)});});});
         else game.dice3d.show(data).then(displayed => { ChatMessage.create(chatData); resolve(true)});
     });
 }

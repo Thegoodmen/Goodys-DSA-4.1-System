@@ -124,6 +124,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".stat-minus").click(LsFunction.onSubStat.bind(this, this.getData()));
             html.find(".doReg").click(LsFunction.onReg.bind(this, this.getData()));
             html.find(".doMedi").click(LsFunction.onMed.bind(this, this.getData()));
+            html.find(".wp").click(LsFunction.onWoundChange.bind(this, this.getData()));
+            html.find(".wound").click(LsFunction.onWoundChange.bind(this, this.getData()));
 
             // Set Listener for Item Events
 

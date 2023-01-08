@@ -6,10 +6,10 @@
         <div class="RSBox">
             {{system.headArmour}}
         </div>
-        <div class="WPBox1">
-            <i class="fas fa-solid fa-circle wp"></i>
-            <i class="fas fa-solid fa-circle wp"></i>
-            <i class="fas fa-solid fa-circle wp"></i>
+        <div class="WPBox1 wound" data-zone="head">
+            <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.head 0)}}wpTaken{{/if}}"></i>
+            <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.head 1)}}wpTaken{{/if}}"></i>
+            <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.head 2)}}wpTaken{{/if}}"></i>
         </div>
     </div>
     <div class="RSHelper4"></div>
@@ -19,10 +19,10 @@
             <div class="RSBox">
                 {{system.leftarmArmour}}
             </div>
-            <div class="WPBox2">
-                <i class="fas fa-solid fa-circle wp"></i>
-                <i class="fas fa-solid fa-circle wp"></i>
-                <i class="fas fa-solid fa-circle wp"></i>
+            <div class="WPBox2 wound" data-zone="lArm">
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.lArm 0)}}wpTaken{{/if}}"></i>
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.lArm 1)}}wpTaken{{/if}}"></i>
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.lArm 2)}}wpTaken{{/if}}"></i>
             </div>
         </div>
     </div>
@@ -33,10 +33,10 @@
             <div class="RSBox">
                 {{system.bodyArmour}}
             </div>
-            <div class="WPBox1">
-                <i class="fas fa-solid fa-circle wp"></i>
-                <i class="fas fa-solid fa-circle wp"></i>
-                <i class="fas fa-solid fa-circle wp"></i>
+            <div class="WPBox1 wound" data-zone="chest">
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.chest 0)}}wpTaken{{/if}}"></i>
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.chest 1)}}wpTaken{{/if}}"></i>
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.chest 2)}}wpTaken{{/if}}"></i>
             </div>
             <div class="RSHelper3"></div>
             <div class="RSBox">
@@ -49,10 +49,10 @@
             <div class="RSBox">
                 {{system.stomachArmour}}
             </div>
-            <div class="WPBox1">
-                <i class="fas fa-solid fa-circle wp"></i>
-                <i class="fas fa-solid fa-circle wp"></i>
-                <i class="fas fa-solid fa-circle wp"></i>
+            <div class="WPBox1 wound" data-zone="tummy">
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.tummy 0)}}wpTaken{{/if}}"></i>
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.tummy 1)}}wpTaken{{/if}}"></i>
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.tummy 2)}}wpTaken{{/if}}"></i>
             </div>
         </div>
     </div>
@@ -62,10 +62,10 @@
             <div class="RSBox">
                 {{system.rightarmArmour}}
             </div>
-            <div class="WPBox2">
-                <i class="fas fa-solid fa-circle wp"></i>
-                <i class="fas fa-solid fa-circle wp"></i>
-                <i class="fas fa-solid fa-circle wp"></i>
+            <div class="WPBox2 wound" data-zone="rArm">
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.rArm 0)}}wpTaken{{/if}}"></i>
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.rArm 1)}}wpTaken{{/if}}"></i>
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.rArm 2)}}wpTaken{{/if}}"></i>
             </div>
         </div>
     </div>
@@ -75,10 +75,10 @@
             <div class="RSBox">
                 {{system.leftlegArmour}}
             </div>
-            <div class="WPBox2">
-                <i class="fas fa-solid fa-circle wp"></i>
-                <i class="fas fa-solid fa-circle wp"></i>
-                <i class="fas fa-solid fa-circle wp"></i>
+            <div class="WPBox2 wound" data-zone="lLeg">
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.lLeg 0)}}wpTaken{{/if}}"></i>
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.lLeg 1)}}wpTaken{{/if}}"></i>
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.lLeg 2)}}wpTaken{{/if}}"></i>
             </div>
         </div>
     </div>
@@ -88,10 +88,10 @@
             <div class="RSBox">
                 {{system.rightlegArmour}}
             </div>
-            <div class="WPBox2">
-                <i class="fas fa-solid fa-circle wp"></i>
-                <i class="fas fa-solid fa-circle wp"></i>
-                <i class="fas fa-solid fa-circle wp"></i>
+            <div class="WPBox2 wound" data-zone="rLeg">
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.rLeg 0)}}wpTaken{{/if}}"></i>
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.rLeg 1)}}wpTaken{{/if}}"></i>
+                <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.rLeg 2)}}wpTaken{{/if}}"></i>
             </div>
         </div>
     </div>
@@ -101,10 +101,10 @@
         <div class="RSBox">
             {{system.gRSArmour}}
         </div>
-        <div class="WPBox1">
-            <i class="fas fa-solid fa-circle wp"></i>
-            <i class="fas fa-solid fa-circle wp"></i>
-            <i class="fas fa-solid fa-circle wp"></i>
+        <div class="WPBox1 wound" data-zone="all">
+            <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.all 0)}}wpTaken{{/if}}"></i>
+            <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.all 1)}}wpTaken{{/if}}"></i>
+            <i class="fas fa-solid fa-circle wp {{#if (isGreater system.wp.all 2)}}wpTaken{{/if}}"></i>
         </div>
     </div>     
 </div>
