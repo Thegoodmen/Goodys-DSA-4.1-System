@@ -38,6 +38,10 @@
                         <div class="rollFlawFail">{{localize "GDSA.chat.stat.fail"}}</div>
                     {{/if}}
                 {{/if}}
-        </div>
+        </div>               
+        {{#if goof}}
+            <div class="dicefiller"></div>
+            <div class="rollFlawInfo">{{goofed}}</div>
+        {{/if}}
     </div>
 </div>

@@ -11,6 +11,7 @@ import GDSAMerchantSheet from "./module/sheets/GDSAMerchantSheet.js";
 import GDSANonPlayerSheet from "./module/sheets/GDSANonPlayerSheet.js";
 import * as LsFunction from "./module/listenerFunctions.js";
 import MemoryCache from "./module/memory-cache.js";
+import GMScreen from "./module/apps/gmScreen.js";
 
 Hooks.once("init", () => {
 
@@ -49,15 +50,40 @@ Hooks.once("renderChatMessage", () => {
     $(document).on('click', '.bntChatDMG', function (event) { LsFunction.executeHealthLoss(event) });
 });
 
+Hooks.on("renderSettings", (app, html) => {
+
+    html.find('#settings-game').after($(`<h2>GDSA Einstellungen</h2><div id="gdsa-options"></div>`));
+
+    GMScreen.Initialize(html);
+  
+    if (game.user.isGM) {
+
+        $('#gdsa-options').append($(
+            `<button data-action="heldentool-importer">
+                <i class="fas fa-duotone fa-arrow-up-from-bracket"></i>
+                Import Heldentool XML
+            </button>`));
+        
+        html.find('button[data-action="heldentool-importer"').on("click", _ => console.log("bnt1"));
+    }
+});
+  
+
 Hooks.once("socketlib.ready", () => {
 
     GDSA.socket = socketlib.registerSystem("GDSA");
     GDSA.socket.register("adjustRessource", adjustRessource);
+    GDSA.socket.register("sendToMemory", sendToMemory);
 });
 
 function adjustRessource(target, value, type) {
 
     target.setStatData(type, value);
+}
+
+function sendToMemory(key, object) {
+
+    CONFIG.cache.set(key, object);
 }
 
 function preloadHandlebarsTemplates() {

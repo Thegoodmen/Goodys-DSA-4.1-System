@@ -659,6 +659,7 @@ export async function PACheck(parry, modi, actor) {
 
     let rollResult = await new Roll("1d20", {}).roll({ async: true});
     let rollResult2 = await new Roll("1d20", {}).roll({ async: true});
+    let rollResult3 = await new Roll("2d6", {}).roll({ async: true});
 
     // Set up the Total Value of the Attribut Value +/- the Modifier
     
@@ -681,6 +682,7 @@ export async function PACheck(parry, modi, actor) {
     templateContext.confirm = (rollResult.total == 1 || rollResult.total == 20) ? true : false
     templateContext.critt = (rollResult.total == 1 && rollResult2.total <= statValueTotal) ? true : false;
     templateContext.goof = (rollResult.total == 20 && rollResult2.total > statValueTotal) ? true : false;
+    templateContext.goofed = Util.getGoofyMelee(rollResult3.total);
     
     // Sets the Booleans and Values for the Modifikation Indikator in the Chat
     
@@ -691,12 +693,23 @@ export async function PACheck(parry, modi, actor) {
 
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
+    let goofDices = [];
     let dices = [rollResult.dice[0].values[0]];
     const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
     if(rollResult.total == 1 || rollResult.total == 20) dices.push(rollResult2.dice[0].values[0]);
-    await doXD20XD6Roll(chatModel, dices, []);
+    if(rollResult.total == 20 && rollResult2.total > statValueTotal) goofDices.push(rollResult3.dice[0].values[0]);
+    if(rollResult.total == 20 && rollResult2.total > statValueTotal) goofDices.push(rollResult3.dice[0].values[1]);
+    let status = await doXD20XD6Roll(chatModel, dices, goofDices);
+
+    // If it was a Goof and combat is running, reduce the Ini accordingly of the actor
+
+    if (game.combats.contents.length > 0) {
+        
+        let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == actor._id})[0]._id;
+        let userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
+    }
     
-    // Return if the ATK was successful or not
+    // Return if the PA was successful or not
 
     return rollResult.total <= statValueTotal ? true : false;
 }
