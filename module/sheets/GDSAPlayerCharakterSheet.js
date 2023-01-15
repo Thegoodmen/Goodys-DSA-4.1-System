@@ -273,7 +273,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         
         if(checkArmour1 != null) { 
         
-            let isrightArmour = sheetData.equiptArmour.filter(function(item) {return item.data.type.includes(checkArmour1.name.split("(")[1].slice(0, -1))});
+            let isrightArmour = sheetData.equiptArmour.filter(function(item) {return item.system.type.includes(checkArmour1.name.split("(")[1].slice(0, -1))});
             if(isrightArmour.length > 0) o = 1;
         }    
 

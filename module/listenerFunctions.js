@@ -327,7 +327,8 @@ async function onMeeleAttack(data, actor, item, ATKValue, isSpezi, auto, cacheOb
 
     cacheObject.dmgString = cacheObject.dmgString + "+" + bDMG;
     cacheObject.multi = multi;
-    let chatId = CONFIG.cache.set(cacheObject);
+    let chatId = CONFIG.cache.generateNewId();
+    GDSA.socket.executeForEveryone("sendToMemory", chatId, cacheObject);
 
     // Do ATK Roll
 
@@ -407,7 +408,8 @@ async function onRangeAttack(actor, ATKValue, isSpezi, item, auto, cacheObject) 
 
     cacheObject.dmgString = cacheObject.dmgString + "+" + bDMG;
     cacheObject.multi = multi;
-    let chatId = CONFIG.cache.set(cacheObject);
+    let chatId = CONFIG.cache.generateNewId();
+    GDSA.socket.executeForEveryone("sendToMemory", chatId, cacheObject);
     
     // Do ATK Roll
 
@@ -469,7 +471,8 @@ export async function onNPCAttackRoll(data, event) {
         targetToken: targetId,
         combatant: targetCombatantId};
 
-    let chatId = CONFIG.cache.set(cacheObject);
+    let chatId = CONFIG.cache.generateNewId();
+    GDSA.socket.executeForEveryone("sendToMemory", chatId, cacheObject);
 
     // Execute Roll
     
@@ -552,6 +555,15 @@ export async function onParryRoll(data, event) {
     let actor = data.actor;
     let system = data.system;
 
+    // Get the Users Combatant
+
+    let parriesLeft = 0;
+    let userCombatant;
+    if (game.combats.contents.length > 0) {
+    let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]._id;
+    userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
+    parriesLeft = userCombatant.getFlag("GDSA", "parries");}
+
     // Get Weapon
 
     let itemId = element.closest("tr").dataset.itemId;
@@ -586,6 +598,11 @@ export async function onParryRoll(data, event) {
     // Do Parry Roll
 
     Dice.PACheck(PAValue, Modi, actor);
+
+    if (game.combats.contents.length > 0) { 
+        if(parriesLeft > 0) parriesLeft--;
+        userCombatant.setFlag("GDSA", "parries", parriesLeft)
+    }
 }
 
 export function onNPCParryRoll(data, event) {
@@ -615,6 +632,15 @@ export async function onShildRoll(data, event) {
     let element = event.currentTarget;
     let actor = data.actor;
     let system = data.system;
+
+    // Get the Users Combatant
+
+    let parriesLeft = 0;
+    let userCombatant;
+    if (game.combats.contents.length > 0) {
+    let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]._id;
+    userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
+    parriesLeft = userCombatant.getFlag("GDSA", "parries");}
 
     // Get Shield    
     
@@ -648,6 +674,11 @@ export async function onShildRoll(data, event) {
     // Execute Parry Roll
 
     Dice.PACheck(PABasis, Modi, actor);
+
+    if (game.combats.contents.length > 0) { 
+        if(parriesLeft > 0) parriesLeft--;
+        userCombatant.setFlag("GDSA", "parries", parriesLeft)
+    }
 }
 
 export async function getShildPABasis(data, PABasis) {
@@ -1584,6 +1615,7 @@ export async function ownedCharParry(event) {
 
     let chatId = element.closest(".item").dataset.chatid;
     let chatContext = CONFIG.cache.get(chatId);
+    if(jQuery.isEmptyObject(chatContext)) {ui.notifications.warn('Context was not found in Memory. Please reroll the initial Check.'); return};
 
     // Save Context in Variabels
 
@@ -1604,12 +1636,25 @@ export async function ownedCharParry(event) {
     if(targetOwnership == 3) PAValue = targetToken.system.mainPA;
     else  PAValue = useractor.system.mainPA;
 
+    if(game.user.isGM) {
+        PAValue = targetToken.system.mainPA;
+        useractor = targetToken;
+    };
+
+    // Get the Users Combatant
+
+    let parriesLeft = 0;
+    let userCombatant;
+    if (game.combats.contents.length > 0) {
+    let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == useractor.id})[0]._id;
+    userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
+    parriesLeft = userCombatant.getFlag("GDSA", "parries");}
+
     // Generate Parry Dialog
 
     let PAInfo = await Dialog.GetSkillCheckOptions();
     if (PAInfo.cancelled) return;
 
-    
     // Calculate Modificator
 
     let Modi = 0;
@@ -1619,6 +1664,11 @@ export async function ownedCharParry(event) {
     // Execute Parry Roll
 
     let answer2 = await Dice.PACheck(PAValue, Modi, useractor);
+
+    if (game.combats.contents.length > 0) { 
+        if(parriesLeft > 0) parriesLeft--;
+        userCombatant.setFlag("GDSA", "parries", parriesLeft)
+    }
     
     // If Parry is sucessfull return;
 
@@ -1626,7 +1676,7 @@ export async function ownedCharParry(event) {
 
     // Do DMG Rolls
         
-    await Dice.DMGRoll(dmgString, actor, multi);
+    await Dice.DMGRoll(dmgString, actor, multi, chatId);
 }
 
 export async function ownedCharDogde(event) {
@@ -1641,6 +1691,7 @@ export async function ownedCharDogde(event) {
 
     let chatId = element.closest(".item").dataset.chatid;
     let chatContext = CONFIG.cache.get(chatId);
+    if(jQuery.isEmptyObject(chatContext)) {ui.notifications.warn('Context was not found in Memory. Please reroll the initial Check.'); return};
 
     // Save Context in Variabels
 
@@ -1660,7 +1711,12 @@ export async function ownedCharDogde(event) {
     let targetOwnership = targetToken.ownership[game.userId];
     if(targetOwnership == 3) PAValue = targetToken.system.Dogde;
     else  PAValue = useractor.system.Dogde;
-    let dogdename = game.i18n.localize("GDSA.charactersheet.dogde");        
+    let dogdename = game.i18n.localize("GDSA.charactersheet.dogde");
+
+    if(game.user.isGM) {
+        PAValue = targetToken.system.mainPA;
+        useractor = targetToken;
+    };  
 
     // Generate Parry Dialog
 
@@ -1684,7 +1740,7 @@ export async function ownedCharDogde(event) {
 
     // Do DMG Rolls
         
-    await Dice.DMGRoll(dmgString, actor, multi);
+    await Dice.DMGRoll(dmgString, actor, multi, chatId);
 }
 
 export async function executeDMGRoll(event) {
@@ -1724,6 +1780,7 @@ export async function executeHealthLoss(event) {
 
     let chatId = element.closest(".iniBox").dataset.chatid;
     let chatContext = CONFIG.cache.get(chatId);
+    if(jQuery.isEmptyObject(chatContext)) {ui.notifications.warn('Context was not found in Memory. Please reroll the initial Check.'); return};
 
     let targetTokenId = chatContext.targetToken;
     let combatantId = chatContext.combatant;

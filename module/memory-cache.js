@@ -12,13 +12,6 @@ export default function MemoryCache() {
     let entries = 0;
     const maxEntries = 100;
   
-    function ageOf(entry) {
-
-        // Retrive the Age of the Entry. Calculating between now and the creation Date
-
-        return Math.round((new Date() - entry.setAt) / 1000);
-    }
-  
     function deleteEntryByKey(key) {
 
         // Removes an Entry from the Cache by the given key
@@ -44,18 +37,14 @@ export default function MemoryCache() {
         if(keyOfOldestItem) deleteEntryByKey(keyOfOldestItem);
     }
   
-    this.set = function(value, maxAge = 600000) {
-
-        // Set new Entry in the Cache
-
-        let key = entries + 1; 
+    this.set = function(key, value) {
 
         if (entries >= maxEntries) deleteOldestEntry();
           
         cache[key] = {
             value:  value,
-            setAt:  new Date(),
-            maxAge: maxAge};
+            setAt:  new Date()
+        };
 
         console.log("Stored Object in Memory Cache with ID " + key);
   
@@ -72,7 +61,22 @@ export default function MemoryCache() {
         
         console.log("Retrived Object from Memory Cache with ID " + key);
 
-        if (entry.maxAge && entry.maxAge <= ageOf(entry)) deleteEntryByKey(key);
         return (entry) ? entry.value : {};
+    }
+
+    this.generateNewId = function() {
+
+        //generates random id;
+            
+        let s4 = () => { return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        }
+    
+        //return id of format 'aaaaaaaa'-'aaaa'-'aaaa'-'aaaa'-'aaaaaaaaaaaa'
+
+        let newId =  s4() + s4() + s4() + '-' + s4();
+
+        if(this.get(newId) != {}) newId =  s4() + s4() + s4() + '-' + s4();
+    
+        return newId;
     }
 }
