@@ -161,7 +161,7 @@ export async function onAttackRoll(data, event) {
     let targetToken = "";
     let targetType = "";
 
-    if( game.users.get(game.userId).targets.ids.length > 0) {
+    if( game.users.get(game.userId).targets.ids.length > 0 && game.combats.contents.length > 0) {
 
         targetId = game.users.get(game.userId).targets.ids[0];
         targetCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.tokenId == targetId})[0]._id;

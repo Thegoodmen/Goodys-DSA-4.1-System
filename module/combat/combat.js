@@ -93,6 +93,10 @@ export default class GDSACombat extends Combat {
 
     async startCombat() {
 
+        if(game.combats.contents.length >= 1)
+            for (let j = 0; j < game.combats.contents.length; j++)
+                if (game.combats.contents[j]._id != this._id) game.combats.contents[j].endCombat();
+
         super.startCombat();
 
         const combatants = this.combatants.contents;
