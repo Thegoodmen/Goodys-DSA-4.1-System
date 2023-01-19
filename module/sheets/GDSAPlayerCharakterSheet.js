@@ -383,6 +383,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         for (const spezi of skillSpez) {
 
+            if(!spezi.name.includes("(")) continue;
+
             let skillName = spezi.name.split("(")[0].substr(22).slice(0,-1);
             let spezilation = spezi.name.split("(")[1].slice(0, -1);
 
