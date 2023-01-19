@@ -1583,8 +1583,8 @@ export function openPDF(type, event) {
     
     // Open PDF Foundry or create Notification / Warning
     
-    if (ui.PDFoundry) ui.PDFoundry.openPDFByCode(code, { page });
-    else ui.notifications.warn('PDFoundry must be installed to use source links.');
+    if (ui.pdfpager) ui.pdfpager.openPDFByCode(code, { page : page } );
+    else ui.notifications.warn('pdfpager must be installed to use source links.');
 }
 
 export function getItemContextMenu() {
