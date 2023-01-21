@@ -140,9 +140,9 @@ function registerHandelbarsHelpers() {
     Handlebars.registerHelper("equals", function(v1, v2, options) {
         
         if(v1 === v2)
-            return options.fn(this);
+            return true;
 
-        return options.inverse(this);
+        return false;
     });
 
     Handlebars.registerHelper("concat", function(s1, s2, s3) {

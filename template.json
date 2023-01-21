@@ -494,7 +494,10 @@
                 "value": 100,
                 "description": "",
                 "worn": false,
-                "quantity": 1
+                "quantity": 1,
+                "trait": "",
+                "size": 1,
+                "pAsP": 0
             },
             "trait":{
                 "value": 0
@@ -504,7 +507,8 @@
             "templates": [
                 "generalItems"
             ],
-            "type": "Wertgegenstand"
+            "type": "Wertgegenstand",
+            "quantity": 1
         },
         "melee-weapons": {
             "templates": [

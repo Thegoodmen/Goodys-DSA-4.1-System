@@ -312,6 +312,34 @@ export default class GDSAActor extends Actor {
 
             if(PABasis > data.mainPA) data.mainPA = PABasis;
         }
+
+        // Advanced Inventory System
+
+        let itemArray = Util.getItems(this, "generals", false);
+        let mainArray = [];
+        let mainTypes = {meeleW: true, rangeW: true, shield: true, armour: true};
+
+        for(let item of itemArray) {
+            if(mainArray.filter(function(a) {return a.type == item.system.type}).length != 1) {
+                
+                mainArray.push({
+                    type: item.system.type,
+                    weight: parseInt(item.system.weight),
+                    value: parseInt(item.system.value),
+                    item: [item]
+                });
+                mainTypes[item.system.type] = true;}
+
+            else {
+
+                mainArray.filter(function(a) {return a.type == item.system.type})[0].weight += parseInt(item.system.weight);
+                mainArray.filter(function(a) {return a.type == item.system.type})[0].value += parseInt(item.system.value);
+                mainArray.filter(function(a) {return a.type == item.system.type})[0].item.push(item);
+            }
+        }
+
+        data.generalItems = mainArray;
+        data.generalItemType = mainTypes;
     }
 
     setStatData(type, value) {

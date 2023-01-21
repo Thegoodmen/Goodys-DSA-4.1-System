@@ -5,7 +5,7 @@ import { GDSA } from "./config.js";
 
 export async function onSkillRoll(data, type, event) {
 
-    event.preventDefault();    
+    event.preventDefault();
 
     // Get Element and Actor
 
@@ -1260,7 +1260,8 @@ export function onItemOpen(data, event) {
 
     // Get Item
 
-    let itemId = element.closest(".invItem").dataset.itemId;
+    let itemId = element.closest(".invItem")?.dataset.itemId;
+    if(itemId == null) itemId = element.closest(".invItem3").dataset.itemId;
     let item = actor.items.get(itemId);
 
     // Open and Render Item Sheet
@@ -1328,6 +1329,25 @@ function getActorFromItem(id) {
     }
 
     return result;
+}
+
+export function onHideToggle(data, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+
+    // Get Dataset from HTML
+
+    let dataset = element.closest(".toggleHide").dataset;
+
+    // Toggle Value
+
+    actor.system.generalItemType[dataset.type] = !actor.system.generalItemType[dataset.type] ;
+    actor.render();
 }
 
 export async function onMoneyChange(data, event) {
