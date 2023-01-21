@@ -1423,6 +1423,21 @@
   height: 50px;
   float: left;
 }
+.GDSA.sheet.itemSheet .box205 {
+  width: 205px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .box195 {
+  width: 195px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .box185 {
+  width: 185px;
+  height: 50px;
+  float: left;
+}
 .GDSA.sheet.itemSheet .box175 {
   width: 175px;
   height: 50px;
@@ -1450,6 +1465,11 @@
 }
 .GDSA.sheet.itemSheet .box140 {
   width: 140px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .box135 {
+  width: 135px;
   height: 50px;
   float: left;
 }
@@ -1488,6 +1508,11 @@
   height: 50px;
   float: left;
 }
+.GDSA.sheet.itemSheet .box60 {
+  width: 60px;
+  height: 50px;
+  float: left;
+}
 .GDSA.sheet.itemSheet .box50 {
   width: 50px;
   height: 50px;
@@ -1501,6 +1526,15 @@
 .GDSA.sheet.itemSheet .input220 {
   width: 220px;
 }
+.GDSA.sheet.itemSheet .input195 {
+  width: 195px;
+}
+.GDSA.sheet.itemSheet .input185 {
+  width: 185px;
+}
+.GDSA.sheet.itemSheet .input175 {
+  width: 175px;
+}
 .GDSA.sheet.itemSheet .input165 {
   width: 165px;
 }
@@ -1512,6 +1546,9 @@
 }
 .GDSA.sheet.itemSheet .input140 {
   width: 140px;
+}
+.GDSA.sheet.itemSheet .input125 {
+  width: 125px;
 }
 .GDSA.sheet.itemSheet .input110 {
   width: 110px;

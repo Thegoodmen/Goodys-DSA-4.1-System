@@ -26,9 +26,9 @@
 
         {{#if (equals system.type (localize "GDSA.itemsheet.cystal"))}}
             <div class="itemRow">
-                <div class="box160">
+                <div class="box205">
                     <b>{{localize "GDSA.itemsheet.trait"}}</b><br />
-                    <select class="input150" name="system.trait">
+                    <select class="input195" name="system.trait">
                         {{#select system.trait}}
                             {{#each config.magicTraits as |name type|}}
                                 <option value="{{type}}">{{localize name}}</option>
@@ -36,13 +36,19 @@
                         {{/select}}
                     </select>
                 </div>
-                <div class="box160">
+                <div class="box135">
                     <b>{{localize "GDSA.itemsheet.cut"}}</b><br />
-                    <input class="input150" name="system.cut" type="text" value="{{system.cut}}"/>
+                    <select class="input125" name="system.cut">
+                        {{#select system.cut}}
+                            {{#each config.cuts as |name type|}}
+                                <option value="{{type}}">{{localize name}}</option>
+                            {{/each}}
+                        {{/select}}
+                    </select>
                 </div>
-                <div class="box80">
+                <div class="box60">
                     <b>{{localize "GDSA.itemsheet.size"}}</b><br />
-                    <input class="input70" name="system.size" type="text" value="{{system.size}}"/>
+                    <input class="input50" name="system.size" type="text" value="{{system.size}}"/>
                 </div>  
                 <div class="box50">
                     <b>{{localize "GDSA.itemsheet.pAsP"}}</b><br />

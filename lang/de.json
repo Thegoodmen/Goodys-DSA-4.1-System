@@ -117,6 +117,14 @@
             "luft": "Elementar (Luft)",
             "erz": "Elementar (Erz)"
         },
+        "cuts": {
+            "brill": "Brillantschliff",
+            "rosen": "Rosenschliff",
+            "pende": "Pendeloque",
+            "caboc": "Cabochon",
+            "tafel": "Tafelschliff",
+            "smara": "Smaragdschliff"
+        },
         "itemsheet": {
             "name": "Name",
             "skill": "Talent",
