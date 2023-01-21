@@ -110,6 +110,15 @@ GDSA.magicTraits = {
     erz: "GDSA.magicTraits.erz"
 }
 
+GDSA.cuts = {
+    brill: "GDSA.cuts.brill",
+    rosen: "GDSA.cuts.rosen",
+    pende: "GDSA.cuts.pende",
+    caboc: "GDSA.cuts.caboc",
+    tafel: "GDSA.cuts.tafel",
+    smara: "GDSA.cuts.smara"
+}
+
 GDSA.meleeSkill = {
     andr: {
         skill: "andr",
