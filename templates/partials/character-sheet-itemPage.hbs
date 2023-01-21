@@ -27,19 +27,22 @@
                         <i class="fas fa-plus plusSym2"></i>
                     </a></div>
                 {{/if}}
+                <div class="collabsCatogary"><a class="toggleHide" data-type="meeleW" title="Show / Hide"><i class="fa-regular fa-list-tree"></i></a></div>
             </div>
-	        {{#each meleeweapons as |item id|}}
-                <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
-                    <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
-                    <div class="itemWorn">
-                        {{#if system.worn}}
-                            <a class="item-remove"><i class="fas fa-child"></i></a>
-                        {{else}}
-                            <a class="item-apply"><i class="fas fa-box"></i></a>
-                        {{/if}}
+            {{#if (getData actor.system.generalItemType "meeleW")}}
+                {{#each meleeweapons as |item id|}}
+                    <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
+                        <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
+                        <div class="itemWorn">
+                            {{#if system.worn}}
+                                <a class="item-remove"><i class="fas fa-child"></i></a>
+                            {{else}}
+                                <a class="item-apply"><i class="fas fa-box"></i></a>
+                            {{/if}}
+                        </div>
                     </div>
-                </div>
-	        {{/each}}
+                {{/each}}
+            {{/if}}
         </div>
         
         <div class="invDivider"></div>
@@ -51,19 +54,22 @@
                         <i class="fas fa-plus plusSym2"></i>
                     </a></div>
                 {{/if}}
+                <div class="collabsCatogary"><a class="toggleHide" data-type="rangeW" title="Show / Hide"><i class="fa-regular fa-list-tree"></i></a></div>
             </div>
-	        {{#each rangeweapons as |item id|}}
-                <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
-                    <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
-                    <div class="itemWorn">
-                        {{#if system.worn}}
-                            <a class="item-remove"><i class="fas fa-child"></i></a>
-                        {{else}}
-                            <a class="item-apply"><i class="fas fa-box"></i></a>
-                        {{/if}}
+            {{#if (getData actor.system.generalItemType "rangeW")}}
+                {{#each rangeweapons as |item id|}}
+                    <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
+                        <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
+                        <div class="itemWorn">
+                            {{#if system.worn}}
+                                <a class="item-remove"><i class="fas fa-child"></i></a>
+                            {{else}}
+                                <a class="item-apply"><i class="fas fa-box"></i></a>
+                            {{/if}}
+                        </div>
                     </div>
-                </div>
-	        {{/each}}
+                {{/each}}
+            {{/if}}
         </div>
         
         <div class="invDivider"></div>
@@ -75,19 +81,22 @@
                         <i class="fas fa-plus plusSym2"></i>
                     </a></div>
                 {{/if}}
+                <div class="collabsCatogary"><a class="toggleHide" data-type="shield" title="Show / Hide"><i class="fa-regular fa-list-tree"></i></a></div>
             </div>
-	        {{#each shields as |item id|}}
-                <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
-                    <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
-                    <div class="itemWorn">
-                        {{#if system.worn}}
-                            <a class="item-remove"><i class="fas fa-child"></i></a>
-                        {{else}}
-                            <a class="item-apply"><i class="fas fa-box"></i></a>
-                        {{/if}}
+            {{#if (getData actor.system.generalItemType "shield")}}
+                {{#each shields as |item id|}}
+                    <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
+                        <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
+                        <div class="itemWorn">
+                            {{#if system.worn}}
+                                <a class="item-remove"><i class="fas fa-child"></i></a>
+                            {{else}}
+                                <a class="item-apply"><i class="fas fa-box"></i></a>
+                            {{/if}}
+                        </div>
                     </div>
-                </div>
-	        {{/each}}
+                {{/each}}
+            {{/if}}
         </div>
         
         <div class="invDivider"></div>
@@ -99,36 +108,48 @@
                         <i class="fas fa-plus plusSym2"></i>
                     </a></div>
                 {{/if}}
+                <div class="collabsCatogary"><a class="toggleHide" data-type="armour" title="Show / Hide"><i class="fa-regular fa-list-tree"></i></a></div>
             </div>
-	        {{#each armour as |item id|}}
-                <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
-                    <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
-                    <div class="itemWorn">
-                        {{#if system.worn}}
-                            <a class="item-remove"><i class="fas fa-child"></i></a>
-                        {{else}}
-                            <a class="item-apply"><i class="fas fa-box"></i></a>
-                        {{/if}}
+            {{#if (getData actor.system.generalItemType "armour")}}
+                {{#each armour as |item id|}}
+                    <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
+                        <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
+                        <div class="itemWorn">
+                            {{#if system.worn}}
+                                <a class="item-remove"><i class="fas fa-child"></i></a>
+                            {{else}}
+                                <a class="item-apply"><i class="fas fa-box"></i></a>
+                            {{/if}}
+                        </div>
                     </div>
-                </div>
-	        {{/each}}
+                {{/each}}
+            {{/if}}
         </div>
         
         <div class="invDivider"></div>
         
-        <div class="invtableborder">
-            <div class="invHeader">{{localize "GDSA.charactersheet.generals"}}
+        <div class="invtableborder3">
+            <div class="invHeader4">{{localize "GDSA.charactersheet.generals"}}
                 {{#if system.editInv}}
                     <div class="addItemBox"><a class="item-create" data-type="generals" title="{{localize "GDSA.charactersheet.addItem"}}">
                         <i class="fas fa-plus plusSym2"></i>
                     </a></div>
                 {{/if}}
             </div>
-	        {{#each generals as |item id|}}
-                <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
-                    <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
-                </div>
+            {{#each actor.system.generalItems as |catogary id|}}
+                <div class="invHeader3">{{type}}<div class="collabsCatogary"><a class="toggleHide" data-type="{{type}}" title="Show / Hide"><i class="fa-regular fa-list-tree"></i></a></div></div>
+                    {{#if (getData ../actor.system.generalItemType type)}}
+                        {{#each item as |item id|}}
+                            <div class="invItem3 item-context item {{#if @last}}invItemLast{{/if}}" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
+                                <div class="itemAmountBox Quantity"><input class="itemAmount Quantity" name="system.quantity" value="{{system.quantity}}" type="number" disabled></div>
+                                <div class="itemImgBox allItemIMG"><img class="itemImg" src="{{img}}"></div>
+                            </div>
+                        {{/each}}
+                    {{/if}}
 	        {{/each}}
         </div>
+        
+        <div class="invDivider"></div>
+
     </section>
 </div>

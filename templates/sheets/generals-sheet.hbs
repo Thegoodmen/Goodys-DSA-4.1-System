@@ -4,23 +4,56 @@
         <h1><input class="nameLable" name="name" type="text" value="{{item.name}}" placeholder="{{localize 'Name'}}"/></h1>
     </header>
     <div class="itemMain">
+
         <div class="itemRow">
             <div class="box160">
                 <b>{{localize "GDSA.itemsheet.typeItem"}}</b><br />
                 <input class="input150" name="system.type" type="text" value="{{system.type}}"/>
             </div>
-            <div class="box150">
+            <div class="box80">
+                <b>{{localize "GDSA.itemsheet.quantity"}}</b><br />
+                <input class="input70" name="system.quantity" type="text" value="{{system.quantity}}"/>
+            </div>  
+            <div class="box110">
                 <b>{{localize "GDSA.itemsheet.weight"}}</b><br />
-                <input class="input140" name="system.weight" type="text" value="{{system.weight}}"/>
+                <input class="input100" name="system.weight" type="text" value="{{system.weight}}"/>
             </div>     
-            <div class="box140">
+            <div class="box100">
                 <b>{{localize "GDSA.itemsheet.value"}}</b><br />
-                <input class="input140" name="system.value" type="text" value="{{system.value}}"/>
+                <input class="input100" name="system.value" type="text" value="{{system.value}}"/>
             </div>
         </div>
+
+        {{#if (equals system.type (localize "GDSA.itemsheet.cystal"))}}
+            <div class="itemRow">
+                <div class="box160">
+                    <b>{{localize "GDSA.itemsheet.trait"}}</b><br />
+                    <select class="input150" name="system.trait">
+                        {{#select system.trait}}
+                            {{#each config.magicTraits as |name type|}}
+                                <option value="{{type}}">{{localize name}}</option>
+                            {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <div class="box160">
+                    <b>{{localize "GDSA.itemsheet.cut"}}</b><br />
+                    <input class="input150" name="system.cut" type="text" value="{{system.cut}}"/>
+                </div>
+                <div class="box80">
+                    <b>{{localize "GDSA.itemsheet.size"}}</b><br />
+                    <input class="input70" name="system.size" type="text" value="{{system.size}}"/>
+                </div>  
+                <div class="box50">
+                    <b>{{localize "GDSA.itemsheet.pAsP"}}</b><br />
+                    <input class="input50" name="system.pAsP" type="text" value="{{system.pAsP}}"/>
+                </div>
+            </div>
+        {{/if}}
+
         <div class="itemDescBox">
             <b>{{localize "GDSA.itemsheet.description"}}</b><br />
-            <textarea class="itemDesc" name="system.description">{{system.description}}</textarea>
+            <textarea class="itemDesc {{#if (equals system.type (localize "GDSA.itemsheet.cystal"))}}itemDesc3{{/if}}" name="system.description">{{system.description}}</textarea>
         </div>       
     </div>
 </form>

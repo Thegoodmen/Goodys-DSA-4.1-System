@@ -67,6 +67,49 @@ GDSA.ritualSkills = {
     petr: "GDSA.ritualSkills.petr"
 }
 
+GDSA.magicTraits = {
+    anti: "GDSA.magicTraits.anti",
+    conju: "GDSA.magicTraits.conju",
+    attri: "GDSA.magicTraits.attri",
+    sugge: "GDSA.magicTraits.sugge",
+    form: "GDSA.magicTraits.form",
+    ghost: "GDSA.magicTraits.ghost",
+    heal: "GDSA.magicTraits.heal",
+    forse: "GDSA.magicTraits.forse",
+    summ: "GDSA.magicTraits.summ",
+    reign: "GDSA.magicTraits.reign",
+    illu: "GDSA.magicTraits.illu",
+    force: "GDSA.magicTraits.force",
+    limbus: "GDSA.magicTraits.limbus",
+    meta: "GDSA.magicTraits.meta",
+    object: "GDSA.magicTraits.object",
+    damage: "GDSA.magicTraits.damage",
+    teleke: "GDSA.magicTraits.teleke",
+    tempo: "GDSA.magicTraits.tempo",
+    soround: "GDSA.magicTraits.soround",
+    speak: "GDSA.magicTraits.speak",
+    daemo: "GDSA.magicTraits.daemo",
+    blak: "GDSA.magicTraits.blak",
+    belh: "GDSA.magicTraits.belh",
+    char: "GDSA.magicTraits.char",
+    loig: "GDSA.magicTraits.lolg",
+    thar: "GDSA.magicTraits.thar",
+    amaz: "GDSA.magicTraits.amaz",
+    bels: "GDSA.magicTraits.bels",
+    asfa: "GDSA.magicTraits.asfa",
+    tasf: "GDSA.magicTraits.tasf",
+    belz: "GDSA.magicTraits.belz",
+    agri: "GDSA.magicTraits.agri",
+    belk: "GDSA.magicTraits.belk",
+    elem: "GDSA.magicTraits.elem",
+    feur: "GDSA.magicTraits.feur",
+    wass: "GDSA.magicTraits.wass",
+    eis: "GDSA.magicTraits.eis",
+    humu: "GDSA.magicTraits.humu",
+    luft: "GDSA.magicTraits.luft",
+    erz: "GDSA.magicTraits.erz"
+}
+
 GDSA.meleeSkill = {
     andr: {
         skill: "andr",
