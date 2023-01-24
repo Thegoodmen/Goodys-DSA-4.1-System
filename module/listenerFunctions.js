@@ -1832,7 +1832,7 @@ export async function executeHealthLoss(event) {
 
     let dmgCalc = Math.round(dmgAmmount * dmgModifier);
     let dmgResult = (dmgCalc <= rs) ? 0 : dmgCalc - rs;
-    if(dmgCalc < 0) dmgResult = dmgCalc;  
+    if(dmgCalc < 0) dmgResult = dmgCalc;
     let newHP = parseInt(targetToken.system.LeP.value) - dmgResult;
     GDSA.socket.executeAsGM("adjustRessource", targetToken, newHP, "LeP")
 

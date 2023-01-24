@@ -4,10 +4,19 @@ export default class GDSAItemSheet extends ItemSheet {
 
     static get defaultOptions() {
 
+        // #################################################################################################
+        // #################################################################################################
+        // ##                                                                                             ##
+        // ##            Returns the General HTML of the Sheet and defines some general Stats             ##
+        // ##                                                                                             ##
+        // #################################################################################################
+        // #################################################################################################
+
         return mergeObject(super.defaultOptions, {
 
             width: 466,
             resizable: false,
+            tabs: [ {navSelector: ".spell-tabs", contentSelector: ".spell-body", initial: "spellDetails"}],
             classes: ["GDSA", "sheet", "itemSheet"]
         });
     }

@@ -8,30 +8,107 @@
             <div class="spHelper4"><input class="spHelper4" name="system.zfw" type="text" value="{{system.zfw}}" /></div>
         </div>
     </header>
+    
+    <div class="itemRow">
+        <select class="ritHelper5" name="system.att1">
+            {{#select system.att1}}
+                {{#each config.attributes as |name type|}}
+                    <option value="{{type}}">{{type}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+        <select class="ritHelper5" name="system.att2">
+            {{#select system.att2}}
+                {{#each config.attributes as |name type|}}
+                    <option value="{{type}}">{{type}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+        <select class="ritHelper5" name="system.att3">
+            {{#select system.att3}}
+                {{#each config.attributes as |name type|}}
+                    <option value="{{type}}">{{type}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
 
-    <select class="ritHelper5" name="system.att1">
-        {{#select system.att1}}
-            {{#each config.attributes as |name type|}}
-                <option value="{{type}}">{{type}}</option>
-            {{/each}}
-        {{/select}}
-    </select>
-    <select class="ritHelper5" name="system.att2">
-        {{#select system.att2}}
-            {{#each config.attributes as |name type|}}
-                <option value="{{type}}">{{type}}</option>
-            {{/each}}
-        {{/select}}
-    </select>
-    <select class="ritHelper5" name="system.att3">
-        {{#select system.att3}}
-            {{#each config.attributes as |name type|}}
-                <option value="{{type}}">{{type}}</option>
-            {{/each}}
-        {{/select}}
-    </select>
-
-    PDF<input class="ritHelper6" name="system.lcdPage" type="text" value="{{system.lcdPage}}" />
+        PDF<input class="ritHelper6" name="system.lcdPage" type="text" value="{{system.lcdPage}}" />
+    </div>
+	<nav class="tabs nav spell-tabs" data-group="spell">
+        <a class="item" data-tab="spellDetails"><div class="spellMenu">Details</div></a>  
+        <a class="item" data-tab="spellVarians"><div class="spellMenu">Varianten</div></a>
+        <a class="item" data-tab="spellEffects"><div class="spellMenu">Effekte</div></a>
+        <a class="item" data-tab="spellNotes"><div class="spellMenu">Notizen</div></a>
+    </nav>
+    <div class="spellMenuBox">
+	    <section class="spell-body">
+            <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
+                <div class="input100 spellName">Repräsentation:</div>
+                <input class="input70s" name="system.rep" type="text" value="{{system.rep}}" />
+                <div class="input100 spellName">Merkmal 1:</div>
+                <select class="input70s" name="system.trait1">
+                    {{#select system.trait1}}
+                        {{#each config.magicTraits as |name type|}}
+                            <option value="{{type}}">{{localize name}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+                <div class="input100 spellName">Merkmal 2:</div>
+                <select class="input70s" name="system.trait2">
+                    {{#select system.trait2}}
+                        {{#each config.magicTraits as |name type|}}
+                            <option value="{{type}}">{{localize name}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+                <div class="input100 spellName">Merkmal 3:</div>
+                <select class="input70s" name="system.trait3">
+                    {{#select system.trait3}}
+                        {{#each config.magicTraits as |name type|}}
+                            <option value="{{type}}">{{localize name}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+                <div class="input100 spellName">Merkmal 4:</div>
+                <select class="input70s" name="system.trait4">
+                    {{#select system.trait4}}
+                        {{#each config.magicTraits as |name type|}}
+                            <option value="{{type}}">{{localize name}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+                <div class="spellLine">Verfügbare Modifikationen:</div>
+                <div class="spellModiBox">
+                    <input class="mwHelper1" name="system.technic" type="checkbox" {{checked system.technic}} /> Technik <br />
+                    <input class="mwHelper1" name="system.casttime" type="checkbox" {{checked system.casttime}} /> Zauberdauer
+                </div>
+                <div class="spellModiBox">
+                    <input class="mwHelper1" name="system.forced" type="checkbox" {{checked system.forced}} /> Erzwingen <br />
+                    <input class="mwHelper1" name="system.cost" type="checkbox" {{checked system.cost}} /> Kosten
+                </div>
+                <div class="spellModiBox">
+                    <input class="mwHelper1" name="system.range" type="checkbox" {{checked system.range}} /> Reichweite <br />
+                    <input class="mwHelper1" name="system.duration" type="checkbox" {{checked system.duration}} /> Wirkungsdauer
+                </div>
+                <div class="spellLine">Verbreitung:</div>
+                <div class="spellModiBox">
+                    <div class="spellVLine"><div class="spellVName">Mag</div><input class="input40" name="system.vMag" type="number" value="{{system.vMag}}" /></div>
+                    <div class="spellVLine"><div class="spellVName">Dru</div><input class="input40" name="system.vDru" type="number" value="{{system.vDru}}" /></div>
+                    <div class="spellVLine"><div class="spellVName">Bor</div><input class="input40" name="system.vBor" type="number" value="{{system.vBor}}" /></div>
+                </div>
+                <div class="spellModiBox">
+                    <div class="spellVLine"><div class="spellVName">Srl</div><input class="input40" name="system.vSrl" type="number" value="{{system.vSrl}}" /></div>
+                    <div class="spellVLine"><div class="spellVName">Hex</div><input class="input40" name="system.vHex" type="number" value="{{system.vHex}}" /></div>
+                    <div class="spellVLine"><div class="spellVName">Elf</div><input class="input40" name="system.vElf" type="number" value="{{system.vElf}}" /></div>
+                </div>
+                <div class="spellModiBox">
+                    <div class="spellVLine"><div class="spellVName">Sch</div><input class="input40" name="system.vSch" type="number" value="{{system.vSch}}" /></div>
+                    <div class="spellVLine"><div class="spellVName">Geo</div><input class="input40" name="system.vGeo" type="number" value="{{system.vGeo}}" /></div>
+                    <div class="spellVLine"><div class="spellVName">Ach</div><input class="input40" name="system.vAch" type="number" value="{{system.vAch}}" /></div>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
 </form>

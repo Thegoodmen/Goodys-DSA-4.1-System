@@ -68,6 +68,7 @@ GDSA.ritualSkills = {
 }
 
 GDSA.magicTraits = {
+    none: "",
     anti: "GDSA.magicTraits.anti",
     conju: "GDSA.magicTraits.conju",
     attri: "GDSA.magicTraits.attri",
@@ -111,6 +112,7 @@ GDSA.magicTraits = {
 }
 
 GDSA.cuts = {
+    none: "",
     brill: "GDSA.cuts.brill",
     rosen: "GDSA.cuts.rosen",
     pende: "GDSA.cuts.pende",
