@@ -632,13 +632,15 @@
             "duration": false,
             "vMag": 0,
             "vDru": 0,
-            "vBar": 0,
+            "vBor": 0,
             "vSrl": 0,
             "vHex": 0,
             "vElf": 0,
             "vSch": 0,
             "vGeo": 0,
-            "vAch": 0
+            "vAch": 0,
+            "komp": "A",
+            "vari": {}
         },
         "ritual": {
             "name": "Stab: Bindung",

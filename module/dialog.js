@@ -380,7 +380,6 @@ export async function GetRangeAtkInfo() {
     });
 }
 
-
 export async function GetMoneyOptions() {
 
     // Create Dialog and show to User
@@ -413,7 +412,38 @@ export async function GetMoneyOptions() {
     });
 }
 
+export async function GetSpellVariantEdit(spell) {
 
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/ressources/spellVariant.hbs";
+    spell.config = CONFIG.GDSA;
+    const html = await renderTemplate(template, spell);
+
+    return new Promise(resolve => {  
+
+        // Set up Parameters for Dialog
+
+        const data = {
+
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.do"),
+                                callback: html => resolve(_processSpellEdit(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
 
         // #################################################################################################
         // #################################################################################################
@@ -456,6 +486,23 @@ function _processWonderCheckOptions(form) {
 
         advantage: advantage,
         disadvantage: disadvantage}
+}
+
+function _processSpellEdit(form) {
+
+    let resti = [];
+
+    if(form.rep1.value != "none") resti.push({type: form.reglaKind1.value, rep: form.rep1.value});
+    if(form.rep2.value != "none") resti.push({type: form.reglaKind2.value, rep: form.rep2.value});
+    if(form.rep3.value != "none") resti.push({type: form.reglaKind3.value, rep: form.rep3.value});
+
+    return {
+        name: form.name.value,
+        minZfW: parseInt(form.minZ.value),
+        disad: parseInt(form.disad.value),
+        cost: parseInt(form.cost.value),
+        resti: resti
+    }
 }
 
 function _processMediCheckOptions(form) {

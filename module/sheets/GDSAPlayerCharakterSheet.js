@@ -137,6 +137,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             if(! this.id.includes("Token")) html.find(".invItem3").click(LsFunction.onItemOpen.bind(this, this.getData()));
             if(! this.id.includes("Token")) html.find(".change-money").click(LsFunction.onMoneyChange.bind(this, this.getData()));
             html.find(".toggleHide").click(LsFunction.onHideToggle.bind(this, this.getData()));
+            html.find(".spell-add").click(LsFunction.getSpellContextMenu.bind(this, this.getData()));
+
 
             // Set Listener for PDFoundry
 

@@ -8,7 +8,9 @@
             "createRange": "Fernkampfwaffe",
             "generals": "Allgemeines Item",
             "melee-weapons": "Nahkampfwaffe",
-            "range-weapons": "Fernkampfwaffe"
+            "range-weapons": "Fernkampfwaffe",
+            "compImport": "Aus Compendium importieren",
+            "newSpell": "Neuen Zauber hinzufügen"
         },
         "combat": {
             "NPC": "NSC",
@@ -125,6 +127,17 @@
             "tafel": "Tafelschliff",
             "smara": "Smaragdschliff"
         },
+        "reps": {
+            "mag": "Gildenmagisch",
+            "dru": "Druidisch",
+            "bor": "Borberadianisch",
+            "srl": "Scharlatanisch",
+            "hex": "Hexisch",
+            "elf": "Elfisch",
+            "geo": "Geodisch",
+            "ach": "Achatisch",
+            "sch": "Schelmisch"
+        },
         "itemsheet": {
             "name": "Name",
             "skill": "Talent",
@@ -179,7 +192,16 @@
             "at": "AT",
             "pa": "PA",
             "tp": "TP",
-            "cystal": "Edelstein"
+            "cystal": "Edelstein",
+            "spellname": "Name",
+            "spellminZfW": "min. ZfW",
+            "disad": "Erschwernis",
+            "cost": "Kosten",
+            "regla": "Einschränkung",
+            "abZfW": "ab ZfW",
+            "only": "Nur in",
+            "not": "Nicht in",
+            "restriction": "Einschränkung"
         },
         "charactersheet": {
             "system": "Das schwarze Auge",

@@ -68,6 +68,9 @@ export default class GDSAItemSheet extends ItemSheet {
             // Set Listener for Item Events
 
             html.find(".item-close").click(LsFunction.onItemClose.bind(this));
+            html.find(".addSpellVariants").click(LsFunction.addSpellVariants.bind(this, this.getData()));
+            html.find(".editSpellVariants").click(LsFunction.editSpellVariants.bind(this, this.getData()));
+            html.find(".deleteSpellVariants").click(LsFunction.deleteSpellVariants.bind(this, this.getData()));
         }
 
         super.activateListeners(html);

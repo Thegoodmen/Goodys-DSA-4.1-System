@@ -121,6 +121,19 @@ GDSA.cuts = {
     smara: "GDSA.cuts.smara"
 }
 
+GDSA.magicReps = {
+    none: "",
+    mag: "GDSA.reps.mag",
+    dru: "GDSA.reps.dru",
+    bor: "GDSA.reps.bor",
+    srl: "GDSA.reps.srl",
+    hex: "GDSA.reps.hex",
+    elf: "GDSA.reps.elf",
+    geo: "GDSA.reps.geo",
+    ach: "GDSA.reps.ach",
+    sch: "GDSA.reps.sch"
+}
+
 GDSA.meleeSkill = {
     andr: {
         skill: "andr",

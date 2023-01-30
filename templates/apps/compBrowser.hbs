@@ -1,0 +1,55 @@
+<form class="settings" autocomplete="off">
+    <div class="browserMenu">
+
+        <div class="browserMenuEntry">Suche</div>
+        <input class="browserMenuInput searchbar" id="menuSearch" type="text" name="search" value="{{search}}" /> 
+        <div class="browserMenuEntry">Merkmal</div>
+        <select class="browserMenuInput" name="trait">
+            {{#select trait}}
+                {{#each config.magicTraits as |name type|}}
+                    <option value="{{type}}">{{localize name}}</option>
+                {{/each}}
+            {{/select}}
+        </select>     
+
+        <div class="browserMenuEntry">Repräsentation</div>
+        <select class="browserMenuInput" name="rep">
+            {{#select rep}}
+                {{#each config.magicReps as |name type|}}
+                    <option value="{{type}}">{{localize name}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+
+        <div class="browserMenuEntry">Verbreitung</div>
+        <input id="menuVer" class="browserInput" name="V0" type="checkbox" {{checked v0}}/><div class="spellVMenu">0</div>
+        <input id="menuVer" class="browserInput" name="V1" type="checkbox" {{checked v1}}/><div class="spellVMenu">1</div>
+        <input id="menuVer" class="browserInput" name="V2" type="checkbox" {{checked v2}}/><div class="spellVMenu">2</div>
+        <input id="menuVer" class="browserInput" name="V3" type="checkbox" {{checked v3}}/><div class="spellVMenu">3</div>
+        <div class="spellVSpacer"></div>
+        <input id="menuVer" class="browserInput" name="V4" type="checkbox" {{checked v4}}/><div class="spellVMenu">4</div>
+        <input id="menuVer" class="browserInput" name="V5" type="checkbox" {{checked v5}}/><div class="spellVMenu">5</div>
+        <input id="menuVer" class="browserInput" name="V6" type="checkbox" {{checked v6}}/><div class="spellVMenu">6</div>
+        <div class="browserMenuEntry">Komplexität</div>
+        <div class="spellVSpacer"></div>
+        <input id="menuVer" class="browserInput" name="KA" type="checkbox" {{checked kA}}/><div class="spellVMenu">A</div>
+        <input id="menuVer" class="browserInput" name="KB" type="checkbox" {{checked kB}}/><div class="spellVMenu">B</div>
+        <input id="menuVer" class="browserInput" name="KC" type="checkbox" {{checked kC}}/><div class="spellVMenu">C</div>
+        <div class="spellVSpacer"></div><div class="spellVSpacer"></div>
+        <input id="menuVer" class="browserInput" name="KD" type="checkbox" {{checked kD}}/><div class="spellVMenu">D</div>
+        <input id="menuVer" class="browserInput" name="KE" type="checkbox" {{checked kE}}/><div class="spellVMenu">E</div>
+        <input id="menuVer" class="browserInput" name="KF" type="checkbox" {{checked kF}}/><div class="spellVMenu">F</div>
+    </div>
+    <div class="browserContent">
+        <div class="headline">Zauber</div>
+
+        {{#each items as |item id|}}
+            <div class="item itemBrowserBox">
+                <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
+                <div class="browserName"><b>{{name}}</b> ({{system.att1}}/{{system.att2}}/{{system.att3}})<br /><i> > {{getTraits system}}</i></div>
+                <div class="browserComplex">{{system.komp}}</div>
+            </div>
+        {{/each}}
+
+    </div>
+</form>

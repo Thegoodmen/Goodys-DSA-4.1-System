@@ -1,6 +1,7 @@
 import * as Dice from "./dice.js";
 import * as Util from "../Util.js";
 import * as Dialog from "./dialog.js";
+import Browser from "../module/apps/compBrowser.js"
 import { GDSA } from "./config.js";
 
 export async function onSkillRoll(data, type, event) {
@@ -1536,6 +1537,94 @@ export function merchRoll(data, event) {
     Dice.skillCheck(statname, statvalue, statone,  stattwo, statthree, actor, false, 0)
 }
 
+export function addSpellVariants(data, event) {
+
+    let id = data.system.vars != null ? data.system.vars.length : 0;
+
+    let newArray = {
+        id: id,
+        name: "Neue Variante",
+        minZfW: 1,
+        disad: 0,
+        cost: "0"
+    };
+
+    if(data.system.vars != null) data.system.vars.push(newArray);
+    else data.system.vars = [newArray];
+
+    data.item.render();
+}
+
+export async function editSpellVariants(data, event) {
+    
+    event.preventDefault();
+
+    // Get Element and Actor
+
+    let element = event.currentTarget;
+
+    // Get Dataset from HTML
+
+    let dataset = element.closest(".variantbox").dataset;
+    let id = dataset.id;
+
+    // Generate new Array
+
+    let newArray = [];
+
+    for(let spell of data.system.vars) {
+
+        if(spell.id == id) {
+        
+            // Display Dialog
+
+            let dialog = await Dialog.GetSpellVariantEdit(spell);
+            if (dialog.cancelled) return;
+
+            // Set new Values to Item
+
+            spell.name = dialog.name;
+            spell.minZfW = dialog.minZfW;
+            spell.disad = dialog.disad;
+            spell.cost = dialog.cost;
+            spell.resti = dialog.resti;
+        }
+
+        newArray.push(spell);
+    }
+
+    // Update Item with new Data
+
+    data.item.update({ "system.vars": newArray });
+    data.item.render();
+}
+
+export function deleteSpellVariants(data, event) {
+    
+    event.preventDefault();
+
+    // Get Element and Actor
+
+    let element = event.currentTarget;
+
+    // Get Dataset from HTML
+
+    let dataset = element.closest(".variantbox").dataset;
+    let id = dataset.id;
+
+    // Generate new Array
+
+    let newArray = [];
+
+    for(let spell of data.system.vars) 
+        if(spell.id != id) newArray.push(spell);
+    
+    // Update Item with new Data
+
+    data.item.update({ "system.vars": newArray });
+    data.item.render();
+}
+
 function getMerchantStats(skillLevel) {
 
     switch(skillLevel) {
@@ -1621,6 +1710,14 @@ export function getItemContextMenu() {
             icon: '<i class="fas fa-trash" />',
             callback: element => { getActorFromItem(element.data("item-id")).deleteEmbeddedDocuments("Item", [element.data("item-id")]);}
     }];
+}
+
+export function getSpellContextMenu(data, event) {
+
+    let options = event.shiftKey ? false : true;
+
+    if(options) new Browser({},{},"spell").render(true);
+    else onItemCreate(data, event);
 }
 
 export async function ownedCharParry(event) {

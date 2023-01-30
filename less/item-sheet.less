@@ -10,6 +10,12 @@
     .itemRow {
         width: 450px;
         height: 50px;
+        float: left;
+    };
+    .itemRow2 {
+        width: 400px;
+        height: 50px;
+        float: left;
     };
     .itemDescBox {
         width: 450px;
@@ -156,6 +162,9 @@
     .input140 {
         width: 140px;
     };
+    .input130 {
+        width: 130px;
+    };
     .input125 {
         width: 125px;
     };
@@ -164,6 +173,13 @@
     };
     .input100 {
         width: 100px;
+    };
+    .input100c {
+        width: 100px;
+        text-align: center;
+    };
+    .input95 {
+        width: 95px;
     };
     .input70 {
         width: 70px;
@@ -399,7 +415,7 @@
         margin-right: 10px;
     };
     .ritHelper6 {
-        width: 60px; 
+        width: 49px; 
         margin-left: 10px;
     };
     .sgHelper1 {
@@ -424,11 +440,11 @@
     };
     .spHelper1 {
         float: left; 
-        width: 370px;
+        width: 339px;
     };
     .spHelper2 {
         float: left; 
-        width: 350px;
+        width: 329px;
     };
     .spHelper3 {
         float: left; 
@@ -437,6 +453,10 @@
     .spHelper4 {
         float: left; 
         width: 60px;
+    };
+    .spHelper5 {
+        width: 92px; 
+        margin-right: 10px;
     };
     .itemImg {
         height: 64px;
@@ -456,13 +476,26 @@
         border-radius: 8px 8px 0px 0px;
         background-color: rgba(0, 0, 0, 0.08);
     };
+    .spellMenu2 {
+        height: 22px;
+        width: 90px;
+        float: left;
+        border: black solid 1px;
+        padding-top: 1px;
+        margin: 1px;
+        margin-bottom: 0px;
+        border-radius: 8px 8px 0px 0px;
+        background-color: rgba(0, 0, 0, 0.08);
+        margin-left: 10px;
+    };
     .spellMenuBox {
         height: 365px;
         width: 430px;
-        margin-left: 1px;
+        margin-left: 10px;
         float: left;
         border: solid black 1px;
         padding: 10px;
+        overflow-y: auto;
     };
     .spellName {
         float: left;
@@ -493,5 +526,151 @@
     .spellVLine {
         width: 125px;
         height: 30px;
-    }
+    };
+    .plusVariants {
+        height: 26px;
+        width: 408px;
+        text-align: center;
+        font-size: 19px;
+        background-color: rgba(0,0,0,0.15);
+        border: solid black 1px;
+    };
+    .variantbox {
+        height: 100px;
+        width: 408px;
+        border: solid black 1px;
+        padding: 5px;
+        position: relative;
+    };
+    .buttonbox {
+        position: absolute;
+        top: 5px;
+        right: 5px
+    };
+    .spellvari {
+        margin-left: 5px;
+    };
+}
+
+.spellvariInput {
+    margin-left: 49px;
+    margin-right: 4px;
+};
+.input130 {
+    width: 130px;
+};
+.input95 {
+    width: 95px;
+};
+.displayMod {
+    display: contents;
+};
+.browserMenu {
+    width: 200px;
+    height: 450px;
+    float: left;
+    border-right-style: groove;
+};
+.browserContent {
+    width: 580px;
+    height: 450px;
+    float: left;
+};
+.headline {
+    width: 565px;
+    height: 30px;
+    float: left;
+    background-color: rgba(0,0,0,0.08);
+    border-style: groove;
+    margin: 7px;
+    padding-top: 3px;
+    padding-left: 20px;
+    font-size: 15px;
+    font-weight: bold;
+};
+.itemBrowserBox {
+    width: 575px;
+    height: 36px;
+    float: left;
+    position: relative;
+    padding-left: 9px;
+};
+.browserImgBox {
+    width: 35px;
+    height: 35px;
+    float: left;
+};
+.browserImgBox2 {
+    width: 35px;
+    height: 35px;
+    float: left;
+    margin-top: 31px;
+    margin-right: 5px;
+};
+.browserImg {
+    border: 0px;
+};
+.browserName {
+    width: 526px;
+    height: 36px;
+    float: left;
+    border-bottom: groove;
+    font-size: 14px;
+    padding-left: 10px;
+};
+.browserComplex {
+    width: 20px;
+    height: 25px;
+    top: 5px;
+    right: 14px;
+    border-left: groove;
+    padding-left: 6px;
+    font-size: 19px;
+    position: absolute;
+};
+.browserMenuEntry {
+    width: 185px;
+    height: 30px;
+    margin-left: 5px;
+    margin-top: 6px;
+    border-style: groove;
+    float: left;
+    background-color: rgba(0,0,0,0.08);
+    padding-top: 4px;
+    padding-left: 20px;
+    font-size: 13px;
+    font-weight: bold;
+};
+.browserMenuInput {
+    width: 184px;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+};
+#menuSearch {
+    width: 184px;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+};
+#menuVer {
+    width: 12px;
+    margin-top: 7px;
+    margin-left: 11px;
+    margin-right: 7px;
+    float: left;
+};
+.spellVMenu {
+    height: 30px;
+    width: 16px;
+    float: left;
+    padding-top: 9px;
+    padding-left: 5px;
+};
+.spellVSpacer {
+    height: 30px;
+    width: 22px;
+    float: left;
+    padding-top: 9px;
+    padding-left: 5px;
 }

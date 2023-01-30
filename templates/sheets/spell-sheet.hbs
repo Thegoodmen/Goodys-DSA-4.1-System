@@ -1,30 +1,30 @@
 <form class="{{cssClass}}" autocomplete="off">
 
-    <header class="sheet-header">
-        <div class="ritHelper1">
-            <div class="spHelper1">{{localize "GDSA.itemsheet.name"}}</div>
-            <div class="spHelper3">{{localize "GDSA.itemsheet.zfw"}}</div>
-            <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
-            <div class="spHelper4"><input class="spHelper4" name="system.zfw" type="text" value="{{system.zfw}}" /></div>
-        </div>
-    </header>
+    <div class="browserImgBox2"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
+
+    <div class="ritHelper1">
+        <div class="spHelper1">{{localize "GDSA.itemsheet.name"}}</div>
+        <div class="spHelper3">{{localize "GDSA.itemsheet.zfw"}}</div>
+        <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
+        <div class="spHelper4"><input class="spHelper4" name="system.zfw" type="text" value="{{system.zfw}}" /></div>
+    </div>
     
-    <div class="itemRow">
-        <select class="ritHelper5" name="system.att1">
+    <div class="itemRow2">
+        <select class="spHelper5" name="system.att1">
             {{#select system.att1}}
                 {{#each config.attributes as |name type|}}
                     <option value="{{type}}">{{type}}</option>
                 {{/each}}
             {{/select}}
         </select>
-        <select class="ritHelper5" name="system.att2">
+        <select class="spHelper5" name="system.att2">
             {{#select system.att2}}
                 {{#each config.attributes as |name type|}}
                     <option value="{{type}}">{{type}}</option>
                 {{/each}}
             {{/select}}
         </select>
-        <select class="ritHelper5" name="system.att3">
+        <select class="spHelper5" name="system.att3">
             {{#select system.att3}}
                 {{#each config.attributes as |name type|}}
                     <option value="{{type}}">{{type}}</option>
@@ -35,8 +35,8 @@
         PDF<input class="ritHelper6" name="system.lcdPage" type="text" value="{{system.lcdPage}}" />
     </div>
 	<nav class="tabs nav spell-tabs" data-group="spell">
-        <a class="item" data-tab="spellDetails"><div class="spellMenu">Details</div></a>  
-        <a class="item" data-tab="spellVarians"><div class="spellMenu">Varianten</div></a>
+        <a class="item" data-tab="spellDetails"><div class="spellMenu2">Details</div></a>  
+        <a class="item" data-tab="spellVariants"><div class="spellMenu">Varianten</div></a>
         <a class="item" data-tab="spellEffects"><div class="spellMenu">Effekte</div></a>
         <a class="item" data-tab="spellNotes"><div class="spellMenu">Notizen</div></a>
     </nav>
@@ -44,7 +44,13 @@
 	    <section class="spell-body">
             <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
                 <div class="input100 spellName">Repräsentation:</div>
-                <input class="input70s" name="system.rep" type="text" value="{{system.rep}}" />
+                <select class="input70s" name="system.rep">
+                    {{#select system.rep}}
+                        {{#each config.magicReps as |name type|}}
+                            <option value="{{type}}">{{localize name}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
                 <div class="input100 spellName">Merkmal 1:</div>
                 <select class="input70s" name="system.trait1">
                     {{#select system.trait1}}
@@ -106,6 +112,27 @@
                     <div class="spellVLine"><div class="spellVName">Geo</div><input class="input40" name="system.vGeo" type="number" value="{{system.vGeo}}" /></div>
                     <div class="spellVLine"><div class="spellVName">Ach</div><input class="input40" name="system.vAch" type="number" value="{{system.vAch}}" /></div>
                 </div>
+            </div>
+
+            <div class="tab spellVariants" data-group="spell" data-tab="spellVariants">
+                {{#each system.vars}}
+                    <div class="variantbox" data-id="{{@index}}">
+                        <b>{{name}}</b> ({{localize "GDSA.itemsheet.abZfW"}} {{minZfW}})<br />
+                        <b>{{localize "GDSA.itemsheet.disad"}}:</b> +{{disad}}<br />
+                        {{#if (isGreater cost 0)}}<b>{{localize "GDSA.itemsheet.cost"}}:</b> {{cost}} {{localize "GDSA.itemsheet.asp"}}<br />{{/if}}
+                        <b>{{localize "GDSA.itemsheet.restriction"}}:</b> {{#each resti}}{{type}} {{rep}}{{/each}}
+                        <div class="buttonbox">
+                            <a class="editSpellVariants"><i class="fa-regular fa-gear spellvari"></i></a>
+                            <a class="deleteSpellVariants"><i class="fa-solid fa-trash spellvari"></i></a>
+                        </div>
+                    </div>        
+                {{/each}}
+                <a class="addSpellVariants"><div class="plusVariants">+</div></a>
+            </div>
+
+            <div class="tab spellNotess" data-group="spell" data-tab="spellNotes">
+                <div class="input100 spellName">Komplexität:</div>
+                <input type="text" class="input100c" name="system.komp" value="{{system.komp}}" />
             </div>
         </section>
     </div>

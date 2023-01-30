@@ -327,4 +327,15 @@ function registerHandelbarsHelpers() {
                 return "rgba(0,0,0,0.4)";
         }
     });
+
+    Handlebars.registerHelper("getTraits", function(system) {
+
+        let traits = game.i18n.localize("GDSA.magicTraits." + system.trait1);
+
+        if(system.trait2 != "none") traits += " / " + game.i18n.localize("GDSA.magicTraits." + system.trait2);
+        if(system.trait3 != "none") traits += " / " + game.i18n.localize("GDSA.magicTraits." + system.trait3);
+        if(system.trait4 != "none") traits += " / " + game.i18n.localize("GDSA.magicTraits." + system.trait4);
+
+        return traits
+    });
 }

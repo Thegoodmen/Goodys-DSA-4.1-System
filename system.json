@@ -21,6 +21,9 @@
     "styles": [
         "GDSA.css"
     ],
+    "scripts": [
+        "scripts/browser.js"
+    ],
     "packs": [
 
     ],
