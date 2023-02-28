@@ -60,6 +60,37 @@ export async function GetWonderOptions() {
     });
 }
 
+export async function GetSpellOptions(spell) {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/chat/spell-check-dialog.hbs";
+    const html = await renderTemplate(template, spell);
+
+    return new Promise(resolve => {
+
+        // Set up Parameters for Dialog
+
+        const data = {
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.roll"),
+                                callback: html => resolve(_processSpellCheckOptions(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
 
 export async function GetMeditationOptions() {
 
@@ -462,6 +493,14 @@ function _processSkillCheckOptions(form) {
         disadvantage: parseInt(form.disadvantage.value)}
 }
 
+function _processSpellCheckOptions(form) {
+
+    return {
+
+        advantage: parseInt(form.advantage.value),
+        disadvantage: parseInt(form.disadvantage.value)}
+}
+
 function _processWonderCheckOptions(form) {
 
     let advantage = 0;
@@ -492,15 +531,22 @@ function _processSpellEdit(form) {
 
     let resti = [];
 
-    if(form.rep1.value != "none") resti.push({type: form.reglaKind1.value, rep: form.rep1.value});
-    if(form.rep2.value != "none") resti.push({type: form.reglaKind2.value, rep: form.rep2.value});
-    if(form.rep3.value != "none") resti.push({type: form.reglaKind3.value, rep: form.rep3.value});
+    if(form.mag.checked) resti.push({type: form.reglaKind1.value, rep: "mag"});
+    if(form.dru.checked) resti.push({type: form.reglaKind1.value, rep: "dru"});
+    if(form.bor.checked) resti.push({type: form.reglaKind1.value, rep: "bor"});
+    if(form.srl.checked) resti.push({type: form.reglaKind1.value, rep: "srl"});
+    if(form.hex.checked) resti.push({type: form.reglaKind1.value, rep: "hex"});
+    if(form.elf.checked) resti.push({type: form.reglaKind1.value, rep: "elf"});
+    if(form.sch.checked) resti.push({type: form.reglaKind1.value, rep: "sch"});
+    if(form.geo.checked) resti.push({type: form.reglaKind1.value, rep: "geo"});
+    if(form.ach.checked) resti.push({type: form.reglaKind1.value, rep: "ach"});
 
     return {
         name: form.name.value,
         minZfW: parseInt(form.minZ.value),
         disad: parseInt(form.disad.value),
-        cost: parseInt(form.cost.value),
+        cost: form.cost.value,
+        casttime: form.casttime.value,
         resti: resti
     }
 }

@@ -158,6 +158,13 @@ function registerHandelbarsHelpers() {
         return false;
     });
 
+    Handlebars.registerHelper("isEqualORGreater", function(p1, p2) {
+    
+        if(p1 >= p2)
+            return true;
+        return false;
+    });
+
     Handlebars.registerHelper("getData", function(object1, value1) {
 
         return object1[value1];
@@ -337,5 +344,27 @@ function registerHandelbarsHelpers() {
         if(system.trait4 != "none") traits += " / " + game.i18n.localize("GDSA.magicTraits." + system.trait4);
 
         return traits
+    });
+
+    Handlebars.registerHelper("checkForRegla", function(objekt, string) {
+
+        for (let i = 0; i < objekt.length; i++)
+            if(objekt[i].rep == string) return true;
+
+        return false;
+    });
+    Handlebars.registerHelper("displayRegla", function(objekt) {
+
+        var display = "";
+
+        if(objekt[0].type == "only") display += "Nur in "
+        else display += "Nicht in "
+
+        for(let varis of objekt)
+            display += game.i18n.localize("GDSA.reps." + varis.rep) + ", ";
+
+        display = display.substring(0, display.length-2);
+
+        return display;
     });
 }

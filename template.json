@@ -618,6 +618,7 @@
             "att2": "KL",
             "att3": "KL",
             "zfw": 0,
+            "isMR": false,
             "lcdPage": "0",
             "rep": "",
             "trait1": "",
@@ -640,6 +641,11 @@
             "vGeo": 0,
             "vAch": 0,
             "komp": "A",
+            "zduration": "",
+            "costs": "",
+            "repAlt": "",
+            "costsAlt": "",
+            "diffrentCost": false,
             "vari": {}
         },
         "ritual": {

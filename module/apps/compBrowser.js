@@ -1,7 +1,7 @@
 
 export default class GDSACompBrowser extends FormApplication {
 
-    constructor(object={}, options={}, type="") {
+    constructor(object={}, options={}, type="", actor="") {
         
         super(options);
         this.object = object;
@@ -9,10 +9,12 @@ export default class GDSACompBrowser extends FormApplication {
         this.filepickers = [];
         this.editors = {};
         this.type = type;
+        this.actor = actor;
+        this.itemList = [];
 
         this.searchString = "";
-        this.trait = "";
-        this.rep = "";
+        this.trait = "none";
+        this.rep = "none";
         this.v0 = false;
         this.v1 = false;
         this.v2 = false;
@@ -36,7 +38,7 @@ export default class GDSACompBrowser extends FormApplication {
             template: "systems/GDSA/templates/apps/compBrowser.hbs",
             width: 800,
             height: "auto",
-            title: this.type,
+            title: "Browser",
             closeOnSubmit: false
         });
     }
@@ -75,11 +77,23 @@ export default class GDSACompBrowser extends FormApplication {
 
         let itemArray = [];
         let sortedArray = [];
+        let selV = [];
+        let nonV = true;
+        let nonK = true;
 
         switch (this.type) {
 
             case "spell":
+
                 itemArray = await game.packs.get("world.zauber").getDocuments();
+
+                selV = [this.v0, this.v1, this.v2, this.v3, this.v4, this.v5, this.v6];
+
+                if(!this.v0 && !this.v1 && !this.v2 && !this.v3 && !this.v4 && !this.v5 && !this.v6) nonV = true
+                else nonV = false;
+                if(!this.kA && !this.kB && !this.kC && !this.kD && !this.kE && !this.kF) nonK = true
+                else nonK = false;
+
                 break;
         
             default:
@@ -88,10 +102,35 @@ export default class GDSACompBrowser extends FormApplication {
 
         for(let spell of itemArray) {
 
-            if(this.searchString != null && spell.name.toLowerCase().includes(this.searchString.toLowerCase())) sortedArray.push(spell);
+            if(this.searchString == null || spell.name.toLowerCase().includes(this.searchString.toLowerCase())) 
+                if(this.trait == "none" || this.checkForTrait(spell, this.trait))
+                    if(this.rep == "none" || this.checkForRep(spell, this.rep))
+                        if(nonK || this.checkKomp(spell.system.komp.toUpperCase()))
+                            if(this.rep == "none" || nonV)
+                                sortedArray.push(spell);
+                            else if(this.rep == "mag" && selV[spell.system.vMag])
+                                sortedArray.push(spell);
+                            else if(this.rep == "dru" && selV[spell.system.vDru])
+                                sortedArray.push(spell);
+                            else if(this.rep == "bor" && selV[spell.system.vBor])
+                                sortedArray.push(spell);
+                            else if(this.rep == "srl" && selV[spell.system.vSrl])
+                                sortedArray.push(spell);
+                            else if(this.rep == "hex" && selV[spell.system.vHex])
+                                sortedArray.push(spell);
+                            else if(this.rep == "elf" && selV[spell.system.vElf])
+                                sortedArray.push(spell);
+                            else if(this.rep == "geo" && selV[spell.system.vGeo])
+                                sortedArray.push(spell);
+                            else if(this.rep == "ach" && selV[spell.system.vAch])
+                                sortedArray.push(spell);
+                            else if(this.rep == "sch" && selV[spell.system.vSch])
+                                sortedArray.push(spell);
         }
 
-        sheetData.items = sortedArray;
+        sheetData.items = sortedArray.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+
+        this.itemList = sheetData.items;
 
         return sheetData;
     }
@@ -100,8 +139,7 @@ export default class GDSACompBrowser extends FormApplication {
 
         html.find(".browserInput").click(this.objectClicked.bind(this));
         html.find(".browserMenuInput").change(this.objectClicked.bind(this));
-        // html.find(".searchbar").keyup(this.objectSearch.bind(this));
-
+        html.find(".item").dblclick(this.addItem.bind(this));
         super.activateListeners(html);
     }
 
@@ -176,5 +214,84 @@ export default class GDSACompBrowser extends FormApplication {
         let newDoc = await this.render();
         console.log(document);
         newDoc.element[0].ownerDocument.getElementById('menuSearch').setSelectionRange(2,2);
+    }
+
+    checkForTrait(spell, trait) {
+
+        if(spell.system.trait1 == trait) return true;
+        if(spell.system.trait2 == trait) return true;
+        if(spell.system.trait3 == trait) return true;
+        if(spell.system.trait4 == trait) return true;        
+        
+        return false
+    }
+
+    checkForRep(spell, rep) {
+
+        switch (rep) {
+            case "mag":
+                return spell.system.vMag == null ? false : true;
+            case "dru":
+                return spell.system.vDru == null ? false : true;
+            case "bor":
+                return spell.system.vBor == null ? false : true;
+            case "srl":
+                return spell.system.vSrl == null ? false : true;
+            case "hex":
+                return spell.system.vHex == null ? false : true;
+            case "elf":
+                return spell.system.vElf == null ? false : true;
+            case "geo":
+                return spell.system.vGeo == null ? false : true;
+            case "ach":
+                return spell.system.vAch == null ? false : true;
+            case "sch":
+                return spell.system.vSch == null ? false : true;
+            default:
+                return true;
+        }
+    }
+
+    checkKomp(komp) {
+
+        switch (komp) {
+            case "A":
+                return this.kA;
+            case "B":
+                return this.kB;
+            case "C":
+                return this.kC;
+            case "D":
+                return this.kD;
+            case "E":
+                return this.kE;
+            case "F":
+                return this.kF;
+            default:
+                return false;
+        }
+    }
+
+    async addItem() {    
+    
+        // Get Element and Actor
+    
+        let element = event.currentTarget;
+    
+        // Get Dataset from HTML
+    
+        let dataset = element.closest(".item").dataset;
+        let id = dataset.id;
+
+        // Add Item to Actor
+
+        switch (this.type) {
+
+            case "spell":
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("world.zauber").get(id)]);
+                console.log(game.actors.get(this.actor));
+                console.log(game.packs.get("world.zauber").get(id));             
+                break;
+        }
     }
 }

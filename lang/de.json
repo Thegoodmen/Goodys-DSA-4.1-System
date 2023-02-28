@@ -197,11 +197,12 @@
             "spellminZfW": "min. ZfW",
             "disad": "Erschwernis",
             "cost": "Kosten",
-            "regla": "Einschränkung",
+            "regla": "Einschränkungen",
             "abZfW": "ab ZfW",
             "only": "Nur in",
             "not": "Nicht in",
-            "restriction": "Einschränkung"
+            "restriction": "Einschränkungen",
+            "casttime": "Zauberdauer"
         },
         "charactersheet": {
             "system": "Das schwarze Auge",
@@ -532,7 +533,19 @@
                 "movem": "Bewegung des Ziels",
                 "dista": "Distanz",
                 "hida": "Deckung",
-                "sizeX": "Größe des Ziels"
+                "sizeX": "Größe des Ziels",
+                "modi": "Modifikationen",
+                "tech": "Veränderte Technik",
+                "zentech": "Veränderte Zentrale Technik",
+                "halfcast": "Halbierte Zauberdauer",
+                "doubcast": "Verdoppelte Zauberdauer",
+                "forced": "Erzwingen",
+                "cost": "Kosteneinsparren",
+                "preach": "Vergrößerte Reichweite / Wirkungsradius",
+                "mreach": "Verkleinerte Reichweite / Wirkungsradius",
+                "halfdura": "Halbierte Wirkungsdauer",
+                "doubdura": "Verdoppelte Wirkungsdauer",
+                "vari": "Varianten"
             },
             "dialog": {
                 "dmg": "Wie viel Schaden soll zugefügt werden?",

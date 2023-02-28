@@ -31,6 +31,12 @@ export async function onSkillRoll(data, type, event) {
     if(beMod > 0) be = be * beMod;
     else if (beMod < 0 && (beMod * -1) > be) be + beMod;
     else be = 0;
+
+    // Get Item
+
+    let item = actor.items.get(dataset.itemId);
+    console.log(item);
+    console.log(dataset);
     
     // Check if Shift is presst for Skip Dialog
 
@@ -43,6 +49,7 @@ export async function onSkillRoll(data, type, event) {
 
         if(type == "normal") checkOptions = await Dialog.GetSkillCheckOptions();
         else if (type == "wonder") checkOptions = await Dialog.GetWonderOptions();
+        else if (type == "spell") checkOptions = await Dialog.GetSpellOptions(item);
             
         advantage = checkOptions.advantage;
         disadvantage = checkOptions.disadvantage;
@@ -58,6 +65,7 @@ export async function onSkillRoll(data, type, event) {
 
     if(type == "normal") Dice.skillCheck(dataset.statname, statvalue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif);
     else if (type == "wonder") Dice.skillCheck(dataset.statname, statvalue, system.MU.value, system.IN.value, system.CH.value, actor, data.goofy, modif);
+    else if (type == "spell") Dice.skillCheck(dataset.statname, statvalue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif);
 }
 
 export function onStatRoll(data, event) {
@@ -1546,7 +1554,9 @@ export function addSpellVariants(data, event) {
         name: "Neue Variante",
         minZfW: 1,
         disad: 0,
-        cost: "0"
+        cost: "0",
+        casttime: "0",
+        resti: []
     };
 
     if(data.system.vars != null) data.system.vars.push(newArray);
@@ -1587,6 +1597,7 @@ export async function editSpellVariants(data, event) {
             spell.minZfW = dialog.minZfW;
             spell.disad = dialog.disad;
             spell.cost = dialog.cost;
+            spell.casttime = dialog.casttime;
             spell.resti = dialog.resti;
         }
 
@@ -1716,7 +1727,7 @@ export function getSpellContextMenu(data, event) {
 
     let options = event.shiftKey ? false : true;
 
-    if(options) new Browser({},{},"spell").render(true);
+    if(options) new Browser({},{},"spell", data.actor._id).render(true);
     else onItemCreate(data, event);
 }
 

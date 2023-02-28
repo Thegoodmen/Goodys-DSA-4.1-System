@@ -1,15 +1,17 @@
 <form class="{{cssClass}}" autocomplete="off">
 
-    <div class="browserImgBox2"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
+    <div class="browserImgBox3"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
 
-    <div class="ritHelper1">
+    <div class="ritHelper7">
         <div class="spHelper1">{{localize "GDSA.itemsheet.name"}}</div>
-        <div class="spHelper3">{{localize "GDSA.itemsheet.zfw"}}</div>
+        <div class="spHelper4">{{localize "GDSA.itemsheet.zfw"}}</div>
+        <div class="spHelper3">{{localize "GDSA.itemsheet.mr"}}</div>
         <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
-        <div class="spHelper4"><input class="spHelper4" name="system.zfw" type="text" value="{{system.zfw}}" /></div>
+        <div class="spHelper3"><input class="spHelper3" name="system.zfw" type="text" value="{{system.zfw}}" /></div>
+        <div class="spHelper3"><input class="mwHelper6" name="system.isMR" type="checkbox" {{checked system.isMR}} /></div>
     </div>
     
-    <div class="itemRow2">
+    <div class="itemRow3">
         <select class="spHelper5" name="system.att1">
             {{#select system.att1}}
                 {{#each config.attributes as |name type|}}
@@ -117,10 +119,12 @@
             <div class="tab spellVariants" data-group="spell" data-tab="spellVariants">
                 {{#each system.vars}}
                     <div class="variantbox" data-id="{{@index}}">
-                        <b>{{name}}</b> ({{localize "GDSA.itemsheet.abZfW"}} {{minZfW}})<br />
-                        <b>{{localize "GDSA.itemsheet.disad"}}:</b> +{{disad}}<br />
-                        {{#if (isGreater cost 0)}}<b>{{localize "GDSA.itemsheet.cost"}}:</b> {{cost}} {{localize "GDSA.itemsheet.asp"}}<br />{{/if}}
-                        <b>{{localize "GDSA.itemsheet.restriction"}}:</b> {{#each resti}}{{type}} {{rep}}{{/each}}
+                        <b>{{name}}</b> {{#if (isGreater minZfW 1)}}({{localize "GDSA.itemsheet.abZfW"}} {{minZfW}}){{/if}}<br />
+                        {{#if (isGreater disad 0)}}<b>{{localize "GDSA.itemsheet.disad"}}:</b> +{{disad}}<br />{{/if}}
+                        {{#if (isGreater cost.length 2)}}<b>{{localize "GDSA.itemsheet.cost"}}:</b> {{cost}} {{localize "GDSA.itemsheet.asp"}}<br />
+                        {{else}} {{#if (isGreater cost 0)}}<b>{{localize "GDSA.itemsheet.cost"}}:</b> {{cost}} {{localize "GDSA.itemsheet.asp"}}<br />{{/if}}{{/if}}
+                        {{#if (isGreater casttime 0)}}<b>{{localize "GDSA.itemsheet.casttime"}}:</b> {{casttime}}<br />{{/if}}
+                        {{#if (isGreater resti.length 0)}}<b>{{localize "GDSA.itemsheet.restriction"}}:</b> {{displayRegla resti}}{{/if}}
                         <div class="buttonbox">
                             <a class="editSpellVariants"><i class="fa-regular fa-gear spellvari"></i></a>
                             <a class="deleteSpellVariants"><i class="fa-solid fa-trash spellvari"></i></a>
@@ -129,10 +133,29 @@
                 {{/each}}
                 <a class="addSpellVariants"><div class="plusVariants">+</div></a>
             </div>
+            
+            <div class="tab spellEffects" data-group="spell" data-tab="spellEffects">
 
-            <div class="tab spellNotess" data-group="spell" data-tab="spellNotes">
+                <div class="input100 spellName">Kosten:</div>
+                <input class="input60c" name="system.costs" type="text" value="{{system.costs}}" /> 
+                <div class="input100f">
+                    <input class="mwHelper5" name="system.diffrentCost" type="checkbox" {{checked system.diffrentCost}} />
+                    <select class="input70a" name="system.repAlt" {{#unless system.diffrentCost}}disabled{{/unless}}>
+                        {{#select system.repAlt}}
+                            {{#each config.magicReps as |name type|}}
+                                <option value="{{type}}">{{localize name}}</option>
+                            {{/each}}
+                        {{/select}}
+                    </select>
+                    <input class="input60c" name="system.costsAlt" type="text" value="{{system.costsAlt}}" {{#unless system.diffrentCost}}disabled{{/unless}}/> 
+                </div>
+            </div>
+            
+            <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
                 <div class="input100 spellName">Komplexität:</div>
                 <input type="text" class="input100c" name="system.komp" value="{{system.komp}}" />
+                <div class="input100 spellName">Zauberdauer:</div>
+                <input type="number" class="input100c" name="system.zduration" value="{{system.zduration}}" />
             </div>
         </section>
     </div>

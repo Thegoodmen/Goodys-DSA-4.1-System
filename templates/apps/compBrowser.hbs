@@ -44,7 +44,7 @@
         <div class="headline">Zauber</div>
 
         {{#each items as |item id|}}
-            <div class="item itemBrowserBox">
+            <div class="item itemBrowserBox" data-id="{{_id}}">
                 <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
                 <div class="browserName"><b>{{name}}</b> ({{system.att1}}/{{system.att2}}/{{system.att3}})<br /><i> > {{getTraits system}}</i></div>
                 <div class="browserComplex">{{system.komp}}</div>
