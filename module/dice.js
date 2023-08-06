@@ -118,7 +118,7 @@ export async function flawCheck(flawName, flawValue, actor) {
     await doXD20XD6Roll(chatModel, dices, []);
 }
 
-export async function skillCheck(statName, statValue, statOne, statTwo, statThree, actor, isGoofy, modif) {
+export async function skillCheck(statName, statValue, statOne, statTwo, statThree, actor, isGoofy, modif, optional = {}) {
 
     // #################################################################################################
     // #################################################################################################
@@ -133,13 +133,14 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
     // ##    @actor         Actor Objekt of the Character rolling the Check                           ##
     // ##    @isGoofy       Boolean which indikates if the Actor has the Trait goofy e.g. false       ##
     // ##    @modif         Integer of the Modifier, if positiv its an advantage...                   ##
+    // ##    @optional      Carries an Opjekt for Additional Information to be displayed in Chat      ##
     // ##                                                                                             ##
     // #################################################################################################
     // #################################################################################################
 
     // Set up the Path of the Chat HTML
-
-    const templatePath = "systems/GDSA/templates/chat/skill-check.hbs";
+    let templatePath = "systems/GDSA/templates/chat/skill-check.hbs";
+    if (Object.keys(optional).length !== 0) templatePath = optional.template;
 
     // Roll 3 Dices
 
@@ -280,6 +281,9 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
     templateContext.isAdv = (modif > 0) ? true : false;
     templateContext.isDis = (modif < 0) ? true : false;
     templateContext.dis = parseInt(modif) * (-1);
+    templateContext = Object.assign(templateContext, optional);
+
+    console.log(templateContext);
 
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
     

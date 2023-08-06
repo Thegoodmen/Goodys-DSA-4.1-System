@@ -111,7 +111,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".dogde-roll").click(LsFunction.onDogdeRoll.bind(this, this.getData()));
             html.find(".damage-roll").click(LsFunction.onDMGRoll.bind(this, this.getData()));
             html.find(".wonder-roll").click(LsFunction.onSkillRoll.bind(this, this.getData(), "wonder"));
-            html.find(".spell-roll").click(LsFunction.onSkillRoll.bind(this, this.getData(), "spell"));
+            html.find(".spell-roll").click(LsFunction.onSpellRoll.bind(this, this.getData()));
 
             // Set Listener for Stat Changes
 

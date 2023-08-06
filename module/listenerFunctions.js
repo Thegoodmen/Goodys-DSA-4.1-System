@@ -35,8 +35,6 @@ export async function onSkillRoll(data, type, event) {
     // Get Item
 
     let item = actor.items.get(dataset.itemId);
-    console.log(item);
-    console.log(dataset);
     
     // Check if Shift is presst for Skip Dialog
 
@@ -66,6 +64,101 @@ export async function onSkillRoll(data, type, event) {
     if(type == "normal") Dice.skillCheck(dataset.statname, statvalue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif);
     else if (type == "wonder") Dice.skillCheck(dataset.statname, statvalue, system.MU.value, system.IN.value, system.CH.value, actor, data.goofy, modif);
     else if (type == "spell") Dice.skillCheck(dataset.statname, statvalue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif);
+}
+
+export async function onSpellRoll(data, event) {
+
+    event.preventDefault();
+
+    // Get Element and Actor
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+    let system = data.system;
+
+    // Get Dataset from HTML
+
+    let dataset = element.closest(".item").dataset;
+
+    // Get Item
+
+    let item = actor.items.get(dataset.itemId);
+    
+    // Check if Shift is presst for Skip Dialog
+
+    let options = event.shiftKey ? false : true;
+    let checkOptions = false;
+    let advantage = 0;
+    let disadvantage = 0;
+    let actions = 0;
+    let bonusCost = 0;
+    let costMod = 0;
+    let doubcast = false;
+    let halfcast = 0;
+    let variants = [];
+    let usedVars = [];
+    let usedVar = [];
+
+    if(options) {
+
+        checkOptions = await Dialog.GetSpellOptions(item);
+        
+        advantage = checkOptions.advantage;
+        disadvantage = checkOptions.disadvantage;
+        actions = checkOptions.actions;
+        bonusCost = checkOptions.bonusCost;
+        costMod = checkOptions.costMod;
+        doubcast = checkOptions.doubcast;
+        halfcast = checkOptions.halfcast;
+        variants = checkOptions.variants;
+        usedVars = checkOptions.used;
+    }
+
+    if (checkOptions.cancelled) return;
+
+    // Calculate Modifier
+
+    if (item.system.rep == "mag") disadvantage = Math.round(disadvantage / 2);
+    if (item.system.rep == "mag") if (doubcast) advantage++;
+    for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) disadvantage = disadvantage + item.system.vars[i].disad;
+        
+    let modif = parseInt(advantage) - parseInt(disadvantage);
+
+    // Calculate min. Cost
+
+    let minCost =  parseInt(item.system.costs);
+    for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) if (item.system.vars[i].cost > 0) minCost = item.system.vars[i].cost;
+
+    minCost = minCost + parseInt(bonusCost);
+    minCost = Math.round((minCost / 10) * (10 - costMod));
+
+    // Calculate Actions
+
+    let action = item.system.zduration;
+    for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) if (item.system.vars[i].casttime != null) action = item.system.vars[i].casttime;
+    action = action + parseInt(actions);
+    if (doubcast) action = action * 2;
+    if (halfcast > 0) action = Math.round(action / (2 * halfcast));
+
+    for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) usedVar.push(item.system.vars[i].name);
+
+    // Generate Optional Objekt
+
+    let optional = {
+        template: "systems/GDSA/templates/chat/spell-check.hbs",
+        item: item,
+        cost: minCost,
+        action: action,
+        usedVar: usedVar,
+        usedVars: usedVars
+    };
+
+    optional.vari = (usedVar.length > 0);
+    optional.varis = (usedVars.length > 0);
+
+    // Execute Roll
+
+    Dice.skillCheck(dataset.statname, item.system.zfw, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif, optional);
 }
 
 export function onStatRoll(data, event) {
@@ -169,16 +262,27 @@ export async function onAttackRoll(data, event) {
     let targetCombatantId = "";
     let targetToken = "";
     let targetType = "";
+    let sceneId = "";
+    let tokenDoc = "";
+    let targetActorID = "";
 
     if( game.users.get(game.userId).targets.ids.length > 0 && game.combats.contents.length > 0) {
 
         targetId = game.users.get(game.userId).targets.ids[0];
         targetCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.tokenId == targetId})[0]._id;
 
+
+        // Get viewed Scene 
+
+        sceneId = game.users.get(game.userId).viewedScene;
+
         // Get Type of Target
 
-        targetToken = (targetId == null) ?  null : game.actors.tokens[targetId];
-        targetType = targetToken?.type;
+        tokenDoc = game.scenes.get(sceneId).collections.tokens.get(targetId);
+
+        targetToken = (targetId == null) ?  null :  tokenDoc?._actor;
+        targetType = tokenDoc?._actor.type;
+        targetActorID = tokenDoc?._actor._id;
     };
     let auto = (targetType == "NonPlayer");
 
@@ -229,6 +333,7 @@ export async function onAttackRoll(data, event) {
     if(await answer.result != true) return;
     if(targetId == null) return;
 
+
     // If Target is a NPC Actor, let him try to Parry
     
     if(targetType == "NonPlayer") {
@@ -278,7 +383,7 @@ export async function onAttackRoll(data, event) {
 
         let newHP = parseInt(targetToken.system.LeP.value) - parseInt(parseInt(dmg) - parseInt(targetToken.system.RS));
 
-        GDSA.socket.executeAsGM("adjustRessource", targetToken, newHP, "LeP")
+        GDSA.socket.executeAsGM("adjustRessource", game.actors.get(targetActorID), newHP, "LeP")
     }
 }
 
@@ -754,7 +859,7 @@ export async function getParryWeaponPABasis(data, wm) {
         let skill = itemM.system.skill;
         let weapon = itemM.system.type;
         let itemwm = itemM.system["WM-DEF"];
-        let PAValue = Util.getSkillPAValue(data.actor, skill);
+        let PAValue = Util.getSkillPAValue(data, skill);
 
         PAValue += itemwm;
 
@@ -1042,8 +1147,9 @@ export async function onReg(data, event) {
 
     let regtLeP = 0;
     let regtAsP = 0;
-    let HPBonus = parseInt(regDialog.value);
-    let APBonus = parseInt(regDialog.value);
+    let HPBonus = parseInt(regDialog.lep);
+    let APBonus = parseInt(regDialog.asp);
+    let KABonus = parseInt(regDialog.kap);
     let magActive = false;
     let statValueKL = system.KL.value;
 
@@ -1064,6 +1170,7 @@ export async function onReg(data, event) {
     if(checkRegII != null) APBonus += 1;
     if(checkRegIII != null) APBonus = (statValueKL / 5) + 1;
     if(checkRegIII != null) magActive = true;
+    if(system.KaP.max > 0 && system.KaP.max != system.KaP.value) KABonus++; else KABonus = 0; 
 
     // Do Regeneration
 
@@ -1075,10 +1182,14 @@ export async function onReg(data, event) {
     // Save new Values
 
     system.LeP.value += parseInt(regtLeP);
+    system.AuP.value = system.AuP.max;
     system.AsP.value += parseInt(regtAsP);
+    system.KaP.value += parseInt(KABonus);
 
     actor.setStatData("LeP", system.LeP.value);
+    actor.setStatData("AuP", system.AuP.value);
     actor.setStatData("AsP", system.AsP.value);
+    actor.setStatData("KaP", system.KaP.value);
     actor.render();
 }
 
@@ -1161,6 +1272,40 @@ export function onPACountToggel(data, event) {
     else newPALeft = toggeldCounter;
 
     combatant.setFlag("GDSA", "parries", newPALeft);
+}
+
+export async function doOrientation(data, event) {
+
+    event.preventDefault();
+
+    // Get Element
+
+    let element = event.currentTarget;
+    
+    // Get toggeld Combatant ID
+
+    let combatantId = element.closest(".orient").dataset.id;
+
+    // Get ATs and PAs left from the Combatant
+
+    let combatant = game.combats.contents[0].combatants.get(combatantId);
+    let atLeft = combatant.getFlag("GDSA", "attacks");
+    let paLeft = combatant.getFlag("GDSA", "parries");
+
+    // Set new AT Left Flag for Combatant
+
+    if (atLeft > 0) atLeft--;
+    else if (paLeft > 0) paLeft--
+    else return; 
+
+    combatant.setFlag("GDSA", "attacks", atLeft);
+    combatant.setFlag("GDSA", "parries", paLeft);
+
+    let newIni = combatant.actor.type == "PlayerCharakter" ? parseInt(combatant.actor.sheet.getData().system.INIBasis.value) : parseInt(combatant.actor.sheet.getData().system.INI.split('+')[1].trim());
+    newIni = newIni + 6;
+    if (combatant.actor.sheet.getData().system.INIDice == "2d6") newIni = newIni + 6;
+    let combat = game.combats.contents[0];
+    combat.setInitiative(combatantId, newIni)
 }
 
 export function onItemCreate(data, event) {
@@ -1894,6 +2039,7 @@ export async function executeDMGRoll(event) {
     // Do DMG Rolls
         
     await Dice.DMGRoll(dmgString, actor, multi, chatId);
+    console.log(game);
 }
 
 export async function executeHealthLoss(event) {
@@ -1934,7 +2080,7 @@ export async function executeHealthLoss(event) {
     let ws = 8;
 
     if(targetToken.type == "PlayerCharakter" && isArmoured && dmgModifier != -1) rs = Util.getZoneArmour(targetToken, dmgZone);
-    if(targetToken.type == "NonPlayer" && isArmoured && dmgModifier != -1) rs = targetToken.system.rs;
+    if(targetToken.type == "NonPlayer" && isArmoured && dmgModifier != -1) rs = targetToken.system.RS;
     if(targetToken.type == "PlayerCharakter") ws = targetToken.sheet.getData().system.WS;
     if(targetToken.type == "NonPlayer") ws = targetToken.system.KO / 2;
 

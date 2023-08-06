@@ -22,10 +22,12 @@
 
     <div class="dialogFiller"></div>
 
+    <input type="hidden" name="varCount" value="{{system.vars.length}}">
+
     {{#each system.vars}}
     <div class="form-group {{#unless (isEqualORGreater ../system.zfw minZfW)}}disabeldtext{{/unless}}">
         <label>{{name}} <i>(ab ZfW {{minZfW}})</i></label>
-        <input id="inboxCast"  type="checkbox" name="a" {{#unless (isEqualORGreater ../system.zfw minZfW)}}disabled{{/unless}} />
+        <input id="inboxCast"  type="checkbox" name="var{{@index}}" {{#unless (isEqualORGreater ../system.zfw minZfW)}}disabled{{/unless}} />
     </div>
     {{/each}}
 
@@ -39,45 +41,51 @@
     
     <div class="form-group">
         <label>{{localize "GDSA.chat.skill.tech"}}</label>
-        <input id="inboxCast" type="checkbox" name="a" />
+        <input id="inboxCast" type="checkbox" name="tech" />
     </div>
     <div class="form-group">
         <label>{{localize "GDSA.chat.skill.zentech"}}</label>
-        <input id="inboxCast"  type="checkbox" name="b" />
+        <input id="inboxCast"  type="checkbox" name="zentech" />
     </div>
     <div class="form-group {{#unless system.casttime}}disabeldtext{{/unless}}">
         <label>{{localize "GDSA.chat.skill.halfcast"}}</label>
-        <input id="inputCast" type="number" name="e" {{#unless system.casttime}}disabled{{/unless}} />
+        <input id="inputCast" type="number" name="halfcast" {{#unless system.casttime}}disabled{{/unless}} value="0" /> Mal
     </div>
     <div class="form-group {{#unless system.casttime}}disabeldtext{{/unless}}">
         <label>{{localize "GDSA.chat.skill.doubcast"}}</label>
-        <input id="inboxCast"  type="checkbox" name="a" {{#unless system.casttime}}disabled{{/unless}} />
+        <input id="inboxCast"  type="checkbox" name="doubcast" {{#unless system.casttime}}disabled{{/unless}} />
     </div>
     <div class="form-group {{#unless system.forced}}disabeldtext{{/unless}}">
         <label>{{localize "GDSA.chat.skill.forced"}}</label>
-        <input id="inputCast" type="number" name="e" {{#unless system.forced}}disabled{{/unless}} />
+        <input id="inputCast" type="number" name="forced" {{#unless system.forced}}disabled{{/unless}} value="0" /> Mal
     </div>
     <div class="form-group {{#unless system.cost}}disabeldtext{{/unless}}">
         <label>{{localize "GDSA.chat.skill.cost"}}</label>
-        <input id="inputCast" type="number" name="e" {{#unless system.cost}}disabled{{/unless}} />
+        <input id="inputCast" type="number" name="costMod" {{#unless system.cost}}disabled{{/unless}} value="0" /> Mal
     </div>
     <div class="form-group {{#unless system.range}}disabeldtext{{/unless}}">
         <label>{{localize "GDSA.chat.skill.preach"}}</label>
-        <input id="inputCast" type="number" name="e" {{#unless system.range}}disabled{{/unless}} />
+        <input id="inputCast" type="number" name="preach" {{#unless system.range}}disabled{{/unless}} value="0" /> Mal
     </div>
     <div class="form-group {{#unless system.range}}disabeldtext{{/unless}}">
         <label>{{localize "GDSA.chat.skill.mreach"}}</label>
-        <input id="inputCast" type="number" name="e" {{#unless system.range}}disabled{{/unless}} />
+        <input id="inputCast" type="number" name="mreach" {{#unless system.range}}disabled{{/unless}} value="0" /> Mal
     </div>
     <div class="form-group {{#unless system.duration}}disabeldtext{{/unless}}">
         <label>{{localize "GDSA.chat.skill.halfdura"}}</label>
-        <input id="inputCast" type="number" name="e" {{#unless system.duration}}disabled{{/unless}} />
+        <input id="inputCast" type="number" name="halfdura" {{#unless system.duration}}disabled{{/unless}} value="0" /> Mal
     </div>
     <div class="form-group {{#unless system.duration}}disabeldtext{{/unless}}">
         <label>{{localize "GDSA.chat.skill.doubdura"}}</label>
-        <input id="inputCast" type="number" name="e" {{#unless system.duration}}disabled{{/unless}} />
+        <input id="inputCast" type="number" name="doubdura" {{#unless system.duration}}disabled{{/unless}} value="0" /> Mal
     </div>
     
     <div class="dialogFiller"></div>
 
+    <div class="form-group subSub">
+        <div class="submen"><hr class="subhr" /></div><div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+    
 </form>

@@ -5,11 +5,13 @@
   width: 620px;
   height: 765px;
   font-family: MasonSerifBold;
+  src: url('fonts/mason-serif-bold.otf') format('opentype');
 }
 .GDSA.sheet.characterSheet .sheet2 {
   width: 620px;
   height: 575px;
   font-family: MasonSerifBold;
+  src: url('fonts/mason-serif-bold.otf') format('opentype');
 }
 .GDSA.sheet.characterSheet .logoImg {
   height: 46px;
@@ -2152,9 +2154,10 @@
   color: gray;
 }
 #inputCast {
-  width: 40px;
+  width: 30px;
   flex: none;
-  text-align: right;
+  text-align: center;
+  margin-right: 5px;
 }
 #inboxCast {
   flex: none;
@@ -2163,6 +2166,7 @@
 .dialogConfig {
   color: black;
   font-family: MasonSerifBold;
+  src: url('fonts/mason-serif-bold.otf') format('opentype');
 }
 .GDSA.chat.message .infoBox {
   font-size: 15px;
@@ -2175,8 +2179,50 @@
   background-color: rgba(0, 0, 0, 0.2);
   font-size: 20px;
   font-family: MasonSerifBold;
+  src: url('fonts/mason-serif-bold.otf') format('opentype');
   text-align: center;
   padding-top: 2px;
+}
+.GDSA.chat.message .spellName {
+  min-height: 29px;
+  width: 100%;
+  float: left;
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 20px;
+  font-family: MasonSerifBold;
+  src: url('fonts/mason-serif-bold.otf') format('opentype');
+  text-align: center;
+  padding-top: 2px;
+}
+.GDSA.chat.message .spellHeader {
+  float: left;
+  height: 80px;
+  width: 100%;
+}
+.GDSA.chat.message .spellInfo {
+  float: left;
+  height: 80px;
+  width: 192px;
+  padding-top: 10px;
+}
+.GDSA.chat.message .spellImg {
+  float: left;
+  height: 80px;
+  width: 80px;
+}
+.GDSA.chat.message .spellFooter {
+  height: 10px;
+  width: 100%;
+  float: left;
+  font-size: 11px;
+  font-style: italic;
+  margin-top: 2px;
+}
+.GDSA.chat.message .spellTable {
+  float: left;
+  height: 125px;
+  width: 100%;
+  font-size: 12px;
 }
 .GDSA.chat.message .dicefiller {
   float: left;
@@ -2492,6 +2538,7 @@
 #hud {
   font-size: 16px;
   font-family: MasonSerifBold;
+  src: url('fonts/mason-serif-bold.otf') format('opentype');
 }
 #token-hud .col {
   height: calc(100% + 67px);

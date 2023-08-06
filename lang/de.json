@@ -10,7 +10,11 @@
             "melee-weapons": "Nahkampfwaffe",
             "range-weapons": "Fernkampfwaffe",
             "compImport": "Aus Compendium importieren",
-            "newSpell": "Neuen Zauber hinzufügen"
+            "newSpell": "Neuen Zauber hinzufügen",
+            "magicTrait": "Merkmal",
+            "vari": "Variante",
+            "reps": "Repräsentation",
+            "komplex": "Komplexität"
         },
         "combat": {
             "NPC": "NSC",
@@ -23,7 +27,8 @@
             "RegAsP": "AsP Regeneration",
             "AsPRegOf": " AsP regeneriert!",
             "DMG": "Schadenswurf",
-            "DMGOf": "Schaden"
+            "DMGOf": "Schaden",
+            "Orient": "Orientieren"
         },
         "meleeskill": {
             "none": "",
@@ -117,7 +122,8 @@
             "eis": "Elementar (Eis)",
             "humu": "Elementar (Humus)",
             "luft": "Elementar (Luft)",
-            "erz": "Elementar (Erz)"
+            "erz": "Elementar (Erz)",
+            "none": ""
         },
         "cuts": {
             "brill": "Brillantschliff",
@@ -202,7 +208,8 @@
             "only": "Nur in",
             "not": "Nicht in",
             "restriction": "Einschränkungen",
-            "casttime": "Zauberdauer"
+            "casttime": "Zauberdauer",
+            "attri": "Attribute"
         },
         "charactersheet": {
             "system": "Das schwarze Auge",

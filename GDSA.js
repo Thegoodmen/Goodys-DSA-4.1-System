@@ -28,6 +28,13 @@ Hooks.once("init", () => {
     CONFIG.Combat.documentClass = GDSACombat;
     CONFIG.ui.combat = GDSACombatTracker;
     CONFIG.cache = new MemoryCache();
+    CONFIG.fontDefinitions["MasonSerifBold"] = {
+        editor: true,
+        fonts: [
+          {urls: ["systems/GDSA/fonts/mason-serif-bold.otf"]}
+        ]
+    };
+    CONFIG.defaultFontFamily = "MasonSerifBold";
 
     Items.unregisterSheet("core", ItemSheet);
     Items.registerSheet("GDSA", GDSAItemSheet, { makeDefault: true });
@@ -353,6 +360,7 @@ function registerHandelbarsHelpers() {
 
         return false;
     });
+
     Handlebars.registerHelper("displayRegla", function(objekt) {
 
         var display = "";
@@ -366,5 +374,21 @@ function registerHandelbarsHelpers() {
         display = display.substring(0, display.length-2);
 
         return display;
+    });
+
+    Handlebars.registerHelper("combatantAtMax", function(cmbId, Ini) {
+
+        let combatant = game.combats.contents[0].combatants.get(cmbId);
+        let type = combatant.actor.type;
+        let system = combatant.actor.sheet.getData().system;	
+        let INIBase;
+
+	    INIBase = type == "PlayerCharakter" ? parseInt(system.INIBasis.value) : parseInt(system.INI.split('+')[1].trim());
+
+        let maxIni = INIBase + 6;
+        if (system.INIDice == "2d6") maxIni = maxIni + 6;
+
+        if (maxIni == Ini) return false
+        else return true
     });
 }
