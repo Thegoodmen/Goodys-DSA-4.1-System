@@ -47,12 +47,12 @@
 	    
 	<div class="footerBox">
 	   	<div class="footer">
-	    	<div class="footerFirst">{{localize "GDSA.charactersheet.AP"}}</div>
+	    	<div class="footerFirst"><a class=" item stat-change" data-stattype="AP" title="edit">{{localize "GDSA.charactersheet.AP"}}</a></div>
 	    	<div class="footerBig" data-edit="system.AP.value" contenteditable>{{system.AP.value}}</div>
 	    	<div class="footerSmall">{{localize "GDSA.charactersheet.spentAP"}}</div>
 	    	<div class="footerBig">{{system.AP.spent}}</div>
-	    	<div class="footerSmall">{{localize "GDSA.charactersheet.freeAP"}}</div>
-	    	<div class="footerBig" data-edit="system.AP.free" contenteditable>{{system.AP.free}}</div>
+	    	<div class="footerSmall"><a class=" item stat-change" data-stattype="APFree" title="edit">{{localize "GDSA.charactersheet.freeAP"}}</a></div>
+	    	<div class="footerBig" data-edit="system.AP.free" contenteditable>{{system.APFree.value}}</div>
 	   	</div>
  	</div>
 </section>

@@ -476,6 +476,105 @@ export async function GetSpellVariantEdit(spell) {
     });
 }
 
+export async function editCharFacts(context) {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/ressources/charStats.hbs";
+    context.config = CONFIG.GDSA;
+    const html = await renderTemplate(template, context);
+
+    return new Promise(resolve => {  
+
+        // Set up Parameters for Dialog
+
+        const data = {
+
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.do"),
+                                callback: html => resolve(_processCharFacts(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
+export async function editCharStats(context) {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/ressources/charAttributes.hbs";
+    context.config = CONFIG.GDSA;
+    const html = await renderTemplate(template, context);
+
+    return new Promise(resolve => {  
+
+        // Set up Parameters for Dialog
+
+        const data = {
+
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.do"),
+                                callback: html => resolve(_processCharStats(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
+export async function editCharRess(context) {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/ressources/charRessources.hbs";
+    context.config = CONFIG.GDSA;
+    const html = await renderTemplate(template, context);
+
+    return new Promise(resolve => {  
+
+        // Set up Parameters for Dialog
+
+        const data = {
+
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.do"),
+                                callback: html => resolve(_processCharRess(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
         // #################################################################################################
         // #################################################################################################
         // ##                                                                                             ##
@@ -655,4 +754,34 @@ function _processGetMoneyInfo(form) {
         silver: parseInt(form.silver.value !== "" ? form.silver.value : 0),
         copper: parseInt(form.copper.value !== "" ? form.copper.value : 0),
         nikel: parseInt(form.nikel.value !== "" ? form.nikel.value : 0)}
+}
+
+function _processCharFacts(form) {
+
+    return {
+
+        race: form.race.value,
+        culture: form.culture.value,
+        profession: form.profession.value,
+        gender: form.gender.value,
+        age: form.age.value,
+        size: form.size.value,
+        weight: form.weight.value,
+        social: form.social.value
+    }
+}
+
+function _processCharStats(form) {
+
+    return {
+        newvalue: form.value.value
+    }
+}
+
+function _processCharRess(form) {
+
+    return {
+        newModValue: form.modValue.value,
+        newBuyValue: form.buyValue.value
+    }
 }

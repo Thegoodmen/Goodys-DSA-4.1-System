@@ -100,6 +100,12 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         if(this.isEditable) {
 
+            // Set Listener for Char Edits
+
+            html.find(".editFacts").click(LsFunction.editeCharFacts.bind(this, this.getData()));
+            html.find(".stat-change").click(LsFunction.editeCharStats.bind(this, this.getData()));
+            html.find(".ress-change").click(LsFunction.editeCharRessource.bind(this, this.getData()));
+
             // Set Listener for Basic Rolls
             
             html.find(".skill-roll").click(LsFunction.onSkillRoll.bind(this, this.getData(), "normal"));
@@ -407,16 +413,152 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         
         // Simple Values / Grapical Values
 
-        sheetData.system.AP.spent = parseInt(sheetData.system.AP.value) - parseInt(sheetData.system.AP.free);        
+        sheetData.system.AP.spent = parseInt(sheetData.system.AP.value) - parseInt(sheetData.system.APFree.value);        
         sheetData.system.LeP.prozent = 100 / parseInt(sheetData.system.LeP.max) * parseInt(sheetData.system.LeP.value);        
         sheetData.system.AsP.prozent = 100 / parseInt(sheetData.system.AsP.max) * parseInt(sheetData.system.AsP.value);
         sheetData.system.KaP.prozent = 100 / parseInt(sheetData.system.KaP.max) * parseInt(sheetData.system.KaP.value);
 
         // Set Basic Values for Rolls
+
         let checkGoofy = sheetData.flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.goofy")})[0];
         if(checkGoofy != null) sheetData.goofy = true;
         else sheetData.goofy = false;
 
+        // Set Attributes in Lang und Sign 
+
+        for (let i = 0; i < sheetData.langs.length; i++) {
+
+            sheetData.langs[i].system.att1 = sheetData.system.KL.value;
+            sheetData.langs[i].system.att2 = sheetData.system.IN.value;
+            sheetData.langs[i].system.att3 = sheetData.system.CH.value;
+        }
+
+        for (let i = 0; i < sheetData.signs.length; i++) {
+
+            sheetData.signs[i].system.att1 = sheetData.system.KL.value;
+            sheetData.signs[i].system.att2 = sheetData.system.IN.value;
+            sheetData.signs[i].system.att3 = sheetData.system.CH.value;
+        }
+
+        // Sort Lang, Sign, Advantages, Flaws, Spells, general and combat Traits
+
+        sheetData.advantages.sort(function(a, b){
+
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+
+        sheetData.flaws.sort(function(a, b){
+
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+           
+        sheetData.generalTraits.sort(function(a, b){
+
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+
+        sheetData.combatTraits.sort(function(a, b){
+
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+
+        sheetData.magicTraits.sort(function(a, b){
+
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+
+        sheetData.objectTraits.sort(function(a, b){
+
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+
+        sheetData.holyTraits.sort(function(a, b){
+
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+          
+        sheetData.langs.sort(function(a, b){
+
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+
+        sheetData.signs.sort(function(a, b){
+
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+
+        sheetData.ritualSkills.sort(function(a, b){
+
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+
+        sheetData.spells.sort(function(a, b){
+
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+    
+        sheetData.rituals.sort(function(a, b){
+
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+    
+        sheetData.wonders.sort(function(a, b){
+
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+    
         return sheetData;
     }
 }

@@ -14,7 +14,24 @@
             "magicTrait": "Merkmal",
             "vari": "Variante",
             "reps": "Repräsentation",
-            "komplex": "Komplexität"
+            "komplex": "Komplexität",
+            "technic": "Veränderte Technik",
+            "zenTech": "Veränderte zentrale Technik",
+            "doppelD": "Verdoppelte Zauberdauer",
+            "halfDur": "Verkürtze Zauberdauer",
+            "force": "Erzwingen",
+            "cost": "Kosteneingespart",
+            "pRad": "vergrößerter Radius",
+            "mRad": "verringerter Radius",
+            "hDur": "halbierte Dauer",
+            "dDur": "verdoppelte Dauer",
+            "mod": "Modifikator",
+            "buy": "Gekauft",
+            "users": "Nutzer",
+            "actions": "Aktion",
+            "date": "Datum",
+            "time": "Uhrzeit",
+            "element": "Objekt"
         },
         "combat": {
             "NPC": "NSC",
@@ -229,6 +246,7 @@
             "weight": "Gewicht:",
             "so": "Sozialstatus:",
             "AP": "Abenteuerpunkte",
+            "APFree": "Freie AP",
             "freeAP": "Freie AP",
             "spentAP": "Eingesetzte AP",
             "advantage": "Vorteile",
@@ -502,7 +520,8 @@
             "spcmbt": "Besondere Kampfregeln",
             "notes": "Notizen",
             "newgiftflaw": "Neuer Vor- / Nachteil",
-            "newtalent": "Neues Talent"
+            "newtalent": "Neues Talent",
+            "zone": "Trefferzone"
         },
         "chat":{
             "flaw": {

@@ -50,7 +50,8 @@
                 },
                 "LePInfo": {
                     "modi": 0,
-                    "temp": 0
+                    "temp": 0,
+                    "buy": 0
                 },
                 "AuP": {
                     "max": 0,
@@ -58,7 +59,8 @@
                 },
                 "AuPInfo": {
                     "modi": 0,
-                    "temp": 0
+                    "temp": 0,
+                    "buy": 0
                 },
                 "AsP": {
                     "max": 0,
@@ -66,7 +68,8 @@
                 },
                 "AsPInfo": {
                     "modi": 0,
-                    "temp": 0
+                    "temp": 0,
+                    "buy": 0
                 },
                 "KaP": {
                     "max": 0,
@@ -74,12 +77,14 @@
                 },
                 "KaPInfo": {
                     "modi": 0,
-                    "temp": 0
+                    "temp": 0,
+                    "buy": 0
                 },
                 "MR": {
                     "value": 0,
                     "modi": 0,
-                    "tempmodi": 0
+                    "tempmodi": 0,
+                    "buy": 0
                 },
                 "INIBasis": {
                     "value": 0,
@@ -170,6 +175,9 @@
                 "value": 0,
                 "free": 0,
                 "spent": 0
+            },
+            "APFree": {
+                "value": 0
             },
             "money": {
                 "gold": 0,
@@ -460,7 +468,8 @@
                 "rLeg": 0,
                 "lLeg": 0,
                 "all": 0
-            }
+            },
+            "log": []
         }
     },
     "Item": {

@@ -238,16 +238,16 @@ export default class GDSAActor extends Actor {
 
         // Calculates the LeP, AuP, AsP, KaP and MR maximums Values
 
-        data.LeP.max = Math.round(((parseInt(data.KO.value) + parseInt(data.KO.value) + parseInt(data.KK.value)) / 2) + parseInt(data.LePInfo.modi));
-        data.AuP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.KO.value) + parseInt(data.GE.value)) / 2) + parseInt(data.AuPInfo.modi));
+        data.LeP.max = Math.round(((parseInt(data.KO.value) + parseInt(data.KO.value) + parseInt(data.KK.value)) / 2) + parseInt(data.LePInfo.modi) + parseInt(data.LePInfo.buy));
+        data.AuP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.KO.value) + parseInt(data.GE.value)) / 2) + parseInt(data.AuPInfo.modi) + parseInt(data.AuPInfo.buy));
 
-        if (data.AsPInfo.modi != 0) data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value)) / 2) + parseInt(data.AsPInfo.modi));
+        if (data.AsPInfo.modi != 0) data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value)) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
         else data.AsP.max =  0;
 
         if (data.KaPInfo.modi > 0) data.KaP.max = Math.round(parseInt(data.KaPInfo.modi));
         else data.KaP.max = 0;
 
-        data.MR.value = Math.round(((parseInt(data.MU.value) + parseInt(data.KL.value) + parseInt(data.KO.value)) / 5) + parseInt(data.MR.modi));
+        data.MR.value = Math.round(((parseInt(data.MU.value) + parseInt(data.KL.value) + parseInt(data.KO.value)) / 5) + parseInt(data.MR.modi) + parseInt(data.MR.buy));
 
         // Set up Number of Attacks in Combat
 
@@ -363,7 +363,111 @@ export default class GDSAActor extends Actor {
             case "AuP":
                 this.update({ "system.AuP.value": value });        
                 break;
+
+            case "MU":
+                this.update({ "system.MU.value": value });        
+                break;
+
+            case "KL":
+                this.update({ "system.KL.value": value });        
+                break;
+
+            case "IN":
+                this.update({ "system.IN.value": value });        
+                break;
+
+            case "CH":
+                this.update({ "system.CH.value": value });        
+                break;
+
+            case "FF":
+                this.update({ "system.FF.value": value });        
+                break;
+
+            case "GE":
+                this.update({ "system.GE.value": value });        
+                break;
+
+            case "KO":
+                this.update({ "system.KO.value": value });        
+                break;
+
+            case "KK":
+                this.update({ "system.KK.value": value });        
+                break;
+
+            case "LePMod":
+                this.update({ "system.LePInfo.modi": value });        
+                break;
+
+            case "LePBuy":
+                this.update({ "system.LePInfo.buy": value });        
+                break;
+
+            case "AuPMod":
+                this.update({ "system.AuPInfo.modi": value });        
+                break;
+    
+            case "AuPBuy":
+                this.update({ "system.AuPInfo.buy": value });        
+                break;
+
+            case "AsPMod":
+                this.update({ "system.AsPInfo.modi": value });        
+                break;
+    
+            case "AsPBuy":
+                this.update({ "system.AsPInfo.buy": value });        
+                break;
+    
+            case "KaPMod":
+                this.update({ "system.KaPInfo.modi": value });        
+                break;
+        
+            case "KaPBuy":
+                this.update({ "system.KaPInfo.buy": value });        
+                break;
+    
+            case "MRMod":
+                this.update({ "system.MR.modi": value });        
+                break;
+            
+            case "MRBuy":
+                this.update({ "system.MR.buy": value });        
+                break;
+            
+            case "AP":
+                this.update({ "system.AP.value": value });        
+                break;
+            
+            case "APFree":
+                this.update({ "system.APFree.value": value });
+                break;
         }
+    }
+
+    setCharData(object) {
+
+        // Methode to update Character Infos
+
+        this.update({ "system.race": object.race });
+        this.update({ "system.kulture": object.culture });
+        this.update({ "system.profession": object.profession });
+        this.update({ "system.gender": object.gender });
+        this.update({ "system.age": object.age });
+        this.update({ "system.height": object.size });
+        this.update({ "system.weight": object.weight });
+        this.update({ "system.SO": object.social });
+        
+    }
+
+    addLogEntry(Entry) {
+
+        // Add a Log Entry to the Charakter
+
+        let log = this.system.log;
+        log.push(Entry);
+        this.update({ "system.log": log});
     }
 
     setWound(zone, wound) {

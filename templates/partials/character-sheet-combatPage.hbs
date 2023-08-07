@@ -1,9 +1,10 @@
 <div class="skillHeaderBox2">
 	<div class="skillHeaderSkillBox2">
-        <div class="headerLable">{{localize "GDSA.charactersheet.ATBasis"}}</div><div class="headerValue">{{system.ATBasis.value}}</div> 
-        <div class="headerLable">{{localize "GDSA.charactersheet.PABasis"}}</div><div class="headerValue">{{system.PABasis.value}}</div>
-        <div class="headerLable">{{localize "GDSA.charactersheet.FKBasis"}}</div><div class="headerValue">{{system.FKBasis.value}}</div> 
-        <div class="headerLable">{{localize "GDSA.charactersheet.INIBasis"}}</div><div class="headerValue">{{system.INIBasis.value}}</div>
+        <div class="headerLable2">{{localize "GDSA.charactersheet.ATBasis"}}</div><div class="headerValue2">{{system.ATBasis.value}}</div> 
+        <div class="headerLable2">{{localize "GDSA.charactersheet.PABasis"}}</div><div class="headerValue2">{{system.PABasis.value}}</div>
+        <div class="headerLable2">{{localize "GDSA.charactersheet.FKBasis"}}</div><div class="headerValue2">{{system.FKBasis.value}}</div> 
+        <div class="headerLable2">{{localize "GDSA.charactersheet.INIBasis"}}</div><div class="headerValue2">{{system.INIBasis.value}}</div>
+        <div class="headerLable2">WS</div><div class="headerValue2">{{system.WS}}</div>
 	</div>
 </div>
 
@@ -24,18 +25,33 @@
 
     <div class="combatWindow">
         <div class="combatBntBar">
-            <a class="myButton getDMG">{{localize "GDSA.charactersheet.dmg"}}</a> 
-            <a class="myButton doReg">{{localize "GDSA.charactersheet.reg"}}</a> 
-            <a class="myButton getHeal">{{localize "GDSA.charactersheet.heal"}}</a>
+            <a id="doDMG" class="myButton getDMG">{{localize "GDSA.charactersheet.dmg"}}</a> 
+            <a id="doReg" class="myButton doReg">{{localize "GDSA.charactersheet.reg"}}</a> 
+            <a id="doHeal" class="myButton getHeal">{{localize "GDSA.charactersheet.heal"}}</a>
         </div>
-        <div class="iniBar">{{localize "GDSA.charactersheet.WS"}}:</div><div class="iniValue">{{system.WS}}</div>
-        <a class="item dogde-roll" title="roll"><div class="iniBar">{{localize "GDSA.charactersheet.dogde"}}:</div><div class="iniValue">{{system.Dogde}}</div></a>
+
+        <div class="combatBntBar">
+            <a id="doDogde" class="myButton dogde-roll">{{localize "GDSA.charactersheet.dogde"}}: {{system.Dogde}}</a> 
+            <a id="doZone" class="myButton zone-roll">{{localize "GDSA.charactersheet.zone"}}</a> 
+        </div>
     
-        <div class="combatTableBox">
+        <div class="combatTableBox1">
             <table class="combatTable">
                 <tr>
                     <td class="tableLbl">{{localize "GDSA.charactersheet.meleeWeapons"}}</td>
                     <td class="tableBnt"></td><td class="tableBnt"></td><td class="tableBnt"></td>
+                </tr>
+                <tr data-item-id="raufen">
+                        <td class="tableLbl">{{localize "GDSA.charactersheet.raufSkill"}}</td>
+                        <td class="tableBnt"><a class="item attack-roll" title="roll"><i class="fas fa-gavel faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item parry-roll" title="roll"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item damage-roll" title="roll"><i class="fas fa-tint faD20Stat"></i></a></td>
+                </tr>
+                <tr data-item-id="ringen">
+                        <td class="tableLbl">{{localize "GDSA.charactersheet.ringSkill"}}</td>
+                        <td class="tableBnt"><a class="item attack-roll" title="roll"><i class="fas fa-gavel faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item parry-roll" title="roll"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item damage-roll" title="roll"><i class="fas fa-tint faD20Stat"></i></a></td>
                 </tr>
                 {{#each equiptMelee as |item id|}}
                     <tr data-item-id="{{_id}}">
@@ -48,7 +64,7 @@
             </table>
         </div>
 
-        <div class="combatTableBox">
+        <div class="combatTableBox2">
             <table class="combatTable">
                 <tr>
                     <td class="tableLbl">{{localize "GDSA.charactersheet.rangeWeapons"}}</td>
@@ -65,7 +81,7 @@
             </table>
         </div>
 
-        <div class="combatTableBox">
+        <div class="combatTableBox3">
             <table class="combatTable">
                 <tr>
                     <td class="tableLbl">{{localize "GDSA.charactersheet.shields"}}</td>

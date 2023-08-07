@@ -245,10 +245,44 @@ export async function onAttackRoll(data, event) {
     userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
     attacksLeft = userCombatant.getFlag("GDSA", "attacks");}
 
-    // Get Weapon
+    // Set Item if its for Raufen or Ringen
 
     let itemId = element.closest("tr").dataset.itemId;
-    let item = actor.items.get(itemId);
+    let item;
+    if (itemId === "raufen") {
+
+        item = {
+            type: "melee-weapons",
+            system : {
+
+                skill: "brawl",
+                type: "fist",
+                TPKK: "10/3",
+                damage: "1d6",
+                "WM-ATK": 0,
+                "WM-DEF": 0
+            }
+        }
+
+    } else if (itemId === "ringen") {
+
+        item = {
+            type: "melee-weapons",
+            system : {
+
+                skill: "wrestle",
+                type: "fist",
+                TPKK: "10/3",
+                damage: "1d6",
+                "WM-ATK": 0,
+                "WM-DEF": 0
+            }
+        }
+
+    } else item = actor.items.get(itemId);
+
+    // Get Weapon
+
     let skill = item.system.skill;
     let weapon = item.system.type;
     let Spezi = data.generalTraits.filter(function(item) {return item.name.includes(weapon)});
@@ -290,7 +324,7 @@ export async function onAttackRoll(data, event) {
 
     let y = 0;
 
-    if(item.system.TPKK == "" && item.system.TPKK != null) {
+    if(item.system.TPKK != "" && item.system.TPKK != null) {
                 
         console.log(item)
         let tpkkString = item.system.TPKK;
@@ -678,10 +712,44 @@ export async function onParryRoll(data, event) {
     userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
     parriesLeft = userCombatant.getFlag("GDSA", "parries");}
 
-    // Get Weapon
+    // Set Item if its for Raufen or Ringen
 
     let itemId = element.closest("tr").dataset.itemId;
-    let item = this.actor.items.get(itemId);
+    let item;
+    if (itemId === "raufen") {
+    
+        item = {
+            type: "melee-weapons",
+            system : {
+    
+                skill: "brawl",
+                type: "fist",
+                TPKK: "10/3",
+                damage: "1d6",
+                "WM-ATK": 0,
+                "WM-DEF": 0
+            }
+        }
+    
+    } else if (itemId === "ringen") {
+    
+        item = {
+            type: "melee-weapons",
+            system : {
+    
+                skill: "wrestle",
+                type: "fist",
+                TPKK: "10/3",
+                damage: "1d6",
+                "WM-ATK": 0,
+                "WM-DEF": 0
+            }
+        }
+    
+    } else item = this.actor.items.get(itemId);
+
+    // Get Weapon
+
     let skill = item.system.skill;
     let weapon = item.system.type;
 
@@ -904,9 +972,41 @@ export function onDMGRoll(data, event) {
     let actor = data.actor;
     let system = data.system;
 
-    // Get Item
+    // Set Item if its for Raufen or Ringen
+
     let itemId = element.closest("tr").dataset.itemId;
-    let item = actor.items.get(itemId);
+    let item;
+    if (itemId === "raufen") {
+    
+        item = {
+            type: "melee-weapons",
+            system : {
+    
+                skill: "brawl",
+                type: "fist",
+                TPKK: "10/3",
+                damage: "1d6",
+                "WM-ATK": 0,
+                "WM-DEF": 0
+            }
+        }
+    
+    } else if (itemId === "ringen") {
+    
+        item = {
+            type: "melee-weapons",
+            system : {
+    
+                skill: "wrestle",
+                type: "fist",
+                TPKK: "10/3",
+                damage: "1d6",
+                "WM-ATK": 0,
+                "WM-DEF": 0
+            }
+        }
+    
+    } else item = this.actor.items.get(itemId);
 
     // Calculate TP/KK
     let y = 0;
@@ -1306,6 +1406,181 @@ export async function doOrientation(data, event) {
     if (combatant.actor.sheet.getData().system.INIDice == "2d6") newIni = newIni + 6;
     let combat = game.combats.contents[0];
     combat.setInitiative(combatantId, newIni)
+}
+
+export async function editeCharFacts(data, event) {
+
+    // Set inital Variabels
+
+    let race = data.system.race;
+    let culture = data.system.kulture;
+    let profession = data.system.profession;
+    let gender = data.system.gender;
+    let age = data.system.age;
+    let size = data.system.height;
+    let weight = data.system.weight;
+    let social = data.system.SO;
+    let checkOptions = false;
+
+    // Generate Context for the Dialog
+
+    let context = {
+
+        name: data.actor.name,
+        race: race,
+        culture: culture,
+        profession: profession,
+        gender: gender,
+        age: age,
+        size: size,
+        weight: weight,
+        social: social
+    };
+
+    // Create Dialog
+
+    checkOptions = await Dialog.editCharFacts(context);
+
+    if (checkOptions.cancelled) return;
+
+    // Process Dialog and generate Log Entry
+
+    let timestamp = new Date().toLocaleString();
+
+    let logger = {
+        userId: game.userId,
+        userName: game.users.get(game.userId).name,
+        date: timestamp.split(",")[0],
+        time: timestamp.split(",")[1].trim(),
+        action: "Changed Char Info",
+        elementType: "PlayerCharakterSheet",
+        elementName: data.actor.name
+    };
+
+    data.actor.addLogEntry(logger);
+    data.actor.setCharData(checkOptions);
+    data.actor.render();
+}
+
+export async function editeCharStats(data, event) {
+
+    // Set inital Variabels
+
+    let element = event.currentTarget;
+    let dataset = element.closest(".item").dataset;
+    let stat = dataset.stattype;
+    let statName = game.i18n.localize("GDSA.charactersheet." + stat);
+    let oldValue = parseInt(data.system[stat].value);
+    let checkOptions = false;
+
+    // Generate Context for the Dialog
+
+    let context = {
+
+        name: data.actor.name,
+        sname: statName,
+        value: oldValue
+    };
+
+    // Create Dialog
+
+    checkOptions = await Dialog.editCharStats(context);
+
+    if (checkOptions.cancelled) return;
+    if (parseInt(checkOptions.newvalue) === oldValue) return;
+
+    // Process Dialog and generate Log Entry
+
+    let timestamp = new Date().toLocaleString();
+
+    let logger = {
+        userId: game.userId,
+        userName: game.users.get(game.userId).name,
+        date: timestamp.split(",")[0],
+        time: timestamp.split(",")[1].trim(),
+        action: "Changed " + statName + " (" + oldValue + " => " + checkOptions.newvalue + ")",
+        elementType: "PlayerCharakterSheet",
+        elementName: data.actor.name
+    };
+
+    data.actor.addLogEntry(logger);
+    data.actor.setStatData(stat,checkOptions.newvalue);
+    data.actor.render();
+}
+
+export async function editeCharRessource(data, event) {
+
+    // Set inital Variabels
+
+    let element = event.currentTarget;
+    let dataset = element.closest(".item").dataset;
+    let ress = dataset.stattype;
+    let ressName = game.i18n.localize("GDSA.charactersheet." + ress);
+    let oldModValue = 0;
+    let oldBuyValue = 0;
+    let checkOptions = false;
+
+    if (ress !== "MR") {
+        oldModValue = parseInt(data.system[ress + "Info"].modi);
+        oldBuyValue = parseInt(data.system[ress + "Info"].buy);
+    } else {
+        oldModValue = parseInt(data.system[ress].modi);
+        oldBuyValue = parseInt(data.system[ress].buy);
+    }
+
+    // Generate Context for the Dialog
+
+    let context = {
+
+        rname: ressName,
+        modvalue: oldModValue,
+        buyvalue: oldBuyValue
+    };
+
+    // Create Dialog
+
+    checkOptions = await Dialog.editCharRess(context);
+
+    if (checkOptions.cancelled) return;
+    if (parseInt(checkOptions.newModValue) === oldModValue && parseInt(checkOptions.newBuyValue) === oldBuyValue ) return;
+
+    // Process Dialog and generate Log Entry
+
+    let timestamp = new Date().toLocaleString();
+
+    if (parseInt(checkOptions.newModValue) !== oldModValue) {
+
+        let logger1 = {
+            userId: game.userId,
+            userName: game.users.get(game.userId).name,
+            date: timestamp.split(",")[0],
+            time: timestamp.split(",")[1].trim(),
+            action: "Changed " + ressName + " Modifikator (" + oldModValue + " => " + checkOptions.newModValue + ")",
+            elementType: "PlayerCharakterSheet",
+            elementName: data.actor.name
+        };
+
+        data.actor.addLogEntry(logger1);
+        data.actor.setStatData(ress + "Mod",checkOptions.newModValue);
+    }
+
+    if (parseInt(checkOptions.newBuyValue) !== oldBuyValue) {
+
+        let logger2 = {
+            userId: game.userId,
+            userName: game.users.get(game.userId).name,
+            date: timestamp.split(",")[0],
+            time: timestamp.split(",")[1].trim(),
+            action: "Changed " + ressName + " Buy Modifikator (" + oldBuyValue + " => " + checkOptions.newBuyValue + ")",
+            elementType: "PlayerCharakterSheet",
+            elementName: data.actor.name
+        };
+
+        data.actor.addLogEntry(logger2);
+        data.actor.setStatData(ress + "Buy",checkOptions.newBuyValue);
+    }
+
+    data.actor.render();
 }
 
 export function onItemCreate(data, event) {

@@ -169,6 +169,16 @@
   font-size: 20px;
   float: left;
 }
+.GDSA.sheet.characterSheet .characterBNT {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 146px;
+  right: 12px;
+}
+.GDSA.sheet.characterSheet .CharLog {
+  font-size: 12px;
+}
 .GDSA.sheet.characterSheet .flawbnt {
   width: 20px;
   height: 20px;
@@ -178,9 +188,10 @@
 }
 .GDSA.sheet.characterSheet .flaw {
   width: 295px;
-  height: 20px;
+  height: 14px;
   text-align: left;
   padding-left: 10px;
+  font-size: 11px;
 }
 .GDSA.sheet.characterSheet .flawhr {
   margin-top: 2px;
@@ -290,7 +301,7 @@
   width: 100%;
 }
 .GDSA.sheet.characterSheet .gmTableHelper {
-  width: 220px;
+  width: 240px;
 }
 .GDSA.sheet.characterSheet .gmInput {
   width: 395px;
@@ -599,10 +610,21 @@
   height: 18px;
   width: 76px;
 }
+.GDSA.sheet.characterSheet .headerLable2 {
+  float: left;
+  height: 18px;
+  margin-left: 12px;
+  margin-right: 8px;
+}
 .GDSA.sheet.characterSheet .headerValue {
   float: left;
   height: 18px;
   width: 47px;
+}
+.GDSA.sheet.characterSheet .headerValue2 {
+  float: left;
+  height: 18px;
+  width: 23px;
 }
 .GDSA.sheet.characterSheet .lepbar {
   position: relative;
@@ -672,9 +694,38 @@
 }
 .GDSA.sheet.characterSheet .combatBntBar {
   text-align: left;
-  padding-left: 10px;
   padding-bottom: 6px;
   display: inline-block;
+}
+.GDSA.sheet.characterSheet #doDMG {
+  background: linear-gradient(to bottom, #e12525 5%, #8f0707 100%);
+  box-shadow: inset 0px 1px 0px 0px #b11818;
+  color: #140d0d;
+  text-shadow: 0px 1px 0px #7a7a7a;
+}
+.GDSA.sheet.characterSheet #doReg {
+  background: linear-gradient(to bottom, #faff26 5%, #c37808 100%);
+  box-shadow: inset 0px 1px 0px 0px #dae914;
+  color: #140d0d;
+  text-shadow: 0px 1px 0px #7a7a7a;
+}
+.GDSA.sheet.characterSheet #doHeal {
+  background: linear-gradient(to bottom, #4be31c 5%, #109707 100%);
+  box-shadow: inset 0px 1px 0px 0px #17fd0a;
+  color: #140d0d;
+  text-shadow: 0px 1px 0px #7a7a7a;
+}
+.GDSA.sheet.characterSheet #doDogde {
+  background: linear-gradient(to bottom, #c36f04 5%, #975007 100%);
+  box-shadow: inset 0px 1px 0px 0px #e16a23;
+  color: #140d0d;
+  text-shadow: 0px 1px 0px #7a7a7a;
+}
+.GDSA.sheet.characterSheet #doZone {
+  background: linear-gradient(to bottom, #14d2ff 5%, #0949bd 100%);
+  box-shadow: inset 0px 1px 0px 0px #2beef9;
+  color: #140d0d;
+  text-shadow: 0px 1px 0px #7a7a7a;
 }
 .GDSA.sheet.characterSheet .tableBnt {
   width: 30px;
@@ -686,9 +737,19 @@
 .GDSA.sheet.characterSheet .combatTable {
   width: 335px;
 }
-.GDSA.sheet.characterSheet .combatTableBox {
-  width: 335px;
-  height: 110px;
+.GDSA.sheet.characterSheet .combatTableBox1 {
+  width: 336px;
+  min-height: 100px;
+  float: left;
+}
+.GDSA.sheet.characterSheet .combatTableBox2 {
+  width: 336px;
+  min-height: 75px;
+  float: left;
+}
+.GDSA.sheet.characterSheet .combatTableBox3 {
+  width: 336px;
+  min-height: 50px;
   float: left;
 }
 .GDSA.sheet.characterSheet .iniBar {

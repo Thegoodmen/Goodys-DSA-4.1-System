@@ -283,8 +283,6 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
     templateContext.dis = parseInt(modif) * (-1);
     templateContext = Object.assign(templateContext, optional);
 
-    console.log(templateContext);
-
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
     
     let dices = [rollResult.dice[0].values[0], rollResult2.dice[0].values[0], rollResult3.dice[0].values[0]];

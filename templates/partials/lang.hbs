@@ -1,4 +1,8 @@
-<tr class="item-context" data-item-id="{{_id}}">
-    <td class="skillTableNameBig">{{name}}</td>
+<tr class="item-context" data-item-id="{{_id}}" >
+    <td class="skillTableNameBig">
+        <a class="item skill-roll item" data-statName="{{name}}" data-stat_one="{{system.att1}}" data-stat_two="{{system.att2}}" data-stat_three="{{system.att3}}" data-bemod="0" title="roll">
+            {{name}}
+        </a>    
+    </td>
     <td class="skillTableValue"><input class="skillTemp" type="number" value="{{system.value}}" /></td>
 </tr>
