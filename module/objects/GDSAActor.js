@@ -238,16 +238,45 @@ export default class GDSAActor extends Actor {
 
         // Calculates the LeP, AuP, AsP, KaP and MR maximums Values
 
-        data.LeP.max = Math.round(((parseInt(data.KO.value) + parseInt(data.KO.value) + parseInt(data.KK.value)) / 2) + parseInt(data.LePInfo.modi) + parseInt(data.LePInfo.buy));
-        data.AuP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.KO.value) + parseInt(data.GE.value)) / 2) + parseInt(data.AuPInfo.modi) + parseInt(data.AuPInfo.buy));
+        let mtraits = Util.getItems(this, "magicTrait", false);
+        let advantages = Util.getItems(this, "advantage", false);
+        let flaws = Util.getItems(this, "flaw", false);
+        let gds = mtraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.starbody")})[0];
+        let asma = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.asma")})[0];
+        let ausd = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.ausd")})[0];
+        let hole = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.hole")})[0];
+        let homr = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.homr")})[0];
+        let nias = flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.nias")})[0];
+        let nile = flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.nile")})[0];
+        let nimr = flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.nimr")})[0];
+        let mag1 = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag1")})[0];
+        let mag2 = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag2")})[0];
+        let mag3 = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag3")})[0];
 
-        if (data.AsPInfo.modi != 0) data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value)) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
-        else data.AsP.max =  0;
+        data.LeP.max = Math.round(((parseInt(data.KO.value) + parseInt(data.KO.value) + parseInt(data.KK.value)) / 2) + parseInt(data.LePInfo.modi) + parseInt(data.LePInfo.buy));
+        if(hole != null) data.LeP.max += hole.system.value;
+        if(nile != null) data.LeP.max -= nile.system.value;
+        data.AuP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.KO.value) + parseInt(data.GE.value)) / 2) + parseInt(data.AuPInfo.modi) + parseInt(data.AuPInfo.buy));
+        if(ausd != null) data.AuP.max += ausd.system.value;
+
+        if (data.AsPInfo.modi != 0) {
+            if(gds != null) data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value) + parseInt(data.CH.value)) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
+            else data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value)) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
+            if(asma != null) data.AsP.max += asma.system.value;
+            if(nias != null) data.AsP.max -= nias.system.value;
+            if(mag1 != null) data.AsP.max -= 6;
+            if(mag2 != null) data.AsP.max += 6;
+            if(mag3 != null) data.AsP.max += 12;
+        } else data.AsP.max =  0;
 
         if (data.KaPInfo.modi > 0) data.KaP.max = Math.round(parseInt(data.KaPInfo.modi));
         else data.KaP.max = 0;
 
         data.MR.value = Math.round(((parseInt(data.MU.value) + parseInt(data.KL.value) + parseInt(data.KO.value)) / 5) + parseInt(data.MR.modi) + parseInt(data.MR.buy));
+        if(homr != null) data.MR.value += homr.system.value;
+        if(nimr != null) data.MR.value -= nimr.system.value;
+        if(mag2 != null) data.MR.value += 1;
+        if(mag3 != null) data.MR.value += 2;
 
         // Set up Number of Attacks in Combat
 
@@ -262,8 +291,8 @@ export default class GDSAActor extends Actor {
         let pa1 = traits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.schildII")})[0];
         let pa2 = traits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.parryW2")})[0];
 
-        if(at1 != null || at2) data.ATCount = 2;
-        if(pa1 != null || pa2) data.PACount = 2;
+        if(at1 != null || at2 != null ) data.ATCount = 2;
+        if(pa1 != null || pa2!= null ) data.PACount = 2;
 
         // Set highest Parry for automated Combat
 

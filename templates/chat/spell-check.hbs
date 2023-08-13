@@ -25,7 +25,7 @@
                 <tbody>
                     <tr>
                         <td><b>{{localize "GDSA.itemsheet.attri"}}:</b></td>
-                        <td>{{item.system.att1}}/{{item.system.att2}}/{{item.system.att3}} </td>
+                        <td>{{att1}}/{{att2}}/{{att3}} </td>
                     </tr>
                     <tr>
                         <td><b>{{localize "GDSA.system.reps"}}:</b></td>
@@ -79,20 +79,24 @@
         {{/if}}
         
         <div class="dice-formula">
-            {{#if critt}}
-                <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.critt"}}</div>
+            {{#if notEnoughAsP}}
+                <div class="rollFlawFail">{{localize "GDSA.spell.notEnoughAsP"}}</div>
             {{else}}
-                {{#if goof}}
-                    <div class="rollFlawFail">{{localize "GDSA.chat.stat.goof"}}</div>
+                {{#if critt}}
+                    <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.critt"}}</div>
                 {{else}}
-                    {{#if result}}
-                        <div class="rollSkillSuccess">{{localize "GDSA.chat.stat.sucessWith"}} {{tap}} {{localize "GDSA.chat.stat.TaPS"}}<br />
-                        {{tapMax}}{{localize "GDSA.chat.stat.maxMod"}}</div>
+                    {{#if goof}}
+                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.goof"}}</div>
                     {{else}}
-                        <div class="rollSkillFail">{{localize "GDSA.chat.stat.fail"}} <br />
-                        {{tap}}{{localize "GDSA.chat.stat.maxErl"}}</div>
+                        {{#if result}}
+                            <div class="rollSkillSuccess">{{localize "GDSA.chat.stat.sucessWith"}} {{tap}} {{localize "GDSA.chat.stat.TaPS"}}<br />
+                            {{tapMax}}{{localize "GDSA.chat.stat.maxMod"}}</div>
+                        {{else}}
+                            <div class="rollSkillFail">{{localize "GDSA.chat.stat.fail"}} <br />
+                            {{tap}}{{localize "GDSA.chat.stat.maxErl"}}</div>
+                        {{/if}}
                     {{/if}}
-                 {{/if}}
+                {{/if}}
             {{/if}}
         </div>
         

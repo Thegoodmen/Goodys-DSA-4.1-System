@@ -53,6 +53,22 @@
                         <td class="tableBnt"><a class="item parry-roll" title="roll"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
                         <td class="tableBnt"><a class="item damage-roll" title="roll"><i class="fas fa-tint faD20Stat"></i></a></td>
                 </tr>
+                {{#if system.nwbite}}
+                    <tr data-item-id="ringen" data-dmg="{{system.nwbite}}">
+                            <td class="tableLbl">{{localize "GDSA.advantage.bite"}}</td>
+                            <td class="tableBnt"><a class="item attack-roll" title="roll"><i class="fas fa-gavel faD20Stat"></i></a></td>
+                            <td class="tableBnt"><a class="item parry-roll" title="roll"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                            <td class="tableBnt"><a class="item damage-roll" title="roll"><i class="fas fa-tint faD20Stat"></i></a></td>
+                    </tr>
+                {{/if}}
+                {{#if system.nwtail}}
+                    <tr data-item-id="raufen" data-dmg="{{system.nwtail}}">
+                            <td class="tableLbl">{{localize "GDSA.advantage.tail"}}</td>
+                            <td class="tableBnt"><a class="item attack-roll" title="roll"><i class="fas fa-gavel faD20Stat"></i></a></td>
+                            <td class="tableBnt"><a class="item parry-roll" title="roll"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                            <td class="tableBnt"><a class="item damage-roll" title="roll"><i class="fas fa-tint faD20Stat"></i></a></td>
+                    </tr>
+                {{/if}}
                 {{#each equiptMelee as |item id|}}
                     <tr data-item-id="{{_id}}">
                         <td class="tableLbl">{{name}}</td>
@@ -102,11 +118,14 @@
 
     <div class="sonderfBox">
         <div class="traithead">{{localize "GDSA.charactersheet.generalTrait"}}</div>
+        <div class="flawbnt"><a class="changeTab item" data-destination="generaltraitPage" data-origin="combatePage" data-optional="general">
+            <i class="fas fa-book plusSym"></i>
+        </a></div>
         <div class="flawbnt"><a class="item-create" data-type="generalTrait"><i class="fas fa-plus plusSym"></i></a></div>
 		<div class="traithrbox"><hr class="flawhr" /></div>
     	<section class="traits">
 			{{#each generalTraits as |Trait id|}}
-				<div class="item item-context" data-type="{{system.type}}" data-item-id="{{_id}}">
+				<div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
                     <div class="trait">{{name}}</div><hr class="flawhr" />
                 </div>
 			{{/each}}
@@ -114,11 +133,14 @@
     </div>
     <div class="sonderfBox">
         <div class="traithead">{{localize "GDSA.charactersheet.combatTrait"}}</div>
+        <div class="flawbnt"><a class="changeTab item" data-destination="combattraitPage" data-origin="combatePage" data-optional="combat">
+            <i class="fas fa-book plusSym"></i>
+        </a></div>
         <div class="flawbnt"><a class="item-create" data-type="combatTrait"><i class="fas fa-plus plusSym"></i></a></div>
 		<div class="traithrbox"><hr class="flawhr" /></div>
     	<section class="traits">
 			{{#each combatTraits as |Trait id|}}
-				<div class="item item-context" data-type="{{system.type}}" data-item-id="{{_id}}">
+				<div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
                     <div class="trait">{{name}}</div><hr class="flawhr" />
                 </div>
 			{{/each}}

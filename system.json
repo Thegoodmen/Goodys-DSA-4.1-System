@@ -9,7 +9,7 @@
             "email": "maron.moeller@gmail.com"
         }
     ],
-    "version": "0.2.12",
+    "version": "0.2.18",
     "compatibility": {
         "minimum": 10,
         "verified": "10.291",
@@ -25,7 +25,24 @@
         "scripts/browser.js"
     ],
     "packs": [
-
+        {
+            "name": "spells",
+            "label": "Zauber",
+            "system": "GDSA",
+            "path": "packs/zauber.db",
+            "type": "Item",
+            "private": false,
+            "flags": {}
+          },
+          {
+            "name": "arsenal",
+            "label": "Arsenal",
+            "system": "GDSA",
+            "path": "packs/arsenal.db",
+            "type": "Item",
+            "private": false,
+            "flags": {}
+          }
     ],
     "languages": [
         {

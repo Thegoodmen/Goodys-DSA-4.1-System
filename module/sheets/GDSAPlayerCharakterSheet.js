@@ -145,13 +145,21 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             if(! this.id.includes("Token")) html.find(".change-money").click(LsFunction.onMoneyChange.bind(this, this.getData()));
             html.find(".toggleHide").click(LsFunction.onHideToggle.bind(this, this.getData()));
             html.find(".spell-add").click(LsFunction.getSpellContextMenu.bind(this, this.getData()));
-
+            html.find(".meleeW-add").click(LsFunction.getMeleeWContextMenu.bind(this, this.getData()));
+            html.find(".rangeW-add").click(LsFunction.getRangeWContextMenu.bind(this, this.getData()));
+            html.find(".shilds-add").click(LsFunction.getShieldContextMenu.bind(this, this.getData()));
+            html.find(".armour-add").click(LsFunction.getArmourContextMenu.bind(this, this.getData()));
+            html.find(".item-delete").click(LsFunction.onItemDelete.bind(this, this.getData()));
 
             // Set Listener for PDFoundry
 
             html.find(".openSpell").click(LsFunction.openPDF.bind(this, "Spell"));
             html.find(".openRitual").click(LsFunction.openPDF.bind(this, "Ritual"));
             html.find(".openWonder").click(LsFunction.openPDF.bind(this, "Wonder"));
+
+            // Set Listeners for Navigation
+
+            html.find(".changeTab").click(LsFunction.changeTab.bind(this, this.getData()));
 
             // Set Listener for Context / Right-Click Menu
 
@@ -218,7 +226,19 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         // ##                                                                                             ##
         // #################################################################################################
         // #################################################################################################
+        
+        // Check if Magical or Klerikal
 
+        sheetData.system.magical = false;
+        sheetData.system.klerikal = false;
+        
+        let mag1 = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag1")})[0];
+        let mag2 = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag2")})[0];
+        let mag3 = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag3")})[0];
+        let kler = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.kler")})[0];
+
+        if(mag1 != null || mag2 != null || mag3 != null) sheetData.system.magical = true;
+        if(kler != null) sheetData.system.klerikal = true;
         
         // Calculate Armour Ratings
 
@@ -264,17 +284,23 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             gBEArmour += ((n / 20) / m);
         }
 
+        // Add Natural Armor to Ratings
+
+        let natArmourAd = sheetData.advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.natAmour"))});
+        let natArmour = 0;
+        if ( natArmourAd.length > 0 && natArmourAd[0].system.value > 0) natArmour = natArmourAd[0].system.value;
+
         // Save Armour Rating in Actor
 
-        sheetData.system.headArmour = headArmour;
-        sheetData.system.bodyArmour = bodyArmour;
-        sheetData.system.backArmour = backArmour;
-        sheetData.system.stomachArmour = stomachArmour;
-        sheetData.system.rightarmArmour = rightarmArmour;
-        sheetData.system.leftarmArmour = leftarmArmour;
-        sheetData.system.rightlegArmour = rightlegArmour;
-        sheetData.system.leftlegArmour = leftlegArmour;
-        sheetData.system.gRSArmour = Math.round(gRSArmour);
+        sheetData.system.headArmour = headArmour + natArmour;
+        sheetData.system.bodyArmour = bodyArmour + natArmour;
+        sheetData.system.backArmour = backArmour + natArmour;
+        sheetData.system.stomachArmour = stomachArmour + natArmour;
+        sheetData.system.rightarmArmour = rightarmArmour + natArmour;
+        sheetData.system.leftarmArmour = leftarmArmour + natArmour;
+        sheetData.system.rightlegArmour = rightlegArmour + natArmour;
+        sheetData.system.leftlegArmour = leftlegArmour + natArmour;
+        sheetData.system.gRSArmour = Math.round(gRSArmour) + natArmour;
 
         // Calculate BE with Trait Modifiers (STEP 1 Armour Profficiany 1)
 
@@ -305,6 +331,18 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         // Set BE for other Steps
         
         let BE = parseInt(sheetData.system.gBEArmour);
+
+        // Natural Weapon Check
+
+        let natWeapAd = sheetData.advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.natWeapon"))});
+        let nWTail = natWeapAd.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.tail"))});
+        let nWBite = natWeapAd.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.bite"))});
+
+        sheetData.system.nwtail = false;
+        sheetData.system.nwbite = false;
+
+        if ( nWTail.length > 0 ) sheetData.system.nwtail = (nWTail[0].name.split("("))[1].trim().slice(0,-1).replace("w", "d");
+        if ( nWBite.length > 0 ) sheetData.system.nwbite = (nWBite[0].name.split("("))[1].trim().slice(0,-1).replace("w", "d");
 
         // Geschwindigkeit
 
@@ -390,7 +428,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         let skillSpez = sheetData.generalTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.trait.talentSp"))});
 
-        let SpezObj = [];
+        let spezObj = [];
 
         for (const spezi of skillSpez) {
 
@@ -406,10 +444,75 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
                 spezi: spezilation
             };
 
-            SpezObj.push(objekt);
+            spezObj.push(objekt);
         }
 
-        sheetData.system.SkillSpez = SpezObj;
+        sheetData.system.SkillSpez = spezObj;
+
+        // Setzen der Repräsentation
+
+        let reps = sheetData.magicTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.trait.reps"))});
+
+        let repObj = {
+
+            mag: false,
+            dru: false,
+            bor: false,
+            srl: false,
+            hex: false,
+            elf: false,
+            sch: false,
+            geo: false,
+            ach: false
+        };
+
+        for (const rep of reps) {
+
+            if(!rep.name.includes(":")) continue;
+
+            let repname = rep.name.split(":")[1].trim();
+
+            switch (repname) {
+
+                case game.i18n.localize("GDSA.rep.mag"):
+                    repObj.mag = true;
+                    break;
+                
+                case game.i18n.localize("GDSA.rep.dru"):
+                    repObj.dru = true;
+                    break;
+                
+                case game.i18n.localize("GDSA.rep.bor"):
+                    repObj.bor = true;
+                    break;
+
+                case game.i18n.localize("GDSA.rep.srl"):
+                    repObj.srl = true;
+                    break;
+                    
+                case game.i18n.localize("GDSA.rep.hex"):
+                    repObj.hex = true;
+                    break;
+    
+                case game.i18n.localize("GDSA.rep.elf"):
+                    repObj.elf = true;
+                    break;
+
+                case game.i18n.localize("GDSA.rep.sch"):
+                    repObj.sch = true;
+                    break;
+                        
+                case game.i18n.localize("GDSA.rep.geo"):
+                    repObj.geo = true;
+                    break;
+        
+                case game.i18n.localize("GDSA.rep.ach"):
+                    repObj.ach = true;
+                    break;
+            }
+        }
+
+        sheetData.system.Reps = repObj;
         
         // Simple Values / Grapical Values
 

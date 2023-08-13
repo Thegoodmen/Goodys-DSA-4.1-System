@@ -91,6 +91,68 @@ export async function GetSpellOptions(spell) {
     });
 }
 
+export async function GetAttributoOptions(spell) {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/chat/spell-attributo-dialog.hbs";
+    const html = await renderTemplate(template, spell);
+
+    return new Promise(resolve => {
+
+        // Set up Parameters for Dialog
+
+        const data = {
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.roll"),
+                                callback: html => resolve(_processAttributoOptions(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
+export async function GetFaxiOptions(spell) {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/chat/spell-faxio-dialog.hbs";
+    const html = await renderTemplate(template, spell);
+
+    return new Promise(resolve => {
+
+        // Set up Parameters for Dialog
+
+        const data = {
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.roll"),
+                                callback: html => resolve(_processFaxioOptions(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
 
 export async function GetMeditationOptions() {
 
@@ -600,11 +662,15 @@ function _processSpellCheckOptions(form) {
     let actions;
 
     let actionDoub = false;
+    let powerC = false;
     let actionHalf = 0;
     let bonusCost = 0;
     let costMod = 0;
     let variants = [];
     let used = [];
+    let rep = form.rep.value;
+    let forcedMod = (rep === "dru") ? 2 : 1;
+    let costDurDoub = (rep === "eld") ? 4 : 7;
 
     advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
     disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
@@ -613,14 +679,15 @@ function _processSpellCheckOptions(form) {
     if(form.tech.checked) { disadvantage = disadvantage + 7; actions = actions + 3; used.push(game.i18n.localize("GDSA.system.technic") + " (+ 7)")};
     if(form.zentech.checked) { disadvantage = disadvantage + 12; actions = actions + 3; used.push(game.i18n.localize("GDSA.system.zenTech") + " (+ 12)")};
     if(form.doubcast.checked) { advantage = advantage + 3; actionDoub = true; used.push(game.i18n.localize("GDSA.system.doppelD") + " (- 3 / - 4)")};
+    if(form.powerC != null) if(form.powerC.checked) powerC = true;
 
     if(form.halfcast.value > 0) {disadvantage = disadvantage + (form.halfcast.value * 5); actionHalf = form.halfcast.value; used.push(form.halfcast.value + "x " + game.i18n.localize("GDSA.system.halfDur") + " (+ " + (form.halfcast.value * 5) + ")")};
-    if(form.forced.value > 0) {bonusCost = (2^form.forced.value) / 2; actions = actions + parseInt(form.forced.value); used.push(form.forced.value + "x " + game.i18n.localize("GDSA.system.force") + " (+ 0)")};
+    if(form.forced.value > 0) {advantage = advantage + form.forced.value; bonusCost = Math.round((( 2 ** form.forced.value) / 2) / forcedMod); actions = actions + parseInt(form.forced.value); used.push(form.forced.value + "x " + game.i18n.localize("GDSA.system.force") + " (- " + (form.forced.value) + ")")};
     if(form.costMod.value > 0) {disadvantage = disadvantage + (form.costMod.value * 3); actions = actions + parseInt(form.costMod.value); costMod = parseInt(form.costMod.value); used.push(form.costMod.value + "x " + game.i18n.localize("GDSA.system.cost") + " (+ " + (form.costMod.value * 3) + ")")};
     if(form.preach.value > 0) {disadvantage = disadvantage + (form.preach.value * 5); actions = actions + parseInt(form.preach.value); used.push(form.preach.value + "x " + game.i18n.localize("GDSA.system.pRad") + " (+ " + (form.preach.value * 5) + ")")};
     if(form.mreach.value > 0) {disadvantage = disadvantage + (form.mreach.value * 3); actions = actions + parseInt(form.mreach.value); used.push(form.mreach.value + "x " + game.i18n.localize("GDSA.system.mRad") + " (+ " + (form.mreach.value * 3) + ")")};
     if(form.halfdura.value > 0) {disadvantage = disadvantage + (form.halfdura.value * 3); actions = actions + parseInt(form.halfdura.value); used.push(form.halfdura.value + "x " + game.i18n.localize("GDSA.system.hDur") + " (+ " + (form.halfdura.value * 3) + ")")};
-    if(form.doubdura.value > 0) {disadvantage = disadvantage + (form.doubdura.value * 7); actions = actions + parseInt(form.doubdura.value); used.push(form.doubdura.value + "x " + game.i18n.localize("GDSA.system.dDur") + " (+ " + (form.doubdura.value * 7) + ")")};
+    if(form.doubdura.value > 0) {disadvantage = disadvantage + (form.doubdura.value * costDurDoub); actions = actions + parseInt(form.doubdura.value); used.push(form.doubdura.value + "x " + game.i18n.localize("GDSA.system.dDur") + " (+ " + (form.doubdura.value * costDurDoub) + ")")};
 
     if (form.varCount.value > 0) {
         for (let i = 0; i < form.varCount.value; i++) {
@@ -640,7 +707,8 @@ function _processSpellCheckOptions(form) {
         bonusCost: bonusCost,
         costMod: costMod,
         variants: variants,
-        used: used
+        used: used,
+        powerC: powerC
     }
 }
 
@@ -771,13 +839,6 @@ function _processCharFacts(form) {
     }
 }
 
-function _processCharStats(form) {
-
-    return {
-        newvalue: form.value.value
-    }
-}
-
 function _processCharRess(form) {
 
     return {
@@ -785,3 +846,7 @@ function _processCharRess(form) {
         newBuyValue: form.buyValue.value
     }
 }
+
+function _processCharStats(form) { return { newvalue: form.value.value }};
+function _processAttributoOptions(form) { return { att: form.att1.value }};
+function _processFaxioOptions(form) { return { dice: parseInt(form.dice.value)+1 }};

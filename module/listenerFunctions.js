@@ -84,6 +84,14 @@ export async function onSpellRoll(data, event) {
 
     let item = actor.items.get(dataset.itemId);
     
+    // Check Magic Traits
+
+    let powerC = data.magicTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.trait.powerC"))});
+    let matrixK = data.magicTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.trait.matrixK"))});
+    let animag = data.flaws.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.animag"))});
+    let schaus = data.flaws.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.schaus"))});
+    let zoezau = data.flaws.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.zoezau"))});
+    
     // Check if Shift is presst for Skip Dialog
 
     let options = event.shiftKey ? false : true;
@@ -98,6 +106,19 @@ export async function onSpellRoll(data, event) {
     let variants = [];
     let usedVars = [];
     let usedVar = [];
+    let oldAtt3 = null;
+    let optAnswer = null;
+    let notEnoughAsP = false;
+    let noChat = false;
+    let usePowerC = false;
+
+    if(item.system.rep === "none") ui.notifications.warn('Bitte eine Repräsentation im Zauber auswählen!')
+
+    item.hasRep = data.system.Reps[item.system.rep];
+    item.hasPowerC = (powerC.length !== 0);
+
+    if (item.system.rep === "dru") item.system.forced = true;
+    if (matrixK.length !== 0) item.hasRep = true;
 
     if(options) {
 
@@ -112,31 +133,120 @@ export async function onSpellRoll(data, event) {
         halfcast = checkOptions.halfcast;
         variants = checkOptions.variants;
         usedVars = checkOptions.used;
-    }
+        usePowerC = checkOptions.powerC;
+    };
 
     if (checkOptions.cancelled) return;
 
+    // Open extra Dialogs for some Spells
+
+    if (item.name === game.i18n.localize("GDSA.spell.attributo")) {
+
+        item.system.config = CONFIG.GDSA;
+        checkOptions = await Dialog.GetAttributoOptions(item);
+
+        if (checkOptions.cancelled) return;
+
+        dataset.stat_three = actor.system[checkOptions.att].value;
+        oldAtt3 = item.system.att3;
+        item.system.att3 = checkOptions.att;
+    };
+
+    if (item.name === game.i18n.localize("GDSA.spell.fulmi")) { 
+        
+        let mod = item.system.vars.filter(function(item) {return item.name == game.i18n.localize("GDSA.spell.fulmiMod2")});
+        if (mod.length > 0) if (variants[mod[0].id]) noChat = false; else noChat = true;
+    };
+
+    if (item.name === game.i18n.localize("GDSA.spell.zorn")) noChat = true;
+
     // Calculate Modifier
 
-    if (item.system.rep == "mag") disadvantage = Math.round(disadvantage / 2);
-    if (item.system.rep == "mag") if (doubcast) advantage++;
-    for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) disadvantage = disadvantage + item.system.vars[i].disad;
-        
+    let muamount = 0;
+    let klamount = 0;
+    let chamount = 0;
+
+    if (item.system.att1 === "MU") muamount++;
+    if (item.system.att2 === "MU") muamount++;
+    if (item.system.att3 === "MU") muamount++;
+    if (item.system.att1 === "KL") klamount++;
+    if (item.system.att2 === "KL") klamount++;
+    if (item.system.att3 === "KL") klamount++;
+    if (item.system.att1 === "CH") chamount++;
+    if (item.system.att2 === "CH") chamount++;
+    if (item.system.att3 === "CH") chamount++;
+
+    if (item.system.rep === "mag") disadvantage = Math.round(disadvantage / 2);
+    if (item.system.rep === "mag") if (doubcast) advantage++;
+    for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) disadvantage += item.system.vars[i].disad;
+    if (item.system.rep === "srl") if (item.system.trait1 === "illu" || item.system.trait2 === "illu" || item.system.trait3 === "illu" || item.system.trait4 === "illu") Math.round(disadvantage / 2);
+    
+    if (animag.length !== 0 && klamount > 0) disadvantage += (klamount * animag[0].system.value);
+    if (schaus.length !== 0 && chamount > 0) disadvantage += (chamount * schaus[0].system.value);
+    if (zoezau.length !== 0 && muamount > 0) disadvantage += (muamount * zoezau[0].system.value);
+
+    if (item.name.includes(game.i18n.localize("GDSA.spell.faxi"))) {
+
+        item.system.dices = [];
+        for (let i = 0; i < (item.system.zfw - parseInt(disadvantage)); i++) item.system.dices.push((i+1) + "d6");
+        checkOptions = await Dialog.GetFaxiOptions(item);
+
+        if (checkOptions.cancelled) return;
+
+        let zone = true;
+        let mod = item.system.vars.filter(function(item) {return item.name == game.i18n.localize("GDSA.spell.faxiusMod")});
+        if (mod.length > 0) if (variants[mod[0].id]) zone = false;
+
+        optAnswer = await Dice.DMGRollWitoutChat(checkOptions.dice + "d6", actor, 1, zone);
+    }
+
+    if (item.name.includes(game.i18n.localize("GDSA.spell.sphaero"))) {
+    
+        optAnswer = await Dice.DMGRollWitoutChat("5d6", actor, 1, true);
+    }
+
+    if (item.name.includes(game.i18n.localize("GDSA.spell.plano"))) {
+    
+        optAnswer = await Dice.DMGRollWitoutChat("3d6", actor, 1, true);
+    }
+    
     let modif = parseInt(advantage) - parseInt(disadvantage);
 
     // Calculate min. Cost
 
-    let minCost =  parseInt(item.system.costs);
-    for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) if (item.system.vars[i].cost > 0) minCost = item.system.vars[i].cost;
+    let minCost =  item.system.costs;
 
+    if(item.system.diffrentCost) if(item.system.rep === item.system.repAlt) minCost =  item.system.costsAlt;
+    for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) if (item.system.vars[i].cost != "") minCost = item.system.vars[i].cost;
+ 
+    minCost = minCost.toLowerCase().replace("w", "d")
+    if(minCost.includes("d")) minCost = (await Dice.DMGRollWitoutChat(minCost, actor, 1, true)).total;
+
+    minCost = parseInt(minCost);
     minCost = minCost + parseInt(bonusCost);
+    if (item.name.includes(game.i18n.localize("GDSA.spell.faxi"))) minCost = optAnswer.total;
     minCost = Math.round((minCost / 10) * (10 - costMod));
+    if (item.system.rep !== "elf" && item.system.rep !== "ach" && item.system.rep !== "sch") if (usePowerC && minCost > 1) minCost--;
+    if (item.system.rep === "ach" && minCost > 1)  Math.round(minCost / 3);
+
+    if(minCost > actor.system.AsP.value) notEnoughAsP = true;
+
+    if (item.name.includes(game.i18n.localize("GDSA.spell.faxi")) && item.system.zfw >= 11 && notEnoughAsP) {
+
+        let div = parseInt(minCost) - parseInt(actor.system.AsP.value);
+        notEnoughAsP = false;
+        optAnswer.total -= div;
+        optAnswer.templateContext.totalDMG -= div;
+        minCost = actor.system.AsP.value;
+    }
+
 
     // Calculate Actions
 
     let action = item.system.zduration;
     for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) if (item.system.vars[i].casttime != null) action = item.system.vars[i].casttime;
-    action = action + parseInt(actions);
+    if (item.system.rep !== "elf" && item.system.rep !== "ach" && item.system.rep !== "sch") if (usePowerC) action++;
+    if (matrixK.length === 0) action = action + parseInt(actions);
     if (doubcast) action = action * 2;
     if (halfcast > 0) action = Math.round(action / (2 * halfcast));
 
@@ -144,13 +254,23 @@ export async function onSpellRoll(data, event) {
 
     // Generate Optional Objekt
 
+    if (animag.length !== 0 && klamount > 0) usedVars.push(klamount + "x " + game.i18n.localize("GDSA.advantage.animag") + " " + animag[0].system.value + " (+ " + (klamount * animag[0].system.value) + ")");
+    if (schaus.length !== 0 && chamount > 0) usedVars.push(chamount + "x " + game.i18n.localize("GDSA.advantage.schaus") + " " + schaus[0].system.value + " (+ " + (chamount * schaus[0].system.value) + ")");
+    if (zoezau.length !== 0 && muamount > 0) usedVars.push(muamount + "x " + game.i18n.localize("GDSA.advantage.zoezau") + " " + zoezau[0].system.value + " (+ " + (muamount * zoezau[0].system.value) + ")");
+
+
     let optional = {
         template: "systems/GDSA/templates/chat/spell-check.hbs",
         item: item,
         cost: minCost,
         action: action,
         usedVar: usedVar,
-        usedVars: usedVars
+        usedVars: usedVars,
+        att1: item.system.att1,
+        att2: item.system.att2,
+        att3: item.system.att3,
+        notEnoughAsP: notEnoughAsP,
+        noChat: noChat
     };
 
     optional.vari = (usedVar.length > 0);
@@ -158,7 +278,124 @@ export async function onSpellRoll(data, event) {
 
     // Execute Roll
 
-    Dice.skillCheck(dataset.statname, item.system.zfw, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif, optional);
+    let spellCheck = await Dice.skillCheck(dataset.statname, item.system.zfw, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif, optional);
+
+    // Reset Item
+
+    if(oldAtt3 !== null) item.system.att3 = oldAtt3;
+
+    if(!spellCheck.succ) return;
+
+    if (item.name.includes(game.i18n.localize("GDSA.spell.faxi")) && !notEnoughAsP) { 
+        const chatModel = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
+        await Dice.doXD20XD6Roll(chatModel, optAnswer.d20, optAnswer.d6);
+    }
+
+    if (item.name.includes(game.i18n.localize("GDSA.spell.sphaero")) && !notEnoughAsP) { 
+        optAnswer.templateContext.totalDMG += spellCheck.value / 2;
+        const chatModel = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
+        await Dice.doXD20XD6Roll(chatModel, optAnswer.d20, optAnswer.d6);
+    }
+
+    if (item.name.includes(game.i18n.localize("GDSA.spell.plano")) && !notEnoughAsP) { 
+        optAnswer.templateContext.totalDMG += spellCheck.value;
+        const chatModel = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
+        await Dice.doXD20XD6Roll(chatModel, optAnswer.d20, optAnswer.d6);
+    }
+
+    if (item.name === game.i18n.localize("GDSA.spell.fulmi")) { 
+
+        let mod2 = item.system.vars.filter(function(item) {return item.name == game.i18n.localize("GDSA.spell.fulmiMod2")});
+        if (mod2.length > 0) if (variants[mod2[0].id]) return;
+
+        let tapS = spellCheck.templateContext.tap;
+        optAnswer = await Dice.DMGRollWitoutChat("2d6+" + tapS, actor, 1, true);
+
+        minCost = optAnswer.total
+        if (item.system.rep !== "elf" && item.system.rep !== "ach" && item.system.rep !== "sch") if (usePowerC && minCost > 1) minCost--;
+        if (item.system.rep === "ach" && minCost > 1)  Math.round(minCost / 3);
+        
+        if(minCost > actor.system.AsP.value) {
+            let div = parseInt(minCost) - parseInt(actor.system.AsP.value);
+            optAnswer.total -= div;
+            optAnswer.templateContext.totalDMG -= div;
+            minCost = actor.system.AsP.value;
+        }
+
+        spellCheck.templateContext.cost = minCost;
+
+        let mod = item.system.vars.filter(function(item) {return item.name == game.i18n.localize("GDSA.spell.fulmiMod1")});
+        if (mod.length > 0) if (variants[mod[0].id]) {
+
+            let temp = Math.round(optAnswer.total / 3);
+            optAnswer = await Dice.DMGRollWitoutChat(temp + "d6", actor, 1, true);
+        };
+
+        const chatModel1 = Dice.chatData(actor, await renderTemplate(spellCheck.templatePath, spellCheck.templateContext));
+        await Dice.doXD20XD6Roll(chatModel1, spellCheck.dices, []);
+
+        const chatModel2 = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
+        await Dice.doXD20XD6Roll(chatModel2, optAnswer.d20, optAnswer.d6);
+    }
+
+    if (item.name === game.i18n.localize("GDSA.spell.zorn")) { 
+
+        let tapS = spellCheck.templateContext.tap;
+        optAnswer = await Dice.DMGRollWitoutChat("2d6+" + tapS, actor, 1, true);
+
+        minCost = optAnswer.total
+        if (item.system.rep !== "elf" && item.system.rep !== "ach" && item.system.rep !== "sch") if (usePowerC && minCost > 1) minCost--;
+        if (item.system.rep === "ach" && minCost > 1)  Math.round(minCost / 3);
+        
+        if(minCost > actor.system.AsP.value) {
+
+            if(item.system.zfw >= 11) {
+
+                let div = parseInt(minCost) - parseInt(actor.system.AsP.value);
+                optAnswer.total -= div;
+                optAnswer.templateContext.totalDMG -= div;
+                minCost = actor.system.AsP.value;
+
+            } else spellCheck.templateContext.notEnoughAsP = true;
+        }
+
+        spellCheck.templateContext.cost = minCost;
+
+        if (variants[0]) {
+
+            spellCheck.templateContext.cost = actor.system.AsP.value;
+            optAnswer.templateContext.totalDMG = actor.system.AsP.value;
+            optAnswer.total = actor.system.AsP.value;
+        };
+
+
+        const chatModel1 = Dice.chatData(actor, await renderTemplate(spellCheck.templatePath, spellCheck.templateContext));
+        await Dice.doXD20XD6Roll(chatModel1, spellCheck.dices, []);
+
+        if(spellCheck.templateContext.notEnoughAsP) return;
+
+        const chatModel2 = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
+        await Dice.doXD20XD6Roll(chatModel2, optAnswer.d20, optAnswer.d6);
+    }
+
+    if (item.name === game.i18n.localize("GDSA.spell.kulmi")) {
+
+        let mod = item.system.vars.filter(function(item) {return item.name == game.i18n.localize("GDSA.spell.kulmiMod2")});
+        if (mod.length > 0) if (!variants[mod[0].id]) {
+    
+            optAnswer = await Dice.DMGRollWitoutChat("1d20+5", actor, 1, true);
+            const chatModel = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
+            await Dice.doXD20XD6Roll(chatModel, optAnswer.d20, optAnswer.d6);
+
+            let mod = item.system.vars.filter(function(item) {return item.name == game.i18n.localize("GDSA.spell.kulmiMod1")});
+            if (mod.length > 0) if (variants[mod[0].id]) {
+
+                optAnswer = await Dice.DMGRollWitoutChat("1d20+5", actor, 1, true);
+                const chatModel = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
+                await Dice.doXD20XD6Roll(chatModel, optAnswer.d20, optAnswer.d6);
+            };
+        };
+    }
 }
 
 export function onStatRoll(data, event) {
@@ -240,10 +477,19 @@ export async function onAttackRoll(data, event) {
 
     let attacksLeft = 0;
     let userCombatant;
+    let isPartofCombat = false;
+
     if (game.combats.contents.length > 0) {
-    let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]._id;
-    userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
-    attacksLeft = userCombatant.getFlag("GDSA", "attacks");}
+
+        let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]?._id;
+
+        if(userCombatantId !== undefined) {
+
+            isPartofCombat = true;
+            userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
+            attacksLeft = userCombatant.getFlag("GDSA", "attacks");
+        }
+    }
 
     // Set Item if its for Raufen or Ringen
 
@@ -264,6 +510,8 @@ export async function onAttackRoll(data, event) {
             }
         }
 
+        if(actor.system.nwtail) item.system.damage = actor.system.nwtail;
+
     } else if (itemId === "ringen") {
 
         item = {
@@ -278,6 +526,8 @@ export async function onAttackRoll(data, event) {
                 "WM-DEF": 0
             }
         }
+
+        if(actor.system.nwbite) item.system.damage = actor.system.nwbite;
 
     } else item = actor.items.get(itemId);
 
@@ -300,7 +550,7 @@ export async function onAttackRoll(data, event) {
     let tokenDoc = "";
     let targetActorID = "";
 
-    if( game.users.get(game.userId).targets.ids.length > 0 && game.combats.contents.length > 0) {
+    if( game.users.get(game.userId).targets.ids.length > 0 && game.combats.contents.length > 0 && isPartofCombat) {
 
         targetId = game.users.get(game.userId).targets.ids[0];
         targetCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.tokenId == targetId})[0]._id;
@@ -325,8 +575,7 @@ export async function onAttackRoll(data, event) {
     let y = 0;
 
     if(item.system.TPKK != "" && item.system.TPKK != null) {
-                
-        console.log(item)
+
         let tpkkString = item.system.TPKK;
         let tp = tpkkString.split("/")[0];
         let kk = tpkkString.split("/")[1];
@@ -357,7 +606,7 @@ export async function onAttackRoll(data, event) {
     if(item.type == "melee-weapons") answer = await onMeeleAttack(data, actor, item, ATKValue, isSpezi, auto, cacheObject);
     else answer = await onRangeAttack(actor, ATKValue, isSpezi, item, auto, cacheObject);
 
-    if (game.combats.contents.length > 0) { 
+    if (game.combats.contents.length > 0 && isPartofCombat) { 
         attacksLeft--;
         userCombatant.setFlag("GDSA", "attacks", attacksLeft)
     }
@@ -513,6 +762,12 @@ async function onRangeAttack(actor, ATKValue, isSpezi, item, auto, cacheObject) 
     // Limit Aimed Rounds to 4 Advantage
     
     if(aimed > 4) aimed = 4;
+
+    // Check for Distanzsense to add 2 Advantage
+    
+    let entsin = actor._sheet.getData().advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.entsin"))});
+    console.log(entsin);
+    if (entsin.length > 0) Modi += 2;
 
     // Add up Modifiers
 
@@ -707,10 +962,20 @@ export async function onParryRoll(data, event) {
 
     let parriesLeft = 0;
     let userCombatant;
+    let isPartofCombat = false;
+
+    
     if (game.combats.contents.length > 0) {
-    let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]._id;
-    userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
-    parriesLeft = userCombatant.getFlag("GDSA", "parries");}
+
+        let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]?._id;
+
+        if(userCombatantId !== undefined) {
+
+            isPartofCombat = true;
+            userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
+            parriesLeft = userCombatant.getFlag("GDSA", "parries");
+        }
+    }
 
     // Set Item if its for Raufen or Ringen
 
@@ -730,6 +995,8 @@ export async function onParryRoll(data, event) {
                 "WM-DEF": 0
             }
         }
+
+        if(actor.system.nwtail) item.system.damage = actor.system.nwtail;
     
     } else if (itemId === "ringen") {
     
@@ -745,6 +1012,8 @@ export async function onParryRoll(data, event) {
                 "WM-DEF": 0
             }
         }
+
+        if(actor.system.nwbite) item.system.damage = actor.system.nwbite;
     
     } else item = this.actor.items.get(itemId);
 
@@ -781,7 +1050,7 @@ export async function onParryRoll(data, event) {
 
     Dice.PACheck(PAValue, Modi, actor);
 
-    if (game.combats.contents.length > 0) { 
+    if (game.combats.contents.length > 0 && isPartofCombat) { 
         if(parriesLeft > 0) parriesLeft--;
         userCombatant.setFlag("GDSA", "parries", parriesLeft)
     }
@@ -990,6 +1259,8 @@ export function onDMGRoll(data, event) {
                 "WM-DEF": 0
             }
         }
+
+        if(actor.system.nwtail) item.system.damage = actor.system.nwtail;
     
     } else if (itemId === "ringen") {
     
@@ -1005,6 +1276,8 @@ export function onDMGRoll(data, event) {
                 "WM-DEF": 0
             }
         }
+
+        if(actor.system.nwbite) item.system.damage = actor.system.nwbite;
     
     } else item = this.actor.items.get(itemId);
 
@@ -1402,8 +1675,8 @@ export async function doOrientation(data, event) {
     combatant.setFlag("GDSA", "parries", paLeft);
 
     let newIni = combatant.actor.type == "PlayerCharakter" ? parseInt(combatant.actor.sheet.getData().system.INIBasis.value) : parseInt(combatant.actor.sheet.getData().system.INI.split('+')[1].trim());
-    newIni = newIni + 6;
-    if (combatant.actor.sheet.getData().system.INIDice == "2d6") newIni = newIni + 6;
+    newIni += 6;
+    if (combatant.actor.sheet.getData().system.INIDice == "2d6") newIni += 6;
     let combat = game.combats.contents[0];
     combat.setInitiative(combatantId, newIni)
 }
@@ -2151,6 +2424,38 @@ export function getSpellContextMenu(data, event) {
     else onItemCreate(data, event);
 }
 
+export function getMeleeWContextMenu(data, event) {
+
+    let options = event.shiftKey ? false : true;
+
+    if(options) new Browser({},{},"melee-weapons", data.actor._id).render(true);
+    else onItemCreate(data, event);
+}
+
+export function getRangeWContextMenu(data, event) {
+
+    let options = event.shiftKey ? false : true;
+
+    if(options) new Browser({},{},"range-weapons", data.actor._id).render(true);
+    else onItemCreate(data, event);
+}
+
+export function getShieldContextMenu(data, event) {
+
+    let options = event.shiftKey ? false : true;
+
+    if(options) new Browser({},{},"shields", data.actor._id).render(true);
+    else onItemCreate(data, event);
+}
+
+export function getArmourContextMenu(data, event) {
+
+    let options = event.shiftKey ? false : true;
+
+    if(options) new Browser({},{},"armour", data.actor._id).render(true);
+    else onItemCreate(data, event);
+}
+
 export async function ownedCharParry(event) {
 
     event.preventDefault();
@@ -2392,6 +2697,30 @@ export async function executeHealthLoss(event) {
     const effect = token.actor && status ? status : CONFIG.controlIcons.defeated;
     if ( token.object ) await token.object.toggleEffect(effect, {overlay: true, active: true});
     else await token.toggleActiveEffect(effect, {overlay: true, active: isDefeated});
+}
+
+export function changeTab(data, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+ 
+    // Get Destination and Origin
+ 
+    let dataset = element.closest("a").dataset;
+    let destination = dataset.destination;
+    let origin = dataset.origin;
+    let optional = (dataset.optional != null) ? dataset.optional : "";
+
+    // Change MainTab to Destination
+    
+    data.system.origin = origin;
+    data.system.optional = optional;
+    actor.sheet._tabs[0].activate(destination);
+    data.actor.render();
 }
 
 export function testFunc(event) {

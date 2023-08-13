@@ -47,6 +47,19 @@ GDSA.rangeSkills = {
     throwingspear: "GDSA.rangeskill.throwingspear"
 }
 
+GDSA.amourPlace = {
+    none: "",
+    head: "GDSA.armour.head",
+    body: "GDSA.armour.body",
+    back: "GDSA.armour.back",
+    stomach: "GDSA.armour.stomach",
+    rightarm: "GDSA.armour.rightarm",
+    leftarm: "GDSA.armour.leftarm",
+    rightleg: "GDSA.armour.rightleg",
+    leftleg: "GDSA.armour.leftleg",
+
+}
+
 GDSA.ritualSkills = {
     gild: "GDSA.ritualSkills.gild",
     scha: "GDSA.ritualSkills.scha",

@@ -2,6 +2,13 @@
 	<nav class="sheet-tabs tabs nav" data-group="primary">
 		<div class="menuItemBox">
 
+			<a class="item menuMainItem" data-tab="traitPage"></a>
+			<a class="item menuMainItem" data-tab="generaltraitPage"></a>
+			<a class="item menuMainItem" data-tab="combattraitPage"></a>
+			<a class="item menuMainItem" data-tab="magictraitPage"></a>
+			<a class="item menuMainItem" data-tab="holytraitPage"></a>
+			<a class="item menuMainItem" data-tab="objecttraitPage"></a>
+
 			<div class="menuItemBoxHelper"></div><br />
 			
 			<a class="item menuMainItem" data-tab="mainPage">
@@ -26,35 +33,93 @@
 			</a>
     	</div>
 
-		{{#if isGM}}
-			<a class="item menuMainItem" data-tab="gmPage">
-		{{/if}}
+		{{#if isGM}}<a class="item menuMainItem" data-tab="gmPage">{{/if}}
+
     		<div class="menuDivider menuMainItem">
 	    		<div class="menuDividerHelper"><img class="logoImg" src="systems/GDSA/templates/img/logo.webp"></div><br />
 				<!--  -->
 	    		<b>{{localize "GDSA.charactersheet.system"}}</b>
     		</div>
-		{{#if isGM}}
-			</a>
-		{{/if}}
+
+		{{#if isGM}}</a>{{/if}}
 
     	<div class="menuItemBox">
 
 	    	<div class="menuItemBoxHelper"></div><br />
 
-			<a class="item menuMainItem" data-tab="magicPage">
-	    		<div class="menuItem">
-		    		<div class="menuItemHelper"></div><br />
-					{{localize "GDSA.charactersheet.magicMenu"}}
-		    	</div>
-			</a>
+		{{#if system.magical}}
 
-			<a class="item menuMainItem" data-tab="holyPage">
-		    	<div class="menuItem">
-		    		<div class="menuItemHelper"></div><br />
-					{{localize "GDSA.charactersheet.holyMenu"}}
-	    		</div>
-			</a>
+			{{#if system.klerikal}}
+
+				<a class="item menuMainItem" data-tab="magicPage">
+					<div class="menuItem">
+						<div class="menuItemHelper"></div><br />
+						{{localize "GDSA.charactersheet.magicMenu"}}
+					</div>
+				</a>
+
+				<a class="item menuMainItem" data-tab="holyPage">
+					<div class="menuItem">
+						<div class="menuItemHelper"></div><br />
+						{{localize "GDSA.charactersheet.holyMenu"}}
+					</div>
+				</a>
+
+			{{else}}
+
+				<a class="item menuMainItem" data-tab="combattraitPage">
+					<div class="menuItem">
+						<div class="menuItemHelper"></div><br />
+						{{localize "GDSA.charactersheet.cmbtMenu"}}
+					</div>
+				</a>
+
+				<a class="item menuMainItem" data-tab="magicPage">
+					<div class="menuItem">
+						<div class="menuItemHelper"></div><br />
+						{{localize "GDSA.charactersheet.magicMenu"}}
+					</div>
+				</a>
+
+			{{/if}}
+
+		{{else}}
+
+			{{#if system.klerikal}}
+
+				<a class="item menuMainItem" data-tab="combattraitPage">
+					<div class="menuItem">
+						<div class="menuItemHelper"></div><br />
+						{{localize "GDSA.charactersheet.cmbtMenu"}}
+					</div>
+				</a>
+
+				<a class="item menuMainItem" data-tab="holyPage">
+					<div class="menuItem">
+						<div class="menuItemHelper"></div><br />
+						{{localize "GDSA.charactersheet.holyMenu"}}
+					</div>
+				</a>
+
+			{{else}}
+
+				<a class="item menuMainItem" data-tab="generaltraitPage">
+					<div class="menuItem">
+						<div class="menuItemHelper"></div><br />
+						{{localize "GDSA.charactersheet.alSFMenu"}}
+					</div>
+				</a>
+
+				<a class="item menuMainItem" data-tab="combattraitPage">
+					<div class="menuItem">
+						<div class="menuItemHelper"></div><br />
+						{{localize "GDSA.charactersheet.cmbtMenu"}}
+					</div>
+				</a>
+
+			{{/if}}
+
+		{{/if}}
 
 			<a class="item menuMainItem" data-tab="itemPage">
 	    		<div class="menuItem">

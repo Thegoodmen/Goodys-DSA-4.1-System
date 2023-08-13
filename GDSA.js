@@ -105,6 +105,12 @@ function preloadHandlebarsTemplates() {
         "systems/GDSA/templates/partials/character-sheet-magicPage.hbs",
         "systems/GDSA/templates/partials/character-sheet-holyPage.hbs",
         "systems/GDSA/templates/partials/character-sheet-itemPage.hbs",
+        "systems/GDSA/templates/partials/character-sheet-traitPage.hbs",
+        "systems/GDSA/templates/partials/character-sheet-generaltraitPage.hbs",
+        "systems/GDSA/templates/partials/character-sheet-combattraitPage.hbs",
+        "systems/GDSA/templates/partials/character-sheet-magictraitPage.hbs",
+        "systems/GDSA/templates/partials/character-sheet-objecttraitPage.hbs",
+        "systems/GDSA/templates/partials/character-sheet-holytraitPage.hbs",
         "systems/GDSA/templates/partials/character-sheet-facts.hbs",
         "systems/GDSA/templates/partials/character-sheet-value1.hbs",
         "systems/GDSA/templates/partials/character-sheet-value2.hbs",
@@ -185,7 +191,7 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("getDataValue", function(object1, value1) {
 
-        return object1[value1].value;
+        return object1[value1]?.value;
     });
 
     Handlebars.registerHelper("ifOR", function(conditional1, conditional2, options) {
@@ -229,6 +235,19 @@ function registerHandelbarsHelpers() {
         let newValue = parseInt(value) + 2;
         
         return newValue;
+    });
+
+    Handlebars.registerHelper("isUsableVari", function(vari, spellRep) {
+
+        if(vari.resti.length === 0) return true;
+
+        if(vari.resti[0].type === "not") {
+            for (let i = 0; i < vari.resti.length; i++) if(vari.resti[i].rep === spellRep) return false;
+            return true;
+        } else if(vari.resti[0].type === "only") {
+            for (let i = 0; i < vari.resti.length; i++) if(vari.resti[i].rep === spellRep) return true;
+            return false
+        } else return true;
     });
 
     Handlebars.registerHelper("doLog", function(value) {
@@ -374,6 +393,24 @@ function registerHandelbarsHelpers() {
         display = display.substring(0, display.length-2);
 
         return display;
+    });
+
+    Handlebars.registerHelper("getMeleeSkill", function(skill) {
+
+        let config = CONFIG.GDSA;
+
+        let output = config.meleeSkills[skill];
+
+        return output;
+    });
+
+    Handlebars.registerHelper("getRangeSkill", function(skill) {
+
+        let config = CONFIG.GDSA;
+
+        let output = config.rangeSkills[skill];
+
+        return output;
     });
 
     Handlebars.registerHelper("combatantAtMax", function(cmbId, Ini) {

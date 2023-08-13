@@ -15,6 +15,8 @@ export default class GDSACompBrowser extends FormApplication {
         this.searchString = "";
         this.trait = "none";
         this.rep = "none";
+        this.skill = "none";
+        this.aPlace = "none";
         this.v0 = false;
         this.v1 = false;
         this.v2 = false;
@@ -72,6 +74,8 @@ export default class GDSACompBrowser extends FormApplication {
         sheetData.kD = this.kD;
         sheetData.kE = this.kE;
         sheetData.kF = this.kF;
+        sheetData.skill = this.skill;
+        sheetData.aPlace = this.aPlace;
 
         // Fill Browser with Items of definied Type
 
@@ -81,11 +85,13 @@ export default class GDSACompBrowser extends FormApplication {
         let nonV = true;
         let nonK = true;
 
+        console.log(game.packs)
+
         switch (this.type) {
 
             case "spell":
 
-                itemArray = await game.packs.get("world.zauber").getDocuments();
+                itemArray = await game.packs.get("GDSA.spells").getDocuments();
 
                 selV = [this.v0, this.v1, this.v2, this.v3, this.v4, this.v5, this.v6];
 
@@ -94,40 +100,96 @@ export default class GDSACompBrowser extends FormApplication {
                 if(!this.kA && !this.kB && !this.kC && !this.kD && !this.kE && !this.kF) nonK = true
                 else nonK = false;
 
+                for(let spell of itemArray) {
+
+                    if(this.searchString == null || spell.name.toLowerCase().includes(this.searchString.toLowerCase())) 
+                        if(this.trait == "none" || this.checkForTrait(spell, this.trait))
+                            if(this.rep == "none" || this.checkForRep(spell, this.rep))
+                                if(nonK || this.checkKomp(spell.system.komp.toUpperCase()))
+                                    if(this.rep == "none" || nonV)
+                                        sortedArray.push(spell);
+                                    else if(this.rep == "mag" && selV[spell.system.vMag])
+                                        sortedArray.push(spell);
+                                    else if(this.rep == "dru" && selV[spell.system.vDru])
+                                        sortedArray.push(spell);
+                                    else if(this.rep == "bor" && selV[spell.system.vBor])
+                                        sortedArray.push(spell);
+                                    else if(this.rep == "srl" && selV[spell.system.vSrl])
+                                        sortedArray.push(spell);
+                                    else if(this.rep == "hex" && selV[spell.system.vHex])
+                                        sortedArray.push(spell);
+                                    else if(this.rep == "elf" && selV[spell.system.vElf])
+                                        sortedArray.push(spell);
+                                    else if(this.rep == "geo" && selV[spell.system.vGeo])
+                                        sortedArray.push(spell);
+                                    else if(this.rep == "ach" && selV[spell.system.vAch])
+                                        sortedArray.push(spell);
+                                    else if(this.rep == "sch" && selV[spell.system.vSch])
+                                        sortedArray.push(spell);
+                }
+
                 break;
-        
+
+            case "melee-weapons":
+
+                itemArray = await game.packs.get("GDSA.arsenal").getDocuments();
+                
+                for(let item of itemArray) {
+
+                    if(this.searchString == null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
+                        if(item.type === "melee-weapons")
+                            if(this.skill == "none" || this.checkForSkill(item, this.skill))
+                                sortedArray.push(item)
+                }
+
+                break;
+
+            case "range-weapons":
+
+                itemArray = await game.packs.get("GDSA.arsenal").getDocuments();
+                
+                for(let item of itemArray) {
+
+                    if(this.searchString == null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
+                        if(item.type === "range-weapons")
+                            if(this.skill == "none" || this.checkForSkill(item, this.skill))
+                                sortedArray.push(item)
+                }
+
+                break;
+
+            case "shields":
+
+                itemArray = await game.packs.get("GDSA.arsenal").getDocuments();
+            
+                for(let item of itemArray) {
+
+                    if(this.searchString == null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
+                        if(item.type === "shields")
+                            sortedArray.push(item)
+                }
+
+                break;
+
+            case "armour":
+
+                itemArray = await game.packs.get("GDSA.arsenal").getDocuments();
+            
+                for(let item of itemArray) {
+
+                    if(this.searchString == null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
+                        if(item.type === "armour")
+                            if(this.aPlace == "none" || this.checkArmourRat(item, this.aPlace))
+                                sortedArray.push(item)
+                }
+
+                break;
+            
             default:
                 break;
         }
 
-        for(let spell of itemArray) {
-
-            if(this.searchString == null || spell.name.toLowerCase().includes(this.searchString.toLowerCase())) 
-                if(this.trait == "none" || this.checkForTrait(spell, this.trait))
-                    if(this.rep == "none" || this.checkForRep(spell, this.rep))
-                        if(nonK || this.checkKomp(spell.system.komp.toUpperCase()))
-                            if(this.rep == "none" || nonV)
-                                sortedArray.push(spell);
-                            else if(this.rep == "mag" && selV[spell.system.vMag])
-                                sortedArray.push(spell);
-                            else if(this.rep == "dru" && selV[spell.system.vDru])
-                                sortedArray.push(spell);
-                            else if(this.rep == "bor" && selV[spell.system.vBor])
-                                sortedArray.push(spell);
-                            else if(this.rep == "srl" && selV[spell.system.vSrl])
-                                sortedArray.push(spell);
-                            else if(this.rep == "hex" && selV[spell.system.vHex])
-                                sortedArray.push(spell);
-                            else if(this.rep == "elf" && selV[spell.system.vElf])
-                                sortedArray.push(spell);
-                            else if(this.rep == "geo" && selV[spell.system.vGeo])
-                                sortedArray.push(spell);
-                            else if(this.rep == "ach" && selV[spell.system.vAch])
-                                sortedArray.push(spell);
-                            else if(this.rep == "sch" && selV[spell.system.vSch])
-                                sortedArray.push(spell);
-        }
-
+        sheetData.type = this.type;
         sheetData.items = sortedArray.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
 
         this.itemList = sheetData.items;
@@ -146,44 +208,65 @@ export default class GDSACompBrowser extends FormApplication {
     _updateObject(html) {
         
         this.searchString = html.target[0].value;
-        this.trait = html.target[1].value;
-        this.rep = html.target[2].value;
-        this.v0 = html.target[3].checked;
-        this.v1 = html.target[4].checked;
-        this.v2 = html.target[5].checked;
-        this.v3 = html.target[6].checked;
-        this.v4 = html.target[7].checked;
-        this.v5 = html.target[8].checked;
-        this.v6 = html.target[9].checked;
-        this.kA = html.target[10].checked;
-        this.kB = html.target[11].checked;
-        this.kC = html.target[12].checked;
-        this.kD = html.target[13].checked;
-        this.kE = html.target[14].checked;
-        this.kF = html.target[15].checked;
-        
+
+        if ( this.type === "spell"){
+            this.trait = html.target[1].value;
+            this.rep = html.target[2].value;
+            this.v0 = html.target[3].checked;
+            this.v1 = html.target[4].checked;
+            this.v2 = html.target[5].checked;
+            this.v3 = html.target[6].checked;
+            this.v4 = html.target[7].checked;
+            this.v5 = html.target[8].checked;
+            this.v6 = html.target[9].checked;
+            this.kA = html.target[10].checked;
+            this.kB = html.target[11].checked;
+            this.kC = html.target[12].checked;
+            this.kD = html.target[13].checked;
+            this.kE = html.target[14].checked;
+            this.kF = html.target[15].checked;
+        }
+
+        if ( this.type === "melee-weapons" || this.type === "range-weapons"){
+            this.skill = html.target[1].value;
+        }
+
+        if ( this.type === "armour" ){
+            this.aPlace = html.target[1].value;
+        }
+
         this.render();
     }
 
     objectClicked(event) {
         
         this.searchString = event.currentTarget.form[0].value;
-        this.trait = event.currentTarget.form[1].value;
-        this.rep = event.currentTarget.form[2].value;
-        this.v0 = event.currentTarget.form[3].checked;
-        this.v1 = event.currentTarget.form[4].checked;
-        this.v2 = event.currentTarget.form[5].checked;
-        this.v3 = event.currentTarget.form[6].checked;
-        this.v4 = event.currentTarget.form[7].checked;
-        this.v5 = event.currentTarget.form[8].checked;
-        this.v6 = event.currentTarget.form[9].checked;
-        this.kA = event.currentTarget.form[10].checked;
-        this.kB = event.currentTarget.form[11].checked;
-        this.kC = event.currentTarget.form[12].checked;
-        this.kD = event.currentTarget.form[13].checked;
-        this.kE = event.currentTarget.form[14].checked;
-        this.kF = event.currentTarget.form[15].checked;
         
+        if ( this.type === "spell"){
+            this.trait = event.currentTarget.form[1].value;
+            this.rep = event.currentTarget.form[2].value;
+            this.v0 = event.currentTarget.form[3].checked;
+            this.v1 = event.currentTarget.form[4].checked;
+            this.v2 = event.currentTarget.form[5].checked;
+            this.v3 = event.currentTarget.form[6].checked;
+            this.v4 = event.currentTarget.form[7].checked;
+            this.v5 = event.currentTarget.form[8].checked;
+            this.v6 = event.currentTarget.form[9].checked;
+            this.kA = event.currentTarget.form[10].checked;
+            this.kB = event.currentTarget.form[11].checked;
+            this.kC = event.currentTarget.form[12].checked;
+            this.kD = event.currentTarget.form[13].checked;
+            this.kE = event.currentTarget.form[14].checked;
+            this.kF = event.currentTarget.form[15].checked;
+        }
+        if ( this.type === "melee-weapons" || this.type === "range-weapons"){
+            this.skill = event.currentTarget.form[1].value;
+        }
+
+        if ( this.type === "armour" ){
+            this.aPlace = event.currentTarget.form[1].value;
+        }
+
         this.render();
 
     }
@@ -194,25 +277,34 @@ export default class GDSACompBrowser extends FormApplication {
         const input = document.getElementById('menuSearch');
         
         this.searchString = event.currentTarget.form[0].value;
-        this.trait = event.currentTarget.form[1].value;
-        this.rep = event.currentTarget.form[2].value;
-        this.v0 = event.currentTarget.form[3].checked;
-        this.v1 = event.currentTarget.form[4].checked;
-        this.v2 = event.currentTarget.form[5].checked;
-        this.v3 = event.currentTarget.form[6].checked;
-        this.v4 = event.currentTarget.form[7].checked;
-        this.v5 = event.currentTarget.form[8].checked;
-        this.v6 = event.currentTarget.form[9].checked;
-        this.kA = event.currentTarget.form[10].checked;
-        this.kB = event.currentTarget.form[11].checked;
-        this.kC = event.currentTarget.form[12].checked;
-        this.kD = event.currentTarget.form[13].checked;
-        this.kE = event.currentTarget.form[14].checked;
-        this.kF = event.currentTarget.form[15].checked;
-        this.sFocus = sel;
-        
+        if ( this.type === "spell"){
+            this.trait = event.currentTarget.form[1].value;
+            this.rep = event.currentTarget.form[2].value;
+            this.v0 = event.currentTarget.form[3].checked;
+            this.v1 = event.currentTarget.form[4].checked;
+            this.v2 = event.currentTarget.form[5].checked;
+            this.v3 = event.currentTarget.form[6].checked;
+            this.v4 = event.currentTarget.form[7].checked;
+            this.v5 = event.currentTarget.form[8].checked;
+            this.v6 = event.currentTarget.form[9].checked;
+            this.kA = event.currentTarget.form[10].checked;
+            this.kB = event.currentTarget.form[11].checked;
+            this.kC = event.currentTarget.form[12].checked;
+            this.kD = event.currentTarget.form[13].checked;
+            this.kE = event.currentTarget.form[14].checked;
+            this.kF = event.currentTarget.form[15].checked;
+            this.sFocus = sel;
+        }
+
+        if ( this.type === "melee-weapons" || this.type === "range-weapons"){
+            this.skill = event.currentTarget.form[1].value;
+        }
+
+        if ( this.type === "armour" ){
+            this.aPlace = event.currentTarget.form[1].value;
+        }
+
         let newDoc = await this.render();
-        console.log(document);
         newDoc.element[0].ownerDocument.getElementById('menuSearch').setSelectionRange(2,2);
     }
 
@@ -222,6 +314,20 @@ export default class GDSACompBrowser extends FormApplication {
         if(spell.system.trait2 == trait) return true;
         if(spell.system.trait3 == trait) return true;
         if(spell.system.trait4 == trait) return true;        
+        
+        return false
+    }
+
+    checkForSkill(item, skill) {
+
+        if(item.system.skill == skill) return true;      
+        
+        return false
+    }
+
+    checkArmourRat(item, place) {
+
+        if(item.system[place] > 0) return true;      
         
         return false
     }
@@ -274,10 +380,6 @@ export default class GDSACompBrowser extends FormApplication {
 
     async addItem() {    
     
-        // Get Element and Actor
-    
-        let element = event.currentTarget;
-    
         // Get Dataset from HTML
     
         let dataset = element.closest(".item").dataset;
@@ -288,9 +390,23 @@ export default class GDSACompBrowser extends FormApplication {
         switch (this.type) {
 
             case "spell":
-                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("world.zauber").get(id)]);
-                console.log(game.actors.get(this.actor));
-                console.log(game.packs.get("world.zauber").get(id));             
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.spells").get(id)]);          
+                break;
+
+            case "melee-weapons":
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);        
+                break;
+
+            case "range-weapons":
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);        
+                break;
+
+            case "shields":
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);        
+                break;
+
+            case "armour":
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);        
                 break;
         }
     }
