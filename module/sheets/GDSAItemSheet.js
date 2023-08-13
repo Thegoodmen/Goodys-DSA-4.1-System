@@ -4,10 +4,19 @@ export default class GDSAItemSheet extends ItemSheet {
 
     static get defaultOptions() {
 
+        // #################################################################################################
+        // #################################################################################################
+        // ##                                                                                             ##
+        // ##            Returns the General HTML of the Sheet and defines some general Stats             ##
+        // ##                                                                                             ##
+        // #################################################################################################
+        // #################################################################################################
+
         return mergeObject(super.defaultOptions, {
 
             width: 466,
             resizable: false,
+            tabs: [ {navSelector: ".spell-tabs", contentSelector: ".spell-body", initial: "spellDetails"}],
             classes: ["GDSA", "sheet", "itemSheet"]
         });
     }
@@ -59,6 +68,9 @@ export default class GDSAItemSheet extends ItemSheet {
             // Set Listener for Item Events
 
             html.find(".item-close").click(LsFunction.onItemClose.bind(this));
+            html.find(".addSpellVariants").click(LsFunction.addSpellVariants.bind(this, this.getData()));
+            html.find(".editSpellVariants").click(LsFunction.editSpellVariants.bind(this, this.getData()));
+            html.find(".deleteSpellVariants").click(LsFunction.deleteSpellVariants.bind(this, this.getData()));
         }
 
         super.activateListeners(html);

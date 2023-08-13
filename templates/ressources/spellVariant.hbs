@@ -1,0 +1,48 @@
+<form>
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.spellname"}}</label>
+        <input type="text" name="name" value="{{name}}" />
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.spellminZfW"}}</label>
+        <input type="number" name="minZ" value="{{minZfW}}" />
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.disad"}}</label>
+        <input type="number" name="disad" value="{{disad}}" />     
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.cost"}}</label>
+        <input type="text" name="cost" value="{{cost}}" />     
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.casttime"}}</label>
+        <input type="text" name="casttime" value="{{casttime}}" />     
+    </div>
+    <div class="form-group displayMod" style="display: contents;">
+        <label>{{localize "GDSA.itemsheet.regla"}}</label>
+        <select class="input95 spellvariInput" name="reglaKind1">
+            {{#select resti.0.type}}
+                <option value="only">{{localize "GDSA.itemsheet.only"}}</option>
+                <option value="not">{{localize "GDSA.itemsheet.not"}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="spellModiBigBox">
+        <div class="spellModiBox">
+            <input id="mwHelper1" name="mag" type="checkbox" {{checked (checkForRegla resti "mag")}} /> Mag <br />
+            <input id="mwHelper1" name="dru" type="checkbox" {{checked (checkForRegla resti "dru")}} /> Dru <br />
+            <input id="mwHelper1" name="bor" type="checkbox" {{checked (checkForRegla resti "bor")}} /> Bor
+        </div>
+        <div class="spellModiBox">
+            <input id="mwHelper1" name="srl" type="checkbox" {{checked (checkForRegla resti "srl")}} /> Srl <br />
+            <input id="mwHelper1" name="hex" type="checkbox" {{checked (checkForRegla resti "hex")}} /> Hex <br />
+            <input id="mwHelper1" name="elf" type="checkbox" {{checked (checkForRegla resti "elf")}} /> Elf
+        </div>
+        <div class="spellModiBox">
+            <input id="mwHelper1" name="sch" type="checkbox" {{checked (checkForRegla resti "sch")}} /> Sch <br />
+            <input id="mwHelper1" name="geo" type="checkbox" {{checked (checkForRegla resti "geo")}} /> Geo <br />
+            <input id="mwHelper1" name="ach" type="checkbox" {{checked (checkForRegla resti "ach")}} /> Ach
+        </div>
+    </div>
+</form>

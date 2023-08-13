@@ -8,7 +8,30 @@
             "createRange": "Fernkampfwaffe",
             "generals": "Allgemeines Item",
             "melee-weapons": "Nahkampfwaffe",
-            "range-weapons": "Fernkampfwaffe"
+            "range-weapons": "Fernkampfwaffe",
+            "compImport": "Aus Compendium importieren",
+            "newSpell": "Neuen Zauber hinzufügen",
+            "magicTrait": "Merkmal",
+            "vari": "Variante",
+            "reps": "Repräsentation",
+            "komplex": "Komplexität",
+            "technic": "Veränderte Technik",
+            "zenTech": "Veränderte zentrale Technik",
+            "doppelD": "Verdoppelte Zauberdauer",
+            "halfDur": "Verkürtze Zauberdauer",
+            "force": "Erzwingen",
+            "cost": "Kosteneingespart",
+            "pRad": "vergrößerter Radius",
+            "mRad": "verringerter Radius",
+            "hDur": "halbierte Dauer",
+            "dDur": "verdoppelte Dauer",
+            "mod": "Modifikator",
+            "buy": "Gekauft",
+            "users": "Nutzer",
+            "actions": "Aktion",
+            "date": "Datum",
+            "time": "Uhrzeit",
+            "element": "Objekt"
         },
         "combat": {
             "NPC": "NSC",
@@ -21,7 +44,8 @@
             "RegAsP": "AsP Regeneration",
             "AsPRegOf": " AsP regeneriert!",
             "DMG": "Schadenswurf",
-            "DMGOf": "Schaden"
+            "DMGOf": "Schaden",
+            "Orient": "Orientieren"
         },
         "meleeskill": {
             "none": "",
@@ -55,6 +79,17 @@
             "throwingaxe": "Wurfbeile",
             "throwingknife": "Wurfmesser",
             "throwingspear": "Wurfspeere"
+        },
+        "armour": {
+            "none": "",
+            "head": "Kopfrüstung",
+            "body": "Brustrüstung",
+            "back": "Rückenrüstung",
+            "stomach": "Bauchrüstung",
+            "rightarm": "r. Armrüstung",
+            "leftarm": "l. Armrüstung",
+            "rightleg": "r. Beinrüstung",
+            "leftleg": "l. Beinrüstung"
         },
         "ritualSkills": {
             "gild": "Gildenmagie",
@@ -115,7 +150,8 @@
             "eis": "Elementar (Eis)",
             "humu": "Elementar (Humus)",
             "luft": "Elementar (Luft)",
-            "erz": "Elementar (Erz)"
+            "erz": "Elementar (Erz)",
+            "none": ""
         },
         "cuts": {
             "brill": "Brillantschliff",
@@ -124,6 +160,28 @@
             "caboc": "Cabochon",
             "tafel": "Tafelschliff",
             "smara": "Smaragdschliff"
+        },
+        "reps": {
+            "mag": "Gildenmagisch",
+            "dru": "Druidisch",
+            "bor": "Borberadianisch",
+            "srl": "Scharlatanisch",
+            "hex": "Hexisch",
+            "elf": "Elfisch",
+            "geo": "Geodisch",
+            "ach": "Achatisch",
+            "sch": "Schelmisch"
+        },
+        "rep": {
+            "mag": "Magier",
+            "dru": "Druide",
+            "bor": "Borberadianer",
+            "srl": "Scharlatan",
+            "hex": "Hexe",
+            "elf": "Elf",
+            "geo": "Geode",
+            "ach": "Achaz",
+            "sch": "Schelm"
         },
         "itemsheet": {
             "name": "Name",
@@ -179,7 +237,18 @@
             "at": "AT",
             "pa": "PA",
             "tp": "TP",
-            "cystal": "Edelstein"
+            "cystal": "Edelstein",
+            "spellname": "Name",
+            "spellminZfW": "min. ZfW",
+            "disad": "Erschwernis",
+            "cost": "Kosten",
+            "regla": "Einschränkungen",
+            "abZfW": "ab ZfW",
+            "only": "Nur in",
+            "not": "Nicht in",
+            "restriction": "Einschränkungen",
+            "casttime": "Zauberdauer",
+            "attri": "Attribute"
         },
         "charactersheet": {
             "system": "Das schwarze Auge",
@@ -189,16 +258,19 @@
             "magicMenu": "Magie",
             "holyMenu": "Karmal",
             "itemMenu": "Inventar",
-            "name": "Name:",
-            "race": "Rasse:",
-            "culture": "Kultur:",
-            "profession": "Profession:",
-            "gender": "Geschlecht:",
-            "age": "Alter:",
-            "height": "Größe:",
-            "weight": "Gewicht:",
-            "so": "Sozialstatus:",
+            "alSFMenu": "Allg. SF",
+            "cmbtMenu": "Kampf SF",
+            "name": "Name",
+            "race": "Rasse",
+            "culture": "Kultur",
+            "profession": "Profession",
+            "gender": "Geschlecht",
+            "age": "Alter",
+            "height": "Größe",
+            "weight": "Gewicht",
+            "so": "Sozialstatus",
             "AP": "Abenteuerpunkte",
+            "APFree": "Freie AP",
             "freeAP": "Freie AP",
             "spentAP": "Eingesetzte AP",
             "advantage": "Vorteile",
@@ -247,6 +319,7 @@
             "BE-3": "BE - 3",
             "BE-4": "BE - 4",
             "BE-5": "BE - 5",
+            "back": "Zurück",
             "combatSkills": "Kampf",
             "bodySkills": "Körperlich",
             "socialSkills": "Gesellschaft",
@@ -404,6 +477,7 @@
             "langu": "Sprache:",
             "lang": "Sprachen:",
             "sign": "Schriften:",
+            "singu": "Schrift:",
             "komplex": "Komplexität",
             "addLang": "Sprache hinzufügen",
             "addSign": "Schrift hinzufügen",
@@ -472,7 +546,10 @@
             "spcmbt": "Besondere Kampfregeln",
             "notes": "Notizen",
             "newgiftflaw": "Neuer Vor- / Nachteil",
-            "newtalent": "Neues Talent"
+            "newtalent": "Neues Talent",
+            "zone": "Trefferzone",
+            "edit": "Editieren",
+            "del": "Löschen"
         },
         "chat":{
             "flaw": {
@@ -510,7 +587,19 @@
                 "movem": "Bewegung des Ziels",
                 "dista": "Distanz",
                 "hida": "Deckung",
-                "sizeX": "Größe des Ziels"
+                "sizeX": "Größe des Ziels",
+                "modi": "Modifikationen",
+                "tech": "Veränderte Technik",
+                "zentech": "Veränderte Zentrale Technik",
+                "halfcast": "Halbierte Zauberdauer",
+                "doubcast": "Verdoppelte Zauberdauer",
+                "forced": "Erzwingen",
+                "cost": "Kosteneinsparren",
+                "preach": "Vergrößerte Reichweite / Wirkungsradius",
+                "mreach": "Verkleinerte Reichweite / Wirkungsradius",
+                "halfdura": "Halbierte Wirkungsdauer",
+                "doubdura": "Verdoppelte Wirkungsdauer",
+                "vari": "Varianten"
             },
             "dialog": {
                 "dmg": "Wie viel Schaden soll zugefügt werden?",
@@ -628,7 +717,26 @@
             "flink": "Flink",
             "iron": "Eisern",
             "fastHeal": "Schnelle Heilung",
-            "astralHeal": "Astrale Regeneration"
+            "astralHeal": "Astrale Regeneration",
+            "natAmour": "Natürlicher Rüstungsschutz",
+            "natWeapon": "Natürliche Waffen",
+            "tail": "Schwanz",
+            "bite": "Biss",
+            "asma": "Astralmacht",
+            "ausd": "Ausdauernd",
+            "hole": "Hohe Lebenskraft",
+            "homr": "Hohe Magieresistenz",
+            "nias": "Niedrige Astralkraft",
+            "nile": "Niedrige Lebenskraft",
+            "nimr": "Niedrige Magieresistenz",
+            "mag1": "Viertelzauberer",
+            "mag2": "Halbzauberer",
+            "mag3": "Vollzauberer",
+            "kler": "Geweiht",
+            "animag": "Animalische Magie",
+            "schaus": "Schwache Ausstrahlung",
+            "zoezau": "Zögerlicher Zauberer",
+            "entsin": "Entfernungssinn"
         },
         "flaws": {
             "goofy": "Tollpatsch",
@@ -661,7 +769,11 @@
             "twohanded2": "Beidhändiger Kampf II",
             "deathleft": "Tod von Links",
             "mAttacks": "Angriffe",
-            "mParrys": "Paraden"
+            "mParrys": "Paraden",
+            "starbody": "Gefäß der Sterne",
+            "reps": "Repräsentation",
+            "powerC": "Kraftkontrolle",
+            "matrixK": "Matrixverständnis"
         },
         "zone": {
             "leftLeg": "Linkes Bein",
@@ -671,6 +783,23 @@
             "rightArm": "Rechter Arm",
             "breast": "Brust / Rücken",
             "Head": "Kopf"
+        },
+        "spell": {
+            "notEnoughAsP": "Nicht genug AsP",
+            "attributo": "Attributo",
+            "attri": "Für welches Attribut soll der Spruch wirken?",
+            "faxi": "faxius",
+            "faxius": "Wie viele Würfel sollen verwendet werden?",
+            "faxiusMod": "Enger Strahl",
+            "sphaero": "sphaero",
+            "fulmi": "Fulminictus Donnerkeil",
+            "fulmiMod1": "Welle des Schmerzes",
+            "fulmiMod2": "Welle der Reinigung",
+            "kulmi": "Kulminatio Kugelblitz",
+            "kulmiMod1": "Doppelblitz",
+            "kulmiMod2": "Wolke von A'Tall",
+            "zorn": "Zorn der Elemente",
+            "plano": "plano"
         }
     }
 }

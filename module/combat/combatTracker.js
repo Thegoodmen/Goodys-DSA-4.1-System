@@ -18,7 +18,7 @@ export default class GDSACombatTracker extends CombatTracker {
           left: window.innerWidth - 720,
           width: 400,
           classes: ["GDSA", "sidebar", "cbt"]
-        }).render(true);
+        }).render(true);                        
     }
 
     activateListeners(html) {
@@ -27,5 +27,6 @@ export default class GDSACombatTracker extends CombatTracker {
 
       html.find(".toggelAT").click(LsFunction.onATCountToggel.bind(this, this.getData()));
       html.find(".toggelPA").click(LsFunction.onPACountToggel.bind(this, this.getData()));
+      html.find(".orient").click(LsFunction.doOrientation.bind(this, this.getData()));
     }
 }

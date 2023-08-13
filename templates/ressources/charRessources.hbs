@@ -1,0 +1,25 @@
+<form class="dialogConfig">
+    <div class="form-group subMain">
+        <div class="submen"><hr class="subhr" /></div>{{rname}}<div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.system.mod"}}</label>
+        <input type="number" name="modValue" value="{{modvalue}}" />
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.system.buy"}}</label>
+        <input type="number" name="buyValue" value="{{buyvalue}}" {{#if (equals rname (localize "GDSA.charactersheet.KaP"))}}disabled{{/if}} />
+    </div>
+    
+    <div class="dialogFiller"></div>
+
+    <div class="form-group subSub">
+        <div class="submen"><hr class="subhr" /></div><div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+    
+</form>

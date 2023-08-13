@@ -24,11 +24,14 @@
 
     <div class="holyTraitBox">
         <div class="traithead">{{localize "GDSA.charactersheet.holyTrait"}}</div>
+        <div class="flawbnt"><a class="changeTab item" data-destination="holytraitPage" data-origin="holyPage" data-optional="holy">
+            <i class="fas fa-book plusSym"></i>
+        </a></div>
         <div class="flawbnt"><a class="item-create" data-type="holyTrait"><i class="fas fa-plus plusSym"></i></a></div>
 		<div class="traithrbox"><hr class="flawhr" /></div>
     	<section class="holytraits">
 			{{#each holyTraits as |Trait id|}}
-				<div class="item item-context" data-type="{{system.type}}" data-item-id="{{_id}}">
+				<div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
                     <div class="trait">{{name}}</div><hr class="flawhr" />
                 </div>
 			{{/each}}

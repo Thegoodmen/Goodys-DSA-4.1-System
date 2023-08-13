@@ -1,6 +1,6 @@
 <form class="{{cssClass}}" autocomplete="off">
     <div class="sheet">
-
+	
 	    <div class="menuBar">
 			{{> "systems/GDSA/templates/partials/character-sheet-menu.hbs"}}
 	    </div>
@@ -36,6 +36,31 @@
 			<div class="tab itemPage" data-group="primary" data-tab="itemPage">
 				{{> "systems/GDSA/templates/partials/character-sheet-itemPage.hbs"}}
 			</div>
+
+			<div class="tab traitPage" data-group="primary" data-tab="traitPage">
+				{{> "systems/GDSA/templates/partials/character-sheet-traitPage.hbs"}}
+			</div>
+
+			<div class="tab traitPage" data-group="primary" data-tab="generaltraitPage">
+				{{> "systems/GDSA/templates/partials/character-sheet-generaltraitPage.hbs"}}
+			</div>
+
+			<div class="tab traitPage" data-group="primary" data-tab="combattraitPage">
+				{{> "systems/GDSA/templates/partials/character-sheet-combattraitPage.hbs"}}
+			</div>
+
+			<div class="tab traitPage" data-group="primary" data-tab="magictraitPage">
+				{{> "systems/GDSA/templates/partials/character-sheet-magictraitPage.hbs"}}
+			</div>
+
+			<div class="tab traitPage" data-group="primary" data-tab="objecttraitPage">
+				{{> "systems/GDSA/templates/partials/character-sheet-objecttraitPage.hbs"}}
+			</div>
+
+			<div class="tab traitPage" data-group="primary" data-tab="holytraitPage">
+				{{> "systems/GDSA/templates/partials/character-sheet-holytraitPage.hbs"}}
+			</div>
+			
 		</section>
     </div>
 </form>

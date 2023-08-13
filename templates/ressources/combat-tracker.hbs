@@ -66,7 +66,7 @@
                     <img class="token-image cbt-img" data-src="{{this.img}}" alt="{{this.name}}" {{#if this.canPing}}data-tooltip="COMBAT.PingCombatant" data-control="pingCombatant"{{/if}} />
                 </div>
                 <div class="cbt-middle">
-                    <div class="cbt-Name">{{this.name}}</div>
+                    <div class="cbt-Name">{{this.name}} {{#if this.owner}} {{#if this.hasRolled}} {{#if (combatantAtMax this.id this.initiative)}}<a class="combat-control orient" data-tooltip="GDSA.combat.Orient" style="margin-left: 6px" data-id="{{this.id}}"><i class="fas fa-binoculars"></i></a>{{/if}}{{/if}}{{/if}}</div>
                     <div class="cbt-bnt">
                         {{#if ../user.isGM}}
                             <a class="combatant-control {{#if this.hidden}}active{{/if}}" data-tooltip="COMBAT.ToggleVis" data-control="toggleHidden">

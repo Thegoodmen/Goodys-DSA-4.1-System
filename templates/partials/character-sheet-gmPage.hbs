@@ -2,85 +2,30 @@
     <div class="gmBox">
         <table>
             <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.race"}}</td>
-                <td><input class="gmInput" name="system.race" type="text" value="{{system.race}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.culture"}}</td>
-                <td><input class="gmInput" name="system.kulture" type="text" value="{{system.kulture}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.profession"}}</td>
-                <td><input class="gmInput" name="system.profession" type="text" value="{{system.profession}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.AP"}}</td>
-                <td><input class="gmInput" name="system.AP.value" type="number" value="{{system.AP.value}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.freeAP"}}</td>
-                <td><input class="gmInput" name="system.AP.free" type="number" value="{{system.AP.free}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.MU"}}</td>
-                <td><input class="gmInput" name="system.MU.value" type="number" value="{{system.MU.value}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.KL"}}</td>
-                <td><input class="gmInput" name="system.KL.value" type="number" value="{{system.KL.value}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.IN"}}</td>
-                <td><input class="gmInput" name="system.IN.value" type="number" value="{{system.IN.value}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.CH"}}</td>
-                <td><input class="gmInput" name="system.CH.value" type="number" value="{{system.CH.value}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.FF"}}</td>
-                <td><input class="gmInput" name="system.FF.value" type="number" value="{{system.FF.value}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.GE"}}</td>
-                <td><input class="gmInput" name="system.GE.value" type="number" value="{{system.GE.value}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.KO"}}</td>
-                <td><input class="gmInput" name="system.KO.value" type="number" value="{{system.KO.value}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.KK"}}</td>
-                <td><input class="gmInput" name="system.KK.value" type="number" value="{{system.KK.value}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.LeP"}} Mod</td>
-                <td><input class="gmInput" name="system.LePInfo.modi" type="number" value="{{system.LePInfo.modi}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.AuP"}} Mod</td>
-                <td><input class="gmInput" name="system.AuPInfo.modi" type="number" value="{{system.AuPInfo.modi}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.AsP"}} Mod</td>
-                <td><input class="gmInput" name="system.AsPInfo.modi" type="number" value="{{system.AsPInfo.modi}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.KaP"}} Mod</td>
-                <td><input class="gmInput" name="system.KaPInfo.modi" type="number" value="{{system.KaPInfo.modi}}" /></td>
-            </tr>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.MR"}} Mod</td>
-                <td><input class="gmInput" name="system.MR.modi" type="number" value="{{system.MR.modi}}" /></td>
-            </tr>
-            <tr>
                 <td class="gmTableHelper">{{localize "GDSA.charactersheet.InvEdit"}}</td>
-                <td><input class="gmInput" name="system.editInv" type="checkbox"  {{checked system.editInv}} /></td>
-            </tr>
-            <tr>
+                <td><input name="system.editInv" type="checkbox"  {{checked system.editInv}} /></td>
                 <td class="gmTableHelper">{{localize "GDSA.charactersheet.AllSkills"}}</td>
-                <td><input class="gmInput" name="system.allSkills" type="checkbox"  {{checked system.allSkills}} /></td>
+                <td><input name="system.allSkills" type="checkbox"  {{checked system.allSkills}} /></td>
             </tr>
+        </table>
+
+        <table class="CharLog">
+            <tr>
+                <td class="gmTableHelper2">{{localize "GDSA.system.users"}}</td>
+                <td class="gmTableHelper2">{{localize "GDSA.system.actions"}}</td>
+                <td class="gmTableHelper2">{{localize "GDSA.system.date"}}</td>
+                <td class="gmTableHelper2">{{localize "GDSA.system.time"}}</td>
+                <td class="gmTableHelper2">{{localize "GDSA.system.element"}}</td>
+            </tr>
+            {{#each system.log}}
+                <tr>
+                    <td class="gmTableHelper2"><usr title="{{userId}}">{{userName}}</usr></td>
+                    <td class="gmTableHelper2">{{action}}</td>
+                    <td class="gmTableHelper2">{{date}}</td>
+                    <td class="gmTableHelper2">{{time}}</td>
+                    <td class="gmTableHelper2"><ele title="{{elementType}}">{{elementName}}</ele></td>
+                </tr>
+            {{/each}}
         </table>
     </div>
 </section>

@@ -5,11 +5,13 @@
   width: 620px;
   height: 765px;
   font-family: MasonSerifBold;
+  src: url('fonts/mason-serif-bold.otf') format('opentype');
 }
 .GDSA.sheet.characterSheet .sheet2 {
   width: 620px;
   height: 575px;
   font-family: MasonSerifBold;
+  src: url('fonts/mason-serif-bold.otf') format('opentype');
 }
 .GDSA.sheet.characterSheet .logoImg {
   height: 46px;
@@ -167,6 +169,16 @@
   font-size: 20px;
   float: left;
 }
+.GDSA.sheet.characterSheet .characterBNT {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 146px;
+  right: 12px;
+}
+.GDSA.sheet.characterSheet .CharLog {
+  font-size: 12px;
+}
 .GDSA.sheet.characterSheet .flawbnt {
   width: 20px;
   height: 20px;
@@ -176,9 +188,10 @@
 }
 .GDSA.sheet.characterSheet .flaw {
   width: 295px;
-  height: 20px;
+  height: 14px;
   text-align: left;
   padding-left: 10px;
+  font-size: 11px;
 }
 .GDSA.sheet.characterSheet .flawhr {
   margin-top: 2px;
@@ -268,9 +281,12 @@
 }
 .GDSA.sheet.characterSheet .footerBig {
   width: 70px;
-  height: 20px;
+  height: 14px;
   float: left;
   text-align: center;
+  font-size: 12px;
+  margin-top: 1px;
+  font-weight: bold;
 }
 .GDSA.sheet.characterSheet .footerFirst {
   width: 165px;
@@ -285,7 +301,7 @@
   width: 100%;
 }
 .GDSA.sheet.characterSheet .gmTableHelper {
-  width: 220px;
+  width: 240px;
 }
 .GDSA.sheet.characterSheet .gmInput {
   width: 395px;
@@ -594,10 +610,21 @@
   height: 18px;
   width: 76px;
 }
+.GDSA.sheet.characterSheet .headerLable2 {
+  float: left;
+  height: 18px;
+  margin-left: 12px;
+  margin-right: 8px;
+}
 .GDSA.sheet.characterSheet .headerValue {
   float: left;
   height: 18px;
   width: 47px;
+}
+.GDSA.sheet.characterSheet .headerValue2 {
+  float: left;
+  height: 18px;
+  width: 23px;
 }
 .GDSA.sheet.characterSheet .lepbar {
   position: relative;
@@ -667,9 +694,50 @@
 }
 .GDSA.sheet.characterSheet .combatBntBar {
   text-align: left;
-  padding-left: 10px;
   padding-bottom: 6px;
   display: inline-block;
+}
+.GDSA.sheet.characterSheet #doDMG {
+  background: linear-gradient(to bottom, #e12525 5%, #8f0707 100%);
+  box-shadow: inset 0px 1px 0px 0px #b11818;
+  color: #140d0d;
+  text-shadow: 0px 1px 0px #7a7a7a;
+}
+.GDSA.sheet.characterSheet #doReg {
+  background: linear-gradient(to bottom, #faff26 5%, #c37808 100%);
+  box-shadow: inset 0px 1px 0px 0px #dae914;
+  color: #140d0d;
+  text-shadow: 0px 1px 0px #7a7a7a;
+}
+.GDSA.sheet.characterSheet #doHeal {
+  background: linear-gradient(to bottom, #4be31c 5%, #109707 100%);
+  box-shadow: inset 0px 1px 0px 0px #17fd0a;
+  color: #140d0d;
+  text-shadow: 0px 1px 0px #7a7a7a;
+}
+.GDSA.sheet.characterSheet #doDogde {
+  background: linear-gradient(to bottom, #c36f04 5%, #975007 100%);
+  box-shadow: inset 0px 1px 0px 0px #e16a23;
+  color: #140d0d;
+  text-shadow: 0px 1px 0px #7a7a7a;
+}
+.GDSA.sheet.characterSheet #doZone {
+  background: linear-gradient(to bottom, #14d2ff 5%, #0949bd 100%);
+  box-shadow: inset 0px 1px 0px 0px #2beef9;
+  color: #140d0d;
+  text-shadow: 0px 1px 0px #7a7a7a;
+}
+.GDSA.sheet.characterSheet .gmTableHelper3 {
+  width: 450px;
+}
+.GDSA.sheet.characterSheet .gmTableHelper4 {
+  padding-left: 23px;
+}
+.GDSA.sheet.characterSheet .gmTableHelper5 {
+  padding-left: 20px;
+}
+.GDSA.sheet.characterSheet .gmTableHelper6 {
+  border-bottom: 1px solid black;
 }
 .GDSA.sheet.characterSheet .tableBnt {
   width: 30px;
@@ -681,9 +749,19 @@
 .GDSA.sheet.characterSheet .combatTable {
   width: 335px;
 }
-.GDSA.sheet.characterSheet .combatTableBox {
-  width: 335px;
-  height: 110px;
+.GDSA.sheet.characterSheet .combatTableBox1 {
+  width: 336px;
+  min-height: 100px;
+  float: left;
+}
+.GDSA.sheet.characterSheet .combatTableBox2 {
+  width: 336px;
+  min-height: 75px;
+  float: left;
+}
+.GDSA.sheet.characterSheet .combatTableBox3 {
+  width: 336px;
+  min-height: 50px;
   float: left;
 }
 .GDSA.sheet.characterSheet .iniBar {
@@ -714,7 +792,7 @@
   margin: 5px 24px;
 }
 .GDSA.sheet.characterSheet .traithead {
-  width: 532px;
+  width: 512px;
   height: 20px;
   text-align: center;
   font-size: 20px;
@@ -766,6 +844,12 @@
   padding-left: 20px;
   float: left;
   overflow-y: scroll;
+}
+.GDSA.sheet.characterSheet .inventory4 {
+  width: 100%;
+  height: 640px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .GDSA.sheet.characterSheet .invHeader {
   height: 30px;
@@ -1401,6 +1485,17 @@
 .GDSA.sheet.itemSheet .itemRow {
   width: 450px;
   height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .itemRow2 {
+  width: 400px;
+  height: 50px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .itemRow3 {
+  width: 375px;
+  height: 50px;
+  float: left;
 }
 .GDSA.sheet.itemSheet .itemDescBox {
   width: 450px;
@@ -1547,6 +1642,9 @@
 .GDSA.sheet.itemSheet .input140 {
   width: 140px;
 }
+.GDSA.sheet.itemSheet .input130 {
+  width: 130px;
+}
 .GDSA.sheet.itemSheet .input125 {
   width: 125px;
 }
@@ -1556,11 +1654,41 @@
 .GDSA.sheet.itemSheet .input100 {
   width: 100px;
 }
+.GDSA.sheet.itemSheet .input100c {
+  width: 89px;
+  text-align: center;
+  float: left;
+  margin-right: 15px;
+}
+.GDSA.sheet.itemSheet .input100f {
+  width: 245px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .input95 {
+  width: 95px;
+}
 .GDSA.sheet.itemSheet .input70 {
   width: 70px;
 }
+.GDSA.sheet.itemSheet .input70s {
+  width: 195px;
+  margin-left: 30px;
+  margin-right: 75px;
+  margin-bottom: 5px;
+}
+.GDSA.sheet.itemSheet .input70a {
+  width: 70px;
+  margin-left: 12px;
+  margin-right: 20px;
+  margin-bottom: 5px;
+  float: left;
+}
 .GDSA.sheet.itemSheet .input60 {
   width: 60px;
+}
+.GDSA.sheet.itemSheet .input60c {
+  width: 60px;
+  float: left;
 }
 .GDSA.sheet.itemSheet .input50 {
   width: 50px;
@@ -1757,6 +1885,18 @@
   float: left;
   margin-top: 5px;
 }
+.GDSA.sheet.itemSheet .mwHelper5 {
+  width: 18px;
+  height: 18px;
+  margin-left: 34px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .mwHelper6 {
+  width: 20px;
+  height: 20px;
+  float: left;
+  margin: 3px 9px;
+}
 .GDSA.sheet.itemSheet .adBnt {
   margin-top: 20px;
   width: 145px;
@@ -1784,8 +1924,13 @@
   margin-right: 10px;
 }
 .GDSA.sheet.itemSheet .ritHelper6 {
-  width: 60px;
+  width: 49px;
   margin-left: 10px;
+}
+.GDSA.sheet.itemSheet .ritHelper7 {
+  float: left;
+  width: 375px;
+  height: 55px;
 }
 .GDSA.sheet.itemSheet .sgHelper1 {
   float: left;
@@ -1809,11 +1954,11 @@
 }
 .GDSA.sheet.itemSheet .spHelper1 {
   float: left;
-  width: 370px;
+  width: 285px;
 }
 .GDSA.sheet.itemSheet .spHelper2 {
   float: left;
-  width: 350px;
+  width: 275px;
 }
 .GDSA.sheet.itemSheet .spHelper3 {
   float: left;
@@ -1821,7 +1966,11 @@
 }
 .GDSA.sheet.itemSheet .spHelper4 {
   float: left;
-  width: 60px;
+  width: 49px;
+}
+.GDSA.sheet.itemSheet .spHelper5 {
+  width: 80px;
+  margin-right: 10px;
 }
 .GDSA.sheet.itemSheet .itemImg {
   height: 64px;
@@ -1829,6 +1978,274 @@
 }
 .GDSA.sheet.itemSheet .labelspacer {
   margin-right: 10px;
+}
+.GDSA.sheet.itemSheet .spellMenu {
+  height: 22px;
+  width: 90px;
+  float: left;
+  border: black solid 1px;
+  padding-top: 1px;
+  margin: 1px;
+  margin-bottom: 0px;
+  border-radius: 8px 8px 0px 0px;
+  background-color: rgba(0, 0, 0, 0.08);
+}
+.GDSA.sheet.itemSheet .spellMenu2 {
+  height: 22px;
+  width: 90px;
+  float: left;
+  border: black solid 1px;
+  padding-top: 1px;
+  margin: 1px;
+  margin-bottom: 0px;
+  border-radius: 8px 8px 0px 0px;
+  background-color: rgba(0, 0, 0, 0.08);
+  margin-left: 10px;
+}
+.GDSA.sheet.itemSheet .spellMenuBox {
+  height: 365px;
+  width: 430px;
+  margin-left: 10px;
+  float: left;
+  border: solid black 1px;
+  padding: 10px;
+  overflow-y: auto;
+}
+.GDSA.sheet.itemSheet .spellName {
+  float: left;
+  margin-top: 5px;
+  font-weight: bold;
+}
+.GDSA.sheet.itemSheet .spell-tabs {
+  display: contents;
+}
+.GDSA.sheet.itemSheet .spellModiBox {
+  width: 130px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .spellLine {
+  width: 300px;
+  float: left;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+.GDSA.sheet.itemSheet .spellVName {
+  float: left;
+  width: 30px;
+  margin-top: 4px;
+  margin-right: 25px;
+  margin-bottom: 5px;
+}
+.GDSA.sheet.itemSheet .spellVLine {
+  width: 125px;
+  height: 30px;
+}
+.GDSA.sheet.itemSheet .plusVariants {
+  height: 26px;
+  width: 408px;
+  text-align: center;
+  font-size: 19px;
+  background-color: rgba(0, 0, 0, 0.15);
+  border: solid black 1px;
+}
+.GDSA.sheet.itemSheet .variantbox {
+  min-height: 70px;
+  width: 408px;
+  border: solid black 1px;
+  padding: 5px;
+  position: relative;
+}
+.GDSA.sheet.itemSheet .buttonbox {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.GDSA.sheet.itemSheet .spellvari {
+  margin-left: 5px;
+}
+.spellvariInput {
+  margin-left: 44px;
+  margin-right: 4px;
+}
+.input130 {
+  width: 130px;
+}
+.input95 {
+  width: 95px;
+}
+.displayMod {
+  display: contents;
+}
+.browserMenu {
+  width: 200px;
+  height: 450px;
+  float: left;
+  border-right-style: groove;
+}
+.browserContent {
+  width: 580px;
+  height: 450px;
+  float: left;
+  overflow-x: hidden;
+}
+.headline {
+  width: 565px;
+  height: 30px;
+  float: left;
+  background-color: rgba(0, 0, 0, 0.08);
+  border-style: groove;
+  margin: 7px;
+  padding-top: 3px;
+  padding-left: 20px;
+  font-size: 15px;
+  font-weight: bold;
+}
+.itemBrowserBox {
+  width: 575px;
+  height: 36px;
+  float: left;
+  position: relative;
+  padding-left: 9px;
+}
+.browserImgBox {
+  width: 35px;
+  height: 35px;
+  float: left;
+}
+.browserImgBox2 {
+  width: 35px;
+  height: 35px;
+  float: left;
+  margin-top: 31px;
+  margin-right: 5px;
+}
+.browserImgBox3 {
+  width: 50px;
+  height: 50px;
+  float: left;
+  margin-top: 24px;
+  margin-right: 15px;
+  margin-left: 10px;
+}
+.browserImg {
+  border: 0px;
+}
+.browserName {
+  width: 526px;
+  height: 36px;
+  float: left;
+  border-bottom: groove;
+  font-size: 14px;
+  padding-left: 10px;
+}
+.browserComplex {
+  width: 20px;
+  height: 25px;
+  top: 5px;
+  right: 14px;
+  border-left: groove;
+  padding-left: 6px;
+  font-size: 19px;
+  position: absolute;
+}
+.browserMenuEntry {
+  width: 185px;
+  height: 30px;
+  margin-left: 5px;
+  margin-top: 6px;
+  border-style: groove;
+  float: left;
+  background-color: rgba(0, 0, 0, 0.08);
+  padding-top: 4px;
+  padding-left: 20px;
+  font-size: 13px;
+  font-weight: bold;
+}
+.browserMenuInput {
+  width: 184px;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+#menuSearch {
+  width: 184px;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+#menuVer {
+  width: 12px;
+  margin-top: 7px;
+  margin-left: 11px;
+  margin-right: 7px;
+  float: left;
+}
+.spellVMenu {
+  height: 30px;
+  width: 16px;
+  float: left;
+  padding-top: 9px;
+  padding-left: 5px;
+}
+.spellVSpacer {
+  height: 30px;
+  width: 22px;
+  float: left;
+  padding-top: 9px;
+  padding-left: 5px;
+}
+.spellModiBox {
+  width: 128px;
+  float: left;
+}
+.spellModiBigBox {
+  width: 100%;
+  margin-top: 7px;
+  margin-bottom: 8px;
+  height: 50px;
+}
+#mwHelper1 {
+  width: 10px;
+  height: 10px;
+}
+.subhr {
+  border: none;
+  border-top: 1px solid #605f54;
+  border-bottom: 1px solid #b5b5a1;
+}
+.submen {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.subMain {
+  font-size: 20px;
+  font-weight: bold;
+}
+.subSub {
+  font-size: 16px;
+}
+.dialogFiller {
+  width: 100%;
+  height: 10px;
+}
+.disabeldtext {
+  color: gray;
+}
+#inputCast {
+  width: 30px;
+  flex: none;
+  text-align: center;
+  margin-right: 5px;
+}
+#inboxCast {
+  flex: none;
+  margin-right: 8px;
+}
+.dialogConfig {
+  color: black;
+  font-family: MasonSerifBold;
+  src: url('fonts/mason-serif-bold.otf') format('opentype');
 }
 .GDSA.chat.message .infoBox {
   font-size: 15px;
@@ -1841,8 +2258,50 @@
   background-color: rgba(0, 0, 0, 0.2);
   font-size: 20px;
   font-family: MasonSerifBold;
+  src: url('fonts/mason-serif-bold.otf') format('opentype');
   text-align: center;
   padding-top: 2px;
+}
+.GDSA.chat.message .spellName {
+  min-height: 29px;
+  width: 100%;
+  float: left;
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 20px;
+  font-family: MasonSerifBold;
+  src: url('fonts/mason-serif-bold.otf') format('opentype');
+  text-align: center;
+  padding-top: 2px;
+}
+.GDSA.chat.message .spellHeader {
+  float: left;
+  height: 80px;
+  width: 100%;
+}
+.GDSA.chat.message .spellInfo {
+  float: left;
+  height: 80px;
+  width: 192px;
+  padding-top: 10px;
+}
+.GDSA.chat.message .spellImg {
+  float: left;
+  height: 80px;
+  width: 80px;
+}
+.GDSA.chat.message .spellFooter {
+  height: 10px;
+  width: 100%;
+  float: left;
+  font-size: 11px;
+  font-style: italic;
+  margin-top: 2px;
+}
+.GDSA.chat.message .spellTable {
+  float: left;
+  height: 125px;
+  width: 100%;
+  font-size: 12px;
 }
 .GDSA.chat.message .dicefiller {
   float: left;
@@ -1862,6 +2321,11 @@
 .GDSA.chat.message .diceCol2 {
   float: left;
   height: 48px;
+  width: 100%;
+}
+.GDSA.chat.message .diceCol3 {
+  float: left;
+  min-height: 48px;
   width: 100%;
 }
 .GDSA.chat.message .dices {
@@ -2158,6 +2622,7 @@
 #hud {
   font-size: 16px;
   font-family: MasonSerifBold;
+  src: url('fonts/mason-serif-bold.otf') format('opentype');
 }
 #token-hud .col {
   height: calc(100% + 67px);

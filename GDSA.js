@@ -28,6 +28,13 @@ Hooks.once("init", () => {
     CONFIG.Combat.documentClass = GDSACombat;
     CONFIG.ui.combat = GDSACombatTracker;
     CONFIG.cache = new MemoryCache();
+    CONFIG.fontDefinitions["MasonSerifBold"] = {
+        editor: true,
+        fonts: [
+          {urls: ["systems/GDSA/fonts/mason-serif-bold.otf"]}
+        ]
+    };
+    CONFIG.defaultFontFamily = "MasonSerifBold";
 
     Items.unregisterSheet("core", ItemSheet);
     Items.registerSheet("GDSA", GDSAItemSheet, { makeDefault: true });
@@ -98,6 +105,12 @@ function preloadHandlebarsTemplates() {
         "systems/GDSA/templates/partials/character-sheet-magicPage.hbs",
         "systems/GDSA/templates/partials/character-sheet-holyPage.hbs",
         "systems/GDSA/templates/partials/character-sheet-itemPage.hbs",
+        "systems/GDSA/templates/partials/character-sheet-traitPage.hbs",
+        "systems/GDSA/templates/partials/character-sheet-generaltraitPage.hbs",
+        "systems/GDSA/templates/partials/character-sheet-combattraitPage.hbs",
+        "systems/GDSA/templates/partials/character-sheet-magictraitPage.hbs",
+        "systems/GDSA/templates/partials/character-sheet-objecttraitPage.hbs",
+        "systems/GDSA/templates/partials/character-sheet-holytraitPage.hbs",
         "systems/GDSA/templates/partials/character-sheet-facts.hbs",
         "systems/GDSA/templates/partials/character-sheet-value1.hbs",
         "systems/GDSA/templates/partials/character-sheet-value2.hbs",
@@ -158,6 +171,13 @@ function registerHandelbarsHelpers() {
         return false;
     });
 
+    Handlebars.registerHelper("isEqualORGreater", function(p1, p2) {
+    
+        if(p1 >= p2)
+            return true;
+        return false;
+    });
+
     Handlebars.registerHelper("getData", function(object1, value1) {
 
         return object1[value1];
@@ -171,7 +191,7 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("getDataValue", function(object1, value1) {
 
-        return object1[value1].value;
+        return object1[value1]?.value;
     });
 
     Handlebars.registerHelper("ifOR", function(conditional1, conditional2, options) {
@@ -215,6 +235,19 @@ function registerHandelbarsHelpers() {
         let newValue = parseInt(value) + 2;
         
         return newValue;
+    });
+
+    Handlebars.registerHelper("isUsableVari", function(vari, spellRep) {
+
+        if(vari.resti.length === 0) return true;
+
+        if(vari.resti[0].type === "not") {
+            for (let i = 0; i < vari.resti.length; i++) if(vari.resti[i].rep === spellRep) return false;
+            return true;
+        } else if(vari.resti[0].type === "only") {
+            for (let i = 0; i < vari.resti.length; i++) if(vari.resti[i].rep === spellRep) return true;
+            return false
+        } else return true;
     });
 
     Handlebars.registerHelper("doLog", function(value) {
@@ -326,5 +359,73 @@ function registerHandelbarsHelpers() {
             default:
                 return "rgba(0,0,0,0.4)";
         }
+    });
+
+    Handlebars.registerHelper("getTraits", function(system) {
+
+        let traits = game.i18n.localize("GDSA.magicTraits." + system.trait1);
+
+        if(system.trait2 != "none") traits += " / " + game.i18n.localize("GDSA.magicTraits." + system.trait2);
+        if(system.trait3 != "none") traits += " / " + game.i18n.localize("GDSA.magicTraits." + system.trait3);
+        if(system.trait4 != "none") traits += " / " + game.i18n.localize("GDSA.magicTraits." + system.trait4);
+
+        return traits
+    });
+
+    Handlebars.registerHelper("checkForRegla", function(objekt, string) {
+
+        for (let i = 0; i < objekt.length; i++)
+            if(objekt[i].rep == string) return true;
+
+        return false;
+    });
+
+    Handlebars.registerHelper("displayRegla", function(objekt) {
+
+        var display = "";
+
+        if(objekt[0].type == "only") display += "Nur in "
+        else display += "Nicht in "
+
+        for(let varis of objekt)
+            display += game.i18n.localize("GDSA.reps." + varis.rep) + ", ";
+
+        display = display.substring(0, display.length-2);
+
+        return display;
+    });
+
+    Handlebars.registerHelper("getMeleeSkill", function(skill) {
+
+        let config = CONFIG.GDSA;
+
+        let output = config.meleeSkills[skill];
+
+        return output;
+    });
+
+    Handlebars.registerHelper("getRangeSkill", function(skill) {
+
+        let config = CONFIG.GDSA;
+
+        let output = config.rangeSkills[skill];
+
+        return output;
+    });
+
+    Handlebars.registerHelper("combatantAtMax", function(cmbId, Ini) {
+
+        let combatant = game.combats.contents[0].combatants.get(cmbId);
+        let type = combatant.actor.type;
+        let system = combatant.actor.sheet.getData().system;	
+        let INIBase;
+
+	    INIBase = type == "PlayerCharakter" ? parseInt(system.INIBasis.value) : parseInt(system.INI.split('+')[1].trim());
+
+        let maxIni = INIBase + 6;
+        if (system.INIDice == "2d6") maxIni = maxIni + 6;
+
+        if (maxIni == Ini) return false
+        else return true
     });
 }

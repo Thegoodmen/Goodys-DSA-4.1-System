@@ -238,16 +238,45 @@ export default class GDSAActor extends Actor {
 
         // Calculates the LeP, AuP, AsP, KaP and MR maximums Values
 
-        data.LeP.max = Math.round(((parseInt(data.KO.value) + parseInt(data.KO.value) + parseInt(data.KK.value)) / 2) + parseInt(data.LePInfo.modi));
-        data.AuP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.KO.value) + parseInt(data.GE.value)) / 2) + parseInt(data.AuPInfo.modi));
+        let mtraits = Util.getItems(this, "magicTrait", false);
+        let advantages = Util.getItems(this, "advantage", false);
+        let flaws = Util.getItems(this, "flaw", false);
+        let gds = mtraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.starbody")})[0];
+        let asma = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.asma")})[0];
+        let ausd = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.ausd")})[0];
+        let hole = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.hole")})[0];
+        let homr = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.homr")})[0];
+        let nias = flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.nias")})[0];
+        let nile = flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.nile")})[0];
+        let nimr = flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.nimr")})[0];
+        let mag1 = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag1")})[0];
+        let mag2 = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag2")})[0];
+        let mag3 = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag3")})[0];
 
-        if (data.AsPInfo.modi != 0) data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value)) / 2) + parseInt(data.AsPInfo.modi));
-        else data.AsP.max =  0;
+        data.LeP.max = Math.round(((parseInt(data.KO.value) + parseInt(data.KO.value) + parseInt(data.KK.value)) / 2) + parseInt(data.LePInfo.modi) + parseInt(data.LePInfo.buy));
+        if(hole != null) data.LeP.max += hole.system.value;
+        if(nile != null) data.LeP.max -= nile.system.value;
+        data.AuP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.KO.value) + parseInt(data.GE.value)) / 2) + parseInt(data.AuPInfo.modi) + parseInt(data.AuPInfo.buy));
+        if(ausd != null) data.AuP.max += ausd.system.value;
+
+        if (data.AsPInfo.modi != 0) {
+            if(gds != null) data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value) + parseInt(data.CH.value)) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
+            else data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value)) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
+            if(asma != null) data.AsP.max += asma.system.value;
+            if(nias != null) data.AsP.max -= nias.system.value;
+            if(mag1 != null) data.AsP.max -= 6;
+            if(mag2 != null) data.AsP.max += 6;
+            if(mag3 != null) data.AsP.max += 12;
+        } else data.AsP.max =  0;
 
         if (data.KaPInfo.modi > 0) data.KaP.max = Math.round(parseInt(data.KaPInfo.modi));
         else data.KaP.max = 0;
 
-        data.MR.value = Math.round(((parseInt(data.MU.value) + parseInt(data.KL.value) + parseInt(data.KO.value)) / 5) + parseInt(data.MR.modi));
+        data.MR.value = Math.round(((parseInt(data.MU.value) + parseInt(data.KL.value) + parseInt(data.KO.value)) / 5) + parseInt(data.MR.modi) + parseInt(data.MR.buy));
+        if(homr != null) data.MR.value += homr.system.value;
+        if(nimr != null) data.MR.value -= nimr.system.value;
+        if(mag2 != null) data.MR.value += 1;
+        if(mag3 != null) data.MR.value += 2;
 
         // Set up Number of Attacks in Combat
 
@@ -262,8 +291,8 @@ export default class GDSAActor extends Actor {
         let pa1 = traits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.schildII")})[0];
         let pa2 = traits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.parryW2")})[0];
 
-        if(at1 != null || at2) data.ATCount = 2;
-        if(pa1 != null || pa2) data.PACount = 2;
+        if(at1 != null || at2 != null ) data.ATCount = 2;
+        if(pa1 != null || pa2!= null ) data.PACount = 2;
 
         // Set highest Parry for automated Combat
 
@@ -363,7 +392,111 @@ export default class GDSAActor extends Actor {
             case "AuP":
                 this.update({ "system.AuP.value": value });        
                 break;
+
+            case "MU":
+                this.update({ "system.MU.value": value });        
+                break;
+
+            case "KL":
+                this.update({ "system.KL.value": value });        
+                break;
+
+            case "IN":
+                this.update({ "system.IN.value": value });        
+                break;
+
+            case "CH":
+                this.update({ "system.CH.value": value });        
+                break;
+
+            case "FF":
+                this.update({ "system.FF.value": value });        
+                break;
+
+            case "GE":
+                this.update({ "system.GE.value": value });        
+                break;
+
+            case "KO":
+                this.update({ "system.KO.value": value });        
+                break;
+
+            case "KK":
+                this.update({ "system.KK.value": value });        
+                break;
+
+            case "LePMod":
+                this.update({ "system.LePInfo.modi": value });        
+                break;
+
+            case "LePBuy":
+                this.update({ "system.LePInfo.buy": value });        
+                break;
+
+            case "AuPMod":
+                this.update({ "system.AuPInfo.modi": value });        
+                break;
+    
+            case "AuPBuy":
+                this.update({ "system.AuPInfo.buy": value });        
+                break;
+
+            case "AsPMod":
+                this.update({ "system.AsPInfo.modi": value });        
+                break;
+    
+            case "AsPBuy":
+                this.update({ "system.AsPInfo.buy": value });        
+                break;
+    
+            case "KaPMod":
+                this.update({ "system.KaPInfo.modi": value });        
+                break;
+        
+            case "KaPBuy":
+                this.update({ "system.KaPInfo.buy": value });        
+                break;
+    
+            case "MRMod":
+                this.update({ "system.MR.modi": value });        
+                break;
+            
+            case "MRBuy":
+                this.update({ "system.MR.buy": value });        
+                break;
+            
+            case "AP":
+                this.update({ "system.AP.value": value });        
+                break;
+            
+            case "APFree":
+                this.update({ "system.APFree.value": value });
+                break;
         }
+    }
+
+    setCharData(object) {
+
+        // Methode to update Character Infos
+
+        this.update({ "system.race": object.race });
+        this.update({ "system.kulture": object.culture });
+        this.update({ "system.profession": object.profession });
+        this.update({ "system.gender": object.gender });
+        this.update({ "system.age": object.age });
+        this.update({ "system.height": object.size });
+        this.update({ "system.weight": object.weight });
+        this.update({ "system.SO": object.social });
+        
+    }
+
+    addLogEntry(Entry) {
+
+        // Add a Log Entry to the Charakter
+
+        let log = this.system.log;
+        log.push(Entry);
+        this.update({ "system.log": log});
     }
 
     setWound(zone, wound) {

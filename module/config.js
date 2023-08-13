@@ -47,6 +47,19 @@ GDSA.rangeSkills = {
     throwingspear: "GDSA.rangeskill.throwingspear"
 }
 
+GDSA.amourPlace = {
+    none: "",
+    head: "GDSA.armour.head",
+    body: "GDSA.armour.body",
+    back: "GDSA.armour.back",
+    stomach: "GDSA.armour.stomach",
+    rightarm: "GDSA.armour.rightarm",
+    leftarm: "GDSA.armour.leftarm",
+    rightleg: "GDSA.armour.rightleg",
+    leftleg: "GDSA.armour.leftleg",
+
+}
+
 GDSA.ritualSkills = {
     gild: "GDSA.ritualSkills.gild",
     scha: "GDSA.ritualSkills.scha",
@@ -68,6 +81,7 @@ GDSA.ritualSkills = {
 }
 
 GDSA.magicTraits = {
+    none: "",
     anti: "GDSA.magicTraits.anti",
     conju: "GDSA.magicTraits.conju",
     attri: "GDSA.magicTraits.attri",
@@ -111,12 +125,26 @@ GDSA.magicTraits = {
 }
 
 GDSA.cuts = {
+    none: "",
     brill: "GDSA.cuts.brill",
     rosen: "GDSA.cuts.rosen",
     pende: "GDSA.cuts.pende",
     caboc: "GDSA.cuts.caboc",
     tafel: "GDSA.cuts.tafel",
     smara: "GDSA.cuts.smara"
+}
+
+GDSA.magicReps = {
+    none: "",
+    mag: "GDSA.reps.mag",
+    dru: "GDSA.reps.dru",
+    bor: "GDSA.reps.bor",
+    srl: "GDSA.reps.srl",
+    hex: "GDSA.reps.hex",
+    elf: "GDSA.reps.elf",
+    geo: "GDSA.reps.geo",
+    ach: "GDSA.reps.ach",
+    sch: "GDSA.reps.sch"
 }
 
 GDSA.meleeSkill = {

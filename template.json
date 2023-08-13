@@ -50,7 +50,8 @@
                 },
                 "LePInfo": {
                     "modi": 0,
-                    "temp": 0
+                    "temp": 0,
+                    "buy": 0
                 },
                 "AuP": {
                     "max": 0,
@@ -58,7 +59,8 @@
                 },
                 "AuPInfo": {
                     "modi": 0,
-                    "temp": 0
+                    "temp": 0,
+                    "buy": 0
                 },
                 "AsP": {
                     "max": 0,
@@ -66,7 +68,8 @@
                 },
                 "AsPInfo": {
                     "modi": 0,
-                    "temp": 0
+                    "temp": 0,
+                    "buy": 0
                 },
                 "KaP": {
                     "max": 0,
@@ -74,12 +77,14 @@
                 },
                 "KaPInfo": {
                     "modi": 0,
-                    "temp": 0
+                    "temp": 0,
+                    "buy": 0
                 },
                 "MR": {
                     "value": 0,
                     "modi": 0,
-                    "tempmodi": 0
+                    "tempmodi": 0,
+                    "buy": 0
                 },
                 "INIBasis": {
                     "value": 0,
@@ -170,6 +175,9 @@
                 "value": 0,
                 "free": 0,
                 "spent": 0
+            },
+            "APFree": {
+                "value": 0
             },
             "money": {
                 "gold": 0,
@@ -460,7 +468,8 @@
                 "rLeg": 0,
                 "lLeg": 0,
                 "all": 0
-            }
+            },
+            "log": []
         }
     },
     "Item": {
@@ -515,7 +524,7 @@
                 "generalItems"
             ],
             "type": "(Lang-)Schwert",
-            "skill": "Schwerter",
+            "skill": "sword",
             "damage": "1d6 + 5",
             "TPKK": "12/2",
             "length": "100",
@@ -533,7 +542,7 @@
                 "generalItems"
             ],
             "type": "Langbogen",
-            "skill": "Bogen",
+            "skill": "bow",
             "damage": "1d6 + 6",
             "range": "10/25/50/100/200",
             "tp": "+3/+2/+1/0/-1",
@@ -618,7 +627,35 @@
             "att2": "KL",
             "att3": "KL",
             "zfw": 0,
-            "lcdPage": "0"
+            "isMR": false,
+            "lcdPage": "0",
+            "rep": "",
+            "trait1": "",
+            "trait2": "",
+            "trait3": "",
+            "trait4": "",
+            "technic": false,
+            "casttime": false,
+            "forced": false,
+            "cost": false,
+            "range": false,
+            "duration": false,
+            "vMag": 0,
+            "vDru": 0,
+            "vBor": 0,
+            "vSrl": 0,
+            "vHex": 0,
+            "vElf": 0,
+            "vSch": 0,
+            "vGeo": 0,
+            "vAch": 0,
+            "komp": "A",
+            "zduration": "",
+            "costs": "",
+            "repAlt": "",
+            "costsAlt": "",
+            "diffrentCost": false,
+            "vari": {}
         },
         "ritual": {
             "name": "Stab: Bindung",

@@ -91,6 +91,19 @@ export default class GDSACombat extends Combat {
         return this;
     }
 
+    async setInitiative(id, value) {
+
+        const updates = [];
+
+        updates.push({_id: id, initiative: value});
+
+        if ( !updates.length ) return this;
+        
+        await this.updateEmbeddedDocuments("Combatant", updates);
+
+        return this;
+    }
+
     async startCombat() {
 
         if(game.combats.contents.length >= 1)

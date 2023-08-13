@@ -1,0 +1,36 @@
+<div class="invFiller"></div>
+<div class="skillHeaderBox">
+    <div class="invMenuHelper">
+	    <div class="skillHeaderSkillBox3">
+                {{localize "GDSA.charactersheet.generalTrait"}}
+	    </div>
+        <div class="invAddBox">
+            <a class="changeTab item" data-destination="combatePage" data-origin="" data-optional="" title="{{localize "GDSA.charactersheet.back"}}">
+                <i class="fas fa-arrow-turn-down-left plusSym2"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="inventory4">
+    <table class="CharLog">
+            <tr class="gmTableHelper6">
+                <td class="gmTableHelper2"><b>{{localize "GDSA.charactersheet.name"}}</b></td>
+                <td class="gmTableHelper2"><b>{{localize "GDSA.charactersheet.edit"}}</b></td>
+                <td class="gmTableHelper2"><b>{{localize "GDSA.charactersheet.del"}}</b></td>
+            </tr>
+            {{#each generalTraits as |Trait id|}}
+                <tr class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
+                    <td class="gmTableHelper3">{{name}}</td>
+                    <td class="gmTableHelper4"><a class="item-edit"><i class="fas fa-gear"></a></i></td>
+                    <td class="gmTableHelper5"><a class="item-delete"><i class="fas fa-trash-can"></a></i></td>
+                </tr>
+            {{/each}}
+            
+            <tr>
+                <td class="addCast" colspan="3">
+                    <a class="item-create" data-type="generalTrait" title="{{localize "GDSA.charactersheet.newgeneralTrait"}}"><b>+</b></a>
+                </td>
+            </tr>
+    </table>
+</div>

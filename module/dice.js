@@ -118,7 +118,7 @@ export async function flawCheck(flawName, flawValue, actor) {
     await doXD20XD6Roll(chatModel, dices, []);
 }
 
-export async function skillCheck(statName, statValue, statOne, statTwo, statThree, actor, isGoofy, modif) {
+export async function skillCheck(statName, statValue, statOne, statTwo, statThree, actor, isGoofy, modif, optional = {}) {
 
     // #################################################################################################
     // #################################################################################################
@@ -133,13 +133,14 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
     // ##    @actor         Actor Objekt of the Character rolling the Check                           ##
     // ##    @isGoofy       Boolean which indikates if the Actor has the Trait goofy e.g. false       ##
     // ##    @modif         Integer of the Modifier, if positiv its an advantage...                   ##
+    // ##    @optional      Carries an Opjekt for Additional Information to be displayed in Chat      ##
     // ##                                                                                             ##
     // #################################################################################################
     // #################################################################################################
 
     // Set up the Path of the Chat HTML
-
-    const templatePath = "systems/GDSA/templates/chat/skill-check.hbs";
+    let templatePath = "systems/GDSA/templates/chat/skill-check.hbs";
+    if (Object.keys(optional).length !== 0) templatePath = optional.template;
 
     // Roll 3 Dices
 
@@ -280,12 +281,21 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
     templateContext.isAdv = (modif > 0) ? true : false;
     templateContext.isDis = (modif < 0) ? true : false;
     templateContext.dis = parseInt(modif) * (-1);
+    templateContext = Object.assign(templateContext, optional);
 
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
     
     let dices = [rollResult.dice[0].values[0], rollResult2.dice[0].values[0], rollResult3.dice[0].values[0]];
     const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
-    await doXD20XD6Roll(chatModel, dices, []);
+    if (!optional.noChat) await doXD20XD6Roll(chatModel, dices, []);
+
+    return {
+        succ: resultSkill,
+        value: tap,
+        dices: dices,
+        templatePath: templatePath,
+        templateContext: templateContext
+    };
 }
 
 export async function doLePReg(actor, HPBonus) {
@@ -623,9 +633,19 @@ export async function ATKCheck(atk, modi, actor, auto = false, isMeele = true, c
     // If it was a Goof and combat is running, reduce the Ini accordingly of the actor
 
     if (game.combats.contents.length > 0) {
-        
-        let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == actor._id})[0]._id;
-        let userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
+
+        if(templateContext.goof) {
+
+            let userCombatant = null;
+            let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == actor._id})[0]?._id;
+            if(userCombatantId !== undefined) {
+                
+                userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
+                let inimod = (isMeele) ? Util.getGoofyMeleeIniMod(rollResult3.total) : Util.getGoofyFKIniMod(rollResult3.total);
+                let combat = game.combats.contents[0];
+                combat.setInitiative(userCombatantId, userCombatant.initiative + inimod)
+            }
+        }
     }
     
     // Return if the ATK was successful or not
@@ -704,9 +724,10 @@ export async function PACheck(parry, modi, actor) {
     // If it was a Goof and combat is running, reduce the Ini accordingly of the actor
 
     if (game.combats.contents.length > 0) {
-        
-        let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == actor._id})[0]._id;
-        let userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
+
+        let userCombatant = null;        
+        let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == actor._id})[0]?._id;
+        if(userCombatantId !== undefined) userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
     }
     
     // Return if the PA was successful or not
@@ -723,7 +744,7 @@ export async function DMGRoll(formula, actor, multi, chatId = "") {
     // ##                                                                                             ##
     // ##    @formula       String with the Roll Formular e.g. "1d6 + 5 + 6"                          ##
     // ##    @actor         Actor Objekt of the Character rolling the Check                           ##
-    // ##    @actor         Integer that is Multipling the DMG Result                                 ##
+    // ##    @multi         Integer that is Multipling the DMG Result                                 ##
     // ##                                                                                             ##
     // #################################################################################################
     // #################################################################################################
@@ -769,7 +790,66 @@ export async function DMGRoll(formula, actor, multi, chatId = "") {
     return total;
 }
 
-async function doXD20XD6Roll(chatData, result1, result2) {
+export async function DMGRollWitoutChat(formula, actor, multi, hasNoZone = false) {
+
+    // #################################################################################################
+    // #################################################################################################
+    // ##                                                                                             ##
+    // ##    Roll a Damage Roll                                                                       ##
+    // ##                                                                                             ##
+    // ##    @formula       String with the Roll Formular e.g. "1d6 + 5 + 6"                          ##
+    // ##    @actor         Actor Objekt of the Character rolling the Check                           ##
+    // ##    @multi         Integer that is Multipling the DMG Result                                 ##
+    // ##                                                                                             ##
+    // #################################################################################################
+    // #################################################################################################
+
+    // Return if the Formular has a Value of 0, meaning its not rollable
+
+    if(formula == 0 || formula == null) return;
+
+    // Set up the Path of the Chat HTML
+
+    const templatePath = "systems/GDSA/templates/chat/dmg-roll.hbs";
+
+    // Roll the Dice and add together the DMG
+
+    let rollResult = await new Roll(formula, {}).roll({ async: true});
+    let total = parseInt(rollResult.total) * parseInt(multi);
+
+    // Roll the Dice for the Zone and get the Zone
+
+    let zone = await new Roll("1d20", {}).roll({ async: true});
+    let hitZone = Util.getZone(zone.total);
+
+    // Fill the Context for the Chat HTML to fill  
+
+    let templateContext = {
+        totalDMG: total,
+        roll: rollResult,
+        zone: hitZone,
+        hasNoZone: hasNoZone
+    };
+
+    // Fill the Results to the right Array for Display
+
+    let d20 = [];
+    let d6 = [];
+
+    if(!hasNoZone) d20.push(zone.dice[0].values);
+    if(rollResult.dice[0].faces == 6) d6.push(...rollResult.dice[0].values);
+    if(rollResult.dice[0].faces == 20) d20.push(...rollResult.dice[0].values)
+
+    return {
+        total: total,
+        templatePath: templatePath,
+        templateContext: templateContext,
+        d20: d20,
+        d6: d6
+    };
+}
+
+export async function doXD20XD6Roll(chatData, result1, result2) {
 
     // Fill the dices Array with the Dice Models of both Dice Types
 
@@ -805,6 +885,39 @@ async function doXD20XD6Roll(chatData, result1, result2) {
     });
 }
 
+export async function doXD20XD6RollWitoutChat(result1, result2) {
+
+    // Fill the dices Array with the Dice Models of both Dice Types
+
+    let dice = [];
+    for (let index1 = 0; index1 < result1.length; index1++) dice.push(d20Model(result1[index1]));
+    for (let index2 = 0; index2 < result2.length; index2++) dice.push(d6Model(result2[index2]));
+
+    // Bild the Data Model with the merged Array
+
+    let data = { throws:[{dice: dice}]};
+
+    // Act depend of the Status of the Module Dice-so-nice in the World to trigger respectivly
+    // Also, in Case that there are only 2d20 roll first one and the second after the first to immers the conformation Roll
+    // And only post the Chatmessages after all rolls are displayed
+
+    return new Promise(resolve => {
+        if(!game.modules.get("dice-so-nice")?.active) {
+
+            chatData.sound = CONFIG.sounds.dice;
+            resolve(true)
+
+        } else if (result1.length == 2 && result2.length <= 0) 
+            game.dice3d.show({ throws:[{dice: [d20Model(result1[0])]}]}).then(displayed => 
+                { game.dice3d.show({ throws:[{dice: [d20Model(result1[1])]}]});});
+        else if (result1.length == 2 && result2.length == 2) 
+            game.dice3d.show({ throws:[{dice: [d20Model(result1[0])]}]}).then(displayed => 
+                { game.dice3d.show({ throws:[{dice: [d20Model(result1[1])]}]}).then(displayed => 
+                    { game.dice3d.show({ throws:[{dice: [d6Model(result2[0]), d6Model(result2[1])]}]});});});
+        else game.dice3d.show(data);
+    });
+}
+
 function d20Model(result) {
 
     // Create the Dice so Nice Model for D20
@@ -835,7 +948,7 @@ function d6Model(result) {
     return model;
 }
 
-function chatData(actor, template) {
+export function chatData(actor, template) {
 
     // Create Chat Data Model
 
