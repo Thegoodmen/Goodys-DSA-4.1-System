@@ -88,6 +88,20 @@
 
         {{/if}}
 
+        {{#if (equals type "objektRitual")}}
+
+            <div class="browserMenuEntry">Ritualkenntnis</div>
+
+            <select class="browserMenuInput" name="rittSkill">
+                {{#select rittSkill}}
+                    {{#each config.ritualSkills as |name type|}}
+                        <option value="{{type}}">{{localize name}}</option>
+                    {{/each}}
+                {{/select}}
+            </select> 
+
+        {{/if}}
+
     </div>
     <div class="browserContent">
 
@@ -147,6 +161,18 @@
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
                     <div class="browserName"><b>{{name}}</b> <br /><i> > {{#if system.Z}} Zusatzrüstung {{else}} Zonenrüstung {{/if}}</i></div>
                     <div class="browserComplex">A</div>
+                </div>
+            {{/each}}
+        {{/if}}
+
+        {{#if (equals type "objektRitual")}}
+            <div class="headline">Objektrituale</div>
+
+            {{#each items as |item id|}}
+                <div class="item itemBrowserBox" data-id="{{_id}}">
+                    <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
+                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{localize (concat "GDSA.ritualSkills." system.creatTalent "")}}</i></div>
+                    <div class="browserComplex">{{system.vRit}}</div>
                 </div>
             {{/each}}
         {{/if}}

@@ -31,7 +31,20 @@
             "actions": "Aktion",
             "date": "Datum",
             "time": "Uhrzeit",
-            "element": "Objekt"
+            "element": "Objekt",
+            "ritknow": "Ritualkenntnis",
+            "pcost": "Permanente Kosten",
+            "casttime": "Zauberdauer",
+            "costen": "Kostenreduzierung",
+            "reach": "Reichweite",
+            "duration": "Wirkungsdauer",
+            "stored": "Aufbewahrung",
+            "where": "Ort",
+            "hand": "In der Hand",
+            "schup": "Im Schuppenbeutel",
+            "somewhere": "Sonstige Tasche",
+            "such": "Suchende Finger pAsP",
+            "zspezi": "Zauberspezialisierung"
         },
         "combat": {
             "NPC": "NSC",
@@ -248,7 +261,15 @@
             "not": "Nicht in",
             "restriction": "Einschränkungen",
             "casttime": "Zauberdauer",
-            "attri": "Attribute"
+            "attri": "Attribute",
+            "verb": "Verb.",
+            "activ": "Aktiv",
+            "prereq": "Vorraussetzung",
+            "creation": "Erschaffung",
+            "activation": "Aktivierung",
+            "pcost": "Permanente Kosten",
+            "zduration": "Zauberdauer",
+            "modif": "Modifikationen"
         },
         "charactersheet": {
             "system": "Das schwarze Auge",
@@ -509,6 +530,7 @@
             "newspell": "Neuer Zauber",
             "newwonder": "Neue Liturgie",
             "newritual": "Neues Ritual",
+            "newobjektRitual": "Neues Objektritual",
             "newGeneralItem": "Neuer Gegenstand",
             "newgenerals": "Neuer Gegenstand",
             "newmelee-weapons": "Neue Nahkampfwaffe",
@@ -529,7 +551,7 @@
             "AllSkills": "Alle Skills angezeigt ?",
             "mgeneral": "Allgemein",
             "cast": "Zauber",
-            "ritual": "Rituale",
+            "ritual": "Ritualmagie",
             "madditional": "Sonstiges",
             "hgeneral": "Allgemein",
             "mirikal": "Mirakel",
@@ -549,7 +571,9 @@
             "newtalent": "Neues Talent",
             "zone": "Trefferzone",
             "edit": "Editieren",
-            "del": "Löschen"
+            "del": "Löschen",
+            "rit": "Ritualkenntnis",
+            "mobjekt": "Objektmagie"
         },
         "chat":{
             "flaw": {
@@ -773,7 +797,10 @@
             "starbody": "Gefäß der Sterne",
             "reps": "Repräsentation",
             "powerC": "Kraftkontrolle",
-            "matrixK": "Matrixverständnis"
+            "matrixK": "Matrixverständnis",
+            "powerfokus": "Kraftfokus",
+            "traitfokus": "Merkmalsfokus",
+            "searchFing": "Suchende Finger"
         },
         "zone": {
             "leftLeg": "Linkes Bein",
@@ -799,7 +826,8 @@
             "kulmiMod1": "Doppelblitz",
             "kulmiMod2": "Wolke von A'Tall",
             "zorn": "Zorn der Elemente",
-            "plano": "plano"
+            "plano": "plano",
+            "noGem": "Kein passender"
         }
     }
 }

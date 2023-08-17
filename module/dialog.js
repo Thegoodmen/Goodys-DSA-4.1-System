@@ -153,6 +153,37 @@ export async function GetFaxiOptions(spell) {
     });
 }
 
+export async function GetAchazOptions(spell) {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/chat/spell-achaz-dialog.hbs";
+    const html = await renderTemplate(template, spell);
+
+    return new Promise(resolve => {
+
+        // Set up Parameters for Dialog
+
+        const data = {
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.roll"),
+                                callback: html => resolve(_processAchazOptions(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+
+}
 
 export async function GetMeditationOptions() {
 
@@ -844,6 +875,50 @@ function _processCharRess(form) {
     return {
         newModValue: form.modValue.value,
         newBuyValue: form.buyValue.value
+    }
+}
+
+function _processAchazOptions(form) {
+
+    let mod = 0;
+
+    if (form.stoneTrait1 != null) mod += parseInt(form.stoneTrait1.value) - 1;
+    if (form.stoneTrait2 != null) mod += parseInt(form.stoneTrait2.value) - 1;
+    if (form.stoneTrait3 != null) mod += parseInt(form.stoneTrait3.value) - 1;
+    if (form.stoneTrait4 != null) mod += parseInt(form.stoneTrait4.value) - 1;
+
+    if (form.modicount.value > 0)
+        for (let i = 0; i == form.modicount.value; i++)
+            if (form["modi" + i] != null) mod -= parseInt(form["modi" + i].value);
+    
+    let usedStones = [];
+
+    if (form.stoneTrait1 != null) usedStones.push(form.stoneTrait1.options[form.stoneTrait1.selectedIndex].innerHTML);
+    if (form.stoneTrait2 != null) usedStones.push(form.stoneTrait2.options[form.stoneTrait2.selectedIndex].innerHTML);
+    if (form.stoneTrait3 != null) usedStones.push(form.stoneTrait3.options[form.stoneTrait3.selectedIndex].innerHTML);
+    if (form.stoneTrait4 != null) usedStones.push(form.stoneTrait4.options[form.stoneTrait4.selectedIndex].innerHTML);
+    
+    if (form.modicount.value > 0)
+        for (let j = 0; j == form.modicount.value; j++)
+            if (form["modi" + j] != null) usedStones.push(form["modi" + j].options[form["modi" + j].selectedIndex].innerHTML);
+
+    usedStones = usedStones.filter((value, index, array) => array.indexOf(value) === index);
+
+    let index = usedStones.indexOf(game.i18n.localize("GDSA.spell.noGem"));
+    if (index !== -1) usedStones = usedStones.splice(index, 1);
+
+    let actionsPer = form.gemStore.value;
+    let actions = 0;
+
+    if (form.such != null) actionsPer = 1;
+
+    actions = actionsPer * usedStones.length;
+
+    if (form.such != null)actions = Math.ceil(actions / form.such.value);
+
+    return {
+        advantage: mod,
+        actions: actions
     }
 }
 

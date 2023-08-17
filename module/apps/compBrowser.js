@@ -17,6 +17,7 @@ export default class GDSACompBrowser extends FormApplication {
         this.rep = "none";
         this.skill = "none";
         this.aPlace = "none";
+        this.rittSkill = "none";
         this.v0 = false;
         this.v1 = false;
         this.v2 = false;
@@ -76,6 +77,7 @@ export default class GDSACompBrowser extends FormApplication {
         sheetData.kF = this.kF;
         sheetData.skill = this.skill;
         sheetData.aPlace = this.aPlace;
+        sheetData.rittSkill = this.rittSkill;
 
         // Fill Browser with Items of definied Type
 
@@ -84,8 +86,6 @@ export default class GDSACompBrowser extends FormApplication {
         let selV = [];
         let nonV = true;
         let nonK = true;
-
-        console.log(game.packs)
 
         switch (this.type) {
 
@@ -102,29 +102,29 @@ export default class GDSACompBrowser extends FormApplication {
 
                 for(let spell of itemArray) {
 
-                    if(this.searchString == null || spell.name.toLowerCase().includes(this.searchString.toLowerCase())) 
-                        if(this.trait == "none" || this.checkForTrait(spell, this.trait))
-                            if(this.rep == "none" || this.checkForRep(spell, this.rep))
+                    if(this.searchString === null || spell.name.toLowerCase().includes(this.searchString.toLowerCase())) 
+                        if(this.trait === "none" || this.checkForTrait(spell, this.trait))
+                            if(this.rep === "none" || this.checkForRep(spell, this.rep))
                                 if(nonK || this.checkKomp(spell.system.komp.toUpperCase()))
-                                    if(this.rep == "none" || nonV)
+                                    if(this.rep === "none" || nonV)
                                         sortedArray.push(spell);
-                                    else if(this.rep == "mag" && selV[spell.system.vMag])
+                                    else if(this.rep === "mag" && selV[spell.system.vMag])
                                         sortedArray.push(spell);
-                                    else if(this.rep == "dru" && selV[spell.system.vDru])
+                                    else if(this.rep === "dru" && selV[spell.system.vDru])
                                         sortedArray.push(spell);
-                                    else if(this.rep == "bor" && selV[spell.system.vBor])
+                                    else if(this.rep === "bor" && selV[spell.system.vBor])
                                         sortedArray.push(spell);
-                                    else if(this.rep == "srl" && selV[spell.system.vSrl])
+                                    else if(this.rep === "srl" && selV[spell.system.vSrl])
                                         sortedArray.push(spell);
-                                    else if(this.rep == "hex" && selV[spell.system.vHex])
+                                    else if(this.rep === "hex" && selV[spell.system.vHex])
                                         sortedArray.push(spell);
-                                    else if(this.rep == "elf" && selV[spell.system.vElf])
+                                    else if(this.rep === "elf" && selV[spell.system.vElf])
                                         sortedArray.push(spell);
-                                    else if(this.rep == "geo" && selV[spell.system.vGeo])
+                                    else if(this.rep === "geo" && selV[spell.system.vGeo])
                                         sortedArray.push(spell);
-                                    else if(this.rep == "ach" && selV[spell.system.vAch])
+                                    else if(this.rep === "ach" && selV[spell.system.vAch])
                                         sortedArray.push(spell);
-                                    else if(this.rep == "sch" && selV[spell.system.vSch])
+                                    else if(this.rep === "sch" && selV[spell.system.vSch])
                                         sortedArray.push(spell);
                 }
 
@@ -136,9 +136,9 @@ export default class GDSACompBrowser extends FormApplication {
                 
                 for(let item of itemArray) {
 
-                    if(this.searchString == null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
+                    if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
                         if(item.type === "melee-weapons")
-                            if(this.skill == "none" || this.checkForSkill(item, this.skill))
+                            if(this.skill === "none" || this.checkForSkill(item, this.skill))
                                 sortedArray.push(item)
                 }
 
@@ -150,9 +150,9 @@ export default class GDSACompBrowser extends FormApplication {
                 
                 for(let item of itemArray) {
 
-                    if(this.searchString == null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
+                    if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
                         if(item.type === "range-weapons")
-                            if(this.skill == "none" || this.checkForSkill(item, this.skill))
+                            if(this.skill === "none" || this.checkForSkill(item, this.skill))
                                 sortedArray.push(item)
                 }
 
@@ -164,7 +164,7 @@ export default class GDSACompBrowser extends FormApplication {
             
                 for(let item of itemArray) {
 
-                    if(this.searchString == null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
+                    if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
                         if(item.type === "shields")
                             sortedArray.push(item)
                 }
@@ -177,9 +177,23 @@ export default class GDSACompBrowser extends FormApplication {
             
                 for(let item of itemArray) {
 
-                    if(this.searchString == null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
+                    if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
                         if(item.type === "armour")
-                            if(this.aPlace == "none" || this.checkArmourRat(item, this.aPlace))
+                            if(this.aPlace === "none" || this.checkArmourRat(item, this.aPlace))
+                                sortedArray.push(item)
+                }
+
+                break;
+
+            case "objektRitual":
+                
+                itemArray = await game.packs.get("world.rituale").getDocuments();
+                
+                for(let item of itemArray) {
+
+                    if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
+                        if(item.type === "objektRitual")
+                            if(this.rittSkill === "none" || this.checkRitualSkill(item, this.rittSkill))
                                 sortedArray.push(item)
                 }
 
@@ -231,8 +245,12 @@ export default class GDSACompBrowser extends FormApplication {
             this.skill = html.target[1].value;
         }
 
-        if ( this.type === "armour" ){
+        if ( this.type === "armour" ) {
             this.aPlace = html.target[1].value;
+        }
+
+        if ( this.type === "objektRitual"){
+            this.rittSkill = html.target[1].value;
         }
 
         this.render();
@@ -265,6 +283,10 @@ export default class GDSACompBrowser extends FormApplication {
 
         if ( this.type === "armour" ){
             this.aPlace = event.currentTarget.form[1].value;
+        }
+
+        if ( this.type === "objektRitual"){
+            this.rittSkill = event.currentTarget.form[1].value;
         }
 
         this.render();
@@ -304,23 +326,27 @@ export default class GDSACompBrowser extends FormApplication {
             this.aPlace = event.currentTarget.form[1].value;
         }
 
+        if ( this.type === "objektRitual"){
+            this.rittSkill = event.currentTarget.form[1].value;
+        }
+
         let newDoc = await this.render();
         newDoc.element[0].ownerDocument.getElementById('menuSearch').setSelectionRange(2,2);
     }
 
     checkForTrait(spell, trait) {
 
-        if(spell.system.trait1 == trait) return true;
-        if(spell.system.trait2 == trait) return true;
-        if(spell.system.trait3 == trait) return true;
-        if(spell.system.trait4 == trait) return true;        
+        if(spell.system.trait1 === trait) return true;
+        if(spell.system.trait2 === trait) return true;
+        if(spell.system.trait3 === trait) return true;
+        if(spell.system.trait4 === trait) return true;        
         
         return false
     }
 
     checkForSkill(item, skill) {
 
-        if(item.system.skill == skill) return true;      
+        if(item.system.skill === skill) return true;      
         
         return false
     }
@@ -336,26 +362,32 @@ export default class GDSACompBrowser extends FormApplication {
 
         switch (rep) {
             case "mag":
-                return spell.system.vMag == null ? false : true;
+                return spell.system.vMag === null ? false : true;
             case "dru":
-                return spell.system.vDru == null ? false : true;
+                return spell.system.vDru === null ? false : true;
             case "bor":
-                return spell.system.vBor == null ? false : true;
+                return spell.system.vBor === null ? false : true;
             case "srl":
-                return spell.system.vSrl == null ? false : true;
+                return spell.system.vSrl === null ? false : true;
             case "hex":
-                return spell.system.vHex == null ? false : true;
+                return spell.system.vHex === null ? false : true;
             case "elf":
-                return spell.system.vElf == null ? false : true;
+                return spell.system.vElf === null ? false : true;
             case "geo":
-                return spell.system.vGeo == null ? false : true;
+                return spell.system.vGeo === null ? false : true;
             case "ach":
-                return spell.system.vAch == null ? false : true;
+                return spell.system.vAch === null ? false : true;
             case "sch":
-                return spell.system.vSch == null ? false : true;
+                return spell.system.vSch === null ? false : true;
             default:
                 return true;
         }
+    }
+
+    checkRitualSkill(ritObj, rit) {
+
+        return ritObj.system.creatTalent === rit ? true : false;
+
     }
 
     checkKomp(komp) {
@@ -378,7 +410,11 @@ export default class GDSACompBrowser extends FormApplication {
         }
     }
 
-    async addItem() {    
+    async addItem(event) {    
+
+        // Get Element and Actor
+
+        let element = event.currentTarget;
     
         // Get Dataset from HTML
     
@@ -407,6 +443,10 @@ export default class GDSACompBrowser extends FormApplication {
 
             case "armour":
                 await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);        
+                break;
+
+            case "objektRitual":
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("world.rituale").get(id)]);        
                 break;
         }
     }

@@ -110,6 +110,7 @@ function preloadHandlebarsTemplates() {
         "systems/GDSA/templates/partials/character-sheet-combattraitPage.hbs",
         "systems/GDSA/templates/partials/character-sheet-magictraitPage.hbs",
         "systems/GDSA/templates/partials/character-sheet-objecttraitPage.hbs",
+        "systems/GDSA/templates/partials/character-sheet-objektRit.hbs",
         "systems/GDSA/templates/partials/character-sheet-holytraitPage.hbs",
         "systems/GDSA/templates/partials/character-sheet-facts.hbs",
         "systems/GDSA/templates/partials/character-sheet-value1.hbs",

@@ -61,6 +61,7 @@ GDSA.amourPlace = {
 }
 
 GDSA.ritualSkills = {
+    none: "",
     gild: "GDSA.ritualSkills.gild",
     scha: "GDSA.ritualSkills.scha",
     alch: "GDSA.ritualSkills.alch",

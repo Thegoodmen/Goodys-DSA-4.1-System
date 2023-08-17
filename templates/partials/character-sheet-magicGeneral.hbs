@@ -8,14 +8,21 @@
 
     <div class="skill-rit">
         <table style="display: inline-block">
-
+            <tr class="headcol">
+                <td class="skillTableNameBig" colspan="2"><div class="addRitKenn">{{localize "GDSA.charactersheet.rit"}}</div></td>
+            </tr>
             {{#each ritualSkills as |item id|}}
-                <tr class="item-context item" data-item-id="{{_id}}">
-                    <td class="skillTableNameBig">{{localize (concat "GDSA.ritualSkills." ./system/skill "")}}</td>
+                <tr class="item" data-item-id="{{_id}}">
+                    <td class="skillTableNameBig">{{localize (concat "GDSA.ritualSkills." ./system/skill "")}} 
+                            <div class="ritHelper">   
+                                <a class="item-edit"><i class="fas fa-gear"></a></i>
+                                <a class="item-delete"><i class="fas fa-trash-can"></a></i>
+                            </div>
+                    </td>
                     <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill.rit" ./system/skill ""}}" type="number" value="{{getRitData ../system/skill ./system/skill}}" /></td>
                 </tr>
             {{/each}}
-                <tr class="item-context item" data-item-id="{{_id}}">
+                <tr class="item">
                     <td class="skillTableNameBig" colspan="2"><a class="item-create" data-type="ritualSkill"><div class="addRitKenn">+</div></a></td>
                 </tr>
         </table>

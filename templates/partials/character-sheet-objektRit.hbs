@@ -1,0 +1,39 @@
+<div style="overflow-y: scroll; height: 600px;">
+    <table style="display: inline-block">
+
+        <tr class="item-context item">
+                <td class="ritTableCheck ritTableHead">Aktiv?</td>
+                <td class="ritMid ritTableHead">Name</td>
+                <td class="ritTableRoll ritTableHead">Erschaffung</td>
+                <td class="ritTableRoll ritTableHead">Aktivierung</td>
+        </tr>
+
+        {{#each objRituals as |item id|}}
+            <tr class="item-context item" data-item-id="{{_id}}">
+                <td class="ritTableCheck">
+                    <input class="ritBox ritCheck" name="system.isActiv" type="checkbox" {{checked system.isActiv}} />
+                </td>
+                <td class="ritMid">{{name}} 
+                    <div class="itemWorn"><a class="ritwdz openRitual" data-page="{{system.wdzPage}}"><i class="fas fa-book"></i></a></div>
+                </td>
+                <td class="skillTableRoll">
+                    {{#unless system.isActiv}}
+                        <a class="ritCrea-roll" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+                    {{/unless}}
+                </td>
+                <td class="skillTableRoll">
+                    {{#unless (equals system.activAtt1 "none")}}
+                        <a class="ritAkti-roll" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+                    {{/unless}}
+                </td>
+            </tr>
+	    {{/each}}
+
+        <tr>
+            <td class="addCast" colspan="4">
+                <a class="objektRitual-add" data-type="objektRitual" title="{{localize "GDSA.charactersheet.addSpell"}}"><div class="spellButtonBox"><b>+</b></div></a>
+            </td>
+        </tr>
+
+    </table>
+</div>
