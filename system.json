@@ -42,6 +42,15 @@
             "type": "Item",
             "private": false,
             "flags": {}
+        },
+        {
+            "name": "rituale",
+            "label": "Rituale",
+            "system": "GDSA",
+            "path": "packs/rituale.db",
+            "type": "Item",
+            "private": false,
+            "flags": {}
         }
     ],
     "languages": [

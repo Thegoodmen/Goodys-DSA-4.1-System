@@ -187,7 +187,7 @@ export default class GDSACompBrowser extends FormApplication {
 
             case "objektRitual":
                 
-                itemArray = await game.packs.get("world.rituale").getDocuments();
+                itemArray = await game.packs.get("GDSA.rituale").getDocuments();
                 
                 for(let item of itemArray) {
 
@@ -446,7 +446,7 @@ export default class GDSACompBrowser extends FormApplication {
                 break;
 
             case "objektRitual":
-                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("world.rituale").get(id)]);        
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.rituale").get(id)]);        
                 break;
         }
     }
