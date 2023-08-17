@@ -1,0 +1,125 @@
+<form class="dialogConfig">
+    <div class="form-group subMain">
+        <div class="submen"><hr class="subhr" /></div>{{name}}<div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <div class="form-group subSub">
+        <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.itemsheet.trait"}}<div class="submen"><hr class="subhr" /></div>
+    </div>
+   
+    <div class="dialogFiller"></div>
+
+    {{#unless (equals system.trait1 "none")}}
+        <div class="form-group">
+            <label>{{localize (concat "GDSA.magicTraits." system.trait1 "")}}</label>
+
+            <select class="input70s" name="stoneTrait1">
+                <option value="-3">{{localize "GDSA.spell.noGem"}}</option>
+                {{#each stoneTraits1 as |item type|}}
+                    <option value="{{system.pAsP}}">{{item.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    {{/unless}}
+
+    {{#unless (equals system.trait2 "none")}}
+        <div class="form-group">
+            <label>{{localize (concat "GDSA.magicTraits." system.trait2 "")}}</label>
+
+            <select class="input70s" name="stoneTrait2">
+                <option value="-3">{{localize "GDSA.spell.noGem"}}</option>
+                {{#each stoneTraits2 as |item type|}}
+                    <option value="{{system.pAsP}}">{{item.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    {{/unless}}
+
+    {{#unless (equals system.trait3 "none")}}
+        <div class="form-group">
+            <label>{{localize (concat "GDSA.magicTraits." system.trait3 "")}}</label>
+
+            <select class="input70s" name="stoneTrait3">
+                <option value="-3">{{localize "GDSA.spell.noGem"}}</option>
+                {{#each stoneTraits3 as |item type|}}
+                    <option value="{{system.pAsP}}">{{item.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    {{/unless}}
+
+    {{#unless (equals system.trait4 "none")}}
+        <div class="form-group">
+            <label>{{localize (concat "GDSA.magicTraits." system.trait4 "")}}</label>
+
+            <select class="input70s" name="stoneTrait4">
+                <option value="-3">{{localize "GDSA.spell.noGem"}}</option>
+                {{#each stoneTraits4 as |item type|}}
+                    <option value="{{system.pAsP}}">{{item.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    {{/unless}}
+    
+    {{#if (isEqualORGreater modicount 1)}}
+        <div class="dialogFiller"></div>
+
+        <div class="form-group subSub">
+            <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.itemsheet.modif"}}<div class="submen"><hr class="subhr" /></div>
+        </div>
+    
+        <div class="dialogFiller"></div>
+
+        {{#each modistones as |item type|}}
+            <div class="form-group">
+                <label>{{localize item.type}}</label>
+
+                <select class="input70s" name="modi{{@index}}">
+                        <option value="{{failMod}}">{{localize "GDSA.spell.noGem"}}</option>
+                        {{#each stones as |stone type|}}
+                            <option value="-1">{{stone.name}}</option>
+                        {{/each}}
+                </select>
+            </div>
+        {{/each}}
+        
+    {{/if}}
+
+    <input type="hidden" name="modicount" value="{{modicount}}">
+
+    <div class="dialogFiller"></div>
+
+    <div class="form-group subSub">
+        <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.system.stored"}}<div class="submen"><hr class="subhr" /></div>
+    </div>
+    
+    <div class="dialogFiller"></div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.system.where"}}</label>
+
+        <select class="input70s" name="gemStore">
+            <option value="1">{{localize "GDSA.system.hand"}}</option>
+            <option value="3">{{localize "GDSA.system.schup"}}</option>
+            <option value="10">{{localize "GDSA.system.somewhere"}}</option>
+        </select>
+    </div>
+
+    {{#if searchFing}}
+        <div class="form-group">
+            <label>{{localize "GDSA.system.such"}}</label>
+            <input id="inputCast" type="number" name="such" value="1" />
+        </div>
+    {{/if}}
+
+    <div class="dialogFiller"></div>
+
+    <div class="form-group subSub">
+        <div class="submen"><hr class="subhr" /></div><div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+    
+</form>

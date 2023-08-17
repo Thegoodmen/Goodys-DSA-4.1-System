@@ -298,7 +298,7 @@
 .GDSA.sheet.characterSheet .gmBox {
   float: left;
   height: 686px;
-  width: 100%;
+  width: 99%;
 }
 .GDSA.sheet.characterSheet .gmTableHelper {
   width: 240px;
@@ -1071,14 +1071,64 @@
   width: 400px;
   overflow-y: scroll;
   display: inline-block;
-  height: 180px;
+  height: 196px;
 }
 .GDSA.sheet.characterSheet .magicTraitBox {
   width: 562px;
   height: 170px;
   float: left;
   border: 2px solid black;
-  margin: 20px 24px 0px 24px;
+  margin: 18px 24px 0px 24px;
+}
+.GDSA.sheet.characterSheet .ritHelper {
+  float: right;
+  margin-right: 7px;
+}
+.GDSA.sheet.characterSheet .ritHelper10 {
+  width: 450px;
+}
+.GDSA.sheet.characterSheet .ritHelper11 {
+  width: 80px;
+  margin-right: 10px;
+}
+.GDSA.sheet.characterSheet .ritHelper12 {
+  float: left;
+  width: 35px;
+  height: 15px;
+}
+.GDSA.sheet.characterSheet .ritHelper13 {
+  margin-right: 20px;
+}
+.GDSA.sheet.characterSheet .ritBox {
+  height: 15px;
+  margin: 1px 0px 0px 0px;
+}
+.GDSA.sheet.characterSheet .ritMid {
+  width: 370px;
+  text-align: left;
+  border: 1px solid black;
+  padding-left: 10px;
+  position: relative;
+}
+.GDSA.sheet.characterSheet .ritTableCheck {
+  width: 54px;
+  text-align: center;
+  border: 1px solid black;
+  font-size: 12px;
+  height: 28px;
+}
+.GDSA.sheet.characterSheet .ritTableHead {
+  font-size: 12px;
+}
+.GDSA.sheet.characterSheet .ritwdz {
+  position: absolute;
+  top: 2px;
+  right: 5px;
+}
+.GDSA.sheet.characterSheet .ritTableRoll {
+  width: 82px;
+  text-align: center;
+  border: 1px solid black;
 }
 .GDSA.sheet.characterSheet .addRitKenn {
   width: 100%;
@@ -1932,6 +1982,47 @@
   width: 375px;
   height: 55px;
 }
+.GDSA.sheet.itemSheet .ritHelper10 {
+  width: 460px;
+  height: 95px;
+}
+.GDSA.sheet.itemSheet .ritHelper11 {
+  width: 80px;
+  margin-right: 10px;
+}
+.GDSA.sheet.itemSheet .ritHelper12 {
+  float: left;
+  width: 35px;
+  height: 15px;
+}
+.GDSA.sheet.itemSheet .ritHelper13 {
+  margin-right: 20px;
+}
+.GDSA.sheet.itemSheet .ritHelper14 {
+  float: left;
+  width: 141px;
+  margin-right: 13px;
+}
+.GDSA.sheet.itemSheet .ritHelper15 {
+  float: left;
+  width: 141px;
+}
+.GDSA.sheet.itemSheet .ritHelper16 {
+  float: left;
+  width: 153px;
+}
+.GDSA.sheet.itemSheet .ritHelper17 {
+  float: left;
+  width: 140px;
+}
+.GDSA.sheet.itemSheet .ritHelper18 {
+  width: 110px;
+  margin-bottom: 5px;
+}
+.GDSA.sheet.itemSheet .ritHelper19 {
+  width: 460px;
+  height: 25px;
+}
 .GDSA.sheet.itemSheet .sgHelper1 {
   float: left;
   width: 350px;
@@ -2300,6 +2391,12 @@
 .GDSA.chat.message .spellTable {
   float: left;
   height: 125px;
+  width: 100%;
+  font-size: 12px;
+}
+.GDSA.chat.message .ritTable {
+  float: left;
+  height: 90px;
   width: 100%;
   font-size: 12px;
 }

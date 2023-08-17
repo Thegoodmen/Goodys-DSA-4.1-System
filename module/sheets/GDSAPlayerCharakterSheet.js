@@ -65,6 +65,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             ritualSkills: Util.getItems(baseData, "ritualSkill", false),
             spells: Util.getItems(baseData, "spell", false),
             rituals: Util.getItems(baseData, "ritual", false),
+            objRituals:  Util.getItems(baseData, "objektRitual", false),
             wonders: Util.getItems(baseData, "wonder", false),
             generals: Util.getItems(baseData, "generals", false),
             meleeweapons: Util.getItems(baseData, "melee-weapons", false),
@@ -118,6 +119,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".damage-roll").click(LsFunction.onDMGRoll.bind(this, this.getData()));
             html.find(".wonder-roll").click(LsFunction.onSkillRoll.bind(this, this.getData(), "wonder"));
             html.find(".spell-roll").click(LsFunction.onSpellRoll.bind(this, this.getData()));
+            html.find(".ritCrea-roll").click(LsFunction.onRitualCreation.bind(this, this.getData()));
+            html.find(".ritAkti-roll").click(LsFunction.onRitualActivation.bind(this, this.getData()));
 
             // Set Listener for Stat Changes
 
@@ -149,7 +152,11 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".rangeW-add").click(LsFunction.getRangeWContextMenu.bind(this, this.getData()));
             html.find(".shilds-add").click(LsFunction.getShieldContextMenu.bind(this, this.getData()));
             html.find(".armour-add").click(LsFunction.getArmourContextMenu.bind(this, this.getData()));
+            html.find(".objektRitual-add").click(LsFunction.getObjectRitContextMenu.bind(this, this.getData()));
             html.find(".item-delete").click(LsFunction.onItemDelete.bind(this, this.getData()));
+            html.find(".ritCheck").change(LsFunction.changeActiveStat.bind(this, this.getData()));
+            html.find(".castChange").change(LsFunction.changeCastZfW.bind(this, this.getData()));
+            html.find(".test").change(LsFunction.testFunc.bind(this, this.getData()));
 
             // Set Listener for PDFoundry
 
@@ -353,10 +360,10 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         
         sheetData.system.GS.modi = 0;
 
+        if(checkFlink != null) sheetData.system.GS.modi = checkFlink.system.value;
         if(parseInt(sheetData.system.GE.value) >= 16) sheetData.system.GS.modi += 1;
         if(parseInt(sheetData.system.GE.value) <= 10) sheetData.system.GS.modi -= 1;
 
-        if(checkFlink != null) sheetData.system.GS.modi = checkFlink.system.value;
         if(checkUnsporty != null) sheetData.system.GS.modi -= 1;
         if(checkSmall != null) sheetData.system.GS.modi -= 1;
         if(checkDwarf != null) sheetData.system.GS.modi -= 2;
@@ -447,7 +454,29 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             spezObj.push(objekt);
         }
 
+        let spellSpez = sheetData.generalTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.system.zspezi"))});
+        spellSpez = spellSpez.concat(sheetData.magicTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.system.zspezi"))}));
+
+        let spelObj = [];
+
+        for (const spezi of spellSpez) {
+
+            if(!spezi.name.includes("(")) continue;
+
+            let spellName = spezi.name.split("[")[0].substr(21).slice(0,-1).trim();
+            let spezilation = spezi.name.split("(")[1].slice(0, -1);
+
+            const objekt = {
+                fullstring: spezi.name,
+                spellname: spellName,
+                spezi: spezilation
+            };
+
+            spelObj.push(objekt);
+        }
+
         sheetData.system.SkillSpez = spezObj;
+        sheetData.system.SpellSpez = spelObj;
 
         // Setzen der Repräsentation
 
@@ -652,11 +681,29 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             if (x > y) {return 1;}
             return 0;
         });
+
+        sheetData.objRituals.sort(function(a, b){
+
+            let x = a.name.toLowerCase();
+            let y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
     
         sheetData.wonders.sort(function(a, b){
 
             let x = a.name.toLowerCase();
             let y = b.name.toLowerCase();
+            if (x < y) {return -1;}
+            if (x > y) {return 1;}
+            return 0;
+        });
+
+        sheetData.ritualSkills.sort(function(a, b){
+
+            let x = a.system.skill.toLowerCase();
+            let y = b.system.skill.toLowerCase();
             if (x < y) {return -1;}
             if (x > y) {return 1;}
             return 0;

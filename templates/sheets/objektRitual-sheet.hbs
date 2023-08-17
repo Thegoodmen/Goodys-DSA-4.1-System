@@ -1,0 +1,174 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+    <div class="browserImgBox3"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
+
+    <div class="ritHelper7">
+        <div class="spHelper1">{{localize "GDSA.itemsheet.name"}}</div>
+        <div class="spHelper4">{{localize "GDSA.itemsheet.verb"}}</div>
+        <div class="spHelper3">{{localize "GDSA.itemsheet.activ"}}</div>
+        <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
+        <div class="spHelper3"><input class="spHelper3" name="system.vRit" type="number" value="{{system.vRit}}" /></div>
+        <div class="spHelper3"><input class="mwHelper6" name="system.isActiv" type="checkbox" {{checked system.isActiv}} /></div>
+    </div>
+
+    <div class="itemRow3">
+        <div class="spHelper1"><input class="spHelper2" name="system.prereq" type="text" value="{{system.prereq}}" /></div>
+
+        PDF<input class="ritHelper6" name="system.wdzPage" type="text" value="{{system.wdzPage}}" />
+    </div>
+    
+    <div class="dialogFiller"></div>
+
+    <div class="form-group subSub">
+        <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.itemsheet.creation"}}<div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <div class="ritHelper10">
+            <div class="ritHelper3">{{localize "GDSA.itemsheet.skill"}}</div>
+            <div class="ritHelper12"></div>
+            <div class="ritHelper3">{{localize "GDSA.itemsheet.attri"}}</div>
+
+            <select class="input160 ritHelper13" name="system.creatTalent">
+                {{#select system.creatTalent}}
+                    {{#each config.ritualSkills as |name type|}}
+                        <option value="{{type}}">{{localize name}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+
+            <select class="ritHelper11" name="system.creatAtt1">
+                {{#select system.creatAtt1}}
+                    {{#each config.attributes as |name type|}}
+                        <option value="{{type}}">{{type}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+
+            <select class="ritHelper11" name="system.creatAtt2">
+                {{#select system.creatAtt2}}
+                    {{#each config.attributes as |name type|}}
+                        <option value="{{type}}">{{type}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+
+            <select class="ritHelper11" name="system.creatAtt3">
+                {{#select system.creatAtt3}}
+                    {{#each config.attributes as |name type|}}
+                        <option value="{{type}}">{{type}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+
+            <div class="dialogFiller"></div>
+
+            <div class="ritHelper16">{{localize "GDSA.itemsheet.disad"}}</div>
+            <div class="ritHelper16">{{localize "GDSA.itemsheet.cost"}}</div>
+            <div class="ritHelper17">{{localize "GDSA.itemsheet.pcost"}}</div>
+
+            <input class="ritHelper14" name="system.creatDisAd" type="number" value="{{system.creatDisAd}}" />
+            <input class="ritHelper14" name="system.creatCost" type="text" value="{{system.creatCost}}" />
+            <input class="ritHelper15" name="system.creatCostP" type="number" value="{{system.creatCostP}}" />
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <div class="form-group subSub">
+        <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.itemsheet.activation"}}<div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <div class="ritHelper10">
+            <div class="ritHelper3">{{localize "GDSA.itemsheet.skill"}}</div>
+            <div class="ritHelper12"></div>
+            <div class="ritHelper3">{{localize "GDSA.itemsheet.attri"}}</div>
+
+            <select class="input160 ritHelper13" name="system.activTalent">
+                {{#select system.activTalent}}
+                    {{#each config.ritualSkills as |name type|}}
+                        <option value="{{type}}">{{localize name}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+
+            <select class="ritHelper11" name="system.activAtt1">
+                {{#select system.activAtt1}}
+                    {{#each config.attributes as |name type|}}
+                        <option value="{{type}}">{{type}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+
+            <select class="ritHelper11" name="system.activAtt2">
+                {{#select system.activAtt2}}
+                    {{#each config.attributes as |name type|}}
+                        <option value="{{type}}">{{type}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+
+            <select class="ritHelper11" name="system.activAtt3">
+                {{#select system.activAtt3}}
+                    {{#each config.attributes as |name type|}}
+                        <option value="{{type}}">{{type}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+
+            <div class="dialogFiller"></div>
+
+            <div class="ritHelper16">{{localize "GDSA.itemsheet.disad"}}</div>
+            <div class="ritHelper16">{{localize "GDSA.itemsheet.cost"}}</div>
+            <div class="ritHelper17">{{localize "GDSA.itemsheet.zduration"}}</div>
+
+            <input class="ritHelper14" name="system.activDisAd" type="number" value="{{system.activDisAd}}" />
+            <input class="ritHelper14" name="system.activCost" type="text" value="{{system.activCost}}" />
+            <input class="ritHelper15" name="system.activDura" type="number" value="{{system.activDura}}" />
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <div class="form-group subSub">
+        <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.itemsheet.trait"}}<div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <div class="ritHelper19">
+        <select class="ritHelper18" name="system.trait1">
+            {{#select system.trait1}}
+                {{#each config.magicTraits as |name type|}}
+                    <option value="{{type}}">{{localize name}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+        <select class="ritHelper18" name="system.trait2">
+            {{#select system.trait2}}
+                {{#each config.magicTraits as |name type|}}
+                    <option value="{{type}}">{{localize name}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+        <select class="ritHelper18" name="system.trait3">
+            {{#select system.trait3}}
+                {{#each config.magicTraits as |name type|}}
+                    <option value="{{type}}">{{localize name}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+        <select class="ritHelper18" name="system.trait4">
+            {{#select system.trait4}}
+                {{#each config.magicTraits as |name type|}}
+                    <option value="{{type}}">{{localize name}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+</form>

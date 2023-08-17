@@ -379,7 +379,7 @@ export async function doAsPReg(actor, APBonus, isMaster) {
     // Check that the Max Reg Possible is what LeP is actually missing
 
     let lostAsP = actor.system.AsP.max - actor.system.AsP.value;
-    if(lostAsP < regtotal) regtotal = lostLeP;
+    if(lostAsP < regtotal) regtotal = lostAsP;
     if(regtotal < 0) regtotal = 0;
 
     // Fill the Context for the Chat HTML to fill

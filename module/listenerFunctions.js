@@ -91,11 +91,14 @@ export async function onSpellRoll(data, event) {
     let animag = data.flaws.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.animag"))});
     let schaus = data.flaws.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.schaus"))});
     let zoezau = data.flaws.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.zoezau"))});
+    let powerF = data.objRituals.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.trait.powerfokus"))});
+    let searchFing = data.objRituals.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.trait.searchFing"))});
     
     // Check if Shift is presst for Skip Dialog
 
     let options = event.shiftKey ? false : true;
     let checkOptions = false;
+    let checkOptions2 = false;
     let advantage = 0;
     let disadvantage = 0;
     let actions = 0;
@@ -103,6 +106,10 @@ export async function onSpellRoll(data, event) {
     let costMod = 0;
     let doubcast = false;
     let halfcast = 0;
+    let achadv = 0;
+    let achact = 0;
+    let spellValue = 0;
+    let spellName = "";
     let variants = [];
     let usedVars = [];
     let usedVar = [];
@@ -112,6 +119,8 @@ export async function onSpellRoll(data, event) {
     let noChat = false;
     let usePowerC = false;
 
+    // Preap General
+
     if(item.system.rep === "none") ui.notifications.warn('Bitte eine Repräsentation im Zauber auswählen!')
 
     item.hasRep = data.system.Reps[item.system.rep];
@@ -119,6 +128,8 @@ export async function onSpellRoll(data, event) {
 
     if (item.system.rep === "dru") item.system.forced = true;
     if (matrixK.length !== 0) item.hasRep = true;
+
+    // Generate Dialog for Modifikations
 
     if(options) {
 
@@ -138,18 +149,41 @@ export async function onSpellRoll(data, event) {
 
     if (checkOptions.cancelled) return;
 
+    // Set ZfW of Spell
+
+    spellValue = item.system.zfw;
+    spellName = dataset.statname;
+
+    let spez = data.system.SpellSpez.filter(function(item) {return item.spellname === spellName});
+    let isSpez = false;
+
+    for (let i = 0; i < spez.length; i++) {
+        
+        let value = spez[i].spezi;
+
+        let modis = checkOptions.used.filter(function(mod) {return mod.includes(value)});
+        if (modis.length > 0) isSpez = true;
+
+        let vars = item.system.vars;
+        let spzVars = vars.filter(function(mod) {return mod.name.includes(value)})[0];
+        if (spzVars != null) if (checkOptions.variants[spzVars.id]) isSpez = true;
+    
+    }
+
+    if (isSpez) spellValue = parseInt(spellValue) + 2;
+
     // Open extra Dialogs for some Spells
 
     if (item.name === game.i18n.localize("GDSA.spell.attributo")) {
 
         item.system.config = CONFIG.GDSA;
-        checkOptions = await Dialog.GetAttributoOptions(item);
+        checkOptions2 = await Dialog.GetAttributoOptions(item);
 
-        if (checkOptions.cancelled) return;
+        if (checkOptions2.cancelled) return;
 
-        dataset.stat_three = actor.system[checkOptions.att].value;
+        dataset.stat_three = actor.system[checkOptions2.att].value;
         oldAtt3 = item.system.att3;
-        item.system.att3 = checkOptions.att;
+        item.system.att3 = checkOptions2.att;
     };
 
     if (item.name === game.i18n.localize("GDSA.spell.fulmi")) { 
@@ -159,6 +193,179 @@ export async function onSpellRoll(data, event) {
     };
 
     if (item.name === game.i18n.localize("GDSA.spell.zorn")) noChat = true;
+
+    // Open extra Dialog for Ach Casts
+
+    if(item.system.rep === "ach") {
+
+        let stones = data.generals.filter(function(item) {return item.system.type === game.i18n.localize("GDSA.itemsheet.cystal")});
+
+        let modistones = [];
+
+        if (checkOptions.used.filter(function(mod) {return mod.includes(game.i18n.localize("GDSA.system.technic"))}).length > 0)
+            modistones.push({
+                
+                type: "GDSA.system.technic",
+                stones: stones.filter(function(gem) {return gem.system.cut === "brill"}),
+                failMod: "7"
+            });
+
+        if (checkOptions.used.filter(function(mod) {return mod.includes(game.i18n.localize("GDSA.system.zenTech"))}).length > 0)
+            modistones.push({
+                
+                type: "GDSA.system.zenTech",
+                stones: stones.filter(function(gem) {return gem.system.cut === "brill"}),
+                failMod: "12"
+            });
+
+        if (checkOptions.used.filter(function(mod) {return mod.includes(game.i18n.localize("GDSA.system.doppelD"))}).length > 0)
+            modistones.push({
+                
+                type: "GDSA.system.casttime",
+                stones: stones.filter(function(gem) {return gem.system.cut === "rosen"}),
+                failMod: "0"
+            });
+
+        if (checkOptions.used.filter(function(mod) {return mod.includes(game.i18n.localize("GDSA.system.halfDur"))}).length > 0)
+            modistones.push({
+                
+                type: "GDSA.system.casttime",
+                stones: stones.filter(function(gem) {return gem.system.cut === "rosen"}),
+                failMod: checkOptions.used.filter(function(mod) {return mod.includes(game.i18n.localize("GDSA.system.halfDur"))})[0].split("+")[1].trim().split(")")[0]
+            });        
+
+        if (checkOptions.used.filter(function(mod) {return mod.includes(game.i18n.localize("GDSA.system.cost"))}).length > 0)
+            modistones.push({
+                
+                type: "GDSA.system.costen",
+                stones: stones.filter(function(gem) {return gem.system.cut === "pende"}),
+                failMod: checkOptions.used.filter(function(mod) {return mod.includes(game.i18n.localize("GDSA.system.cost"))})[0].split("+")[1].trim().split(")")[0]
+            });
+        
+        if (checkOptions.used.filter(function(mod) {return mod.includes(game.i18n.localize("GDSA.system.pRad"))}).length > 0)
+            modistones.push({
+                
+                type: "GDSA.system.reach",
+                stones: stones.filter(function(gem) {return gem.system.cut === "tafel"}),
+                failMod: checkOptions.used.filter(function(mod) {return mod.includes(game.i18n.localize("GDSA.system.pRad"))})[0].split("+")[1].trim().split(")")[0]
+            });
+        
+        if (checkOptions.used.filter(function(mod) {return mod.includes(game.i18n.localize("GDSA.system.mRad"))}).length > 0)
+            modistones.push({
+                
+                type: "GDSA.system.reach",
+                stones: stones.filter(function(gem) {return gem.system.cut === "tafel"}),
+                failMod: checkOptions.used.filter(function(mod) {return mod.includes(game.i18n.localize("GDSA.system.mRad"))})[0].split("+")[1].trim().split(")")[0]
+            });
+        
+        if (checkOptions.used.filter(function(mod) {return mod.includes(game.i18n.localize("GDSA.system.hDur"))}).length > 0)
+            modistones.push({
+                    
+                type: "GDSA.system.duration",
+                stones: stones.filter(function(gem) {return gem.system.cut === "smara"}),
+                failMod: checkOptions.used.filter(function(mod) {return mod.includes(game.i18n.localize("GDSA.system.hDur"))})[0].split("+")[1].trim().split(")")[0]
+            });
+        
+        
+        if (checkOptions.used.filter(function(mod) {return mod.includes(game.i18n.localize("GDSA.system.dDur"))}).length > 0)
+            modistones.push({
+                    
+                type: "GDSA.system.duration",
+                stones: stones.filter(function(gem) {return gem.system.cut === "smara"}),
+                failMod: checkOptions.used.filter(function(mod) {return mod.includes(game.i18n.localize("GDSA.system.dDur"))})[0].split("+")[1].trim().split(")")[0]
+            });
+
+        item.modistones = modistones;
+        item.modicount = modistones.length;
+        item.searchFing = (searchFing.length > 0);
+
+        item.stoneTraits1 = stones.filter(function(gem) {return gem.system.trait === item.system.trait1});
+        if (item.system.trait1 === "feur" ||
+            item.system.trait1 === "wass" || 
+            item.system.trait1 === "humu" || 
+            item.system.trait1 === "luft" || 
+            item.system.trait1 === "eis" || 
+            item.system.trait1 === "erz")  item.stoneTraits1 = item.stoneTraits1.concat(stones.filter(function(gem) {return gem.system.trait === "elem"}));
+        if (item.system.trait1 === "blak" ||
+            item.system.trait1 === "belh" || 
+            item.system.trait1 === "char" || 
+            item.system.trait1 === "lolg" || 
+            item.system.trait1 === "thar" || 
+            item.system.trait1 === "amaz" ||
+            item.system.trait1 === "bels" ||
+            item.system.trait1 === "asfa" ||
+            item.system.trait1 === "tasf" ||
+            item.system.trait1 === "belz" ||
+            item.system.trait1 === "agri" ||
+            item.system.trait1 === "belk")  item.stoneTraits1 = item.stoneTraits1.concat(stones.filter(function(gem) {return gem.system.trait === "daemo"}));
+
+        item.stoneTraits2 = stones.filter(function(gem) {return gem.system.trait === item.system.trait2});
+        if (item.system.trait2 === "feur" ||
+            item.system.trait2 === "wass" || 
+            item.system.trait2 === "humu" || 
+            item.system.trait2 === "luft" || 
+            item.system.trait2 === "eis" || 
+            item.system.trait2 === "erz")   item.stoneTraits2 = item.stoneTraits2.concat(stones.filter(function(gem) {return gem.system.trait === "elem"}));
+        if (item.system.trait2 === "blak" ||
+            item.system.trait2 === "belh" || 
+            item.system.trait2 === "char" || 
+            item.system.trait2 === "lolg" || 
+            item.system.trait2 === "thar" || 
+            item.system.trait2 === "amaz" ||
+            item.system.trait2 === "bels" ||
+            item.system.trait2 === "asfa" ||
+            item.system.trait2 === "tasf" ||
+            item.system.trait2 === "belz" ||
+            item.system.trait2 === "agri" ||
+            item.system.trait2 === "belk")  item.stoneTraits2 = item.stoneTraits2.concat(stones.filter(function(gem) {return gem.system.trait === "daemo"}));
+
+        item.stoneTraits3 = stones.filter(function(gem) {return gem.system.trait === item.system.trait3});
+        if (item.system.trait3 === "feur" ||
+            item.system.trait3 === "wass" || 
+            item.system.trait3 === "humu" || 
+            item.system.trait3 === "luft" || 
+            item.system.trait3 === "eis" || 
+            item.system.trait3 === "erz")  item.stoneTraits3 = item.stoneTraits3.concat(stones.filter(function(gem) {return gem.system.trait === "elem"}));
+        if (item.system.trait3 === "blak" ||
+            item.system.trait3 === "belh" || 
+            item.system.trait3 === "char" || 
+            item.system.trait3 === "lolg" || 
+            item.system.trait3 === "thar" || 
+            item.system.trait3 === "amaz" ||
+            item.system.trait3 === "bels" ||
+            item.system.trait3 === "asfa" ||
+            item.system.trait3 === "tasf" ||
+            item.system.trait3 === "belz" ||
+            item.system.trait3 === "agri" ||
+            item.system.trait3 === "belk")  item.stoneTraits3 = item.stoneTraits3.concat(stones.filter(function(gem) {return gem.system.trait === "daemo"}));
+
+        item.stoneTraits4 = stones.filter(function(gem) {return gem.system.trait === item.system.trait4});
+        if (item.system.trait4 === "feur" ||
+            item.system.trait4 === "wass" || 
+            item.system.trait4 === "humu" || 
+            item.system.trait4 === "luft" || 
+            item.system.trait4 === "eis" || 
+            item.system.trait4 === "erz")  item.stoneTraits4 = item.stoneTraits4.concat(stones.filter(function(gem) {return gem.system.trait === "elem"}));
+        if (item.system.trait4 === "blak" ||
+            item.system.trait4 === "belh" || 
+            item.system.trait4 === "char" || 
+            item.system.trait4 === "lolg" || 
+            item.system.trait4 === "thar" || 
+            item.system.trait4 === "amaz" ||
+            item.system.trait4 === "bels" ||
+            item.system.trait4 === "asfa" ||
+            item.system.trait4 === "tasf" ||
+            item.system.trait4 === "belz" ||
+            item.system.trait4 === "agri" ||
+            item.system.trait4 === "belk")  item.stoneTraits4 = item.stoneTraits4.concat(stones.filter(function(gem) {return gem.system.trait === "daemo"}));
+
+        checkOptions = await Dialog.GetAchazOptions(item);
+
+        if (checkOptions.cancelled) return;
+        
+        achadv = checkOptions.advantage;
+        achact = checkOptions.actions;
+    }
 
     // Calculate Modifier
 
@@ -209,6 +416,25 @@ export async function onSpellRoll(data, event) {
     
         optAnswer = await Dice.DMGRollWitoutChat("3d6", actor, 1, true);
     }
+
+    let traitString1 = game.i18n.localize("GDSA.magicTraits."+ item.system.trait1).split("(")[0].trim();
+    let traitString2 = game.i18n.localize("GDSA.magicTraits."+ item.system.trait2).split("(")[0].trim();
+    let traitString3 = game.i18n.localize("GDSA.magicTraits."+ item.system.trait3).split("(")[0].trim();
+    let traitString4 = game.i18n.localize("GDSA.magicTraits."+ item.system.trait4).split("(")[0].trim();
+
+    let traitFokG = data.objRituals.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.trait.traitfokus"))});
+
+    let traitFok1 = traitFokG.filter(function(item) {return item.name.includes(game.i18n.localize(traitString1))}).filter(function(item) {return item.system.isActiv});
+    let traitFok2 = traitFokG.filter(function(item) {return item.name.includes(game.i18n.localize(traitString2))}).filter(function(item) {return item.system.isActiv});
+    let traitFok3 = traitFokG.filter(function(item) {return item.name.includes(game.i18n.localize(traitString3))}).filter(function(item) {return item.system.isActiv});
+    let traitFok4 = traitFokG.filter(function(item) {return item.name.includes(game.i18n.localize(traitString4))}).filter(function(item) {return item.system.isActiv});
+
+    if (traitFok1.length > 0 && traitString1 !== "") advantage++;
+    if (traitFok2.length > 0 && traitString2 !== "") advantage++;
+    if (traitFok3.length > 0 && traitString3 !== "") advantage++;
+    if (traitFok4.length > 0 && traitString4 !== "") advantage++;
+
+    advantage += achadv;
     
     let modif = parseInt(advantage) - parseInt(disadvantage);
 
@@ -216,7 +442,7 @@ export async function onSpellRoll(data, event) {
 
     let minCost =  item.system.costs;
 
-    if(item.system.diffrentCost) if(item.system.rep === item.system.repAlt) minCost =  item.system.costsAlt;
+    if (item.system.diffrentCost) if(item.system.rep === item.system.repAlt) minCost =  item.system.costsAlt;
     for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) if (item.system.vars[i].cost != "") minCost = item.system.vars[i].cost;
  
     minCost = minCost.toLowerCase().replace("w", "d")
@@ -226,8 +452,9 @@ export async function onSpellRoll(data, event) {
     minCost = minCost + parseInt(bonusCost);
     if (item.name.includes(game.i18n.localize("GDSA.spell.faxi"))) minCost = optAnswer.total;
     minCost = Math.round((minCost / 10) * (10 - costMod));
-    if (item.system.rep !== "elf" && item.system.rep !== "ach" && item.system.rep !== "sch") if (usePowerC && minCost > 1) minCost--;
     if (item.system.rep === "ach" && minCost > 1)  Math.round(minCost / 3);
+    if (item.system.rep !== "elf" && item.system.rep !== "ach" && item.system.rep !== "sch") if (usePowerC && minCost > 1) minCost--;
+    if (powerF.length > 0) minCost--;
 
     if(minCost > actor.system.AsP.value) notEnoughAsP = true;
 
@@ -251,6 +478,8 @@ export async function onSpellRoll(data, event) {
     if (halfcast > 0) action = Math.round(action / (2 * halfcast));
 
     for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) usedVar.push(item.system.vars[i].name);
+
+    action += achact;
 
     // Generate Optional Objekt
 
@@ -278,7 +507,7 @@ export async function onSpellRoll(data, event) {
 
     // Execute Roll
 
-    let spellCheck = await Dice.skillCheck(dataset.statname, item.system.zfw, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif, optional);
+    let spellCheck = await Dice.skillCheck(dataset.statname, spellValue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif, optional);
 
     // Reset Item
 
@@ -292,7 +521,7 @@ export async function onSpellRoll(data, event) {
     }
 
     if (item.name.includes(game.i18n.localize("GDSA.spell.sphaero")) && !notEnoughAsP) { 
-        optAnswer.templateContext.totalDMG += spellCheck.value / 2;
+        optAnswer.templateContext.totalDMG +=  Math.round(spellCheck.value / 2);
         const chatModel = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
         await Dice.doXD20XD6Roll(chatModel, optAnswer.d20, optAnswer.d6);
     }
@@ -312,8 +541,9 @@ export async function onSpellRoll(data, event) {
         optAnswer = await Dice.DMGRollWitoutChat("2d6+" + tapS, actor, 1, true);
 
         minCost = optAnswer.total
-        if (item.system.rep !== "elf" && item.system.rep !== "ach" && item.system.rep !== "sch") if (usePowerC && minCost > 1) minCost--;
         if (item.system.rep === "ach" && minCost > 1)  Math.round(minCost / 3);
+        if (item.system.rep !== "elf" && item.system.rep !== "ach" && item.system.rep !== "sch") if (usePowerC && minCost > 1) minCost--;
+        if (powerF.length > 0) minCost--;
         
         if(minCost > actor.system.AsP.value) {
             let div = parseInt(minCost) - parseInt(actor.system.AsP.value);
@@ -344,8 +574,9 @@ export async function onSpellRoll(data, event) {
         optAnswer = await Dice.DMGRollWitoutChat("2d6+" + tapS, actor, 1, true);
 
         minCost = optAnswer.total
-        if (item.system.rep !== "elf" && item.system.rep !== "ach" && item.system.rep !== "sch") if (usePowerC && minCost > 1) minCost--;
         if (item.system.rep === "ach" && minCost > 1)  Math.round(minCost / 3);
+        if (item.system.rep !== "elf" && item.system.rep !== "ach" && item.system.rep !== "sch") if (usePowerC && minCost > 1) minCost--;
+        if (powerF.length > 0) minCost--;
         
         if(minCost > actor.system.AsP.value) {
 
@@ -396,6 +627,161 @@ export async function onSpellRoll(data, event) {
             };
         };
     }
+}
+
+export async function onRitualCreation(data, event) {
+    
+    event.preventDefault();
+
+    // Get Element and Actor
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+
+    // Get Dataset from HTML
+
+    let dataset = element.closest(".item").dataset;
+
+    // Get Item
+
+    let item = actor.items.get(dataset.itemId);
+
+    // Get Skill Value from the HTML
+    
+    let skill = item.system.creatTalent;
+    let actorSkills = actor.sheet.getData().ritualSkills;
+    let ritualSkill = actorSkills.filter(function(item) {return item.system.skill == skill});
+    if (ritualSkill.length === 0) return;
+    let statvalue = actor.sheet.getData().system.skill["rit" + skill];
+
+    // Check if Shift is presst for Skip Dialog
+
+    let options = event.shiftKey ? false : true;
+    let checkOptions = false;
+    let advantage = 0;
+    let disadvantage = 0;
+
+    if(options) {
+
+        checkOptions = await Dialog.GetSkillCheckOptions();
+            
+        advantage = checkOptions.advantage;
+        disadvantage = checkOptions.disadvantage;
+    }
+
+    if (checkOptions.cancelled) return;
+
+    // Calculate Modifier
+
+    let modif = (parseInt(advantage) - parseInt(disadvantage)) - item.system.creatDisAd;
+
+    // Calculate Cost
+
+    let minCost =  item.system.creatCost;
+ 
+    minCost = minCost.toLowerCase().replace("w", "d")
+    if(minCost.includes("d")) minCost = (await Dice.DMGRollWitoutChat(minCost, actor, 1, true)).total;
+
+    minCost = parseInt(minCost);
+
+    // Prepare Optinals
+    
+    let statname = item.name;
+    let dieOne = actor.system[item.system.creatAtt1].value;
+    let dieTwo = actor.system[item.system.creatAtt2].value;
+    let dieThr = actor.system[item.system.creatAtt3].value;
+
+    let optional = {
+        template: "systems/GDSA/templates/chat/objrit-check.hbs",
+        item: item,
+        cost: minCost,
+        action: 0,
+        notEnoughAsP: false,
+        noChat: false
+    };
+
+    // Execute Roll
+
+    let answer = await Dice.skillCheck(statname, statvalue, dieOne, dieTwo, dieThr, actor, data.goofy, modif, optional);
+
+    if(answer.succ) item.update({ "system.isActiv":  true });
+} 
+
+export async function onRitualActivation(data, event) {
+    
+    event.preventDefault();
+
+    // Get Element and Actor
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+
+    // Get Dataset from HTML
+
+    let dataset = element.closest(".item").dataset;
+
+    // Get Item
+
+    let item = actor.items.get(dataset.itemId);
+
+    // Get Skill Value from the HTML
+    
+    let skill = item.system.activTalent;
+    let actorSkills = actor.sheet.getData().ritualSkills;
+    let ritualSkill = actorSkills.filter(function(item) {return item.system.skill == skill});
+    if (ritualSkill.length === 0) return;
+    let statvalue = actor.sheet.getData().system.skill["rit" + skill];
+
+    // Check if Shift is presst for Skip Dialog
+
+    let options = event.shiftKey ? false : true;
+    let checkOptions = false;
+    let advantage = 0;
+    let disadvantage = 0;
+
+    if(options) {
+
+        checkOptions = await Dialog.GetSkillCheckOptions();
+            
+        advantage = checkOptions.advantage;
+        disadvantage = checkOptions.disadvantage;
+    }
+
+    if (checkOptions.cancelled) return;
+
+    // Calculate Modifier
+
+    let modif = (parseInt(advantage) - parseInt(disadvantage)) - item.system.activDisAd;
+
+    // Calculate Cost
+
+    let minCost =  item.system.activCost;
+ 
+    minCost = minCost.toLowerCase().replace("w", "d")
+    if(minCost.includes("d")) minCost = (await Dice.DMGRollWitoutChat(minCost, actor, 1, true)).total;
+
+    minCost = parseInt(minCost);
+
+    // Prepare Optinals
+    
+    let statname = item.name;
+    let dieOne = actor.system[item.system.activAtt1].value;
+    let dieTwo = actor.system[item.system.activAtt2].value;
+    let dieThr = actor.system[item.system.activAtt3].value;
+
+    let optional = {
+        template: "systems/GDSA/templates/chat/objrit-check.hbs",
+        item: item,
+        cost: minCost,
+        action: 0,
+        notEnoughAsP: false,
+        noChat: false,
+        activ: true
+    };
+
+    // Execute Roll
+
+    await Dice.skillCheck(statname, statvalue, dieOne, dieTwo, dieThr, actor, data.goofy, modif, optional);
 }
 
 export function onStatRoll(data, event) {
@@ -2329,6 +2715,67 @@ export function deleteSpellVariants(data, event) {
     data.item.render();
 }
 
+export function changeActiveStat(data, event) {
+
+    event.preventDefault();
+
+    // Set inital Variabels
+
+    let element = event.currentTarget;
+    let dataset = element.closest(".item").dataset;
+    let actor = data.actor;
+
+    // Get Item
+
+    let itemId = dataset.itemId;
+    let item = actor.items.get(itemId);
+
+    // Update Item Status
+
+    item.system.isActiv =  item.system.isActiv ? false : true;
+    item.update({ "system.isActiv":  item.system.isActiv });
+
+    // Generate Log Entry
+
+    let timestamp = new Date().toLocaleString();
+    let status = item.system.isActiv ? " to active" : " to inactiv";
+
+    let logger = {
+        userId: game.userId,
+        userName: game.users.get(game.userId).name,
+        date: timestamp.split(",")[0],
+        time: timestamp.split(",")[1].trim(),
+        action: "Changed " + item.name + status,
+        elementType: "PlayerCharakterSheet",
+        elementName: data.actor.name
+    };
+
+    actor.addLogEntry(logger);
+    actor.render();
+}
+
+export function changeCastZfW(data, event) {
+
+    event.preventDefault();
+
+    // Set inital Variabels
+
+    let element = event.currentTarget;
+    let dataset = element.closest(".item").dataset;
+    let actor = data.actor;
+
+    // Get Item
+
+    let itemId = dataset.itemId;
+    let item = actor.items.get(itemId);
+
+    // Update Item Status
+
+    let newValue = event.target.valueAsNumber;
+    item.update({ "system.zfw":  newValue });
+    actor.render();
+}
+
 function getMerchantStats(skillLevel) {
 
     switch(skillLevel) {
@@ -2453,6 +2900,14 @@ export function getArmourContextMenu(data, event) {
     let options = event.shiftKey ? false : true;
 
     if(options) new Browser({},{},"armour", data.actor._id).render(true);
+    else onItemCreate(data, event);
+}
+
+export function getObjectRitContextMenu(data, event) {
+
+    let options = event.shiftKey ? false : true;
+
+    if(options) new Browser({},{},"objektRitual", data.actor._id).render(true);
     else onItemCreate(data, event);
 }
 
@@ -2723,29 +3178,13 @@ export function changeTab(data, event) {
     data.actor.render();
 }
 
-export function testFunc(event) {
+export function testFunc(data,event) {
 
     event.preventDefault();
 
     let element = event.currentTarget;
 
-    // Get Actor
 
-    let actorId = element.closest(".item").dataset.actor;
-    let actor = game.actors.get(actorId);
-
-    let system = actor.system;
-
-    // Get Stat from HTML
-
-    let stat = element.closest(".item").dataset.stattype;
-    let statObjekt = system[stat];
-
-    // Get Stat Name
-
-    let statname = game.i18n.localize("GDSA.charactersheet."+stat);
-
-    // Execute Roll
-    
-    Dice.statCheck(statname, statObjekt.value, statObjekt.temp, actor);
+    console.log(event);
+    console.log(data);
 }
