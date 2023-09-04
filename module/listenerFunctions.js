@@ -153,7 +153,7 @@ export async function onSpellRoll(data, event) {
 
     spellValue = item.system.zfw;
     spellName = dataset.statname;
-
+    console.log(checkOptions.used);
     let spez = data.system.SpellSpez.filter(function(item) {return item.spellname === spellName});
     let isSpez = false;
 
@@ -163,7 +163,7 @@ export async function onSpellRoll(data, event) {
 
         let modis = checkOptions.used.filter(function(mod) {return mod.includes(value)});
         if (modis.length > 0) isSpez = true;
-
+        
         let vars = item.system.vars;
         let spzVars = vars.filter(function(mod) {return mod.name.includes(value)})[0];
         if (spzVars != null) if (checkOptions.variants[spzVars.id]) isSpez = true;

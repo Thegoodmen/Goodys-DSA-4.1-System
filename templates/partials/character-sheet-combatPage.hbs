@@ -116,34 +116,78 @@
 
     </div>
 
-    <div class="sonderfBox">
-        <div class="traithead">{{localize "GDSA.charactersheet.generalTrait"}}</div>
-        <div class="flawbnt"><a class="changeTab item" data-destination="generaltraitPage" data-origin="combatePage" data-optional="general">
-            <i class="fas fa-book plusSym"></i>
-        </a></div>
-        <div class="flawbnt"><a class="item-create" data-type="generalTrait"><i class="fas fa-plus plusSym"></i></a></div>
-		<div class="traithrbox"><hr class="flawhr" /></div>
-    	<section class="traits">
-			{{#each generalTraits as |Trait id|}}
-				<div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
-                    <div class="trait">{{name}}</div><hr class="flawhr" />
-                </div>
-			{{/each}}
-		</section>
-    </div>
-    <div class="sonderfBox">
-        <div class="traithead">{{localize "GDSA.charactersheet.combatTrait"}}</div>
-        <div class="flawbnt"><a class="changeTab item" data-destination="combattraitPage" data-origin="combatePage" data-optional="combat">
-            <i class="fas fa-book plusSym"></i>
-        </a></div>
-        <div class="flawbnt"><a class="item-create" data-type="combatTrait"><i class="fas fa-plus plusSym"></i></a></div>
-		<div class="traithrbox"><hr class="flawhr" /></div>
-    	<section class="traits">
-			{{#each combatTraits as |Trait id|}}
-				<div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
-                    <div class="trait">{{name}}</div><hr class="flawhr" />
-                </div>
-			{{/each}}
-		</section>
-    </div>
+    {{#if system.magical}}
+		{{#if system.klerikal}}
+
+            <div class="sonderfBox">
+                <div class="traithead">{{localize "GDSA.charactersheet.generalTrait"}}</div>
+                <div class="flawbnt"><a class="changeTab item" data-destination="generaltraitPage" data-origin="combatePage" data-optional="general">
+                    <i class="fas fa-book plusSym"></i>
+                </a></div>
+                <div class="flawbnt"><a class="item-create" data-type="generalTrait"><i class="fas fa-plus plusSym"></i></a></div>
+                <div class="traithrbox"><hr class="flawhr" /></div>
+                <section class="traits">
+                    {{#each generalTraits as |Trait id|}}
+                        <div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
+                            <div class="trait">{{name}}</div><hr class="flawhr" />
+                        </div>
+                    {{/each}}
+                </section>
+            </div>
+            <div class="sonderfBox">
+                <div class="traithead">{{localize "GDSA.charactersheet.combatTrait"}}</div>
+                <div class="flawbnt"><a class="changeTab item" data-destination="combattraitPage" data-origin="combatePage" data-optional="combat">
+                    <i class="fas fa-book plusSym"></i>
+                </a></div>
+                <div class="flawbnt"><a class="item-create" data-type="combatTrait"><i class="fas fa-plus plusSym"></i></a></div>
+                <div class="traithrbox"><hr class="flawhr" /></div>
+                <section class="traits">
+                    {{#each combatTraits as |Trait id|}}
+                        <div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
+                            <div class="trait">{{name}}</div><hr class="flawhr" />
+                        </div>
+                    {{/each}}
+                </section>
+            </div>
+
+        {{else}}
+
+            <div class="sonderfBox2">
+                <div class="traithead">{{localize "GDSA.charactersheet.generalTrait"}}</div>
+                <div class="flawbnt"><a class="changeTab item" data-destination="generaltraitPage" data-origin="combatePage" data-optional="general">
+                    <i class="fas fa-book plusSym"></i>
+                </a></div>
+                <div class="flawbnt"><a class="item-create" data-type="generalTrait"><i class="fas fa-plus plusSym"></i></a></div>
+                <div class="traithrbox"><hr class="flawhr" /></div>
+                <section class="traits2">
+                    {{#each generalTraits as |Trait id|}}
+                        <div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
+                            <div class="trait">{{name}}</div><hr class="flawhr" />
+                        </div>
+                    {{/each}}
+                </section>
+            </div>
+
+        {{/if}}
+
+    {{else}}
+
+        <div class="sonderfBox2">
+            <div class="traithead">{{localize "GDSA.charactersheet.generalTrait"}}</div>
+            <div class="flawbnt"><a class="changeTab item" data-destination="generaltraitPage" data-origin="combatePage" data-optional="general">
+                <i class="fas fa-book plusSym"></i>
+            </a></div>
+            <div class="flawbnt"><a class="item-create" data-type="generalTrait"><i class="fas fa-plus plusSym"></i></a></div>
+            <div class="traithrbox"><hr class="flawhr" /></div>
+            <section class="traits2">
+                {{#each generalTraits as |Trait id|}}
+                    <div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
+                        <div class="trait">{{name}}</div><hr class="flawhr" />
+                    </div>
+                {{/each}}
+            </section>
+        </div>
+
+    {{/if}}
+    
 </div>

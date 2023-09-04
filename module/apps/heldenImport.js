@@ -1,27 +1,34 @@
 import { GDSA } from "../config.js";
+import GDSAActor from "../objects/GDSAActor.js";
 
-export default class GDSAGMScreen extends FormApplication {
+export default class GDSAHeldenImporter extends FormApplication {
+
+    constructor(options={}) {
+        
+        super(options);
+        this.heroObject = {};
+    }
+
 
     static get defaultOptions() {
 
         return mergeObject(super.defaultOptions, {
             classes: ["GDSA", "gmscreen"],
-            template: "systems/GDSA/templates/apps/gmscreen.hbs",
+            template: "systems/GDSA/templates/apps/heldenimport.hbs",
             width: 800,
-            height: "auto",
-            title: "GDSA GM Screen"
+            height: 700,
+            title: "Heldentool Importer"
         });
     }
 
     static Initialize(html) {
         
         html.find('#gdsa-options').append($(
-            `<button data-action="gm-screen">
-                <i class="fas fa-book-open"></i>
-                Öffne GM Fenster
+            `<button data-action="heldentool-importer">
+                <i class="fas fa-duotone fa-arrow-up-from-bracket"></i> Import Heldentool XML
             </button>`));
 
-        html.find('button[data-action="gm-screen"').on("click", _ => new GDSAGMScreen().render(true));
+        html.find('button[data-action="heldentool-importer"').on("click", _ => new GDSAHeldenImporter().render(true));
     }
 
     getData() {
@@ -33,7 +40,9 @@ export default class GDSAGMScreen extends FormApplication {
 
     activateListeners(html) {
 
-        html.find("#asText").change(this.loadHero.bind(this));
+        html.find("#Heldenimport").change(this.loadHero.bind(this));
+        html.find("#bnt1").click(this.createHero.bind(this));
+
         super.activateListeners(html);
     }
 
@@ -45,35 +54,195 @@ export default class GDSAGMScreen extends FormApplication {
 
         let element = event.currentTarget;
 
+        // Reset Fehlerlog
+
+        element.closest("form").querySelector("[id=overview2]").innerHTML = "";
+
         // Get File 
 
-        const file = element.closest("form").querySelector("[id=asText]").files[0];
-        let xmlHeld = "";
+        const files = [];
+        files.push(element.closest("form").querySelector("[id=Heldenimport]").files[0]);
 
-        const reader = new FileReader();
+        // Read File and execute
 
-        reader.onload = await async function(e) { 
+        const filePromises = files.map((file) => {
+              
+            // Return a promise per file
             
-            xmlHeld = await reader.result;
+            return new Promise((resolve, reject) => {
+
+                const reader1 = new FileReader();
+                
+                reader1.onload = async () => {
+                  
+                    try {
             
-            // Read XML
+                        let xmlHeld = reader1.result;
+                        
+                        // Read XML and generate Hero Object
+            
+                        let parser = new DOMParser();
+                        let xmlDoc = parser.parseFromString(xmlHeld,"text/xml");
 
-            let parser = new DOMParser();
-            let xmlDoc = parser.parseFromString(xmlHeld,"text/xml");
+                        const response = generateHeroObject(event, xmlDoc.getElementsByTagName("held")[0]);
 
-            var test = "";
-            test = xmlDoc.getElementsByTagName("held");
-            let heroObject = generateHeroObject(xmlDoc.getElementsByTagName("held")[0]);
-            console.log(heroObject);
-        };
+                        // Resolve the promise with the response value
+                        resolve(response);
 
-        reader.readAsText(file);        
+                    } catch (err) {
+
+                        reject(err);
+                    }
+                };
+
+                reader1.onerror = (error) => {
+
+                    reject(error);
+                };
+
+                reader1.readAsText(file);
+            
+            });
+        });
+          
+        // Wait for all promises to be resolved
+
+        const fileInfos = await Promise.all(filePromises);
+
+        // Set Heroobject as Global
+
+        const hero = fileInfos[0];
+        this.heroObject = hero;
+
+        // Update HTML Boxes
+
+        const template = "systems/GDSA/templates/apps/heldenimportMaske.hbs";
+        const html = await renderTemplate(template, hero);
+
+        element.closest("form").querySelector("[id=overview1]").innerHTML = html;
+        
     }
 
+    async createHero(event) {
+
+        event.preventDefault();
+
+        const hero = this.heroObject;
+
+        if(Object.keys(hero).length === 0) return;
+
+        console.log(hero);
+
+        let actor = await GDSAActor.create({
+            name: "New Test Actor",
+            type: "PlayerCharakter",
+            img: "systems/GDSA/templates/img/logo.webp"
+        });
+
+
+        actor.name = hero.name;
+
+        actor.prototypeToken.name = hero.name;
+        actor.prototypeToken.actorLink = true;
+        actor.prototypeToken.bar1 = {attribute: 'LeP'};
+        actor.prototypeToken.bar2 = {attribute: 'AuP'};
+
+        actor.system.CH.value = hero.attributes.ch;
+        actor.system.FF.value = hero.attributes.ff;
+        actor.system.GE.value = hero.attributes.ge;
+        actor.system.IN.value = hero.attributes.in;
+        actor.system.KK.value = hero.attributes.kk;
+        actor.system.KL.value = hero.attributes.kl;
+        actor.system.KO.value = hero.attributes.ko;
+        actor.system.MU.value = hero.attributes.mu;
+
+        actor.system.AP.value = hero.stats.ap;
+        actor.system.AP.free = hero.stats.apfree;
+        actor.system.APFree.value = hero.stats.apfree;
+        actor.system.AsPInfo.modi = hero.stats.asp;
+        actor.system.AsPInfo.buy = hero.stats.aspBuy;
+        actor.system.AuPInfo.modi = hero.stats.aup;
+        actor.system.AuPInfo.buy = hero.stats.aupBuy;
+        actor.system.KaPInfo.modi = hero.stats.kap;
+        actor.system.KaPInfo.buy = hero.stats.kapBuy;
+        actor.system.LePInfo.modi = hero.stats.lep;
+        actor.system.LePInfo.buy = hero.stats.lepBuy;
+        actor.system.MR.modi = hero.stats.mr;
+        actor.system.MR.buy = hero.stats.mrBuy;
+
+        actor.system.money.copper = hero.money.copper;
+        actor.system.money.gold = hero.money.gold;
+        actor.system.money.nickel = hero.money.nickel;
+        actor.system.money.silver = hero.money.silver;
+        
+        actor.system.SO = hero.info.so;
+        actor.system.age = hero.info.age;
+        actor.system.gender = hero.info.gender;
+        actor.system.height = hero.info.hight;
+        actor.system.kulture = hero.info.culture;
+        actor.system.profession = hero.info.profession;
+        actor.system.race = hero.info.race;
+        actor.system.weight = hero.info.weight;
+        actor.system.skill = hero.skills;
+
+        if ( hero.advantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.mag1")}).length > 0 ) actor.system.AsPInfo.modi += 6;
+        if ( hero.advantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.mag2")}).length > 0 ) actor.system.AsPInfo.modi -= 6;
+        if ( hero.advantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.mag3")}).length > 0 ) actor.system.AsPInfo.modi -= 12;
+
+        actor.update({ "name": actor.name });
+        actor.update({ "prototypeToken": actor.prototypeToken });
+        actor.update({ "system": actor.system }); 
+
+        for (let i = 0; i < hero.advantages.length; i++)
+            actor.createEmbeddedDocuments("Item", [{ "name": hero.advantages[i].name, "type": "advantage", "system": { "value": hero.advantages[i].value } }]);
+
+        for (let i = 0; i < hero.disadvantages.length; i++)
+            actor.createEmbeddedDocuments("Item", [{ "name": hero.disadvantages[i].name, "type": "flaw", "system": { "value": hero.disadvantages[i].value } }]);
+    
+        for (let i = 0; i < hero.sfGeneral.length; i++)
+            actor.createEmbeddedDocuments("Item", [{ "name": hero.sfGeneral[i], "type": "generalTrait" }]);
+
+        for (let i = 0; i < hero.sfCombat.length; i++)
+            actor.createEmbeddedDocuments("Item", [{ "name": hero.sfCombat[i], "type": "combatTrait" }]);
+
+        for (let i = 0; i < hero.sfMagic.length; i++)
+            actor.createEmbeddedDocuments("Item", [{ "name": hero.sfMagic[i], "type": "magicTrait" }]);
+
+        for (let i = 0; i < hero.sfHoly.length; i++)
+            actor.createEmbeddedDocuments("Item", [{ "name": hero.sfHoly[i], "type": "holyTrait" }]);
+
+        for (let i = 0; i < hero.lang.length; i++)
+            actor.createEmbeddedDocuments("Item", [{ "name": hero.lang[i].name, "type": "langu", "system": { "value": hero.lang[i].value, "komp": hero.lang[i].komplex } }]);
+
+        for (let i = 0; i < hero.sign.length; i++)
+            actor.createEmbeddedDocuments("Item", [{ "name": hero.sign[i].name, "type": "signs", "system": { "value": hero.sign[i].value, "komp": hero.sign[i].komplex } }]);
+        
+
+        await delay(1000);
+
+        console.log(actor);
+
+        actor.update({ "system.LeP.value": actor.system.LeP.max });
+        actor.update({ "system.AuP.value": actor.system.AuP.max });
+        actor.update({ "system.AsP.value": actor.system.AsP.max });
+        actor.update({ "system.KaP.value": actor.system.KaP.max });
+
+        if(actor.system.skill.armb.value !== null) actor.update({ "system.skill.armb.atk": (parseInt(actor.system.skill.armb.value) + actor.system.FKBasis.value)});
+        if(actor.system.skill.bela.value !== null) actor.update({ "system.skill.bela.atk": (parseInt(actor.system.skill.bela.value) + actor.system.FKBasis.value)});
+        if(actor.system.skill.blas.value !== null) actor.update({ "system.skill.blas.atk": (parseInt(actor.system.skill.blas.value) + actor.system.FKBasis.value)});
+        if(actor.system.skill.bogn.value !== null) actor.update({ "system.skill.bogn.atk": (parseInt(actor.system.skill.bogn.value) + actor.system.FKBasis.value)});
+        if(actor.system.skill.disk.value !== null) actor.update({ "system.skill.disk.atk": (parseInt(actor.system.skill.disk.value) + actor.system.FKBasis.value)});
+        if(actor.system.skill.lanz.value !== null) actor.update({ "system.skill.lanz.atk": (parseInt(actor.system.skill.lanz.value) + actor.system.ATBasis.value)});
+        if(actor.system.skill.sleu.value !== null) actor.update({ "system.skill.sleu.atk": (parseInt(actor.system.skill.sleu.value) + actor.system.FKBasis.value)});
+        if(actor.system.skill.wbei.value !== null) actor.update({ "system.skill.wbei.atk": (parseInt(actor.system.skill.wbei.value) + actor.system.FKBasis.value)});
+        if(actor.system.skill.wmes.value !== null) actor.update({ "system.skill.wmes.atk": (parseInt(actor.system.skill.wmes.value) + actor.system.FKBasis.value)});
+        if(actor.system.skill.wspe.value !== null) actor.update({ "system.skill.wspe.atk": (parseInt(actor.system.skill.wspe.value) + actor.system.FKBasis.value)});
+    }
+ 
 }
 
 
-function generateHeroObject(xml) {
+function generateHeroObject(event, xml) {
 
     let advantage = [];
     let disadvantage = [];
@@ -142,10 +311,8 @@ function generateHeroObject(xml) {
             
             disadvantage.push({ name: name, value: value});
 
-        } else {
-
-            console.log("Nicht gefundener Nachteil: " + advantages[i]);
-        }
+        } else event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                "<div class='importError'>Der folgende Vor-/Nachteil wurde nicht gefunden: <br /><b>" + advantages[i].attributes.name.value.trim() + "</b><br /> Nach dem Import muss jener manuell hinzugefügt werden!</div>";
     }
 
     for (let i = 0; i < spezialSkills.length; i++) {
@@ -224,7 +391,9 @@ function generateHeroObject(xml) {
 
             holySpell.push(spezialSkills[i].attributes.name.value.replace("Liturgie: ", ""))
             
-        } else console.log(spezialSkills[i].attributes.name.value);
+        } else event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+        "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" + spezialSkills[i].attributes.name.value.trim() + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
+
     }
 
     for (let i = 0; i < skillArray.length; i++) {
@@ -359,6 +528,17 @@ function generateHeroObject(xml) {
         
     }
 
+    let attPoints = (
+        parseInt(getEigenschaftFromNode(getElementByAttribute(eigenArray, "Mut"))) +
+        parseInt(getEigenschaftFromNode(getElementByAttribute(eigenArray, "Klugheit"))) +
+        parseInt(getEigenschaftFromNode(getElementByAttribute(eigenArray, "Intuition"))) +
+        parseInt(getEigenschaftFromNode(getElementByAttribute(eigenArray, "Charisma"))) +
+        parseInt(getEigenschaftFromNode(getElementByAttribute(eigenArray, "Fingerfertigkeit"))) +
+        parseInt(getEigenschaftFromNode(getElementByAttribute(eigenArray, "Gewandtheit"))) +
+        parseInt(getEigenschaftFromNode(getElementByAttribute(eigenArray, "Konstitution"))) +
+        parseInt(getEigenschaftFromNode(getElementByAttribute(eigenArray, "Körperkraft")))
+    );
+
     return {
 
         name: xml.attributes.name.value,
@@ -388,6 +568,7 @@ function generateHeroObject(xml) {
         stats : {
             ap: parseInt(xml.getElementsByTagName("basis")[0].getElementsByTagName("abenteuerpunkte")[0].attributes.value.value),
             apfree: parseInt(xml.getElementsByTagName("basis")[0].getElementsByTagName("freieabenteuerpunkte")[0].attributes.value.value),
+            gp: parseInt(rasse.getElementsByTagName("aussehen")[0].attributes.gpstart.value),
             lep: getLePMod(getElementByAttribute(eigenArray, "Lebensenergie")),
             lepBuy: parseInt(getElementByAttribute(eigenArray, "Lebensenergie").attributes.value.value),
             aup: getLePMod(getElementByAttribute(eigenArray, "Ausdauer")),
@@ -398,6 +579,8 @@ function generateHeroObject(xml) {
             kapBuy: parseInt(getElementByAttribute(eigenArray, "Karmaenergie").attributes.value.value),
             mr: parseInt(getElementByAttribute(eigenArray, "Magieresistenz").attributes.mod.value),
             mrBuy: parseInt(getElementByAttribute(eigenArray, "Magieresistenz").attributes.value.value),
+            skills: parseInt(skillArray.length),
+            attPoints: attPoints
         },
 
         advantages: advantage,
@@ -405,7 +588,9 @@ function generateHeroObject(xml) {
         sfGeneral: sfGeneral,
         sfCombat: sfCombat,
         sfMagic: sfMagic,
+        sfHoly: sfHoly,
         objectRit: objectRit,
+        rits: sfRit,
         skills: {
 
             andr: {
@@ -581,7 +766,7 @@ function generateHeroObject(xml) {
             anat: getSkillFromNode(getElementByAttribute(skillArray, "Anatomie")),
             bauk: getSkillFromNode(getElementByAttribute(skillArray, "Baukunst")),
             buks: getSkillFromNode(getElementByAttribute(skillArray, "Brett-/Kartenspiel")),
-            geog: getSkillFromNode(getElementByAttribute(skillArray, "Geographie")),
+            geog: getSkillFromNode(getElementByAttribute(skillArray, "Geografie")),
             gesc: getSkillFromNode(getElementByAttribute(skillArray, "Geschichtswissen")),
             gest: getSkillFromNode(getElementByAttribute(skillArray, "Gesteinskunde")),
             goet: getSkillFromNode(getElementByAttribute(skillArray, "Götter und Kulte")),
@@ -603,13 +788,13 @@ function generateHeroObject(xml) {
             tier: getSkillFromNode(getElementByAttribute(skillArray, "Tierkunde")),
             abri: getSkillFromNode(getElementByAttribute(skillArray, "Abrichten")),
             acke: getSkillFromNode(getElementByAttribute(skillArray, "Ackerbau")),
-            alch: getSkillFromNode(getElementByAttribute(skillArray, "Alchemie")),
+            alch: getSkillFromNode(getElementByAttribute(skillArray, "Alchimie")),
             berg: getSkillFromNode(getElementByAttribute(skillArray, "Bergbau")),
             boge: getSkillFromNode(getElementByAttribute(skillArray, "Bogenbau")),
             boot: getSkillFromNode(getElementByAttribute(skillArray, "Boote fahren")),
             brau: getSkillFromNode(getElementByAttribute(skillArray, "Brauer")),
             druc: getSkillFromNode(getElementByAttribute(skillArray, "Drucker")),
-            fahr: getSkillFromNode(getElementByAttribute(skillArray, "Fahrzeuge lenken")),
+            fahr: getSkillFromNode(getElementByAttribute(skillArray, "Fahrzeug lenken")),
             fals: getSkillFromNode(getElementByAttribute(skillArray, "Falschspiel")),
             fein: getSkillFromNode(getElementByAttribute(skillArray, "Feinmechanik")),
             feue: getSkillFromNode(getElementByAttribute(skillArray, "Feuersteinbearbeitung")),
@@ -625,7 +810,7 @@ function generateHeroObject(xml) {
             hwun: getSkillFromNode(getElementByAttribute(skillArray, "Heilkunde: Wunden")),
             holz: getSkillFromNode(getElementByAttribute(skillArray, "Holzbearbeitung")),
             inst: getSkillFromNode(getElementByAttribute(skillArray, "Instrumentenbauer")),
-            kart: getSkillFromNode(getElementByAttribute(skillArray, "Kartographie")),
+            kart: getSkillFromNode(getElementByAttribute(skillArray, "Kartografie")),
             koch: getSkillFromNode(getElementByAttribute(skillArray, "Kochen")),
             kris: getSkillFromNode(getElementByAttribute(skillArray, "Kristallzucht")),
             lede: getSkillFromNode(getElementByAttribute(skillArray, "Lederarbeiten")),
@@ -715,8 +900,8 @@ function getEigenschaftFromNode(node) {
 
 function getSkillFromNode(node) {
 
-    if (node === null) return "";
-    if (node === undefined) return "";
+    if (node === null) return null;
+    if (node === undefined) return null;
 
     return node.attributes.value.value;
 }
@@ -752,4 +937,10 @@ function getLePMod(node) {
     if(node.attributes.permanent !== undefined) mod += parseInt(node.attributes.permanent.value);
 
     return mod;
+}
+
+function delay(milliseconds){
+    return new Promise(resolve => {
+        setTimeout(resolve, milliseconds);
+    });
 }
