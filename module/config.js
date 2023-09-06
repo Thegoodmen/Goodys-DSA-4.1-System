@@ -1451,6 +1451,7 @@ GDSA.sfcombat = [
     "Parierwaffen I",
     "Parierwaffen II",
     "Reiterkampf",
+    "Reiterkampf (Streitwagen)",
     "Rüstungsgewöhnung I",
     "Rüstungsgewöhnung II",
     "Rüstungsgewöhnung III",
@@ -1499,7 +1500,7 @@ GDSA.sfmagic = [
     "Astrale Meditation",
     "Aura verhüllen",
     "Aurapanzer",
-    "Auxilator",
+    "Auxiliator",
     "Bewahrer der Ahnenmacht",
     "Binder der Hexessenz",
     "Blutmagie",
@@ -1512,7 +1513,7 @@ GDSA.sfmagic = [
     "Eiserner Wille II",
     "Elementares Gleichgewicht",
     "Elementarharmonisierte Aura",
-    "Elementaristen",
+    "Elementarist",
     "Exorzist",
     "Fernzauberei",
     "Flüsterer der 1000 Namen",
@@ -1602,7 +1603,8 @@ GDSA.sfrit = [
     "Elfenlied",
     "Druidisches Herrschaftsritual",
     "Hexenritual",
-    "Ritual"
+    "Ritual",
+    "Hexenfluch"
 ];
 
 GDSA.sfholy = [

@@ -1,4 +1,5 @@
 import { GDSA } from "../config.js";
+import * as Util from "../../Util.js";
 import GDSAActor from "../objects/GDSAActor.js";
 
 export default class GDSAHeldenImporter extends FormApplication {
@@ -191,34 +192,145 @@ export default class GDSAHeldenImporter extends FormApplication {
 
         actor.update({ "name": actor.name });
         actor.update({ "prototypeToken": actor.prototypeToken });
-        actor.update({ "system": actor.system }); 
+        actor.update({ "system": actor.system });
+
+        let spellsArray = await game.packs.get("GDSA.spells").getDocuments();
 
         for (let i = 0; i < hero.advantages.length; i++)
-            actor.createEmbeddedDocuments("Item", [{ "name": hero.advantages[i].name, "type": "advantage", "system": { "value": hero.advantages[i].value } }]);
+            await actor.createEmbeddedDocuments("Item", [{ "name": hero.advantages[i].name, "type": "advantage", "system": { "value": hero.advantages[i].value } }]);
 
         for (let i = 0; i < hero.disadvantages.length; i++)
-            actor.createEmbeddedDocuments("Item", [{ "name": hero.disadvantages[i].name, "type": "flaw", "system": { "value": hero.disadvantages[i].value } }]);
+            await actor.createEmbeddedDocuments("Item", [{ "name": hero.disadvantages[i].name, "type": "flaw", "system": { "value": hero.disadvantages[i].value } }]);
     
         for (let i = 0; i < hero.sfGeneral.length; i++)
-            actor.createEmbeddedDocuments("Item", [{ "name": hero.sfGeneral[i], "type": "generalTrait" }]);
+            await actor.createEmbeddedDocuments("Item", [{ "name": hero.sfGeneral[i], "type": "generalTrait" }]);
 
         for (let i = 0; i < hero.sfCombat.length; i++)
-            actor.createEmbeddedDocuments("Item", [{ "name": hero.sfCombat[i], "type": "combatTrait" }]);
+            await actor.createEmbeddedDocuments("Item", [{ "name": hero.sfCombat[i], "type": "combatTrait" }]);
 
         for (let i = 0; i < hero.sfMagic.length; i++)
-            actor.createEmbeddedDocuments("Item", [{ "name": hero.sfMagic[i], "type": "magicTrait" }]);
+            await actor.createEmbeddedDocuments("Item", [{ "name": hero.sfMagic[i], "type": "magicTrait" }]);
 
         for (let i = 0; i < hero.sfHoly.length; i++)
-            actor.createEmbeddedDocuments("Item", [{ "name": hero.sfHoly[i], "type": "holyTrait" }]);
+            await actor.createEmbeddedDocuments("Item", [{ "name": hero.sfHoly[i], "type": "holyTrait" }]);
 
         for (let i = 0; i < hero.lang.length; i++)
-            actor.createEmbeddedDocuments("Item", [{ "name": hero.lang[i].name, "type": "langu", "system": { "value": hero.lang[i].value, "komp": hero.lang[i].komplex } }]);
+            await actor.createEmbeddedDocuments("Item", [{ "name": hero.lang[i].name, "type": "langu", "system": { "value": hero.lang[i].value, "komp": hero.lang[i].komplex } }]);
 
         for (let i = 0; i < hero.sign.length; i++)
-            actor.createEmbeddedDocuments("Item", [{ "name": hero.sign[i].name, "type": "signs", "system": { "value": hero.sign[i].value, "komp": hero.sign[i].komplex } }]);
+            await actor.createEmbeddedDocuments("Item", [{ "name": hero.sign[i].name, "type": "signs", "system": { "value": hero.sign[i].value, "komp": hero.sign[i].komplex } }]);
         
+        for (let i = 0; i < hero.spells.length; i++) {
 
-        await delay(1000);
+            // let finding = spellsArray.filter(function(item) {return hero.spells[i].name.includes(item.name)})
+            let finding = spellsArray.filter(function(item) {return hero.spells[i].name === item.name});
+
+            if (finding.length !== 1) {
+
+                if (hero.spells[i].name.includes(" (Agm)")) {
+                    
+                    finding =  spellsArray.filter(function(item) {return hero.spells[i].name.replace(" (Agm)", "") === item.name})[0];
+
+                    let traits = [finding.system.trait1, finding.system.trait2, finding.system.trait3, finding.system.trait4]
+
+                    let spell = (await actor.createEmbeddedDocuments("Item", [finding]))[0];
+                    
+                    traits.filter(removeEleValue);
+                    traits.filter(removeEleValue);
+                    traits.filter(removeEleValue);
+                    traits.filter(removeEleValue);
+                    
+                    traits.push("agri");
+
+                    spell.system.trait1 = (traits.length >= 1) ? traits[0] : "none";
+                    spell.system.trait2 = (traits.length >= 2) ? traits[1] : "none";
+                    spell.system.trait3 = (traits.length >= 3) ? traits[2] : "none";
+                    spell.system.trait4 = (traits.length >= 4) ? traits[3] : "none";
+                    spell.system.name = hero.spells[i].name;
+                    spell.system.zfw = hero.spells[i].value;
+                    spell.system.rep = Util.getRepFromHeldentool(hero.spells[i].rep);
+
+                    spell.update({ "name": hero.spells[i].name });
+                    spell.update({ "system": spell.system });
+
+                } else if (hero.spells[i].name.includes(" (obsk.)")) {
+                    
+                    finding =  spellsArray.filter(function(item) {return hero.spells[i].name.replace(" (obsk.)", "") === item.name})[0];
+
+                    let spell = (await actor.createEmbeddedDocuments("Item", [finding]))[0];
+
+                    spell.system.name = hero.spells[i].name;
+                    spell.system.zfw = hero.spells[i].value;
+                    spell.system.rep = Util.getRepFromHeldentool(hero.spells[i].rep);
+
+                    spell.update({ "name": hero.spells[i].name });
+                    spell.update({ "system": spell.system });              
+                
+                } else {
+                    
+                    let spell = {
+
+                        name: hero.spells[i].name,
+                        type: "spell",
+                        system: {
+                            name: hero.spells[i].name,
+                            att1: hero.spells[i].probe.replace(" (", "").replace(")", "").split("/")[0],
+                            att2: hero.spells[i].probe.replace(" (", "").replace(")", "").split("/")[1],
+                            att3: hero.spells[i].probe.replace(" (", "").replace(")", "").split("/")[2],
+                            rep: Util.getRepFromHeldentool(hero.spells[i].rep),
+                            zfw: hero.spells[i].value,
+                            casttime: true,
+                            cost: true,
+                            costs: "",
+                            costsAlt: "",
+                            diffrentCost: false,
+                            duration: true,
+                            forced: true,
+                            isMR: false,
+                            komp: "",
+                            lcdPage: "",
+                            loc: "GDSA.system.spell",
+                            range: true,
+                            repAlt: "",
+                            technic: true,
+                            trait1: "none",
+                            trait2: "none",
+                            trait3: "none",
+                            trait4: "none",
+                            vAch: null,
+                            vBor: null,
+                            vDru: null,
+                            vElf: null,
+                            vGeo: null,
+                            vHex: null,
+                            vMag: null,
+                            vSch: null,
+                            vSrl: null,
+                            vari: {},
+                            vars: [],
+                            zduration: 0
+                        }      
+                    }
+
+                    await actor.createEmbeddedDocuments("Item", [spell]);
+
+                } 
+
+            } else {
+
+                let spell = (await actor.createEmbeddedDocuments("Item", finding))[0];
+
+                spell.system.name = hero.spells[i].name;
+                spell.system.zfw = hero.spells[i].value;
+                spell.system.rep = Util.getRepFromHeldentool(hero.spells[i].rep);
+
+                spell.update({ "name": hero.spells[i].name });
+                spell.update({ "system": spell.system });
+            }
+        }
+        
+        
+            await delay(1000);
 
         console.log(actor);
 
@@ -241,6 +353,16 @@ export default class GDSAHeldenImporter extends FormApplication {
  
 }
 
+function removeEleValue(value, index, arr) {
+
+    if (value === "elem" || value === "feur" || value === "wass" || value === "eis" || value === "humu" || value === "luft" || value === "erz" || value === "none") {
+
+        arr.splice(index, 1);
+        return true;
+    }
+
+    return false;
+}
 
 function generateHeroObject(event, xml) {
 
@@ -418,7 +540,8 @@ function generateHeroObject(event, xml) {
         spells.push({
             name: spellArray[i].attributes.name.value,
             value: spellArray[i].attributes.value.value,
-            rep: spellArray[i].attributes.repraesentation.value
+            rep: spellArray[i].attributes.repraesentation.value,
+            probe: spellArray[i].attributes.probe.value
         });
 
     }
