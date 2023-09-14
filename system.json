@@ -9,11 +9,11 @@
             "email": "maron.moeller@gmail.com"
         }
     ],
-    "version": "0.2.18",
+    "version": "0.3.5",
     "compatibility": {
         "minimum": 10,
-        "verified": "10.291",
-        "maximum": 10
+        "verified": "11.308",
+        "maximum": 11
     },
     "esmodules": [
         "GDSA.js"
@@ -48,6 +48,15 @@
             "label": "Rituale",
             "system": "GDSA",
             "path": "packs/rituale.db",
+            "type": "Item",
+            "private": false,
+            "flags": {}
+        },
+        {
+            "name": "liturgien",
+            "label": "Liturgien",
+            "system": "GDSA",
+            "path": "packs/liturgien.db",
             "type": "Item",
             "private": false,
             "flags": {}
