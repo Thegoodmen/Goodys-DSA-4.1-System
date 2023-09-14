@@ -1,15 +1,120 @@
 <form class="{{cssClass}}" autocomplete="off">
 
-    <header class="sheet-header">
-        <div class="ritHelper1">
-            <div class="spHelper1">{{localize "GDSA.itemsheet.name"}}</div>
-            <div class="spHelper3">{{localize "GDSA.itemsheet.lvl"}}</div>
-            <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
-            <div class="spHelper4"><input class="spHelper4" name="system.grad" type="text" value="{{system.grad}}" /></div>
-        </div>
-    </header>
+    <div class="browserImgBox3"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
 
-    PDF<input name="system.lltPage" type="text" value="{{system.lltPage}}" style="width: 60px; margin-left: 10px;" />
+    <div class="ritHelper7">
+        <div class="spHelper1">{{localize "GDSA.itemsheet.name"}}</div>
+        <div class="spHelper1"><input class="spHelper6" name="name" type="text" value="{{item.name}}" /></div>
+    </div>
+    
+    <div class="itemRow3">
+        <div class="spHelper8">{{localize "GDSA.itemsheet.lvl"}}</div> <div class="spHelper3"><input class="spHelper3" name="system.grad" type="text" value="{{system.grad}}" /></div>
+        <div class="spHelper8">PDF</div> <div class="spHelper3"><input class="spHelper3" name="system.lltPage" type="text" value="{{system.lltPage}}" /></div>
+        <div class="spHelper8">Ziel</div> <div class="spHelper3">
+            <select class="spHelper3" name="system.target">
+                    {{#select system.target}}
+                        {{#each config.wonderTarget as |name|}}
+                            <option value="{{name}}">{{name}}</option>
+                        {{/each}}
+                    {{/select}}
+            </select>
+        </div>
+    </div>
+
+    <nav class="tabs nav spell-tabs" data-group="spell">
+        <a class="item" data-tab="spellDetails"><div class="spellMenu2">Details</div></a>  
+        <a class="item" data-tab="spellVariants"><div class="spellMenu">Verbreitung</div></a>
+        <a class="item" data-tab="spellEffects"><div class="spellMenu">Effekte</div></a>
+        <a class="item" data-tab="spellNotes"><div class="spellMenu">Notizen</div></a>
+    </nav>
+
+    <div class="spellMenuBox2">
+	    <section class="spell-body">
+
+            <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
+
+                <div class="input100 spellName">Ritualdauer:</div>
+                <select class="input70sa" name="system.ritduaration">
+                    {{#select system.ritduaration}}
+                        {{#each config.wonderCastDuration as |name type|}}
+                            <option value="{{type}}">{{localize name}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+                <input class="ritHelper6" name="system.ritshortdura" type="text" value="{{system.ritshortdura}}" />
+
+                <div class="input100 spellName">Wirkungsdauer:</div>
+                <select class="input70s" name="system.duration">
+                    {{#select system.duration}}
+                        {{#each config.wonderDuration as |name type|}}
+                            <option value="{{name}}">{{name}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+
+                <div class="input100 spellName">Reichweite:</div>
+                <select class="input70s" name="system.range">
+                    {{#select system.range}}
+                        {{#each config.wonderRange as |name type|}}
+                            <option value="{{type}}">{{localize name}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+
+                <div class="input100 spellName">Wirkungsstärke:</div>
+                <select class="input70s" name="system.power">
+                    {{#select system.power}}
+                        {{#each config.wonderPower as |name|}}
+                            <option value="{{name}}">{{name}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+
+            </div>
+
+            <div class="tab spellVariants" data-group="spell" data-tab="spellVariants">
+                <div class="spHelper9">Praios</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Pra" type="checkbox" {{checked system.verb.Pra}} /></div>
+                <div class="spHelper9">Rondra</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Ron" type="checkbox" {{checked system.verb.Ron}} /></div>
+                <div class="spHelper9">Phex</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Phx" type="checkbox" {{checked system.verb.Phx}} /></div>
+
+                <div class="spHelper9">Firun</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Fir" type="checkbox" {{checked system.verb.Fir}} /></div>
+                <div class="spHelper9">Travia</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Tra" type="checkbox" {{checked system.verb.Tra}} /></div>
+                <div class="spHelper9">Ingerimm</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Ing" type="checkbox" {{checked system.verb.Ing}} /></div>
+                
+                <div class="spHelper9">Boron</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Bor" type="checkbox" {{checked system.verb.Bor}} /></div>
+                <div class="spHelper9">Efferd</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Eff" type="checkbox" {{checked system.verb.Eff}} /></div>
+                <div class="spHelper9">Hesinde</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Hes" type="checkbox" {{checked system.verb.Hes}} /></div>
+                
+                <div class="spHelper9">Peraine</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Per" type="checkbox" {{checked system.verb.Per}} /></div>
+                <div class="spHelper9">Rahja</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Rah" type="checkbox" {{checked system.verb.Rah}} /></div>
+                <div class="spHelper9">Tsa</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Tsa" type="checkbox" {{checked system.verb.Tsa}} /></div>
+                
+                <div class="spHelper9">Ifirn</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Ifi" type="checkbox" {{checked system.verb.Ifi}} /></div>
+                <div class="spHelper9">Aves</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Ave" type="checkbox" {{checked system.verb.Ave}} /></div>
+                <div class="spHelper9">Kor</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Kor" type="checkbox" {{checked system.verb.Kor}} /></div>
+                
+                <div class="spHelper9">Nandus</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Nan" type="checkbox" {{checked system.verb.Nan}} /></div>
+                <div class="spHelper9">Swafnir</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Swf" type="checkbox" {{checked system.verb.Swf}} /></div>
+                <div class="spHelper9">Angrosch</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Ang" type="checkbox" {{checked system.verb.Ang}} /></div>
+                
+                <div class="spHelper9">Tairach</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Tai" type="checkbox" {{checked system.verb.Tai}} /></div>
+                <div class="spHelper9">Gravesh</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Grv" type="checkbox" {{checked system.verb.Grv}} /></div>
+                <div class="spHelper9">Himmelswölfe</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Him" type="checkbox" {{checked system.verb.Him}} /></div>
+                
+                <div class="spHelper9">Zsahh</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Zsa" type="checkbox" {{checked system.verb.Zsa}} /></div>
+                <div class="spHelper9">H'Szint</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Hsz" type="checkbox" {{checked system.verb.Hsz}} /></div>
+                <div class="spHelper9">Kamaluq</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Kam" type="checkbox" {{checked system.verb.Kam}} /></div>
+                
+                <div class="spHelper11"></div>
+                <div class="spHelper9">Namenloser</div><div class="spHelper10"><input class="mwHelper6" name="system.verb.Nam" type="checkbox" {{checked system.verb.Nam}} /></div>
+            </div>
+
+            <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
+                <textarea class="litNotes" name="system.notes">{{system.notes}}</textarea>
+            </div>
+        
+        </section>
+    </div>
 
     <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
 

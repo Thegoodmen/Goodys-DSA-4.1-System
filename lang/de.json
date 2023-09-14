@@ -201,6 +201,17 @@
             "ach": "Achaz",
             "sch": "Schelm"
         },
+        "wonder": {
+            "self": "Selbst",
+            "touch": "Berührung",
+            "sight": "Sicht",
+            "far": "Fern",
+            "action": "Stoßgebet",
+            "rounds": "Gebet",
+            "halfho": "Andacht",
+            "hours": "Zeremonie",
+            "days": "Zyklus"
+        },
         "itemsheet": {
             "name": "Name",
             "skill": "Talent",

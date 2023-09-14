@@ -135,6 +135,66 @@ GDSA.cuts = {
     smara: "GDSA.cuts.smara"
 }
 
+GDSA.wonderRange = {
+    none: "",
+    self: "GDSA.wonder.self",
+    touc: "GDSA.wonder.touch",
+    sigt: "GDSA.wonder.sight",
+    faar: "GDSA.wonder.far"
+}
+
+GDSA.wonderCastDuration = {
+    none: "",
+    action: "GDSA.wonder.action",
+    rounds: "GDSA.wonder.rounds",
+    halfho: "GDSA.wonder.halfho",
+    hours: "GDSA.wonder.hours",
+    days: "GDSA.wonder.days"
+}
+
+GDSA.wonderTarget = [
+    "",
+    "G",
+    "P",
+    "PP",
+    "PPP",
+    "PPPP",
+    "PPPPP",
+    "Z",
+    "ZZ",
+    "ZZZ",
+    "ZZZZ",
+    "ZZZZZ"
+]
+
+GDSA.wonderPower = [
+    "",
+    "LkP*/2",
+    "LkP*/2 + 5",
+    "LkP*",
+    "LkP* + 5",
+    "LkP* + 10",
+    "LkP* + 15",
+    "LkP* + 20",
+    "LkP* + 25",
+    "LkP* + 30",
+]
+
+GDSA.wonderDuration = [
+    "",
+    "Augenblicklich",
+    "LkP* KR",
+    "LkP* x 10 KR",
+    "LkP* SR",
+    "LkP* Stunden",
+    "LkP* Tage",
+    "LkP* Wochen",
+    "LkP* Monate",
+    "LkP* Jahre",
+    "Permanent",
+    "Speziell"
+]
+
 GDSA.magicReps = {
     none: "",
     mag: "GDSA.reps.mag",
