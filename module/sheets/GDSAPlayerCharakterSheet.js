@@ -242,7 +242,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let mag1 = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag1")})[0];
         let mag2 = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag2")})[0];
         let mag3 = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag3")})[0];
-        let kler = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.kler")})[0];
+        let kler = sheetData.holyTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.litk"))})[0];
 
         if(mag1 != null || mag2 != null || mag3 != null) sheetData.system.magical = true;
         if(kler != null) sheetData.system.klerikal = true;
@@ -430,6 +430,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if(checkDogde1 != null) sheetData.system.Dogde += 3;
         if(checkDogde2 != null) sheetData.system.Dogde += 3;
         if(checkDogde3 != null) sheetData.system.Dogde += 3;
+        if(checkFlink != null) sheetData.system.Dogde += checkFlink.system.value;
 
         // Talentspezialisierungen Array Generation
 

@@ -12,6 +12,7 @@ import GDSANonPlayerSheet from "./module/sheets/GDSANonPlayerSheet.js";
 import * as LsFunction from "./module/listenerFunctions.js";
 import MemoryCache from "./module/memory-cache.js";
 import GMScreen from "./module/apps/gmScreen.js";
+import HeldenImporter from "./module/apps/heldenImport.js";
 
 Hooks.once("init", () => {
 
@@ -62,17 +63,8 @@ Hooks.on("renderSettings", (app, html) => {
     html.find('#settings-game').after($(`<h2>GDSA Einstellungen</h2><div id="gdsa-options"></div>`));
 
     GMScreen.Initialize(html);
-  
-    if (game.user.isGM) {
 
-        $('#gdsa-options').append($(
-            `<button data-action="heldentool-importer">
-                <i class="fas fa-duotone fa-arrow-up-from-bracket"></i>
-                Import Heldentool XML
-            </button>`));
-        
-        html.find('button[data-action="heldentool-importer"').on("click", _ => console.log("bnt1"));
-    }
+    HeldenImporter.Initialize(html);
 });
   
 
@@ -371,6 +363,12 @@ function registerHandelbarsHelpers() {
         if(system.trait4 != "none") traits += " / " + game.i18n.localize("GDSA.magicTraits." + system.trait4);
 
         return traits
+    });
+
+    Handlebars.registerHelper("formatNumber", function(number) {
+
+        return new Intl.NumberFormat("de-DE").format(parseInt(number))
+
     });
 
     Handlebars.registerHelper("checkForRegla", function(objekt, string) {

@@ -711,3 +711,39 @@ export function getZone(value) {
             return game.i18n.localize("GDSA.zone.Head");
     }
 }
+
+export function getRepFromHeldentool(value) {
+
+    switch(value) {
+
+        case "Magier":
+            return "mag";
+        
+        case "Druide":
+            return "dru";
+
+        case "Elf":
+            return "elf";
+
+        case "Geode":
+            return "geo";
+
+        case "Achaz":
+            return "ach";
+
+        case "Schelm":
+            return "sch";
+
+        case "Hexe":
+            return "hex";
+
+        case "Borbaradianer":
+            return "bor";
+        
+        case "Scharlatan":
+            return "srl";
+
+        default:
+            return "none";
+    }
+}

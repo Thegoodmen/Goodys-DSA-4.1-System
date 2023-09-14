@@ -791,6 +791,13 @@
   border: 2px solid black;
   margin: 5px 24px;
 }
+.GDSA.sheet.characterSheet .sonderfBox2 {
+  width: 562px;
+  height: 210px;
+  float: left;
+  border: 2px solid black;
+  margin: 5px 24px;
+}
 .GDSA.sheet.characterSheet .traithead {
   width: 512px;
   height: 20px;
@@ -806,6 +813,11 @@
   float: left;
   overflow-y: scroll;
   height: 70px;
+}
+.GDSA.sheet.characterSheet .traits2 {
+  float: left;
+  overflow-y: scroll;
+  height: 180px;
 }
 .GDSA.sheet.characterSheet .magtraits {
   float: left;
@@ -1726,6 +1738,12 @@
   margin-right: 75px;
   margin-bottom: 5px;
 }
+.GDSA.sheet.itemSheet .input70sa {
+  width: 195px;
+  margin-left: 30px;
+  margin-right: 15px;
+  margin-bottom: 5px;
+}
 .GDSA.sheet.itemSheet .input70a {
   width: 70px;
   margin-left: 12px;
@@ -2063,6 +2081,36 @@
   width: 80px;
   margin-right: 10px;
 }
+.GDSA.sheet.itemSheet .spHelper6 {
+  float: left;
+  width: 362px;
+}
+.GDSA.sheet.itemSheet .spHelper7 {
+  float: left;
+  width: 49px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+.GDSA.sheet.itemSheet .spHelper8 {
+  float: left;
+  width: 49px;
+  margin-top: 5px;
+  margin-left: 20px;
+}
+.GDSA.sheet.itemSheet .spHelper9 {
+  float: left;
+  width: 80px;
+  padding-top: 4px;
+}
+.GDSA.sheet.itemSheet .spHelper10 {
+  float: left;
+  width: 55px;
+}
+.GDSA.sheet.itemSheet .spHelper11 {
+  float: left;
+  width: 135px;
+  height: 20px;
+}
 .GDSA.sheet.itemSheet .itemImg {
   height: 64px;
   width: 64px;
@@ -2154,6 +2202,18 @@
 }
 .GDSA.sheet.itemSheet .spellvari {
   margin-left: 5px;
+}
+.GDSA.sheet.itemSheet .spellMenuBox2 {
+  height: 260px;
+  width: 430px;
+  margin-left: 10px;
+  float: left;
+  border: solid black 1px;
+  padding: 10px;
+  overflow-y: auto;
+}
+.GDSA.sheet.itemSheet .litNotes {
+  height: 234px;
 }
 .spellvariInput {
   margin-left: 44px;
@@ -2319,6 +2379,66 @@
 .dialogFiller {
   width: 100%;
   height: 10px;
+}
+.heldenImportHelper1 {
+  display: block;
+}
+.heldenImportHelper2 {
+  height: 30px;
+  font-size: 15px;
+  font-weight: bold;
+  padding-left: 30px;
+}
+.heldenImportHelper3 {
+  padding-left: 65px;
+}
+.heldenImportHelper4 {
+  width: 185px;
+  font-weight: bold;
+}
+.heldenImportHelper5 {
+  text-align: center;
+}
+.heldenImportHelper6 {
+  height: 435px;
+  width: 100%;
+}
+.heldenImportHelper7 {
+  height: 99%;
+  width: 48%;
+  margin: 7px;
+  float: left;
+  padding-left: 20px;
+}
+.importName {
+  font-size: 25px;
+  font-weight: bold;
+  overflow: hidden;
+  height: 32px;
+}
+.importStat1 {
+  float: left;
+  width: 140px;
+  font-weight: bold;
+}
+.importStat2 {
+  float: left;
+  width: 210px;
+  height: 17px;
+  overflow: hidden;
+}
+.importBox {
+  height: 50px;
+}
+.importError {
+  border: 2px black solid;
+  padding-left: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 13px;
+  background-color: #8d0e0e4f;
+  margin-bottom: 6px;
+  text-align: center;
 }
 .disabeldtext {
   color: gray;
