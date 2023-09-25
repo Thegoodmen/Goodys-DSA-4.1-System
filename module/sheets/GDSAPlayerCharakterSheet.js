@@ -109,7 +109,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
             // Set Listener for Basic Rolls
             
-            html.find(".skill-roll").click(LsFunction.onSkillRoll.bind(this, this.getData(), "normal"));
+            html.find(".skill-roll").click(LsFunction.onSkillRoll.bind(this, this.getData()));
             html.find(".stat-roll").click(LsFunction.onStatRoll.bind(this, this.getData()));
             html.find(".flaw-roll").click(LsFunction.onFlawRoll.bind(this, this.getData()));
             html.find(".attack-roll").click(LsFunction.onAttackRoll.bind(this, this.getData()));
@@ -117,7 +117,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".shield-roll").click(LsFunction.onShildRoll.bind(this, this.getData()));
             html.find(".dogde-roll").click(LsFunction.onDogdeRoll.bind(this, this.getData()));
             html.find(".damage-roll").click(LsFunction.onDMGRoll.bind(this, this.getData()));
-            html.find(".wonder-roll").click(LsFunction.onSkillRoll.bind(this, this.getData(), "wonder"));
+            html.find(".wonder-roll").click(LsFunction.onWonderRoll.bind(this, this.getData()));
             html.find(".spell-roll").click(LsFunction.onSpellRoll.bind(this, this.getData()));
             html.find(".ritCrea-roll").click(LsFunction.onRitualCreation.bind(this, this.getData()));
             html.find(".ritAkti-roll").click(LsFunction.onRitualActivation.bind(this, this.getData()));
@@ -148,6 +148,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             if(! this.id.includes("Token")) html.find(".change-money").click(LsFunction.onMoneyChange.bind(this, this.getData()));
             html.find(".toggleHide").click(LsFunction.onHideToggle.bind(this, this.getData()));
             html.find(".spell-add").click(LsFunction.getSpellContextMenu.bind(this, this.getData()));
+            html.find(".wonder-add").click(LsFunction.getWonderContextMenu.bind(this, this.getData()));
             html.find(".meleeW-add").click(LsFunction.getMeleeWContextMenu.bind(this, this.getData()));
             html.find(".rangeW-add").click(LsFunction.getRangeWContextMenu.bind(this, this.getData()));
             html.find(".shilds-add").click(LsFunction.getShieldContextMenu.bind(this, this.getData()));
@@ -242,10 +243,12 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let mag1 = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag1")})[0];
         let mag2 = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag2")})[0];
         let mag3 = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag3")})[0];
-        let kler = sheetData.holyTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.litk"))})[0];
+        let klr1 = sheetData.holyTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.lit1"))})[0];
+        let klr2 = sheetData.advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.kler"))})[0];
+        let klr3 = sheetData.holyTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.akul"))})[0];
 
         if(mag1 != null || mag2 != null || mag3 != null) sheetData.system.magical = true;
-        if(kler != null) sheetData.system.klerikal = true;
+        if(klr1 != null || klr2 != null || klr3 != null) sheetData.system.klerikal = true;
         
         // Calculate Armour Ratings
 

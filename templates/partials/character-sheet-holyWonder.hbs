@@ -5,14 +5,14 @@
                 <td class="skillTableNameBig2">{{name}} <i>[{{localize "GDSA.chat.medi.grad"}} {{system.grad}}]</i>
                     <div class="itemWorn"><a class="openWonder" data-page="{{system.lltPage}}"><i class="fas fa-book"></i></a></div>
                 </td>
-                <td class="skillTableRoll"><a class="item wonder-roll" data-statName="{{name}}" title="roll">
+                <td class="skillTableRoll"><a class="wonder-roll" title="roll">
                     <i class="fas fa-dice-d20 faD20Stat"></i></a>
                 </td>
             </tr>
 	    {{/each}}
         <tr>
             <td class="addWonder" colspan="3">
-                <a class="item-create" data-type="wonder" title="{{localize "GDSA.charactersheet.addWonder"}}"><div class="spellButtonBox"><b>+</b></div></a>
+                <a class="wonder-add" data-type="wonder" title="{{localize "GDSA.charactersheet.addWonder"}}"><div class="spellButtonBox"><b>+</b></div></a>
             </td>
         </tr>
     </table>

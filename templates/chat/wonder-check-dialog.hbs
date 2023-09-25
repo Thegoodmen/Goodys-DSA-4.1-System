@@ -1,34 +1,104 @@
-<form>
+<form class="dialogConfig">
+    <div class="form-group subMain">
+        <div class="submen"><hr class="subhr" /></div>{{shortname}}<div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.advantage"}}</label>
+        <input type="number" name="advantage" value="0" />
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.disadvantage"}}</label>
+        <input type="number" name="disadvantage" value="0" />
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <div class="form-group subSub">
+        <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.chat.skill.modi"}}<div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.ritDura"}} {{localize "GDSA.chat.medi.decre"}}</label>
+        <input id="inboxCast" type="checkbox" name="ritduaration" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.target"}} {{localize "GDSA.chat.medi.incre"}}</label>
+        <input id="inboxCast" type="checkbox" name="target" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.rangeH"}} {{localize "GDSA.chat.medi.incre"}}</label>
+        <input id="inboxCast" type="checkbox" name="rangeH" {{#unless (checkWonderRange this)}}disabled{{/unless}} {{#unless allowReachUpgrade}}disabled{{/unless}} />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.wirkDur"}} {{localize "GDSA.chat.medi.incre"}}</label>
+        <input id="inboxCast" type="checkbox" name="duration" {{#if (equals system.duration "Permanent")}}disabled{{/if}} {{#if (equals system.duration "Speziell")}}disabled{{/if}} />
+    </div>
+    
+    <div class="dialogFiller"></div>
+
+    <div class="form-group subSub">
+        <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.chat.skill.acca"}}<div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+
     <div class="form-group">
         <label>{{localize "GDSA.chat.medi.motivation"}}</label>
         <select class="mediOpt" name="motivation">
             {{#select motivation}}
-                <option value="-7">{{localize "GDSA.chat.medi.godlyReason"}}</option>
-                <option value="-5">{{localize "GDSA.chat.medi.churchReason"}}</option>
-                <option value="-3">{{localize "GDSA.chat.medi.inNeed"}}</option>
+                <option value="-7">{{localize "GDSA.chat.medi.reasonGood3"}}</option>
+                <option value="-5">{{localize "GDSA.chat.medi.reasonGood2"}}</option>
+                <option value="-3">{{localize "GDSA.chat.medi.reasonGood1"}}</option>
                 <option value="0" selected>{{localize "GDSA.chat.medi.normal"}}</option>
-                <option value="+5">{{localize "GDSA.chat.medi.selfish"}}</option>
-                <option value="+7">{{localize "GDSA.chat.medi.hardSelfish"}}</option>
-                <option value="+12">{{localize "GDSA.chat.medi.controlled"}}</option>
+                <option value="+3">{{localize "GDSA.chat.medi.reasonBad1"}}</option>
+                <option value="+5">{{localize "GDSA.chat.medi.reasonBad2"}}</option>
+                <option value="+7">{{localize "GDSA.chat.medi.reasonBad3"}}</option>
             {{/select}}
         </select>
     </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.lastResort"}}</label>
+        <input id="inboxCast" type="checkbox" name="lastResort" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.forcedHoly"}}</label>
+        <input id="inboxCast" type="checkbox" name="forcedHoly" />
+    </div>
+
     <div class="form-group">
         <label>{{localize "GDSA.chat.medi.place"}}</label>
         <select class="mediOpt" name="place">
             {{#select place}}
-                <option value="0" selected>{{localize "GDSA.chat.medi.neutral"}}</option>
-                <option value="-1">{{localize "GDSA.chat.medi.diffrentGod"}}</option>
-                <option value="-2">{{localize "GDSA.chat.medi.chapel"}}</option>
-                <option value="-3">{{localize "GDSA.chat.medi.kathedrial"}}</option>
                 <option value="-4">{{localize "GDSA.chat.medi.holyPlace"}}</option>
-                <option value="+3">{{localize "GDSA.chat.medi.placeOfDisbelive"}}</option>
-                <option value="+3">{{localize "GDSA.chat.medi.disbeliverPresent"}}</option>
+                <option value="-3">{{localize "GDSA.chat.medi.kathedrial"}}</option>
+                <option value="-2">{{localize "GDSA.chat.medi.chapel"}}</option>
+                <option value="-1">{{localize "GDSA.chat.medi.diffrentGod"}}</option>
+                <option value="0" selected>{{localize "GDSA.chat.medi.neutral"}}</option>
                 <option value="+7">{{localize "GDSA.chat.medi.diffrentPlane"}}</option>
-                <option value="+7">{{localize "GDSA.chat.medi.demonicPlace"}}</option>
             {{/select}}
         </select>
     </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.disbeliv"}}</label>
+        <input id="inboxCast" type="checkbox" name="disbeliv" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.demonic"}}</label>
+        <input id="inboxCast" type="checkbox" name="demonic" />
+    </div>
+
     <div class="form-group">
         <label>{{localize "GDSA.chat.medi.time"}}</label>
         <select class="mediOpt" name="time">
@@ -40,20 +110,36 @@
             {{/select}}
         </select>
     </div>
+
     <div class="form-group">
-        <label>{{localize "GDSA.chat.medi.situation"}}</label>
-        <select class="mediOpt" name="situation">
-            {{#select situation}}
-                <option value="-2">{{localize "GDSA.chat.medi.ordert"}}</option>
+        <label>{{localize "GDSA.chat.medi.resulting"}}</label>
+        <select class="mediOpt" name="resulting">
+            {{#select resulting}}
+                <option value="-2">{{localize "GDSA.chat.medi.ordert2"}}</option>
+                <option value="-1">{{localize "GDSA.chat.medi.ordert1"}}</option>
                 <option value="0" selected>{{localize "GDSA.chat.medi.normal"}}</option>
-                <option value="+3">{{localize "GDSA.chat.medi.strange"}}</option>
-                <option value="+7">{{localize "GDSA.chat.medi.havok"}}</option>
-                <option value="+2">{{localize "GDSA.chat.medi.oathbreaker"}}</option>
-                <option value="+2">{{localize "GDSA.chat.medi.minorPackt"}}</option>
-                <option value="+5">{{localize "GDSA.chat.medi.frevler"}}</option>
+                <option value="+3">{{localize "GDSA.chat.medi.disrupting1"}}</option>
+                <option value="+5">{{localize "GDSA.chat.medi.disrupting2"}}</option>
+                <option value="+7">{{localize "GDSA.chat.medi.disrupting3"}}</option>
             {{/select}}
         </select>        
     </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.othbreak"}}</label>
+        <input id="inboxCast" type="checkbox" name="othbreak" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.symbolFrev"}}</label>
+        <input id="inboxCast" type="checkbox" name="symbolFrev" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.smallPakt"}}</label>
+        <input id="inboxCast" type="checkbox" name="smallPakt" />
+    </div>
+
     <div class="form-group">
         <label>{{localize "GDSA.chat.medi.help"}}</label>
         <select class="mediOpt" name="help">
@@ -66,4 +152,13 @@
             {{/select}}
         </select>        
     </div>
+    
+    <div class="dialogFiller"></div>
+
+    <div class="form-group subSub">
+        <div class="submen"><hr class="subhr" /></div><div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+
 </form>

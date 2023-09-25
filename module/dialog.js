@@ -29,12 +29,12 @@ export async function GetSkillCheckOptions() {
     });
 }
 
-export async function GetWonderOptions() {
+export async function GetWonderOptions(wonder) {
 
     // Create Dialog and show to User
 
     const template = "systems/GDSA/templates/chat/wonder-check-dialog.hbs";
-    const html = await renderTemplate(template, {});
+    const html = await renderTemplate(template, wonder);
 
     return new Promise(resolve => {
 
@@ -747,26 +747,54 @@ function _processWonderCheckOptions(form) {
 
     let advantage = 0;
     let disadvantage = 0;
+    let used = [];
+
+    advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
+    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+
+    if(form.lastResort.checked) { advantage += 3; used.push(game.i18n.localize("GDSA.system.lastResort") + " (- 3)")};
+    if(form.forcedHoly.checked) { disadvantage += 12; used.push(game.i18n.localize("GDSA.system.magicForced") + " (+ 12)")};
+    if(form.disbeliv.checked) { disadvantage += 3; used.push(game.i18n.localize("GDSA.system.disbelive") + " (+ 3)")};
+    if(form.demonic.checked) { disadvantage += 7; used.push(game.i18n.localize("GDSA.system.chaospres") + " (+ 7)")};
+    if(form.othbreak.checked) { disadvantage += 2; used.push(game.i18n.localize("GDSA.system.eidbrech") + " (+ 2)")};
+    if(form.symbolFrev.checked) { disadvantage += 5; used.push(game.i18n.localize("GDSA.system.frevler") + " (+ 5)")};
+    if(form.smallPakt.checked) { disadvantage += 2; used.push(game.i18n.localize("GDSA.system.minder") + " (+ 2)")};
+
+    if (parseInt(form.motivation.value) > 0) disadvantage += parseInt(form.motivation.value);
+        else advantage += (parseInt(form.motivation.value) * (-1))
+
+    if (parseInt(form.motivation.value) !== 0) used.push(form.motivation.options[form.motivation.selectedIndex].innerHTML)
+    
+    if (parseInt(form.place.value) > 0) disadvantage += parseInt(form.place.value);
+        else advantage += (parseInt(form.place.value) * (-1))
+    
+    if (parseInt(form.place.value) !== 0) used.push(form.place.options[form.place.selectedIndex].innerHTML + " (" + _formatModifikation(form.place.value) + ")")
 
     if (parseInt(form.time.value) > 0) disadvantage += parseInt(form.time.value);
         else advantage += (parseInt(form.time.value) * (-1))
     
-    if (parseInt(form.place.value) > 0) disadvantage += parseInt(form.place.value);
-        else advantage += (parseInt(form.place.value) * (-1))
+    if (parseInt(form.time.value) !== 0) used.push(form.time.options[form.time.selectedIndex].innerHTML + " (" + _formatModifikation(form.time.value) + ")")
 
-    if (parseInt(form.motivation.value) > 0) disadvantage += parseInt(form.motivation.value);
-        else advantage += (parseInt(form.motivation.value) * (-1))
-
-    if (parseInt(form.motivation.value) > 0) disadvantage += parseInt(form.motivation.value);
-        else advantage += (parseInt(form.motivation.value) * (-1))
+    if (parseInt(form.resulting.value) > 0) disadvantage += parseInt(form.resulting.value);
+        else advantage += (parseInt(form.resulting.value) * (-1))
+    
+    if (parseInt(form.resulting.value) !== 0) used.push(form.resulting.options[form.resulting.selectedIndex].innerHTML)
 
     if (parseInt(form.help.value) > 0) disadvantage += parseInt(form.help.value);
         else advantage += (parseInt(form.help.value) * (-1))
+    
+    if (parseInt(form.help.value) !== 0) used.push(form.help.options[form.help.selectedIndex].innerHTML + " (" + _formatModifikation(form.help.value) + ")")
 
     return {
 
         advantage: advantage,
-        disadvantage: disadvantage}
+        disadvantage: disadvantage,
+        used: used,
+        ritdur: form.ritduaration.checked,
+        target: form.target.checked,
+        reach: form.rangeH.checked,
+        wdura: form.duration.checked
+    }
 }
 
 function _processSpellEdit(form) {
@@ -925,3 +953,4 @@ function _processAchazOptions(form) {
 function _processCharStats(form) { return { newvalue: form.value.value }};
 function _processAttributoOptions(form) { return { att: form.att1.value }};
 function _processFaxioOptions(form) { return { dice: parseInt(form.dice.value)+1 }};
+function _formatModifikation(string) { return string[0] + " " + string.substring(1)};

@@ -138,9 +138,9 @@ GDSA.cuts = {
 GDSA.wonderRange = {
     none: "",
     self: "GDSA.wonder.self",
-    touc: "GDSA.wonder.touch",
-    sigt: "GDSA.wonder.sight",
-    faar: "GDSA.wonder.far"
+    touc: "GDSA.wonder.touc",
+    sigt: "GDSA.wonder.sigt",
+    faar: "GDSA.wonder.faar"
 }
 
 GDSA.wonderCastDuration = {
@@ -206,6 +206,35 @@ GDSA.magicReps = {
     geo: "GDSA.reps.geo",
     ach: "GDSA.reps.ach",
     sch: "GDSA.reps.sch"
+}
+
+GDSA.holyReps = {
+    none: "",
+    pra: "GDSA.holyreps.pra",
+    ron: "GDSA.holyreps.ron",
+    phx: "GDSA.holyreps.phx",
+    fir: "GDSA.holyreps.fir",
+    tra: "GDSA.holyreps.tra",
+    ing: "GDSA.holyreps.ing",
+    bor: "GDSA.holyreps.bor",
+    eff: "GDSA.holyreps.eff",
+    hes: "GDSA.holyreps.hes",
+    per: "GDSA.holyreps.per",
+    rah: "GDSA.holyreps.rah",
+    tsa: "GDSA.holyreps.tsa",
+    ifi: "GDSA.holyreps.ifi",
+    ave: "GDSA.holyreps.ave",
+    kor: "GDSA.holyreps.kor",
+    nan: "GDSA.holyreps.nan",
+    swf: "GDSA.holyreps.swf",
+    ang: "GDSA.holyreps.ang",
+    tai: "GDSA.holyreps.tai",
+    grv: "GDSA.holyreps.grv",
+    him: "GDSA.holyreps.him",
+    zsa: "GDSA.holyreps.zsa",
+    hsz: "GDSA.holyreps.hsz",
+    kam: "GDSA.holyreps.kam",
+    nam: "GDSA.holyreps.nam"
 }
 
 GDSA.meleeSkill = {

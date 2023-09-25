@@ -72,10 +72,10 @@ export default class GDSAActor extends Actor {
 
         // Retrive the Skills nessesary
 
-        let wild = parseInt(data.skill.wild);
-        let tier = parseInt(data.skill.tier);
-        let faer = parseInt(data.skill.faer);
-        let sich = parseInt(data.skill.sich);
+        let wild = (data.skill.wild === NaN) ? 0 : parseInt(data.skill.wild);
+        let tier = (data.skill.tier === NaN) ? 0 : parseInt(data.skill.tier);
+        let faer = (data.skill.faer === NaN) ? 0 : parseInt(data.skill.faer);
+        let sich = (data.skill.sich === NaN) ? 0 : parseInt(data.skill.sich);
 
         // Retrive all Range Weapons Skills
         
@@ -117,10 +117,10 @@ export default class GDSAActor extends Actor {
 
         // Retrive the Skills nessesary
 
-        let wild = parseInt(data.skill.wild);
-        let tier = parseInt(data.skill.tier);
-        let faer = parseInt(data.skill.faer);
-        let schl = parseInt(data.skill.schl);
+        let wild = (data.skill.wild === NaN) ? 0 : parseInt(data.skill.wild);
+        let tier = (data.skill.tier === NaN) ? 0 : parseInt(data.skill.tier);
+        let faer = (data.skill.faer === NaN) ? 0 : parseInt(data.skill.faer);
+        let schl = (data.skill.schl === NaN) ? 0 : parseInt(data.skill.schl);
 
         // Retrive all Range Weapons Skills
         
@@ -162,9 +162,9 @@ export default class GDSAActor extends Actor {
 
         // Retrive the Skills nessesary
 
-        let sinn = parseInt(data.skill.sinn);
-        let wild = parseInt(data.skill.wild);
-        let pfla = parseInt(data.skill.pfla);
+        let sinn = (data.skill.sinn === NaN) ? 0 : parseInt(data.skill.sinn);
+        let wild = (data.skill.wild === NaN) ? 0 : parseInt(data.skill.wild);
+        let pfla = (data.skill.pfla === NaN) ? 0 : parseInt(data.skill.pfla);
 
         // Calculate the Value and Test against the Rule that the highest Result can be the doubeld rank involved
 
@@ -187,9 +187,9 @@ export default class GDSAActor extends Actor {
 
         // Retrive the Skills nessesary
 
-        let sinn = parseInt(data.skill.sinn);
-        let wild = parseInt(data.skill.wild);
-        let pfla = parseInt(data.skill.pfla);
+        let sinn = (data.skill.sinn === NaN) ? 0 : parseInt(data.skill.sinn);
+        let wild = (data.skill.wild === NaN) ? 0 : parseInt(data.skill.wild);
+        let pfla = (data.skill.pfla === NaN) ? 0 : parseInt(data.skill.pfla);
 
         // Calculate the Value and Test against the Rule that the highest Result can be the doubeld rank involved
 
@@ -212,8 +212,8 @@ export default class GDSAActor extends Actor {
 
         // Retrive the Skills nessesary
 
-        let sinn =  parseInt(data.skill.sinn);
-        let selbst = parseInt(data.skill.selb);
+        let sinn = (data.skill.sinn === NaN) ? 0 : parseInt(data.skill.sinn);
+        let selbst = (data.skill.selb === NaN) ? 0 : parseInt(data.skill.selb);
 
         // Calculate the Value and Test against the Rule that the highest Result can be the doubeld rank involved
 
