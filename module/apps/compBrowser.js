@@ -198,13 +198,83 @@ export default class GDSACompBrowser extends FormApplication {
                 }
 
                 break;
+
+            case "wonder":
+                
+                itemArray = await game.packs.get("GDSA.liturgien").getDocuments();
+
+                selV = [false, this.kA, this.kB, this.kC, this.kD, this.kE, this.kF];
+
+                if(!this.kA && !this.kB && !this.kC && !this.kD && !this.kE && !this.kF) nonK = true
+                else nonK = false;
+                
+                for(let wonder of itemArray) {
+
+                    if(this.searchString === null || wonder.name.toLowerCase().includes(this.searchString.toLowerCase())) 
+                        if(wonder.type === "wonder")
+                            if(selV[wonder.system.grad] || nonK)
+                                if(this.rep === "none")
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "pra" && wonder.system.verb.Pra)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "ron" && wonder.system.verb.Ron)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "phx" && wonder.system.verb.Phx)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "fir" && wonder.system.verb.Fir)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "tra" && wonder.system.verb.Tra)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "ing" && wonder.system.verb.Ing)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "bor" && wonder.system.verb.Bor)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "eff" && wonder.system.verb.Eff)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "hes" && wonder.system.verb.Hes)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "per" && wonder.system.verb.Per)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "rah" && wonder.system.verb.Rah)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "tsa" && wonder.system.verb.Tsa)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "ifi" && wonder.system.verb.Ifi)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "ave" && wonder.system.verb.Ave)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "kor" && wonder.system.verb.Kor)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "nan" && wonder.system.verb.Nan)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "swf" && wonder.system.verb.Swf)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "ang" && wonder.system.verb.Ang)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "tai" && wonder.system.verb.Tai)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "grv" && wonder.system.verb.Grv)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "him" && wonder.system.verb.Him)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "zsa" && wonder.system.verb.Zsa)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "hsz" && wonder.system.verb.Hsz)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "kam" && wonder.system.verb.Kam)
+                                    sortedArray.push(wonder);
+                                else if(this.rep === "nam" && wonder.system.verb.Nam)
+                                    sortedArray.push(wonder);
+                }
+
+                break;
             
             default:
                 break;
         }
 
         sheetData.type = this.type;
-        sheetData.items = sortedArray.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+        sheetData.items = sortedArray.sort((a,b) => { if (a.name === b.name) return a.system.grad < b.system.grad ? -1 : 1; else return b.name > a.name ? -1 : 1});
 
         this.itemList = sheetData.items;
 
@@ -253,6 +323,16 @@ export default class GDSACompBrowser extends FormApplication {
             this.rittSkill = html.target[1].value;
         }
 
+        if ( this.type === "wonder"){
+            this.rep = html.target[1].value;
+            this.kA = html.target[2].checked;
+            this.kB = html.target[3].checked;
+            this.kC = html.target[4].checked;
+            this.kD = html.target[5].checked;
+            this.kE = html.target[6].checked;
+            this.kF = html.target[7].checked;
+        }
+
         this.render();
     }
 
@@ -289,6 +369,16 @@ export default class GDSACompBrowser extends FormApplication {
             this.rittSkill = event.currentTarget.form[1].value;
         }
 
+        if ( this.type === "wonder"){
+            this.rep = event.currentTarget.form[1].value;
+            this.kA = event.currentTarget.form[2].checked;
+            this.kB = event.currentTarget.form[3].checked;
+            this.kC = event.currentTarget.form[4].checked;
+            this.kD = event.currentTarget.form[5].checked;
+            this.kE = event.currentTarget.form[6].checked;
+            this.kF = event.currentTarget.form[7].checked;
+        }
+
         this.render();
 
     }
@@ -299,6 +389,7 @@ export default class GDSACompBrowser extends FormApplication {
         const input = document.getElementById('menuSearch');
         
         this.searchString = event.currentTarget.form[0].value;
+
         if ( this.type === "spell"){
             this.trait = event.currentTarget.form[1].value;
             this.rep = event.currentTarget.form[2].value;
@@ -328,6 +419,16 @@ export default class GDSACompBrowser extends FormApplication {
 
         if ( this.type === "objektRitual"){
             this.rittSkill = event.currentTarget.form[1].value;
+        }
+
+        if ( this.type === "wonder"){
+            this.rep = event.currentTarget.form[1].value;
+            this.kA = event.currentTarget.form[2].checked;
+            this.kB = event.currentTarget.form[3].checked;
+            this.kC = event.currentTarget.form[4].checked;
+            this.kD = event.currentTarget.form[5].checked;
+            this.kE = event.currentTarget.form[6].checked;
+            this.kF = event.currentTarget.form[7].checked;
         }
 
         let newDoc = await this.render();
@@ -426,27 +527,38 @@ export default class GDSACompBrowser extends FormApplication {
         switch (this.type) {
 
             case "spell":
-                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.spells").get(id)]);          
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.spells").get(id)]);
+                ui.notifications.info(game.i18n.localize("GDSA.info.itemSpell"));          
                 break;
 
             case "melee-weapons":
-                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);        
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);
+                ui.notifications.info(game.i18n.localize("GDSA.info.itemAdd"));        
                 break;
 
             case "range-weapons":
-                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);        
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);
+                ui.notifications.info(game.i18n.localize("GDSA.info.itemAdd"));
                 break;
 
             case "shields":
-                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);        
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);
+                ui.notifications.info(game.i18n.localize("GDSA.info.itemAdd"));      
                 break;
 
             case "armour":
-                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);        
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);
+                ui.notifications.info(game.i18n.localize("GDSA.info.itemAdd"));
                 break;
 
             case "objektRitual":
-                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.rituale").get(id)]);        
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.rituale").get(id)]);
+                ui.notifications.info(game.i18n.localize("GDSA.info.itemRitua"));        
+                break;
+
+            case "wonder":
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.liturgien").get(id)]);
+                ui.notifications.info(game.i18n.localize("GDSA.info.itemLitur"));          
                 break;
         }
     }

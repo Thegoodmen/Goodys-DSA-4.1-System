@@ -4,7 +4,7 @@ import * as Dialog from "./dialog.js";
 import Browser from "../module/apps/compBrowser.js"
 import { GDSA } from "./config.js";
 
-export async function onSkillRoll(data, type, event) {
+export async function onSkillRoll(data, event) {
 
     event.preventDefault();
 
@@ -16,9 +16,7 @@ export async function onSkillRoll(data, type, event) {
 
     // Get Skill Value from the HTML
     
-    let statvalue = 0;
-    if(type == "normal") statvalue = element.closest("tr").querySelector("[class=skillTemp]").value;
-    else if (type == "wonder") statvalue = system.skill.liturgy
+    let statvalue = element.closest("tr").querySelector("[class=skillTemp]").value;
 
     // Get Dataset from HTML
 
@@ -45,9 +43,7 @@ export async function onSkillRoll(data, type, event) {
 
     if(options) {
 
-        if(type == "normal") checkOptions = await Dialog.GetSkillCheckOptions();
-        else if (type == "wonder") checkOptions = await Dialog.GetWonderOptions();
-        else if (type == "spell") checkOptions = await Dialog.GetSpellOptions(item);
+        checkOptions = await Dialog.GetSkillCheckOptions();
             
         advantage = checkOptions.advantage;
         disadvantage = checkOptions.disadvantage;
@@ -61,9 +57,7 @@ export async function onSkillRoll(data, type, event) {
 
     // Execute Roll
 
-    if(type == "normal") Dice.skillCheck(dataset.statname, statvalue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif);
-    else if (type == "wonder") Dice.skillCheck(dataset.statname, statvalue, system.MU.value, system.IN.value, system.CH.value, actor, data.goofy, modif);
-    else if (type == "spell") Dice.skillCheck(dataset.statname, statvalue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif);
+    Dice.skillCheck(dataset.statname, statvalue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif);
 }
 
 export async function onSpellRoll(data, event) {
@@ -627,6 +621,328 @@ export async function onSpellRoll(data, event) {
             };
         };
     }
+}
+
+export async function onWonderRoll(data, event) {
+
+    event.preventDefault();
+
+    // Get Element and Actor
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+    let system = data.system;
+
+    // Get Skill Value from the Actor
+    
+    let statvalue = system.skill.liturgy;
+
+    // Get Dataset from HTML
+
+    let dataset = element.closest(".item").dataset;
+
+    // Get Item
+
+    let item = actor.items.get(dataset.itemId);
+
+    // Create Short Name
+
+    item.shortname = item.name.split(" ")[0];
+    if(item.name.split(" ").length > 1) item.shortname += " " + item.name.split(" ")[1];
+    if(item.shortname.length <= 18 && item.name.split(" ").length > 2 && containsWord(item.shortname, item.name.split(" ")[1])) item.shortname += " " + item.name.split(" ")[2];
+    if(item.shortname.length <= 21 && item.name.split(" ").length > 3 && containsWord(item.shortname, item.name.split(" ")[2])) item.shortname += " " + item.name.split(" ")[3];
+    if(item.shortname.length <= 21 && item.name.split(" ").length > 4 && containsWord(item.shortname, item.name.split(" ")[3])) item.shortname += " " + item.name.split(" ")[4];
+    if(item.shortname.length <= 22 && item.name.split(" ").length > 5 && containsWord(item.shortname, item.name.split(" ")[4])) item.shortname += " " + item.name.split(" ")[5];
+    if(item.shortname.slice(-1) === ",") item.shortname = item.shortname.substring(0, item.shortname.length - 1);
+    
+    // Check if Shift is presst for Skip Dialog
+
+    let options = event.shiftKey ? false : true;
+    let checkOptions = false;
+    let advantage = 0;
+    let disadvantage = 0;
+    let used = [];
+    let ritdur = false;
+    let target = false;
+    let reach = false;
+    let wdura = false;
+    let isAuf = false;
+
+
+    if (item.system.range !== "faar")
+        if(item.system.range === "sigt" && item.system.target.includes("Z")) item.allowReachUpgrade = false;
+            else item.allowReachUpgrade = true;
+
+    if(options) {
+        
+        item.config = GDSA;
+        checkOptions = await Dialog.GetWonderOptions(item);
+
+        advantage = checkOptions.advantage;
+        disadvantage = checkOptions.disadvantage;
+
+        used = checkOptions.used;
+
+        ritdur = checkOptions.ritdur;
+        target = checkOptions.target;
+        reach = checkOptions.reach;
+        wdura = checkOptions.wdura;
+    }
+
+    if (checkOptions.cancelled) return;
+
+    // Calculate Lit Grad
+
+    let grad = parseInt(item.system.grad);
+    let action = item.system.ritduaration;
+    let acount = item.system.ritshortdura;
+    let power = item.system.power;
+    let wirkDur = item.system.duration;
+    let reachs = item.system.range;
+    let targets = item.system.target;
+    let reachAdd = "";
+
+    if(power === "") power = false;
+
+    if (ritdur) {
+
+        isAuf = true;
+        grad++;
+        disadvantage += 2;
+
+        used.push(game.i18n.localize("GDSA.chat.medi.incRit") + " (+ 2)");
+
+        switch (action) {
+
+            case "action":
+                
+                if ( acount != NaN )
+                    acount = parseInt(acount) / 2;
+                else
+                    acount = 20;
+                break;
+
+            case "rounds":
+                
+                action = "action";
+                acount = 20;
+                break;
+
+            case "halfho":
+                
+                action = "rounds";
+                break;
+
+            case "hours":
+                
+                action = "halfho";
+                break;
+
+            case "days":
+                
+                action = "hours";
+                acount = "";
+                break;
+        }
+    }
+
+    if (reach) {
+
+        isAuf = true;
+        grad++;
+        disadvantage += 2;
+
+        used.push(game.i18n.localize("GDSA.chat.medi.incRea") + " (+ 2)");
+
+        if(power !== false) power = GDSA.wonderPower[GDSA.wonderPower.indexOf(power)+1];
+
+        switch (reachs) {
+
+            case "self":
+
+                reachs = "touc";
+                if (targets === "G") targets = "P";
+                break;
+
+            case "touc":
+                
+                reachs = "sigt";
+                break;
+
+            case "sigt":
+
+                reachs = "faar";
+                reachAdd = "(" + (Math.round(parseFloat(statvalue/2))) + " Meilen)"
+                break;
+        }
+    }
+
+    if (target) {
+
+        isAuf = true;
+        grad++;
+        disadvantage += 2;
+
+        used.push(game.i18n.localize("GDSA.chat.medi.incTar") + " (+ 2)");
+
+        if(power !== false) power = GDSA.wonderPower[GDSA.wonderPower.indexOf(power)+1];
+
+        if (targets === "G") targets = "P";
+        if (targets.includes("P")) targets = targets + "P";
+        if (targets.includes("Z")) targets = targets + "Z";
+
+    }
+
+    if (wdura) {
+
+        isAuf = true;
+        grad++;
+        disadvantage += 2;
+
+        used.push(game.i18n.localize("GDSA.chat.medi.incWDu") + " (+ 2)");
+
+        if(power !== false) power = GDSA.wonderPower[GDSA.wonderPower.indexOf(power)+1];
+
+        wirkDur = GDSA.wonderDuration[GDSA.wonderDuration.indexOf(wirkDur)+1];
+    
+    }
+
+    if (acount != "") acount = acount + " ";
+
+    // Set Karma Kosten
+
+    let minCost = 0;
+    let pCost = " KaP";
+
+    switch(grad) {
+
+        case 0:
+            minCost = 2;
+            advantage += 2;
+            break;
+
+        case 1:
+            minCost = 5;
+            break;
+
+        case 2:
+            minCost = 10;
+            disadvantage += 2;
+            break;
+
+        case 3:
+            minCost = 15;
+            disadvantage += 4;
+            break;
+
+        case 4:
+            minCost = 20;
+            disadvantage += 6;
+            break;
+
+        case 5:
+            minCost = 25;
+            disadvantage += 8;
+            pCost = " KaP davon 1 permanent";
+            break;
+
+        case 6:
+            minCost = 30;
+            disadvantage += 10;
+            pCost = " KaP davon 3 permanent";
+            break;
+
+        case 7:
+            minCost = 35;
+            disadvantage += 12;
+            pCost = " KaP davon 5 permanent";
+            break;
+
+        case 8:
+            minCost = 40;
+            disadvantage += 14;
+            pCost = " KaP davon 7 permanent";
+            break;
+    }
+
+    if((grad*3) > statvalue && isAuf) { 
+        
+        ui.notifications.error('Zu viele Aufstufungen verwendet. Grad darf maximal ein Drittel des Liturgiekenntniswert betragen!')
+        return;
+    }
+
+    // Calculate Modifier
+
+    let modif = parseInt(advantage) - parseInt(disadvantage);
+
+    // Prepare Optional Objekt
+
+    let verb = "";
+
+    if (item.system.verb.Pra) verb += "Pra, ";
+    if (item.system.verb.Ron) verb += "Ron, ";
+    if (item.system.verb.Phx) verb += "Phx, ";
+    if (item.system.verb.Fir) verb += "Fir, ";
+    if (item.system.verb.Tra) verb += "Tra, ";
+    if (item.system.verb.Ing) verb += "Ing, ";
+    if (item.system.verb.Bor) verb += "Bor, ";
+    if (item.system.verb.Eff) verb += "Eff, ";
+    if (item.system.verb.Hes) verb += "Hes, ";
+    if (item.system.verb.Per) verb += "Per, ";
+    if (item.system.verb.Rah) verb += "Rah, ";
+    if (item.system.verb.Tsa) verb += "Tsa, ";
+    if (item.system.verb.Ifi) verb += "Ifi, ";
+    if (item.system.verb.Ave) verb += "Avs, ";
+    if (item.system.verb.Kor) verb += "Kor, ";
+    if (item.system.verb.Nan) verb += "Nan, ";
+    if (item.system.verb.Swf) verb += "Swf, ";
+    if (item.system.verb.Ang) verb += "Ang, ";
+    if (item.system.verb.Tai) verb += "Tai, ";
+    if (item.system.verb.Grv) verb += "Grv, ";
+    if (item.system.verb.Zsa) verb += "Zsa, ";
+    if (item.system.verb.Hsz) verb += "Hsz, ";
+    if (item.system.verb.Kam) verb += "Kam, ";
+    if (item.system.verb.Nam) verb += "Nam, ";
+
+    if (verb !== "") verb = verb.substring(0, verb.length - 2);
+
+    if (action === "action") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (" + acount + "Aktionen)";
+    if (action === "rounds") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (Eine Spielrunde)";
+    if (action === "halfho") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (Eine halbe Stunde)";
+    if (action === "hours") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (" + acount + "Stunden)";
+    if (action === "days") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (" + acount + "Tage)";
+
+    wirkDur = wirkDur.replace("LkP*", "").replace(" x 1", "");
+    if(power !== false) power = power.replace("LkP*", "");
+    if(power === "") power = true;
+
+    let isSpez = (item.system.duration === "Augenblicklich" || item.system.duration === "Permanent" || item.system.duration === "Speziell");
+
+    let optional = {
+        template: "systems/GDSA/templates/chat/wonder-check.hbs",
+        item: item,
+        cost: minCost,
+        pcost: pCost,
+        usedVars: used,
+        grad: grad,
+        verb: verb,
+        action: action,
+        wirkDur: wirkDur,
+        isSpez: isSpez,
+        reach: reachs,
+        target: targets,
+        reachAdd: reachAdd,
+        power: power,
+        att1: system.MU.value,
+        att2: system.IN.value,
+        att3: system.CH.value
+    };
+
+    optional.varis = (used.length > 0);
+    
+    // Execute Roll
+
+    Dice.skillCheck(item.name, statvalue, system.MU.value, system.IN.value, system.CH.value, actor, data.goofy, modif, optional);
 }
 
 export async function onRitualCreation(data, event) {
@@ -2871,6 +3187,14 @@ export function getSpellContextMenu(data, event) {
     else onItemCreate(data, event);
 }
 
+export function getWonderContextMenu(data, event) {
+
+    let options = event.shiftKey ? false : true;
+
+    if(options) new Browser({},{},"wonder", data.actor._id).render(true);
+    else onItemCreate(data, event);
+}
+
 export function getMeleeWContextMenu(data, event) {
 
     let options = event.shiftKey ? false : true;
@@ -3176,6 +3500,12 @@ export function changeTab(data, event) {
     data.system.optional = optional;
     actor.sheet._tabs[0].activate(destination);
     data.actor.render();
+}
+
+export function containsWord(str, word) {
+    
+    return str.match(new RegExp("\\b" + word + "\\b")) != null;
+
 }
 
 export function testFunc(data,event) {

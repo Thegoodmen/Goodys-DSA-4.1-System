@@ -2514,6 +2514,15 @@
   width: 100%;
   font-size: 12px;
 }
+.GDSA.chat.message .holyTable {
+  float: left;
+  height: 165px;
+  width: 100%;
+  font-size: 12px;
+}
+.GDSA.chat.message .bigholy {
+  height: 185px;
+}
 .GDSA.chat.message .ritTable {
   float: left;
   height: 90px;

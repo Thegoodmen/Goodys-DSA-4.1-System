@@ -427,4 +427,47 @@ function registerHandelbarsHelpers() {
         if (maxIni == Ini) return false
         else return true
     });
+
+    Handlebars.registerHelper("getRomNum", function(num) {
+
+        if (isNaN(num))
+        return "";
+        
+        var digits = String(+num).split(""),
+        
+        key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+               "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+               "","I","II","III","IV","V","VI","VII","VIII","IX"],
+        roman = "",
+        i = 3;
+        while (i--)
+        roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+        
+        return Array(+digits.join("") + 1).join("M") + roman;
+    });
+
+    Handlebars.registerHelper("checkWonderRange", function(item) {
+
+        if(item.system.range === "faar") return false;
+
+        if(item.system.target[0] === "Z" && item.system.range === "sigt") return false;
+
+        return true;
+
+    });
+
+    Handlebars.registerHelper("calculateWonder", function(formel, tap) {
+
+        let sum = 0;
+
+        if (formel === true) return tap + " Punkte ( LkP* )";
+
+        if (formel.includes("/2")) sum = Math.round(parseFloat(tap) / 2)
+        else sum = parseInt(tap);
+
+        if (formel.includes("+")) sum += parseInt(trim(formel.split("+")[1]))
+
+        return sum + " Punkte ( LkP*" + formel + " )";
+
+    });
 }
