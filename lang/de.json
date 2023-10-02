@@ -331,7 +331,8 @@
             "lit": "LkW",
             "grad": "Grad",
             "ritdur": "Ritualdauer",
-            "wirkdu": "Wirkungsdauer"
+            "wirkdu": "Wirkungsdauer",
+            "aktivD": "Aktivierungsdauer"
         },
         "charactersheet": {
             "system": "Das schwarze Auge",
