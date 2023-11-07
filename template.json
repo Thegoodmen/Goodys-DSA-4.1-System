@@ -796,7 +796,8 @@
             "wonder",
             "simple-weapon",
             "talent",
-            "giftflaw"
+            "giftflaw",
+            "SysTemplate"
         ],
         "templates": {
             "generalItems": {
@@ -819,6 +820,13 @@
             ],
             "type": "Wertgegenstand",
             "quantity": 1
+        },
+        "SysTemplate": {
+            "type": "none",
+            "cult": {
+                "name": "pra",
+                "halfgod": false
+            }
         },
         "melee-weapons": {
             "templates": [

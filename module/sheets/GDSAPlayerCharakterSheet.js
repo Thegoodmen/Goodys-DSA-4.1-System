@@ -172,6 +172,9 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             // Set Listener for Context / Right-Click Menu
 
             if(! this.id.includes("Token")) new ContextMenu(html, ".item-context", LsFunction.getItemContextMenu());
+
+            // Set Listener on Mirakel Template Change
+            html.find(".changeMirTemp").change(LsFunction.changeMirTemp.bind(this, this.getData()));
         }
 
         super.activateListeners(html);

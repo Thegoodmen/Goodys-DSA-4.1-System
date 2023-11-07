@@ -3508,6 +3508,24 @@ export function containsWord(str, word) {
 
 }
 
+export function changeMirTemp(data, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+
+    // Get Selector 
+
+    let selector = element.closest("select");
+    let selected = selector.value;
+
+    console.log(selected)
+
+}
+
 export function testFunc(data,event) {
 
     event.preventDefault();

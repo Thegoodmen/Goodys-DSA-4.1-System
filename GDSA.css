@@ -1263,6 +1263,10 @@
   top: 4px;
   left: 12px;
 }
+.GDSA.sheet.characterSheet .SelHelper1 {
+  width: 120px;
+  margin-left: 16px;
+}
 .mediOpt {
   width: 232px;
 }
