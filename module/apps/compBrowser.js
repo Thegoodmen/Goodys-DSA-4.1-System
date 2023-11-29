@@ -38,7 +38,7 @@ export default class GDSACompBrowser extends FormApplication {
 
         return mergeObject(super.defaultOptions, {
             classes: ["GDSA", "browser"],
-            template: "systems/GDSA/templates/apps/compBrowser.hbs",
+            template: "systems/gdsa/templates/apps/compBrowser.hbs",
             width: 800,
             height: "auto",
             title: "Browser",
@@ -91,7 +91,7 @@ export default class GDSACompBrowser extends FormApplication {
 
             case "spell":
 
-                itemArray = await game.packs.get("GDSA.spells").getDocuments();
+                itemArray = await game.packs.get("gdsa.spells").getDocuments();
 
                 selV = [this.v0, this.v1, this.v2, this.v3, this.v4, this.v5, this.v6];
 
@@ -132,7 +132,7 @@ export default class GDSACompBrowser extends FormApplication {
 
             case "melee-weapons":
 
-                itemArray = await game.packs.get("GDSA.arsenal").getDocuments();
+                itemArray = await game.packs.get("gdsa.arsenal").getDocuments();
                 
                 for(let item of itemArray) {
 
@@ -146,7 +146,7 @@ export default class GDSACompBrowser extends FormApplication {
 
             case "range-weapons":
 
-                itemArray = await game.packs.get("GDSA.arsenal").getDocuments();
+                itemArray = await game.packs.get("gdsa.arsenal").getDocuments();
                 
                 for(let item of itemArray) {
 
@@ -160,7 +160,7 @@ export default class GDSACompBrowser extends FormApplication {
 
             case "shields":
 
-                itemArray = await game.packs.get("GDSA.arsenal").getDocuments();
+                itemArray = await game.packs.get("gdsa.arsenal").getDocuments();
             
                 for(let item of itemArray) {
 
@@ -173,7 +173,7 @@ export default class GDSACompBrowser extends FormApplication {
 
             case "armour":
 
-                itemArray = await game.packs.get("GDSA.arsenal").getDocuments();
+                itemArray = await game.packs.get("gdsa.arsenal").getDocuments();
             
                 for(let item of itemArray) {
 
@@ -187,7 +187,7 @@ export default class GDSACompBrowser extends FormApplication {
 
             case "objektRitual":
                 
-                itemArray = await game.packs.get("GDSA.rituale").getDocuments();
+                itemArray = await game.packs.get("gdsa.rituale").getDocuments();
                 
                 for(let item of itemArray) {
 
@@ -201,7 +201,7 @@ export default class GDSACompBrowser extends FormApplication {
 
             case "wonder":
                 
-                itemArray = await game.packs.get("GDSA.liturgien").getDocuments();
+                itemArray = await game.packs.get("gdsa.liturgien").getDocuments();
 
                 selV = [false, this.kA, this.kB, this.kC, this.kD, this.kE, this.kF];
 
@@ -527,37 +527,37 @@ export default class GDSACompBrowser extends FormApplication {
         switch (this.type) {
 
             case "spell":
-                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.spells").get(id)]);
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("gdsa.spells").get(id)]);
                 ui.notifications.info(game.i18n.localize("GDSA.info.itemSpell"));          
                 break;
 
             case "melee-weapons":
-                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("gdsa.arsenal").get(id)]);
                 ui.notifications.info(game.i18n.localize("GDSA.info.itemAdd"));        
                 break;
 
             case "range-weapons":
-                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("gdsa.arsenal").get(id)]);
                 ui.notifications.info(game.i18n.localize("GDSA.info.itemAdd"));
                 break;
 
             case "shields":
-                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("gdsa.arsenal").get(id)]);
                 ui.notifications.info(game.i18n.localize("GDSA.info.itemAdd"));      
                 break;
 
             case "armour":
-                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.arsenal").get(id)]);
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("gdsa.arsenal").get(id)]);
                 ui.notifications.info(game.i18n.localize("GDSA.info.itemAdd"));
                 break;
 
             case "objektRitual":
-                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.rituale").get(id)]);
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("gdsa.rituale").get(id)]);
                 ui.notifications.info(game.i18n.localize("GDSA.info.itemRitua"));        
                 break;
 
             case "wonder":
-                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("GDSA.liturgien").get(id)]);
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("gdsa.liturgien").get(id)]);
                 ui.notifications.info(game.i18n.localize("GDSA.info.itemLitur"));          
                 break;
         }

@@ -1,87 +1,37 @@
 <table style="display: inline-block">
     
-    {{#each config.meleeSkill}}
-        {{#if (ifOR ../system.allSkills (notEmpty (getData (getData ../system/skill ./skill) "value") includeZero=true))}}
+    {{#each template.talents.meele as |item|}}
+        {{#if (ifOR ../system.allSkills (ifOR (notEmpty (getData (getData ../system/skill item.name) "value") includeZero=true) (toBoolean item.system.tale.taletype)))}}
+        
             <tr>
-                <td class="skillTableNameCombat">{{localize (concat "GDSA.charactersheet." skill "Skill")}}</td>
-                <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." skill ".atk"}}" type="number" value="{{getData (getData ../system/skill ./skill) "atk"}}" title="AT"/></td>
+                <td class="skillTableNameCombat">{{skillName item.name ../this}}</td>
+                <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." item.name ".atk"}}" type="number" value="{{getData (getData ../system/skill item.name) "atk"}}" title="AT"/></td>
                 <td class="skillTableFiller"></td>
-                <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." skill ".def"}}" type="number" value="{{getData (getData ../system/skill ./skill) "def"}}" title="PA"/></td>
-                {{#if (isGreater beMod 0)}}
-                    <td class="skillTableBE">{{localize "GDSA.charactersheet.BE"}}</td>
-                {{else}}
-                    {{#if (isGreater 0 beMod)}}
-                        <td class="skillTableBE">{{localize (concat "GDSA.charactersheet.BE" beMod "")}}</td>
-                    {{else}}
-                        <td class="skillTableBE"></td>
-                    {{/if}}
-                {{/if}}
-                <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." skill ".value"}}" type="number" value="{{getData (getData ../system/skill ./skill) "value"}}" /></td>
+                <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." item.name ".def"}}" type="number" value="{{getData (getData ../system/skill item.name) "def"}}" title="PA"/></td>
+                <td class="skillTableBE">{{#if item.system.tale.BECheck}}{{localize "GDSA.charactersheet.sBE"}} {{skillBE item.system.tale.BEtype item.system.tale.BE}}{{/if}}</td>
+                <td class="skillTableValue">
+                    <input class="skillTemp" name="{{concat "system.skill." item.name ".value"}}" type="number" data-actor="{{../this.actor._id}}"
+                    value="{{getData (getData ../system/skill item.name) "value"}}" data-stat="{{item.name}}" data-lbl="{{item.name}}" />
+                </td>
             </tr>
-
-            {{#if (hasSpez ../system.SkillSpez skill)}}
-                {{#each (getSpez ../system.SkillSpez skill)}}
-                    <tr>
-                      <td class="skillTableNameCombat">{{localize (concat "GDSA.charactersheet." ../skill "Skill")}} [{{spezi}}]</td>
-                      <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." ../skill ".atk"}}" type="number" value="{{getData (getData ../../system/skill ../skill) "atk"}}" title="AT"/></td>
-                      <td class="skillTableFiller"></td>
-                      <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." ../skill ".def"}}" type="number" value="{{getData (getData ../../system/skill ../skill) "def"}}" title="PA"/></td>
-                      {{#if (isGreater ../beMod 0)}}
-                          <td class="skillTableBE">{{localize "GDSA.charactersheet.BE"}}</td>
-                      {{else}}
-                          {{#if (isGreater 0 ../beMod)}}
-                              <td class="skillTableBE">{{localize (concat "GDSA.charactersheet.BE" ../beMod "")}}</td>
-                          {{else}}
-                              <td class="skillTableBE"></td>
-                          {{/if}}
-                      {{/if}}
-                      <td class="skillTableValue"><input class="skillTemp" name="spezi" type="number" value="{{addSpez (getData (getData ../../system/skill ../skill) "value")}}" disabled/></td>
-                    </tr>
-                {{/each}}
-            {{/if}}
 
         {{/if}}
     {{/each}}
 
-    {{#each config.rangeSkill}}
-        {{#if (ifOR ../system.allSkills (notEmpty (getData (getData ../system/skill ./skill) "value") includeZero=true))}}
+    {{#each template.talents.range as |item|}}
+        {{#if (ifOR ../system.allSkills (ifOR (notEmpty (getData (getData ../system/skill item.name) "value") includeZero=true) (toBoolean item.system.tale.taletype)))}}
+            
             <tr>
-                <td class="skillTableNameCombat">{{localize (concat "GDSA.charactersheet." skill "Skill")}}</td>
-                <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." skill ".atk"}}" type="number" value="{{getData (getData ../system/skill ./skill) "atk"}}" title="AT"/></td>
+                <td class="skillTableNameCombat">{{skillName item.name ../this}}</td>
+                <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." item.name ".atk"}}" type="number" value="{{getData (getData ../system/skill item.name) "atk"}}" title="AT"/></td>
                 <td class="skillTableFiller"></td>
                 <td class="skillTableValue"></td>
-                {{#if (isGreater beMod 0)}}
-                    <td class="skillTableBE">{{localize "GDSA.charactersheet.BE"}}</td>
-                {{else}}
-                    {{#if (isGreater 0 beMod)}}
-                        <td class="skillTableBE">{{localize (concat "GDSA.charactersheet.BE" beMod "")}}</td>
-                    {{else}}
-                        <td class="skillTableBE"></td>
-                    {{/if}}
-                {{/if}}
-                <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." skill ".value"}}" type="number" value="{{getData (getData ../system/skill ./skill) "value"}}" /></td>
+                <td class="skillTableBE">{{#if item.system.tale.BECheck}}{{localize "GDSA.charactersheet.sBE"}} {{skillBE item.system.tale.BEtype item.system.tale.BE}}{{/if}}</td>
+                <td class="skillTableValue">
+                    <input class="skillTemp" name="{{concat "system.skill." item.name ".value"}}" type="number" data-actor="{{../this.actor._id}}"
+                    value="{{getData (getData ../system/skill item.name) "value"}}" data-stat="{{item.name}}" data-lbl="{{item.name}}" />
+                </td>
             </tr>
-
-            {{#if (hasSpez ../system.SkillSpez skill)}}
-                {{#each (getSpez ../system.SkillSpez skill)}}
-                    <tr>
-                      <td class="skillTableNameCombat">{{localize (concat "GDSA.charactersheet." ../skill "Skill")}} [{{spezi}}]</td>
-                      <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." ../skill ".atk"}}" type="number" value="{{getData (getData ../../system/skill ../skill) "atk"}}" title="AT"/></td>
-                      <td class="skillTableFiller"></td>
-                      <td class="skillTableValue"></td>
-                      {{#if (isGreater ../beMod 0)}}
-                          <td class="skillTableBE">{{localize "GDSA.charactersheet.BE"}}</td>
-                      {{else}}
-                          {{#if (isGreater 0 ../beMod)}}
-                              <td class="skillTableBE">{{localize (concat "GDSA.charactersheet.BE" ../beMod "")}}</td>
-                          {{else}}
-                              <td class="skillTableBE"></td>
-                          {{/if}}
-                      {{/if}}
-                      <td class="skillTableValue"><input class="skillTemp" name="spezi" type="number" value="{{addSpez (getData (getData ../../system/skill ../skill) "value")}}" disabled/></td>
-                    </tr>
-                {{/each}}
-            {{/if}}
 
         {{/if}}
     {{/each}}

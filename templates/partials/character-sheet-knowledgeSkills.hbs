@@ -1,27 +1,29 @@
 <table style="display: inline-block">
 
-    {{#each config.knowledgeSkill}}
-        {{#if (ifOR ../system.allSkills (notEmpty (getData ../system/skill ./skill) includeZero=true))}}
-            <tr>
-                <td class="skillTableNameBig">{{localize (concat "GDSA.charactersheet." skill "Skill")}} 
-                <i>({{localize (concat "GDSA.charactersheet.s" att1 "")}}/{{localize (concat "GDSA.charactersheet.s" att2 "")}}/{{localize (concat "GDSA.charactersheet.s" att3 "")}})</i></td>
-                <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill." skill ""}}" type="number" value="{{getData ../system/skill ./skill}}" /></td>
-                <td class="skillTableRoll"><a class="item skill-roll" data-statName="{{localize (concat "GDSA.charactersheet." skill "Skill")}}"
-                data-stat_one="{{getDataValue ../system ./att1}}" data-stat_two="{{getDataValue ../system ./att2}}" 
-                data-stat_three="{{getDataValue ../system ./att3}}" data-bemod="0" title="roll">
-                <i class="fas fa-dice-d20 faD20Stat"></i></a></td>
+    {{#each template.talents.knowledge as |item|}}
+        {{#if (ifOR ../system.allSkills (ifOR (notEmpty (getData ../system/skill item.name) includeZero=true) (toBoolean item.system.tale.taletype)))}}
+            
+            <tr class="skillitem">
+                <td class="skillTableNameBig">{{skillName item.name ../this}} <i>{{skillAttributs item.name ../this}}</i></td>
+                <td class="skillTableValue">
+                    <input class="skillTemp" name="{{concat "system.skill." item.name ""}}" type="number" data-actor="{{../this.actor._id}}"
+                    value="{{getData ../system/skill item.name}}" data-stat="{{item.name}}" data-lbl="{{item.name}}" />
+                </td>
+                <td class="skillTableRoll"><a class="item skill-roll" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a></td>
             </tr>
-            {{#if (hasSpez ../system.SkillSpez skill)}}
-                {{#each (getSpez ../system.SkillSpez skill)}}
-                    <tr>
-                        <td class="skillTableNameBig">{{localize (concat "GDSA.charactersheet." ../skill "Skill")}} [{{spezi}}]
-                        <i>({{localize (concat "GDSA.charactersheet.s" ../att1 "")}}/{{localize (concat "GDSA.charactersheet.s" ../att2 "")}}/{{localize (concat "GDSA.charactersheet.s" ../att3 "")}})</i></td>
-                        <td class="skillTableValue"><input class="skillTemp" name="spezi" type="number" value="{{addSpez (getData ../../system/skill ../skill)}}" disabled/></td>
-                        <td class="skillTableRoll"><a class="item skill-roll" data-statName="{{localize (concat "GDSA.charactersheet." ../skill "Skill")}} [{{spezi}}]"
-                        data-stat_one="{{getDataValue ../../system ../att1}}" data-stat_two="{{getDataValue ../../system ../att2}}" 
-                        data-stat_three="{{getDataValue ../../system ../att3}}" data-bemod="0" title="roll">
-                        <i class="fas fa-dice-d20 faD20Stat"></i></a></td>
+
+            {{#if (hasSpez ../system.SkillSpez item.name)}}
+                {{#each (getSpez ../system.SkillSpez item.name)}}
+
+                    <tr class="skillitem">
+                        <td class="skillTableNameBig">{{skillName ../this.name ../../this}} [{{spezi}}] <i>{{skillAttributs ../this.name ../../this}}</i></td>
+                        <td class="skillTableValue">
+                            <input class="skillTemp" name="spezi" type="number" value="{{addSpez (getData ../../system/skill ../this.name)}}" 
+                            data-stat="{{../this.name}}" data-lbl="{{../this.name}} [{{spezi}}]" data-actor="{{../../this.actor._id}}" disabled />
+                        </td>
+                        <td class="skillTableRoll"><a class="item skill-roll" title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a></td>
                     </tr>
+
                 {{/each}}
             {{/if}}
         {{/if}}

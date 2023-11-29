@@ -12,11 +12,11 @@
 	<div class="valueBox">
 	    <div class="flawBox">
 			<div class="flawhead">{{localize "GDSA.charactersheet.advantage"}}</div>
-            <div class="flawbnt"><a class="item-create" data-type="advantage" title="{{localize "GDSA.charactersheet.addAdvantage"}}"><i class="fas fa-plus plusSym"></i></a></div>
+            <div class="flawbnt"><a class="template-create" data-type="adva" title="{{localize "GDSA.charactersheet.addAdvantage"}}"><i class="fas fa-plus plusSym"></i></a></div>
 			<div class="flawhrbox"><hr class="flawhr" /></div>
 	    	<section class="advantages">
 				{{#each advantages as |advantage id|}}
-					{{> "systems/GDSA/templates/partials/advantages.hbs" advantage}}
+					{{> "systems/GDSA/templates/partials/character-sheet-advantages.hbs" advantage}}
 				{{/each}}
 			</section>
 	   	</div>
@@ -25,11 +25,11 @@
 
 	    <div class="flawBox">
 			<div class="flawhead">{{localize "GDSA.charactersheet.flaw"}}</div>
-			<div class="flawbnt"><a class="item-create" data-type="flaw" title="{{localize "GDSA.charactersheet.addFlaw"}}"><i class="fas fa-plus plusSym"></i></a></div>
+			<div class="flawbnt"><a class="template-create" data-type="flaw" title="{{localize "GDSA.charactersheet.addFlaw"}}"><i class="fas fa-plus plusSym"></i></a></div>
 			<div class="flawhrbox"><hr class="flawhr" /></div>
 	    	<section class="advantages">
 				{{#each flaws as |flaw id|}}
-					{{> "systems/GDSA/templates/partials/advantages.hbs" flaw}}
+					{{> "systems/GDSA/templates/partials/character-sheet-advantages.hbs" flaw}}
 				{{/each}}
 			</section>
 	   	</div>

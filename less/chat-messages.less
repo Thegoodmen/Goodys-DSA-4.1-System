@@ -5,7 +5,7 @@
         padding-top: 8px;
     };
     .flawName {
-        height: 29px;
+        min-height: 29px;
         width: 100%;
         float: left;
         background-color: rgba(0,0,0,0.2);
@@ -13,7 +13,8 @@
         font-family: MasonSerifBold;
         src: url('fonts/mason-serif-bold.otf') format('opentype');
         text-align: center;
-        padding-top: 2px;
+        padding-top: 5px;
+        padding-bottom: 3px;
     };
     .spellName {
         min-height: 29px;
@@ -56,6 +57,12 @@
         width: 100%;
         font-size: 12px;
     };
+    .skillTable {
+        float: left;
+        min-height: 50px;
+        width: 100%;
+        font-size: 12px;
+    };
     .holyTable {
         float: left;
         height: 165px;
@@ -73,12 +80,17 @@
     };
     .dicefiller {
         float: left;
-        height: 10px;
+        height: 6px;
         width: 100%;
     };
     .dicefiller1 {
         float: left;
         height: 4px;
+        width: 100%;
+    };
+    .tableFiller {
+        float: left;
+        height: 6px;
         width: 100%;
     };
     .diceCol {
@@ -195,8 +207,9 @@
         float: left;
         background-color: green;
         width: 100%;
-        height: 44px;
+        min-height: 25px;
         font-size: 18px;
+        padding-bottom: 2px;
         text-align: center;
         color: white;
     };
@@ -204,8 +217,9 @@
         float: left;
         background-color: darkred;
         width: 100%;
-        height: 44px;
+        min-height: 25px;
         font-size: 18px;
+        padding-bottom: 2px;
         text-align: center;
         color: white;
     };
@@ -257,7 +271,10 @@
         margin: 0px;
         border-radius: 10px;
     };
-
+    .collabst {
+        height: 0px;
+        overflow: hidden;
+    };
     .switch {
         position: relative;
         display: inline-block;

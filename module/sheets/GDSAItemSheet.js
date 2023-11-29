@@ -1,4 +1,5 @@
-import * as LsFunction from "../listenerFunctions.js"
+import * as LsFunction from "../listenerFunctions.js";
+import {templateData} from "../apps/templates.js";
 
 export default class GDSAItemSheet extends ItemSheet {
 
@@ -23,10 +24,12 @@ export default class GDSAItemSheet extends ItemSheet {
 
     get template() {
 
+        if(this.item.type === "Template") return `systems/GDSA/templates/sheets/${this.item.type}-${this.item.system.type}-sheet.hbs`
+
         return `systems/GDSA/templates/sheets/${this.item.type}-sheet.hbs`
     }
 
-    getData() {
+    async getData() {
 
         const baseData = super.getData();
 
@@ -36,7 +39,8 @@ export default class GDSAItemSheet extends ItemSheet {
             editable: this.isEditable,
             item: baseData.item,
             system: baseData.item.system,
-            config: CONFIG.GDSA
+            config: CONFIG.GDSA,
+            templates: await templateData()
         };
 
         if(sheetData.system.value > 0) {

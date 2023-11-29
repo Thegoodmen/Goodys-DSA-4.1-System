@@ -58,7 +58,20 @@
             "frevler": "Ziel: Frevler",
             "minder": "Ziel: Minderpaktierer",
             "verbr": "Verbreitung",
-            "targt": "Ziel"
+            "targt": "Ziel", 
+            "talType": "Talentgruppe"
+        },
+        "templates": {
+            "tal": "Talent",
+            "kult": "Gott / Kult",
+            "adva": "Vorteil",
+            "flaw": "Nachteil",
+            "value": "Wert",
+            "canRoll": "Kann geprobt werden",
+            "DK": "Distanzklasse",
+            "directed": "Gezieltes Ausweichen",
+            "addiFow": "Zusätzliche Gegner im Nahkampf",
+            "dodge": "Ausweichen"
         },
         "info": {
             "itemAdd": "Ein Item wurde dem Charakter hinzugefügt.",
@@ -195,6 +208,7 @@
             "smara": "Smaragdschliff"
         },
         "reps": {
+            "none": "",
             "mag": "Gildenmagisch",
             "dru": "Druidisch",
             "bor": "Borberadianisch",
@@ -254,6 +268,35 @@
             "halfho": "Andacht",
             "hours": "Zeremonie",
             "days": "Zyklus"
+        },
+        "template": {
+            "BE": "Behinderung",
+            "DE": "Deutsch",
+            "EN": "Englisch",
+            "type": "Type",
+            "att": "Attribute",
+            "kat": "Kategorie",
+            "general": "Allgemein",
+            "localize": "Localization",
+            "combat": "Kampf",
+            "note": "Notizen",
+            "requierment": "Vorraussetzung",
+            "alternitivs": "Alternativen",
+            "meta": "Metatalent",
+            "skill": "Talent",
+            "taletype": "Talentart",
+            "levelup": "Steigerungskomplexität",
+            "komplex": "Sprachkomplexität",
+            "langFam": "Sprachfamilie",
+            "garethi": "Garethi-Familie",
+            "tulamidya": "Tulamidya-Familie",
+            "thorwalsch": "Thorwalsch-Familie",
+            "elf": "Elfisch-Familie",
+            "zwerg": "Zwergisch-Familie",
+            "ork": "Orkisch-Familie",
+            "rissoal": "Rissoal-Familie",
+            "alone": "Einzelne Sprachen",
+            "secret": "Geheimsprachen"
         },
         "itemsheet": {
             "name": "Name",
@@ -361,6 +404,7 @@
             "advantage": "Vorteile",
             "addAdvantage": "Vorteil hinzufügen",
             "newadvantage": "Neuer Vorteil",
+            "newadva": "Neuer Vorteil",
             "newlangu": "Neue Sprache",
             "newsigns": "Neue Schrift",
             "flaw": "Nachteile",
@@ -406,13 +450,23 @@
             "BE-5": "BE - 5",
             "back": "Zurück",
             "combatSkills": "Kampf",
+            "meeleSkills": "Nahkampf",
+            "rangeSkills": "Fernkampf",
+            "handSkills": "Waffenloser Kampf",
             "bodySkills": "Körperlich",
             "socialSkills": "Gesellschaft",
             "natureSkills": "Natur",
             "knowledgeSkills": "Wissen",
             "langSkills": "Sprachen",
+            "signSkills": "Schriften",
             "craftSkils": "Handwerk",
+            "craftSkills": "Handwerk",
             "giftSkills": "Gaben",
+            "noneSkills": "Gaben",
+            "metaSkills": "Metatalent",
+            "holySkills": "Liturgisch",
+            "baseSkill": "Basis-Talent",
+            "specialSkill": "Spezial-Talent",
             "andrSkill": "Anderthalbhänder",
             "armbSkill": "Armbrust",
             "belaSkill": "Belagerungswaffen",
@@ -637,7 +691,18 @@
             "edit": "Editieren",
             "del": "Löschen",
             "rit": "Ritualkenntnis",
-            "mobjekt": "Objektmagie"
+            "mobjekt": "Objektmagie",
+            "rangeH": "Handgemenge",
+            "rangeN": "Nahkampf",
+            "rangeS": "Stangenwaffe",
+            "rangeP": "Pike",
+            "noneAdd": "Keine",
+            "oneAdd": "1 Weiterer",
+            "twoAdd": "2 Weitere",
+            "holyTemp": "Template der Gottheit",
+            "mirPlus": "Mirakel-Plus",
+            "mirNeut": "Neutral",
+            "mirMinus": "Mirakel-Minus"
         },
         "chat":{
             "flaw": {
@@ -645,11 +710,11 @@
                 "fail": "Triggert!"
             },
             "stat": {
-                "success": "Geschafft!",
-                "fail": "Nicht Geschafft!",
+                "success": "Erfolg!",
+                "fail": "Fehlschlag!",
                 "critt": "Kritischer Erfolg!",
                 "goof": "Patzer!",
-                "sucessWith": "Geschafft mit",
+                "sucessWith": "Erfolg mit",
                 "maxErl": "er Erleichterung notwendig",
                 "maxMod": "er maximale Erschwernis",
                 "TaPS": "TaP*"
@@ -695,7 +760,10 @@
                 "demonic": "In der Gegenwart von Chaos",
                 "othbreak": "Ist das Ziel ein Eidbrecher?",
                 "symbolFrev": "Trägt das Ziel ein Mal des Frevlers?",
-                "smallPakt": "Ist das Ziel ein Minderpaktierer?"
+                "smallPakt": "Ist das Ziel ein Minderpaktierer?",
+                "boni": "Bonus",
+                "mhk": "Meisterhandwerk",
+                "talentS": "Talentschub"
             },
             "dialog": {
                 "dmg": "Wie viel Schaden soll zugefügt werden?",
@@ -813,6 +881,12 @@
                 "reasonBad1": "Gegen die Prinzipien (+ 3)",
                 "reasonBad2": "Zum eigenen Vorteil (+ 5)",
                 "reasonBad3": "Aus starkem Eigennutz (+ 7)",
+                "reasonGood32": "In göttlichem Auftrag (- 4)",
+                "reasonGood22": "In kirchliem Auftrag (- 3)",
+                "reasonGood12": "Dem Moralkodex folgend (- 2)",
+                "reasonBad12": "Gegen die Prinzipien (+ 2)",
+                "reasonBad22": "Zum eigenen Vorteil (+ 3)",
+                "reasonBad32": "Aus starkem Eigennutz (+ 4)",
                 "resulting": "Auswirkungen",
                 "ordert1": "Ordnet die Welt (- 1)",
                 "ordert2": "Ordnet die Welt (- 2)",
@@ -857,7 +931,8 @@
             "animag": "Animalische Magie",
             "schaus": "Schwache Ausstrahlung",
             "zoezau": "Zögerlicher Zauberer",
-            "entsin": "Entfernungssinn"
+            "entsin": "Entfernungssinn",
+            "mhk": "Meisterhandwerk"
         },
         "flaws": {
             "goofy": "Tollpatsch",

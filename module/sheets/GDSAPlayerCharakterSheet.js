@@ -1,5 +1,6 @@
 import * as Util from "../../Util.js";
 import * as LsFunction from "../listenerFunctions.js"
+import * as Template from "../apps/templates.js";
 
 export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
@@ -27,7 +28,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         });
     } 
 
-    getData() {
+    async getData() {
 
         // #################################################################################################
         // #################################################################################################
@@ -50,11 +51,12 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             items: baseData.items,
             config: CONFIG.GDSA,
             isGM: game.user.isGM,
+            template: await Template.templateData(),
 
             // Create for each Item Type its own Array
 
-            advantages: Util.getItems(baseData, "advantage", false),
-            flaws: Util.getItems(baseData, "flaw", false),           
+            advantages: Util.getTemplateItems(baseData, "adva"),
+            flaws: Util.getTemplateItems(baseData, "flaw"),           
             generalTraits: Util.getItems(baseData, "generalTrait", false),
             combatTraits: Util.getItems(baseData, "combatTrait", false),
             magicTraits: Util.getItems(baseData, "magicTrait", false),
@@ -84,12 +86,12 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         // Calculate some values dependent on Items
 
-        sheetData = this.calculateValues(sheetData);
+        sheetData = await this.calculateValues(sheetData);
 
         return sheetData;
     }
 
-    activateListeners(html) {
+    async activateListeners(html) {
 
         // #################################################################################################
         // #################################################################################################
@@ -103,61 +105,63 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
             // Set Listener for Char Edits
 
-            html.find(".editFacts").click(LsFunction.editeCharFacts.bind(this, this.getData()));
-            html.find(".stat-change").click(LsFunction.editeCharStats.bind(this, this.getData()));
-            html.find(".ress-change").click(LsFunction.editeCharRessource.bind(this, this.getData()));
+            html.find(".editFacts").click(LsFunction.editeCharFacts.bind(this, await this.getData()));
+            html.find(".stat-change").click(LsFunction.editeCharStats.bind(this, await this.getData()));
+            html.find(".ress-change").click(LsFunction.editeCharRessource.bind(this, await this.getData()));
 
             // Set Listener for Basic Rolls
             
-            html.find(".skill-roll").click(LsFunction.onSkillRoll.bind(this, this.getData()));
-            html.find(".stat-roll").click(LsFunction.onStatRoll.bind(this, this.getData()));
-            html.find(".flaw-roll").click(LsFunction.onFlawRoll.bind(this, this.getData()));
-            html.find(".attack-roll").click(LsFunction.onAttackRoll.bind(this, this.getData()));
-            html.find(".parry-roll").click(LsFunction.onParryRoll.bind(this, this.getData()));
-            html.find(".shield-roll").click(LsFunction.onShildRoll.bind(this, this.getData()));
-            html.find(".dogde-roll").click(LsFunction.onDogdeRoll.bind(this, this.getData()));
-            html.find(".damage-roll").click(LsFunction.onDMGRoll.bind(this, this.getData()));
-            html.find(".wonder-roll").click(LsFunction.onWonderRoll.bind(this, this.getData()));
-            html.find(".spell-roll").click(LsFunction.onSpellRoll.bind(this, this.getData()));
-            html.find(".ritCrea-roll").click(LsFunction.onRitualCreation.bind(this, this.getData()));
-            html.find(".ritAkti-roll").click(LsFunction.onRitualActivation.bind(this, this.getData()));
+            html.find(".skill-roll").click(LsFunction.onSkillRoll.bind(this, await this.getData()));
+            html.find(".stat-roll").click(LsFunction.onStatRoll.bind(this, await this.getData()));
+            html.find(".flaw-roll").click(LsFunction.onFlawRoll.bind(this, await this.getData()));
+            html.find(".attack-roll").click(LsFunction.onAttackRoll.bind(this, await this.getData()));
+            html.find(".parry-roll").click(LsFunction.onParryRoll.bind(this, await this.getData()));
+            html.find(".shield-roll").click(LsFunction.onShildRoll.bind(this, await this.getData()));
+            html.find(".dogde-roll").click(LsFunction.onDogdeRoll.bind(this, await this.getData()));
+            html.find(".damage-roll").click(LsFunction.onDMGRoll.bind(this, await this.getData()));
+            html.find(".mirRoll").click(LsFunction.onMirikalRoll.bind(this, await this.getData()));
+            html.find(".wonder-roll").click(LsFunction.onWonderRoll.bind(this, await this.getData()));
+            html.find(".spell-roll").click(LsFunction.onSpellRoll.bind(this, await this.getData()));
+            html.find(".ritCrea-roll").click(LsFunction.onRitualCreation.bind(this, await this.getData()));
+            html.find(".ritAkti-roll").click(LsFunction.onRitualActivation.bind(this, await this.getData()));
 
             // Set Listener for Stat Changes
 
-            html.find(".getHeal").click(LsFunction.onStatGain.bind(this, this.getData(), "LeP"));
-            html.find(".getAsP").click(LsFunction.onStatGain.bind(this, this.getData(), "AsP"));
-            html.find(".getKaP").click(LsFunction.onStatGain.bind(this, this.getData(), "KaP"));
-            html.find(".getDMG").click(LsFunction.onStatLoss.bind(this, this.getData(), "LeP"));
-            html.find(".lossAsP").click(LsFunction.onStatLoss.bind(this, this.getData(), "AsP"));
-            html.find(".lossKaP").click(LsFunction.onStatLoss.bind(this, this.getData(), "KaP"));
-            html.find(".stat-plus").click(LsFunction.onAddStat.bind(this, this.getData()));
-            html.find(".stat-minus").click(LsFunction.onSubStat.bind(this, this.getData()));
-            html.find(".doReg").click(LsFunction.onReg.bind(this, this.getData()));
-            html.find(".doMedi").click(LsFunction.onMed.bind(this, this.getData()));
-            html.find(".wp").click(LsFunction.onWoundChange.bind(this, this.getData()));
-            html.find(".wound").click(LsFunction.onWoundChange.bind(this, this.getData()));
+            html.find(".getHeal").click(LsFunction.onStatGain.bind(this, await this.getData(), "LeP"));
+            html.find(".getAsP").click(LsFunction.onStatGain.bind(this, await this.getData(), "AsP"));
+            html.find(".getKaP").click(LsFunction.onStatGain.bind(this, await this.getData(), "KaP"));
+            html.find(".getDMG").click(LsFunction.onStatLoss.bind(this, await this.getData(), "LeP"));
+            html.find(".lossAsP").click(LsFunction.onStatLoss.bind(this, await this.getData(), "AsP"));
+            html.find(".lossKaP").click(LsFunction.onStatLoss.bind(this, await this.getData(), "KaP"));
+            html.find(".stat-plus").click(LsFunction.onAddStat.bind(this, await this.getData()));
+            html.find(".stat-minus").click(LsFunction.onSubStat.bind(this, await this.getData()));
+            html.find(".doReg").click(LsFunction.onReg.bind(this, await this.getData()));
+            html.find(".doMedi").click(LsFunction.onMed.bind(this, await this.getData()));
+            html.find(".wp").click(LsFunction.onWoundChange.bind(this, await this.getData()));
+            html.find(".wound").click(LsFunction.onWoundChange.bind(this, await this.getData()));
 
             // Set Listener for Item Events
 
-            if(! this.id.includes("Token")) html.find(".item-create").click(LsFunction.onItemCreate.bind(this, this.getData()));
-            if(! this.id.includes("Token")) html.find(".item-edit").click(LsFunction.onItemEdit.bind(this, this.getData()));
-            html.find(".item-apply").click(LsFunction.onItemEquip.bind(this, this.getData()));
-            html.find(".item-remove").click(LsFunction.onItemRemove.bind(this, this.getData()));
-            if(! this.id.includes("Token")) html.find(".invItem").click(LsFunction.onItemOpen.bind(this, this.getData()));
-            if(! this.id.includes("Token")) html.find(".invItem3").click(LsFunction.onItemOpen.bind(this, this.getData()));
-            if(! this.id.includes("Token")) html.find(".change-money").click(LsFunction.onMoneyChange.bind(this, this.getData()));
-            html.find(".toggleHide").click(LsFunction.onHideToggle.bind(this, this.getData()));
-            html.find(".spell-add").click(LsFunction.getSpellContextMenu.bind(this, this.getData()));
-            html.find(".wonder-add").click(LsFunction.getWonderContextMenu.bind(this, this.getData()));
-            html.find(".meleeW-add").click(LsFunction.getMeleeWContextMenu.bind(this, this.getData()));
-            html.find(".rangeW-add").click(LsFunction.getRangeWContextMenu.bind(this, this.getData()));
-            html.find(".shilds-add").click(LsFunction.getShieldContextMenu.bind(this, this.getData()));
-            html.find(".armour-add").click(LsFunction.getArmourContextMenu.bind(this, this.getData()));
-            html.find(".objektRitual-add").click(LsFunction.getObjectRitContextMenu.bind(this, this.getData()));
-            html.find(".item-delete").click(LsFunction.onItemDelete.bind(this, this.getData()));
-            html.find(".ritCheck").change(LsFunction.changeActiveStat.bind(this, this.getData()));
-            html.find(".castChange").change(LsFunction.changeCastZfW.bind(this, this.getData()));
-            html.find(".test").change(LsFunction.testFunc.bind(this, this.getData()));
+            if(! this.id.includes("Token")) html.find(".item-create").click(LsFunction.onItemCreate.bind(this, await this.getData()));
+            if(! this.id.includes("Token")) html.find(".template-create").click(LsFunction.onTemplateCreate.bind(this, await this.getData()));
+            if(! this.id.includes("Token")) html.find(".item-edit").click(LsFunction.onItemEdit.bind(this, await this.getData()));
+            html.find(".item-apply").click(LsFunction.onItemEquip.bind(this, await this.getData()));
+            html.find(".item-remove").click(LsFunction.onItemRemove.bind(this, await this.getData()));
+            if(! this.id.includes("Token")) html.find(".invItem").click(LsFunction.onItemOpen.bind(this, await this.getData()));
+            if(! this.id.includes("Token")) html.find(".invItem3").click(LsFunction.onItemOpen.bind(this, await this.getData()));
+            if(! this.id.includes("Token")) html.find(".change-money").click(LsFunction.onMoneyChange.bind(this, await this.getData()));
+            html.find(".toggleHide").click(LsFunction.onHideToggle.bind(this, await this.getData()));
+            html.find(".spell-add").click(LsFunction.getSpellContextMenu.bind(this, await this.getData()));
+            html.find(".wonder-add").click(LsFunction.getWonderContextMenu.bind(this, await this.getData()));
+            html.find(".meleeW-add").click(LsFunction.getMeleeWContextMenu.bind(this, await this.getData()));
+            html.find(".rangeW-add").click(LsFunction.getRangeWContextMenu.bind(this, await this.getData()));
+            html.find(".shilds-add").click(LsFunction.getShieldContextMenu.bind(this, await this.getData()));
+            html.find(".armour-add").click(LsFunction.getArmourContextMenu.bind(this, await this.getData()));
+            html.find(".objektRitual-add").click(LsFunction.getObjectRitContextMenu.bind(this, await this.getData()));
+            html.find(".item-delete").click(LsFunction.onItemDelete.bind(this, await this.getData()));
+            html.find(".ritCheck").change(LsFunction.changeActiveStat.bind(this, await this.getData()));
+            html.find(".castChange").change(LsFunction.changeCastZfW.bind(this, await this.getData()));
+            html.find(".test").change(LsFunction.testFunc.bind(this, await this.getData()));
 
             // Set Listener for PDFoundry
 
@@ -167,14 +171,36 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
             // Set Listeners for Navigation
 
-            html.find(".changeTab").click(LsFunction.changeTab.bind(this, this.getData()));
+            html.find(".changeTab").click(LsFunction.changeTab.bind(this, await this.getData()));
+            html.find(".showSkills").click(LsFunction.showAllSkills.bind(this, await this.getData()));
 
             // Set Listener for Context / Right-Click Menu
 
             if(! this.id.includes("Token")) new ContextMenu(html, ".item-context", LsFunction.getItemContextMenu());
 
             // Set Listener on Mirakel Template Change
-            html.find(".changeMirTemp").change(LsFunction.changeMirTemp.bind(this, this.getData()));
+
+            html.find(".changeMirTemp").change(LsFunction.changeMirTemp.bind(this, await this.getData()));
+            html.find(".SelHelper2").onchange(LsFunction.isCustomMirikal.bind(this, await this.getData()));
+
+            // Set Listener for Skill Macrobar Support 
+
+            let handler = ev => this._onDragStart(ev);
+
+            // Find all items on the character sheet.
+            html.find(".skillitem").each((i, li) => {
+
+                // Add draggable attribute and dragstart listener.
+                li.setAttribute("draggable", true);
+                li.addEventListener("dragstart", handler, false);
+            });
+
+            html.find(".statitem").each((i, li) => {
+
+                // Add draggable attribute and dragstart listener.
+                li.setAttribute("draggable", true);
+                li.addEventListener("dragstart", handler, false);
+            });
         }
 
         super.activateListeners(html);
@@ -201,21 +227,21 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             case "armour":
 
                 const siblings = this.actor.items.filter(i => {
-                    return (i.data._id !== source.data._id);
+                    return (i._id !== source._id);
                 });
 
                 // Get the drop Target
 
                 const dropTarget = event.target.closest(".item");
                 const targetId = dropTarget ? dropTarget.dataset.itemId : null;
-                const target = siblings.find(s => s.data._id === targetId);
+                const target = siblings.find(s => s._id === targetId);
 
                 // Perform Sort
 
                 const sortUpdates = SortingHelpers.performIntegerSort(source, { target: target, siblings }); 
                 const updateData = sortUpdates.map(u => {
                     const update = u.update;
-                    update._id = u.target.data._id;
+                    update._id = u.target._id;
                     return update;
                 });
 
@@ -228,7 +254,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         }
     }
 
-    calculateValues(sheetData) {
+    async calculateValues(sheetData) {
 
         // #################################################################################################
         // #################################################################################################
@@ -367,8 +393,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         sheetData.system.GS.modi = 0;
 
         if(checkFlink != null) sheetData.system.GS.modi = checkFlink.system.value;
-        if(parseInt(sheetData.system.GE.value) >= 16) sheetData.system.GS.modi += 1;
-        if(parseInt(sheetData.system.GE.value) <= 10) sheetData.system.GS.modi -= 1;
+        if((parseInt(sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp)) >= 16) sheetData.system.GS.modi += 1;
+        if((parseInt(sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp)) <= 10) sheetData.system.GS.modi -= 1;
 
         if(checkUnsporty != null) sheetData.system.GS.modi -= 1;
         if(checkSmall != null) sheetData.system.GS.modi -= 1;
@@ -387,8 +413,15 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         // Calculate INIBase and Save
 
-        let INIBase = Math.round(((parseInt(sheetData.system.MU.value) + parseInt(sheetData.system.MU.value) + parseInt(sheetData.system.IN.value) + parseInt(sheetData.system.GE.value)) / 5));
-        sheetData.system.INIBasis.value = INIBase;
+        let INIBase = Math.round((( parseInt(sheetData.system.MU.value) + 
+                                    parseInt(sheetData.system.MU.temp) + 
+                                    parseInt(sheetData.system.MU.value) + 
+                                    parseInt(sheetData.system.MU.temp) + 
+                                    parseInt(sheetData.system.IN.value) + 
+                                    parseInt(sheetData.system.IN.temp) + 
+                                    parseInt(sheetData.system.GE.value) + 
+                                    parseInt(sheetData.system.GE.temp)) / 5));
+        sheetData.system.INIBasis.value = INIBase + sheetData.system.INIBasis.tempmodi;
         sheetData.system.INIBasis.modi = 0;
 
         // Get Weapon / Shield INI Modi
@@ -420,7 +453,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let checkEisern = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.iron")})[0];
         let checkGlass = sheetData.flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.glass")})[0];
 
-        sheetData.system.WS = Math.round(parseInt(sheetData.system.KO.value) / 2);
+        sheetData.system.WS = Math.round((parseInt(sheetData.system.KO.value) + parseInt(sheetData.system.KO.temp))/ 2);
 
         if(checkEisern != null) sheetData.system.WS += 2;
         if(checkGlass != null) sheetData.system.WS -= 2;
@@ -437,6 +470,18 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if(checkDogde2 != null) sheetData.system.Dogde += 3;
         if(checkDogde3 != null) sheetData.system.Dogde += 3;
         if(checkFlink != null) sheetData.system.Dogde += checkFlink.system.value;
+        sheetData.system.Dogde -= BE;
+
+        // Calculate Dodge Bonus from Acrobatik
+
+        let akro = sheetData.system.skill.Akrobatik;
+        let akBonus = Math.floor((akro - 9) / 3);
+        if(akBonus < 0) akBonus = 0;
+        sheetData.system.Dogde += akBonus;
+
+        // Add Modi to MR
+
+        sheetData.system.MR.value = sheetData.system.MRBase + sheetData.system.MR.tempmodi;
 
         // Talentspezialisierungen Array Generation
 
@@ -454,7 +499,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             const objekt = {
                 fullstring: spezi.name,
                 talentname: skillName,
-                talentshort: Util.getSkillShort(skillName),
+                talentshort: await Util.getSkillName(skillName),
                 spezi: spezilation
             };
 
@@ -484,6 +529,26 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         sheetData.system.SkillSpez = spezObj;
         sheetData.system.SpellSpez = spelObj;
+
+        // Setze Meisterhandwerke
+
+        let skillMHK = sheetData.advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.mhk"))});
+
+        let mhkObj = [];
+
+        for (const spezi of skillMHK) {
+
+            let skillName = spezi.name.slice(16);
+
+            const objekt = {
+                fullstring: spezi.name,
+                talentname: skillName
+            };
+
+            mhkObj.push(objekt);
+        }
+
+        sheetData.system.mhkList = mhkObj;
 
         // Setzen der Repräsentation
 
@@ -567,16 +632,16 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         for (let i = 0; i < sheetData.langs.length; i++) {
 
-            sheetData.langs[i].system.att1 = sheetData.system.KL.value;
-            sheetData.langs[i].system.att2 = sheetData.system.IN.value;
-            sheetData.langs[i].system.att3 = sheetData.system.CH.value;
+            sheetData.langs[i].system.att1 = sheetData.system.KL.value + sheetData.system.KL.temp;
+            sheetData.langs[i].system.att2 = sheetData.system.IN.value + sheetData.system.IN.temp;
+            sheetData.langs[i].system.att3 = sheetData.system.CH.value + sheetData.system.CH.temp;
         }
 
         for (let i = 0; i < sheetData.signs.length; i++) {
 
-            sheetData.signs[i].system.att1 = sheetData.system.KL.value;
-            sheetData.signs[i].system.att2 = sheetData.system.IN.value;
-            sheetData.signs[i].system.att3 = sheetData.system.CH.value;
+            sheetData.signs[i].system.att1 = sheetData.system.KL.value + sheetData.system.KL.temp;
+            sheetData.signs[i].system.att2 = sheetData.system.IN.value + sheetData.system.IN.temp;
+            sheetData.signs[i].system.att3 = sheetData.system.CH.value + sheetData.system.CH.temp;
         }
 
         // Sort Lang, Sign, Advantages, Flaws, Spells, general and combat Traits
@@ -717,5 +782,54 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         });
     
         return sheetData;
+    }
+
+    _onDragStart(event) {
+
+        if(event.srcElement.className != "skillitem" && event.srcElement.className != "statitem") super._onDragStart(event);
+
+        else if(event.srcElement.className === "skillitem") {
+
+            // Get Element and Skill Infos
+
+            let element = event.currentTarget;
+            let message = element.closest(".skillitem");
+            let isSpez = (message.querySelector("[class=skillTemp]").name === "spezi");
+            let isMeta = (message.querySelector("[class=skillTemp]").name === "meta");
+            
+            // Prepare DragData
+
+            const dragData = {
+                type: "skill",
+                name: message.querySelector("[class=skillTemp]").dataset.lbl,
+                item: message.querySelector("[class=skillTemp]").dataset.stat,
+                actorId: message.querySelector("[class=skillTemp]").dataset.actor,
+                isSpez: isSpez,
+                isMeta: isMeta
+            };
+    
+            // Set data transfer
+    
+            event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+
+        } else if(event.srcElement.className === "statitem") {
+
+            // Get Element and Skill Infos
+
+            let element = event.currentTarget;
+            let message = element.closest(".statitem");
+            
+            // Prepare DragData
+
+            const dragData = {
+                type: "stat",
+                actorId: message.dataset.actor,
+                stat: message.dataset.stattype
+            };
+    
+            // Set data transfer
+    
+            event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+        } 
     }
 }

@@ -1,9 +1,9 @@
-export async function GetSkillCheckOptions() {
+export async function GetSkillCheckOptions(skill) {
 
     // Create Dialog and show to User
 
     const template = "systems/GDSA/templates/chat/skill-check-dialog.hbs";
-    const html = await renderTemplate(template, {});
+    const html = await renderTemplate(template, skill);
 
     return new Promise(resolve => {
 
@@ -16,6 +16,68 @@ export async function GetSkillCheckOptions() {
                     normal: {
                                 label: game.i18n.format("GDSA.chat.skill.roll"),
                                 callback: html => resolve(_processSkillCheckOptions(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
+export async function GetDogdeOptions() {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/chat/dogde-dialog.hbs";
+    const html = await renderTemplate(template, {});
+
+    return new Promise(resolve => {
+
+        // Set up Parameters for Dialog
+
+        const data = {
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.roll"),
+                                callback: html => resolve(_processDogdeOptions(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
+export async function GetMirikalOptions() {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/chat/mirikal-check-dialog.hbs";
+    const html = await renderTemplate(template);
+
+    return new Promise(resolve => {
+
+        // Set up Parameters for Dialog
+
+        const data = {
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.roll"),
+                                callback: html => resolve(_processMirikalCheckOptions(html[0].querySelector("form")))},
                     cancel: {
                                 label: game.i18n.format("GDSA.chat.skill.cancel"),
                                 callback: html => resolve({cancelled: true})}},
@@ -679,10 +741,56 @@ export async function editCharRess(context) {
 
 function _processSkillCheckOptions(form) {
 
+    let advantage;
+    let disadvantage;
+    let taladvantage;
+    let taldisadvantage;
+    let talS = false;
+    let be = false;
+    let beDis = 0;
+    let mhk = 0;
+    let used = [];
+
+    advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
+    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+
+    taladvantage = parseInt(form.talSadvantage.value !== "" ? form.talSadvantage.value : 0);
+    taldisadvantage = parseInt(form.talSdisadvantage.value !== "" ? form.talSdisadvantage.value : 0);
+
+    if(form.talentS != null) talS = form.talentS.checked;
+    if(form.be != null) be = form.be.checked;
+    if(form.be != null) beDis = form.beValue.value;
+    if(form.mhk != null) mhk = form.mhk.value;
+
+    if(be && beDis > 0) { used.push(game.i18n.localize("GDSA.template.BE") + "s " + game.i18n.localize("GDSA.itemsheet.disad")  + " (+ " + beDis + ")")};
+
+    return {
+       
+        advantage: advantage,
+        disadvantage: disadvantage,
+        taladvantage: taladvantage,
+        taldisadvantage: taldisadvantage,
+        be: be,
+        mhk: mhk,
+        used: used,
+        talS: talS
+    }
+}
+
+function _processDogdeOptions(form) {
+
+    let disadvantage = 0;
+    let multi = 1;
+
+    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+
+    if(form.directed.checked) multi = 2;
+
+    disadvantage += (parseInt(form.dk.value) * multi) + parseInt(form.addCombt.value);
+
     return {
 
-        advantage: parseInt(form.advantage.value !== "" ? form.advantage.value : 0),
-        disadvantage: parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0)
+        disadvantage: disadvantage
     }
 }
 
@@ -740,6 +848,43 @@ function _processSpellCheckOptions(form) {
         variants: variants,
         used: used,
         powerC: powerC
+    }
+}
+
+function _processMirikalCheckOptions(form) {
+
+    let advantage = 0;
+    let disadvantage = 0;
+    let used = [];
+
+    advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
+    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+
+    if(form.lastResort.checked) { advantage += 2; used.push(game.i18n.localize("GDSA.system.lastResort") + " (- 2)")};
+    if(form.forcedHoly.checked) { disadvantage += 6; used.push(game.i18n.localize("GDSA.system.magicForced") + " (+ 6)")};
+    if(form.disbeliv.checked) { disadvantage += 3; used.push(game.i18n.localize("GDSA.system.disbelive") + " (+ 3)")};
+    if(form.demonic.checked) { disadvantage += 7; used.push(game.i18n.localize("GDSA.system.chaospres") + " (+ 7)")};
+
+    if (parseInt(form.motivation.value) > 0) disadvantage += Math.round((parseInt(form.motivation.value)) / 2);
+        else advantage += Math.round((parseInt(form.motivation.value) * (-1)) / 2);
+
+    if (parseInt(form.motivation.value) !== 0) used.push(form.motivation.options[form.motivation.selectedIndex].innerHTML)
+    
+    if (parseInt(form.place.value) > 0) disadvantage += parseInt(form.place.value);
+        else advantage += (parseInt(form.place.value) * (-1))
+    
+    if (parseInt(form.place.value) !== 0) used.push(form.place.options[form.place.selectedIndex].innerHTML + " (" + _formatModifikation(form.place.value) + ")")
+
+    if (parseInt(form.time.value) > 0) disadvantage += Math.round((parseInt(form.time.value)) / 2);
+        else advantage += Math.round((parseInt(form.time.value) * (-1)) / 2);
+    
+    if (parseInt(form.time.value) !== 0) used.push(form.time.options[form.time.selectedIndex].innerHTML + " (" + (Math.round((parseInt(form.time.value) * -1) / 2) *  -1) + ")")
+
+    return {
+
+        advantage: advantage,
+        disadvantage: disadvantage,
+        used: used
     }
 }
 

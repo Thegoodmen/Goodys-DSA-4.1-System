@@ -3,6 +3,7 @@ import * as Util from "../Util.js";
 import * as Dialog from "./dialog.js";
 import Browser from "../module/apps/compBrowser.js"
 import { GDSA } from "./config.js";
+import {getTalent} from "../module/apps/templates.js";
 
 export async function onSkillRoll(data, event) {
 
@@ -12,52 +13,163 @@ export async function onSkillRoll(data, event) {
 
     let element = event.currentTarget;
     let actor = data.actor;
-    let system = data.system;
 
-    // Get Skill Value from the HTML
+    // Get Skill Value and Skill Name from the HTML
     
-    let statvalue = element.closest("tr").querySelector("[class=skillTemp]").value;
+    let htmlElement = element.closest("tr").querySelector("[class=skillTemp]");
+    let statname = htmlElement.dataset.stat;
 
-    // Get Dataset from HTML
+    // Create Objekt for SkillRoll
 
-    let dataset = element.closest(".item").dataset;
+    let rollEvent = {
+        name: htmlElement.dataset.lbl,
+        item: await getTalent(statname),
+        actor: actor,
+        stat: htmlElement.value,
+        skipMenu: !event.shiftKey
+    }
 
-    // Get BE Value in this Roll
+    doSkillRoll(rollEvent);
+}
 
-    let beMod = dataset.bemod;
-    let be = system.BE;
-    if(beMod > 0) be = be * beMod;
-    else if (beMod < 0 && (beMod * -1) > be) be + beMod;
-    else be = 0;
+export async function doSkillRoll(rollEvent) {
 
-    // Get Item
+    // Set System and statvalue
 
-    let item = actor.items.get(dataset.itemId);
-    
+    let system = rollEvent.actor.system;
+    let statvalue =  parseInt(rollEvent.stat);
+    let showname = rollEvent.name;
+
+    // Get Skill Template from Templates
+
+    let skillTemplate = rollEvent.item;
+    let skillInfo = skillTemplate.system.tale;
+
+    // Set Stats for Skill Roll
+
+    let statOne = ( system[skillInfo.att1.toUpperCase()].value + system[skillInfo.att1.toUpperCase()].temp );
+    let statTwo = ( system[skillInfo.att2.toUpperCase()].value + system[skillInfo.att2.toUpperCase()].temp );
+    let statThree = ( system[skillInfo.att3.toUpperCase()].value + system[skillInfo.att3.toUpperCase()].temp );
+
+    // Check if Talentschub is present
+
+    let talentS = rollEvent.actor.system.skill["Talentschub" + rollEvent.item.name];
+    let isTalentS = (talentS > 0);
+
+    skillTemplate.isTalentS = isTalentS;
+
+    // Get BE Value / BE Disadvantage in this Roll
+
+    let beDisadvantage = 0;
+
+    if (skillInfo.BECheck) {
+
+        let be = system.gBEArmour;
+        let beValue = skillInfo.BE;
+        let beType = skillInfo.BEtype;
+
+        if (beType === "x") beDisadvantage = be * beValue;
+        if (beType === "-" && be > beValue) beDisadvantage = be - beValue;
+        if (beDisadvantage < 0) beDisadvantage = 0;
+    }
+
     // Check if Shift is presst for Skip Dialog
 
-    let options = event.shiftKey ? false : true;
     let checkOptions = false;
     let advantage = 0;
     let disadvantage = 0;
+    let useBe = true;
+    let usedMHK = 0;
+    let used = [];
+    let talS = false;
+    let talAdv = 0;
 
-    if(options) {
+    let actor = await rollEvent.actor.sheet.getData();
+    skillTemplate.isMHK = actor.system.mhkList.filter(function(item) {return item.talentname.includes(rollEvent.item.name)}).length > 0;
+    skillTemplate.MHKMx = Math.round( statvalue / 2 );
+    skillTemplate.beDis = beDisadvantage;
 
-        checkOptions = await Dialog.GetSkillCheckOptions();
+    if(rollEvent.skipMenu) {
+
+        checkOptions = await Dialog.GetSkillCheckOptions(skillTemplate);
             
         advantage = checkOptions.advantage;
         disadvantage = checkOptions.disadvantage;
+        useBe = checkOptions.be;
+        usedMHK = checkOptions.mhk;
+        used = checkOptions.used;
+        talS = checkOptions.talS;
+        talAdv = parseInt(checkOptions.taladvantage - checkOptions.taldisadvantage);
+
     }
 
     if (checkOptions.cancelled) return;
 
     // Calculate Modifier
 
-    let modif = parseInt(advantage) - parseInt(disadvantage) - be;
+    let modif = parseInt(advantage) - parseInt(disadvantage);
+    if(useBe) modif = modif - parseInt(beDisadvantage);
+
+    // Check if Talentschub should be rolled
+
+    if (talS) {
+
+        let talSName = "Talentschub: " + rollEvent.item.name;
+        let talSone = ( system.MU.value + system.MU.temp );
+        let talStwo = ( system.IN.value + system.IN.temp );
+        let talSthree = ( system.KO.value + system.KO.temp );
+
+        let talSitem = {system: { tale: {}}};
+        talSitem.system.tale.BECheck = false;
+        talSitem.system.tale.type = "gift";
+        talSitem.img = "icons/magic/symbols/symbol-lightning-bolt.webp";
+
+        let optional1 = {
+            template: "systems/GDSA/templates/chat/skill-check-v2.hbs",
+            item: talSitem,
+            att1: "MU",
+            att2: "IN",
+            att3: "KO",
+            noChat: false,
+            used: [],
+            mhk: false,
+            asp: 0
+        };
+
+        let response1 = await Dice.skillCheck(talSName, talentS, talSone, talStwo, talSthree, actor, actor.goofy, talAdv, optional1);
+        response1.message.setFlag('gdsa', 'isCollapsable', true);
+
+        if (response1.succ) 
+            if (response1.value === 0) modif += 1;
+            else modif += response1.value
+        else modif -= 3;
+    }
+
+    // Add MHK Bonus
+
+    if((usedMHK * 2) > statvalue) usedMHK = (statvalue / 2);
+    statvalue += (usedMHK * 2);
+    let mhk = usedMHK > 0;
+    if(mhk) { used.push(game.i18n.localize("GDSA.chat.skill.mhk") + " (" + usedMHK  + " " + game.i18n.localize("GDSA.itemsheet.asp") + ")")};
+
+    // Prepare Optional Roll Data
+
+    let optional = {
+        template: "systems/GDSA/templates/chat/skill-check-v2.hbs",
+        item: skillTemplate,
+        att1: skillInfo.att1.toUpperCase(),
+        att2: skillInfo.att2.toUpperCase(),
+        att3: skillInfo.att3.toUpperCase(),
+        noChat: false,
+        used: used,
+        mhk: mhk,
+        asp: usedMHK
+    };
 
     // Execute Roll
 
-    Dice.skillCheck(dataset.statname, statvalue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif);
+    let response = await Dice.skillCheck(showname, statvalue, statOne, statTwo, statThree, actor, actor.goofy, modif, optional);
+    response.message.setFlag('gdsa', 'isCollapsable', true);
 }
 
 export async function onSpellRoll(data, event) {
@@ -623,6 +735,90 @@ export async function onSpellRoll(data, event) {
     }
 }
 
+export async function onMirikalRoll(data, event, statname = "") {
+
+    event.preventDefault();
+
+    // Get Element and Actor
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+    let system = data.system;
+
+    // Get Dataset from HTML
+
+    let dataset = element.closest(".item").dataset;
+
+    // Get Skill Value from the Actor
+    
+    let statvalue = system.skill.liturgy;
+
+    // Set Attributes for Roll
+
+    let dieOne = actor.system.MU.value + actor.system.MU.temp;
+    let dieTwo = actor.system.IN.value + actor.system.IN.temp;
+    let dieThr = actor.system.CH.value + actor.system.CH.temp;
+
+    // Get Name of Skill
+
+    let skill = statname;
+
+    if(skill === "") skill = dataset.name;
+
+    let skillname = "Mirakel: " + skill;
+
+    // Check if Shift is presst for Skip Dialog
+
+    let options = event.shiftKey ? false : true;
+    let checkOptions = false;
+    let advantage = 0;
+    let disadvantage = 0;
+    let used = [];
+
+    if(options) {
+
+        checkOptions = await Dialog.GetMirikalOptions();
+
+        advantage = checkOptions.advantage;
+        disadvantage = checkOptions.disadvantage;
+
+        used = checkOptions.used;
+    }
+
+    // Calculate Modifier
+
+    let modif = advantage - disadvantage;
+
+    modif -= system.mirikal.cus[dataset.name];
+
+    // Generate Optional
+
+    let talSitem = {system: { tale: {}}};
+    talSitem.system.tale.BECheck = false;
+    talSitem.system.tale.type = "holy";
+    talSitem.img = "icons/magic/holy/prayer-hands-glowing-yellow.webp";
+
+    let optional = {
+
+        template: "systems/GDSA/templates/chat/skill-check-v2.hbs",
+        item: talSitem,
+        att1: "MU",
+        att2: "IN",
+        att3: "CH",
+        noChat: false,
+        used: used,
+        mhk: false,
+        asp: 0
+    };
+    
+    // Execute Roll
+
+    let response = await Dice.skillCheck(skillname, statvalue, dieOne, dieTwo, dieThr, actor, data.goofy, modif, optional);
+    response.message.setFlag('gdsa', 'isCollapsable', true);
+
+    return response;
+}
+
 export async function onWonderRoll(data, event) {
 
     event.preventDefault();
@@ -939,10 +1135,14 @@ export async function onWonderRoll(data, event) {
     };
 
     optional.varis = (used.length > 0);
+
+    let dieOne = actor.system.MU.value + actor.system.MU.temp;
+    let dieTwo = actor.system.IN.value + actor.system.IN.temp;
+    let dieThr = actor.system.CH.value + actor.system.CH.temp;
     
     // Execute Roll
 
-    Dice.skillCheck(item.name, statvalue, system.MU.value, system.IN.value, system.CH.value, actor, data.goofy, modif, optional);
+    Dice.skillCheck(item.name, statvalue, dieOne, dieTwo, dieThr, actor, data.goofy, modif, optional);
 }
 
 export async function onRitualCreation(data, event) {
@@ -1003,9 +1203,9 @@ export async function onRitualCreation(data, event) {
     // Prepare Optinals
     
     let statname = item.name;
-    let dieOne = actor.system[item.system.creatAtt1].value;
-    let dieTwo = actor.system[item.system.creatAtt2].value;
-    let dieThr = actor.system[item.system.creatAtt3].value;
+    let dieOne = actor.system[item.system.activAtt1].value + actor.system[item.system.activAtt1].temp;
+    let dieTwo = actor.system[item.system.activAtt2].value + actor.system[item.system.activAtt1].temp;
+    let dieThr = actor.system[item.system.activAtt3].value + actor.system[item.system.activAtt1].temp;
 
     let optional = {
         template: "systems/GDSA/templates/chat/objrit-check.hbs",
@@ -1081,9 +1281,9 @@ export async function onRitualActivation(data, event) {
     // Prepare Optinals
     
     let statname = item.name;
-    let dieOne = actor.system[item.system.activAtt1].value;
-    let dieTwo = actor.system[item.system.activAtt2].value;
-    let dieThr = actor.system[item.system.activAtt3].value;
+    let dieOne = actor.system[item.system.activAtt1].value + actor.system[item.system.activAtt1].temp;
+    let dieTwo = actor.system[item.system.activAtt2].value + actor.system[item.system.activAtt1].temp;
+    let dieThr = actor.system[item.system.activAtt3].value + actor.system[item.system.activAtt1].temp;
 
     let optional = {
         template: "systems/GDSA/templates/chat/objrit-check.hbs",
@@ -1119,9 +1319,14 @@ export function onStatRoll(data, event) {
 
     let statname = game.i18n.localize("GDSA.charactersheet."+stat);
 
+    // Get Temp Modi
+
+    let tempModi = 0;
+    if (stat != "MR") tempModi = statObjekt.temp;
+
     // Execute Roll
     
-    Dice.statCheck(statname, statObjekt.value, statObjekt.temp, actor);
+    Dice.statCheck(statname, statObjekt.value, tempModi, actor);
 }
 
 export function onNPCRoll(data, event) {
@@ -1282,7 +1487,7 @@ export async function onAttackRoll(data, event) {
         let tp = tpkkString.split("/")[0];
         let kk = tpkkString.split("/")[1];
     
-        let x = system.KK.value - tp;
+        let x = (system.KK.value + system.KK.temp) - tp;
         y = Math.ceil(x / kk);
         y --;
         if(y < 0) y = 0;
@@ -1355,7 +1560,7 @@ export async function onAttackRoll(data, event) {
             let tp = tpkkString.split("/")[0];
             let kk = tpkkString.split("/")[1];
         
-            let x = system.KK.value - tp;
+            let x = (system.KK.value + system.KK.temp) - tp;
             y = Math.ceil(x / kk);
             y --;
             if(y < 0) y = 0;
@@ -1915,7 +2120,7 @@ export async function getParryWeaponPABasis(data, wm) {
     return PABasis;
 }
 
-export function onDogdeRoll(data, event) {
+export async function onDogdeRoll(data, event) {
 
     event.preventDefault();
 
@@ -1926,11 +2131,21 @@ export function onDogdeRoll(data, event) {
     // Get Dogde Value and Name
 
     let statvalue = system.Dogde;
-    let statname = game.i18n.localize("GDSA.charactersheet.dogde");        
+    let statname = game.i18n.localize("GDSA.charactersheet.dogde");  
+    
+    // Get Dogde Options
+
+    let checkOptions = false;
+    let disadvantage = 0;
+
+    checkOptions = await Dialog.GetDogdeOptions();
+    disadvantage = checkOptions.disadvantage * -1;
+
+    if (checkOptions.cancelled) return;
 
     // Execute Dogde Roll
 
-    Dice.statCheck(statname,statvalue, 0, actor);
+    Dice.dogdeCheck(statname, statvalue, disadvantage, actor);
 }
 
 export function onDMGRoll(data, event) {
@@ -1992,7 +2207,7 @@ export function onDMGRoll(data, event) {
         let tp = tpkkString.split("/")[0];
         let kk = tpkkString.split("/")[1];
 
-        let x = system.KK.value - tp;
+        let x = (system.KK.value + system.KK.temp) - tp;
         y = Math.ceil(x / kk);
         y --;
 
@@ -2581,6 +2796,32 @@ export function onItemCreate(data, event) {
     return data.actor.createEmbeddedDocuments("Item", [itemData]);
 }
 
+export function onTemplateCreate(data, event) {
+    
+    event.preventDefault();
+
+    // Get Item Type and Name
+
+    let element = event.currentTarget;
+    let itemtype = element.dataset.type;
+    let name = "GDSA.charactersheet.new" + itemtype;
+
+    // Generate new Item
+
+    let itemData = {
+
+        name: game.i18n.localize(name),
+        type: "Template",
+        system: {
+            type: itemtype
+        }
+    };
+
+    // Create and return new item
+
+    return data.actor.createEmbeddedDocuments("Item", [itemData]);
+}
+
 export function onItemEdit(data, event) {
     
     event.preventDefault();
@@ -2689,6 +2930,12 @@ export function onItemClose(event) {
     // If the Item is part of an Actor it gets more complicated
 
     if (item == null) item = getItemFromActors(itemId);
+
+    // If its in a Collection, it gets really complicated
+
+    for (let i = 0; i < game.packs.contents.length; i++) 
+        if(game.packs.contents[i].get(itemId) != null) 
+            item = game.packs.contents[i].get(itemId)
 
     // Close Item Sheet
 
@@ -3525,6 +3772,77 @@ export function changeMirTemp(data, event) {
     console.log(selected)
 
 }
+
+export async function isCustomMirikal(data, event) {
+
+    // event.preventDefault();
+
+    // Get Actor
+
+    let actor = data.actor;
+
+    // Set Selected Template to Custom
+    
+    console.log(actor);
+
+    data.actor.setStatData("mirTemp", "none");
+    actor.render();
+
+    console.log(actor);
+}
+
+export function chatCollaps(event) {
+
+    event.preventDefault();
+
+    // Get Element and ChatMessage
+
+    let element = event.currentTarget;
+    let message = element.closest(".chat-message");
+
+    // Get Collabseable DIV Box and Bnt Picture
+    
+    let dBox = message.querySelector("[id=collapsable]");
+    let bntImg = message.querySelector("[id=collapsImg]");
+
+    // Toggle Class to Message
+
+    dBox.classList.toggle('collabst');
+
+    // Change Bnt Picture
+
+    bntImg.classList.toggle("fa-chevron-up");
+    bntImg.classList.toggle("fa-chevron-down");
+
+    // Hide / Show Additional Infos
+
+    let spanObj =  message.querySelector("[id=additionalInfo]");
+    let hidden = spanObj.getAttribute("hidden");
+    
+    if ( hidden ) spanObj.removeAttribute("hidden");
+    else spanObj.setAttribute("hidden", "hidden");
+
+}
+
+export function showAllSkills(data, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let actor = data.actor;
+
+    // Get Status
+
+    let showAll = actor.system.allSkills;
+
+    // Set toggeld Status
+
+    data.actor.setStatData("allSkills", !showAll);
+    actor.render();
+}
+
+export async function updateChatMessagesAfterCreation(message) {}
 
 export function testFunc(data,event) {
 

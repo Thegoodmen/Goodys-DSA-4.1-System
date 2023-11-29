@@ -31,6 +31,7 @@ export async function statCheck(statName, statValue, statMod, actor) {
     // Set up the Total Value of the Attribut Value +/- the Modifier
 
     let statValueTotal = parseInt(statValue) + parseInt(statMod);
+    let modi = 0;
 
     // Fill the Context for the Chat HTML to fill  
 
@@ -38,24 +39,25 @@ export async function statCheck(statName, statValue, statMod, actor) {
         roll: rollResult,
         roll2: rollResult2,
         statName: statName,
-        statValue: statValue,
-        adv: statMod,
+        statValue: statValueTotal,
+        adv: 0,
     };
 
     // Checks the Result of the Roll, if it needs to be confirmed and there if its a Critt or a Goof
     // and add its then to the Context for the Chat
 
-    templateContext.result = rollResult.total <= statValueTotal ? true : false;
-    templateContext.confirm = (rollResult.total == 1 || rollResult.total == 20) ? true : false
-    templateContext.critt = (rollResult.total == 1 && rollResult2.total <= statValueTotal) ? true : false;
-    templateContext.goof = (rollResult.total == 20 && rollResult2.total > statValueTotal) ? true : false;
+    templateContext.result = rollResult.total <= statValueTotal;
+    if(rollResult.total == 20) templateContext.result = false;
+    templateContext.confirm = (rollResult.total == 1 || rollResult.total == 20);
+    templateContext.critt = (rollResult.total == 1 && rollResult2.total <= statValueTotal);
+    templateContext.goof = (rollResult.total == 20 && rollResult2.total > statValueTotal);
 
     // Sets the Booleans and Values for the Modifikation Indikator in the Chat
 
-    templateContext.modPresent = (statMod != 0) ? true : false;
-    templateContext.isAdv = (statMod > 0) ? true : false;
-    templateContext.isDis = (statMod < 0) ? true : false;
-    templateContext.dis = parseInt(statMod) * (-1);
+    templateContext.modPresent = (modi != 0);
+    templateContext.isAdv = (modi > 0);
+    templateContext.isDis = (modi < 0);
+    templateContext.dis = parseInt(modi) * (-1);
 
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
@@ -64,7 +66,75 @@ export async function statCheck(statName, statValue, statMod, actor) {
     if(rollResult.total == 1 || rollResult.total == 20) dices.push(rollResult2.dice[0].values[0]);
     await doXD20XD6Roll(chatModel, dices, []);
 
-    return rollResult.total <= statValueTotal ? true : false;
+    return rollResult.total <= statValueTotal;
+}
+
+export async function dogdeCheck(statName, statValue, statMod, actor) {
+
+    // #################################################################################################
+    // #################################################################################################
+    // ##                                                                                             ##
+    // ##    Roll of a Attribut Check, if the Result is under the Value the the Check is passed       ##
+    // ##                                                                                             ##
+    // ##    @statName      String of the Statname e.g. "Mut"                                         ##
+    // ##    @statValue     Integer of the Value of the Stat e.g. 12                                  ##
+    // ##    @statMod       Integer of the Stat Modi from (Dis)Advantages                             ##
+    // ##    @actor         Actor Objekt of the Character rolling the Check                           ##
+    // ##                                                                                             ##
+    // #################################################################################################
+    // #################################################################################################
+
+    // Return if the Attribut has a Value of 0, meaning its not rollable
+
+    if(statValue == 0) return;
+
+    // Set up the Path of the Chat HTML
+
+    const templatePath = "systems/GDSA/templates/chat/stat-check.hbs";
+
+    // Roll 2 Dices 
+
+    let rollResult = await new Roll("1d20", {}).roll({ async: true});
+    let rollResult2 = await new Roll("1d20", {}).roll({ async: true});
+
+    // Set up the Total Value of the Attribut Value +/- the Modifier
+
+    let statValueTotal = parseInt(statValue) + parseInt(statMod);
+    let modi = statMod;
+
+    // Fill the Context for the Chat HTML to fill  
+
+    let templateContext = {
+        roll: rollResult,
+        roll2: rollResult2,
+        statName: statName,
+        statValue: statValue,
+        adv: 0
+    };
+
+    // Checks the Result of the Roll, if it needs to be confirmed and there if its a Critt or a Goof
+    // and add its then to the Context for the Chat
+
+    templateContext.result = rollResult.total <= statValueTotal;
+    templateContext.confirm = (rollResult.total == 1 || rollResult.total == 20);
+    templateContext.critt = (rollResult.total == 1 && rollResult2.total <= statValueTotal);
+    templateContext.goof = (rollResult.total == 20 && rollResult2.total > statValueTotal);
+
+    // Sets the Booleans and Values for the Modifikation Indikator in the Chat
+
+    templateContext.modPresent = (modi != 0);
+    templateContext.isAdv = (modi > 0);
+    templateContext.isDis = (modi < 0);
+    templateContext.dis = parseInt(modi) * (-1);
+
+    // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
+
+    let dices = [rollResult.dice[0].values[0]];
+    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    if(rollResult.total == 1 || rollResult.total == 20) dices.push(rollResult2.dice[0].values[0]);
+    await doXD20XD6Roll(chatModel, dices, []);
+
+    return rollResult.total <= statValueTotal;
 }
 
 export async function flawCheck(flawName, flawValue, actor) {
@@ -166,14 +236,7 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
 
     // If the Actor isGoofy than it checks if there are two or more Dices showing a 19 or 20. If that is the Case, the Roll is a Goof automaticly
 
-    if (isGoofy) {
-        
-        let tempCount = 0;
-        if(rollResult.total == 20 || rollResult.total == 19) ++tempCount;
-        if(rollResult2.total == 20 || rollResult2.total == 19) ++tempCount;
-        if(rollResult3.total == 20 || rollResult3.total == 19) ++tempCount;
-        if(tempCount > 1) goof = true;
-    }
+    if (isGoofy) goof = (parseInt(rollResultAll) - 38 >= parseInt(rollResult.total) || parseInt(rollResultAll) - 38 >= parseInt(rollResult2.total) || parseInt(rollResultAll) - 38 >= parseInt(rollResult3.total)) ? true : false;
 
     // Checks if all three Dices are rolled lower than there respectiv Attributes and sets an Indikator for each Roll
 
@@ -185,7 +248,7 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
 
         // Adds only the Disadvantage, if present, to the temporary Statvalue
 
-        let tempInt = (modif < 0) ? parseInt(statValue) + parseInt(modif) : parseInt(statValue);
+        let tempInt = (parseInt(modif) < 0) ? parseInt(statValue) + parseInt(modif) : parseInt(statValue);
 
         // Calculatates how much each Dice rolled underneath the Attribute
 
@@ -204,7 +267,7 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
         if (tempInt < 0 && tempInt >= (tapMax * -1)) {
             
             tap = 1;
-            tapMax -= tempInt;   
+            tapMax += tempInt;   
             resultSkill = true;
 
         } else if (tempInt < 0) {
@@ -224,7 +287,7 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
 
         // Adds the Modifier, if present, to the temporary Statvalue
 
-        let tempInt = parseInt(statValue) + modif;
+        let tempInt = parseInt(statValue) + parseInt(modif);
 
         // Reduce the temporary Statvalue by the value that the Values that Roll was over the Attribute
         
@@ -287,14 +350,16 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
     
     let dices = [rollResult.dice[0].values[0], rollResult2.dice[0].values[0], rollResult3.dice[0].values[0]];
     const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
-    if (!optional.noChat) await doXD20XD6Roll(chatModel, dices, []);
+    let message = "";
+    if (!optional.noChat) message = await doXD20XD6Roll(chatModel, dices, []);
 
     return {
         succ: resultSkill,
         value: tap,
         dices: dices,
         templatePath: templatePath,
-        templateContext: templateContext
+        templateContext: templateContext,
+        message: message
     };
 }
 
@@ -869,20 +934,39 @@ export async function doXD20XD6Roll(chatData, result1, result2) {
         if(!game.modules.get("dice-so-nice")?.active) {
 
             chatData.sound = CONFIG.sounds.dice;
-            ChatMessage.create(chatData);
+            sendChatMessage(chatData);
             resolve(true)
 
-        } else if (result1.length == 2 && result2.length <= 0) 
+        } else if (result1.length === 2 && result2.length <= 0) 
             game.dice3d.show({ throws:[{dice: [d20Model(result1[0])]}]}).then(displayed => 
                 { game.dice3d.show({ throws:[{dice: [d20Model(result1[1])]}]}).then(displayed => 
-                        { ChatMessage.create(chatData); resolve(true)});});
-        else if (result1.length == 2 && result2.length == 2) 
+                        { sendChatMessage(chatData); resolve(true)});});
+        else if (result1.length === 2 && result2.length === 2) 
             game.dice3d.show({ throws:[{dice: [d20Model(result1[0])]}]}).then(displayed => 
                 { game.dice3d.show({ throws:[{dice: [d20Model(result1[1])]}]}).then(displayed => 
                     { game.dice3d.show({ throws:[{dice: [d6Model(result2[0]), d6Model(result2[1])]}]}).then( displayed =>
-                        { ChatMessage.create(chatData); resolve(true)});});});
-        else game.dice3d.show(data).then(displayed => { ChatMessage.create(chatData); resolve(true)});
+                        { sendChatMessage(chatData); resolve(true)});});});
+        else game.dice3d.show(data).then(displayed => {let m = sendChatMessage(chatData); resolve(m)});
     });
+}
+
+async function sendChatMessage(chatData) {
+
+    if(!game.modules.get("dice-so-nice")?.active) {
+
+        let r = new Roll("1d20", {});
+        let m = await r.toMessage(chatData, {rollMode: chatData.rtype})
+        return m;
+
+    } else {
+
+        let r = new Roll("1d20", {});
+        r.evaluate()
+        r.dice[0].results[0].hidden = true;
+        let m = await r.toMessage(chatData, {rollMode: chatData.rtype})
+        return m;
+    }
+
 }
 
 export async function doXD20XD6RollWitoutChat(result1, result2) {
@@ -950,6 +1034,7 @@ function d6Model(result) {
 
 export function chatData(actor, template) {
 
+
     // Create Chat Data Model
 
     let data = {
@@ -957,6 +1042,27 @@ export function chatData(actor, template) {
         speaker: ChatMessage.getSpeaker({actor}),
         content: template
     };
+
+    // Check Chat Settings
+
+    switch (game.settings.get('core', 'rollMode')) {
+        case "selfroll":
+            data.whisper = [game.user];
+            data.rtype = CONST.DICE_ROLL_MODES.SELF;
+            break;
+        case "blindroll":
+            data.blind = true;
+            data.rtype = CONST.DICE_ROLL_MODES.BLIND;
+            break;
+        case "gmroll":
+            data.whisper = game.users.filter(user => actor.testUserPermission(user, "OWNER"));
+            data.rtype = CONST.DICE_ROLL_MODES.PRIVATE;
+            break;
+        case "publicroll":
+        default:
+            data.rtype = CONST.DICE_ROLL_MODES.PUBLIC;
+            break;
+    }
 
     return data;
 }

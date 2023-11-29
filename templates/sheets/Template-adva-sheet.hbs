@@ -1,0 +1,30 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+    <div class="browserImgBox3"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
+
+    <div class="ritHelper7">
+        <div class="spHelper1"><b>{{localize "GDSA.itemsheet.name"}}</b></div>
+        <div class="spHelper4"><b>{{localize "GDSA.template.type"}}</b></div>
+        <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
+        <div class="spHelper3">
+            <select class="spHelper5" name="system.type">
+                {{#select system.type}}
+                    {{#each config.tempTypes as |name type|}}
+                        <option value="{{type}}">{{localize name}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+    </div>
+
+    <div class="itemRow3">
+        <div class="spHelper16"><b>{{localize "GDSA.templates.value"}}</b></div>
+        <div class="spHelper17"><b>{{localize "GDSA.templates.canRoll"}}</b></div>
+        <div class="spHelper2">
+            <div class="spHelper19"><input class="spHelper5" name="system.trait.value" type="number" value="{{system.trait.value}}" /></div>
+            <div class="spHelper19"><input class="spHelper18" name="system.trait.canRoll" type="checkbox" {{#if system.trait.canRoll}}checked="isChecked"{{/if}} /></div>
+        </div>
+    </div>
+
+    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+</form>

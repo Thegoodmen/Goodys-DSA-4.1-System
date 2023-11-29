@@ -29,29 +29,31 @@
   		<div class="smallValueBox"><a class="item stat-plus" data-stattype="KaP" title="add KaP"><i class="fas fa-plus inTableSym"></i></a></div>
 	    <div class="smallValueBox"><a class="item stat-minus" data-stattype="KaP" title="remove KaP"><i class="fas fa-minus inTableSym"></i></a></div><br />
 
+		<div class="statitem" data-actor="{{actor._id}}" data-stattype="MR">
 		<div class="bigValueBox"><a class=" item ress-change" data-stattype="MR" title="edit">{{localize "GDSA.charactersheet.MR"}}</a></div><div class="smallValueBox"></div>
-		<div class="smallValueBox">{{system.MR.value}}</div>
+		<div class="smallValueBox"><a class="item stat-roll" data-stattype="MR" title="roll">{{system.MR.value}}</a></div>
 		<div class="smallValueBox"><input class="statTemp editableValue" name="system.MR.tempmodi" type="number" value="{{system.MR.tempmodi}}"/></div>
 		<div class="smallValueBox"></div><div class="smallValueBox"></div><br />
+		</div>
 
 		<div class="bigValueBox">{{localize "GDSA.charactersheet.INIBasis"}}</div><div class="smallValueBox"></div>
 		<div class="smallValueBox">{{system.INIBasis.value}}</div>
-		<div class="smallValueBox"><input class="statTemp editableValue" name="system.INIBasis.modi" type="number" value="{{system.INIBasis.tempmodi}}"/></div>
+		<div class="smallValueBox"><input class="statTemp editableValue" name="system.INIBasis.tempmodi" type="number" value="{{system.INIBasis.tempmodi}}"/></div>
 		<div class="smallValueBox"></div><div class="smallValueBox"></div><br />
 
 		<div class="bigValueBox">{{localize "GDSA.charactersheet.ATBasis"}}</div><div class="smallValueBox"></div>
 		<div class="smallValueBox">{{system.ATBasis.value}}</div>
-		<div class="smallValueBox"><input class="statTemp editableValue" name="system.ATBasis.modi" type="number" value="{{system.ATBasis.tempmodi}}"/></div>
+		<div class="smallValueBox"></div>
 		<div class="smallValueBox"></div><div class="smallValueBox"></div><br />
 
 		<div class="bigValueBox">{{localize "GDSA.charactersheet.PABasis"}}</div><div class="smallValueBox"></div>
 		<div class="smallValueBox">{{system.PABasis.value}}</div>
-		<div class="smallValueBox"><input class="statTemp editableValue" name="system.PABasis.modi" type="number" value="{{system.PABasis.tempmodi}}"/></div>
+		<div class="smallValueBox"></div>
 		<div class="smallValueBox"></div><div class="smallValueBox"></div><br />
 
 		<div class="bigValueBox">{{localize "GDSA.charactersheet.FKBasis"}}</div><div class="smallValueBox"></div>
 		<div class="smallValueBox">{{system.FKBasis.value}}</div>
-		<div class="smallValueBox"><input class="statTemp editableValue" name="system.FKBasis.modi" type="number" value="{{system.FKBasis.tempmodi}}"/></div>
+		<div class="smallValueBox"></div>
 		<div class="smallValueBox"></div><div class="smallValueBox"></div>
 	</div>
 </section>

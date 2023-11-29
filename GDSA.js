@@ -13,16 +13,24 @@ import * as LsFunction from "./module/listenerFunctions.js";
 import MemoryCache from "./module/memory-cache.js";
 import GMScreen from "./module/apps/gmScreen.js";
 import HeldenImporter from "./module/apps/heldenImport.js";
+import * as Migration from "./module/apps/migration.js";
+import * as Template from "./module/apps/templates.js";
+import * as Dice from "./module/dice.js";
 
 Hooks.once("init", () => {
 
     console.log("GDSA | Initalizing Goodys DSA 4.1 System");
 
+    game.gdsa = {
+        rollSkillMacro,
+        rollStatMacro
+    };
+
     if(!game.modules.get("socketlib")?.active) ui.notifications.warn('SocketLib must be installed and activated to use all Functions of the DSA System.');
 
     CONFIG.Combat.initiative.formula = "1d6 + @INIBasis.value + @INIBasis.modi";
 	Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
-    
+    CONFIG.ChatMessage.template = "./systems/GDSA/templates/chat/chatMessage.hbs";
     CONFIG.GDSA = GDSA;
     CONFIG.Actor.documentClass = GDSAActor;
     CONFIG.Item.documentClass = GDSAItem;
@@ -46,8 +54,26 @@ Hooks.once("init", () => {
     Actors.registerSheet("GDSA", GDSALootActorSheet, { types: ["LootActor"]});
     Actors.registerSheet("GDSA", GDSANonPlayerSheet, { types: ["NonPlayer"]});
   
+    registerSystemSettings();
     preloadHandlebarsTemplates();
     registerHandelbarsHelpers();  
+});
+
+Hooks.once("ready", () => {
+
+    if(!game.user.isGM) return;
+
+    const currentVersion = game.settings.get("gdsa", "systemMigrationVersion");
+    console.log(currentVersion);
+    const NEEDS_MIGRATION_VERSION = 0.01;
+
+    let needsMigration = !currentVersion || isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion);
+
+    needsMigration = true;
+
+    if (needsMigration) Migration.migrationV1();
+
+    Hooks.on("hotbarDrop", (bar, data, slot) => createGDSAMacro(data, slot));
 });
 
 Hooks.once("renderChatMessage", () => {
@@ -56,6 +82,14 @@ Hooks.once("renderChatMessage", () => {
     $(document).on('click', '.bntChatDogde', function (event) { LsFunction.ownedCharDogde(event) });
     $(document).on('click', '.bntChatDamage', function (event) { LsFunction.executeDMGRoll(event) });
     $(document).on('click', '.bntChatDMG', function (event) { LsFunction.executeHealthLoss(event) });
+    $(document).on('click', '.bntCollaps', function (event) { LsFunction.chatCollaps(event)});
+
+});
+
+Hooks.on("renderChatMessage", (message) => {
+
+    LsFunction.updateChatMessagesAfterCreation(message);
+
 });
 
 Hooks.on("renderSettings", (app, html) => {
@@ -70,10 +104,20 @@ Hooks.on("renderSettings", (app, html) => {
 
 Hooks.once("socketlib.ready", () => {
 
-    GDSA.socket = socketlib.registerSystem("GDSA");
+    GDSA.socket = socketlib.registerSystem("gdsa");
     GDSA.socket.register("adjustRessource", adjustRessource);
     GDSA.socket.register("sendToMemory", sendToMemory);
 });
+
+function registerSystemSettings() {
+
+    game.settings.register("gdsa", "systemMigrationVersion", {
+        config: false,
+        scope: "world",
+        type: String, 
+        default: ""
+    })
+}
 
 function adjustRessource(target, value, type) {
 
@@ -89,6 +133,7 @@ function preloadHandlebarsTemplates() {
 
     const templatePaths = [
 
+        "systems/GDSA/templates/partials/character-sheet-advantages.hbs",
         "systems/GDSA/templates/partials/character-sheet-menu.hbs",
         "systems/GDSA/templates/partials/character-sheet-mainPage.hbs",
         "systems/GDSA/templates/partials/character-sheet-skillPage.hbs",
@@ -122,8 +167,7 @@ function preloadHandlebarsTemplates() {
         "systems/GDSA/templates/partials/character-sheet-holyMirikal.hbs",
         "systems/GDSA/templates/partials/character-sheet-holyGeneral.hbs",
         "systems/GDSA/templates/partials/character-sheet-holyWonder.hbs",
-        "systems/GDSA/templates/partials/advantages.hbs",
-        "systems/GDSA/templates/partials/lang.hbs"
+        "systems/GDSA/templates/partials/advantages.hbs"
     ];
     
     return loadTemplates(templatePaths);
@@ -470,4 +514,247 @@ function registerHandelbarsHelpers() {
         return sum + " Punkte ( LkP*" + formel + " )";
 
     });
+
+    Handlebars.registerHelper("skillName", function(name, data) {
+
+        let langSelection = game.settings.get("core", "language").toUpperCase();
+        let allTalents = data.template.talents.all;
+
+        let talent = allTalents.filter(function(item) {return item.name.toLowerCase() == name.toLowerCase()})[0];
+
+        let skillname = talent.system.tale[langSelection];
+
+        return skillname;
+    });
+
+    Handlebars.registerHelper("skillAttributs", function(name, data) {
+
+        let allTalents = data.template.talents.all;
+
+        let talent = allTalents.filter(function(item) {return item.name.toLowerCase() == name.toLowerCase()})[0];
+
+        let att1 = game.i18n.localize("GDSA.charactersheet.s" + talent.system.tale.att1.toUpperCase());
+        let att2 = game.i18n.localize("GDSA.charactersheet.s" + talent.system.tale.att2.toUpperCase());
+        let att3 = game.i18n.localize("GDSA.charactersheet.s" + talent.system.tale.att3.toUpperCase());
+
+        let answer = "(" + att1 + "/" + att2 + "/" + att3 + ")";
+
+        return answer;
+    });
+
+    Handlebars.registerHelper("skillBE", function(type, value) {
+
+        let answer = type + " " + value;
+
+        if (type === "x" && value === "1") answer = "";
+
+        return answer;
+    });
+
+    Handlebars.registerHelper("toBoolean", function(string) {
+
+        return (string === "true");
+    });
+
+    Handlebars.registerHelper("metaValue", function(item, data, template) {
+
+        return calculateMetaSkill(item, data, template)
+    });
+}
+
+
+/* -------------------------------------------- */
+/*  General Functions                           */
+/* -------------------------------------------- */
+
+/**
+ * Calculates the Value of a Meta Skill
+ * 
+ * @param {Object} item     The Item of the Skill
+ * @param {Object} data     The Skill Object of the Actor
+ * @param {Object} template The Template Object
+ * 
+ * @returns {Integer}
+ */
+
+function calculateMetaSkill(item, data, template) {
+
+    // Reset the Skill Value
+
+    let skillValue = 0;
+
+    // Check Number of Skills
+
+    let numSkill = 0;
+    let skill1 = 0;
+    let skill2 = 0;
+    let skill3 = 0;
+    let skill4 = 0;
+    let skill5 = 0;
+
+    if(item.system.tale.meta.tal1 != "none") numSkill++;
+    if(item.system.tale.meta.tal2 != "none") numSkill++;
+    if(item.system.tale.meta.tal3 != "none") numSkill++;
+    if(item.system.tale.meta.tal4 != "none") numSkill++;
+    if(item.system.tale.meta.tal5 != "none") numSkill++;
+
+    // Retrive the Skills nessesary
+
+    if(item.system.tale.meta.tal1 != "none") skill1 = (isNaN(parseInt(data[item.system.tale.meta.tal1]))) ? 0 : parseInt(data[item.system.tale.meta.tal1]);
+    if(item.system.tale.meta.tal2 != "none") skill2 = (isNaN(parseInt(data[item.system.tale.meta.tal2]))) ? 0 : parseInt(data[item.system.tale.meta.tal2]);
+    if(item.system.tale.meta.tal3 != "none") skill3 = (isNaN(parseInt(data[item.system.tale.meta.tal3]))) ? 0 : parseInt(data[item.system.tale.meta.tal3]);
+    if(item.system.tale.meta.tal4 != "none") skill4 = (isNaN(parseInt(data[item.system.tale.meta.tal4]))) ? 0 : parseInt(data[item.system.tale.meta.tal4]);
+    if(item.system.tale.meta.tal5 != "none") skill5 = (isNaN(parseInt(data[item.system.tale.meta.tal5]))) ? 0 : parseInt(data[item.system.tale.meta.tal5]);
+
+    // Put all Range Skills in an Array and retrive the highest Skill Value
+
+    let rangeTaW = 0;
+    let array = template.talents.range;
+    for (var skill of array) if(data[skill.name].value > rangeTaW) rangeTaW = data[skill.name].value;
+
+    if(item.system.tale.meta.tal1 === "range") skill1 = rangeTaW;
+    if(item.system.tale.meta.tal2 === "range") skill2 = rangeTaW;
+    if(item.system.tale.meta.tal3 === "range") skill3 = rangeTaW;
+    if(item.system.tale.meta.tal4 === "range") skill4 = rangeTaW;
+    if(item.system.tale.meta.tal5 === "range") skill5 = rangeTaW;
+
+    // Calculate the Value and Test against the Rule that the highest Result can be the doubeld rank involved
+
+    skillValue = (skill1 + skill2 + skill3 + skill4 + skill5) / numSkill;
+
+    if(skillValue > (skill1 * 2) && item.system.tale.meta.tal1 != "none") skillValue = skill1 * 2;
+    if(skillValue > (skill2 * 2) && item.system.tale.meta.tal2 != "none") skillValue = skill2 * 2;
+    if(skillValue > (skill3 * 2) && item.system.tale.meta.tal3 != "none") skillValue = skill3 * 2;
+    if(skillValue > (skill4 * 2) && item.system.tale.meta.tal4 != "none") skillValue = skill4 * 2;
+    if(skillValue > (skill5 * 2) && item.system.tale.meta.tal5 != "none") skillValue = skill5 * 2;
+
+    // Send Endresult to Sheet
+
+    return Math.round(skillValue);
+}
+
+/* -------------------------------------------- */
+/*  Hotbar Macros                               */
+/* -------------------------------------------- */
+
+/**
+ * Create a Macro from an Item drop.
+ * Get an existing item macro if one exists, otherwise create a new one.
+ * 
+ * @param {Object} data     The dropped data
+ * @param {number} slot     The hotbar slot to use
+ * 
+ * @returns {Promise}
+ */
+
+async function createGDSAMacro(data, slot) {
+
+    console.log(data);
+
+    if (data.type === "skill") {
+
+        // Create the macro command
+
+        const command = "game.gdsa.rollSkillMacro(" +  JSON.stringify(data) + ");";
+
+        let macro = game.macros._source.find(m => (m.name === data.name) && (m.command === command));
+
+        if (!macro) macro = await Macro.create({
+            name: data.name,
+            type: "script",
+            img: (await Template.getTalent(data.item)).img,
+            command: command,
+            flags: { "gdsa.skillMacro": true }
+        });
+
+        game.user.assignHotbarMacro(macro, slot);
+
+        return false;
+
+    } else if (data.type === "stat") {
+
+        // Create the macro command
+
+        const command = "game.gdsa.rollStatMacro(" +  JSON.stringify(data) + ");";
+
+        let macro = game.macros._source.find(m => (m.name === data.stat) && (m.command === command));
+
+        if (!macro) macro = await Macro.create({
+            name: data.stat,
+            type: "script",
+            command: command,
+            flags: { "gdsa.skillMacro": true }
+        });
+
+        game.user.assignHotbarMacro(macro, slot);
+
+        return false;
+
+    } else return
+}
+
+/**
+ * Makro for Stat Roll
+ * 
+ * @param {string} itemData
+ * 
+ * @return {Promise}
+ */
+
+async function rollStatMacro(itemData) {
+
+    let actor = game.actors.get(itemData.actorId);
+    let system = (await actor.sheet.getData()).system;
+
+    // Get Stat from HTML
+
+    let stat = itemData.stat;
+    let statObjekt = system[stat];
+
+    // Get Stat Name
+
+    let statname = game.i18n.localize("GDSA.charactersheet."+stat);
+
+    // Get Temp Modi
+
+    let tempModi = 0;
+    if (stat != "MR") tempModi = statObjekt.temp;
+
+    // Execute Roll
+    
+    return Dice.statCheck(statname, statObjekt.value, tempModi, actor);
+}
+
+/**
+ * Makro for Skill Roll
+ * 
+ * @param {string} itemData
+ * 
+ * @return {Promise}
+ */
+
+async function rollSkillMacro(itemData) {
+
+    // Calculate Skill Value 
+
+    let actor = game.actors.get(itemData.actorId);
+    let item = await Template.getTalent(itemData.item);
+    let skillValue = actor.system.skill[item.name];
+    let templates = await Template.templateData();
+    if (itemData.isSpez) skillValue += 2;
+    if (itemData.isMeta) skillValue = calculateMetaSkill(item, actor.system.skill, templates);
+
+    // Create Objekt for SkillRoll
+
+    let rollEvent = {
+        name: itemData.name,
+        item: item,
+        actor: actor,
+        stat: skillValue,
+        skipMenu: true
+    }
+
+    // Do the Skillroll
+    
+    return LsFunction.doSkillRoll(rollEvent);
 }

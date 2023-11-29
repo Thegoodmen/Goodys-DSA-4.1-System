@@ -438,6 +438,7 @@
   width: 620px;
   height: 40px;
   text-align: center;
+  position: relative;
 }
 .GDSA.sheet.characterSheet .skillFiller2 {
   width: 100%;
@@ -1267,6 +1268,51 @@
   width: 120px;
   margin-left: 16px;
 }
+.GDSA.sheet.characterSheet .SelHelper1 {
+  width: 140px;
+  margin-left: 16px;
+}
+.GDSA.sheet.characterSheet .mirSkillBox {
+  float: left;
+  width: 100%;
+  height: 25px;
+  padding-left: 32px;
+  margin-bottom: 6px;
+  position: relative;
+}
+.GDSA.sheet.characterSheet .mirSkillName {
+  float: left;
+  height: 10px;
+  width: 350px;
+  margin-top: 4px;
+  padding-left: 25px;
+  text-align: left;
+}
+.GDSA.sheet.characterSheet .mirSkillSelc {
+  float: left;
+  width: 170px;
+  height: 25px;
+  margin-top: -1px;
+}
+.GDSA.sheet.characterSheet .mirRoll {
+  position: absolute;
+  right: 62px;
+  top: 5px;
+}
+.GDSA.sheet.characterSheet .skillFiller {
+  width: 100%;
+  height: 6px;
+  float: left;
+}
+.GDSA.sheet.characterSheet .skillhide {
+  position: absolute;
+  right: 80px;
+  top: 9px;
+  float: left;
+  height: 20px;
+  width: 30px;
+  font-size: 20px;
+}
 .mediOpt {
   width: 232px;
 }
@@ -1733,6 +1779,16 @@
 .GDSA.sheet.itemSheet .input95 {
   width: 95px;
 }
+.GDSA.sheet.itemSheet .input105 {
+  width: 195px;
+  margin-left: 105px;
+  margin-bottom: 5px;
+}
+.GDSA.sheet.itemSheet .input105s {
+  width: 195px;
+  margin-left: -10px;
+  margin-bottom: 5px;
+}
 .GDSA.sheet.itemSheet .input70 {
   width: 70px;
 }
@@ -1748,12 +1804,24 @@
   margin-right: 15px;
   margin-bottom: 5px;
 }
+.GDSA.sheet.itemSheet .input70sk {
+  width: 195px;
+  margin-top: 5px;
+  margin-left: 90px;
+  margin-right: 0px;
+  margin-bottom: 5px;
+}
 .GDSA.sheet.itemSheet .input70a {
   width: 70px;
   margin-left: 12px;
   margin-right: 20px;
   margin-bottom: 5px;
   float: left;
+}
+.GDSA.sheet.itemSheet .input85s {
+  width: 195px;
+  margin-left: 85px;
+  margin-bottom: 5px;
 }
 .GDSA.sheet.itemSheet .input60 {
   width: 60px;
@@ -2085,6 +2153,11 @@
   width: 80px;
   margin-right: 10px;
 }
+.GDSA.sheet.itemSheet .spHelper51 {
+  width: 80px;
+  margin-right: 10px;
+  margin-left: 23px;
+}
 .GDSA.sheet.itemSheet .spHelper6 {
   float: left;
   width: 362px;
@@ -2113,6 +2186,48 @@
 .GDSA.sheet.itemSheet .spHelper11 {
   float: left;
   width: 135px;
+  height: 20px;
+}
+.GDSA.sheet.itemSheet .spHelper12 {
+  width: 85px;
+  margin-right: 10px;
+}
+.GDSA.sheet.itemSheet .spHelper13 {
+  float: left;
+  width: 95px;
+}
+.GDSA.sheet.itemSheet .spHelper14 {
+  width: 130px;
+  height: 20px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .spHelper15 {
+  width: 60px;
+}
+.GDSA.sheet.itemSheet .spHelper16 {
+  float: left;
+  width: 85px;
+  margin-right: 10px;
+}
+.GDSA.sheet.itemSheet .spHelper17 {
+  float: left;
+  width: 140px;
+  margin-right: 105px;
+}
+.GDSA.sheet.itemSheet .spHelper18 {
+  width: 120px;
+}
+.GDSA.sheet.itemSheet .spHelper19 {
+  float: left;
+}
+.GDSA.sheet.itemSheet .tempHelper1 {
+  height: 1250px;
+  width: 80%;
+  float: left;
+}
+.GDSA.sheet.itemSheet .input20 {
+  margin-left: 60px;
+  margin-right: 50px;
   height: 20px;
 }
 .GDSA.sheet.itemSheet .itemImg {
@@ -2159,6 +2274,11 @@
   margin-top: 5px;
   font-weight: bold;
 }
+.GDSA.sheet.itemSheet .skillType {
+  float: left;
+  margin-top: 11px;
+  font-weight: bold;
+}
 .GDSA.sheet.itemSheet .spell-tabs {
   display: contents;
 }
@@ -2167,7 +2287,7 @@
   float: left;
 }
 .GDSA.sheet.itemSheet .spellLine {
-  width: 300px;
+  width: 375px;
   float: left;
   margin-top: 8px;
   margin-bottom: 8px;
@@ -2467,7 +2587,7 @@
   padding-top: 8px;
 }
 .GDSA.chat.message .flawName {
-  height: 29px;
+  min-height: 29px;
   width: 100%;
   float: left;
   background-color: rgba(0, 0, 0, 0.2);
@@ -2475,7 +2595,8 @@
   font-family: MasonSerifBold;
   src: url('fonts/mason-serif-bold.otf') format('opentype');
   text-align: center;
-  padding-top: 2px;
+  padding-top: 5px;
+  padding-bottom: 3px;
 }
 .GDSA.chat.message .spellName {
   min-height: 29px;
@@ -2518,6 +2639,12 @@
   width: 100%;
   font-size: 12px;
 }
+.GDSA.chat.message .skillTable {
+  float: left;
+  min-height: 50px;
+  width: 100%;
+  font-size: 12px;
+}
 .GDSA.chat.message .holyTable {
   float: left;
   height: 165px;
@@ -2535,12 +2662,17 @@
 }
 .GDSA.chat.message .dicefiller {
   float: left;
-  height: 10px;
+  height: 6px;
   width: 100%;
 }
 .GDSA.chat.message .dicefiller1 {
   float: left;
   height: 4px;
+  width: 100%;
+}
+.GDSA.chat.message .tableFiller {
+  float: left;
+  height: 6px;
   width: 100%;
 }
 .GDSA.chat.message .diceCol {
@@ -2657,8 +2789,9 @@
   float: left;
   background-color: green;
   width: 100%;
-  height: 44px;
+  min-height: 25px;
   font-size: 18px;
+  padding-bottom: 2px;
   text-align: center;
   color: white;
 }
@@ -2666,8 +2799,9 @@
   float: left;
   background-color: darkred;
   width: 100%;
-  height: 44px;
+  min-height: 25px;
   font-size: 18px;
+  padding-bottom: 2px;
   text-align: center;
   color: white;
 }
@@ -2718,6 +2852,10 @@
   width: 46px;
   margin: 0px;
   border-radius: 10px;
+}
+.GDSA.chat.message .collabst {
+  height: 0px;
+  overflow: hidden;
 }
 .GDSA.chat.message .switch {
   position: relative;

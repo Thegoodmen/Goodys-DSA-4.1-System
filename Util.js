@@ -1,3 +1,5 @@
+import * as Template from "./module/apps/templates.js";
+
 export function getItems(data, type, worn) {
 
     // #################################################################################################
@@ -17,6 +19,24 @@ export function getItems(data, type, worn) {
     // If Indicated by worn, filter again for item Status worn
 
     return itemArray.filter(function(item) {return item.system.worn == true});
+}
+
+export function getTemplateItems(data, type) {
+
+    // #################################################################################################
+    // #################################################################################################
+    // ##                                                                                             ##
+    // ##      Helper-Function for filling up the Arrays with specific Types and also Worn Status     ##
+    // ##                                                                                             ##
+    // #################################################################################################
+    // #################################################################################################
+
+    // Filter items of a Type
+
+    let tempArray = data.items.filter(function(item) {return item.type == "Template"});
+    let itemArray = tempArray.filter(function(item) {return item.system.type == type});
+
+    return itemArray;
 }
 
 export function getGoofyMelee(value) {
@@ -670,6 +690,19 @@ export function getSkillShort(fullName) {
         default:
             return "unknown"
     }
+}
+
+export async function getSkillName(name) {
+
+    let talents = (await Template.templateData()).talents;
+    let allTalents = talents.all;
+
+    let de = allTalents.filter(function(item) {return item.system.tale.DE.toLowerCase() == name.toLowerCase()});
+    let en = allTalents.filter(function(item) {return item.system.tale.EN.toLowerCase() == name.toLowerCase()});
+
+    let answer = (de.concat(en))[0].name;
+
+    return answer;
 }
 
 export function getZone(value) {
