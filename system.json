@@ -28,7 +28,7 @@
         {
             "name": "spells",
             "label": "Zauber",
-            "system": "GDSA",
+            "system": "gdsa",
             "path": "packs/zauber.db",
             "type": "Item",
             "private": false,
@@ -37,7 +37,7 @@
         {
             "name": "arsenal",
             "label": "Arsenal",
-            "system": "GDSA",
+            "system": "gdsa",
             "path": "packs/arsenal.db",
             "type": "Item",
             "private": false,
@@ -46,7 +46,7 @@
         {
             "name": "rituale",
             "label": "Rituale",
-            "system": "GDSA",
+            "system": "gdsa",
             "path": "packs/rituale.db",
             "type": "Item",
             "private": false,
@@ -55,8 +55,17 @@
         {
             "name": "liturgien",
             "label": "Liturgien",
-            "system": "GDSA",
+            "system": "gdsa",
             "path": "packs/liturgien.db",
+            "type": "Item",
+            "private": false,
+            "flags": {}
+        },
+        {
+            "name": "templates",
+            "label": "Templates (DSA)",
+            "system": "gdsa",
+            "path": "packs/templates.db",
             "type": "Item",
             "private": false,
             "flags": {}
