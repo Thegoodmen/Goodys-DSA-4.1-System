@@ -1,10 +1,10 @@
 <form class="{{cssClass}}" autocomplete="off">
 
-    <div class="browserImgBox3"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
+    <div class="browserImgBox4"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
 
-    <div class="ritHelper7">
+    <div class="ritHelper20">
         <div class="spHelper1">{{localize "GDSA.itemsheet.name"}}</div>
-        <div class="spHelper4">Type</div>
+        <div class="spHelper4">{{localize "GDSA.template.type"}}</div>
         <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
         <div class="spHelper3">
             <select class="spHelper5" name="system.type">
@@ -15,27 +15,258 @@
                 {{/select}}
             </select>
         </div>
+        <div class="spHelper1">{{localize "GDSA.itemsheet.cult"}}</div>
+        <div class="spHelper1">
+            <select class="spHelper2" name="system.cult.type">
+                {{#select system.cult.type}}
+                    {{#each config.cultTypes as |name type|}}
+                        <option value="{{type}}">{{localize name}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
     </div>
 
-    <div class="itemRow3"></div>
-
     <nav class="tabs nav spell-tabs" data-group="spell">
-        <a class="item" data-tab="spellDetails"><div class="spellMenu2">Allgemein</div></a>  
-        <a class="item" data-tab="spellVariants"><div class="spellMenu">Mirakel</div></a>
-        <a class="item" data-tab="spellEffects"><div class="spellMenu">Liturigien</div></a>
-        <a class="item" data-tab="spellNotes"><div class="spellMenu">Notizen</div></a>
+        <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>  
+        <a class="item" data-tab="spellVariants"><div class="spellMenu">{{localize "GDSA.template.mirakel"}}</div></a>
+        <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
     </nav>
     <div class="spellMenuBox">
 	    <section class="spell-body">
             <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
+
+                <div class="input100 skillType">{{localize "GDSA.template.gradZero"}}:</div>
+                
+                <select class="input70sk" name="system.cult.gradZero">
+                    {{#select system.cult.gradZero}}
+                        <option value=""></option>
+                        {{#each template.liturgy.grad1 as |item|}}
+                            <option value="{{item._id}}">{{item.name}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
                 
             </div>
 
             <div class="tab spellVariants" data-group="spell" data-tab="spellVariants">
-                {{log templates}}
-                {{#each templates.talents.all as |item|}}
-                    {{item.system.tale.DE}} <br />
+
+                <div class="skillFiller"></div>
+                <div class="form-group subSub">
+                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.attributes"}}<div class="submen"><hr class="subhr" /></div>
+                </div>
+                <div class="skillFiller"></div>
+
+                {{#each config.attributes as |name type|}}
+                    {{#if name}}
+                        <span class="nameSpan">{{localize (concat "GDSA.charactersheet." name "")}}
+                            
+                            <select class="SelHelper2" name="{{concat "system.cult." (localize (concat "GDSA.charactersheet." name "")) ""}}">
+                                {{#select (getData ../system/cult (localize (concat "GDSA.charactersheet." name "")))}}
+                                    <option value=""></option>
+                                    <option value="0">{{localize "GDSA.charactersheet.mirPlus"}}</option>
+                                    <option value="6">{{localize "GDSA.charactersheet.mirNeut"}}</option>
+                                    <option value="18">{{localize "GDSA.charactersheet.mirMinus"}}</option>
+                                {{/select}}
+                            </select>
+                        </span> <br />
+                    {{/if}}
                 {{/each}}
+
+                <span class="nameSpan">{{localize "GDSA.charactersheet.MR"}}
+                        
+                    <select class="SelHelper2" name="{{concat "system.cult." (localize "GDSA.charactersheet.MR") ""}}">
+                        {{#select (getData system/cult (localize "GDSA.charactersheet.MR"))}}
+                            <option value=""></option>
+                            <option value="0">{{localize "GDSA.charactersheet.mirPlus"}}</option>
+                            <option value="6">{{localize "GDSA.charactersheet.mirNeut"}}</option>
+                            <option value="18">{{localize "GDSA.charactersheet.mirMinus"}}</option>
+                        {{/select}}
+                    </select>
+                </span> <br />
+
+                <span class="nameSpan">{{localize "GDSA.charactersheet.dogde"}}
+                        
+                    <select class="SelHelper2" name="{{concat "system.cult." (localize "GDSA.charactersheet.dogde") ""}}">
+                        {{#select (getData system/cult (localize "GDSA.charactersheet.dogde"))}}
+                            <option value=""></option>
+                            <option value="0">{{localize "GDSA.charactersheet.mirPlus"}}</option>
+                            <option value="6">{{localize "GDSA.charactersheet.mirNeut"}}</option>
+                            <option value="18">{{localize "GDSA.charactersheet.mirMinus"}}</option>
+                        {{/select}}
+                    </select>
+                </span> <br />
+
+                <div class="skillFiller"></div>
+                <div class="form-group subSub">
+                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.meeleSkills"}}<div class="submen"><hr class="subhr" /></div>
+                </div>
+                <div class="skillFiller"></div>
+
+                {{#each template.talents.meele as |item|}}
+                    <span class="nameSpan">{{skillName item.name ../this}}
+                        
+                        <select class="SelHelper2" name="{{concat "system.cult." item.name ""}}">
+                            {{#select (getData ../system/cult item.name)}}
+                                <option value=""></option>
+                                <option value="0">{{localize "GDSA.charactersheet.mirPlus"}}</option>
+                                <option value="6">{{localize "GDSA.charactersheet.mirNeut"}}</option>
+                                <option value="18">{{localize "GDSA.charactersheet.mirMinus"}}</option>
+                            {{/select}}
+                        </select>
+                    </span> <br />
+                {{/each}}
+
+                <div class="skillFiller"></div>
+                <div class="form-group subSub">
+                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.rangeSkills"}}<div class="submen"><hr class="subhr" /></div>
+                </div>
+                <div class="skillFiller"></div>
+
+                {{#each template.talents.range as |item|}}
+                    <span class="nameSpan">{{skillName item.name ../this}}
+                        
+                        <select class="SelHelper2" name="{{concat "system.cult." item.name ""}}">
+                            {{#select (getData ../system/cult item.name)}}
+                                <option value=""></option>
+                                <option value="0">{{localize "GDSA.charactersheet.mirPlus"}}</option>
+                                <option value="6">{{localize "GDSA.charactersheet.mirNeut"}}</option>
+                                <option value="18">{{localize "GDSA.charactersheet.mirMinus"}}</option>
+                            {{/select}}
+                        </select>
+                    </span> <br />
+
+                {{/each}}
+
+                <div class="skillFiller"></div>
+                <div class="form-group subSub">
+                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.bodySkills"}}<div class="submen"><hr class="subhr" /></div>
+                </div>
+                <div class="skillFiller"></div>
+
+                {{#each template.talents.body as |item|}}
+                    <span class="nameSpan">{{skillName item.name ../this}}
+                        
+                        <select class="SelHelper2" name="{{concat "system.cult." item.name ""}}">
+                            {{#select (getData ../system/cult item.name)}}
+                                <option value=""></option>
+                                <option value="0">{{localize "GDSA.charactersheet.mirPlus"}}</option>
+                                <option value="6">{{localize "GDSA.charactersheet.mirNeut"}}</option>
+                                <option value="18">{{localize "GDSA.charactersheet.mirMinus"}}</option>
+                            {{/select}}
+                        </select>
+                    </span> <br />
+
+                {{/each}}
+
+                <div class="skillFiller"></div>
+                <div class="form-group subSub">
+                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.socialSkills"}}<div class="submen"><hr class="subhr" /></div>
+                </div>
+                <div class="skillFiller"></div>
+
+                {{#each template.talents.social as |item|}}
+                    <span class="nameSpan">{{skillName item.name ../this}}
+                        
+                        <select class="SelHelper2" name="{{concat "system.cult." item.name ""}}">
+                            {{#select (getData ../system/cult item.name)}}
+                                <option value=""></option>
+                                <option value="0">{{localize "GDSA.charactersheet.mirPlus"}}</option>
+                                <option value="6">{{localize "GDSA.charactersheet.mirNeut"}}</option>
+                                <option value="18">{{localize "GDSA.charactersheet.mirMinus"}}</option>
+                            {{/select}}
+                        </select>
+                    </span> <br />
+
+                {{/each}}
+
+                <div class="skillFiller"></div>
+                <div class="form-group subSub">
+                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.natureSkills"}}<div class="submen"><hr class="subhr" /></div>
+                </div>
+                <div class="skillFiller"></div>
+
+                {{#each template.talents.nature as |item|}}
+                    <span class="nameSpan">{{skillName item.name ../this}}
+                        
+                        <select class="SelHelper2" name="{{concat "system.cult." item.name ""}}">
+                            {{#select (getData ../system/cult item.name)}}
+                                <option value=""></option>
+                                <option value="0">{{localize "GDSA.charactersheet.mirPlus"}}</option>
+                                <option value="6">{{localize "GDSA.charactersheet.mirNeut"}}</option>
+                                <option value="18">{{localize "GDSA.charactersheet.mirMinus"}}</option>
+                            {{/select}}
+                        </select>
+                    </span> <br />
+
+                {{/each}}
+
+                <div class="skillFiller"></div>
+                <div class="form-group subSub">
+                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.knowledgeSkills"}}<div class="submen"><hr class="subhr" /></div>
+                </div>
+                <div class="skillFiller"></div>
+
+                {{#each template.talents.knowledge as |item|}}
+                    <span class="nameSpan">{{skillName item.name ../this}}
+                        
+                        <select class="SelHelper2" name="{{concat "system.cult." item.name ""}}">
+                            {{#select (getData ../system/cult item.name)}}
+                                <option value=""></option>
+                                <option value="0">{{localize "GDSA.charactersheet.mirPlus"}}</option>
+                                <option value="6">{{localize "GDSA.charactersheet.mirNeut"}}</option>
+                                <option value="18">{{localize "GDSA.charactersheet.mirMinus"}}</option>
+                            {{/select}}
+                        </select>
+                    </span> <br />
+
+                {{/each}}
+
+                <div class="skillFiller"></div>
+                <div class="form-group subSub">
+                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.craftSkills"}}<div class="submen"><hr class="subhr" /></div>
+                </div>
+                <div class="skillFiller"></div>
+
+                {{#each template.talents.craft as |item|}}
+                    <span class="nameSpan">{{skillName item.name ../this}}
+                        
+                        <select class="SelHelper2" name="{{concat "system.cult." item.name ""}}">
+                            {{#select (getData ../system/cult item.name)}}
+                                <option value=""></option>
+                                <option value="0">{{localize "GDSA.charactersheet.mirPlus"}}</option>
+                                <option value="6">{{localize "GDSA.charactersheet.mirNeut"}}</option>
+                                <option value="18">{{localize "GDSA.charactersheet.mirMinus"}}</option>
+                            {{/select}}
+                        </select>
+                    </span> <br />
+
+                {{/each}}
+
+                <div class="skillFiller"></div>
+                <div class="form-group subSub">
+                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.giftSkills"}}<div class="submen"><hr class="subhr" /></div>
+                </div>
+                <div class="skillFiller"></div>
+
+                {{#each template.talents.gift as |item|}}
+                    {{#unless (contains item.name "[")}}
+
+                        <span class="nameSpan">{{skillName item.name ../this}}
+                            
+                            <select class="SelHelper2" name="{{concat "system.cult." item.name ""}}">
+                                {{#select (getData ../system/cult item.name)}}
+                                    <option value=""></option>
+                                    <option value="0">{{localize "GDSA.charactersheet.mirPlus"}}</option>
+                                    <option value="6">{{localize "GDSA.charactersheet.mirNeut"}}</option>
+                                    <option value="18">{{localize "GDSA.charactersheet.mirMinus"}}</option>
+                                {{/select}}
+                            </select>
+                        </span> <br />
+
+                    {{/unless}}
+                {{/each}}
+
             </div>
             
             <div class="tab spellEffects" data-group="spell" data-tab="spellEffects">
@@ -44,6 +275,8 @@
             
             <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
                 
+                <textarea class="litNotes" name="system.tale.notes">{{system.tale.notes}}</textarea>
+
             </div>
         </section>
     </div>

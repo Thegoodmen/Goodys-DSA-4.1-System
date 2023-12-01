@@ -404,11 +404,7 @@
             "quantity": 1
         },
         "Template": {
-            "type": "none",
-            "cult": {
-                "name": "pra",
-                "halfgod": false
-            }
+            "type": "none"
         },
         "melee-weapons": {
             "templates": [

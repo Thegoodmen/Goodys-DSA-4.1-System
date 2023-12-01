@@ -40,6 +40,7 @@ export default class GDSAItemSheet extends ItemSheet {
             item: baseData.item,
             system: baseData.item.system,
             config: CONFIG.GDSA,
+            template: await templateData(),
             templates: await templateData()
         };
 

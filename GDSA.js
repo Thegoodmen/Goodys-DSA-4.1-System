@@ -175,50 +175,33 @@ function preloadHandlebarsTemplates() {
 
 function registerHandelbarsHelpers() {
 
-    Handlebars.registerHelper("times", function(n, content) {
-        
-        let result = "";
-        
-        for(let i = 0; i < n; i++) {
+    Handlebars.registerHelper("equals", function(v1, v2, options) { return (v1 === v2)});
 
-            result += content.fn(i);
-        }
+    Handlebars.registerHelper("contains", function(element, search, options) { return (element.includes(search))});
 
-        return result;
-    });
+    Handlebars.registerHelper("concat", function(s1, s2, s3 = "") { return s1 + s2 + s3;});
 
-    Handlebars.registerHelper("equals", function(v1, v2, options) {
-        
-        if(v1 === v2)
-            return true;
+    Handlebars.registerHelper("isGreater", function(p1, p2) { return (p1 > p2)});
 
-        return false;
-    });
+    Handlebars.registerHelper("isEqualORGreater", function(p1, p2) { return (p1 >= p2)});
 
-    Handlebars.registerHelper("concat", function(s1, s2, s3) {
+    Handlebars.registerHelper("getData", function(object1, value1) { return object1[value1];});
 
-        if(s3 == null) s3 = "";
-        return s1 + s2 + s3;
-    });
+    Handlebars.registerHelper("getDataValue", function(object1, value1) { return object1[value1]?.value;});
 
-    Handlebars.registerHelper("isGreater", function(p1, p2) {
-    
-        if(p1 > p2)
-            return true;
-        return false;
-    });
+    Handlebars.registerHelper("ifOR", function(conditional1, conditional2, options) { return (conditional1 || conditional2)});
 
-    Handlebars.registerHelper("isEqualORGreater", function(p1, p2) {
-    
-        if(p1 >= p2)
-            return true;
-        return false;
-    });
+    Handlebars.registerHelper("addSpez", function(value) { return parseInt(value) + 2;});
 
-    Handlebars.registerHelper("getData", function(object1, value1) {
+    Handlebars.registerHelper("doLog", function(value) { console.log(value)});
 
-        return object1[value1];
-    });
+    Handlebars.registerHelper("getGold", function(value) { return value.slice(0, -3)});
+
+    Handlebars.registerHelper("formatNumber", function(number) { return new Intl.NumberFormat("de-DE").format(parseInt(number))});
+
+    Handlebars.registerHelper("toBoolean", function(string) { return (string === "true")});
+
+    Handlebars.registerHelper("metaValue", function(item, data, template) { return calculateMetaSkill(item, data, template)});
 
     Handlebars.registerHelper("getRitData", function(object1, value1) {
         
@@ -226,24 +209,20 @@ function registerHandelbarsHelpers() {
         return object1[fullValue];
     });
 
-    Handlebars.registerHelper("getDataValue", function(object1, value1) {
+    Handlebars.registerHelper("times", function(n, content) {
+        
+        let result = "";
+        
+        for(let i = 0; i < n; i++)
+            result += content.fn(i);
 
-        return object1[value1]?.value;
-    });
-
-    Handlebars.registerHelper("ifOR", function(conditional1, conditional2, options) {
- 
-        if (conditional1 || conditional2)
-          return true;
-        return false;
+        return result;
     });
 
     Handlebars.registerHelper("notEmpty", function(value) {
 
-        if (value == 0 || value == "0")
-            return true;
-        if (value == null|| value  == "")
-            return false;
+        if (value == 0 || value == "0") return true;
+        if (value == null|| value  == "") return false;
         return true;
     });
 
@@ -251,9 +230,7 @@ function registerHandelbarsHelpers() {
 
         let isPres = object.filter(function(item) {return item.talentshort.includes(value)})[0];
 
-        if(isPres != null)
-            return true;
-        
+        if(isPres != null) return true;
         return false;
     });
 
@@ -261,17 +238,8 @@ function registerHandelbarsHelpers() {
 
         let isPres = object.filter(function(item) {return item.talentshort.includes(value)});
 
-        if(isPres.length > 0)
-            return isPres;
-        
+        if(isPres.length > 0) return isPres;
         return null;
-    });
-
-    Handlebars.registerHelper("addSpez", function(value) {
-
-        let newValue = parseInt(value) + 2;
-        
-        return newValue;
     });
 
     Handlebars.registerHelper("isUsableVari", function(vari, spellRep) {
@@ -287,24 +255,9 @@ function registerHandelbarsHelpers() {
         } else return true;
     });
 
-    Handlebars.registerHelper("doLog", function(value) {
-
-        console.log(value);
-
-        return "";
-    });
-
-    Handlebars.registerHelper("getGold", function(value) {
-
-        let gold = value.slice(0, -3);
-
-        return gold;
-    });
-
     Handlebars.registerHelper("hasGold", function(value) {
         
         if(parseInt(value) > 999) return true;
-        
         return false;
     });
 
@@ -322,7 +275,6 @@ function registerHandelbarsHelpers() {
         let silver = value[lengt-3]
 
         if(silver != null && parseInt(silver) != 0) return true;
-
         return false;
     });
 
@@ -340,7 +292,6 @@ function registerHandelbarsHelpers() {
         let copper = value[lengt-2]
 
         if(copper != null && parseInt(copper) != 0) return true;
-
         return false;
     });
 
@@ -358,7 +309,6 @@ function registerHandelbarsHelpers() {
         let nickel = value[lengt-1]
 
         if(nickel != null && parseInt(nickel) != 0) return true;
-
         return false;
     });
 
@@ -384,6 +334,7 @@ function registerHandelbarsHelpers() {
     Handlebars.registerHelper("getColorFromType", function(type) {
 
         switch (type) {
+
             case "Enemy":
                 return "rgba(255,0,0,0.3)";
         
@@ -407,12 +358,6 @@ function registerHandelbarsHelpers() {
         if(system.trait4 != "none") traits += " / " + game.i18n.localize("GDSA.magicTraits." + system.trait4);
 
         return traits
-    });
-
-    Handlebars.registerHelper("formatNumber", function(number) {
-
-        return new Intl.NumberFormat("de-DE").format(parseInt(number))
-
     });
 
     Handlebars.registerHelper("checkForRegla", function(objekt, string) {
@@ -493,11 +438,8 @@ function registerHandelbarsHelpers() {
     Handlebars.registerHelper("checkWonderRange", function(item) {
 
         if(item.system.range === "faar") return false;
-
         if(item.system.target[0] === "Z" && item.system.range === "sigt") return false;
-
         return true;
-
     });
 
     Handlebars.registerHelper("calculateWonder", function(formel, tap) {
@@ -510,7 +452,6 @@ function registerHandelbarsHelpers() {
         else sum = parseInt(tap);
 
         if (formel.includes("+")) sum += parseInt(trim(formel.split("+")[1]))
-
         return sum + " Punkte ( LkP*" + formel + " )";
 
     });
@@ -547,18 +488,7 @@ function registerHandelbarsHelpers() {
         let answer = type + " " + value;
 
         if (type === "x" && value === "1") answer = "";
-
         return answer;
-    });
-
-    Handlebars.registerHelper("toBoolean", function(string) {
-
-        return (string === "true");
-    });
-
-    Handlebars.registerHelper("metaValue", function(item, data, template) {
-
-        return calculateMetaSkill(item, data, template)
     });
 }
 

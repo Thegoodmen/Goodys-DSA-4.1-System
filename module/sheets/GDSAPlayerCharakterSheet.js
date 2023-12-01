@@ -180,8 +180,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
             // Set Listener on Mirakel Template Change
 
-            html.find(".changeMirTemp").change(LsFunction.changeMirTemp.bind(this, await this.getData()));
-            html.find(".SelHelper2").onchange(LsFunction.isCustomMirikal.bind(this, await this.getData()));
+            html.find(".applyMirTemp").click(LsFunction.applyMirTemp.bind(this, await this.getData()));
 
             // Set Listener for Skill Macrobar Support 
 

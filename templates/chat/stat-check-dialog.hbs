@@ -25,25 +25,7 @@
     
     <div class="dialogFiller"></div>
 
-    {{#if system.tale.BECheck}}
-
-        <div class="form-group subSub">
-            <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.chat.skill.modi"}}<div class="submen"><hr class="subhr" /></div>
-        </div>
-
-        <div class="dialogFiller"></div>
-        
-        <div class="form-group">
-            <label>{{localize "GDSA.template.BE"}}</label>
-            <input id="inboxCast" type="checkbox" name="be" checked />
-            <input id="inboxCast" type="text" name="beValue" value="{{beDis}}" hidden />
-        </div>
-        
-        <div class="dialogFiller"></div>
-
-    {{/if}}
-
-    {{#if isMHK}}
+    {{#if isTalentS}}
 
         <div class="form-group subSub">
             <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.chat.skill.boni"}}<div class="submen"><hr class="subhr" /></div>
@@ -52,26 +34,7 @@
         <div class="dialogFiller"></div>
         
         <div class="form-group">
-            <label>{{localize "GDSA.chat.skill.mhk"}}</label>
-            <input id="inputCast" type="number" name="mhk" min="0" max="{{MHKMx}}" value="0" /> {{localize "GDSA.itemsheet.asp"}}
-        </div>
-        
-        <div class="dialogFiller"></div>
-
-    {{/if}}
-
-    {{#if isTalentS}}
-
-        {{#unless isMHK}}
-            <div class="form-group subSub">
-                <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.chat.skill.boni"}}<div class="submen"><hr class="subhr" /></div>
-            </div>
-
-            <div class="dialogFiller"></div>
-        {{/unless}}
-        
-        <div class="form-group">
-            <label>{{localize "GDSA.chat.skill.talentS"}}</label>
+            <label>{{localize "GDSA.chat.skill.powerS"}}</label>
             <input id="inputCast" type="checkbox" name="talentS" min="0" />
         </div>
 

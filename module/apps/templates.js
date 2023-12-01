@@ -128,11 +128,74 @@ async function getTalents() {
     return talents;
 }
 
+async function getLiturgies() {
+
+    let templatesSystem = await game.packs.get("gdsa.liturgien").getDocuments();
+    let templatesWorld = [];
+    let talentArray = templatesWorld.concat(templatesSystem);
+
+    let liturgy = {
+
+        grad6: talentArray.filter(function(item) {return item.system.grad === "6"}),
+        grad5: talentArray.filter(function(item) {return item.system.grad === "5"}),
+        grad4: talentArray.filter(function(item) {return item.system.grad === "4"}),
+        grad3: talentArray.filter(function(item) {return item.system.grad === "3"}),
+        grad2: talentArray.filter(function(item) {return item.system.grad === "2"}),
+        grad1: talentArray.filter(function(item) {return item.system.grad === "1"}),
+        all: talentArray
+    };
+
+    liturgy.grad1.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    liturgy.all.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    return liturgy;
+}
+
+async function getCults() {
+
+    let templatesSystem = await game.packs.get("world.templates").getDocuments();
+    let templatesWorld = [];
+    let templates = templatesWorld.concat(templatesSystem);
+
+    templates = templates.filter(function(item) {return item.type == "Template"});
+
+    let talentArray = templates.filter(function(item) {return item.system.type == "kult"});
+
+    let cults = {
+        all: talentArray
+    };
+
+    cults.all.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    return cults;
+}
+
 export async function templateData() {
 
     return {
         
-        talents: await getTalents()
+        talents: await getTalents(),
+        liturgy: await getLiturgies(),
+        cults: await getCults()
     };
 }
 

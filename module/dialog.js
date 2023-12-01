@@ -29,6 +29,37 @@ export async function GetSkillCheckOptions(skill) {
     });
 }
 
+export async function GetStatCheckOptions(skill) {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/chat/stat-check-dialog.hbs";
+    const html = await renderTemplate(template, skill);
+
+    return new Promise(resolve => {
+
+        // Set up Parameters for Dialog
+
+        const data = {
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.roll"),
+                                callback: html => resolve(_processStatCheckOptions(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
 export async function GetDogdeOptions() {
 
     // Create Dialog and show to User
@@ -743,9 +774,10 @@ function _processSkillCheckOptions(form) {
 
     let advantage;
     let disadvantage;
-    let taladvantage;
-    let taldisadvantage;
+    let taladvantage = 0;
+    let taldisadvantage = 0;
     let talS = false;
+    let mirakel = false;
     let be = false;
     let beDis = 0;
     let mhk = 0;
@@ -754,13 +786,14 @@ function _processSkillCheckOptions(form) {
     advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
     disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
 
-    taladvantage = parseInt(form.talSadvantage.value !== "" ? form.talSadvantage.value : 0);
-    taldisadvantage = parseInt(form.talSdisadvantage.value !== "" ? form.talSdisadvantage.value : 0);
+    if(form.talSadvantage != null) taladvantage = parseInt(form.talSadvantage.value !== "" ? form.talSadvantage.value : 0);
+    if(form.talSdisadvantage != null) taldisadvantage = parseInt(form.talSdisadvantage.value !== "" ? form.talSdisadvantage.value : 0);
 
     if(form.talentS != null) talS = form.talentS.checked;
     if(form.be != null) be = form.be.checked;
     if(form.be != null) beDis = form.beValue.value;
     if(form.mhk != null) mhk = form.mhk.value;
+    if(form.mirakel != null) mirakel = form.mirakel.checked;
 
     if(be && beDis > 0) { used.push(game.i18n.localize("GDSA.template.BE") + "s " + game.i18n.localize("GDSA.itemsheet.disad")  + " (+ " + beDis + ")")};
 
@@ -773,7 +806,39 @@ function _processSkillCheckOptions(form) {
         be: be,
         mhk: mhk,
         used: used,
-        talS: talS
+        talS: talS,
+        mirakel: mirakel
+    }
+}
+
+function _processStatCheckOptions(form) {
+
+    let advantage;
+    let disadvantage;
+    let taladvantage = 0;
+    let taldisadvantage = 0;
+    let talS = false;
+    let mirakel = false;
+    let used = [];
+
+    advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
+    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+
+    if(form.talSadvantage != null) taladvantage = parseInt(form.talSadvantage.value !== "" ? form.talSadvantage.value : 0);
+    if(form.talSdisadvantage != null) taldisadvantage = parseInt(form.talSdisadvantage.value !== "" ? form.talSdisadvantage.value : 0);
+
+    if(form.talentS != null) talS = form.talentS.checked;
+    if(form.mirakel != null) mirakel = form.mirakel.checked;
+
+    return {
+       
+        advantage: advantage,
+        disadvantage: disadvantage,
+        taladvantage: taladvantage,
+        taldisadvantage: taldisadvantage,
+        used: used,
+        talS: talS,
+        mirakel: mirakel
     }
 }
 

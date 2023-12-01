@@ -1,6 +1,6 @@
 import * as Util from "../Util.js";
 
-export async function statCheck(statName, statValue, statMod, actor) {
+export async function statCheck(statName, statValue, statMod, actor, modi = 0, optional = {}) {
 
     // #################################################################################################
     // #################################################################################################
@@ -17,7 +17,7 @@ export async function statCheck(statName, statValue, statMod, actor) {
 
     // Return if the Attribut has a Value of 0, meaning its not rollable
 
-    if(statValue == 0) return;
+    if(statValue === 0) return;
 
     // Set up the Path of the Chat HTML
 
@@ -31,7 +31,11 @@ export async function statCheck(statName, statValue, statMod, actor) {
     // Set up the Total Value of the Attribut Value +/- the Modifier
 
     let statValueTotal = parseInt(statValue) + parseInt(statMod);
-    let modi = 0;
+
+    // Set Advantages or Disadvantage
+
+    let adv = modi;
+    let dis = modi * (-1);
 
     // Fill the Context for the Chat HTML to fill  
 
@@ -40,17 +44,18 @@ export async function statCheck(statName, statValue, statMod, actor) {
         roll2: rollResult2,
         statName: statName,
         statValue: statValueTotal,
-        adv: 0,
+        adv: adv,
+        dis: dis,
     };
 
     // Checks the Result of the Roll, if it needs to be confirmed and there if its a Critt or a Goof
     // and add its then to the Context for the Chat
 
-    templateContext.result = rollResult.total <= statValueTotal;
-    if(rollResult.total == 20) templateContext.result = false;
-    templateContext.confirm = (rollResult.total == 1 || rollResult.total == 20);
-    templateContext.critt = (rollResult.total == 1 && rollResult2.total <= statValueTotal);
-    templateContext.goof = (rollResult.total == 20 && rollResult2.total > statValueTotal);
+    templateContext.result = rollResult.total <= (statValueTotal + modi);
+    if(rollResult.total === 20) templateContext.result = false;
+    templateContext.confirm = (rollResult.total === 1 || rollResult.total === 20);
+    templateContext.critt = (rollResult.total === 1 && rollResult2.total <= statValueTotal);
+    templateContext.goof = (rollResult.total === 20 && rollResult2.total > statValueTotal);
 
     // Sets the Booleans and Values for the Modifikation Indikator in the Chat
 
@@ -58,15 +63,24 @@ export async function statCheck(statName, statValue, statMod, actor) {
     templateContext.isAdv = (modi > 0);
     templateContext.isDis = (modi < 0);
     templateContext.dis = parseInt(modi) * (-1);
+    templateContext.used = optional.used;
 
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
     let dices = [rollResult.dice[0].values[0]];
     const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
-    if(rollResult.total == 1 || rollResult.total == 20) dices.push(rollResult2.dice[0].values[0]);
-    await doXD20XD6Roll(chatModel, dices, []);
+    if(rollResult.total === 1 || rollResult.total === 20) dices.push(rollResult2.dice[0].values[0]);
+    let message = "";
+    if (!optional.noChat) message = await doXD20XD6Roll(chatModel, dices, []);
 
-    return rollResult.total <= statValueTotal;
+    return {
+        succ: rollResult.total <= (statValueTotal + modi),
+        value: (statValueTotal + modi) - rollResult.total,
+        dices: dices,
+        templatePath: templatePath,
+        templateContext: templateContext,
+        message: message
+    };
 }
 
 export async function dogdeCheck(statName, statValue, statMod, actor) {
@@ -166,7 +180,7 @@ export async function flawCheck(flawName, flawValue, actor) {
 
     // Check the Result and if a Confirm roll is needed
 
-    let resultFlaw = rollResult.total > flawValue ? true : false;
+    let resultFlaw = (rollResult.total > flawValue);
     let confirm = (rollResult.total == 1 || rollResult.total == 20) ? true : false;
 
     // Fill the Context for the Chat HTML to fill
@@ -185,7 +199,17 @@ export async function flawCheck(flawName, flawValue, actor) {
     let dices = [rollResult.dice[0].values[0]];
     const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
     if(rollResult.total == 1 || rollResult.total == 20) dices.push(rollResult2.dice[0].values[0]);
-    await doXD20XD6Roll(chatModel, dices, []);
+    let message = "";
+    message = await doXD20XD6Roll(chatModel, dices, []);
+
+    return {
+        succ: rollResult.total > flawValue,
+        value: rollResult.total - flawValue,
+        dices: dices,
+        templatePath: templatePath,
+        templateContext: templateContext,
+        message: message
+    };
 }
 
 export async function skillCheck(statName, statValue, statOne, statTwo, statThree, actor, isGoofy, modif, optional = {}) {

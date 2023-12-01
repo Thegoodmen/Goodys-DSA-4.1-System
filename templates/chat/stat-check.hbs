@@ -3,41 +3,50 @@
         
         <div class="flawName">{{statName}} {{statValue}}</div>
         <div class="dicefiller"></div>
-        <div class="diceCol">
-            <div class="dices">
-                {{#unless confirm}}<div class="diefiller"></div>{{/unless}}
-                <div class="dice">{{roll.total}}</div>
-                {{#if confirm}}<div class="dice">{{roll2.total}}</div>{{/if}}
+
+        <div id="collapsable">
+            <div class="diceCol">
+                <div class="dices">
+                    {{#unless confirm}}<div class="diefiller"></div>{{/unless}}
+                    <div class="dice">{{roll.total}}</div>
+                    {{#if confirm}}<div class="dice">{{roll2.total}}</div>{{/if}}
+                </div>
             </div>
+
+            <div class="dicefiller"></div>
+
+            {{#each used}} 
+                <div class="rollStatMod">{{this}}</div>
+                <div class="dicefiller"></div>
+            {{/each}}
+            
         </div>
 
-        <div class="dicefiller"></div>
-        
         {{#if modPresent}}
             {{#if isAdv}}
-            <div class="rollposMod">{{localize "GDSA.chat.skill.advantageOf"}} {{adv}}</div>
-            <div class="dicefiller"></div>
+                <div class="rollposMod">{{localize "GDSA.chat.skill.advantageOf"}} {{adv}}</div>
+                <div class="dicefiller"></div>
             {{/if}}
             {{#if isDis}}
-            <div class="rollnegMod">{{localize "GDSA.chat.skill.disadvantageOf"}} {{dis}}</div>
-            <div class="dicefiller"></div>
+                <div class="rollnegMod">{{localize "GDSA.chat.skill.disadvantageOf"}} {{dis}}</div>
+                <div class="dicefiller"></div>
             {{/if}}
         {{/if}}
-        
+
         <div class="dice-formula">
-                {{#if result}}
-                    {{#if critt}}
-                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.critt"}}</div>
-                    {{else}}
-                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.success"}}</div>
-                    {{/if}}
-                {{else}}               
-                    {{#if goof}}
-                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.goof"}}</div>
-                    {{else}}
-                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.fail"}}</div>
-                    {{/if}}
+            {{#if result}}
+                {{#if critt}}
+                    <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.critt"}} <span id="additionalInfo"></span></div>
+                {{else}}
+                    <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.success"}} <span id="additionalInfo"></span></div>
                 {{/if}}
+            {{else}}               
+                {{#if goof}}
+                    <div class="rollFlawFail">{{localize "GDSA.chat.stat.goof"}} <span id="additionalInfo"></span></div>
+                {{else}}
+                    <div class="rollFlawFail">{{localize "GDSA.chat.stat.fail"}} <span id="additionalInfo"></span></div>
+                {{/if}}
+            {{/if}}
         </div>
     </div>
 </div>

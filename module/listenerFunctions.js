@@ -3,7 +3,7 @@ import * as Util from "../Util.js";
 import * as Dialog from "./dialog.js";
 import Browser from "../module/apps/compBrowser.js"
 import { GDSA } from "./config.js";
-import {getTalent} from "../module/apps/templates.js";
+import {getTalent, templateData} from "../module/apps/templates.js";
 
 export async function onSkillRoll(data, event) {
 
@@ -26,7 +26,9 @@ export async function onSkillRoll(data, event) {
         item: await getTalent(statname),
         actor: actor,
         stat: htmlElement.value,
-        skipMenu: !event.shiftKey
+        skipMenu: !event.shiftKey,
+        data: data,
+        event: event
     }
 
     doSkillRoll(rollEvent);
@@ -83,11 +85,16 @@ export async function doSkillRoll(rollEvent) {
     let used = [];
     let talS = false;
     let talAdv = 0;
+    let mirakel = false;
+    let isMirakel = false;
+    let mirBonus = 0;
 
     let actor = await rollEvent.actor.sheet.getData();
     skillTemplate.isMHK = actor.system.mhkList.filter(function(item) {return item.talentname.includes(rollEvent.item.name)}).length > 0;
     skillTemplate.MHKMx = Math.round( statvalue / 2 );
     skillTemplate.beDis = beDisadvantage;
+    skillTemplate.klerikal = system.klerikal;
+    if(skillInfo.type === "lang" || skillInfo.type === "sign" || skillInfo.type === "none") skillTemplate.klerikal = false;
 
     if(rollEvent.skipMenu) {
 
@@ -100,6 +107,7 @@ export async function doSkillRoll(rollEvent) {
         used = checkOptions.used;
         talS = checkOptions.talS;
         talAdv = parseInt(checkOptions.taladvantage - checkOptions.taldisadvantage);
+        mirakel = checkOptions.mirakel;
 
     }
 
@@ -145,13 +153,31 @@ export async function doSkillRoll(rollEvent) {
         else modif -= 3;
     }
 
+    // Check if Mirakel should be rolled
+
+    if (mirakel) {
+
+        let mirakelResponse = await onMirikalRoll(rollEvent.data, rollEvent.event, rollEvent.item.name)
+
+        console.log(mirakelResponse);
+
+        if (mirakelResponse.succ) {
+
+            if (mirakelResponse.value === 0) mirBonus = 6;
+            else mirBonus = Math.round((mirakelResponse.value / 2) + 5);
+            statvalue += mirBonus;
+            isMirakel = true;
+        }
+    }
+
     // Add MHK Bonus
 
     if((usedMHK * 2) > statvalue) usedMHK = (statvalue / 2);
     statvalue += (usedMHK * 2);
     let mhk = usedMHK > 0;
     if(mhk) { used.push(game.i18n.localize("GDSA.chat.skill.mhk") + " (" + usedMHK  + " " + game.i18n.localize("GDSA.itemsheet.asp") + ")")};
-
+    if(isMirakel) { used.push(game.i18n.localize("GDSA.chat.skill.mirakel") + " (- "+ mirBonus + ")")};
+    
     // Prepare Optional Roll Data
 
     let optional = {
@@ -163,6 +189,7 @@ export async function doSkillRoll(rollEvent) {
         noChat: false,
         used: used,
         mhk: mhk,
+        lit: mirakel,
         asp: usedMHK
     };
 
@@ -788,8 +815,11 @@ export async function onMirikalRoll(data, event, statname = "") {
     // Calculate Modifier
 
     let modif = advantage - disadvantage;
+    let mirModi = system.mirikal.cus[skill];
 
-    modif -= system.mirikal.cus[dataset.name];
+    if(mirModi === null) mirModi = 0;
+
+    modif -= mirModi;
 
     // Generate Optional
 
@@ -1300,7 +1330,7 @@ export async function onRitualActivation(data, event) {
     await Dice.skillCheck(statname, statvalue, dieOne, dieTwo, dieThr, actor, data.goofy, modif, optional);
 }
 
-export function onStatRoll(data, event) {
+export async function onStatRoll(data, event) {
 
     event.preventDefault();
 
@@ -1323,10 +1353,113 @@ export function onStatRoll(data, event) {
 
     let tempModi = 0;
     if (stat != "MR") tempModi = statObjekt.temp;
+    let statValue = statObjekt.value;
+
+    // Check if Talentschub is present
+
+    let talentS = system.skill["Kräfteschub [" + stat + "]"];
+    let isTalentS = (talentS > 0);
+
+    // Check if Shift is presst for Skip Dialog
+
+    let options = event.shiftKey ? false : true;
+    let checkOptions = false;
+    let advantage = 0;
+    let disadvantage = 0;
+    let used = [];
+    let talS = false;
+    let talAdv = 0;
+    let mirakel = false;
+    let isMirakel = false;
+    let mirBonus = 0;
+
+    let statInfo = {
+        name: statname,
+        klerikal: system.klerikal,
+        isTalentS: isTalentS
+    }
+    
+    
+    if(options) {
+            
+        checkOptions = await Dialog.GetStatCheckOptions(statInfo);
+            
+        advantage = checkOptions.advantage;
+        disadvantage = checkOptions.disadvantage;
+        used = checkOptions.used;
+        talS = checkOptions.talS;
+        talAdv = parseInt(checkOptions.taladvantage - checkOptions.taldisadvantage);
+        mirakel = checkOptions.mirakel;
+
+    }
+    
+    if (checkOptions.cancelled) return;
+
+    let modif = parseInt(advantage) - parseInt(disadvantage);
+    
+    // Check if Talentschub should be rolled
+    
+    if (talS) {
+    
+        let talSName = "Talentschub: " + statname;
+        let talSone = ( system.MU.value + system.MU.temp );
+        let talStwo = ( system.IN.value + system.IN.temp );
+        let talSthree = ( system.KO.value + system.KO.temp );
+        
+        let talSitem = {system: { tale: {}}};
+        talSitem.system.tale.BECheck = false;
+        talSitem.system.tale.type = "gift";
+        talSitem.img = "icons/magic/symbols/symbol-lightning-bolt.webp";
+        
+        let optional1 = {
+            template: "systems/GDSA/templates/chat/skill-check-v2.hbs",
+            item: talSitem,
+            att1: "MU",
+            att2: "IN",
+            att3: "KO",
+            noChat: false,
+            used: [],
+            mhk: false,
+            asp: 0
+        };
+        
+        let response1 = await Dice.skillCheck(talSName, talentS, talSone, talStwo, talSthree, actor, actor.goofy, talAdv, optional1);
+        response1.message.setFlag('gdsa', 'isCollapsable', true);
+        
+        if (response1.succ) 
+            if (response1.value === 0) modif += 1;
+            else modif += response1.value
+        else modif -= 3;
+    }
+    
+    // Check if Mirakel should be rolled
+    
+    if (mirakel) {
+    
+        let mirakelResponse = await onMirikalRoll(data, event, statname)
+    
+        if (mirakelResponse.succ) {
+    
+            if (mirakelResponse.value === 0) mirBonus = 6;
+            else mirBonus = Math.round((mirakelResponse.value / 2) + 2);
+            statValue += mirBonus;
+            isMirakel = true;
+        }
+    }
+
+    if(isMirakel) { used.push(game.i18n.localize("GDSA.chat.skill.mirakel") + " (- "+ mirBonus + ")")};
+
+    // Prepare Optional Roll Data
+
+    let optional = {
+        noChat: false,
+        used: used
+    };
 
     // Execute Roll
     
-    Dice.statCheck(statname, statObjekt.value, tempModi, actor);
+    let response = await Dice.statCheck(statname, statValue, tempModi, actor, modif, optional);
+    response.message.setFlag('gdsa', 'isCollapsable', true);
 }
 
 export function onNPCRoll(data, event) {
@@ -1352,7 +1485,7 @@ export function onNPCRoll(data, event) {
     Dice.statCheck(statname, value, 0, actor);
 }
 
-export function onFlawRoll(data, event) {
+export async function onFlawRoll(data, event) {
 
     event.preventDefault();
 
@@ -1367,7 +1500,8 @@ export function onFlawRoll(data, event) {
 
     // Execute Roll
 
-    Dice.flawCheck(dataset.flawname, dataset.flawvalue, actor);
+    let response = await Dice.flawCheck(dataset.flawname, dataset.flawvalue, actor);
+    response.message.setFlag('gdsa', 'isCollapsable', true);
 }
 
 export async function onAttackRoll(data, event) {
@@ -3755,7 +3889,7 @@ export function containsWord(str, word) {
 
 }
 
-export function changeMirTemp(data, event) {
+export async function applyMirTemp(data, event) {
 
     event.preventDefault();
 
@@ -3764,31 +3898,17 @@ export function changeMirTemp(data, event) {
     let element = event.currentTarget;
     let actor = data.actor;
 
-    // Get Selector 
+    // Get Template
 
-    let selector = element.closest("select");
+    let selector = element.closest(".menuLine").querySelector(".SelHelper1");
     let selected = selector.value;
 
-    console.log(selected)
+    let template = await templateData();
 
-}
-
-export async function isCustomMirikal(data, event) {
-
-    // event.preventDefault();
-
-    // Get Actor
-
-    let actor = data.actor;
-
-    // Set Selected Template to Custom
-    
+    console.log(selected);
     console.log(actor);
+    console.log(template);
 
-    data.actor.setStatData("mirTemp", "none");
-    actor.render();
-
-    console.log(actor);
 }
 
 export function chatCollaps(event) {

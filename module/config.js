@@ -287,6 +287,12 @@ GDSA.taleTypes = {
     meta: "GDSA.charactersheet.metaSkills"
 }
 
+GDSA.cultTypes = {
+    twelf: "GDSA.charactersheet.twelf",
+    half: "GDSA.charactersheet.half",
+    other: "GDSA.charactersheet.other",
+}
+
 GDSA.taleAttributes = {
     none: "",
     mu: "GDSA.charactersheet.sMU",
