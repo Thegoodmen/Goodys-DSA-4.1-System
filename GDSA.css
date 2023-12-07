@@ -134,12 +134,21 @@
   border: 2px solid black;
   float: left;
   text-align: center;
-  display: flex;
+  display: block;
   justify-content: center;
+  white-space: nowrap;
 }
 .GDSA.sheet.characterSheet .img {
   max-height: 100%;
   max-width: 100%;
+  background: #787d81;
+  vertical-align: middle;
+  margin-left: -4px;
+}
+.GDSA.sheet.characterSheet .imgHelper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
 }
 .GDSA.sheet.characterSheet .factBox {
   width: 429px;
@@ -2161,6 +2170,18 @@
   width: 80px;
   margin-right: 10px;
 }
+.GDSA.sheet.itemSheet .spHelper52 {
+  width: 50px;
+  margin-right: 10px;
+}
+.GDSA.sheet.itemSheet .spHelper53 {
+  width: 110px;
+  margin-right: 10px;
+  margin-left: 23px;
+}
+.GDSA.sheet.itemSheet .spHelper54 {
+  width: 20px;
+}
 .GDSA.sheet.itemSheet .spHelper51 {
   width: 80px;
   margin-right: 10px;
@@ -2214,16 +2235,16 @@
 }
 .GDSA.sheet.itemSheet .spHelper16 {
   float: left;
-  width: 85px;
+  width: 105px;
   margin-right: 10px;
 }
 .GDSA.sheet.itemSheet .spHelper17 {
   float: left;
   width: 140px;
-  margin-right: 105px;
+  margin-right: 30px;
 }
 .GDSA.sheet.itemSheet .spHelper18 {
-  width: 120px;
+  width: 165px;
 }
 .GDSA.sheet.itemSheet .spHelper19 {
   float: left;
@@ -2296,6 +2317,13 @@
 }
 .GDSA.sheet.itemSheet .spellLine {
   width: 375px;
+  float: left;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+.GDSA.sheet.itemSheet .spellLine2 {
+  width: 325px;
   float: left;
   margin-top: 8px;
   margin-bottom: 8px;

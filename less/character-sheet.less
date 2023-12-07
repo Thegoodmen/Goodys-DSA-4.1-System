@@ -136,13 +136,22 @@
         border: 2px solid black;
         float: left;
         text-align: center;
-        display: flex;
+        display: block;
         justify-content: center;
+        white-space: nowrap;
     };
     .img{
         max-height: 100%;
         max-width: 100%;
-    }
+        background: #787d81;
+        vertical-align: middle;
+        margin-left: -4px
+    };
+    .imgHelper{
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    };
     .factBox{
         width: 429px;
         height: 221px;

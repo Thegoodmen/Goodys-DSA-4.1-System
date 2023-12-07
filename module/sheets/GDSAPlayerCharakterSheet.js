@@ -1,8 +1,9 @@
 import * as Util from "../../Util.js";
 import * as LsFunction from "../listenerFunctions.js"
-import * as Template from "../apps/templates.js";
 
 export default class GDSAPlayerCharakterSheet extends ActorSheet {
+
+    sheet = {};
 
     static get defaultOptions() {
 
@@ -51,7 +52,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             items: baseData.items,
             config: CONFIG.GDSA,
             isGM: game.user.isGM,
-            template: await Template.templateData(),
+            template: CONFIG.Templates,
 
             // Create for each Item Type its own Array
 
@@ -88,6 +89,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         sheetData = await this.calculateValues(sheetData);
 
+        this.sheet = sheetData;
+
         return sheetData;
     }
 
@@ -103,65 +106,67 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         if(this.isEditable) {
 
+            let sheet = this.sheet;
+
             // Set Listener for Char Edits
 
-            html.find(".editFacts").click(LsFunction.editeCharFacts.bind(this, await this.getData()));
-            html.find(".stat-change").click(LsFunction.editeCharStats.bind(this, await this.getData()));
-            html.find(".ress-change").click(LsFunction.editeCharRessource.bind(this, await this.getData()));
+            html.find(".editFacts").click(LsFunction.editeCharFacts.bind(this, sheet));
+            html.find(".stat-change").click(LsFunction.editeCharStats.bind(this, sheet));
+            html.find(".ress-change").click(LsFunction.editeCharRessource.bind(this, sheet));
 
             // Set Listener for Basic Rolls
             
-            html.find(".skill-roll").click(LsFunction.onSkillRoll.bind(this, await this.getData()));
-            html.find(".stat-roll").click(LsFunction.onStatRoll.bind(this, await this.getData()));
-            html.find(".flaw-roll").click(LsFunction.onFlawRoll.bind(this, await this.getData()));
-            html.find(".attack-roll").click(LsFunction.onAttackRoll.bind(this, await this.getData()));
-            html.find(".parry-roll").click(LsFunction.onParryRoll.bind(this, await this.getData()));
-            html.find(".shield-roll").click(LsFunction.onShildRoll.bind(this, await this.getData()));
-            html.find(".dogde-roll").click(LsFunction.onDogdeRoll.bind(this, await this.getData()));
-            html.find(".damage-roll").click(LsFunction.onDMGRoll.bind(this, await this.getData()));
-            html.find(".mirRoll").click(LsFunction.onMirikalRoll.bind(this, await this.getData()));
-            html.find(".wonder-roll").click(LsFunction.onWonderRoll.bind(this, await this.getData()));
-            html.find(".spell-roll").click(LsFunction.onSpellRoll.bind(this, await this.getData()));
-            html.find(".ritCrea-roll").click(LsFunction.onRitualCreation.bind(this, await this.getData()));
-            html.find(".ritAkti-roll").click(LsFunction.onRitualActivation.bind(this, await this.getData()));
+            html.find(".skill-roll").click(LsFunction.onSkillRoll.bind(this, sheet));
+            html.find(".stat-roll").click(LsFunction.onStatRoll.bind(this, sheet));
+            html.find(".flaw-roll").click(LsFunction.onFlawRoll.bind(this, sheet));
+            html.find(".attack-roll").click(LsFunction.onAttackRoll.bind(this, sheet));
+            html.find(".parry-roll").click(LsFunction.onParryRoll.bind(this, sheet));
+            html.find(".shield-roll").click(LsFunction.onShildRoll.bind(this, sheet));
+            html.find(".dogde-roll").click(LsFunction.onDogdeRoll.bind(this, sheet));
+            html.find(".damage-roll").click(LsFunction.onDMGRoll.bind(this, sheet));
+            html.find(".mirRoll").click(LsFunction.onMirikalRoll.bind(this, sheet));
+            html.find(".wonder-roll").click(LsFunction.onWonderRoll.bind(this, sheet));
+            html.find(".spell-roll").click(LsFunction.onSpellRoll.bind(this, sheet));
+            html.find(".ritCrea-roll").click(LsFunction.onRitualCreation.bind(this, sheet));
+            html.find(".ritAkti-roll").click(LsFunction.onRitualActivation.bind(this, sheet));
 
             // Set Listener for Stat Changes
 
-            html.find(".getHeal").click(LsFunction.onStatGain.bind(this, await this.getData(), "LeP"));
-            html.find(".getAsP").click(LsFunction.onStatGain.bind(this, await this.getData(), "AsP"));
-            html.find(".getKaP").click(LsFunction.onStatGain.bind(this, await this.getData(), "KaP"));
-            html.find(".getDMG").click(LsFunction.onStatLoss.bind(this, await this.getData(), "LeP"));
-            html.find(".lossAsP").click(LsFunction.onStatLoss.bind(this, await this.getData(), "AsP"));
-            html.find(".lossKaP").click(LsFunction.onStatLoss.bind(this, await this.getData(), "KaP"));
-            html.find(".stat-plus").click(LsFunction.onAddStat.bind(this, await this.getData()));
-            html.find(".stat-minus").click(LsFunction.onSubStat.bind(this, await this.getData()));
-            html.find(".doReg").click(LsFunction.onReg.bind(this, await this.getData()));
-            html.find(".doMedi").click(LsFunction.onMed.bind(this, await this.getData()));
-            html.find(".wp").click(LsFunction.onWoundChange.bind(this, await this.getData()));
-            html.find(".wound").click(LsFunction.onWoundChange.bind(this, await this.getData()));
+            html.find(".getHeal").click(LsFunction.onStatGain.bind(this, sheet, "LeP"));
+            html.find(".getAsP").click(LsFunction.onStatGain.bind(this, sheet, "AsP"));
+            html.find(".getKaP").click(LsFunction.onStatGain.bind(this, sheet, "KaP"));
+            html.find(".getDMG").click(LsFunction.onStatLoss.bind(this, sheet, "LeP"));
+            html.find(".lossAsP").click(LsFunction.onStatLoss.bind(this, sheet, "AsP"));
+            html.find(".lossKaP").click(LsFunction.onStatLoss.bind(this, sheet, "KaP"));
+            html.find(".stat-plus").click(LsFunction.onAddStat.bind(this, sheet));
+            html.find(".stat-minus").click(LsFunction.onSubStat.bind(this, sheet));
+            html.find(".doReg").click(LsFunction.onReg.bind(this, sheet));
+            html.find(".doMedi").click(LsFunction.onMed.bind(this, sheet));
+            html.find(".wp").click(LsFunction.onWoundChange.bind(this, sheet));
+            html.find(".wound").click(LsFunction.onWoundChange.bind(this, sheet));
 
             // Set Listener for Item Events
 
-            if(! this.id.includes("Token")) html.find(".item-create").click(LsFunction.onItemCreate.bind(this, await this.getData()));
-            if(! this.id.includes("Token")) html.find(".template-create").click(LsFunction.onTemplateCreate.bind(this, await this.getData()));
-            if(! this.id.includes("Token")) html.find(".item-edit").click(LsFunction.onItemEdit.bind(this, await this.getData()));
-            html.find(".item-apply").click(LsFunction.onItemEquip.bind(this, await this.getData()));
-            html.find(".item-remove").click(LsFunction.onItemRemove.bind(this, await this.getData()));
-            if(! this.id.includes("Token")) html.find(".invItem").click(LsFunction.onItemOpen.bind(this, await this.getData()));
-            if(! this.id.includes("Token")) html.find(".invItem3").click(LsFunction.onItemOpen.bind(this, await this.getData()));
-            if(! this.id.includes("Token")) html.find(".change-money").click(LsFunction.onMoneyChange.bind(this, await this.getData()));
-            html.find(".toggleHide").click(LsFunction.onHideToggle.bind(this, await this.getData()));
-            html.find(".spell-add").click(LsFunction.getSpellContextMenu.bind(this, await this.getData()));
-            html.find(".wonder-add").click(LsFunction.getWonderContextMenu.bind(this, await this.getData()));
-            html.find(".meleeW-add").click(LsFunction.getMeleeWContextMenu.bind(this, await this.getData()));
-            html.find(".rangeW-add").click(LsFunction.getRangeWContextMenu.bind(this, await this.getData()));
-            html.find(".shilds-add").click(LsFunction.getShieldContextMenu.bind(this, await this.getData()));
-            html.find(".armour-add").click(LsFunction.getArmourContextMenu.bind(this, await this.getData()));
-            html.find(".objektRitual-add").click(LsFunction.getObjectRitContextMenu.bind(this, await this.getData()));
-            html.find(".item-delete").click(LsFunction.onItemDelete.bind(this, await this.getData()));
-            html.find(".ritCheck").change(LsFunction.changeActiveStat.bind(this, await this.getData()));
-            html.find(".castChange").change(LsFunction.changeCastZfW.bind(this, await this.getData()));
-            html.find(".test").change(LsFunction.testFunc.bind(this, await this.getData()));
+            if(! this.id.includes("Token")) html.find(".item-create").click(LsFunction.onItemCreate.bind(this, sheet));
+            if(! this.id.includes("Token")) html.find(".template-create").click(LsFunction.onTemplateCreate.bind(this, sheet));
+            if(! this.id.includes("Token")) html.find(".item-edit").click(LsFunction.onItemEdit.bind(this, sheet));
+            html.find(".item-apply").click(LsFunction.onItemEquip.bind(this, sheet));
+            html.find(".item-remove").click(LsFunction.onItemRemove.bind(this, sheet));
+            if(! this.id.includes("Token")) html.find(".invItem").click(LsFunction.onItemOpen.bind(this, sheet));
+            if(! this.id.includes("Token")) html.find(".invItem3").click(LsFunction.onItemOpen.bind(this, sheet));
+            if(! this.id.includes("Token")) html.find(".change-money").click(LsFunction.onMoneyChange.bind(this, sheet));
+            html.find(".toggleHide").click(LsFunction.onHideToggle.bind(this, sheet));
+            html.find(".spell-add").click(LsFunction.getSpellContextMenu.bind(this, sheet));
+            html.find(".wonder-add").click(LsFunction.getWonderContextMenu.bind(this, sheet));
+            html.find(".meleeW-add").click(LsFunction.getMeleeWContextMenu.bind(this, sheet));
+            html.find(".rangeW-add").click(LsFunction.getRangeWContextMenu.bind(this, sheet));
+            html.find(".shilds-add").click(LsFunction.getShieldContextMenu.bind(this, sheet));
+            html.find(".armour-add").click(LsFunction.getArmourContextMenu.bind(this, sheet));
+            html.find(".objektRitual-add").click(LsFunction.getObjectRitContextMenu.bind(this, sheet));
+            html.find(".item-delete").click(LsFunction.onItemDelete.bind(this, sheet));
+            html.find(".ritCheck").change(LsFunction.changeActiveStat.bind(this, sheet));
+            html.find(".castChange").change(LsFunction.changeCastZfW.bind(this, sheet));
+            html.find(".test").change(LsFunction.testFunc.bind(this, sheet));
 
             // Set Listener for PDFoundry
 
@@ -171,8 +176,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
             // Set Listeners for Navigation
 
-            html.find(".changeTab").click(LsFunction.changeTab.bind(this, await this.getData()));
-            html.find(".showSkills").click(LsFunction.showAllSkills.bind(this, await this.getData()));
+            html.find(".changeTab").click(LsFunction.changeTab.bind(this, sheet));
+            html.find(".showSkills").click(LsFunction.showAllSkills.bind(this, sheet));
 
             // Set Listener for Context / Right-Click Menu
 
@@ -180,7 +185,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
             // Set Listener on Mirakel Template Change
 
-            html.find(".applyMirTemp").click(LsFunction.applyMirTemp.bind(this, await this.getData()));
+            html.find(".applyMirTemp").click(LsFunction.applyMirTemp.bind(this, sheet));
 
             // Set Listener for Skill Macrobar Support 
 

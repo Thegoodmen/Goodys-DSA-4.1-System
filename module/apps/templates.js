@@ -1,7 +1,7 @@
 async function getTalents() {
 
-    let templatesSystem = await game.packs.get("world.templates").getDocuments();
-    let templatesWorld = [];
+    let templatesSystem = await game.packs.get("gdsa.templates").getDocuments();
+    let templatesWorld = await game.packs.get("world.templates") === undefined ? [] : await game.packs.get("world.templates").getDocuments();
     let templates = templatesWorld.concat(templatesSystem);
 
     templates = templates.filter(function(item) {return item.type == "Template"});
@@ -145,6 +145,46 @@ async function getLiturgies() {
         all: talentArray
     };
 
+    liturgy.grad6.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    liturgy.grad5.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    liturgy.grad4.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    liturgy.grad3.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    liturgy.grad2.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
     liturgy.grad1.sort(function(a, b){
         let x = a.name.toLowerCase();
         let y = b.name.toLowerCase();
@@ -164,10 +204,33 @@ async function getLiturgies() {
     return liturgy;
 }
 
+async function getSpells() {
+
+    let templatesSystem = await game.packs.get("gdsa.spells").getDocuments();
+    let templatesWorld = [];
+    let talentArray = templatesWorld.concat(templatesSystem);
+
+    let spell = {
+
+        all: talentArray
+    };
+
+    spell.all.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    return spell;
+}
+
+
 async function getCults() {
 
-    let templatesSystem = await game.packs.get("world.templates").getDocuments();
-    let templatesWorld = [];
+    let templatesSystem = await game.packs.get("gdsa.templates").getDocuments();
+    let templatesWorld = await game.packs.get("world.templates") === undefined ? [] : await game.packs.get("world.templates").getDocuments();
     let templates = templatesWorld.concat(templatesSystem);
 
     templates = templates.filter(function(item) {return item.type == "Template"});
@@ -189,13 +252,128 @@ async function getCults() {
     return cults;
 }
 
+async function getTraits() {
+
+    let templatesSystem = await game.packs.get("gdsa.templates").getDocuments();
+    let templatesWorld = await game.packs.get("world.templates") === undefined ? [] : await game.packs.get("world.templates").getDocuments();
+    let templates = templatesWorld.concat(templatesSystem);
+
+    templates = templates.filter(function(item) {return item.type == "Template"});
+
+    let talentArray = templates.filter(function(item) {return item.system.type == "trai"});
+
+    let traits = {
+        all: talentArray,
+        general: talentArray.filter(function(item) {return item.system.sf.type === "general"}),
+        combat: talentArray.filter(function(item) {return item.system.sf.type === "combat"}),
+        magic: talentArray.filter(function(item) {return item.system.sf.type === "magic"}),
+        holy: talentArray.filter(function(item) {return item.system.sf.type === "holy"})
+    };
+
+    traits.all.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    traits.general.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    traits.combat.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    traits.magic.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    traits.holy.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    return traits;
+}
+
+async function getAdvantages() {
+
+    let templatesSystem = await game.packs.get("gdsa.templates").getDocuments();
+    let templatesWorld = await game.packs.get("world.templates") === undefined ? [] : await game.packs.get("world.templates").getDocuments();
+    let templates = templatesWorld.concat(templatesSystem);
+
+    templates = templates.filter(function(item) {return item.type == "Template"});
+
+    let talentArray = templates.filter(function(item) {return item.system.type == "adva"});
+
+    let traits = {
+        all: talentArray
+    };
+
+    traits.all.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    return traits;
+}
+
+async function getFlaws() {
+
+    let templatesSystem = await game.packs.get("gdsa.templates").getDocuments();
+    let templatesWorld = await game.packs.get("world.templates") === undefined ? [] : await game.packs.get("world.templates").getDocuments();
+    let templates = templatesWorld.concat(templatesSystem);
+
+    templates = templates.filter(function(item) {return item.type == "Template"});
+
+    let talentArray = templates.filter(function(item) {return item.system.type == "flaw"});
+
+    let traits = {
+        all: talentArray
+    };
+
+    traits.all.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    return traits;
+}
+
 export async function templateData() {
 
     return {
         
         talents: await getTalents(),
+        spell: await getSpells(),
         liturgy: await getLiturgies(),
-        cults: await getCults()
+        cults: await getCults(),
+        traits: await getTraits(),
+        advantage: await getAdvantages(),
+        flaw: await getFlaws()
     };
 }
 

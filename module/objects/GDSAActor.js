@@ -200,7 +200,7 @@ export default class GDSAActor extends Actor {
         data.generalItemType = mainTypes;
     }
 
-    setStatData(type, value) {
+    async setStatData(type, value) {
 
         // Methode to update Ressources directly
 
@@ -307,7 +307,11 @@ export default class GDSAActor extends Actor {
                 break;
 
             case "allSkills":
-                this.update({ "system.allSkills": value});
+                await this.update({ "system.allSkills": value});
+                break;
+
+            case "mirakelTemp":
+                await this.update({ "system.mirikal.cus": value});
                 break;
         }
     }

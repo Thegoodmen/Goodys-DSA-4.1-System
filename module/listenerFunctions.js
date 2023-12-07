@@ -196,6 +196,7 @@ export async function doSkillRoll(rollEvent) {
     // Execute Roll
 
     let response = await Dice.skillCheck(showname, statvalue, statOne, statTwo, statThree, actor, actor.goofy, modif, optional);
+    console.log(response);
     response.message.setFlag('gdsa', 'isCollapsable', true);
 }
 
@@ -3903,12 +3904,13 @@ export async function applyMirTemp(data, event) {
     let selector = element.closest(".menuLine").querySelector(".SelHelper1");
     let selected = selector.value;
 
-    let template = await templateData();
+    let template = CONFIG.Templates;
+    let cult = template.cults.all.filter(function(item) {return item._id === selected})[0];
 
-    console.log(selected);
-    console.log(actor);
-    console.log(template);
+    // Update Mirakel Template
 
+    await data.actor.setStatData("mirakelTemp", cult.system.cult);
+    actor.render();
 }
 
 export function chatCollaps(event) {
@@ -3944,7 +3946,7 @@ export function chatCollaps(event) {
 
 }
 
-export function showAllSkills(data, event) {
+export async function showAllSkills(data, event) {
 
     event.preventDefault();
 
@@ -3958,7 +3960,7 @@ export function showAllSkills(data, event) {
 
     // Set toggeld Status
 
-    data.actor.setStatData("allSkills", !showAll);
+    await data.actor.setStatData("allSkills", !showAll);
     actor.render();
 }
 

@@ -361,25 +361,28 @@
     "Item": {
         "types":[
             "Template",
+            "spell",
+            "wonder",
+
             "generals",
             "melee-weapons",
             "range-weapons",
             "shields",
             "armour",
+
             "generalTrait",
             "combatTrait",
             "magicTrait",
             "objectTrait",
             "holyTrait",
-            "spell",
+            
             "ritual",
             "ritualSkill",
             "objektRitual",
             "affiliation",
-            "wonder",
+            
             "simple-weapon",
-            "talent",
-            "giftflaw"
+            "talent"
         ],
         "templates": {
             "generalItems": {
@@ -462,11 +465,6 @@
             "leftleg": 0,
             "star": 0,
             "Z": false
-        },
-        "giftflaw": {
-            "templates": [
-                "trait"
-            ]
         },
         "talent": {
             "templates": [

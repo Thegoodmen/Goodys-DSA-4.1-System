@@ -1,6 +1,6 @@
 <div class="item item-context {{#if system.trait.canRoll}}flaw-roll{{/if}}" data-type="{{system.type}}" data-item-id="{{_id}}" data-flawValue="{{system.trait.value}}" data-flawName="{{name}}">
     <a class="test" data-type="advantage"><div class="flaw">{{name}}
-        {{#if (ne system.value 0)}}
+        {{#if (ne system.trait.value 0)}}
         {{system.trait.value}}
         {{/if}}
     </div></a>

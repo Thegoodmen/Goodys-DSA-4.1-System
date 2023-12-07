@@ -1,0 +1,41 @@
+<option value="none"></option>
+<option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
+{{#each templates.talents.meele as |item|}}
+    <option value="{{item.name}}">{{item.system.tale.DE}}</option>
+{{/each}}
+    <option value="none"></option>
+    <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
+{{#each templates.talents.range as |item|}}
+    <option value="{{item.name}}">{{item.system.tale.DE}}</option>
+{{/each}}
+<option value="none"></option>
+<option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
+{{#each templates.talents.body as |item|}}
+    <option value="{{item.name}}">{{item.system.tale.DE}}</option>
+{{/each}}
+<option value="none"></option>
+<option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
+{{#each templates.talents.social as |item|}}
+    <option value="{{item.name}}">{{item.system.tale.DE}}</option>
+{{/each}}
+<option value="none"></option>
+<option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
+{{#each templates.talents.nature as |item|}}
+    <option value="{{item.name}}">{{item.system.tale.DE}}</option>
+{{/each}}
+<option value="none"></option>
+<option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
+{{#each templates.talents.knowledge as |item|}}
+    <option value="{{item.name}}">{{item.system.tale.DE}}</option>
+{{/each}}
+<option value="none"></option>
+<option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
+{{#each templates.talents.craft as |item|}}
+    <option value="{{item.name}}">{{item.system.tale.DE}}</option>
+{{/each}}
+<option value="none"></option>
+<option value="Liturgiekenntnis">{{localize "GDSA.charactersheet.wonderskill"}}</option>
+<option value="Geister rufen">{{localize "GDSA.ritualSkills.gruf"}}</option>
+<option value="Geister bannen">{{localize "GDSA.ritualSkills.gban"}}</option>
+<option value="Geister binden">{{localize "GDSA.ritualSkills.gbin"}}</option>
+<option value="Geister aufnehmen">{{localize "GDSA.ritualSkills.gauf"}}</option>

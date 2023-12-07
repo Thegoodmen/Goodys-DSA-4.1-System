@@ -71,7 +71,24 @@
             "DK": "Distanzklasse",
             "directed": "Gezieltes Ausweichen",
             "addiFow": "Zusätzliche Gegner im Nahkampf",
-            "dodge": "Ausweichen"
+            "dodge": "Ausweichen",
+            "sf": "Sonderfertigkeit",
+            "sfGeneral": "Allgemeine SF",
+            "sfCombat": "Kampf SF",
+            "sfMagic": "Magische SF",
+            "sfObject": "Objektmagische SF",
+            "sfRit": "Ritualmagische SF",
+            "sfHoly": "Liturgiesche SF",
+            "AP": "AP",
+            "GP": "GP",
+            "SFtype": "Art der Sonderfertigkeit",
+            "verb": "Verbreitung",
+            "attribut": "Eigenschaft",
+            "and": "Und",
+            "or": "Oder",
+            "not": "Nicht",
+            "altCost": "Alt. Kosten",
+            "spell": "Zauber"
         },
         "info": {
             "itemAdd": "Ein Item wurde dem Charakter hinzugefügt.",
@@ -299,7 +316,10 @@
             "secret": "Geheimsprachen",
             "liturgy": "Liturigien",
             "mirakel": "Mirakel",
-            "gradZero": "Primärliturgie"
+            "gradZero": "Primärliturgie",
+            "requ": "Benötigt",
+            "notrequ": "Inkompatibel",
+            "each": "pro"
         },
         "itemsheet": {
             "name": "Name",
@@ -421,7 +441,7 @@
             "attributes": "Eigenschaften",
             "MU": "Mut",
             "KL": "Klugheit",
-            "IN": "Intutition",
+            "IN": "Intuition",
             "CH": "Charisma",
             "FF": "Fingerfertigkeit",
             "GE": "Gewandheit",

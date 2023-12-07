@@ -3,6 +3,8 @@ import * as LsFunction from "../listenerFunctions.js"
 
 export default class GDSANonPlayerSheet extends ActorSheet {
 
+    sheet = {};
+
     static get defaultOptions() {
 
         // #################################################################################################
@@ -50,7 +52,7 @@ export default class GDSANonPlayerSheet extends ActorSheet {
 
             // Create for each Item Type its own Array
 
-            gifts: Util.getItems(baseData, "giftflaw", false),
+            gifts: Util.getTemplateItems(baseData, "adva").concat(Util.getTemplateItems(baseData, "flaw")),
             talents: Util.getItems(baseData, "talent", false),
             weapons: Util.getItems(baseData, "simple-weapon",false),
             traits: Util.getItems(baseData, "generalTrait",false)
@@ -65,6 +67,8 @@ export default class GDSANonPlayerSheet extends ActorSheet {
 
         if(sheetData.system.AsP.max == 0) sheetData.system.pAsP = 0;
         if(sheetData.system.KaP.max == 0) sheetData.system.pKaP = 0;
+
+        this.sheet = sheetData;
         
         return sheetData;
     }
@@ -79,19 +83,22 @@ export default class GDSANonPlayerSheet extends ActorSheet {
         // #################################################################################################
         // #################################################################################################
 
+        let sheet = this.sheet;
+
         // Set Listener for Basic Rolls
         
-        html.find(".npc-roll").click(LsFunction.onNPCRoll.bind(this, this.getData()));
-        html.find(".flaw-roll").click(LsFunction.onFlawRoll.bind(this, this.getData()));
-        html.find(".npc-at").click(LsFunction.onNPCAttackRoll.bind(this, this.getData()));
-        html.find(".npc-pa").click(LsFunction.onNPCParryRoll.bind(this, this.getData()));
-        html.find(".npc-dmg").click(LsFunction.onNPCDMGRoll.bind(this, this.getData()));
+        html.find(".npc-roll").click(LsFunction.onNPCRoll.bind(this, sheet));
+        html.find(".flaw-roll").click(LsFunction.onFlawRoll.bind(this, sheet));
+        html.find(".npc-at").click(LsFunction.onNPCAttackRoll.bind(this, sheet));
+        html.find(".npc-pa").click(LsFunction.onNPCParryRoll.bind(this, sheet));
+        html.find(".npc-dmg").click(LsFunction.onNPCDMGRoll.bind(this, sheet));
 
         // Set Listener for Item Events
 
-        if(! this.id.includes("Token")) html.find(".item-create").click(LsFunction.onItemCreate.bind(this, this.getData()));
-        if(! this.id.includes("Token")) html.find(".item-edit").click(LsFunction.onItemEdit.bind(this, this.getData()));
-        if(! this.id.includes("Token")) html.find(".item-delete").click(LsFunction.onItemDelete.bind(this, this.getData()));
+        if(! this.id.includes("Token")) html.find(".item-create").click(LsFunction.onItemCreate.bind(this, sheet));
+        if(! this.id.includes("Token")) html.find(".template-create").click(LsFunction.onTemplateCreate.bind(this, sheet));
+        if(! this.id.includes("Token")) html.find(".item-edit").click(LsFunction.onItemEdit.bind(this, sheet));
+        if(! this.id.includes("Token")) html.find(".item-delete").click(LsFunction.onItemDelete.bind(this, sheet));
 
         // Set Listener for Context / Right-Click Menu
 

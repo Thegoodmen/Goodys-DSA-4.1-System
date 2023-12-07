@@ -12,16 +12,17 @@ export async function migrationV1() {
             await actor.update(updateData);
         }
     }
-    
-    for (let scene of game.scenes.contents) {
 
-        let sceneUpdate = await sceneMigrationV1(scene);
+    for (let id of game.items.invalidDocumentIds) {
+
+        let item = game.items.getInvalid(id);
+
+        console.log("Migrating Item Entity " + item.name + ".");
         
-        if (!foundry.utils.isEmpty(sceneUpdate)) {
-          
-            console.log("Migrating Scene " + scene.name + ".");
-            await scene.update(sceneUpdate);
-        }
+        const updateData = await itemMigrationV1(item);
+
+        game.items.createDocument(updateData)
+        
     }
     
     for (let pack of game.packs) {
@@ -70,24 +71,25 @@ async function actorMigrationV1(actor) {
     let updateData = {};
     let actorData = actor.system;
 
-    if (actor.type != "PlayerCharakter") return;
+    if (actor.type === "PlayerCharakter") {
 
-    for (let h = 0; h < cmbtSkills.length; h++) {
-        if (actorData.skill[cmbtSkills[h]] === null) {
-            
-            let s1 = "system.skill." + cmbtSkills[h];
-            updateData[s1] = cmbtTemplate;
+        for (let h = 0; h < cmbtSkills.length; h++) {
+            if (actorData.skill[cmbtSkills[h]] === null) {
+                
+                let s1 = "system.skill." + cmbtSkills[h];
+                updateData[s1] = cmbtTemplate;
+            }
         }
-    }
 
-    for (let i = 0; i < skillTranslation.length; i++) {
-        if ((actorData.skill[skillTranslation[i][1]] === null || actorData.skill[skillTranslation[i][1]] === "" || actorData.skill[skillTranslation[i][1]] === undefined) && actorData.skill[skillTranslation[i][0]] != null) {
+        for (let i = 0; i < skillTranslation.length; i++) {
+            if ((actorData.skill[skillTranslation[i][1]] === null || actorData.skill[skillTranslation[i][1]] === "" || actorData.skill[skillTranslation[i][1]] === undefined) && actorData.skill[skillTranslation[i][0]] != null) {
 
-            let s1 = "system.skill." + skillTranslation[i][1];
-            let s2 = "system.skill." + skillTranslation[i][0];
-            updateData[s1] = actorData.skill[skillTranslation[i][0]];
-            updateData[s2] = null;
-        }       
+                let s1 = "system.skill." + skillTranslation[i][1];
+                let s2 = "system.skill." + skillTranslation[i][0];
+                updateData[s1] = actorData.skill[skillTranslation[i][0]];
+                updateData[s2] = null;
+            }       
+        }
     }
 
     for (let j = 0; j < actor.items._source.length; j++) {
@@ -118,9 +120,74 @@ async function actorMigrationV1(actor) {
             await actor.deleteEmbeddedDocuments("Item", [item._id]);
         }     
 
+        if (item.type === "giftflaw") {
+
+            console.log("Migrate Gift/Flaw from old to new Format for " + actor.name + "!");
+
+            let flawValue = item.system.value;
+
+            if (parseInt(flawValue) === 0) flawValue = "";
+
+            await actor.createEmbeddedDocuments("Item", [{ "name": item.name, "type": "Template", "system": { "type": "adva", "trait": { "value": flawValue, "canRoll": true}}}]);
+            await actor.deleteEmbeddedDocuments("Item", [item._id]);
+        }     
+
         if (item.type === "langu" || item.type === "signs")
             await actor.deleteEmbeddedDocuments("Item", [item._id]);
     }
+    
+    return updateData;
+}
+
+async function itemMigrationV1(item) {
+
+    let updateData = {};
+
+    if (item.type === "advantage") {
+
+        console.log("Migrate Item from old to new Format " + item.name + "!");
+
+        let advaValue = item.system.value;
+
+        if (parseInt(advaValue) === 0) advaValue = "";
+
+        updateData = { "name": item.name, "type": "Template", "system": { "type": "adva", "trait": { "value": advaValue, "canRoll": false}}};
+
+        item.update({ "type": "Template" })
+        item.update({ "system": { "type": "adva", "trait": { "value": advaValue, "canRoll": true}}});
+    }   
+
+    if (item.type === "flaw") {
+
+        console.log("Migrate Item from old to new Format " + item.name + "!");
+
+        let flawValue = item.system.value;
+
+        if (parseInt(flawValue) === 0) flawValue = "";
+
+        updateData = { "name": item.name, "type": "Template", "system": { "type": "flaw", "trait": { "value": flawValue, "canRoll": true}}};
+
+        item.update({ "type": "Template" });
+        item.update({ "system": { "type": "flaw", "trait": { "value": flawValue, "canRoll": true}}});
+    }     
+
+    if (item.type === "giftflaw") {
+
+        console.log("Migrate Item from old to new Format " + item.name + "!");
+
+        let flawValue = item.system.value;
+
+        if (parseInt(flawValue) === 0) flawValue = "";
+
+        updateData = { "name": item.name, "type": "Template", "system": { "type": "adva", "trait": { "value": flawValue, "canRoll": true}}};
+
+        item.update({ "type": "Template" })
+        item.update({ "system": { "type": "adva", "trait": { "value": flawValue, "canRoll": true}}});
+
+    }     
+
+    // if (item.type === "langu" || item.type === "signs")
+       // await actor.deleteEmbeddedDocuments("Item", [item._id]);
     
     return updateData;
 }

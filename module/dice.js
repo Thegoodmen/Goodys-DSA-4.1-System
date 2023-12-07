@@ -958,18 +958,18 @@ export async function doXD20XD6Roll(chatData, result1, result2) {
         if(!game.modules.get("dice-so-nice")?.active) {
 
             chatData.sound = CONFIG.sounds.dice;
-            sendChatMessage(chatData);
-            resolve(true)
+            let m = sendChatMessage(chatData);
+            resolve(m)
 
         } else if (result1.length === 2 && result2.length <= 0) 
             game.dice3d.show({ throws:[{dice: [d20Model(result1[0])]}]}).then(displayed => 
                 { game.dice3d.show({ throws:[{dice: [d20Model(result1[1])]}]}).then(displayed => 
-                        { sendChatMessage(chatData); resolve(true)});});
+                        {let m = sendChatMessage(chatData); resolve(m)});});
         else if (result1.length === 2 && result2.length === 2) 
             game.dice3d.show({ throws:[{dice: [d20Model(result1[0])]}]}).then(displayed => 
                 { game.dice3d.show({ throws:[{dice: [d20Model(result1[1])]}]}).then(displayed => 
                     { game.dice3d.show({ throws:[{dice: [d6Model(result2[0]), d6Model(result2[1])]}]}).then( displayed =>
-                        { sendChatMessage(chatData); resolve(true)});});});
+                        {let m = sendChatMessage(chatData); resolve(m)});});});
         else game.dice3d.show(data).then(displayed => {let m = sendChatMessage(chatData); resolve(m)});
     });
 }

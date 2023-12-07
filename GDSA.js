@@ -59,7 +59,7 @@ Hooks.once("init", () => {
     registerHandelbarsHelpers();  
 });
 
-Hooks.once("ready", () => {
+Hooks.once("ready", async () => {
 
     if(!game.user.isGM) return;
 
@@ -74,6 +74,8 @@ Hooks.once("ready", () => {
     if (needsMigration) Migration.migrationV1();
 
     Hooks.on("hotbarDrop", (bar, data, slot) => createGDSAMacro(data, slot));
+
+    CONFIG.Templates = await Template.templateData();
 });
 
 Hooks.once("renderChatMessage", () => {
@@ -167,7 +169,9 @@ function preloadHandlebarsTemplates() {
         "systems/GDSA/templates/partials/character-sheet-holyMirikal.hbs",
         "systems/GDSA/templates/partials/character-sheet-holyGeneral.hbs",
         "systems/GDSA/templates/partials/character-sheet-holyWonder.hbs",
-        "systems/GDSA/templates/partials/advantages.hbs"
+        "systems/GDSA/templates/partials/item-sheet-selectTalents.hbs",
+        "systems/GDSA/templates/partials/item-sheet-selectAttributes.hbs",
+        "systems/GDSA/templates/partials/item-sheet-selectTraits.hbs"
     ];
     
     return loadTemplates(templatePaths);
@@ -381,24 +385,6 @@ function registerHandelbarsHelpers() {
         display = display.substring(0, display.length-2);
 
         return display;
-    });
-
-    Handlebars.registerHelper("getMeleeSkill", function(skill) {
-
-        let config = CONFIG.GDSA;
-
-        let output = config.meleeSkills[skill];
-
-        return output;
-    });
-
-    Handlebars.registerHelper("getRangeSkill", function(skill) {
-
-        let config = CONFIG.GDSA;
-
-        let output = config.rangeSkills[skill];
-
-        return output;
     });
 
     Handlebars.registerHelper("combatantAtMax", function(cmbId, Ini) {
