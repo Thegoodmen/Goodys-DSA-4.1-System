@@ -1,0 +1,109 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+    <div class="browserImgBox3"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
+
+    <div class="ritHelper21">
+        <div class="spHelper23"><b>{{localize "GDSA.itemsheet.name"}}</b></div>
+        <div class="spHelper4"><b>{{localize "GDSA.itemsheet.weight"}}</b></div>
+        <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
+        <div class="spHelper3">
+            <input class="spHelper5" name="system.weight" type="number" value="{{system.weight}}" />
+        </div>
+    </div>
+
+    <div class="itemRow4">
+        <div class="spHelper22"><b>{{localize "GDSA.itemsheet.typeItem"}}</b></div>
+        <div class="spHelper31 centered"><b>{{localize "GDSA.itemsheet.worn"}}</b></div>
+        <div class="spHelper31"><b>{{localize "GDSA.itemsheet.singleValue"}}</b></div>
+        
+        <div class="spHelper21">
+            <select class="spHelper20" name="system.type">
+                {{#select system.type}}
+                    {{#each config.itemTypes as |name type|}}
+                        <option value="{{type}}">{{localize name}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+        <div class="spHelper31">
+            <input class="arHelper10" name="system.worn" type="checkbox" {{checked system.worn}}>
+        </div>
+        <div class="spHelper31">
+            <input class="spHelper5" name="system.value" type="number" value="{{system.value}}" />
+        </div>
+    </div>
+
+    <nav class="tabs nav spell-tabs" data-group="spell">
+        <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>
+        <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
+    </nav>
+    
+    <div class="spellMenuBox">
+	    <section class="spell-body">
+            <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
+
+                <div class="input220 spellName">{{localize "GDSA.itemsheet.length"}}:</div>
+                <input class="input180 centered" name="system.weapon.length" type="text" value="{{system.weapon.length}}"/>
+
+                <div class="input220 spellName">{{localize "GDSA.itemsheet.storageT"}}:</div>
+                <select class="input180" name="system.item.storage">
+                    {{#select system.item.storage}}
+                        <option value="bag">{{localize "GDSA.itemsheet.storageBag"}}</option>
+                        <option value="carriage">{{localize "GDSA.itemsheet.storageCarriage"}}</option>
+                        <option value="away">{{localize "GDSA.itemsheet.storageAway"}}</option>
+                    {{/select}}
+                </select>
+
+                <div class="itemFiller"></div>
+
+                <div class="input220 spellName">{{localize "GDSA.itemsheet.type"}}:</div>
+                <input class="input180" name="system.weapon.type" type="text" value="{{system.weapon.type}}"/>
+
+                <div class="input220 spellName">{{localize "GDSA.itemsheet.skill"}}:</div>
+                <select class="input180" name="system.weapon.skill">
+                    {{#select system.weapon.skill}}
+                        <option value="null"></option>
+                        {{#each template.talents.meele as |item|}}
+                            <option value="{{item._id}}">{{item.name}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+
+                <div class="itemFiller"></div>
+
+                <div class="input220 spellName">{{localize "GDSA.itemsheet.BF"}}:</div>
+                <input class="input90 centered" name="system.weapon.BF-cur" type="number" value="{{system.weapon.BF-cur}}"/>
+                <input class="input90 centered" name="system.weapon.BF-min" type="number" value="{{system.weapon.BF-min}}"/>
+
+                <div class="input220 spellName">{{localize "GDSA.itemsheet.DiKl"}}:</div>
+                <input class="input180 centered" name="system.weapon.DK" type="text" value="{{system.weapon.DK}}"/>
+
+                <div class="input220 spellName">{{localize "GDSA.itemsheet.INIB"}}:</div>
+                <input class="input180 centered" name="system.weapon.INI" type="text" value="{{system.weapon.INI}}"/>
+
+                <div class="input220 spellName">{{localize "GDSA.itemsheet.WaMo"}}:</div>
+                <input class="input90 centered" name="system.weapon.WM-ATK" type="number" value="{{system.weapon.WM-ATK}}"/>
+                <input class="input90 centered" name="system.weapon.WM-DEF" type="number" value="{{system.weapon.WM-DEF}}"/>
+                
+                <div class="itemFiller"></div>
+
+                <div class="input220 spellName">{{localize "GDSA.itemsheet.TP/KK"}}:</div>
+                <input class="input180 centered" name="system.weapon.TPKK" type="text" value="{{system.weapon.TPKK}}"/>
+
+                <div class="input220 spellName">{{localize "GDSA.itemsheet.damage"}}:</div>
+                <input class="input180 centered" name="system.weapon.damage" type="text" value="{{system.weapon.damage}}"/>
+ 
+            </div>
+            
+            <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
+
+                <textarea class="litNotes2" name="system.description">{{system.description}}</textarea>
+
+            </div>
+
+        </section>
+    </div>
+
+    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+
+</form>

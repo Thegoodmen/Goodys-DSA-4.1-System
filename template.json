@@ -360,9 +360,12 @@
     },
     "Item": {
         "types":[
+            "Gegenstand",
             "Template",
             "spell",
             "wonder",
+            "ritual",
+            "objektRitual",
 
             "generals",
             "melee-weapons",
@@ -371,16 +374,9 @@
             "armour",
 
             "generalTrait",
-            "combatTrait",
-            "magicTrait",
-            "objectTrait",
-            "holyTrait",
-            
-            "ritual",
             "ritualSkill",
-            "objektRitual",
+
             "affiliation",
-            
             "simple-weapon",
             "talent"
         ],
@@ -398,6 +394,11 @@
             "trait":{
                 "value": 0
             }
+        },
+        "Gegenstand": {
+            "templates": ["generalItems"],
+            "type": "item",
+            "quantity": 1
         },
         "generals" : {
             "templates": [

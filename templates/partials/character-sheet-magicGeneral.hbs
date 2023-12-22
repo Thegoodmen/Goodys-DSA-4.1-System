@@ -33,12 +33,11 @@
         <div class="flawbnt"><a class="changeTab item" data-destination="magictraitPage" data-origin="magicPage" data-optional="magic">
             <i class="fas fa-book plusSym"></i>
         </a></div>
-        <div class="flawbnt"><a class="item-create" data-type="magicTrait"><i class="fas fa-plus plusSym"></i></a></div>
 		<div class="traithrbox"><hr class="flawhr" /></div>
     	<section class="holytraits">
 			{{#each magicTraits as |Trait id|}}
 				<div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
-                    <div class="trait">{{name}}</div><hr class="flawhr" />
+                    <div class="trait">{{name}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</div><hr class="flawhr" />
                 </div>
 			{{/each}}
 		</section>

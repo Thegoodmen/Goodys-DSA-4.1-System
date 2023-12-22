@@ -67,9 +67,9 @@ export default class GDSAActor extends Actor {
 
         // Calculates the LeP, AuP, AsP, KaP and MR maximums Values
 
-        let mtraits = Util.getItems(this, "magicTrait", false);
-        let advantages = Util.getItems(this, "advantage", false);
-        let flaws = Util.getItems(this, "flaw", false);
+        let mtraits = Util.getTemplateSF(this, "magic", false);
+        let advantages = Util.getTemplateItems(this, "adva");
+        let flaws = Util.getTemplateItems(this, "flaw");
         let gds = mtraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.starbody")})[0];
         let asma = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.asma")})[0];
         let ausd = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.ausd")})[0];
@@ -83,16 +83,16 @@ export default class GDSAActor extends Actor {
         let mag3 = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag3")})[0];
 
         data.LeP.max = Math.round(((parseInt(data.KO.value) + parseInt(data.KO.value) + parseInt(data.KK.value) + parseInt(data.KO.temp) + parseInt(data.KO.temp) + parseInt(data.KK.temp)) / 2) + parseInt(data.LePInfo.modi) + parseInt(data.LePInfo.buy));
-        if(hole != null) data.LeP.max += hole.system.value;
-        if(nile != null) data.LeP.max -= nile.system.value;
+        if(hole != null) data.LeP.max += hole.system.trait.value;
+        if(nile != null) data.LeP.max -= nile.system.trait.value;
         data.AuP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.KO.value) + parseInt(data.GE.value) + parseInt(data.MU.temp) + parseInt(data.KO.temp) + parseInt(data.GE.temp)) / 2) + parseInt(data.AuPInfo.modi) + parseInt(data.AuPInfo.buy));
-        if(ausd != null) data.AuP.max += ausd.system.value;
+        if(ausd != null) data.AuP.max += ausd.system.trait.value;
 
-        if (data.AsPInfo.modi != 0) {
+        if (mag1 != null || mag2 != null || mag3 != null) {
             if(gds != null) data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value) + parseInt(data.CH.value) + parseInt(data.MU.temp) + parseInt(data.IN.temp) + parseInt(data.CH.temp) + parseInt(data.CH.temp)) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
             else data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value) + parseInt(data.MU.temp) + parseInt(data.IN.temp) + parseInt(data.CH.temp)) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
-            if(asma != null) data.AsP.max += asma.system.value;
-            if(nias != null) data.AsP.max -= nias.system.value;
+            if(asma != null) data.AsP.max += asma.system.trait.value;
+            if(nias != null) data.AsP.max -= nias.system.trait.value;
             if(mag1 != null) data.AsP.max -= 6;
             if(mag2 != null) data.AsP.max += 6;
             if(mag3 != null) data.AsP.max += 12;
@@ -102,17 +102,17 @@ export default class GDSAActor extends Actor {
         else data.KaP.max = 0;
 
         data.MRBase = Math.round(((parseInt(data.MU.value) + parseInt(data.KL.value) + parseInt(data.KO.value) + parseInt(data.MU.temp) + parseInt(data.KL.temp) + parseInt(data.KO.temp)) / 5) + parseInt(data.MR.modi) + parseInt(data.MR.buy));
-        if(homr != null) data.MR.value += homr.system.value;
-        if(nimr != null) data.MR.value -= nimr.system.value;
+        if(homr != null) data.MR.value += homr.system.trait.value;
+        if(nimr != null) data.MR.value -= nimr.system.trait.value;
         if(mag2 != null) data.MR.value += 1;
         if(mag3 != null) data.MR.value += 2;
 
         // Set up Number of Attacks in Combat
 
-        let traits = Util.getItems(this, "combatTrait", false);
-        this.combatTraits = Util.getItems(this, "combatTrait", false);
+        let traits = Util.getTemplateSF(this, "combat", false);
+        this.combatTraits = Util.getTemplateSF(this, "combat", false);
         this.equiptMelee = Util.getItems(this, "melee-weapons", true);
-        this.generalTraits = Util.getItems(this, "generalTrait", false);
+        this.generalTraits = Util.getTemplateSF(this, "general", false);
         data.ATCount = 1;
         data.PACount = 1;
         let at1 = traits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.twohanded2")})[0];
@@ -143,7 +143,7 @@ export default class GDSAActor extends Actor {
 
             // Has Specilazation ?
 
-            let Spezi = Util.getItems(this, "generalTrait", false).filter(function(item) {return item.name.includes(weap)});
+            let Spezi = Util.getTemplateSF(this, "general", false).filter(function(item) {return item.name.includes(weap)});
             let isSpezi= (Spezi.length > 0) ? true : false;
             if(isSpezi) PAValue += 1;
 

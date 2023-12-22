@@ -761,6 +761,39 @@ export async function editCharRess(context) {
     });
 }
 
+export async function getAdvantage(context) {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/sheets/getAdvantage.hbs";
+    context.config = CONFIG.GDSA;
+    const html = await renderTemplate(template, context);
+
+    return new Promise(resolve => {  
+
+        // Set up Parameters for Dialog
+
+        const data = {
+
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.do"),
+                                callback: html => resolve(_processTempSelection(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
         // #################################################################################################
         // #################################################################################################
         // ##                                                                                             ##
@@ -1164,3 +1197,4 @@ function _processCharStats(form) { return { newvalue: form.value.value }};
 function _processAttributoOptions(form) { return { att: form.att1.value }};
 function _processFaxioOptions(form) { return { dice: parseInt(form.dice.value)+1 }};
 function _formatModifikation(string) { return string[0] + " " + string.substring(1)};
+function _processTempSelection(form) { return { advantage: form.advantages.value}};

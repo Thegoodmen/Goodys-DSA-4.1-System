@@ -1,0 +1,20 @@
+<div class="GDSA chat message">
+    <div class="flawBox {{#if modPresent}}statModBoxAdd{{/if}}">
+        
+        <div class="flawName">{{localize "GDSA.chat.dialog.rangeGoof"}}</div>
+        <div class="dicefiller"></div>
+
+        <div id="collapsable">
+
+            <div class="diceCol4">
+                <div class="dices">
+                    <div class="diceD6">{{roll1}}</div>
+                    <div class="diceD6">{{roll2}}</div>
+                </div>
+            </div>
+
+        </div>               
+        <div class="rollFlawInfo">{{goofed}}<span id="additionalInfo"></span></div>
+
+    </div>
+</div>

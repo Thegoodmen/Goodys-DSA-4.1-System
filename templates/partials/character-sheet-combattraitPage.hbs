@@ -21,7 +21,7 @@
             </tr>
             {{#each combatTraits as |Trait id|}}
                 <tr class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
-                    <td class="gmTableHelper3">{{name}}</td>
+                    <td class="gmTableHelper3">{{getLocName this}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</td>
                     <td class="gmTableHelper4"><a class="item-edit"><i class="fas fa-gear"></a></i></td>
                     <td class="gmTableHelper5"><a class="item-delete"><i class="fas fa-trash-can"></a></i></td>
                 </tr>
@@ -29,7 +29,7 @@
             
             <tr>
                 <td class="addCast" colspan="3">
-                    <a class="item-create" data-type="combatTrait" title="{{localize "GDSA.charactersheet.newcombatTrait"}}"><b>+</b></a>
+                    <a class="template-create" data-type="trai" data-sf="combat" title="{{localize "GDSA.charactersheet.newcombatTrait"}}"><b>+</b></a>
                 </td>
             </tr>
     </table>

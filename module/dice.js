@@ -879,6 +879,88 @@ export async function DMGRoll(formula, actor, multi, chatId = "") {
     return total;
 }
 
+export async function CrittMisMeele(actor) {
+
+    // #################################################################################################
+    // #################################################################################################
+    // ##                                                                                             ##
+    // ##    Roll and Show the Critt Miss Disadvantage                                                ##
+    // ##                                                                                             ##
+    // ##    @actor         Actor Objekt of the Character rolling the Check                           ##
+    // ##                                                                                             ##
+    // #################################################################################################
+    // #################################################################################################
+
+    // Set up the Path of the Chat HTML
+
+    const templatePath = "systems/GDSA/templates/chat/critMiss-Meele.hbs";
+
+    // Roll 2 Dices
+
+    let rollResult = await new Roll("2d6", {}).roll({ async: true});
+
+    // Fill the Context for the Chat HTML to fill  
+
+    let templateContext = { actor: actor._id};
+    
+    // Get Disadvantage
+
+    templateContext.goofed = Util.getGoofyMelee(rollResult.total);
+    templateContext.roll1 = rollResult.dice[0].values[0];
+    templateContext.roll2 = rollResult.dice[0].values[1];
+
+    // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
+
+    let goofDices = [];
+    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    goofDices.push(rollResult.dice[0].values[0]);
+    goofDices.push(rollResult.dice[0].values[1]);
+    let status = await doXD20XD6Roll(chatModel, [], goofDices);
+
+    return status;
+}
+
+export async function CrittMisRange(actor) {
+
+    // #################################################################################################
+    // #################################################################################################
+    // ##                                                                                             ##
+    // ##    Roll and Show the Critt Miss Disadvantage                                                ##
+    // ##                                                                                             ##
+    // ##    @actor         Actor Objekt of the Character rolling the Check                           ##
+    // ##                                                                                             ##
+    // #################################################################################################
+    // #################################################################################################
+
+    // Set up the Path of the Chat HTML
+
+    const templatePath = "systems/GDSA/templates/chat/critMiss-Range.hbs";
+
+    // Roll 2 Dices
+
+    let rollResult = await new Roll("2d6", {}).roll({ async: true});
+
+    // Fill the Context for the Chat HTML to fill  
+
+    let templateContext = { actor: actor._id};
+    
+    // Get Disadvantage
+
+    templateContext.goofed = Util.getGoofyFK(rollResult.total);
+    templateContext.roll1 = rollResult.dice[0].values[0];
+    templateContext.roll2 = rollResult.dice[0].values[1];
+
+    // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
+
+    let goofDices = [];
+    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    goofDices.push(rollResult.dice[0].values[0]);
+    goofDices.push(rollResult.dice[0].values[1]);
+    let status = await doXD20XD6Roll(chatModel, [], goofDices);
+
+    return status;
+}
+
 export async function DMGRollWitoutChat(formula, actor, multi, hasNoZone = false) {
 
     // #################################################################################################

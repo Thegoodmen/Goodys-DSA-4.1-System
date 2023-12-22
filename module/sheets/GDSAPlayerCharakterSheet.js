@@ -29,7 +29,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         });
     } 
 
-    async getData() {
+    getData() {
 
         // #################################################################################################
         // #################################################################################################
@@ -58,13 +58,10 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
             advantages: Util.getTemplateItems(baseData, "adva"),
             flaws: Util.getTemplateItems(baseData, "flaw"),           
-            generalTraits: Util.getItems(baseData, "generalTrait", false),
-            combatTraits: Util.getItems(baseData, "combatTrait", false),
-            magicTraits: Util.getItems(baseData, "magicTrait", false),
-            objectTraits: Util.getItems(baseData, "objectTrait", false),
-            holyTraits: Util.getItems(baseData, "holyTrait", false),
-            langs: Util.getItems(baseData, "langu", false),
-            signs: Util.getItems(baseData, "signs", false),
+            generalTraits: Util.getTemplateSF(baseData, "general", false),
+            combatTraits: Util.getTemplateSF(baseData, "combat", false),
+            magicTraits: Util.getTemplateSF(baseData, "magic", false),
+            holyTraits: Util.getTemplateSF(baseData, "holy", false),
             ritualSkills: Util.getItems(baseData, "ritualSkill", false),
             spells: Util.getItems(baseData, "spell", false),
             rituals: Util.getItems(baseData, "ritual", false),
@@ -87,7 +84,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         // Calculate some values dependent on Items
 
-        sheetData = await this.calculateValues(sheetData);
+        sheetData = this.calculateValues(sheetData);
 
         this.sheet = sheetData;
 
@@ -129,6 +126,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".spell-roll").click(LsFunction.onSpellRoll.bind(this, sheet));
             html.find(".ritCrea-roll").click(LsFunction.onRitualCreation.bind(this, sheet));
             html.find(".ritAkti-roll").click(LsFunction.onRitualActivation.bind(this, sheet));
+            html.find(".m-fail-roll").click(LsFunction.onCritMisMeeleRoll.bind(this, sheet));
+            html.find(".r-fail-roll").click(LsFunction.onCritMisRangeRoll.bind(this, sheet));
 
             // Set Listener for Stat Changes
 
@@ -150,6 +149,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             if(! this.id.includes("Token")) html.find(".item-create").click(LsFunction.onItemCreate.bind(this, sheet));
             if(! this.id.includes("Token")) html.find(".template-create").click(LsFunction.onTemplateCreate.bind(this, sheet));
             if(! this.id.includes("Token")) html.find(".item-edit").click(LsFunction.onItemEdit.bind(this, sheet));
+            html.find(".advantage-create").click(LsFunction.addAdvantage.bind(this, sheet));
+            html.find(".disadvantage-create").click(LsFunction.addDisadvantage.bind(this, sheet));
             html.find(".item-apply").click(LsFunction.onItemEquip.bind(this, sheet));
             html.find(".item-remove").click(LsFunction.onItemRemove.bind(this, sheet));
             if(! this.id.includes("Token")) html.find(".invItem").click(LsFunction.onItemOpen.bind(this, sheet));
@@ -258,7 +259,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         }
     }
 
-    async calculateValues(sheetData) {
+    calculateValues(sheetData) {
 
         // #################################################################################################
         // #################################################################################################
@@ -273,9 +274,9 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         sheetData.system.magical = false;
         sheetData.system.klerikal = false;
         
-        let mag1 = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag1")})[0];
-        let mag2 = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag2")})[0];
-        let mag3 = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag3")})[0];
+        let mag1 = sheetData.advantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.mag1")})[0];
+        let mag2 = sheetData.advantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.mag2")})[0];
+        let mag3 = sheetData.advantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.mag3")})[0];
         let klr1 = sheetData.holyTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.lit1"))})[0];
         let klr2 = sheetData.advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.kler"))})[0];
         let klr3 = sheetData.holyTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.akul"))})[0];
@@ -359,8 +360,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         // STEP 2 Armour Profficiany 2 & 3
 
-        let checkArmour2 = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.armour2")})[0];
-        let checkArmour3 = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.armour3")})[0];
+        let checkArmour2 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.armour2")})[0];
+        let checkArmour3 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.armour3")})[0];
 
         if(checkArmour2 != null) o = 1;
         if(checkArmour3 != null) o += 1;
@@ -389,14 +390,14 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         // Geschwindigkeit
 
-        let checkFlink = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.flink")})[0];
-        let checkUnsporty = sheetData.flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.unsporty")})[0];
-        let checkSmall = sheetData.flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.small")})[0];
-        let checkDwarf = sheetData.flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.dwarf")})[0];
+        let checkFlink = sheetData.advantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.flink")})[0];
+        let checkUnsporty = sheetData.flaws.filter(function(item) {return item.name === game.i18n.localize("GDSA.flaws.unsporty")})[0];
+        let checkSmall = sheetData.flaws.filter(function(item) {return item.name === game.i18n.localize("GDSA.flaws.small")})[0];
+        let checkDwarf = sheetData.flaws.filter(function(item) {return item.name === game.i18n.localize("GDSA.flaws.dwarf")})[0];
         
         sheetData.system.GS.modi = 0;
 
-        if(checkFlink != null) sheetData.system.GS.modi = checkFlink.system.value;
+        if(checkFlink != null) sheetData.system.GS.modi = checkFlink.system.trait.value;
         if((parseInt(sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp)) >= 16) sheetData.system.GS.modi += 1;
         if((parseInt(sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp)) <= 10) sheetData.system.GS.modi -= 1;
 
@@ -411,7 +412,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         // INI Basis - STEP 1 BE Calculation with Armour Profficiancy III
 
         let eBE = BE;
-        let checkArmour = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.armour3")})[0];
+        let checkArmour = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.armour3")})[0];
         if(checkArmour != null) eBE = (BE - 2) / 2;
         if(eBE < 0) eBE = 0;
 
@@ -438,9 +439,9 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         // Check for Traits for Ini Calc
 
-        let checkKampfge = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.kampfge")})[0];
-        let checkKampfre = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.kampfre")})[0];
-        let checkKlingen = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.klingen")})[0];
+        let checkKampfge = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.kampfge")})[0];
+        let checkKampfre = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.kampfre")})[0];
+        let checkKlingen = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.klingen")})[0];
 
         if(checkKampfge != null) sheetData.system.INIBasis.modi += 2;
         if(checkKampfre != null) sheetData.system.INIBasis.modi += 4;
@@ -464,21 +465,22 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         // Ausweichen
         
-        let checkDogde1 = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.dogde1")})[0];
-        let checkDogde2 = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.dogde2")})[0];
-        let checkDogde3 = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.dogde3")})[0];
+        let checkDogde1 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.dogde1")})[0];
+        let checkDogde2 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.dogde2")})[0];
+        let checkDogde3 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.dogde3")})[0];
 
         sheetData.system.Dogde = parseInt(sheetData.system.PABasis.value);
         if(checkUnsporty != null) sheetData.system.Dogde -= 1;
         if(checkDogde1 != null) sheetData.system.Dogde += 3;
         if(checkDogde2 != null) sheetData.system.Dogde += 3;
         if(checkDogde3 != null) sheetData.system.Dogde += 3;
-        if(checkFlink != null) sheetData.system.Dogde += checkFlink.system.value;
+        if(checkFlink != null) sheetData.system.Dogde += checkFlink.system.trait.value;
         sheetData.system.Dogde -= BE;
 
         // Calculate Dodge Bonus from Acrobatik
 
         let akro = sheetData.system.skill.Akrobatik;
+        if(!(akro >= 0)) akro = 0;
         let akBonus = Math.floor((akro - 9) / 3);
         if(akBonus < 0) akBonus = 0;
         sheetData.system.Dogde += akBonus;
@@ -496,6 +498,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         for (const spezi of skillSpez) {
 
             if(!spezi.name.includes("(")) continue;
+            if(CONFIG.INIT) continue;
 
             let skillName = spezi.name.split("(")[0].substr(22).slice(0,-1);
             let spezilation = spezi.name.split("(")[1].slice(0, -1);
@@ -503,7 +506,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             const objekt = {
                 fullstring: spezi.name,
                 talentname: skillName,
-                talentshort: await Util.getSkillName(skillName),
+                talentshort: Util.getSkillName(skillName),
                 spezi: spezilation
             };
 
@@ -632,22 +635,6 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if(checkGoofy != null) sheetData.goofy = true;
         else sheetData.goofy = false;
 
-        // Set Attributes in Lang und Sign 
-
-        for (let i = 0; i < sheetData.langs.length; i++) {
-
-            sheetData.langs[i].system.att1 = sheetData.system.KL.value + sheetData.system.KL.temp;
-            sheetData.langs[i].system.att2 = sheetData.system.IN.value + sheetData.system.IN.temp;
-            sheetData.langs[i].system.att3 = sheetData.system.CH.value + sheetData.system.CH.temp;
-        }
-
-        for (let i = 0; i < sheetData.signs.length; i++) {
-
-            sheetData.signs[i].system.att1 = sheetData.system.KL.value + sheetData.system.KL.temp;
-            sheetData.signs[i].system.att2 = sheetData.system.IN.value + sheetData.system.IN.temp;
-            sheetData.signs[i].system.att3 = sheetData.system.CH.value + sheetData.system.CH.temp;
-        }
-
         // Sort Lang, Sign, Advantages, Flaws, Spells, general and combat Traits
 
         sheetData.advantages.sort(function(a, b){
@@ -695,34 +682,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             return 0;
         });
 
-        sheetData.objectTraits.sort(function(a, b){
-
-            let x = a.name.toLowerCase();
-            let y = b.name.toLowerCase();
-            if (x < y) {return -1;}
-            if (x > y) {return 1;}
-            return 0;
-        });
-
         sheetData.holyTraits.sort(function(a, b){
-
-            let x = a.name.toLowerCase();
-            let y = b.name.toLowerCase();
-            if (x < y) {return -1;}
-            if (x > y) {return 1;}
-            return 0;
-        });
-          
-        sheetData.langs.sort(function(a, b){
-
-            let x = a.name.toLowerCase();
-            let y = b.name.toLowerCase();
-            if (x < y) {return -1;}
-            if (x > y) {return 1;}
-            return 0;
-        });
-
-        sheetData.signs.sort(function(a, b){
 
             let x = a.name.toLowerCase();
             let y = b.name.toLowerCase();

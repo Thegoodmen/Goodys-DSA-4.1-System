@@ -17,7 +17,7 @@ import * as Migration from "./module/apps/migration.js";
 import * as Template from "./module/apps/templates.js";
 import * as Dice from "./module/dice.js";
 
-Hooks.once("init", () => {
+Hooks.once("init", async () => {
 
     console.log("GDSA | Initalizing Goodys DSA 4.1 System");
 
@@ -32,6 +32,7 @@ Hooks.once("init", () => {
 	Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
     CONFIG.ChatMessage.template = "./systems/GDSA/templates/chat/chatMessage.hbs";
     CONFIG.GDSA = GDSA;
+    CONFIG.INIT = true;
     CONFIG.Actor.documentClass = GDSAActor;
     CONFIG.Item.documentClass = GDSAItem;
     CONFIG.Combat.documentClass = GDSACombat;
@@ -61,6 +62,9 @@ Hooks.once("init", () => {
 
 Hooks.once("ready", async () => {
 
+    CONFIG.INIT = false;
+    CONFIG.Templates = await Template.templateData();
+
     if(!game.user.isGM) return;
 
     const currentVersion = game.settings.get("gdsa", "systemMigrationVersion");
@@ -74,8 +78,6 @@ Hooks.once("ready", async () => {
     if (needsMigration) Migration.migrationV1();
 
     Hooks.on("hotbarDrop", (bar, data, slot) => createGDSAMacro(data, slot));
-
-    CONFIG.Templates = await Template.templateData();
 });
 
 Hooks.once("renderChatMessage", () => {
@@ -206,6 +208,8 @@ function registerHandelbarsHelpers() {
     Handlebars.registerHelper("toBoolean", function(string) { return (string === "true")});
 
     Handlebars.registerHelper("metaValue", function(item, data, template) { return calculateMetaSkill(item, data, template)});
+
+    Handlebars.registerHelper("getLocName", function(item) { return item.system.tale[game.settings.get("core", "language").toUpperCase()];});
 
     Handlebars.registerHelper("getRitData", function(object1, value1) {
         
@@ -475,6 +479,136 @@ function registerHandelbarsHelpers() {
 
         if (type === "x" && value === "1") answer = "";
         return answer;
+    });
+
+    Handlebars.registerHelper("hasRomNum", function(name) {
+
+        if (name.split(" ").includes("I")) return true;
+        else if (name.split(" ").includes("II")) return true;
+        else if (name.split(" ").includes("III")) return true;
+        else if (name.split(" ").includes("IV")) return true;
+        else if (name.split(" ").includes("V")) return true;
+        else if (name.split(" ").includes("VI")) return true;
+        else if (name.split(" ").includes("VII")) return true;
+        else if (name.split(" ").includes("VIII")) return true;
+        else if (name.split(" ").includes("IX")) return true;
+        else if (name.split(" ").includes("X")) return true;
+        else if (name.split(" ").includes("XI")) return true;
+        else if (name.split(" ").includes("XII")) return true;
+        else if (name.split(" ").includes("XIII")) return true;
+        else if (name.split(" ").includes("XIV")) return true;
+        else if (name.split(" ").includes("XV")) return true;
+        else return false;
+
+    });
+
+    Handlebars.registerHelper("isSleeping", function(sf, char) {
+
+        let sleeping = false;
+
+        let traitOr = [];
+
+        for (let index = 1; index <= 20; index++) {
+
+            if(sf.system.sf.requ === undefined) continue;
+
+            let attr = sf.system.sf.requ["tale" + index];
+            let level = sf.system.sf.requ["level" + index];
+            let condition = sf.system.sf.requ["condition" + index];
+
+            switch (sf.system.sf.requ["type" + index]) {
+
+                case "attribut":
+
+                    switch (attr) {
+                        case "MR":
+                            if (!(char.system.MR.value >= level)) sleeping = true;
+                            break;
+
+                        case "INI":
+                            if (!(char.system.INIBasis.value >= level)) sleeping = true;
+                            break;
+
+                        case "ATB":
+                            if (!(char.system.ATBasis.value >= level)) sleeping = true;
+                            break;
+                        
+                        case "PAB":
+                            if (!(char.system.PABasis.value >= level)) sleeping = true;
+                            break;
+
+                        case "FKB":
+                            if (!(char.system.FKBasis.value >= level)) sleeping = true;
+                            break;
+                    
+                        default:
+                            if (!((char.system[attr].value + char.system[attr].temp) >= level)) sleeping = true;
+                            break;
+                    }
+
+                    break;
+                
+                case "talent":
+
+                    switch (attr) {
+                        case "Liturgiekenntnis":
+                            if (!(char.system.skill.liturgy >= level)) sleeping = true;
+                            break;
+
+                        case "Geister rufen":
+                        case "Geister bannen":
+                        case "Geister binden":
+                        case "Geister aufnehmen":
+                        case "none":
+                            break;
+                    
+                        default:
+                            if (typeof char.system.skill[attr] === 'object' && char.system.skill[attr] !== null) {
+                                if (!(char.system.skill[attr].value >= level)) sleeping = true;
+                            } else {
+                                if (!(char.system.skill[attr] >= level)) sleeping = true;
+                            }
+                            break;
+                    }
+
+                    break;
+
+                case "spell":
+
+                    let spell = char.spells.filter(function(item) {return item.name.toLowerCase() === attr.toLowerCase()})[0];
+                    if (!(spell.system.zfw >= level)) sleeping = true;
+                    break;
+
+                case "trait":
+                case "advantage":
+                case "flaw":
+
+                    let trait = char.items.filter(function(item) {return item.name.toLowerCase().includes(attr.toLowerCase())});
+
+                    switch (condition) {
+                        case "AND":
+                            if (!(trait.length > 0)) sleeping = true;
+                            break;
+                        
+                        case "NOT":
+                            if ((trait.length > 0)) sleeping = true;
+                            break;
+                        
+                        case "OR":
+                            traitOr.push((trait.length > 0));
+                            break;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+            
+        }
+
+        if((!(traitOr.some((e) => e))) && traitOr.length > 0) sleeping = true;
+
+        return sleeping;
     });
 }
 

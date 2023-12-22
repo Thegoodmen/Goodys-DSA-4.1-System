@@ -1,5 +1,3 @@
-import * as Template from "./module/apps/templates.js";
-
 export function getItems(data, type, worn) {
 
     // #################################################################################################
@@ -12,13 +10,13 @@ export function getItems(data, type, worn) {
 
     // Filter items of a Type
 
-    let itemArray = data.items.filter(function(item) {return item.type == type})
+    let itemArray = data.items.filter(function(item) {return item.type === type})
 
     if (!worn) return itemArray;
 
     // If Indicated by worn, filter again for item Status worn
 
-    return itemArray.filter(function(item) {return item.system.worn == true});
+    return itemArray.filter(function(item) {return item.system.worn === true});
 }
 
 export function getTemplateItems(data, type) {
@@ -33,10 +31,29 @@ export function getTemplateItems(data, type) {
 
     // Filter items of a Type
 
-    let tempArray = data.items.filter(function(item) {return item.type == "Template"});
-    let itemArray = tempArray.filter(function(item) {return item.system.type == type});
+    let tempArray = data.items.filter(function(item) {return item.type === "Template"});
+    let itemArray = tempArray.filter(function(item) {return item.system.type === type});
 
     return itemArray;
+}
+
+export function getTemplateSF(data, type) {
+
+    // #################################################################################################
+    // #################################################################################################
+    // ##                                                                                             ##
+    // ##      Helper-Function for filling up the Arrays with specific Types and also Worn Status     ##
+    // ##                                                                                             ##
+    // #################################################################################################
+    // #################################################################################################
+
+    // Filter items of a Type
+
+    let tempArray = data.items.filter(function(item) {return item.type === "Template"});
+    let itemArray = tempArray.filter(function(item) {return item.system.type === "trai"});
+    let sfArray = itemArray.filter(function(item) {return item.system.sf.type === type})
+
+    return sfArray;
 }
 
 export function getGoofyMelee(value) {
@@ -326,9 +343,9 @@ export function getSkillPAValue(actor, skillname) {
     }
 }
 
-export async function getSkillName(name) {
+export function getSkillName(name) {
 
-    let talents = (await Template.templateData()).talents;
+    let talents = CONFIG.Templates.talents;
     let allTalents = talents.all;
 
     let de = allTalents.filter(function(item) {return item.system.tale.DE.toLowerCase() == name.toLowerCase()});

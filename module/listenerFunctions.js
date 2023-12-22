@@ -196,7 +196,6 @@ export async function doSkillRoll(rollEvent) {
     // Execute Roll
 
     let response = await Dice.skillCheck(showname, statvalue, statOne, statTwo, statThree, actor, actor.goofy, modif, optional);
-    console.log(response);
     response.message.setFlag('gdsa', 'isCollapsable', true);
 }
 
@@ -1486,6 +1485,35 @@ export function onNPCRoll(data, event) {
     Dice.statCheck(statname, value, 0, actor);
 }
 
+export async function onCritMisMeeleRoll(data, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+    let system = data.system;
+
+    let result = await Dice.CrittMisMeele(actor);
+
+    result.setFlag('gdsa', 'isCollapsable', true);
+}
+export async function onCritMisRangeRoll(data, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+    let system = data.system;
+
+    let result = await Dice.CrittMisRange(actor);
+
+    result.setFlag('gdsa', 'isCollapsable', true);
+}
+
 export async function onFlawRoll(data, event) {
 
     event.preventDefault();
@@ -1518,139 +1546,152 @@ export async function onAttackRoll(data, event) {
     // Get the Users Combatant
 
     let attacksLeft = 0;
-    let userCombatant;
+    let userCombatant = null;
     let isPartofCombat = false;
 
-    if (game.combats.contents.length > 0) {
 
-        let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]?._id;
+    if (game.combat != null) {
+
+        let userCombatantId = game.combat.combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]?._id;
 
         if(userCombatantId !== undefined) {
 
             isPartofCombat = true;
-            userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
-            attacksLeft = userCombatant.getFlag("GDSA", "attacks");
+            userCombatant = game.combat.combatants.get(userCombatantId);
+            attacksLeft = userCombatant.getFlag("gdsa", "attacks");
+
         }
     }
 
     // Set Item if its for Raufen or Ringen
 
     let itemId = element.closest("tr").dataset.itemId;
-    let item;
-    if (itemId === "raufen") {
+    let item = {};
 
-        item = {
-            type: "melee-weapons",
-            system : {
+    if (itemId === "raufen" || itemId === "ringen") {
 
-                skill: "brawl",
-                type: "fist",
-                TPKK: "10/3",
-                damage: "1d6",
-                "WM-ATK": 0,
-                "WM-DEF": 0
+        if (itemId === "raufen") {
+
+            item = {
+                type: "melee-weapons",
+                system : {
+
+                    skill: "brawl",
+                    type: "fist",
+                    TPKK: "10/3",
+                    damage: "1d6",
+                    "WM-ATK": 0,
+                    "WM-DEF": 0
+                }
             }
+
+            if(actor.system.nwtail) item.system.damage = actor.system.nwtail;
+
+        } else if (itemId === "ringen") {
+
+            item = {
+                type: "melee-weapons",
+                system : {
+
+                    skill: "wrestle",
+                    type: "fist",
+                    TPKK: "10/3",
+                    damage: "1d6",
+                    "WM-ATK": 0,
+                    "WM-DEF": 0
+                }
+            }
+
+            if(actor.system.nwbite) item.system.damage = actor.system.nwbite;
+
         }
 
-        if(actor.system.nwtail) item.system.damage = actor.system.nwtail;
+    } else {
 
-    } else if (itemId === "ringen") {
+        // Set Item
 
-        item = {
-            type: "melee-weapons",
-            system : {
+        item = actor.items.get(itemId);
 
-                skill: "wrestle",
-                type: "fist",
-                TPKK: "10/3",
-                damage: "1d6",
-                "WM-ATK": 0,
-                "WM-DEF": 0
-            }
-        }
+        // Get Weapon
 
-        if(actor.system.nwbite) item.system.damage = actor.system.nwbite;
+        let skill = item.system.skill;
+        let weapon = item.system.type;
+        let Spezi = data.generalTraits.filter(function(item) {return item.name.includes(weapon)});
+        let isSpezi= (Spezi.length > 0) ? true : false;
+        let ATKValue = Util.getSkillATKValue(actor, skill);
+        let answer;
 
-    } else item = actor.items.get(itemId);
+        // Get Target of Attack
 
-    // Get Weapon
+        let targetId = "";
+        let targetCombatantId = "";
+        let targetToken = "";
+        let targetType = "";
+        let sceneId = "";
+        let tokenDoc = "";
+        let targetActorID = "";
 
-    let skill = item.system.skill;
-    let weapon = item.system.type;
-    let Spezi = data.generalTraits.filter(function(item) {return item.name.includes(weapon)});
-    let isSpezi= (Spezi.length > 0) ? true : false;
-    let ATKValue = Util.getSkillATKValue(actor, skill);
-    let answer;
+        if( game.users.get(game.userId).targets.ids.length > 0 && game.combats.contents.length > 0 && isPartofCombat) {
 
-    // Get Target of Attack
-
-    let targetId = "";
-    let targetCombatantId = "";
-    let targetToken = "";
-    let targetType = "";
-    let sceneId = "";
-    let tokenDoc = "";
-    let targetActorID = "";
-
-    if( game.users.get(game.userId).targets.ids.length > 0 && game.combats.contents.length > 0 && isPartofCombat) {
-
-        targetId = game.users.get(game.userId).targets.ids[0];
-        targetCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.tokenId == targetId})[0]._id;
+            targetId = game.users.get(game.userId).targets.ids[0];
+            targetCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.tokenId == targetId})[0]._id;
 
 
-        // Get viewed Scene 
+            // Get viewed Scene 
 
-        sceneId = game.users.get(game.userId).viewedScene;
+            sceneId = game.users.get(game.userId).viewedScene;
 
-        // Get Type of Target
+            // Get Type of Target
 
-        tokenDoc = game.scenes.get(sceneId).collections.tokens.get(targetId);
+            tokenDoc = game.scenes.get(sceneId).collections.tokens.get(targetId);
 
-        targetToken = (targetId == null) ?  null :  tokenDoc?._actor;
-        targetType = tokenDoc?._actor.type;
-        targetActorID = tokenDoc?._actor._id;
-    };
-    let auto = (targetType == "NonPlayer");
+            targetToken = (targetId == null) ?  null :  tokenDoc?._actor;
+            targetType = tokenDoc?._actor.type;
+            targetActorID = tokenDoc?._actor._id;
+        };
+        let auto = (targetType == "NonPlayer");
 
-    // Calculate TPKK
+        // Calculate TPKK
 
-    let y = 0;
+        let y = 0;
 
-    if(item.system.TPKK != "" && item.system.TPKK != null) {
+        if(item.system.TPKK != "" && item.system.TPKK != null) {
 
-        let tpkkString = item.system.TPKK;
-        let tp = tpkkString.split("/")[0];
-        let kk = tpkkString.split("/")[1];
-    
-        let x = (system.KK.value + system.KK.temp) - tp;
-        y = Math.ceil(x / kk);
-        y --;
-        if(y < 0) y = 0;
-    }
-
-    // Generate DMG String
+            let tpkkString = item.system.TPKK;
+            let tp = tpkkString.split("/")[0];
+            let kk = tpkkString.split("/")[1];
         
-    let dmgString = item.system.damage + "+" + y;
+            let x = (system.KK.value + system.KK.temp) - tp;
+            y = Math.ceil(x / kk);
+            y --;
+            if(y < 0) y = 0;
+        }
 
-    // Generate Chat Cache Object and store ID
+        // Generate DMG String
+            
+        let dmgString = item.system.damage + "+" + y;
 
-    let cacheObject = {
+        // Generate Chat Cache Object and store ID
 
-        dmgString: dmgString,
-        multi: 1,
-        actor: actor.id,
-        targetToken: targetId,
-        combatant: targetCombatantId
-    };
+        let cacheObject = {
 
-    // Do ATK Rolls
+            dmgString: dmgString,
+            multi: 1,
+            actor: actor.id,
+            targetToken: targetId,
+            combatant: targetCombatantId
+        };
 
-    if(item.type == "melee-weapons") answer = await onMeeleAttack(data, actor, item, ATKValue, isSpezi, auto, cacheObject);
-    else answer = await onRangeAttack(actor, ATKValue, isSpezi, item, auto, cacheObject);
+        // Do ATK Rolls
 
-    if (game.combats.contents.length > 0 && isPartofCombat) { 
-        attacksLeft--;
-        userCombatant.setFlag("GDSA", "attacks", attacksLeft)
+        if(item.type == "melee-weapons") answer = await onMeeleAttack(data, actor, item, ATKValue, isSpezi, auto, cacheObject);
+        else answer = await onRangeAttack(actor, ATKValue, isSpezi, item, auto, cacheObject);
+
+        if (game.combats.contents.length > 0 && isPartofCombat) { 
+            attacksLeft--;
+            userCombatant.setFlag("GDSA", "attacks", attacksLeft)
+        }
+
     }
 
     // If the Attack was Successfull and Target is present go further
@@ -2908,6 +2949,99 @@ export async function editeCharRessource(data, event) {
     data.actor.render();
 }
 
+export async function addAdvantage(data, event) {
+    
+    event.preventDefault();
+
+    // Get Template Selected by User
+
+    let checkOptions = false;
+    let advantage = "";
+    let item = {};
+    let template = {template: (await templateData()).advantage};
+
+    if(!event.shiftKey) {
+
+        checkOptions = await Dialog.getAdvantage(template);
+
+        advantage = checkOptions.advantage;
+    }
+    
+    if (checkOptions.cancelled) return;
+
+    // Get Item from Templates or Create new One
+
+    if (advantage != "new") {
+
+        item = template.template.all.filter(function(item) {return item._id === advantage})[0];
+
+    } else {
+        item = {
+            name: game.i18n.localize("GDSA.system.newEntry"),
+            img: "icons/sundries/scrolls/scroll-runed-brown-purple.webp",
+            type: "Template",
+            system: {
+                type: "adva",
+                tale: {
+                    DE: game.i18n.localize("GDSA.system.newEntry"),
+                    EN: game.i18n.localize("GDSA.system.newEntry")
+                }
+            }
+        };
+    }
+
+    // Create Item in Actor
+
+    return data.actor.createEmbeddedDocuments("Item", [item]);
+
+}
+
+export async function addDisadvantage(data, event) {
+    
+    event.preventDefault();
+
+    // Get Template Selected by User
+
+    let checkOptions = false;
+    let advantage = "";
+    let item = {};
+    let template = {template: (await templateData()).flaw};
+
+    if(!event.shiftKey) {
+
+        checkOptions = await Dialog.getAdvantage(template);
+
+        advantage = checkOptions.advantage;
+    }
+    
+    if (checkOptions.cancelled) return;
+
+    // Get Item from Templates or Create new One
+
+    if (advantage != "new") {
+
+        item = template.template.all.filter(function(item) {return item._id === advantage})[0];
+
+    } else {
+        item = {
+            name: game.i18n.localize("GDSA.system.newEntry"),
+            img: "icons/environment/traps/spike-skull-white-brown.webp",
+            type: "Template",
+            system: {
+                type: "flaw",
+                tale: {
+                    DE: game.i18n.localize("GDSA.system.newEntry"),
+                    EN: game.i18n.localize("GDSA.system.newEntry")
+                }
+            }
+        };
+    }
+
+    // Create Item in Actor
+
+    return data.actor.createEmbeddedDocuments("Item", [item]);
+}
+
 export function onItemCreate(data, event) {
     
     event.preventDefault();
@@ -2939,6 +3073,7 @@ export function onTemplateCreate(data, event) {
 
     let element = event.currentTarget;
     let itemtype = element.dataset.type;
+    let sftype = element.dataset.sf;
     let name = "GDSA.charactersheet.new" + itemtype;
 
     // Generate new Item
@@ -2948,9 +3083,16 @@ export function onTemplateCreate(data, event) {
         name: game.i18n.localize(name),
         type: "Template",
         system: {
-            type: itemtype
+            type: itemtype,
+            tale: {
+                DE: game.i18n.localize(name),
+                EN: game.i18n.localize(name)
+            },
+            sf: {}
         }
     };
+
+    if (sftype != null) itemData.system.sf.type = sftype;
 
     // Create and return new item
 

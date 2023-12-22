@@ -134,6 +134,111 @@ async function actorMigrationV1(actor) {
 
         if (item.type === "langu" || item.type === "signs")
             await actor.deleteEmbeddedDocuments("Item", [item._id]);
+
+        if (actor.type === "PlayerCharakter") {
+
+            if (item.type === "generalTrait") {
+
+                let templateArray = CONFIG.Templates.traits.general;
+                let templateItem = templateArray.filter(function(array) {return ( array.name.includes(item.name) || array.system.tale.DE.includes(item.name) || array.system.tale.EN.includes(item.name) )});
+
+                if (templateItem.length != 0) {
+
+                    console.log("Migrate SF from old to new Format (" + item.name + ")");
+                    await actor.createEmbeddedDocuments("Item", templateItem);
+                    await actor.deleteEmbeddedDocuments("Item", [item._id]);
+
+                } else {
+                    
+                    console.log("Create new SF in the new Format (" + item.name + ")");
+                    let newItem = { "name": item.name, "type": "Template", "img": "icons/skills/trades/academics-investigation-puzzles.webp", "system": { "type": "trai", "sf": { "type": "general", "ver": 0 }, "tale": { "DE": item.name, "EN": item.name }}}
+                    await actor.createEmbeddedDocuments("Item", [newItem]);
+                    await actor.deleteEmbeddedDocuments("Item", [item._id]);                
+                }
+            }
+
+            if (item.type === "combatTrait") {
+
+                let templateArray = CONFIG.Templates.traits.combat;
+                let templateItem = templateArray.filter(function(array) {return ( array.name === item.name || array.system.tale.DE === item.name || array.system.tale.EN === item.name )});
+
+                if (templateItem.length != 0) {
+
+                    console.log("Migrate SF from old to new Format (" + item.name + ")");
+                    await actor.createEmbeddedDocuments("Item", templateItem);
+                    await actor.deleteEmbeddedDocuments("Item", [item._id]);
+
+                } else {
+                    
+                    console.log("Create new SF in the new Format (" + item.name + ")");
+                    let newItem = { "name": item.name, "type": "Template", "img": "icons/skills/melee/sword-winged-holy-orange.webp", "system": { "type": "trai", "sf": { "type": "combat", "ver": 0 }, "tale": { "DE": item.name, "EN": item.name }}}
+                    await actor.createEmbeddedDocuments("Item", [newItem]);
+                    await actor.deleteEmbeddedDocuments("Item", [item._id]);                
+                }
+            }
+
+            if (item.type === "magicTrait") {
+
+                let templateArray = CONFIG.Templates.traits.magic;
+                let templateItem = templateArray.filter(function(array) {return ( array.name === item.name || array.system.tale.DE === item.name || array.system.tale.EN === item.name )});
+
+                if (templateItem.length != 0) {
+
+                    console.log("Migrate SF from old to new Format (" + item.name + ")");
+                    await actor.createEmbeddedDocuments("Item", templateItem);
+                    await actor.deleteEmbeddedDocuments("Item", [item._id]);
+
+                } else {
+                    
+                    console.log("Create new SF in the new Format (" + item.name + ")");
+                    let newItem = { "name": item.name, "type": "Template", "img": "icons/magic/symbols/circled-gem-pink.webp", "system": { "type": "trai", "sf": { "type": "magic", "ver": 0 }, "tale": { "DE": item.name, "EN": item.name }}}
+                    await actor.createEmbeddedDocuments("Item", [newItem]);
+                    await actor.deleteEmbeddedDocuments("Item", [item._id]);                
+                }
+            }
+
+            if (item.type === "objectTrait") {
+
+                let templateArray = CONFIG.Templates.traits.magic;
+                let templateItem = templateArray.filter(function(array) {return ( array.name === item.name || array.system.tale.DE === item.name || array.system.tale.EN === item.name )});
+
+                if (templateItem.length != 0) {
+
+                    console.log("Migrate SF from old to new Format (" + item.name + ")");
+                    await actor.createEmbeddedDocuments("Item", templateItem);
+                    await actor.deleteEmbeddedDocuments("Item", [item._id]);
+
+                } else {
+                    
+                    console.log("Create new SF in the new Format (" + item.name + ")");
+                    let newItem = { "name": item.name, "type": "Template", "img": "icons/magic/symbols/circled-gem-pink.webp", "system": { "type": "trai", "sf": { "type": "magic", "ver": 0 }, "tale": { "DE": item.name, "EN": item.name }}}
+                    await actor.createEmbeddedDocuments("Item", [newItem]);
+                    await actor.deleteEmbeddedDocuments("Item", [item._id]);                
+                }
+            }
+
+            if (item.type === "holyTrait") {
+
+                let templateArray = CONFIG.Templates.traits.holy;
+                let templateItem = templateArray.filter(function(array) {return ( array.name === item.name || array.system.tale.DE === item.name || array.system.tale.EN === item.name )});
+
+                if (templateItem.length != 0) {
+
+                    console.log("Migrate SF from old to new Format (" + item.name + ")");
+                    await actor.createEmbeddedDocuments("Item", templateItem);
+                    await actor.deleteEmbeddedDocuments("Item", [item._id]);
+
+                } else {
+                    
+                    console.log("Create new SF in the new Format (" + item.name + ")");
+                    let newItem = { "name": item.name, "type": "Template", "img": "icons/magic/holy/angel-wings-gray.webp", "system": { "type": "trai", "sf": { "type": "holy", "ver": 0 }, "tale": { "DE": item.name, "EN": item.name }}}
+                    await actor.createEmbeddedDocuments("Item", [newItem]);
+                    await actor.deleteEmbeddedDocuments("Item", [item._id]);                
+                }
+            }
+
+            // if (item.type === "Template") console.log(item);
+        }
     }
     
     return updateData;
@@ -186,8 +291,8 @@ async function itemMigrationV1(item) {
 
     }     
 
-    // if (item.type === "langu" || item.type === "signs")
-       // await actor.deleteEmbeddedDocuments("Item", [item._id]);
+    if (item.type === "langu" || item.type === "signs")
+        await actor.deleteEmbeddedDocuments("Item", [item._id]);
     
     return updateData;
 }

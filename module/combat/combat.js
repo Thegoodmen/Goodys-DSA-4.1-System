@@ -49,10 +49,10 @@ export default class GDSACombat extends Combat {
             updates.push({_id: id, initiative: roll.total});   
             let templateContext = {roll: roll};
 
-            combatant.setFlag("GDSA", "attacksMax", game.actors.get(combatant.actorId).system.ATCount);
-            combatant.setFlag("GDSA", "attacks", game.actors.get(combatant.actorId).system.ATCount);     
-            combatant.setFlag("GDSA", "parriesMax", game.actors.get(combatant.actorId).system.PACount);     
-            combatant.setFlag("GDSA", "parries", game.actors.get(combatant.actorId).system.PACount); 
+            combatant.setFlag("gdsa", "attacksMax", game.actors.get(combatant.actorId).system.ATCount);
+            combatant.setFlag("gdsa", "attacks", game.actors.get(combatant.actorId).system.ATCount);     
+            combatant.setFlag("gdsa", "parriesMax", game.actors.get(combatant.actorId).system.PACount);     
+            combatant.setFlag("gdsa", "parries", game.actors.get(combatant.actorId).system.PACount); 
 
             let chatData2 = {
                 user: game.user.id,
