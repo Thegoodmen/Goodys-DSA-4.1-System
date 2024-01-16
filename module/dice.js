@@ -21,7 +21,7 @@ export async function statCheck(statName, statValue, statMod, actor, modi = 0, o
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/stat-check.hbs";
+    const templatePath = "systems/GDSA/templates/chat/chatTemplate/stat-Roll.hbs";
 
     // Roll 2 Dices 
 
@@ -83,7 +83,7 @@ export async function statCheck(statName, statValue, statMod, actor, modi = 0, o
     };
 }
 
-export async function dogdeCheck(statName, statValue, statMod, actor) {
+export async function dogdeCheck(statName, statValue, statMod, actor, context = {}) {
 
     // #################################################################################################
     // #################################################################################################
@@ -104,11 +104,11 @@ export async function dogdeCheck(statName, statValue, statMod, actor) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/stat-check.hbs";
+    const templatePath = "systems/GDSA/templates/chat/chatTemplate/dogde-Roll.hbs";
 
     // Roll 2 Dices 
 
-    let rollResult = await new Roll("1d20", {}).roll({ async: true});
+    let rollResult1 = await new Roll("1d20", {}).roll({ async: true});
     let rollResult2 = await new Roll("1d20", {}).roll({ async: true});
 
     // Set up the Total Value of the Attribut Value +/- the Modifier
@@ -119,20 +119,21 @@ export async function dogdeCheck(statName, statValue, statMod, actor) {
     // Fill the Context for the Chat HTML to fill  
 
     let templateContext = {
-        roll: rollResult,
+        roll: rollResult1,
         roll2: rollResult2,
         statName: statName,
         statValue: statValue,
-        adv: 0
+        adv: 0,
+        additional: context
     };
 
     // Checks the Result of the Roll, if it needs to be confirmed and there if its a Critt or a Goof
     // and add its then to the Context for the Chat
 
-    templateContext.result = rollResult.total <= statValueTotal;
-    templateContext.confirm = (rollResult.total == 1 || rollResult.total == 20);
-    templateContext.critt = (rollResult.total == 1 && rollResult2.total <= statValueTotal);
-    templateContext.goof = (rollResult.total == 20 && rollResult2.total > statValueTotal);
+    templateContext.result = rollResult1.total <= statValueTotal;
+    templateContext.confirm = (rollResult1.total == 1 || rollResult1.total == 20);
+    templateContext.critt = (rollResult1.total == 1 && rollResult2.total <= statValueTotal);
+    templateContext.goof = (rollResult1.total == 20 && rollResult2.total > statValueTotal);
 
     // Sets the Booleans and Values for the Modifikation Indikator in the Chat
 
@@ -143,12 +144,17 @@ export async function dogdeCheck(statName, statValue, statMod, actor) {
 
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
-    let dices = [rollResult.dice[0].values[0]];
+    let dices = [rollResult1.dice[0].values[0]];
     const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
-    if(rollResult.total == 1 || rollResult.total == 20) dices.push(rollResult2.dice[0].values[0]);
-    await doXD20XD6Roll(chatModel, dices, []);
+    if(rollResult1.total == 1 || rollResult1.total == 20) dices.push(rollResult2.dice[0].values[0]);
+    let message = await doXD20XD6Roll(chatModel, dices, []);
 
-    return rollResult.total <= statValueTotal;
+    return {
+        result: templateContext.result,
+        critt: templateContext.critt,
+        die1: rollResult1.total,
+        message: message
+    };
 }
 
 export async function flawCheck(flawName, flawValue, actor) {
@@ -171,7 +177,7 @@ export async function flawCheck(flawName, flawValue, actor) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/flaw-check.hbs";
+    const templatePath = "systems/GDSA/templates/chat/chatTemplate/flaw-Roll.hbs";
 
     // Roll 2 Dices
 
@@ -402,7 +408,7 @@ export async function doLePReg(actor, HPBonus) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/hp-reg-check.hbs";
+    const templatePath = "systems/GDSA/templates/chat/chatTemplate/lep-Reg-Roll.hbs";
 
     // Roll 2 Dices
 
@@ -453,7 +459,7 @@ export async function doAsPReg(actor, APBonus, isMaster) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/ap-reg-check.hbs";
+    const templatePath = "systems/GDSA/templates/chat/chatTemplate/asp-Reg-Roll.hbs";
     
     // Roll 2 Dices
 
@@ -505,7 +511,7 @@ export async function doKaPReg(actor, modi) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/medi-check.hbs";
+    const templatePath = "systems/GDSA/templates/chat/chatTemplate/kap-Reg-Roll.hbs";
 
     // Roll 3 Dices
  
@@ -649,7 +655,7 @@ export async function doKaPReg(actor, modi) {
     return tap;
 }
 
-export async function ATKCheck(atk, modi, actor, auto = false, isMeele = true, chatId = "") {
+export async function ATKCheck(atk, modi, actor, auto = false, isMeele = true, chatId = "", context = {}) {
 
     // #################################################################################################
     // #################################################################################################
@@ -659,21 +665,24 @@ export async function ATKCheck(atk, modi, actor, auto = false, isMeele = true, c
     // ##    @atk           Integer of the ATK Stat e.g. "14"                                         ##
     // ##    @modi          Integer of Modifikation that is applied on the Meditation                 ##
     // ##    @actor         Actor Objekt of the Character rolling the Check                           ##
+    // ##    @auto          Indicator if the Attack is handeld via Autmated Combat                    ##
+    // ##    @isMeele       Indicator if the Attack is a Meele Attack                                 ##
+    // ##    @chatId        The ID of the Chat Context saved in the Memory                            ##
     // ##                                                                                             ##
     // #################################################################################################
     // #################################################################################################
 
     // Return if the Attribut has a Value of 0, meaning its not rollable
 
-    if(atk == 0) return;
+    if(atk === 0) return;
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/atk-check.hbs";
+    const templatePath = "systems/GDSA/templates/chat/chatTemplate/attack-Roll.hbs";
 
-    // Roll 2 Dices
+    // Roll 2 D20 Dices and 2 D6 Dices
 
-    let rollResult = await new Roll("1d20", {}).roll({ async: true});
+    let rollResult1 = await new Roll("1d20", {}).roll({ async: true});
     let rollResult2 = await new Roll("1d20", {}).roll({ async: true});
     let rollResult3 = await new Roll("2d6", {}).roll({ async: true});
 
@@ -684,65 +693,55 @@ export async function ATKCheck(atk, modi, actor, auto = false, isMeele = true, c
     // Fill the Context for the Chat HTML to fill  
 
     let templateContext = {
+        
         actor: actor._id,
-        roll: rollResult,
+        roll: rollResult1,
         roll2: rollResult2,
         ATKValue: atk,
-        adv: modi,
+        modPresent: (modi !== 0),
+        adv: (parseInt(modi) * (+1)),
+        dis: (parseInt(modi) * (-1)),
+        isAdv: (modi > 0),
+        isDis: (modi < 0),
         auto: auto,
-        chatId: chatId
+        chatId: chatId,
+        additional: context
     };
     
     // Checks the Result of the Roll, if it needs to be confirmed and there if its a Critt or a Goof
     // and add its then to the Context for the Chat
     
-    templateContext.result = rollResult.total <= statValueTotal ? true : false;
-    templateContext.confirm = (rollResult.total == 1 || rollResult.total == 20) ? true : false
-    templateContext.critt = (rollResult.total == 1 && rollResult2.total <= statValueTotal) ? true : false;
-    templateContext.goof = (rollResult.total == 20 && rollResult2.total > statValueTotal) ? true : false;
+    templateContext.result = rollResult1.total <= statValueTotal ? rollResult1.total === 20 ? false : true : false;
+    templateContext.confirm = (rollResult1.total === 1 || rollResult1.total === 20);
+    templateContext.critt = (rollResult1.total === 1 && rollResult2.total <= statValueTotal);
+    templateContext.goof = (rollResult1.total === 20 && rollResult2.total > statValueTotal);
     templateContext.goofed = (isMeele) ? Util.getGoofyMelee(rollResult3.total) : Util.getGoofyFK(rollResult3.total);
-    
-    // Sets the Booleans and Values for the Modifikation Indikator in the Chat
-    
-    templateContext.modPresent = (modi != 0) ? true : false;
-    templateContext.isAdv = (modi > 0) ? true : false;
-    templateContext.isDis = (modi < 0) ? true : false;
-    templateContext.dis = parseInt(modi) * (-1);
 
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
     let goofDices = [];
-    let dices = [rollResult.dice[0].values[0]];
-    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
-    if(rollResult.total == 1 || rollResult.total == 20) dices.push(rollResult2.dice[0].values[0]);
-    if(rollResult.total == 20 && rollResult2.total > statValueTotal) goofDices.push(rollResult3.dice[0].values[0]);
-    if(rollResult.total == 20 && rollResult2.total > statValueTotal) goofDices.push(rollResult3.dice[0].values[1]);
-    let status = await doXD20XD6Roll(chatModel, dices, goofDices);
+    let dices = [rollResult1.dice[0].values[0]];
+    let chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+
+    if(rollResult1.total === 1 || rollResult1.total === 20) dices.push(rollResult2.dice[0].values[0]);
+    if(rollResult1.total === 20 && rollResult2.total > statValueTotal) goofDices.push(rollResult3.dice[0].values);
+    
+    let message = await doXD20XD6Roll(chatModel, dices, goofDices);
 
     // If it was a Goof and combat is running, reduce the Ini accordingly of the actor
 
-    if (game.combats.contents.length > 0) {
+    if (game.combat && templateContext.goof && context.combatant)
+        game.combat.setInitiative(context.combatant.id, context.combatant.initiative + (isMeele ? Util.getGoofyMeleeIniMod(rollResult3.total) : Util.getGoofyFKIniMod(rollResult3.total)))
 
-        if(templateContext.goof) {
-
-            let userCombatant = null;
-            let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == actor._id})[0]?._id;
-            if(userCombatantId !== undefined) {
-                
-                userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
-                let inimod = (isMeele) ? Util.getGoofyMeleeIniMod(rollResult3.total) : Util.getGoofyFKIniMod(rollResult3.total);
-                let combat = game.combats.contents[0];
-                combat.setInitiative(userCombatantId, userCombatant.initiative + inimod)
-            }
-        }
-    }
-    
-    // Return if the ATK was successful or not
-
-    return rollResult.total <= statValueTotal ? true : false;
+    return {
+        result: templateContext.result,
+        critt: templateContext.critt,
+        die1: rollResult1.total,
+        message: message
+    };
 }
 
-export async function PACheck(parry, modi, actor) {
+export async function PACheck(parry, modi, actor, context = {}) {
 
     // #################################################################################################
     // #################################################################################################
@@ -762,11 +761,11 @@ export async function PACheck(parry, modi, actor) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/pa-check.hbs";
+    const templatePath = "systems/GDSA/templates/chat/chatTemplate/parry-Roll.hbs";
 
     // Roll 2 Dices
 
-    let rollResult = await new Roll("1d20", {}).roll({ async: true});
+    let rollResult1 = await new Roll("1d20", {}).roll({ async: true});
     let rollResult2 = await new Roll("1d20", {}).roll({ async: true});
     let rollResult3 = await new Roll("2d6", {}).roll({ async: true});
 
@@ -778,50 +777,52 @@ export async function PACheck(parry, modi, actor) {
 
     let templateContext = {
         actor: actor._id,
-        roll: rollResult,
+        roll: rollResult1,
         roll2: rollResult2,
         PAValue: parry,
-        adv: modi
+        adv: modi,
+        additional: context
     };
     
     // Checks the Result of the Roll, if it needs to be confirmed and there if its a Critt or a Goof
     // and add its then to the Context for the Chat
     
-    templateContext.result = rollResult.total <= statValueTotal ? true : false;
-    templateContext.confirm = (rollResult.total == 1 || rollResult.total == 20) ? true : false
-    templateContext.critt = (rollResult.total == 1 && rollResult2.total <= statValueTotal) ? true : false;
-    templateContext.goof = (rollResult.total == 20 && rollResult2.total > statValueTotal) ? true : false;
+    templateContext.result = (rollResult1.total <= statValueTotal);
+    templateContext.confirm = (rollResult1.total == 1 || rollResult1.total == 20);
+    templateContext.critt = (rollResult1.total == 1 && rollResult2.total <= statValueTotal);
+    templateContext.goof = (rollResult1.total == 20 && rollResult2.total > statValueTotal);
     templateContext.goofed = Util.getGoofyMelee(rollResult3.total);
     
     // Sets the Booleans and Values for the Modifikation Indikator in the Chat
     
-    templateContext.modPresent = (modi != 0) ? true : false;
-    templateContext.isAdv = (modi > 0) ? true : false;
-    templateContext.isDis = (modi < 0) ? true : false;
+    templateContext.modPresent = (modi != 0);
+    templateContext.isAdv = (modi > 0);
+    templateContext.isDis = (modi < 0);
     templateContext.dis = parseInt(modi) * (-1);
 
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
     let goofDices = [];
-    let dices = [rollResult.dice[0].values[0]];
+    let dices = [rollResult1.dice[0].values[0]];
     const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
-    if(rollResult.total == 1 || rollResult.total == 20) dices.push(rollResult2.dice[0].values[0]);
-    if(rollResult.total == 20 && rollResult2.total > statValueTotal) goofDices.push(rollResult3.dice[0].values[0]);
-    if(rollResult.total == 20 && rollResult2.total > statValueTotal) goofDices.push(rollResult3.dice[0].values[1]);
-    let status = await doXD20XD6Roll(chatModel, dices, goofDices);
+    if(rollResult1.total == 1 || rollResult1.total == 20) dices.push(rollResult2.dice[0].values[0]);
+    if(rollResult1.total == 20 && rollResult2.total > statValueTotal) goofDices.push(rollResult3.dice[0].values[0]);
+    if(rollResult1.total == 20 && rollResult2.total > statValueTotal) goofDices.push(rollResult3.dice[0].values[1]);
 
+    let message = await doXD20XD6Roll(chatModel, dices, goofDices);
+
+    
     // If it was a Goof and combat is running, reduce the Ini accordingly of the actor
 
-    if (game.combats.contents.length > 0) {
+    if (game.combat && templateContext.goof && context.combatant)
+        game.combat.setInitiative(context.combatant.id, context.combatant.initiative + Util.getGoofyMeleeIniMod(rollResult3.total) );
 
-        let userCombatant = null;        
-        let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == actor._id})[0]?._id;
-        if(userCombatantId !== undefined) userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
-    }
-    
-    // Return if the PA was successful or not
-
-    return rollResult.total <= statValueTotal ? true : false;
+    return {
+        result: templateContext.result,
+        critt: templateContext.critt,
+        die1: rollResult1.total,
+        message: message
+    };
 }
 
 export async function DMGRoll(formula, actor, multi, chatId = "") {
@@ -844,7 +845,7 @@ export async function DMGRoll(formula, actor, multi, chatId = "") {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/dmg-roll.hbs";
+    const templatePath = "systems/GDSA/templates/chat/chatTemplate/damage-Roll.hbs";
 
     // Roll the Dice and add together the DMG
 
@@ -874,9 +875,12 @@ export async function DMGRoll(formula, actor, multi, chatId = "") {
     if(rollResult.dice[0].faces == 20) d20.push(...rollResult.dice[0].values)
 
     const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
-    await doXD20XD6Roll(chatModel, d20, d6);
+    let message = await doXD20XD6Roll(chatModel, d20, d6);
 
-    return total;
+    return {
+        result: total,
+        message: message
+    };
 }
 
 export async function CrittMisMeele(actor) {
@@ -893,7 +897,7 @@ export async function CrittMisMeele(actor) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/critMiss-Meele.hbs";
+    const templatePath = "systems/GDSA/templates/chat/chatTemplate/critMiss-Meele.hbs";
 
     // Roll 2 Dices
 
@@ -934,7 +938,7 @@ export async function CrittMisRange(actor) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/critMiss-Range.hbs";
+    const templatePath = "systems/GDSA/templates/chat/chatTemplate/critMiss-Range.hbs";
 
     // Roll 2 Dices
 
@@ -961,6 +965,45 @@ export async function CrittMisRange(actor) {
     return status;
 }
 
+export async function HitZone(actor) {
+
+    // #################################################################################################
+    // #################################################################################################
+    // ##                                                                                             ##
+    // ##    Roll and Show the Hit Zone                                                               ##
+    // ##                                                                                             ##
+    // ##    @actor         Actor Objekt of the Character rolling the Check                           ##
+    // ##                                                                                             ##
+    // #################################################################################################
+    // #################################################################################################
+
+    // Set up the Path of the Chat HTML
+
+    const templatePath = "systems/GDSA/templates/chat/chatTemplate/hitZone-Roll.hbs";
+
+    // Roll 2 Dices
+
+    let rollResult = await new Roll("1d20", {}).roll({ async: true});
+
+    // Fill the Context for the Chat HTML to fill  
+
+    let templateContext = { actor: actor._id};
+    
+    // Get Disadvantage
+
+    templateContext.goofed = Util.getZone(rollResult.total);
+    templateContext.roll1 = rollResult.dice[0].values[0];
+
+    // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
+
+    let goofDices = [];
+    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    goofDices.push(rollResult.dice[0].values[0]);
+    let status = await doXD20XD6Roll(chatModel, [], goofDices);
+
+    return status;
+}
+
 export async function DMGRollWitoutChat(formula, actor, multi, hasNoZone = false) {
 
     // #################################################################################################
@@ -981,7 +1024,7 @@ export async function DMGRollWitoutChat(formula, actor, multi, hasNoZone = false
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/dmg-roll.hbs";
+    const templatePath = "systems/GDSA/templates/chat/damage-Roll.hbs";
 
     // Roll the Dice and add together the DMG
 
@@ -1062,6 +1105,7 @@ async function sendChatMessage(chatData) {
 
         let r = new Roll("1d20", {});
         let m = await r.toMessage(chatData, {rollMode: chatData.rtype})
+        // m.setFlag("core", "canPopout", true);
         return m;
 
     } else {
@@ -1070,6 +1114,7 @@ async function sendChatMessage(chatData) {
         r.evaluate()
         r.dice[0].results[0].hidden = true;
         let m = await r.toMessage(chatData, {rollMode: chatData.rtype})
+        // m.setFlag("core", "canPopout", true);
         return m;
     }
 
@@ -1161,8 +1206,7 @@ export function chatData(actor, template) {
             data.rtype = CONST.DICE_ROLL_MODES.BLIND;
             break;
         case "gmroll":
-            data.whisper = game.users.filter(user => actor.testUserPermission(user, "OWNER"));
-            data.rtype = CONST.DICE_ROLL_MODES.PRIVATE;
+            data.type = 1;
             break;
         case "publicroll":
         default:

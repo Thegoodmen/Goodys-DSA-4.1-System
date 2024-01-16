@@ -32,7 +32,7 @@ export default class GDSACombat extends Combat {
 
     async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}}={}) {
 
-        const template = "systems/GDSA/templates/chat/ini-check.hbs";
+        const template = "systems/GDSA/templates/chat/chatTemplate/ini-Roll.hbs";
         ids = typeof ids === "string" ? [ids] : ids;
         const currentId = this.combatant?.id;
         const updates = [];
@@ -77,11 +77,12 @@ export default class GDSACombat extends Combat {
         }
 
         let result = new Promise(resolve => {
-            if(!game.modules.get("dice-so-nice")?.active) { ChatMessage.implementation.create(messages); resolve(true)} 
-            else game.dice3d.show({ throws:[{dice: rollModels}]}).then(displayed => { ChatMessage.implementation.create(messages); resolve(true)});
+            if(!game.modules.get("dice-so-nice")?.active) { let m = ChatMessage.implementation.create(messages); resolve(m)} 
+            else game.dice3d.show({ throws:[{dice: rollModels}]}).then(displayed => { let m = ChatMessage.implementation.create(messages); resolve(m)});
         });
 
-        await result;
+        result = (await result)[0];
+        result.setFlag('gdsa', 'isCollapsable', true);
 
         if ( !updates.length ) return this;
         await this.updateEmbeddedDocuments("Combatant", updates);
@@ -116,10 +117,10 @@ export default class GDSACombat extends Combat {
 
         for (let i = 0; i < combatants.length; i++) {
 
-            this.combatants.get(combatants[i]._id).setFlag("GDSA", "attacksMax", game.actors.get(combatants[i].actorId).system.ATCount);
-            this.combatants.get(combatants[i]._id).setFlag("GDSA", "attacks", game.actors.get(combatants[i].actorId).system.ATCount);     
-            this.combatants.get(combatants[i]._id).setFlag("GDSA", "parriesMax", game.actors.get(combatants[i].actorId).system.PACount);     
-            this.combatants.get(combatants[i]._id).setFlag("GDSA", "parries", game.actors.get(combatants[i].actorId).system.PACount);           
+            this.combatants.get(combatants[i]._id).setFlag("gdsa", "attacksMax", game.actors.get(combatants[i].actorId).system.ATCount);
+            this.combatants.get(combatants[i]._id).setFlag("gdsa", "attacks", game.actors.get(combatants[i].actorId).system.ATCount);     
+            this.combatants.get(combatants[i]._id).setFlag("gdsa", "parriesMax", game.actors.get(combatants[i].actorId).system.PACount);     
+            this.combatants.get(combatants[i]._id).setFlag("gdsa", "parries", game.actors.get(combatants[i].actorId).system.PACount);           
         }
     }
 
@@ -130,8 +131,8 @@ export default class GDSACombat extends Combat {
 
         for (let i = 0; i < combatants.length; i++) {
 
-            this.combatants.get(combatants[i]._id).setFlag("GDSA", 'attacks', game.actors.get(combatants[i].actorId).system.ATCount);
-            this.combatants.get(combatants[i]._id).setFlag("GDSA", 'parries', game.actors.get(combatants[i].actorId).system.PACount);           
+            this.combatants.get(combatants[i]._id).setFlag("gdsa", 'attacks', game.actors.get(combatants[i].actorId).system.ATCount);
+            this.combatants.get(combatants[i]._id).setFlag("gdsa", 'parries', game.actors.get(combatants[i].actorId).system.PACount);           
         }
     }
 }

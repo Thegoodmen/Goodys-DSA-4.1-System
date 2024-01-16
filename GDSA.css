@@ -1156,7 +1156,8 @@
   border: 1px solid black;
 }
 .GDSA.sheet.characterSheet .addRitKenn {
-  width: 100%;
+  width: 360px;
+  float: left;
   text-align: center;
 }
 .GDSA.sheet.characterSheet .merchantDisc {
@@ -1433,7 +1434,7 @@
 .GDSA.sheet.npcSheet .subrow2 {
   max-height: 80px;
   width: 285px;
-  overflow-y: visible;
+  overflow-y: auto;
 }
 .GDSA.sheet.npcSheet .statName {
   height: 20px;
@@ -1856,6 +1857,11 @@
   margin-bottom: 5px;
   margin-right: 3px;
 }
+.GDSA.sheet.itemSheet .input25 {
+  width: 32px;
+  margin-bottom: 5px;
+  margin-right: 3px;
+}
 .GDSA.sheet.itemSheet .input60 {
   width: 60px;
 }
@@ -2079,6 +2085,11 @@
   margin-top: 20px;
   width: 145px;
   margin-left: 155px;
+}
+.GDSA.sheet.itemSheet .noteBnt {
+  margin-top: 5px;
+  margin-left: 40px;
+  width: 145px;
 }
 .GDSA.sheet.itemSheet .ritHelper1 {
   float: left;
@@ -2538,7 +2549,7 @@
   top: 5px;
   right: 14px;
   border-left: groove;
-  padding-left: 6px;
+  padding-left: 4px;
   font-size: 19px;
   position: absolute;
 }
@@ -2713,6 +2724,29 @@
   width: 358px;
   height: 152px;
   margin-left: 12px;
+}
+.messSenderName {
+  max-width: 200px;
+  overflow-x: hidden;
+}
+.messOptionBar {
+  width: 90px;
+  flex: none;
+}
+.infoBox1 {
+  background-color: rgba(215, 215, 215, 0.86);
+  border: 2px black solid;
+  padding: 15px;
+  border-radius: 30px;
+  text-align: justify;
+  line-height: 15px;
+}
+.noteName {
+  font-size: 17px;
+  width: 100%;
+  display: block;
+  text-align: center;
+  font-weight: bold;
 }
 .GDSA.chat.message .infoBox {
   font-size: 15px;

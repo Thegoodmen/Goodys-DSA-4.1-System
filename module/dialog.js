@@ -2,7 +2,7 @@ export async function GetSkillCheckOptions(skill) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/skill-check-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/skill-Roll.hbs";
     const html = await renderTemplate(template, skill);
 
     return new Promise(resolve => {
@@ -33,7 +33,7 @@ export async function GetStatCheckOptions(skill) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/stat-check-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/stat-Roll.hbs";
     const html = await renderTemplate(template, skill);
 
     return new Promise(resolve => {
@@ -64,7 +64,7 @@ export async function GetDogdeOptions() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dogde-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/dogde-Roll.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -95,7 +95,7 @@ export async function GetMirikalOptions() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/mirikal-check-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/mirikal-Roll.hbs";
     const html = await renderTemplate(template);
 
     return new Promise(resolve => {
@@ -126,7 +126,7 @@ export async function GetWonderOptions(wonder) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/wonder-check-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/wonder-Cast-Roll.hbs";
     const html = await renderTemplate(template, wonder);
 
     return new Promise(resolve => {
@@ -157,7 +157,7 @@ export async function GetSpellOptions(spell) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/spell-check-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/spell-Cast-Roll.hbs";
     const html = await renderTemplate(template, spell);
 
     return new Promise(resolve => {
@@ -188,7 +188,7 @@ export async function GetAttributoOptions(spell) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/spell-attributo-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/spell-attributo.hbs";
     const html = await renderTemplate(template, spell);
 
     return new Promise(resolve => {
@@ -219,7 +219,7 @@ export async function GetFaxiOptions(spell) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/spell-faxio-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/spell-faxio.hbs";
     const html = await renderTemplate(template, spell);
 
     return new Promise(resolve => {
@@ -250,7 +250,7 @@ export async function GetAchazOptions(spell) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/spell-achaz-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/spell-achaz.hbs";
     const html = await renderTemplate(template, spell);
 
     return new Promise(resolve => {
@@ -282,7 +282,7 @@ export async function GetMeditationOptions() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/medi-check-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/medi-Check-Roll.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -313,7 +313,7 @@ export async function GetLePLossInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/getDMG-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/lep-loss.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -345,7 +345,7 @@ export async function GetAsPLossInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/getAsPLoss-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/asp-loss.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -377,7 +377,7 @@ export async function GetAsPInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/getAsP-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/asp-gain.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -409,7 +409,7 @@ export async function GetKaPInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/getKaP-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/kap-gain.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -441,7 +441,7 @@ export async function GetKaPLossInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/getKaPLoss-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/kap-loss.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -473,7 +473,7 @@ export async function GetLePInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/getHeal-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/lep-gain.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -505,7 +505,7 @@ export async function GetRegInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/doReg-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/regeneration-Roll.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -533,12 +533,12 @@ export async function GetRegInfo() {
     });
 }
 
-export async function GetAtkInfo() {
+export async function GetAtkInfo(item) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/doAtk-dialog.hbs";
-    const html = await renderTemplate(template, {});
+    const template = "systems/GDSA/templates/chat/dialog/meele-Attack-Roll.hbs";
+    const html = await renderTemplate(template, item);
 
     return new Promise(resolve => {
 
@@ -565,12 +565,12 @@ export async function GetAtkInfo() {
     });
 }
 
-export async function GetRangeAtkInfo() {
+export async function GetRangeAtkInfo(item) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/doRangeAtk-dialog.hbs";
-    const html = await renderTemplate(template, {});
+    const template = "systems/GDSA/templates/chat/dialog/range-Attack-Roll.hbs";
+    const html = await renderTemplate(template, item);
 
     return new Promise(resolve => {  
 
@@ -601,7 +601,7 @@ export async function GetMoneyOptions() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/money-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/currency-change.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -853,6 +853,8 @@ function _processStatCheckOptions(form) {
     let talS = false;
     let mirakel = false;
     let used = [];
+    let ironWill = false;
+    let willProt = false;
 
     advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
     disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
@@ -862,6 +864,8 @@ function _processStatCheckOptions(form) {
 
     if(form.talentS != null) talS = form.talentS.checked;
     if(form.mirakel != null) mirakel = form.mirakel.checked;
+    if(form.ironWill != null) ironWill = form.ironWill.checked;
+    if(form.willProt != null) willProt = form.willProt.checked;
 
     return {
        
@@ -871,7 +875,9 @@ function _processStatCheckOptions(form) {
         taldisadvantage: taldisadvantage,
         used: used,
         talS: talS,
-        mirakel: mirakel
+        mirakel: mirakel,
+        ironWill: ironWill,
+        willProt: willProt
     }
 }
 
@@ -879,16 +885,26 @@ function _processDogdeOptions(form) {
 
     let disadvantage = 0;
     let multi = 1;
+    let dk = "";
+    let directed = false;
+    let addCombt = 0;
 
     disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
 
-    if(form.directed.checked) multi = 2;
+    directed = form.directed.checked;
+    if(directed) multi = 2;
 
     disadvantage += (parseInt(form.dk.value) * multi) + parseInt(form.addCombt.value);
 
+    if (form.dk.options[form.dk.selectedIndex].text) dk = form.dk.options[form.dk.selectedIndex].text;
+    addCombt = parseInt(form.addCombt.value) / 2;
+
     return {
 
-        disadvantage: disadvantage
+        disadvantage: disadvantage,
+        dk: dk,
+        directed: directed,
+        addCombt: addCombt
     }
 }
 
@@ -1082,6 +1098,7 @@ function _processGetHealOptions(form) {
 function _processGetRegOptions(form) {
 
     return {
+        dis: parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0),
         lep: parseInt(form.reglep.value !== "" ? form.reglep.value : 0),
         asp: parseInt(form.regasp.value !== "" ? form.regasp.value : 0),
         kap: parseInt(form.regkap.value !== "" ? form.regkap.value : 0)
@@ -1090,20 +1107,42 @@ function _processGetRegOptions(form) {
 
 function _processGetAtkInfo(form) {
 
+    let anat = false;
+    let butc = false;
+    let hamme = false;
+    let sturm = false;
+    let used = [];
+
+    if(form.anatomy != null) anat = form.anatomy.checked;
+    if(form.butcher != null) butc = form.butcher.checked;
+    if(form.hamme != null) hamme = form.hamme.checked;
+    if(form.sturm != null) sturm = form.sturm.checked;
+
+    let bDMG = 0;
+
+    if(anat) bDMG++;
+    if(anat) used.push(game.i18n.localize("GDSA.chat.skill.anatomy"));
+    if(butc) bDMG++;
+    if(butc) used.push(game.i18n.localize("GDSA.chat.skill.butcher"));
+
     return {
 
+        bonus: bDMG,
         advan: parseInt(form.advan.value !== "" ? form.advan.value : 0),
         disad: parseInt(form.disad.value !== "" ? form.disad.value : 0),
         wucht: parseInt(form.wucht.value !== "" ? form.wucht.value : 0),
         finte: parseInt(form.finte.value !== "" ? form.finte.value : 0),
-        hamme: form.hamme.checked,
-        sturm: form.sturm.checked}
+        hamme: hamme,
+        sturm: sturm,
+        used: used
+    }
 }
 
 function _processGetRangeAtkInfo(form) {
 
     return {
 
+        advan: parseInt(form.advan.value !== "" ? form.advan.value : 0),
         disad: parseInt(form.disad.value !== "" ? form.disad.value : 0),
         bonus: parseInt(form.bonus.value !== "" ? form.bonus.value : 0),
         aimed: parseInt(form.aimed.value !== "" ? form.aimed.value : 0),

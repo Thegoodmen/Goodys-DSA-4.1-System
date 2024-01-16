@@ -1,0 +1,78 @@
+<div class="GDSA chat message">
+    <div class="flawBox {{#if modPresent}}statModBoxAdd{{/if}}">
+        
+        <div class="flawName">{{localize "GDSA.chat.dialog.dogde"}} ({{statValue}})</div>
+        <div class="dicefiller"></div>
+
+        <div id="collapsable">
+            <div class="spellHeader">
+                <div class="spellInfo">
+                    <div class="dices2">
+                        <div class="dice">{{roll.total}}</div>
+                        {{#if confirm}}<div class="dice">{{roll2.total}}</div>{{/if}}
+                    </div>
+                </div>
+                <div class="spellImg">
+                    <img class="browserImg" name="{{statName}}" data-edit="img" src="icons/skills/movement/feet-bladed-boots-fire.webp" />
+                </div>
+            </div>
+
+            <div class="skillTable">
+
+                <table >
+                    <tbody>
+                        <tr>
+                            <td><b>{{localize "GDSA.itemsheet.DiKl"}}:</b></td>
+                            <td>{{additional.dk}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>{{localize "GDSA.templates.directed"}}:</b></td>
+                            <td>{{localize (concat "GDSA.itemsheet." additional.directed "")}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>{{localize "GDSA.templates.addiFow"}}:</b></td>
+                            <td>{{additional.addCombt}} {{localize "GDSA.itemsheet.fighter"}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            {{#if modPresent}}
+                {{#if isAdv}}
+                <div class="rollposMod">{{localize "GDSA.chat.skill.advantageOf"}} {{adv}}</div>
+                <div class="dicefiller"></div>
+                {{/if}}
+                {{#if isDis}}
+                <div class="rollnegMod">{{localize "GDSA.chat.skill.disadvantageOf"}} {{dis}}</div>
+                <div class="dicefiller"></div>
+                {{/if}}
+            {{/if}}
+
+        </div>
+        
+        <div class="dice-formula">
+                {{#if result}}
+                    {{#if critt}}
+                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.critt"}}</div>
+                    {{else}}
+                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.success"}}</div>
+                    {{/if}}
+                {{else}}               
+                    {{#if goof}}
+                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.goof"}}</div>
+                    {{else}}
+                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.fail"}}</div>
+                    {{/if}}
+                {{/if}}
+        </div>
+
+        {{#if goof}}
+            <div class="dicefiller"></div>
+            <div class="rollFlawInfo">{{goofed}}</div>
+        {{/if}}
+
+        <div id="additionalInfo">
+        </div>
+
+    </div>
+</div>

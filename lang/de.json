@@ -73,7 +73,7 @@
             "canRoll": "Kann geprobt werden",
             "DK": "Distanzklasse",
             "directed": "Gezieltes Ausweichen",
-            "addiFow": "Zusätzliche Gegner im Nahkampf",
+            "addiFow": "Zusätzliche Gegner",
             "dodge": "Ausweichen",
             "sf": "Sonderfertigkeit",
             "sfGeneral": "Allgemeine SF",
@@ -96,7 +96,15 @@
             "itemMelee": "Nahkampfwaffe",
             "itemRange": "Fernkampfwaffe",
             "itemArmour": "Rüstungsteil",
-            "itemShild": "Paradewaffe"
+            "itemShild": "Paradewaffe",
+            "regen": "Regeneration",
+            "heal": "Heilung",
+            "damg": "Schaden",
+            "aspG": "AsP Gewinn",
+            "aspL": "AsP Verlust",
+            "kapG": "KaP Gewinn",
+            "kapL": "KaP Verlust",
+            "medi": "Meditation"
         },
         "info": {
             "itemAdd": "Ein Item wurde dem Charakter hinzugefügt.",
@@ -105,8 +113,8 @@
             "itemRitua": "Ein Ritual wurde dem Charakter hinzugefügt."
         },
         "combat": {
-            "NPC": "NSC",
-            "PC": "SC",
+            "NPC": "Verbündete",
+            "PC": "Spieler",
             "Enemy": "Gegner",
             "Ini": "Initative",
             "IniOf": "Initative von ",
@@ -356,7 +364,7 @@
             "description": "Beschreibung",
             "loadtime": "Ladezeit",
             "range": "Reichweite",
-            "tpPlus": "TP+",
+            "tpPlus": "TP-Bonus",
             "worn": "Angelegt",
             "gRS": "Gesamte RS",
             "gBE": "Gesamte BE",
@@ -422,7 +430,24 @@
             "storageBag": "Tasche / Am Körper",
             "storageCarriage": "Satteltasche / Reisezug",
             "storageAway": "Zuhause / Weit Entfernt",
-            "fullArmour": "Gesammt Rüstungsschutz"
+            "fullArmour": "Gesammt Rüstungsschutz",
+            "ammunition": "Munition",
+            "noAmmo": "Keine",
+            "stone": "Stein",
+            "arrow": "Pfeil",
+            "cbolt": "Bolzen",
+            "round": "Kugel",
+            "kkpre": "KK - Vorraussetzung",
+            "shild": "Schild",
+            "parryWeapons": "Parrierwaffe",
+            "small": "Klein",
+            "big": "Groß",
+            "veryBig": "sehr Groß",
+            "shildType": "Waffen-Art",
+            "hWeapon": "Geführte Hauptwaffe",
+            "fighter": "Kämpfer",
+            "true": "Ja",
+            "false": "Nein"
         },
         "charactersheet": {
             "system": "Das schwarze Auge",
@@ -739,6 +764,8 @@
             "rangeN": "Nahkampf",
             "rangeS": "Stangenwaffe",
             "rangeP": "Pike",
+            "rangeWW": "Wurfwaffe",
+            "rangeFK": "Fernkampfwaffe",
             "noneAdd": "Keine",
             "oneAdd": "1 Weiterer",
             "twoAdd": "2 Weitere",
@@ -753,7 +780,9 @@
             "atRoll": "Angriffs-Wurf",
             "paRoll": "Parade-Wurf",
             "dmgRoll": "Schadens-Wurf",
-            "crittFailRoll": "Patzer-Wurf"
+            "crittFailRoll": "Patzer-Wurf",
+            "postGM": "An GM senden",
+            "postAll": "An Alle senden"
         },
         "chat":{
             "flaw": {
@@ -788,10 +817,13 @@
                 "aimed": "Zielen",
                 "winds": "Windstärke",
                 "sight": "Sichtverhältnisse",
+                "sights": "Sicht",
                 "movem": "Bewegung des Ziels",
+                "move": "Bewegung",
                 "dista": "Distanz",
                 "hida": "Deckung",
                 "sizeX": "Größe des Ziels",
+                "size": "Größe",
                 "modi": "Modifikationen",
                 "tech": "Veränderte Technik",
                 "zentech": "Veränderte Zentrale Technik",
@@ -816,7 +848,13 @@
                 "mhk": "Meisterhandwerk",
                 "talentS": "Talentschub",
                 "mirakel": "Mirakel",
-                "powerS": "Kräfteschub"
+                "powerS": "Kräfteschub",
+                "straight": "Gerade / Tritt",
+                "balancing": "Schwinger",
+                "anatomy": "Anatomie-Bonus",
+                "butcher": "Fleischer-Bonus",
+                "ironWill": "Eiserner Wille",
+                "willProt": "Gedankenschutz"
             },
             "dialog": {
                 "dmg": "Wie viel Schaden soll zugefügt werden?",
@@ -849,7 +887,9 @@
                 "dogde": "Ausweichen",
                 "damage": "Schaden",
                 "meeleGoof": "Nahkampfpatzer",
-                "rangeGoof": "Fernkampfpatzer"
+                "rangeGoof": "Fernkampfpatzer",
+                "hitZone": "Trefferzone",
+                "hasOri": "hat sich orientiert. Die neue INI beträgt "
             },
             "rangeOpt": {
                 "noWind": "Kein Wind",
@@ -883,7 +923,9 @@
                 "normal": "Mittlere Größe",
                 "tall": "Groß",
                 "veryTall": "Sehr Groß",
-                "huge": "Größer als Groß"
+                "huge": "Größer als Groß",
+                "till": "Bis",
+                "meter": "Schritt"
             },
             "medi": {
                 "media": "Meditation",
@@ -1027,7 +1069,10 @@
             "matrixK": "Matrixverständnis",
             "powerfokus": "Kraftfokus",
             "traitfokus": "Merkmalsfokus",
-            "searchFing": "Suchende Finger"
+            "searchFing": "Suchende Finger",
+            "ironWillI": "Eiserner Wille I",
+            "ironWillII": "Eiserner Wille II",
+            "willProt": "Gedankenschutz"
         },
         "zone": {
             "leftLeg": "Linkes Bein",

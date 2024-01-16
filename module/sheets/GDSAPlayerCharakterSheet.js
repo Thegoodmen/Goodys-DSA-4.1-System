@@ -67,15 +67,15 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             rituals: Util.getItems(baseData, "ritual", false),
             objRituals:  Util.getItems(baseData, "objektRitual", false),
             wonders: Util.getItems(baseData, "wonder", false),
-            generals: Util.getItems(baseData, "generals", false),
-            meleeweapons: Util.getItems(baseData, "melee-weapons", false),
-            equiptMelee: Util.getItems(baseData, "melee-weapons", true),
-            rangeweapons: Util.getItems(baseData, "range-weapons", false),
-            equiptRange: Util.getItems(baseData, "range-weapons", true),
-            shields: Util.getItems(baseData, "shields", false),
-            equiptShield: Util.getItems(baseData, "shields", true),
-            armour: Util.getItems(baseData, "armour", false),
-            equiptArmour: Util.getItems(baseData, "armour", true),
+            generals: Util.getItem(baseData, "item", false),
+            meleeweapons: Util.getItem(baseData, "melee", false),
+            equiptMelee: Util.getItem(baseData, "melee", true),
+            rangeweapons: Util.getItem(baseData, "range", false),
+            equiptRange: Util.getItem(baseData, "range", true),
+            shields: Util.getItem(baseData, "shild", false),
+            equiptShield: Util.getItem(baseData, "shild", true),
+            armour: Util.getItem(baseData, "armour", false),
+            equiptArmour: Util.getItem(baseData, "armour", true),
         };
 
         // Create one Array with everything that is part of the Inventory
@@ -107,9 +107,10 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
             // Set Listener for Char Edits
 
-            html.find(".editFacts").click(LsFunction.editeCharFacts.bind(this, sheet));
-            html.find(".stat-change").click(LsFunction.editeCharStats.bind(this, sheet));
-            html.find(".ress-change").click(LsFunction.editeCharRessource.bind(this, sheet));
+            html.find(".editFacts").click(LsFunction.editCharFacts.bind(this, sheet));
+            html.find(".stat-change").click(LsFunction.editCharStats.bind(this, sheet));
+            html.find(".ress-change").click(LsFunction.editCharRessource.bind(this, sheet));
+            html.find(".edit-ritSkill").click(LsFunction.editRitualSkills.bind(this, sheet));
 
             // Set Listener for Basic Rolls
             
@@ -120,6 +121,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".parry-roll").click(LsFunction.onParryRoll.bind(this, sheet));
             html.find(".shield-roll").click(LsFunction.onShildRoll.bind(this, sheet));
             html.find(".dogde-roll").click(LsFunction.onDogdeRoll.bind(this, sheet));
+            html.find(".zone-roll").click(LsFunction.onZoneRoll.bind(this, sheet));
             html.find(".damage-roll").click(LsFunction.onDMGRoll.bind(this, sheet));
             html.find(".mirRoll").click(LsFunction.onMirikalRoll.bind(this, sheet));
             html.find(".wonder-roll").click(LsFunction.onWonderRoll.bind(this, sheet));
@@ -281,8 +283,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let klr2 = sheetData.advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.kler"))})[0];
         let klr3 = sheetData.holyTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.akul"))})[0];
 
-        if(mag1 != null || mag2 != null || mag3 != null) sheetData.system.magical = true;
-        if(klr1 != null || klr2 != null || klr3 != null) sheetData.system.klerikal = true;
+        if(mag1 || mag2 || mag3) sheetData.system.magical = true;
+        if(klr1 || klr2 || klr3) sheetData.system.klerikal = true;
         
         // Calculate Armour Ratings
 
@@ -303,26 +305,26 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             let n = 0;
             let m = 1;
 
-            if (item.system.z && parseInt(item.system.star) > 0) m = 2;
+            if (item.system.armour.Z && parseInt(item.system.armour.star) > 0) m = 2;
 
-            headArmour += parseInt(item.system.head);
-            n += (parseInt(item.system.head) * 2);
-            bodyArmour += parseInt(item.system.body);
-            n += (parseInt(item.system.body) * 4);
-            backArmour += parseInt(item.system.back);
-            n += (parseInt(item.system.back) * 4);
-            stomachArmour += parseInt(item.system.stomach);
-            n += (parseInt(item.system.stomach) * 4);
-            rightarmArmour += parseInt(item.system.rightarm);
-            n += (parseInt(item.system.rightarm) * 1);
-            leftarmArmour += parseInt(item.system.leftarm);
-            n += (parseInt(item.system.leftarm) * 1);
-            rightlegArmour += parseInt(item.system.rightleg);
-            n += (parseInt(item.system.rightleg) * 2);
-            leftlegArmour += parseInt(item.system.leftleg);
-            n += (parseInt(item.system.leftleg) * 2);
+            headArmour += parseInt(item.system.armour.head);
+            n += (parseInt(item.system.armour.head) * 2);
+            bodyArmour += parseInt(item.system.armour.body);
+            n += (parseInt(item.system.armour.body) * 4);
+            backArmour += parseInt(item.system.armour.back);
+            n += (parseInt(item.system.armour.back) * 4);
+            stomachArmour += parseInt(item.system.armour.stomach);
+            n += (parseInt(item.system.armour.stomach) * 4);
+            rightarmArmour += parseInt(item.system.armour.rightarm);
+            n += (parseInt(item.system.armour.rightarm) * 1);
+            leftarmArmour += parseInt(item.system.armour.leftarm);
+            n += (parseInt(item.system.armour.leftarm) * 1);
+            rightlegArmour += parseInt(item.system.armour.rightleg);
+            n += (parseInt(item.system.armour.rightleg) * 2);
+            leftlegArmour += parseInt(item.system.armour.leftleg);
+            n += (parseInt(item.system.armour.leftleg) * 2);
 
-            if (item.system.z != true) stars += parseInt(item.system.star);
+            if (item.system.armour.Z != true) stars += parseInt(item.system.armour.star);
 
             gRSArmour += (n / 20);
             gBEArmour += ((n / 20) / m);
@@ -332,7 +334,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         let natArmourAd = sheetData.advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.natAmour"))});
         let natArmour = 0;
-        if ( natArmourAd.length > 0 && natArmourAd[0].system.value > 0) natArmour = natArmourAd[0].system.value;
+        if ( natArmourAd.length > 0 && natArmourAd[0].system.trait.value > 0) natArmour = natArmourAd[0].system.trait.value;
 
         // Save Armour Rating in Actor
 
@@ -352,9 +354,9 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         let checkArmour1 = sheetData.combatTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.trait.armour1") + " (")})[0];
         
-        if(checkArmour1 != null) { 
+        if(checkArmour1) { 
         
-            let isrightArmour = sheetData.equiptArmour.filter(function(item) {return item.system.type.includes(checkArmour1.name.split("(")[1].slice(0, -1))});
+            let isrightArmour = sheetData.equiptArmour.filter(function(item) {return item.system.armour.type.includes(checkArmour1.name.split("(")[1].slice(0, -1))});
             if(isrightArmour.length > 0) o = 1;
         }    
 
@@ -363,8 +365,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let checkArmour2 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.armour2")})[0];
         let checkArmour3 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.armour3")})[0];
 
-        if(checkArmour2 != null) o = 1;
-        if(checkArmour3 != null) o += 1;
+        if(checkArmour2) o = 1;
+        if(checkArmour3) o += 1;
 
         // Final Amount and also so its not less than 0
 
@@ -397,14 +399,14 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         
         sheetData.system.GS.modi = 0;
 
-        if(checkFlink != null) sheetData.system.GS.modi = checkFlink.system.trait.value;
+        if(checkFlink) sheetData.system.GS.modi = checkFlink.system.trait.value;
         if((parseInt(sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp)) >= 16) sheetData.system.GS.modi += 1;
         if((parseInt(sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp)) <= 10) sheetData.system.GS.modi -= 1;
 
-        if(checkUnsporty != null) sheetData.system.GS.modi -= 1;
-        if(checkSmall != null) sheetData.system.GS.modi -= 1;
-        if(checkDwarf != null) sheetData.system.GS.modi -= 2;
-        if(checkDwarf != null) sheetData.system.GS.modi -= (BE / 2);
+        if(checkUnsporty) sheetData.system.GS.modi -= 1;
+        if(checkSmall) sheetData.system.GS.modi -= 1;
+        if(checkDwarf) sheetData.system.GS.modi -= 2;
+        if(checkDwarf) sheetData.system.GS.modi -= (BE / 2);
         else sheetData.system.GS.modi -= BE;
 
         sheetData.system.GS.value = 8 + parseInt(sheetData.system.GS.modi);
@@ -413,7 +415,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         let eBE = BE;
         let checkArmour = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.armour3")})[0];
-        if(checkArmour != null) eBE = (BE - 2) / 2;
+        if(checkArmour) eBE = (BE - 2) / 2;
         if(eBE < 0) eBE = 0;
 
         // Calculate INIBase and Save
@@ -432,8 +434,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         // Get Weapon / Shield INI Modi
 
         let weaponModi = 0;
-        if(sheetData.equiptMelee != null) for(const item of sheetData.equiptMelee) weaponModi += parseInt(item.system.INI);
-        if(sheetData.equiptShields != null) for(const item of sheetData.equiptShields) weaponModi += parseInt(item.system.INI);
+        if(sheetData.equiptMelee) for(const item of sheetData.equiptMelee) weaponModi += parseInt(item.system.weapon.INI);
+        if(sheetData.equiptShields) for(const item of sheetData.equiptShields) weaponModi += parseInt(item.system.weapon.INI);
 
         sheetData.system.equipINI = weaponModi;
 
@@ -443,15 +445,15 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let checkKampfre = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.kampfre")})[0];
         let checkKlingen = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.klingen")})[0];
 
-        if(checkKampfge != null) sheetData.system.INIBasis.modi += 2;
-        if(checkKampfre != null) sheetData.system.INIBasis.modi += 4;
+        if(checkKampfge) sheetData.system.INIBasis.modi += 2;
+        if(checkKampfre) sheetData.system.INIBasis.modi += 4;
 
         sheetData.system.INIBasis.value = sheetData.system.INIBasis.value + sheetData.system.INIBasis.modi - eBE + sheetData.system.equipINI;
 
         // Change Dice 
 
         sheetData.system.INIDice = "1d6";
-        if(checkKlingen != null) sheetData.system.INIDice = "2d6";
+        if(checkKlingen) sheetData.system.INIDice = "2d6";
 
         // Wundschwelle
 
@@ -460,8 +462,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         sheetData.system.WS = Math.round((parseInt(sheetData.system.KO.value) + parseInt(sheetData.system.KO.temp))/ 2);
 
-        if(checkEisern != null) sheetData.system.WS += 2;
-        if(checkGlass != null) sheetData.system.WS -= 2;
+        if(checkEisern) sheetData.system.WS += 2;
+        if(checkGlass) sheetData.system.WS -= 2;
 
         // Ausweichen
         
@@ -470,11 +472,11 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let checkDogde3 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.dogde3")})[0];
 
         sheetData.system.Dogde = parseInt(sheetData.system.PABasis.value);
-        if(checkUnsporty != null) sheetData.system.Dogde -= 1;
-        if(checkDogde1 != null) sheetData.system.Dogde += 3;
-        if(checkDogde2 != null) sheetData.system.Dogde += 3;
-        if(checkDogde3 != null) sheetData.system.Dogde += 3;
-        if(checkFlink != null) sheetData.system.Dogde += checkFlink.system.trait.value;
+        if(checkUnsporty) sheetData.system.Dogde -= 1;
+        if(checkDogde1) sheetData.system.Dogde += 3;
+        if(checkDogde2) sheetData.system.Dogde += 3;
+        if(checkDogde3) sheetData.system.Dogde += 3;
+        if(checkFlink) sheetData.system.Dogde += checkFlink.system.trait.value;
         sheetData.system.Dogde -= BE;
 
         // Calculate Dodge Bonus from Acrobatik

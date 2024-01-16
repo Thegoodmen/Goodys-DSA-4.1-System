@@ -150,7 +150,7 @@
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
                     <div class="browserName"><b>{{name}}</b> <br /><i> > {{localize (getMeleeSkill system.skill)}}</i></div>
-                    <div class="browserComplex">M</div>
+                    <div class="browserComplex">NK</div>
                 </div>
             {{/each}}
         {{/if}}
@@ -162,7 +162,7 @@
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
                     <div class="browserName"><b>{{name}}</b> <br /><i> > {{localize (getRangeSkill system.skill)}}</i></div>
-                    <div class="browserComplex">R</div>
+                    <div class="browserComplex">FK</div>
                 </div>
             {{/each}}
         {{/if}}
@@ -186,7 +186,7 @@
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
                     <div class="browserName"><b>{{name}}</b> <br /><i> > {{#if system.Z}} Zusatzrüstung {{else}} Zonenrüstung {{/if}}</i></div>
-                    <div class="browserComplex">A</div>
+                    <div class="browserComplex">R</div>
                 </div>
             {{/each}}
         {{/if}}
@@ -198,7 +198,7 @@
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
                     <div class="browserName"><b>{{name}}</b> <br /><i> > {{localize (concat "GDSA.ritualSkills." system.creatTalent "")}}</i></div>
-                    <div class="browserComplex">{{system.vRit}}</div>
+                    <div class="browserComplex">V{{system.vRit}}</div>
                 </div>
             {{/each}}
         {{/if}}

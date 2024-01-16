@@ -30,7 +30,7 @@ Hooks.once("init", async () => {
 
     CONFIG.Combat.initiative.formula = "1d6 + @INIBasis.value + @INIBasis.modi";
 	Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
-    CONFIG.ChatMessage.template = "./systems/GDSA/templates/chat/chatMessage.hbs";
+    CONFIG.ChatMessage.template = "./systems/GDSA/templates/ressources/chatMessage.hbs";
     CONFIG.GDSA = GDSA;
     CONFIG.INIT = true;
     CONFIG.Actor.documentClass = GDSAActor;
@@ -123,10 +123,7 @@ function registerSystemSettings() {
     })
 }
 
-function adjustRessource(target, value, type) {
-
-    target.setStatData(type, value);
-}
+function adjustRessource(target, value, type) { target.setStatData(type, value) };
 
 function sendToMemory(key, object) {
 
@@ -210,6 +207,8 @@ function registerHandelbarsHelpers() {
     Handlebars.registerHelper("metaValue", function(item, data, template) { return calculateMetaSkill(item, data, template)});
 
     Handlebars.registerHelper("getLocName", function(item) { return item.system.tale[game.settings.get("core", "language").toUpperCase()];});
+
+    Handlebars.registerHelper("getItemtype", function(item) { return game.i18n.localize(CONFIG.GDSA.itemGenType[item])});
 
     Handlebars.registerHelper("getRitData", function(object1, value1) {
         
@@ -333,10 +332,9 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("getFlagFromCTracker", function(data, id, flag) {
         
-        let combatents = data.combats[0].combatants.contents;
-        let combatant = combatents.filter(function(cmb) {return cmb._id == id})[0];
+        let combatant = data.combat.combatants.contents.filter(function(cmb) {return cmb._id === id})[0];
 
-        return (combatant.flags.GDSA?.[flag] != undefined) ? combatant.flags.GDSA?.[flag] : "";        
+        return combatant.flags.gdsa?.[flag]? combatant.flags.gdsa?.[flag] : "";        
     });
 
     Handlebars.registerHelper("getColorFromType", function(type) {
@@ -344,13 +342,13 @@ function registerHandelbarsHelpers() {
         switch (type) {
 
             case "Enemy":
-                return "rgba(255,0,0,0.3)";
+                return "rgba(255,0,0,0.4)";
         
             case "NPC":
-                return "rgba(0,95,255,0.7)";
+                return "rgba(255,255,0,0.4)";
                     
             case "PC":
-                return "rgba(0,255,0,0.3)";
+                return "rgba(0,95,255,0.4)";
         
             default:
                 return "rgba(0,0,0,0.4)";
@@ -395,7 +393,7 @@ function registerHandelbarsHelpers() {
 
         let combatant = game.combats.contents[0].combatants.get(cmbId);
         let type = combatant.actor.type;
-        let system = combatant.actor.sheet.getData().system;	
+        let system = combatant.actor.system;	
         let INIBase;
 
 	    INIBase = type == "PlayerCharakter" ? parseInt(system.INIBasis.value) : parseInt(system.INI.split('+')[1].trim());

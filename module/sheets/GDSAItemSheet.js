@@ -56,6 +56,8 @@ export default class GDSAItemSheet extends ItemSheet {
             sheetData.system.nickel = value[length-1];
         }
 
+        this.sheet = sheetData;
+
         return sheetData;
     }
 
@@ -71,12 +73,16 @@ export default class GDSAItemSheet extends ItemSheet {
 
         if(this.isEditable) {
 
+            let sheet = this.sheet;
+
             // Set Listener for Item Events
 
             html.find(".item-close").click(LsFunction.onItemClose.bind(this));
-            html.find(".addSpellVariants").click(LsFunction.addSpellVariants.bind(this, this.getData()));
-            html.find(".editSpellVariants").click(LsFunction.editSpellVariants.bind(this, this.getData()));
-            html.find(".deleteSpellVariants").click(LsFunction.deleteSpellVariants.bind(this, this.getData()));
+            html.find(".addSpellVariants").click(LsFunction.addSpellVariants.bind(this, sheet));
+            html.find(".editSpellVariants").click(LsFunction.editSpellVariants.bind(this, sheet));
+            html.find(".deleteSpellVariants").click(LsFunction.deleteSpellVariants.bind(this,sheet));
+            html.find(".note-gm-post").click(LsFunction.noteGMPost.bind(this, sheet));
+            html.find(".note-all-post").click(LsFunction.noteAllPost.bind(this, sheet));
         }
 
         super.activateListeners(html);

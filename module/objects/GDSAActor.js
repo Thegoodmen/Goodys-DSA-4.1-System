@@ -3,6 +3,8 @@ import * as LSFunction from "../listenerFunctions.js"
 
 export default class GDSAActor extends Actor {
 
+
+
     prepareData() {
 
         // If later something needs to be added preprocessing Data for the Actor
@@ -111,7 +113,7 @@ export default class GDSAActor extends Actor {
 
         let traits = Util.getTemplateSF(this, "combat", false);
         this.combatTraits = Util.getTemplateSF(this, "combat", false);
-        this.equiptMelee = Util.getItems(this, "melee-weapons", true);
+        this.equiptMelee = Util.getItem(this, "melee", true);
         this.generalTraits = Util.getTemplateSF(this, "general", false);
         data.ATCount = 1;
         data.PACount = 1;
@@ -125,38 +127,47 @@ export default class GDSAActor extends Actor {
 
         // Set highest Parry for automated Combat
 
-        let weapons = Util.getItems(this, "melee-weapons", false);
-        let shields = Util.getItems(this, "shields", false);
+        let weapons = Util.getItem(this, "melee", false);
+        let shields = Util.getItem(this, "shild", false);
 
         data.mainPA = 0;
 
         for(let weapon of weapons) {
 
-            let skill = weapon.system.skill;
-            let weap = weapon.system.type;
+            if(CONFIG.INIT) continue;
+
+            let skill = weapon.system.weapon.skill;
+            let weap = weapon.system.weapon.type;
 
             // Calculate PAValue
 
-            let PAValue = Util.getSkillPAValue(this, skill);
-            let wm = weapon.system["WM-DEF"];
+            let skillItem = {};
+
+            for (let i = 0; i < CONFIG.Templates.talents.all.length; i++) 
+                if (CONFIG.Templates.talents.all[i]._id === skill) 
+                    skillItem = CONFIG.Templates.talents.all[i];
+
+            let PAValue = data.skill[skillItem.name].def;
+
+            let wm = weapon.system.weapon["WM-DEF"];
             PAValue += wm;
 
             // Has Specilazation ?
 
             let Spezi = Util.getTemplateSF(this, "general", false).filter(function(item) {return item.name.includes(weap)});
-            let isSpezi= (Spezi.length > 0) ? true : false;
-            if(isSpezi) PAValue += 1;
+            if(Spezi.length > 0) PAValue += 1;
 
             if(PAValue > data.mainPA) data.mainPA = PAValue;
         }
 
         for(let shield of shields) {
 
+            if(CONFIG.INIT) continue;
+
             // Get Shield    
 
-            let item = shield; 
-            let type = item.system.heigt;
-            let wm = item.system["WM-DEF"];
+            let type = shield.system.weapon.parType;
+            let wm = shield.system.weapon["WM-DEF"];
 
             // Calculate Parry Value
 
@@ -165,7 +176,7 @@ export default class GDSAActor extends Actor {
             
             // Do Shield or ParryWeapon Weapon
 
-            if(type != game.i18n.localize("GDSA.itemsheet.parryWeapon"))  PABasis = await LSFunction.getShildPABasis(this, PABasis);
+            if(type === "shild")  PABasis = await LSFunction.getShildPABasis(this, PABasis);
             else  PABasis = await LSFunction.getParryWeaponPABasis(this, wm);
 
             if(PABasis > data.mainPA) data.mainPA = PABasis;
@@ -173,26 +184,33 @@ export default class GDSAActor extends Actor {
 
         // Advanced Inventory System
 
-        let itemArray = Util.getItems(this, "generals", false);
+        let itemArray = Util.getItem(this, "item", false);
         let mainArray = [];
         let mainTypes = {meeleW: true, rangeW: true, shield: true, armour: true};
 
+        mainTypes = Object.assign(mainTypes, data.invState);
+          
+        // for (const [key, value] of Object.entries(data.invState)) { mainTypes[key] = value; }
+
         for(let item of itemArray) {
-            if(mainArray.filter(function(a) {return a.type == item.system.type}).length != 1) {
+
+            if(mainArray.filter(function(a) {return a.type === item.system.item.category}).length != 1) {
                 
                 mainArray.push({
-                    type: item.system.type,
-                    weight: parseInt(item.system.weight),
-                    value: parseInt(item.system.value),
+                    type: item.system.item.category,
+                    weight: (parseInt(item.system.weight) * parseInt(item.system.quantity)),
+                    value: (parseInt(item.system.value) * parseInt(item.system.quantity)),
                     item: [item]
                 });
-                mainTypes[item.system.type] = true;}
 
-            else {
+                if (!(item.system.item.category in mainTypes)) mainTypes[item.system.item.category] = true;
+            
+            } else {
 
-                mainArray.filter(function(a) {return a.type == item.system.type})[0].weight += parseInt(item.system.weight);
-                mainArray.filter(function(a) {return a.type == item.system.type})[0].value += parseInt(item.system.value);
-                mainArray.filter(function(a) {return a.type == item.system.type})[0].item.push(item);
+                mainArray.filter(function(a) {return a.type === item.system.item.category})[0].weight += (parseInt(item.system.weight) * parseInt(item.system.quantity));
+                mainArray.filter(function(a) {return a.type === item.system.item.category})[0].value += (parseInt(item.system.value) * parseInt(item.system.quantity));
+                mainArray.filter(function(a) {return a.type === item.system.item.category})[0].item.push(item);
+
             }
         }
 
@@ -377,5 +395,13 @@ export default class GDSAActor extends Actor {
                 this.update({ "system.wp.all": wound});
                 break;
         }
+    }
+
+    setInventorySystem(type, state) {
+
+        let keyVar = "system.invState." + type;
+
+        this.update({ [keyVar]: state });
+
     }
 }

@@ -133,7 +133,7 @@ export async function doSkillRoll(rollEvent) {
         talSitem.img = "icons/magic/symbols/symbol-lightning-bolt.webp";
 
         let optional1 = {
-            template: "systems/GDSA/templates/chat/skill-check-v2.hbs",
+            template: "systems/GDSA/templates/chat/chatTemplate/skill-Roll.hbs",
             item: talSitem,
             att1: "MU",
             att2: "IN",
@@ -181,7 +181,7 @@ export async function doSkillRoll(rollEvent) {
     // Prepare Optional Roll Data
 
     let optional = {
-        template: "systems/GDSA/templates/chat/skill-check-v2.hbs",
+        template: "systems/GDSA/templates/chat/chatTemplate/skill-Roll.hbs",
         item: skillTemplate,
         att1: skillInfo.att1.toUpperCase(),
         att2: skillInfo.att2.toUpperCase(),
@@ -286,7 +286,7 @@ export async function onSpellRoll(data, event) {
 
     spellValue = item.system.zfw;
     spellName = dataset.statname;
-    console.log(checkOptions.used);
+
     let spez = data.system.SpellSpez.filter(function(item) {return item.spellname === spellName});
     let isSpez = false;
 
@@ -622,7 +622,7 @@ export async function onSpellRoll(data, event) {
 
 
     let optional = {
-        template: "systems/GDSA/templates/chat/spell-check.hbs",
+        template: "systems/GDSA/templates/chat/chatTemplate/spell-Cast-Roll.hbs",
         item: item,
         cost: minCost,
         action: action,
@@ -641,6 +641,7 @@ export async function onSpellRoll(data, event) {
     // Execute Roll
 
     let spellCheck = await Dice.skillCheck(dataset.statname, spellValue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif, optional);
+    spellCheck.message.setFlag('gdsa', 'isCollapsable', true);
 
     // Reset Item
 
@@ -830,7 +831,7 @@ export async function onMirikalRoll(data, event, statname = "") {
 
     let optional = {
 
-        template: "systems/GDSA/templates/chat/skill-check-v2.hbs",
+        template: "systems/GDSA/templates/chat/chatTemplate/skill-Roll.hbs",
         item: talSitem,
         att1: "MU",
         att2: "IN",
@@ -1145,7 +1146,7 @@ export async function onWonderRoll(data, event) {
     let isSpez = (item.system.duration === "Augenblicklich" || item.system.duration === "Permanent" || item.system.duration === "Speziell");
 
     let optional = {
-        template: "systems/GDSA/templates/chat/wonder-check.hbs",
+        template: "systems/GDSA/templates/chat/chatTemplate/wonder-Cast-Roll.hbs",
         item: item,
         cost: minCost,
         pcost: pCost,
@@ -1172,7 +1173,8 @@ export async function onWonderRoll(data, event) {
     
     // Execute Roll
 
-    Dice.skillCheck(item.name, statvalue, dieOne, dieTwo, dieThr, actor, data.goofy, modif, optional);
+    let wonderCheck = await Dice.skillCheck(item.name, statvalue, dieOne, dieTwo, dieThr, actor, data.goofy, modif, optional);
+    wonderCheck.message.setFlag('gdsa', 'isCollapsable', true);
 }
 
 export async function onRitualCreation(data, event) {
@@ -1238,7 +1240,7 @@ export async function onRitualCreation(data, event) {
     let dieThr = actor.system[item.system.activAtt3].value + actor.system[item.system.activAtt1].temp;
 
     let optional = {
-        template: "systems/GDSA/templates/chat/objrit-check.hbs",
+        template: "systems/GDSA/templates/chat/chatTemplate/objrit-Roll.hbs",
         item: item,
         cost: minCost,
         action: 0,
@@ -1316,7 +1318,7 @@ export async function onRitualActivation(data, event) {
     let dieThr = actor.system[item.system.activAtt3].value + actor.system[item.system.activAtt1].temp;
 
     let optional = {
-        template: "systems/GDSA/templates/chat/objrit-check.hbs",
+        template: "systems/GDSA/templates/chat/chatTemplate/objrit-Roll.hbs",
         item: item,
         cost: minCost,
         action: 0,
@@ -1352,7 +1354,7 @@ export async function onStatRoll(data, event) {
     // Get Temp Modi
 
     let tempModi = 0;
-    if (stat != "MR") tempModi = statObjekt.temp;
+    if (stat !== "MR") tempModi = statObjekt.temp;
     let statValue = statObjekt.value;
 
     // Check if Talentschub is present
@@ -1376,9 +1378,18 @@ export async function onStatRoll(data, event) {
     let statInfo = {
         name: statname,
         klerikal: system.klerikal,
-        isTalentS: isTalentS
+        isTalentS: isTalentS,
+        isMR: (stat === "MR")
     }
-    
+
+    let ironWillI = data.magicTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.ironWillI")});
+    let ironWillII = data.magicTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.ironWillII")});
+
+    statInfo.ironWill = (ironWillI.length > 0);
+
+    let thoughtProt = data.magicTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.willProt")});
+
+    statInfo.willProt = (thoughtProt.length > 0);
     
     if(options) {
             
@@ -1391,8 +1402,11 @@ export async function onStatRoll(data, event) {
         talAdv = parseInt(checkOptions.taladvantage - checkOptions.taldisadvantage);
         mirakel = checkOptions.mirakel;
 
+        if (checkOptions.ironWill && ironWillI.length > 0) statValue += 3;
+        if (checkOptions.ironWill && ironWillII.length > 0) statValue += 4;
+        if (checkOptions.willProt && !checkOptions.ironWill) statValue += 3;
     }
-    
+
     if (checkOptions.cancelled) return;
 
     let modif = parseInt(advantage) - parseInt(disadvantage);
@@ -1412,7 +1426,7 @@ export async function onStatRoll(data, event) {
         talSitem.img = "icons/magic/symbols/symbol-lightning-bolt.webp";
         
         let optional1 = {
-            template: "systems/GDSA/templates/chat/skill-check-v2.hbs",
+            template: "systems/GDSA/templates/chat/chatTemplate/skill-Roll.hbs",
             item: talSitem,
             att1: "MU",
             att2: "IN",
@@ -1499,6 +1513,7 @@ export async function onCritMisMeeleRoll(data, event) {
 
     result.setFlag('gdsa', 'isCollapsable', true);
 }
+
 export async function onCritMisRangeRoll(data, event) {
 
     event.preventDefault();
@@ -1543,302 +1558,380 @@ export async function onAttackRoll(data, event) {
     let actor = data.actor;
     let system = data.system;
 
-    // Get the Users Combatant
+    // Set general Used Indicators
+    
+    let isPartofCombat = false;   //Indicates if Token/Actor is part of Combat
+    let userCombatant = null;     //If True, holds the Combatant Instance of the User
+    let attacksLeft = 0;          //If True, holds the Numbers of Attacks left this Round of the Combatant
 
-    let attacksLeft = 0;
-    let userCombatant = null;
-    let isPartofCombat = false;
+    let hasTarget = false;        //Indicates if Token/Actor has a Target
+    let targetId = "";            //If True, holds the Targets Id
+    let targetToken = null;       //If True, holds the Target Token Object
+    let targetActor = null;       //If True, holds the Target Actor Object
 
+    let targetCombatant = null;   //If has Target and is in Combat, holds the Combatant Instance of the Target
 
-    if (game.combat != null) {
+    let auto = false;             //If has Target and is NonPlayer use Autocombat
 
-        let userCombatantId = game.combat.combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]?._id;
+    let tpBonus = 0;              //Holds TPKK Bonus and Others
+    let atkModi = 0;              //Holds TPKK Atk Mali
 
-        if(userCombatantId !== undefined) {
+    let item;                     //Hold the Weapon Iteam of the Attack
+    let answer;                   //Hold the Answer Object after the Roll
+    let answer2;                  //Hold the Answer Object after the Roll
+    let cacheObject;              //Hold the Cache Object for the Chat
+
+    // Check if there is Combat and Set Combatant and Attacks left if Actor is part of Combat
+
+    if (game.combat) {
+
+        userCombatant = game.combat.getCombatantByActor(data.actor.id);
+
+        if(userCombatant) {
 
             isPartofCombat = true;
-            userCombatant = game.combat.combatants.get(userCombatantId);
             attacksLeft = userCombatant.getFlag("gdsa", "attacks");
-
         }
+    }
+
+    // Get Target of Attack
+
+    if (game.users.get(game.userId).targets.ids.length) {
+
+        hasTarget = true;
+        targetId = game.users.get(game.userId).targets.ids[0];
+
+        if (isPartofCombat) targetCombatant = game.combat.getCombatantByToken(targetId);
+
+        let sceneId = game.users.get(game.userId).viewedScene;
+
+        targetToken = game.scenes.get(sceneId).collections.tokens.get(targetId);
+        targetActor = game.actors.get(targetToken.actorId);
+
+        auto = (targetActor.type === "NonPlayer");
     }
 
     // Set Item if its for Raufen or Ringen
 
     let itemId = element.closest("tr").dataset.itemId;
-    let item = {};
 
-    if (itemId === "raufen" || itemId === "ringen") {
+    if (itemId === "raufen" || itemId === "ringen" || itemId === "biss" || itemId === "schwanz") {
 
-        if (itemId === "raufen") {
+        if (itemId === "raufen" || itemId === "biss" || itemId === "schwanz")  
+            item = { name: "Raufen", skill: "Raufen", img: "icons/skills/melee/unarmed-punch-fist.webp", skillId: "q80TrWRaYyPMuetB", system : { weapon: { "WM-ATK": 0, "type": "Faust"}}};
+        else 
+            item = { name: "Ringen", skill: "Ringen", img: "icons/skills/melee/unarmed-punch-fist.webp", skillId: "FKwfmO4jlia32EAz", system : { weapon: { "WM-ATK": 0, "type": "Faust"}}};
 
-            item = {
-                type: "melee-weapons",
-                system : {
+        let skill = item.skillId;
+        let skillItem = {};
+        
+        for (let i = 0; i < CONFIG.Templates.talents.all.length; i++) 
+            if (CONFIG.Templates.talents.all[i]._id === skill) 
+                skillItem = CONFIG.Templates.talents.all[i];
 
-                    skill: "brawl",
-                    type: "fist",
-                    TPKK: "10/3",
-                    damage: "1d6",
-                    "WM-ATK": 0,
-                    "WM-DEF": 0
-                }
-            }
+        // Get Weapon
+        
+        let ATKValue = actor.system.skill[item.skill].atk;
 
-            if(actor.system.nwtail) item.system.damage = actor.system.nwtail;
+        // Calculate TPKK
 
-        } else if (itemId === "ringen") {
+        let kkUser = (system.KK.value + system.KK.temp);
+        let x = kkUser - 10;
 
-            item = {
-                type: "melee-weapons",
-                system : {
+        if(x > 0) tpBonus += Math.floor((x / 3));
+        if(x < 0) tpBonus += Math.ceil((x / 3));
+        if(x < 0) atkModi += Math.ceil((x / 3));
 
-                    skill: "wrestle",
-                    type: "fist",
-                    TPKK: "10/3",
-                    damage: "1d6",
-                    "WM-ATK": 0,
-                    "WM-DEF": 0
-                }
-            }
+        // Generate DMG String
+            
+        let dmgString = "1d6+" + tpBonus;
+        if (itemId === "biss") dmgString = actor.system.nwbite + "+" + tpBonus;
+        if (itemId === "schwanz") dmgString = actor.system.nwtail + "+" + tpBonus;
 
-            if(actor.system.nwbite) item.system.damage = actor.system.nwbite;
+        // Generate Chat Cache Object and store ID
 
-        }
+        cacheObject = {
+
+            dmgString: dmgString,
+            multi: 1,
+            actor: actor.id,
+            combatant: userCombatant,
+            targetToken: targetId,
+            targetcombatant: targetCombatant,
+            item: item,
+            skill: skillItem
+        };
+
+        // Do ATK Rolls
+
+        answer = await onMeeleAttack(data, actor, item, ATKValue, atkModi, false, auto, cacheObject);
+
+        if(!answer) return false;
+        
+        answer.result.message.setFlag('gdsa', 'isCollapsable', true);
+
+        attacksLeft--
+        if (isPartofCombat) userCombatant.setFlag("gdsa", "attacks", attacksLeft);
 
     } else {
 
-        // Set Item
+        // Set Item from ID
 
         item = actor.items.get(itemId);
 
         // Get Weapon
 
-        let skill = item.system.skill;
-        let weapon = item.system.type;
+        let skill = item.system.weapon.skill;
+        let skillItem = {};
+        let weapon = item.system.weapon.type;
+
         let Spezi = data.generalTraits.filter(function(item) {return item.name.includes(weapon)});
         let isSpezi= (Spezi.length > 0) ? true : false;
-        let ATKValue = Util.getSkillATKValue(actor, skill);
-        let answer;
-
-        // Get Target of Attack
-
-        let targetId = "";
-        let targetCombatantId = "";
-        let targetToken = "";
-        let targetType = "";
-        let sceneId = "";
-        let tokenDoc = "";
-        let targetActorID = "";
-
-        if( game.users.get(game.userId).targets.ids.length > 0 && game.combats.contents.length > 0 && isPartofCombat) {
-
-            targetId = game.users.get(game.userId).targets.ids[0];
-            targetCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.tokenId == targetId})[0]._id;
-
-
-            // Get viewed Scene 
-
-            sceneId = game.users.get(game.userId).viewedScene;
-
-            // Get Type of Target
-
-            tokenDoc = game.scenes.get(sceneId).collections.tokens.get(targetId);
-
-            targetToken = (targetId == null) ?  null :  tokenDoc?._actor;
-            targetType = tokenDoc?._actor.type;
-            targetActorID = tokenDoc?._actor._id;
-        };
-        let auto = (targetType == "NonPlayer");
+        
+        for (let i = 0; i < CONFIG.Templates.talents.all.length; i++) 
+            if (CONFIG.Templates.talents.all[i]._id === skill) 
+                skillItem = CONFIG.Templates.talents.all[i];
+        
+        let ATKValue = actor.system.skill[skillItem.name].atk;
 
         // Calculate TPKK
 
-        let y = 0;
+        if (item.system.weapon.TPKK) {
 
-        if(item.system.TPKK != "" && item.system.TPKK != null) {
+            let threshold = item.system.weapon.TPKK.split("/")[0];
+            let steps = item.system.weapon.TPKK.split("/")[1];
+            let kkUser = (system.KK.value + system.KK.temp);
+            let x = kkUser - threshold;
 
-            let tpkkString = item.system.TPKK;
-            let tp = tpkkString.split("/")[0];
-            let kk = tpkkString.split("/")[1];
-        
-            let x = (system.KK.value + system.KK.temp) - tp;
-            y = Math.ceil(x / kk);
-            y --;
-            if(y < 0) y = 0;
-        }
+            if(x > 0) tpBonus += Math.floor((x / steps));
+            if(x < 0) tpBonus += Math.ceil((x / steps));
+            if(x < 0) atkModi += Math.ceil((x / steps));
+        };
 
         // Generate DMG String
             
-        let dmgString = item.system.damage + "+" + y;
+        let dmgString = item.system.weapon.damage + "+" + tpBonus;
 
         // Generate Chat Cache Object and store ID
 
-        let cacheObject = {
+        cacheObject = {
 
             dmgString: dmgString,
             multi: 1,
             actor: actor.id,
+            combatant: userCombatant,
             targetToken: targetId,
-            combatant: targetCombatantId
+            targetcombatant: targetCombatant,
+            item: item,
+            skill: skillItem
         };
 
         // Do ATK Rolls
 
-        if(item.type == "melee-weapons") answer = await onMeeleAttack(data, actor, item, ATKValue, isSpezi, auto, cacheObject);
-        else answer = await onRangeAttack(actor, ATKValue, isSpezi, item, auto, cacheObject);
+        if(item.system.type == "melee") answer = await onMeeleAttack(data, actor, item, ATKValue, atkModi, isSpezi, auto, cacheObject);
+        else answer = await onRangeAttack(actor, ATKValue, atkModi, isSpezi, item, auto, cacheObject);
+        
+        if(!answer) return false;
+        
+        answer.result.message.setFlag('gdsa', 'isCollapsable', true);
 
-        if (game.combats.contents.length > 0 && isPartofCombat) { 
-            attacksLeft--;
-            userCombatant.setFlag("GDSA", "attacks", attacksLeft)
-        }
-
+        attacksLeft--;
+        if (isPartofCombat) userCombatant.setFlag("gdsa", "attacks", attacksLeft);
     }
 
     // If the Attack was Successfull and Target is present go further
 
-    if(await answer.result != true) return;
-    if(targetId == null) return;
-
+    if(!answer.result.result || !hasTarget || targetActor.type !== "NonPlayer") return;
 
     // If Target is a NPC Actor, let him try to Parry
-    
-    if(targetType == "NonPlayer") {
 
-        let PAValue = targetToken.system.mainPA;
+    if(!targetCombatant && isPartofCombat) {
 
-        // Get Combatant
-        
-        let combatant = game.combats.contents[0].combatants.get(targetCombatantId);
-        let parriesLeft = combatant.getFlag("GDSA", "parries");
+        targetCombatant = (await game.combat.createEmbeddedDocuments("Combatant", [{ 
+            actorId: targetToken.actorId, 
+            defeated: false,
+            hidden: false,
+            flags: { gdsa: { combatType: "Enemy"}},
+            sceneId: targetToken.parent.id, 
+            tokenId: targetToken.id
+        }]))[0];
+
+        game.combat.rollNPC();
+    }
+
+    let PAValue = targetToken.actor.system.mainPA;
+
+    if(answer.result.die1 === 1) PAValue = PAValue / 2;
+    PAValue = PAValue - answer.finte;
+
+    if(isPartofCombat) {
+
+        if(targetCombatant.flags.gdsa.combatType !== "Enemy") return;
+
+        // Get Parries left by Target
+
+        let parriesLeft = targetCombatant.getFlag("gdsa", "parries");
 
         // Check if the Target has a Parade left and if so execute Parade
-
+        
         if(parriesLeft > 0) {
 
             parriesLeft --;
-            combatant.setFlag("GDSA", "parries", parriesLeft);
+            targetCombatant.setFlag("gdsa", "parries", parriesLeft);
             
-            let answer2 = await Dice.PACheck(PAValue, 0, targetToken);
+            answer2 = await Dice.PACheck(PAValue, 0, targetToken);
+        }
+
+    } else answer2 = await Dice.PACheck(PAValue, 0, targetToken);
     
-            // If Parry is sucessfull return;
+    // If Parry is sucessfull return;
 
-            if(answer2 == true) return;
-        }
+    if(answer2 && answer2.result) return;
 
-        // Calculate TPKK
+    // Do DMG Rolls
 
-        let y = 0;
+    let dmgMulti = answer.multi;
+    
+    if (answer.result.critt) dmgMulti = dmgMulti * 2;
 
-        if(item.system.TPKK == "" && item.system.TPKK != null) {
-                    
-            console.log(item)
-            let tpkkString = item.system.TPKK;
-            let tp = tpkkString.split("/")[0];
-            let kk = tpkkString.split("/")[1];
-        
-            let x = (system.KK.value + system.KK.temp) - tp;
-            y = Math.ceil(x / kk);
-            y --;
-            if(y < 0) y = 0;
-        }
+    let dmg = await Dice.DMGRoll(cacheObject.dmgString, actor, dmgMulti);
 
-        // Do DMG Rolls
-        
-        let dmgString2 = item.system.damage + "+" + y + "+" + answer.bonusDMG;
-        let dmg = await Dice.DMGRoll(dmgString2, actor, answer.multi);
+    let sp = (dmg.result - targetActor.system.RS);
 
-        let newHP = parseInt(targetToken.system.LeP.value) - parseInt(parseInt(dmg) - parseInt(targetToken.system.RS));
+    if (sp < 0) return;
 
-        GDSA.socket.executeAsGM("adjustRessource", game.actors.get(targetActorID), newHP, "LeP")
-    }
+    let newHP = targetActor.system.LeP.value - sp;
+
+    GDSA.socket.executeAsGM("adjustRessource", targetActor, newHP, "LeP");
+
+    if(isPartofCombat && newHP <= 0) {
+
+        targetToken.toggleActiveEffect( { id: "dead", label: "EFFECT.StatusDead", icon: "icons/svg/skull.svg" }, { overlay: true, active: true });
+        targetCombatant.update({ "defeated": true });
+    }                                   
 }
 
-async function onMeeleAttack(data, actor, item, ATKValue, isSpezi, auto, cacheObject) {
+async function onMeeleAttack(data, actor, item, ATKValue, Modi, isSpezi, auto, cacheObject) {
 
-    let Modi = 0;
     let bDMG = 0;
-    let multi = 1;
-
-    // Get WM from Weapon
-
-    let wm = item.system["WM-ATK"];
+    let mult = 1;
+    let used = []; 
 
     // If Spezialistation is present, raise ATK and add WM
 
-    if(isSpezi) ATKValue += 1;
-    ATKValue += wm;
+    if(isSpezi) ATKValue++;
 
-    // Create Dialog for ATK Options
+    // Get WM from Weapon
     
-    let ATKInfo = await Dialog.GetAtkInfo();
-    if (ATKInfo.cancelled) return;
-
-    // Check for Special ATK
-
-    let wucht = ATKInfo.wucht;
-    let finte = ATKInfo.finte;
-    let hammer = ATKInfo.hamme;
-    let sturm = ATKInfo.sturm;
+    let wm = item.system.weapon["WM-ATK"];
+    ATKValue += wm;
 
     // Check for Shild and Apply Shild WM
 
-    if(data.equiptShield.length > 0) {
-        
-        let shildwm = data.equiptShield[0].system["WM-ATK"];
-        ATKValue += parseInt(shildwm);
-    }
+    for (let i = 0; i < data.equiptShield.length; i++)
+        ATKValue += parseInt(data.equiptShield[i].system.weapon["WM-ATK"]);
+
+    // Create Dialog for ATK Options
+
+    item.anatomy = (actor.system.skill.Anatomie >= 10);
+    item.butcher = (actor.system.skill.Fleischer >= 10);
+    
+    let ATKInfo = await Dialog.GetAtkInfo(item);
+
+    if (ATKInfo.cancelled) return false;
 
     // Add up Modifiers
 
+    if (ATKInfo.used.length > 0) used.push(ATKInfo.used);
+
     Modi += ATKInfo.advan;
     Modi -= ATKInfo.disad;
-    Modi -= wucht;
-    Modi -= finte;
-    if(hammer) Modi -= 8;
-    if(sturm) Modi -= 4;
+    Modi -= ATKInfo.wucht;
+    Modi -= ATKInfo.finte;
+
+    if(ATKInfo.wucht > 0 && item.system.weapon.type !== "Faust") used.push(game.i18n.localize("GDSA.chat.skill.wucht") + " (+ " + ATKInfo.wucht + ")");
+    if(ATKInfo.wucht > 0 && item.system.weapon.type === "Faust") used.push(game.i18n.localize("GDSA.chat.skill.straight") + " (+ " + ATKInfo.wucht + ")");
+    if(ATKInfo.finte > 0 && item.system.weapon.type !== "Faust") used.push(game.i18n.localize("GDSA.chat.skill.finte") + " (+ " + ATKInfo.finte + ")");
+    if(ATKInfo.finte > 0 && item.system.weapon.type === "Faust") used.push(game.i18n.localize("GDSA.chat.skill.balancing") + " (+ " + ATKInfo.finte + ")");
+
+    if(ATKInfo.hamme) Modi -= 8;
+    if(ATKInfo.sturm) Modi -= 4;
+    if(ATKInfo.hamme) used.push(game.i18n.localize("GDSA.chat.skill.hamme") + " (+ 8)");
+    if(ATKInfo.sturm) used.push(game.i18n.localize("GDSA.chat.skill.sturm") + " (+ 4)");
+
+    if (actor.system.gBEArmour > 0 && cacheObject.skill.system.tale.BECheck) {
+        if (cacheObject.skill.system.tale.BEtype === "x") {
+
+            let be = (actor.system.gBEArmour * cacheObject.skill.system.tale.BE);
+            Modi -= be;
+            used.push(game.i18n.localize("GDSA.template.BE") + " (+ " + be + ")");
+
+        } else {
+
+            let be = (actor.system.gBEArmour - cacheObject.skill.system.tale.BE);
+            if (be > 0) {
+
+                Modi -= be;
+                used.push(game.i18n.localize("GDSA.template.BE") + " (+ " + be + ")");
+            }
+        }
+    }
 
     // Create Result-Objekt
 
-    bDMG = wucht;
-    if(sturm) bDMG += 4 + (Math.round(actor.system.GS.value / 2));
-    if(hammer) multi = 3;
+    bDMG = ATKInfo.wucht;
+    bDMG += ATKInfo.bonus;
+    if(ATKInfo.sturm) bDMG += 4 + Math.round(actor.system.GS.value / 2);
+    if(ATKInfo.hamme) mult = 3;
 
     // Generate Temp Cache
 
     cacheObject.dmgString = cacheObject.dmgString + "+" + bDMG;
-    cacheObject.multi = multi;
+    cacheObject.multi = mult;
+    cacheObject.used = used;
+    
     let chatId = CONFIG.cache.generateNewId();
-    GDSA.socket.executeForEveryone("sendToMemory", chatId, cacheObject);
 
     // Do ATK Roll
 
-    let result = await Dice.ATKCheck(ATKValue, Modi, actor, auto, true, chatId);
+    let result = await Dice.ATKCheck(ATKValue, Modi, actor, auto, true, chatId, cacheObject);
+
+    if (result.critt) cacheObject.multi = cacheObject.multi * 2;
+    
+    GDSA.socket.executeForEveryone("sendToMemory", chatId, cacheObject);
 
     return {
+
         result: result,
         bonusDMG: bDMG,
-        multi: multi 
+        multi: mult,
+        finte: ATKInfo.finte
     }
 }
 
-async function onRangeAttack(actor, ATKValue, isSpezi, item, auto, cacheObject) {
+async function onRangeAttack(actor, ATKValue, Modi, isSpezi, item, auto, cacheObject) {
 
-    let Modi = 0;
     let bDMG = 0;
-    let multi = 1;
+    let finte = 8;
+    let used = []; 
 
     // If Spezialistation is present, raise ATK
 
     if(isSpezi) ATKValue += 2;
 
+    // Check Type of Weapon
+
+    if (item.system.weapon.ammu === "none") {
+        finte = 4;
+    }
+
     // Create Dialog for ATK Options
 
-    let ATKInfo = await Dialog.GetRangeAtkInfo();
+    let ATKInfo = await Dialog.GetRangeAtkInfo(item);
     if (ATKInfo.cancelled) return;
 
-    // Check for Bonus-DMG, Aimed Rounds and Distance
+    // Check for Aimed Rounds and Distance
 
-    let bonus = parseInt(ATKInfo.bonus);
     let aimed = parseInt(ATKInfo.aimed);
     let dista = parseInt(ATKInfo.dista);
 
@@ -1849,13 +1942,28 @@ async function onRangeAttack(actor, ATKValue, isSpezi, item, auto, cacheObject) 
     // Check for Distanzsense to add 2 Advantage
     
     let entsin = actor._sheet.getData().advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.entsin"))});
-    console.log(entsin);
-    if (entsin.length > 0) Modi += 2;
+    if (entsin.length) Modi += 2;
 
     // Add up Modifiers
+    
+    if(dista < 0) used.push(game.i18n.localize("GDSA.chat.skill.dista") + " (+ " + (dista * -1) + ")");
+    if(dista > 0) used.push(game.i18n.localize("GDSA.chat.skill.dista") + " (- " + dista + ")");
+    if(aimed > 0) used.push(game.i18n.localize("GDSA.chat.skill.aimed") + " (- " + aimed + ")");
+    if(ATKInfo.bonus > 0) used.push(game.i18n.localize("GDSA.chat.skill.bonusDMG") + " (+ " + ATKInfo.bonus + ")");
+    if(ATKInfo.winds < 0) used.push(game.i18n.localize("GDSA.chat.skill.winds") + " (+ " + (ATKInfo.winds * -1) + ")");
+    if(ATKInfo.winds > 0) used.push(game.i18n.localize("GDSA.chat.skill.winds") + " (- " + ATKInfo.winds + ")");
+    if(ATKInfo.sight < 0) used.push(game.i18n.localize("GDSA.chat.skill.sights") + " (+ " + (ATKInfo.sight * -1) + ")");
+    if(ATKInfo.sight > 0) used.push(game.i18n.localize("GDSA.chat.skill.sights") + " (- " + ATKInfo.sight + ")");
+    if(ATKInfo.movem < 0) used.push(game.i18n.localize("GDSA.chat.skill.move") + " (+ " + (ATKInfo.movem * -1) + ")");
+    if(ATKInfo.movem > 0) used.push(game.i18n.localize("GDSA.chat.skill.move") + " (- " + ATKInfo.movem + ")");
+    if(ATKInfo.hidea < 0) used.push(game.i18n.localize("GDSA.chat.skill.hida") + " (+ " + (ATKInfo.hidea * -1) + ")");
+    if(ATKInfo.hidea > 0) used.push(game.i18n.localize("GDSA.chat.skill.hida") + " (- " + ATKInfo.hidea + ")");
+    if(ATKInfo.sizeX < 0) used.push(game.i18n.localize("GDSA.chat.skill.size") + " (+ " + (ATKInfo.sizeX * -1) + ")");
+    if(ATKInfo.sizeX > 0) used.push(game.i18n.localize("GDSA.chat.skill.size") + " (- " + ATKInfo.sizeX + ")");
 
+    Modi += parseInt(ATKInfo.advan);
     Modi -= parseInt(ATKInfo.disad);
-    Modi -= bonus;
+    Modi -= parseInt(ATKInfo.bonus);
     Modi += aimed;
     Modi += parseInt(ATKInfo.winds);
     Modi += parseInt(ATKInfo.sight);
@@ -1866,45 +1974,52 @@ async function onRangeAttack(actor, ATKValue, isSpezi, item, auto, cacheObject) 
             
     // Create Result-Objekt
 
-    bDMG = bonus;
+    bDMG = parseInt(ATKInfo.bonus);
+
     switch(dista) {
            
         case 2:
-            bDMG += parseInt(item.system.tp.split("/")[0]);
+            bDMG += parseInt(item.system.weapon.tp1);
             break;
                
         case 0:
-            bDMG += parseInt(item.system.tp.split("/")[1]);
+            bDMG += parseInt(item.system.weapon.tp2);
             break;
                 
         case -4:
-            bDMG += parseInt(item.system.tp.split("/")[2]);
+            bDMG += parseInt(item.system.weapon.tp3);
             break;
                 
         case -8:
-            bDMG += parseInt(item.system.tp.split("/")[3]);
+            bDMG += parseInt(item.system.weapon.tp4);
             break;
                 
         case -12:
-            bDMG += parseInt(item.system.tp.split("/")[4]);
+            bDMG += parseInt(item.system.weapon.tp5);
             break;                    
     }
 
     // Generate Temp Cache
 
     cacheObject.dmgString = cacheObject.dmgString + "+" + bDMG;
-    cacheObject.multi = multi;
+    cacheObject.multi = 1;
+    cacheObject.used = used;
+
     let chatId = CONFIG.cache.generateNewId();
-    GDSA.socket.executeForEveryone("sendToMemory", chatId, cacheObject);
     
     // Do ATK Roll
 
-    let result = Dice.ATKCheck(ATKValue, Modi, actor, auto, false, chatId);
+    let result = await Dice.ATKCheck(ATKValue, Modi, actor, auto, false, chatId, cacheObject);
+
+    if (result.critt) cacheObject.multi = cacheObject.multi * 2;
+    
+    GDSA.socket.executeForEveryone("sendToMemory", chatId, cacheObject);
 
     return {
         result: result,
         bonusDMG: bDMG,
-        multi: multi 
+        multi: 1,
+        finte: finte
     }
 }
 
@@ -1942,8 +2057,8 @@ export async function onNPCAttackRoll(data, event) {
     if (game.combats.contents.length > 0) {
     let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]?._id;
     userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
-    attacksLeft = userCombatant.getFlag("GDSA", "attacks");
-    attackerparriesLeft = userCombatant.getFlag("GDSA", "parries");}
+    attacksLeft = userCombatant.getFlag("gdsa", "attacks");
+    attackerparriesLeft = userCombatant.getFlag("gdsa", "parries");}
     if(attacksLeft < 1 && attackerparriesLeft > 0 && game.combats.contents.length > 0) modi = -4;
     if(attacksLeft < 1 && attackerparriesLeft < 1 && game.combats.contents.length > 0) return;
 
@@ -1969,8 +2084,8 @@ export async function onNPCAttackRoll(data, event) {
     if (game.combats.contents.length > 0) { 
         attacksLeft--;
         attackerparriesLeft --;
-        if(attacksLeft >= 0)userCombatant.setFlag("GDSA", "attacks", attacksLeft)
-        else userCombatant.setFlag("GDSA", "parries", attackerparriesLeft)
+        if(attacksLeft >= 0)userCombatant.setFlag("gdsa", "attacks", attacksLeft)
+        else userCombatant.setFlag("gdsa", "parries", attackerparriesLeft)
     }
 
     // If the Attack was Successfull and Target is present go further
@@ -1980,27 +2095,27 @@ export async function onNPCAttackRoll(data, event) {
 
     // If Target is a NPC Actor, let him try to Parry
     
-    if(targetType == "NonPlayer") {
+    if(targetType === "NonPlayer") {
 
         let PAValue = targetToken.system.mainPA;
 
         // Get Combatant
 
         let combatant = game.combats.contents[0].combatants.get(targetCombatantId);
-        let parriesLeft = combatant.getFlag("GDSA", "parries");
+        let parriesLeft = combatant.getFlag("gdsa", "parries");
 
         // Check if the Target has a Parade left and if so execute Parade
 
         if(parriesLeft > 0) {
 
             parriesLeft --;
-            combatant.setFlag("GDSA", "parries", parriesLeft);
+            combatant.setFlag("gdsa", "parries", parriesLeft);
 
             let answer2 = await Dice.PACheck(PAValue, 0, targetToken);
     
             // If Parry is sucessfull return;
 
-            if(answer2 == true) return;
+            if(answer2.result === true) return;
         }
 
         // Do DMG Rolls
@@ -2009,7 +2124,7 @@ export async function onNPCAttackRoll(data, event) {
 
         // Set new HP to Target
 
-        let newHP = parseInt(targetToken.system.LeP.value) - parseInt(parseInt(dmg) - parseInt(targetToken.system.RS));
+        let newHP = parseInt(targetToken.system.LeP.value) - parseInt(parseInt(dmg.result) - parseInt(targetToken.system.RS));
         
         GDSA.socket.executeAsGM("adjustRessource", targetToken, newHP, "LeP")
 
@@ -2039,104 +2154,104 @@ export async function onParryRoll(data, event) {
 
     let element = event.currentTarget;
     let actor = data.actor;
-    let system = data.system;
 
-    // Get the Users Combatant
-
-    let parriesLeft = 0;
-    let userCombatant;
-    let isPartofCombat = false;
-
+    // Set general Used Indicators
     
-    if (game.combats.contents.length > 0) {
+    let isPartofCombat = false;   //Indicates if Token/Actor is part of Combat
+    let userCombatant = null;     //If True, holds the Combatant Instance of the User
+    let parriesLeft = 0;          //If True, holds the Numbers of Parads left this Round of the Combatant
 
-        let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]?._id;
+    let defModi = 0;              //Holds TPKK Atk Mali
+    let skillItem = {};           //Holds the Item of the Used Skill
 
-        if(userCombatantId !== undefined) {
+    let item;                     //Hold the Weapon Iteam of the Parads
+    let answer;                   //Hold the Answer Object after the Roll
+    let PAValue;                  //Hold the PA Value of the Weapon
 
+    let cacheObject;              //Hold the Cache Object for the Chat
+
+    // Check if there is Combat and Set Combatant and Attacks left if Actor is part of Combat
+
+    if (game.combat) {
+
+        userCombatant = game.combat.getCombatantByActor(data.actor.id);
+
+        if(userCombatant) {
             isPartofCombat = true;
-            userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
-            parriesLeft = userCombatant.getFlag("GDSA", "parries");
+            parriesLeft = userCombatant.getFlag("gdsa", "parries");
         }
     }
 
-    // Set Item if its for Raufen or Ringen
-
     let itemId = element.closest("tr").dataset.itemId;
-    let item;
-    if (itemId === "raufen") {
-    
-        item = {
-            type: "melee-weapons",
-            system : {
-    
-                skill: "brawl",
-                type: "fist",
-                TPKK: "10/3",
-                damage: "1d6",
-                "WM-ATK": 0,
-                "WM-DEF": 0
-            }
-        }
 
-        if(actor.system.nwtail) item.system.damage = actor.system.nwtail;
-    
-    } else if (itemId === "ringen") {
-    
-        item = {
-            type: "melee-weapons",
-            system : {
-    
-                skill: "wrestle",
-                type: "fist",
-                TPKK: "10/3",
-                damage: "1d6",
-                "WM-ATK": 0,
-                "WM-DEF": 0
-            }
-        }
+    if (itemId === "raufen" || itemId === "ringen" || itemId === "biss" || itemId === "schwanz") {
 
-        if(actor.system.nwbite) item.system.damage = actor.system.nwbite;
-    
-    } else item = this.actor.items.get(itemId);
+        if (itemId === "raufen" || itemId === "biss" || itemId === "schwanz")  
+            item = { name: "Raufen", skill: "Raufen", img: "icons/skills/melee/unarmed-punch-fist.webp", skillId: "q80TrWRaYyPMuetB", system : { weapon: { "WM-DEF": 0, "type": "Faust"}}};
+        else 
+            item = { name: "Ringen", skill: "Ringen", img: "icons/skills/melee/unarmed-punch-fist.webp", skillId: "FKwfmO4jlia32EAz", system : { weapon: { "WM-DEF": 0, "type": "Faust"}}};
 
-    // Get Weapon
+        let skill = item.skillId;
+        
+        for (let i = 0; i < CONFIG.Templates.talents.all.length; i++) 
+            if (CONFIG.Templates.talents.all[i]._id === skill) 
+                skillItem = CONFIG.Templates.talents.all[i];
 
-    let skill = item.system.skill;
-    let weapon = item.system.type;
+        // Get Weapon
+        
+        PAValue = actor.system.skill[item.skill].def;
 
-    // Calculate PAValue
+    } else {
 
-    let PAValue = Util.getSkillPAValue(actor, skill);
-    let wm = item.system["WM-DEF"];
-    PAValue += wm;
+        // Set Item from ID
 
-    // Has Specilazation ?
+        item = actor.items.get(itemId);
 
-    let Spezi = data.generalTraits.filter(function(item) {return item.name.includes(weapon)});
-    let isSpezi= (Spezi.length > 0) ? true : false;
-    if(isSpezi) PAValue += 1;
+        // Get Weapon
+
+        let skill = item.system.weapon.skill;
+        let weapon = item.system.weapon.type;
+
+        let Spezi = data.generalTraits.filter(function(item) {return item.name.includes(weapon)});
+        let isSpezi = (Spezi.length > 0);
+        
+        for (let i = 0; i < CONFIG.Templates.talents.all.length; i++) 
+            if (CONFIG.Templates.talents.all[i]._id === skill) 
+                skillItem = CONFIG.Templates.talents.all[i];
+        
+        PAValue = actor.system.skill[skillItem.name].def;
+
+        PAValue += item.system.weapon["WM-DEF"];
+        if(isSpezi) PAValue++;
+    }
 
     // Create Parry Dialog
 
-    let PAInfo = await Dialog.GetSkillCheckOptions();
+    let PAInfo = await Dialog.GetSkillCheckOptions(item);
     if (PAInfo.cancelled) return;
 
-    
     // Calculate Modification
 
-    let Modi = 0;
-    Modi -=  parseInt(PAInfo.disadvantage);
-    Modi += parseInt(PAInfo.advantage);
+    defModi -=  parseInt(PAInfo.disadvantage);
+    defModi += parseInt(PAInfo.advantage);
+
+    // Generate Chat Cache Object and store ID
+
+    cacheObject = {
+
+        actor: actor.id,
+        combatant: userCombatant,
+        item: item,
+        skill: skillItem
+    };
 
     // Do Parry Roll
 
-    Dice.PACheck(PAValue, Modi, actor);
+    answer = await Dice.PACheck(PAValue, defModi, actor, cacheObject);  
+    answer.message.setFlag('gdsa', 'isCollapsable', true);
 
-    if (game.combats.contents.length > 0 && isPartofCombat) { 
-        if(parriesLeft > 0) parriesLeft--;
-        userCombatant.setFlag("GDSA", "parries", parriesLeft)
-    }
+    parriesLeft--;
+    if (isPartofCombat) userCombatant.setFlag("gdsa", "parries", parriesLeft);
 }
 
 export function onNPCParryRoll(data, event) {
@@ -2167,52 +2282,83 @@ export async function onShildRoll(data, event) {
     let actor = data.actor;
     let system = data.system;
 
-    // Get the Users Combatant
+    // Set general Used Indicators
+    
+    let isPartofCombat = false;   //Indicates if Token/Actor is part of Combat
+    let userCombatant = null;     //If True, holds the Combatant Instance of the User
+    let parriesLeft = 0;          //If True, holds the Numbers of Parads left this Round of the Combatant
 
-    let parriesLeft = 0;
-    let userCombatant;
-    if (game.combats.contents.length > 0) {
-    let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]._id;
-    userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
-    parriesLeft = userCombatant.getFlag("GDSA", "parries");}
+    let defModi = 0;              //Holds TPKK Atk Mali
+    let skillItem = {};           //Holds the Item of the Used Skill
+
+    let item;                     //Hold the Weapon Iteam of the Parads
+    let answer;                   //Hold the Answer Object after the Roll
+    let PAValue;                  //Hold the PA Value of the Weapon
+
+    let cacheObject;              //Hold the Cache Object for the Chat
+
+    // Check if there is Combat and Set Combatant and Attacks left if Actor is part of Combat
+
+    if (game.combat) {
+
+        userCombatant = game.combat.getCombatantByActor(data.actor.id);
+
+        if(userCombatant) {
+            isPartofCombat = true;
+            parriesLeft = userCombatant.getFlag("gdsa", "parries");
+        }
+    }
 
     // Get Shield    
     
     let itemId = element.closest("tr").dataset.itemId;
-    let item = actor.items.get(itemId); 
-    let type = item.system.heigt;
-    let wm = item.system["WM-DEF"];
+
+    item = actor.items.get(itemId);
+
+    let type = item.system.weapon.parType;
+    let wm = item.system.weapon["WM-DEF"];
 
     // Calculate Parry Value
 
-    let PABasis = parseInt(system.PABasis.value);
-    PABasis += parseInt(wm);
+    PAValue = parseInt(system.PABasis.value);
+    PAValue += parseInt(wm);
     
     // Do Shield or ParryWeapon Weapon
-    
-    if(type != game.i18n.localize("GDSA.itemsheet.parryWeapon"))  PABasis = await getShildPABasis(data, PABasis);
-    else  PABasis = await getParryWeaponPABasis(data, wm);
 
+    let response = {};
+    
+    if(type === "shild")  response = await getShildPABasis(data, PAValue);
+    else  response = await getParryWeaponPABasis(data, wm);
+
+    PAValue = response.PAValue;
+    
     // Generate Parry Dialog
 
-    let PAInfo = await Dialog.GetSkillCheckOptions();
+    let PAInfo = await Dialog.GetSkillCheckOptions(item);
     if (PAInfo.cancelled) return;
 
-    
     // Calculate Modificator
 
-    let Modi = 0;
-    Modi -= parseInt(PAInfo.disadvantage);
-    Modi += parseInt(PAInfo.advantage);
+    defModi -= parseInt(PAInfo.disadvantage);
+    defModi += parseInt(PAInfo.advantage);
 
-    // Execute Parry Roll
+    // Generate Chat Cache Object and store ID
 
-    Dice.PACheck(PABasis, Modi, actor);
+    cacheObject = {
 
-    if (game.combats.contents.length > 0) { 
-        if(parriesLeft > 0) parriesLeft--;
-        userCombatant.setFlag("GDSA", "parries", parriesLeft)
-    }
+        actor: actor.id,
+        combatant: userCombatant,
+        item: item,
+        hWeapon: response.usedWeapon
+    };
+
+    // Do Parry Roll
+
+    answer = await Dice.PACheck(PAValue, defModi, actor, cacheObject);  
+    answer.message.setFlag('gdsa', 'isCollapsable', true);
+
+    parriesLeft--;
+    if (isPartofCombat) userCombatant.setFlag("gdsa", "parries", parriesLeft);
 }
 
 export async function getShildPABasis(data, PABasis) {
@@ -2230,30 +2376,44 @@ export async function getShildPABasis(data, PABasis) {
     // Check for hightest Parry
 
     let equiptMelee = data.equiptMelee;
-    let higestParry = 0;
+    let usedValue = { higestParry: 0};
     if(!data.actor) data.actor = data;
 
     for(const itemM of equiptMelee) {
 
-        let skill = itemM.system.skill;
-        let weapon = itemM.system.type;
-        let itemwm = itemM.system["WM-DEF"];
-        let PAValue = Util.getSkillPAValue(data.actor, skill);
+        let skill = itemM.system.weapon.skill;
+        let skillItem = {};
+
+        for (let i = 0; i < CONFIG.Templates.talents.all.length; i++) 
+            if (CONFIG.Templates.talents.all[i]._id === skill) 
+                skillItem = CONFIG.Templates.talents.all[i];
+
+        let weapon = itemM.system.weapon.type;
+        let itemwm = itemM.system.weapon["WM-DEF"];
+
+        let PAValue = data.actor.system.skill[skillItem.name].def;
 
         PAValue += itemwm;
 
         let isSpezi = data.generalTraits.filter(function(item) {return item.name.includes(weapon)});
         if(isSpezi.length > 0) PAValue += 1;
-        if(PAValue > higestParry) higestParry = PAValue;
+
+        if(PAValue > usedValue.higestParry) usedValue = {
+            higestParry: PAValue,
+            usedWeapon: itemM,
+            usedSkill: skillItem
+        };
     }
 
     // Add the Bonus for High Parry
     
-    if(higestParry >= 15) PABasis += 1;
-    if(higestParry >= 18) PABasis += 1;
-    if(higestParry >= 21) PABasis += 1;
+    if(usedValue.higestParry >= 15) PABasis += 1;
+    if(usedValue.higestParry >= 18) PABasis += 1;
+    if(usedValue.higestParry >= 21) PABasis += 1;
 
-    return PABasis;
+    usedValue.PAValue = PABasis;
+
+    return usedValue;
 }
 
 export async function getParryWeaponPABasis(data, wm) {
@@ -2272,28 +2432,42 @@ export async function getParryWeaponPABasis(data, wm) {
     // Check for highst equipt Meele Parry
 
     let equiptMelee =  data.equiptMelee;
-    let higestParry = 0;
+    let usedValue = { higestParry: 0};
+    if(!data.actor) data.actor = data;
 
     for(const itemM of equiptMelee) {
 
-        let skill = itemM.system.skill;
-        let weapon = itemM.system.type;
-        let itemwm = itemM.system["WM-DEF"];
-        let PAValue = Util.getSkillPAValue(data, skill);
+        let skill = itemM.system.weapon.skill;
+        let skillItem = {};
+
+        for (let i = 0; i < CONFIG.Templates.talents.all.length; i++) 
+            if (CONFIG.Templates.talents.all[i]._id === skill) 
+                skillItem = CONFIG.Templates.talents.all[i];
+
+        let weapon = itemM.system.weapon.type;
+        let itemwm = itemM.system.weapon["WM-DEF"];
+
+        let PAValue = data.actor.system.skill[skillItem.name].def;
 
         PAValue += itemwm;
 
         let isSpezi = data.generalTraits.filter(function(item) {return item.name.includes(weapon)});
         if(isSpezi.length > 0) PAValue += 1;
-        if(PAValue > higestParry) higestParry = PAValue;
+        
+        if(PAValue > usedValue.higestParry) usedValue = {
+            higestParry: PAValue,
+            usedWeapon: itemM,
+            usedSkill: skillItem
+        };
     }
 
     // Add Weapon PA and WM to PA Value
     
-    PABasis += higestParry;
+    PABasis += usedValue.higestParry;
     PABasis += parseInt(wm);
+    usedValue.PAValue = PABasis;
 
-    return PABasis;
+    return usedValue;
 }
 
 export async function onDogdeRoll(data, event) {
@@ -2313,18 +2487,29 @@ export async function onDogdeRoll(data, event) {
 
     let checkOptions = false;
     let disadvantage = 0;
+    let context = {};
+
+    disadvantage = actor.system.gBEArmour;
 
     checkOptions = await Dialog.GetDogdeOptions();
+    if (checkOptions.cancelled) return;
+
     disadvantage = checkOptions.disadvantage * -1;
 
-    if (checkOptions.cancelled) return;
+    context = {
+        dk: checkOptions.dk,
+        directed: checkOptions.directed,
+        addCombt: checkOptions.addCombt
+    };
 
     // Execute Dogde Roll
 
-    Dice.dogdeCheck(statname, statvalue, disadvantage, actor);
+    let answer = await Dice.dogdeCheck(statname, statvalue, disadvantage, actor, context);
+
+    answer.message.setFlag('gdsa', 'isCollapsable', true);
 }
 
-export function onDMGRoll(data, event) {
+export async function onDMGRoll(data, event) {
 
     event.preventDefault();
 
@@ -2338,61 +2523,35 @@ export function onDMGRoll(data, event) {
 
     let itemId = element.closest("tr").dataset.itemId;
     let item;
-    if (itemId === "raufen") {
-    
-        item = {
-            type: "melee-weapons",
-            system : {
-    
-                skill: "brawl",
-                type: "fist",
-                TPKK: "10/3",
-                damage: "1d6",
-                "WM-ATK": 0,
-                "WM-DEF": 0
-            }
-        }
 
-        if(actor.system.nwtail) item.system.damage = actor.system.nwtail;
-    
-    } else if (itemId === "ringen") {
-    
-        item = {
-            type: "melee-weapons",
-            system : {
-    
-                skill: "wrestle",
-                type: "fist",
-                TPKK: "10/3",
-                damage: "1d6",
-                "WM-ATK": 0,
-                "WM-DEF": 0
-            }
-        }
-
-        if(actor.system.nwbite) item.system.damage = actor.system.nwbite;
-    
+    if (itemId === "raufen" || itemId === "ringen" || itemId === "biss" || itemId === "schwanz") {
+        if (itemId === "raufen" || itemId === "biss" || itemId === "schwanz")  
+            item = { name: "Raufen", skill: "Raufen", skillId: "q80TrWRaYyPMuetB", system : { weapon: { "WM-ATK": 0, "type": "Faust", "TPKK": "10/3" }}};
+        else 
+            item = { name: "Ringen", skill: "Ringen", skillId: "FKwfmO4jlia32EAz", system : { weapon: { "WM-ATK": 0, "type": "Faust", "TPKK": "10/3" }}};
     } else item = this.actor.items.get(itemId);
 
-    // Calculate TP/KK
-    let y = 0;
+    // Calculate TPKK
 
-    if(item.system.TPKK != "" && item.system.TPKK != null) {
+    let tpBonus = 0;
 
-        let tpkkString = item.system.TPKK;
-        let tp = tpkkString.split("/")[0];
-        let kk = tpkkString.split("/")[1];
+    if (item.system.weapon.TPKK) {
 
-        let x = (system.KK.value + system.KK.temp) - tp;
-        y = Math.ceil(x / kk);
-        y --;
-
-        if(y < 0) y = 0;
-    }
+        let threshold = item.system.weapon.TPKK.split("/")[0];
+        let steps = item.system.weapon.TPKK.split("/")[1];
+        let kkUser = (system.KK.value + system.KK.temp);
+        let x = kkUser - threshold;
+    
+        if(x > 0) tpBonus += Math.floor((x / steps));
+        if(x < 0) tpBonus += Math.ceil((x / steps));
+    };
 
     // Create DMG String
 
-    let dmgString = item.system.damage + "+" + y;
+    let dmgString = item.system.weapon.damage + "+" + tpBonus;
+    if (itemId === "raufen" || itemId === "ringen") dmgString = "1d6+" + tpBonus;
+    if (itemId === "biss") dmgString = actor.system.nwbite + "+" + tpBonus;
+    if (itemId === "schwanz") dmgString = actor.system.nwtail + "+" + tpBonus;
 
     // Generate Chat Cache Object and store ID
 
@@ -2408,7 +2567,23 @@ export function onDMGRoll(data, event) {
 
     // Execute DMG Roll
 
-    Dice.DMGRoll(dmgString, actor, 1,chatId);
+    let result = await Dice.DMGRoll(dmgString, actor, 1,chatId);
+    result.message.setFlag('gdsa', 'isCollapsable', true);
+}
+
+export async function onZoneRoll(data, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+    let system = data.system;
+
+    let result = await Dice.HitZone(actor);
+
+    result.setFlag('gdsa', 'isCollapsable', true);
 }
 
 export function onNPCDMGRoll(data, event) {
@@ -2440,7 +2615,7 @@ export async function onStatLoss(data, type, event) {
 
     // Set Template
 
-    const template = "systems/GDSA/templates/chat/" + type + "Info.hbs";
+    const template = "systems/GDSA/templates/chat/chatTemplate/" + type.toLowerCase() + "-change.hbs";
 
     // Create Dialog
 
@@ -2613,9 +2788,10 @@ export async function onReg(data, event) {
 
     let regtLeP = 0;
     let regtAsP = 0;
-    let HPBonus = parseInt(regDialog.lep);
-    let APBonus = parseInt(regDialog.asp);
-    let KABonus = parseInt(regDialog.kap);
+    let NOBonus = parseInt(regDialog.dis) * -1;
+    let HPBonus = parseInt(regDialog.lep) + NOBonus;
+    let APBonus = parseInt(regDialog.asp) + NOBonus;
+    let KABonus = parseInt(regDialog.kap) + NOBonus;
     let magActive = false;
     let statValueKL = system.KL.value;
 
@@ -2702,7 +2878,7 @@ export function onATCountToggel(data, event) {
     // Get ATs left from the Combatant
 
     let combatant = game.combats.contents[0].combatants.get(combatantId);
-    let atLeft = combatant.getFlag("GDSA", "attacks");
+    let atLeft = combatant.getFlag("gdsa", "attacks");
 
     // Set new AT Left Flag for Combatant
 
@@ -2710,7 +2886,7 @@ export function onATCountToggel(data, event) {
     if( toggeldCounter == atLeft) newATLeft = atLeft - 1;
     else newATLeft = toggeldCounter;
 
-    combatant.setFlag("GDSA", "attacks", newATLeft);
+    combatant.setFlag("gdsa", "attacks", newATLeft);
 }
 
 export function onPACountToggel(data, event) {
@@ -2729,7 +2905,7 @@ export function onPACountToggel(data, event) {
     // Get PAs left from the Combatant
 
     let combatant = game.combats.contents[0].combatants.get(combatantId);
-    let paLeft = combatant.getFlag("GDSA", "parries");
+    let paLeft = combatant.getFlag("gdsa", "parries");
 
     // Set new AT Left Flag for Combatant
 
@@ -2737,7 +2913,7 @@ export function onPACountToggel(data, event) {
     if( toggeldCounter == paLeft) newPALeft = paLeft - 1;
     else newPALeft = toggeldCounter;
 
-    combatant.setFlag("GDSA", "parries", newPALeft);
+    combatant.setFlag("gdsa", "parries", newPALeft);
 }
 
 export async function doOrientation(data, event) {
@@ -2755,8 +2931,8 @@ export async function doOrientation(data, event) {
     // Get ATs and PAs left from the Combatant
 
     let combatant = game.combats.contents[0].combatants.get(combatantId);
-    let atLeft = combatant.getFlag("GDSA", "attacks");
-    let paLeft = combatant.getFlag("GDSA", "parries");
+    let atLeft = combatant.getFlag("gdsa", "attacks");
+    let paLeft = combatant.getFlag("gdsa", "parries");
 
     // Set new AT Left Flag for Combatant
 
@@ -2764,17 +2940,23 @@ export async function doOrientation(data, event) {
     else if (paLeft > 0) paLeft--
     else return; 
 
-    combatant.setFlag("GDSA", "attacks", atLeft);
-    combatant.setFlag("GDSA", "parries", paLeft);
+    combatant.setFlag("gdsa", "attacks", atLeft);
+    combatant.setFlag("gdsa", "parries", paLeft);
 
     let newIni = combatant.actor.type == "PlayerCharakter" ? parseInt(combatant.actor.sheet.getData().system.INIBasis.value) : parseInt(combatant.actor.sheet.getData().system.INI.split('+')[1].trim());
     newIni += 6;
     if (combatant.actor.sheet.getData().system.INIDice == "2d6") newIni += 6;
-    let combat = game.combats.contents[0];
-    combat.setInitiative(combatantId, newIni)
+
+    game.combat.setInitiative(combatantId, newIni)
+
+    let templateContext = {actor: combatant, value: newIni}
+
+    let chatModel = { user: game.user.id, speaker: ChatMessage.getSpeaker({combatant}), content: await renderTemplate("systems/GDSA/templates/chat/chatTemplate/oriantation-Roll.hbs", templateContext)};
+    let roll = new Roll("1d20", {});
+    let message = await roll.toMessage(chatModel);
 }
 
-export async function editeCharFacts(data, event) {
+export async function editCharFacts(data, event) {
 
     // Set inital Variabels
 
@@ -2828,7 +3010,7 @@ export async function editeCharFacts(data, event) {
     data.actor.render();
 }
 
-export async function editeCharStats(data, event) {
+export async function editCharStats(data, event) {
 
     // Set inital Variabels
 
@@ -2874,7 +3056,7 @@ export async function editeCharStats(data, event) {
     data.actor.render();
 }
 
-export async function editeCharRessource(data, event) {
+export async function editCharRessource(data, event) {
 
     // Set inital Variabels
 
@@ -2947,6 +3129,12 @@ export async function editeCharRessource(data, event) {
     }
 
     data.actor.render();
+}
+
+export async function editRitualSkills(data, event) {
+
+    console.log("here");
+
 }
 
 export async function addAdvantage(data, event) {
@@ -3274,9 +3462,13 @@ export function onHideToggle(data, event) {
 
     // Toggle Value
 
+    let state = !actor.system.generalItemType[dataset.type];
+
     actor.system.generalItemType[dataset.type] = !actor.system.generalItemType[dataset.type] ;
+    actor.setInventorySystem(dataset.type, state)
+
     actor.render();
-}
+}    
 
 export async function onMoneyChange(data, event) {
 
@@ -3289,7 +3481,7 @@ export async function onMoneyChange(data, event) {
 
     // Create Dialog
 
-    const template = "systems/GDSA/templates/chat/MoneyInfo.hbs";
+    const template = "systems/GDSA/templates/chat/chatTemplate/currency-change.hbs";
     let MonyInfo = await Dialog.GetMoneyOptions();
     if (MonyInfo.cancelled) return;
 
@@ -3773,6 +3965,8 @@ export async function ownedCharParry(event) {
     let chatContext = CONFIG.cache.get(chatId);
     if(jQuery.isEmptyObject(chatContext)) {ui.notifications.warn('Context was not found in Memory. Please reroll the initial Check.'); return};
 
+    ui.notifications.warn('This Button is currently not implemented!'); return
+
     // Save Context in Variabels
 
     let dmgString = chatContext.dmgString;
@@ -3804,7 +3998,7 @@ export async function ownedCharParry(event) {
     if (game.combats.contents.length > 0) {
     let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == useractor.id})[0]._id;
     userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
-    parriesLeft = userCombatant.getFlag("GDSA", "parries");}
+    parriesLeft = userCombatant.getFlag("gdsa", "parries");}
 
     // Generate Parry Dialog
 
@@ -3823,12 +4017,12 @@ export async function ownedCharParry(event) {
 
     if (game.combats.contents.length > 0) { 
         if(parriesLeft > 0) parriesLeft--;
-        userCombatant.setFlag("GDSA", "parries", parriesLeft)
+        userCombatant.setFlag("gdsa", "parries", parriesLeft)
     }
     
     // If Parry is sucessfull return;
 
-    if(answer2 == true) return;
+    if(answer2.result) return;
 
     // Do DMG Rolls
         
@@ -3865,12 +4059,12 @@ export async function ownedCharDogde(event) {
 
     let PAValue = 0;
     let targetOwnership = targetToken.ownership[game.userId];
-    if(targetOwnership == 3) PAValue = targetToken.system.Dogde;
+    if(targetOwnership === 3) PAValue = targetToken.system.Dogde;
     else  PAValue = useractor.system.Dogde;
     let dogdename = game.i18n.localize("GDSA.charactersheet.dogde");
 
     if(game.user.isGM) {
-        PAValue = targetToken.system.mainPA;
+        PAValue = targetToken.system.Dogde;
         useractor = targetToken;
     };  
 
@@ -3921,8 +4115,9 @@ export async function executeDMGRoll(event) {
 
     // Do DMG Rolls
         
-    await Dice.DMGRoll(dmgString, actor, multi, chatId);
-    console.log(game);
+    let result = await Dice.DMGRoll(dmgString, actor, multi, chatId);
+
+    result.message.setFlag('gdsa', 'isCollapsable', true);
 }
 
 export async function executeHealthLoss(event) {
@@ -4104,6 +4299,34 @@ export async function showAllSkills(data, event) {
 
     await data.actor.setStatData("allSkills", !showAll);
     actor.render();
+}
+
+export async function noteGMPost(data, event) {
+
+    event.preventDefault();
+
+    // Send Chat Message
+    
+    let templateContext = {name: data.item.name, value: data.system.tale.notes}
+    let chatModel = { user: game.user.id, speaker: null, type: 1, 
+        content: await renderTemplate("systems/GDSA/templates/chat/chatTemplate/note-Post.hbs", templateContext)};
+    let message = await ChatMessage.create(chatModel);
+
+    message.setFlag('gdsa', 'isCollapsable', true);
+}
+
+export async function noteAllPost(data, event) {
+
+    event.preventDefault();
+
+    // Send Chat Message
+    
+    let templateContext = {name: data.item.name, value: data.system.tale.notes}
+    let chatModel = { user: game.user.id, speaker: null, 
+        content: await renderTemplate("systems/GDSA/templates/chat/chatTemplate/note-Post.hbs", templateContext)};
+    let message = await ChatMessage.create(chatModel);
+
+    message.setFlag('gdsa', 'isCollapsable', true);
 }
 
 export async function updateChatMessagesAfterCreation(message) {}
