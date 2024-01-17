@@ -345,8 +345,29 @@ export default class GDSAActor extends Actor {
         this.update({ "system.age": object.age });
         this.update({ "system.height": object.size });
         this.update({ "system.weight": object.weight });
-        this.update({ "system.SO": object.social });
-        
+        this.update({ "system.SO": object.social });        
+    }
+
+    setRitSkills(object) {
+
+        // Methode to update Character Ritual Skills
+
+        this.update({ "system.skill.ritalch": object.ritalch });
+        this.update({ "system.skill.ritderw": object.ritderw });
+        this.update({ "system.skill.ritdrui": object.ritdrui });
+        this.update({ "system.skill.ritdurr": object.ritdurr });
+        this.update({ "system.skill.ritgban": object.ritgban });
+        this.update({ "system.skill.ritgruf": object.ritgruf });
+        this.update({ "system.skill.ritgauf": object.ritgauf });
+        this.update({ "system.skill.ritgbin": object.ritgbin });
+        this.update({ "system.skill.ritgeod": object.ritgeod });
+        this.update({ "system.skill.ritgild": object.ritgild });
+        this.update({ "system.skill.rithexe": object.rithexe });
+        this.update({ "system.skill.ritkris": object.ritkris });
+        this.update({ "system.skill.ritpetr": object.ritpetr });
+        this.update({ "system.skill.ritscha": object.ritscha });
+        this.update({ "system.skill.rittanz": object.rittanz });
+        this.update({ "system.skill.ritzibi": object.ritzibi });        
     }
 
     addLogEntry(Entry) {

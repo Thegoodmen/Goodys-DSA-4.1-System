@@ -2316,6 +2316,11 @@
   width: 207px;
   height: 20px;
 }
+.GDSA.sheet.itemSheet .spHelper24 {
+  width: 110px;
+  height: 20px;
+  float: left;
+}
 .GDSA.sheet.itemSheet .tempHelper1 {
   height: 1250px;
   width: 80%;

@@ -3133,8 +3133,71 @@ export async function editCharRessource(data, event) {
 
 export async function editRitualSkills(data, event) {
 
-    console.log("here");
+    // Set inital Variabels
 
+    let ritalch = data.system.skill.ritalch;
+    let ritderw = data.system.skill.ritderw;
+    let ritdrui = data.system.skill.ritdrui;
+    let ritdurr = data.system.skill.ritdurr;
+    let ritgban = data.system.skill.ritgban;
+    let ritgruf = data.system.skill.ritgruf;
+    let ritgauf = data.system.skill.ritgauf;
+    let ritgbin = data.system.skill.ritgbin;
+    let ritgeod = data.system.skill.ritgeod;
+    let ritgild = data.system.skill.ritgild;
+    let rithexe = data.system.skill.rithexe;
+    let ritkris = data.system.skill.ritkris;
+    let ritpetr = data.system.skill.ritpetr;
+    let ritscha = data.system.skill.ritscha;
+    let rittanz = data.system.skill.rittanz;
+    let ritzibi = data.system.skill.ritzibi;
+    let checkOptions = false;
+
+    // Generate Context for the Dialog
+
+    let context = {
+
+        ritalch: ritalch,
+        ritderw: ritderw,
+        ritdrui: ritdrui,
+        ritdurr: ritdurr,
+        ritgban: ritgban,
+        ritgruf: ritgruf,
+        ritgauf: ritgauf,
+        ritgbin: ritgbin,
+        ritgeod: ritgeod,
+        ritgild: ritgild,
+        rithexe: rithexe,
+        ritkris: ritkris,
+        ritpetr: ritpetr,
+        ritscha: ritscha,
+        rittanz: rittanz,
+        ritzibi: ritzibi
+    };
+
+    // Create Dialog
+
+    checkOptions = await Dialog.editRitualSkills(context);
+
+    if (checkOptions.cancelled) return;
+
+    // Process Dialog and generate Log Entry
+
+    let timestamp = new Date().toLocaleString();
+
+    let logger = {
+        userId: game.userId,
+        userName: game.users.get(game.userId).name,
+        date: timestamp.split(",")[0],
+        time: timestamp.split(",")[1].trim(),
+        action: "Changed Char Skills",
+        elementType: "RitualSkills",
+        elementName: data.actor.name
+    };
+
+    data.actor.addLogEntry(logger);
+    data.actor.setRitSkills(checkOptions);
+    data.actor.render();
 }
 
 export async function addAdvantage(data, event) {

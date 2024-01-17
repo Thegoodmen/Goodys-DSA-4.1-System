@@ -794,6 +794,39 @@ export async function getAdvantage(context) {
     });
 }
 
+export async function editRitualSkills(context) {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/chat/dialog/ritSkill-change.hbs";
+    context.config = CONFIG.GDSA;
+    const html = await renderTemplate(template, context);
+
+    return new Promise(resolve => {  
+
+        // Set up Parameters for Dialog
+
+        const data = {
+
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.do"),
+                                callback: html => resolve(_processEditRitSkill(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
         // #################################################################################################
         // #################################################################################################
         // ##                                                                                             ##
@@ -1185,6 +1218,29 @@ function _processCharRess(form) {
     return {
         newModValue: form.modValue.value,
         newBuyValue: form.buyValue.value
+    }
+}
+
+function _processEditRitSkill(form) {
+
+    return {
+
+        ritalch: form.ritalch.value,
+        ritderw: form.ritderw.value,
+        ritdrui: form.ritdrui.value,
+        ritdurr: form.ritdurr.value,
+        ritgban: form.ritgban.value,
+        ritgruf: form.ritgruf.value,
+        ritgauf: form.ritgauf.value,
+        ritgbin: form.ritgbin.value,
+        ritgeod: form.ritgeod.value,
+        ritgild: form.ritgild.value,
+        rithexe: form.rithexe.value,
+        ritkris: form.ritkris.value,
+        ritpetr: form.ritpetr.value,
+        ritscha: form.ritscha.value,
+        rittanz: form.rittanz.value,
+        ritzibi: form.ritzibi.value
     }
 }
 

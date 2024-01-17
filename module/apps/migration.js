@@ -132,7 +132,7 @@ async function actorMigrationV1(actor) {
             await actor.deleteEmbeddedDocuments("Item", [item._id]);
         }     
 
-        if (item.type === "langu" || item.type === "signs")
+        if (item.type === "langu" || item.type === "signs" || item.type === "ritualSkill")
             await actor.deleteEmbeddedDocuments("Item", [item._id]);
 
         if (actor.type === "PlayerCharakter") {
@@ -291,7 +291,7 @@ async function itemMigrationV1(item) {
 
     }     
 
-    if (item.type === "langu" || item.type === "signs")
+    if (item.type === "langu" || item.type === "signs" || item.type === "ritualSkill")
         await actor.deleteEmbeddedDocuments("Item", [item._id]);
     
     return updateData;

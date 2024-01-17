@@ -24,8 +24,8 @@ export default class GDSAItemSheet extends ItemSheet {
 
     get template() {
 
-        if(this.item.type === "Template") return `systems/GDSA/templates/sheets/${this.item.type}-${this.item.system.type}-sheet.hbs`
-        if(this.item.type === "Gegenstand") return `systems/GDSA/templates/sheets/${this.item.type}-${this.item.system.type}-sheet.hbs`
+        if(this.item.type === "Template") return `systems/GDSA/templates/sheets/template/${this.item.type}-${this.item.system.type}-sheet.hbs`
+        if(this.item.type === "Gegenstand") return `systems/GDSA/templates/sheets/gegenstand/${this.item.type}-${this.item.system.type}-sheet.hbs`
 
         return `systems/GDSA/templates/sheets/${this.item.type}-sheet.hbs`
     }

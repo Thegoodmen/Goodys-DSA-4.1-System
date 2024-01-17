@@ -1,0 +1,49 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+    <div class="browserImgBox4"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
+
+    <div class="ritHelper20">
+        <div class="spHelper1">{{localize "GDSA.itemsheet.name"}}</div>
+        <div class="spHelper4">{{localize "GDSA.template.type"}}</div>
+        <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
+        <div class="spHelper3">
+            <select class="spHelper5" name="system.type">
+                {{#select system.type}}
+                    {{#each config.tempTypes as |name type|}}
+                        <option value="{{type}}">{{localize name}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+    </div>   
+
+    <nav class="tabs nav spell-tabs" data-group="spell">
+        <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>
+        <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
+    </nav>
+    <div class="spellMenuBox">
+	    <section class="spell-body">
+            <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
+                
+            </div>
+
+            <div class="tab spellVariants" data-group="spell" data-tab="spellVariants">
+
+            </div>
+            
+            <div class="tab spellEffects" data-group="spell" data-tab="spellEffects">
+
+            </div>
+            
+            <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
+                
+                <textarea class="litNotes" name="system.tale.notes">{{system.tale.notes}}</textarea>
+                <button class="noteBnt note-gm-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postGM"}}</button>
+                <button class="noteBnt note-all-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postAll"}}</button>
+
+            </div>
+        </section>
+    </div>
+ 
+    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+</form>

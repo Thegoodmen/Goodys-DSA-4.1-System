@@ -188,7 +188,7 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("isEqualORGreater", function(p1, p2) { return (p1 >= p2)});
 
-    Handlebars.registerHelper("getData", function(object1, value1) { return object1[value1];});
+    Handlebars.registerHelper("getData", function(object1, value1) { if(object1) return object1[value1]; else return null;});
 
     Handlebars.registerHelper("getDataValue", function(object1, value1) { return object1[value1]?.value;});
 

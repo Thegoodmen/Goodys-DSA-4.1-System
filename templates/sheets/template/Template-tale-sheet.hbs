@@ -76,7 +76,7 @@
 
             {{#unless (ifOR (equals system.tale.type "sign") (equals system.tale.type "lang"))}}
                 <div class="input100 spellName">{{localize "GDSA.template.BE"}}:</div>
-                <div class="spHelper14">
+                <div class="spHelper24">
                     <input class="input20" name="system.tale.BECheck" type="checkbox" {{#if system.tale.BECheck}}checked="isChecked"{{/if}}/>
                 </div>
                 <select class="spHelper16" name="system.tale.BEtype">
@@ -878,6 +878,8 @@
             <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
 
                 <textarea class="litNotes" name="system.tale.notes">{{system.tale.notes}}</textarea>
+                <button class="noteBnt note-gm-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postGM"}}</button>
+                <button class="noteBnt note-all-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postAll"}}</button>
 
             </div>
         </section>
