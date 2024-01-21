@@ -6,7 +6,7 @@ export default class GDSACombatTracker extends CombatTracker {
 
     get template() {
 
-        return "systems/GDSA/templates/ressources/combat-tracker.hbs";
+        return "systems/gdsa/templates/ressources/combat-tracker.hbs";
     }
 
     _onConfigureCombatant(li) {

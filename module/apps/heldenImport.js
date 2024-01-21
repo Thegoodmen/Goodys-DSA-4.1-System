@@ -15,7 +15,7 @@ export default class GDSAHeldenImporter extends FormApplication {
 
         return mergeObject(super.defaultOptions, {
             classes: ["GDSA", "gmscreen"],
-            template: "systems/GDSA/templates/apps/heldenimport.hbs",
+            template: "systems/gdsa/templates/apps/heldenimport.hbs",
             width: 800,
             height: 700,
             title: "Heldentool Importer"
@@ -117,7 +117,7 @@ export default class GDSAHeldenImporter extends FormApplication {
 
         // Update HTML Boxes
 
-        const template = "systems/GDSA/templates/apps/heldenimportMaske.hbs";
+        const template = "systems/gdsa/templates/apps/heldenimportMaske.hbs";
         const html = await renderTemplate(template, hero);
 
         element.closest("form").querySelector("[id=overview1]").innerHTML = html;
@@ -137,7 +137,7 @@ export default class GDSAHeldenImporter extends FormApplication {
         let actor = await GDSAActor.create({
             name: "New Test Actor",
             type: "PlayerCharakter",
-            img: "systems/GDSA/templates/img/logo.webp"
+            img: "systems/gdsa/templates/img/logo.webp"
         });
 
 

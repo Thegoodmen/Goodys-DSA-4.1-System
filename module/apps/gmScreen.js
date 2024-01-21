@@ -6,7 +6,7 @@ export default class GDSAGMScreen extends FormApplication {
 
         return mergeObject(super.defaultOptions, {
             classes: ["GDSA", "gmscreen"],
-            template: "systems/GDSA/templates/apps/gmscreen.hbs",
+            template: "systems/gdsa/templates/apps/gmscreen.hbs",
             width: 800,
             height: "auto",
             title: "GDSA GM Screen"

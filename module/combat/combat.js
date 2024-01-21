@@ -32,7 +32,7 @@ export default class GDSACombat extends Combat {
 
     async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}}={}) {
 
-        const template = "systems/GDSA/templates/chat/chatTemplate/ini-Roll.hbs";
+        const template = "systems/gdsa/templates/chat/chatTemplate/ini-Roll.hbs";
         ids = typeof ids === "string" ? [ids] : ids;
         const currentId = this.combatant?.id;
         const updates = [];

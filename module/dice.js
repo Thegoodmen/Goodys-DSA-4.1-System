@@ -21,7 +21,7 @@ export async function statCheck(statName, statValue, statMod, actor, modi = 0, o
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/chatTemplate/stat-Roll.hbs";
+    const templatePath = "systems/gdsa/templates/chat/chatTemplate/stat-Roll.hbs";
 
     // Roll 2 Dices 
 
@@ -104,7 +104,7 @@ export async function dogdeCheck(statName, statValue, statMod, actor, context = 
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/chatTemplate/dogde-Roll.hbs";
+    const templatePath = "systems/gdsa/templates/chat/chatTemplate/dogde-Roll.hbs";
 
     // Roll 2 Dices 
 
@@ -177,7 +177,7 @@ export async function flawCheck(flawName, flawValue, actor) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/chatTemplate/flaw-Roll.hbs";
+    const templatePath = "systems/gdsa/templates/chat/chatTemplate/flaw-Roll.hbs";
 
     // Roll 2 Dices
 
@@ -239,7 +239,7 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
     // #################################################################################################
 
     // Set up the Path of the Chat HTML
-    let templatePath = "systems/GDSA/templates/chat/skill-check.hbs";
+    let templatePath = "systems/gdsa/templates/chat/skill-check.hbs";
     if (Object.keys(optional).length !== 0) templatePath = optional.template;
 
     // Roll 3 Dices
@@ -408,7 +408,7 @@ export async function doLePReg(actor, HPBonus) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/chatTemplate/lep-Reg-Roll.hbs";
+    const templatePath = "systems/gdsa/templates/chat/chatTemplate/lep-Reg-Roll.hbs";
 
     // Roll 2 Dices
 
@@ -459,7 +459,7 @@ export async function doAsPReg(actor, APBonus, isMaster) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/chatTemplate/asp-Reg-Roll.hbs";
+    const templatePath = "systems/gdsa/templates/chat/chatTemplate/asp-Reg-Roll.hbs";
     
     // Roll 2 Dices
 
@@ -511,7 +511,7 @@ export async function doKaPReg(actor, modi) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/chatTemplate/kap-Reg-Roll.hbs";
+    const templatePath = "systems/gdsa/templates/chat/chatTemplate/kap-Reg-Roll.hbs";
 
     // Roll 3 Dices
  
@@ -678,7 +678,7 @@ export async function ATKCheck(atk, modi, actor, auto = false, isMeele = true, c
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/chatTemplate/attack-Roll.hbs";
+    const templatePath = "systems/gdsa/templates/chat/chatTemplate/attack-Roll.hbs";
 
     // Roll 2 D20 Dices and 2 D6 Dices
 
@@ -761,7 +761,7 @@ export async function PACheck(parry, modi, actor, context = {}) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/chatTemplate/parry-Roll.hbs";
+    const templatePath = "systems/gdsa/templates/chat/chatTemplate/parry-Roll.hbs";
 
     // Roll 2 Dices
 
@@ -845,7 +845,7 @@ export async function DMGRoll(formula, actor, multi, chatId = "") {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/chatTemplate/damage-Roll.hbs";
+    const templatePath = "systems/gdsa/templates/chat/chatTemplate/damage-Roll.hbs";
 
     // Roll the Dice and add together the DMG
 
@@ -897,7 +897,7 @@ export async function CrittMisMeele(actor) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/chatTemplate/critMiss-Meele.hbs";
+    const templatePath = "systems/gdsa/templates/chat/chatTemplate/critMiss-Meele.hbs";
 
     // Roll 2 Dices
 
@@ -938,7 +938,7 @@ export async function CrittMisRange(actor) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/chatTemplate/critMiss-Range.hbs";
+    const templatePath = "systems/gdsa/templates/chat/chatTemplate/critMiss-Range.hbs";
 
     // Roll 2 Dices
 
@@ -979,7 +979,7 @@ export async function HitZone(actor) {
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/chatTemplate/hitZone-Roll.hbs";
+    const templatePath = "systems/gdsa/templates/chat/chatTemplate/hitZone-Roll.hbs";
 
     // Roll 2 Dices
 
@@ -1024,7 +1024,7 @@ export async function DMGRollWitoutChat(formula, actor, multi, hasNoZone = false
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/GDSA/templates/chat/damage-Roll.hbs";
+    const templatePath = "systems/gdsa/templates/chat/damage-Roll.hbs";
 
     // Roll the Dice and add together the DMG
 
