@@ -1,12 +1,12 @@
 <form class="settings" autocomplete="off">
     <div class="browserMenu">
 
-        <div class="browserMenuEntry">Suche</div>
+        <div class="browserMenuEntry">{{localize "GDSA.system.search"}}</div>
         <input class="browserMenuInput searchbar" id="menuSearch" type="text" name="search" value="{{search}}" /> 
 
         {{#if (equals type "spell")}}
 
-            <div class="browserMenuEntry">Merkmal</div>
+            <div class="browserMenuEntry">{{localize "GDSA.itemsheet.trait"}}</div>
 
             <select class="browserMenuInput" name="trait">
                 {{#select trait}}
@@ -16,7 +16,7 @@
                 {{/select}}
             </select>     
 
-            <div class="browserMenuEntry">Repräsentation</div>
+            <div class="browserMenuEntry">{{localize "GDSA.trait.reps"}}</div>
 
             <select class="browserMenuInput" name="rep">
                 {{#select rep}}
@@ -26,7 +26,7 @@
                 {{/select}}
             </select>
 
-            <div class="browserMenuEntry">Verbreitung</div>
+            <div class="browserMenuEntry">{{localize "GDSA.system.verbr"}}</div>
             <input id="menuVer" class="browserInput" name="V0" type="checkbox" {{checked v0}}/><div class="spellVMenu">0</div>
             <input id="menuVer" class="browserInput" name="V1" type="checkbox" {{checked v1}}/><div class="spellVMenu">1</div>
             <input id="menuVer" class="browserInput" name="V2" type="checkbox" {{checked v2}}/><div class="spellVMenu">2</div>
@@ -36,7 +36,7 @@
             <input id="menuVer" class="browserInput" name="V5" type="checkbox" {{checked v5}}/><div class="spellVMenu">5</div>
             <input id="menuVer" class="browserInput" name="V6" type="checkbox" {{checked v6}}/><div class="spellVMenu">6</div>
 
-            <div class="browserMenuEntry">Komplexität</div>
+            <div class="browserMenuEntry">{{localize "GDSA.charactersheet.komplex"}}</div>
             <div class="spellVSpacer"></div>
             <input id="menuVer" class="browserInput" name="KA" type="checkbox" {{checked kA}}/><div class="spellVMenu">A</div>
             <input id="menuVer" class="browserInput" name="KB" type="checkbox" {{checked kB}}/><div class="spellVMenu">B</div>
@@ -50,12 +50,13 @@
 
         {{#if (equals type "melee-weapons")}}
 
-            <div class="browserMenuEntry">Talent</div>
+            <div class="browserMenuEntry">{{localize "GDSA.charactersheet.talent"}}</div>
 
             <select class="browserMenuInput" name="skill">
+                <option value="none"></option>
                 {{#select skill}}
-                    {{#each config.meleeSkills as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
+                    {{#each template.talents.meele as |item|}}
+                        <option value="{{item._id}}">{{item.name}}</option>
                     {{/each}}
                 {{/select}}
             </select> 
@@ -64,12 +65,13 @@
 
         {{#if (equals type "range-weapons")}}
 
-            <div class="browserMenuEntry">Talent</div>
+            <div class="browserMenuEntry">{{localize "GDSA.charactersheet.talent"}}</div>
 
             <select class="browserMenuInput" name="skill">
+                <option value="none"></option>
                 {{#select skill}}
-                    {{#each config.rangeSkills as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
+                    {{#each template.talents.range as |item|}}
+                        <option value="{{item._id}}">{{item.name}}</option>
                     {{/each}}
                 {{/select}}
             </select> 
@@ -78,7 +80,7 @@
 
         {{#if (equals type "armour")}}
 
-            <div class="browserMenuEntry">Rüstung</div>
+            <div class="browserMenuEntry">{{localize "GDSA.charactersheet.armour"}}</div>
 
             <select class="browserMenuInput" name="aPlace">
                 {{#select aPlace}}
@@ -92,7 +94,7 @@
 
         {{#if (equals type "objektRitual")}}
 
-            <div class="browserMenuEntry">Ritualkenntnis</div>
+            <div class="browserMenuEntry">{{localize "GDSA.charactersheet.rit"}}</div>
 
             <select class="browserMenuInput" name="rittSkill">
                 {{#select rittSkill}}
@@ -106,7 +108,7 @@
 
         {{#if (equals type "wonder")}}
 
-            <div class="browserMenuEntry">Verbreitung</div>
+            <div class="browserMenuEntry">{{localize "GDSA.system.verbr"}}</div>
 
             <select class="browserMenuInput" name="rep">
                 {{#select rep}}
@@ -116,7 +118,7 @@
                 {{/select}}
             </select>
 
-            <div class="browserMenuEntry">Liturgiegrad</div>
+            <div class="browserMenuEntry">{{localize "GDSA.system.litGrad"}}</div>
             <div class="spellVSpacer"></div>
             <input id="menuVer" class="browserInput" name="KA" type="checkbox" {{checked kA}}/><div class="spellVMenu">I</div>
             <input id="menuVer" class="browserInput" name="KB" type="checkbox" {{checked kB}}/><div class="spellVMenu">II</div>
@@ -132,7 +134,7 @@
     <div class="browserContent">
 
         {{#if (equals type "spell")}}
-            <div class="headline">Zauber</div>
+            <div class="headline">{{localize "GDSA.charactersheet.cast"}}</div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">
@@ -144,67 +146,67 @@
         {{/if}}
 
         {{#if (equals type "melee-weapons")}}
-            <div class="headline">Nahkampfwaffe</div>
+            <div class="headline">{{localize "GDSA.system.createMeele"}}</div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
-                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{localize (getMeleeSkill system.skill)}}</i></div>
-                    <div class="browserComplex">M</div>
+                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{getSkillFromTemp system.weapon.skill}}</i></div>
+                    <div class="browserComplex1"></div>
                 </div>
             {{/each}}
         {{/if}}
 
         {{#if (equals type "range-weapons")}}
-            <div class="headline">Fernkampfwaffe</div>
+            <div class="headline">{{localize "GDSA.system.createRange"}}</div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
-                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{localize (getRangeSkill system.skill)}}</i></div>
-                    <div class="browserComplex">R</div>
+                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{getSkillFromTemp system.weapon.skill}}</i></div>
+                    <div class="browserComplex1"></div>
                 </div>
             {{/each}}
         {{/if}}
 
         {{#if (equals type "shields")}}
-            <div class="headline">Schilde / Parrierwaffen</div>
+            <div class="headline">{{localize "GDSA.itemsheet.shild"}} / {{localize "GDSA.itemsheet.parryWeapons"}}</div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
-                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{system.heigt}}</i></div>
-                    <div class="browserComplex">S</div>
+                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{localize (concat "GDSA.itemsheet." system.weapon.parType "")}}</i></div>
+                    <div class="browserComplex1"></div>
                 </div>
             {{/each}}
         {{/if}}
 
         {{#if (equals type "armour")}}
-            <div class="headline">Rüstung</div>
+            <div class="headline">{{localize "GDSA.charactersheet.armour"}}</div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
-                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{#if system.Z}} Zusatzrüstung {{else}} Zonenrüstung {{/if}}</i></div>
-                    <div class="browserComplex">A</div>
+                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{#if system.armour.Z}} {{localize "GDSA.itemsheet.zArmour"}} {{else}} {{localize "GDSA.itemsheet.zoneArmour"}} {{/if}}</i></div>
+                    <div class="browserComplex1"></div>
                 </div>
             {{/each}}
         {{/if}}
 
         {{#if (equals type "objektRitual")}}
-            <div class="headline">Objektrituale</div>
+            <div class="headline">{{localize "GDSA.system.objectRounded"}}</div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
                     <div class="browserName"><b>{{name}}</b> <br /><i> > {{localize (concat "GDSA.ritualSkills." system.creatTalent "")}}</i></div>
-                    <div class="browserComplex">{{system.vRit}}</div>
+                    <div class="browserComplex">V{{system.vRit}}</div>
                 </div>
             {{/each}}
         {{/if}}
 
         {{#if (equals type "wonder")}}
-            <div class="headline">Liturgien</div>
+            <div class="headline">{{localize "GDSA.system.liturgy"}}</div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">

@@ -3,6 +3,8 @@ import * as LsFunction from "../listenerFunctions.js"
 
 export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
+    sheet = {};
+
     static get defaultOptions() {
 
         // #################################################################################################
@@ -50,32 +52,30 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             items: baseData.items,
             config: CONFIG.GDSA,
             isGM: game.user.isGM,
+            template: CONFIG.Templates,
 
             // Create for each Item Type its own Array
 
-            advantages: Util.getItems(baseData, "advantage", false),
-            flaws: Util.getItems(baseData, "flaw", false),           
-            generalTraits: Util.getItems(baseData, "generalTrait", false),
-            combatTraits: Util.getItems(baseData, "combatTrait", false),
-            magicTraits: Util.getItems(baseData, "magicTrait", false),
-            objectTraits: Util.getItems(baseData, "objectTrait", false),
-            holyTraits: Util.getItems(baseData, "holyTrait", false),
-            langs: Util.getItems(baseData, "langu", false),
-            signs: Util.getItems(baseData, "signs", false),
+            advantages: Util.getTemplateItems(baseData, "adva"),
+            flaws: Util.getTemplateItems(baseData, "flaw"),           
+            generalTraits: Util.getTemplateSF(baseData, "general", false),
+            combatTraits: Util.getTemplateSF(baseData, "combat", false),
+            magicTraits: Util.getTemplateSF(baseData, "magic", false),
+            holyTraits: Util.getTemplateSF(baseData, "holy", false),
             ritualSkills: Util.getItems(baseData, "ritualSkill", false),
             spells: Util.getItems(baseData, "spell", false),
             rituals: Util.getItems(baseData, "ritual", false),
             objRituals:  Util.getItems(baseData, "objektRitual", false),
             wonders: Util.getItems(baseData, "wonder", false),
-            generals: Util.getItems(baseData, "generals", false),
-            meleeweapons: Util.getItems(baseData, "melee-weapons", false),
-            equiptMelee: Util.getItems(baseData, "melee-weapons", true),
-            rangeweapons: Util.getItems(baseData, "range-weapons", false),
-            equiptRange: Util.getItems(baseData, "range-weapons", true),
-            shields: Util.getItems(baseData, "shields", false),
-            equiptShield: Util.getItems(baseData, "shields", true),
-            armour: Util.getItems(baseData, "armour", false),
-            equiptArmour: Util.getItems(baseData, "armour", true),
+            generals: Util.getItem(baseData, "item", false),
+            meleeweapons: Util.getItem(baseData, "melee", false),
+            equiptMelee: Util.getItem(baseData, "melee", true),
+            rangeweapons: Util.getItem(baseData, "range", false),
+            equiptRange: Util.getItem(baseData, "range", true),
+            shields: Util.getItem(baseData, "shild", false),
+            equiptShield: Util.getItem(baseData, "shild", true),
+            armour: Util.getItem(baseData, "armour", false),
+            equiptArmour: Util.getItem(baseData, "armour", true),
         };
 
         // Create one Array with everything that is part of the Inventory
@@ -86,10 +86,12 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         sheetData = this.calculateValues(sheetData);
 
+        this.sheet = sheetData;
+
         return sheetData;
     }
 
-    activateListeners(html) {
+    async activateListeners(html) {
 
         // #################################################################################################
         // #################################################################################################
@@ -101,63 +103,73 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         if(this.isEditable) {
 
+            let sheet = this.sheet;
+
             // Set Listener for Char Edits
 
-            html.find(".editFacts").click(LsFunction.editeCharFacts.bind(this, this.getData()));
-            html.find(".stat-change").click(LsFunction.editeCharStats.bind(this, this.getData()));
-            html.find(".ress-change").click(LsFunction.editeCharRessource.bind(this, this.getData()));
+            html.find(".editFacts").click(LsFunction.editCharFacts.bind(this, sheet));
+            html.find(".stat-change").click(LsFunction.editCharStats.bind(this, sheet));
+            html.find(".ress-change").click(LsFunction.editCharRessource.bind(this, sheet));
+            html.find(".edit-ritSkill").click(LsFunction.editRitualSkills.bind(this, sheet));
 
             // Set Listener for Basic Rolls
             
-            html.find(".skill-roll").click(LsFunction.onSkillRoll.bind(this, this.getData()));
-            html.find(".stat-roll").click(LsFunction.onStatRoll.bind(this, this.getData()));
-            html.find(".flaw-roll").click(LsFunction.onFlawRoll.bind(this, this.getData()));
-            html.find(".attack-roll").click(LsFunction.onAttackRoll.bind(this, this.getData()));
-            html.find(".parry-roll").click(LsFunction.onParryRoll.bind(this, this.getData()));
-            html.find(".shield-roll").click(LsFunction.onShildRoll.bind(this, this.getData()));
-            html.find(".dogde-roll").click(LsFunction.onDogdeRoll.bind(this, this.getData()));
-            html.find(".damage-roll").click(LsFunction.onDMGRoll.bind(this, this.getData()));
-            html.find(".wonder-roll").click(LsFunction.onWonderRoll.bind(this, this.getData()));
-            html.find(".spell-roll").click(LsFunction.onSpellRoll.bind(this, this.getData()));
-            html.find(".ritCrea-roll").click(LsFunction.onRitualCreation.bind(this, this.getData()));
-            html.find(".ritAkti-roll").click(LsFunction.onRitualActivation.bind(this, this.getData()));
+            html.find(".skill-roll").click(LsFunction.onSkillRoll.bind(this, sheet));
+            html.find(".stat-roll").click(LsFunction.onStatRoll.bind(this, sheet));
+            html.find(".flaw-roll").click(LsFunction.onFlawRoll.bind(this, sheet));
+            html.find(".attack-roll").click(LsFunction.onAttackRoll.bind(this, sheet));
+            html.find(".parry-roll").click(LsFunction.onParryRoll.bind(this, sheet));
+            html.find(".shield-roll").click(LsFunction.onShildRoll.bind(this, sheet));
+            html.find(".dogde-roll").click(LsFunction.onDogdeRoll.bind(this, sheet));
+            html.find(".zone-roll").click(LsFunction.onZoneRoll.bind(this, sheet));
+            html.find(".damage-roll").click(LsFunction.onDMGRoll.bind(this, sheet));
+            html.find(".mirRoll").click(LsFunction.onMirikalRoll.bind(this, sheet));
+            html.find(".wonder-roll").click(LsFunction.onWonderRoll.bind(this, sheet));
+            html.find(".spell-roll").click(LsFunction.onSpellRoll.bind(this, sheet));
+            html.find(".ritCrea-roll").click(LsFunction.onRitualCreation.bind(this, sheet));
+            html.find(".ritAkti-roll").click(LsFunction.onRitualActivation.bind(this, sheet));
+            html.find(".m-fail-roll").click(LsFunction.onCritMisMeeleRoll.bind(this, sheet));
+            html.find(".r-fail-roll").click(LsFunction.onCritMisRangeRoll.bind(this, sheet));
 
             // Set Listener for Stat Changes
 
-            html.find(".getHeal").click(LsFunction.onStatGain.bind(this, this.getData(), "LeP"));
-            html.find(".getAsP").click(LsFunction.onStatGain.bind(this, this.getData(), "AsP"));
-            html.find(".getKaP").click(LsFunction.onStatGain.bind(this, this.getData(), "KaP"));
-            html.find(".getDMG").click(LsFunction.onStatLoss.bind(this, this.getData(), "LeP"));
-            html.find(".lossAsP").click(LsFunction.onStatLoss.bind(this, this.getData(), "AsP"));
-            html.find(".lossKaP").click(LsFunction.onStatLoss.bind(this, this.getData(), "KaP"));
-            html.find(".stat-plus").click(LsFunction.onAddStat.bind(this, this.getData()));
-            html.find(".stat-minus").click(LsFunction.onSubStat.bind(this, this.getData()));
-            html.find(".doReg").click(LsFunction.onReg.bind(this, this.getData()));
-            html.find(".doMedi").click(LsFunction.onMed.bind(this, this.getData()));
-            html.find(".wp").click(LsFunction.onWoundChange.bind(this, this.getData()));
-            html.find(".wound").click(LsFunction.onWoundChange.bind(this, this.getData()));
+            html.find(".getHeal").click(LsFunction.onStatGain.bind(this, sheet, "LeP"));
+            html.find(".getAsP").click(LsFunction.onStatGain.bind(this, sheet, "AsP"));
+            html.find(".getKaP").click(LsFunction.onStatGain.bind(this, sheet, "KaP"));
+            html.find(".getDMG").click(LsFunction.onStatLoss.bind(this, sheet, "LeP"));
+            html.find(".lossAsP").click(LsFunction.onStatLoss.bind(this, sheet, "AsP"));
+            html.find(".lossKaP").click(LsFunction.onStatLoss.bind(this, sheet, "KaP"));
+            html.find(".stat-plus").click(LsFunction.onAddStat.bind(this, sheet));
+            html.find(".stat-minus").click(LsFunction.onSubStat.bind(this, sheet));
+            html.find(".doReg").click(LsFunction.onReg.bind(this, sheet));
+            html.find(".doMedi").click(LsFunction.onMed.bind(this, sheet));
+            html.find(".wp").click(LsFunction.onWoundChange.bind(this, sheet));
+            html.find(".wound").click(LsFunction.onWoundChange.bind(this, sheet));
 
             // Set Listener for Item Events
 
-            if(! this.id.includes("Token")) html.find(".item-create").click(LsFunction.onItemCreate.bind(this, this.getData()));
-            if(! this.id.includes("Token")) html.find(".item-edit").click(LsFunction.onItemEdit.bind(this, this.getData()));
-            html.find(".item-apply").click(LsFunction.onItemEquip.bind(this, this.getData()));
-            html.find(".item-remove").click(LsFunction.onItemRemove.bind(this, this.getData()));
-            if(! this.id.includes("Token")) html.find(".invItem").click(LsFunction.onItemOpen.bind(this, this.getData()));
-            if(! this.id.includes("Token")) html.find(".invItem3").click(LsFunction.onItemOpen.bind(this, this.getData()));
-            if(! this.id.includes("Token")) html.find(".change-money").click(LsFunction.onMoneyChange.bind(this, this.getData()));
-            html.find(".toggleHide").click(LsFunction.onHideToggle.bind(this, this.getData()));
-            html.find(".spell-add").click(LsFunction.getSpellContextMenu.bind(this, this.getData()));
-            html.find(".wonder-add").click(LsFunction.getWonderContextMenu.bind(this, this.getData()));
-            html.find(".meleeW-add").click(LsFunction.getMeleeWContextMenu.bind(this, this.getData()));
-            html.find(".rangeW-add").click(LsFunction.getRangeWContextMenu.bind(this, this.getData()));
-            html.find(".shilds-add").click(LsFunction.getShieldContextMenu.bind(this, this.getData()));
-            html.find(".armour-add").click(LsFunction.getArmourContextMenu.bind(this, this.getData()));
-            html.find(".objektRitual-add").click(LsFunction.getObjectRitContextMenu.bind(this, this.getData()));
-            html.find(".item-delete").click(LsFunction.onItemDelete.bind(this, this.getData()));
-            html.find(".ritCheck").change(LsFunction.changeActiveStat.bind(this, this.getData()));
-            html.find(".castChange").change(LsFunction.changeCastZfW.bind(this, this.getData()));
-            html.find(".test").change(LsFunction.testFunc.bind(this, this.getData()));
+            if(! this.id.includes("Token")) html.find(".item-create").click(LsFunction.onItemCreate.bind(this, sheet));
+            if(! this.id.includes("Token")) html.find(".template-create").click(LsFunction.onTemplateCreate.bind(this, sheet));
+            if(! this.id.includes("Token")) html.find(".item-edit").click(LsFunction.onItemEdit.bind(this, sheet));
+            html.find(".advantage-create").click(LsFunction.addAdvantage.bind(this, sheet));
+            html.find(".disadvantage-create").click(LsFunction.addDisadvantage.bind(this, sheet));
+            html.find(".item-apply").click(LsFunction.onItemEquip.bind(this, sheet));
+            html.find(".item-remove").click(LsFunction.onItemRemove.bind(this, sheet));
+            if(! this.id.includes("Token")) html.find(".invItem").click(LsFunction.onItemOpen.bind(this, sheet));
+            if(! this.id.includes("Token")) html.find(".invItem3").click(LsFunction.onItemOpen.bind(this, sheet));
+            if(! this.id.includes("Token")) html.find(".change-money").click(LsFunction.onMoneyChange.bind(this, sheet));
+            html.find(".toggleHide").click(LsFunction.onHideToggle.bind(this, sheet));
+            html.find(".spell-add").click(LsFunction.getSpellContextMenu.bind(this, sheet));
+            html.find(".wonder-add").click(LsFunction.getWonderContextMenu.bind(this, sheet));
+            html.find(".meleeW-add").click(LsFunction.getMeleeWContextMenu.bind(this, sheet));
+            html.find(".rangeW-add").click(LsFunction.getRangeWContextMenu.bind(this, sheet));
+            html.find(".shilds-add").click(LsFunction.getShieldContextMenu.bind(this, sheet));
+            html.find(".armour-add").click(LsFunction.getArmourContextMenu.bind(this, sheet));
+            html.find(".objektRitual-add").click(LsFunction.getObjectRitContextMenu.bind(this, sheet));
+            html.find(".item-delete").click(LsFunction.onItemDelete.bind(this, sheet));
+            html.find(".ritCheck").change(LsFunction.changeActiveStat.bind(this, sheet));
+            html.find(".castChange").change(LsFunction.changeCastZfW.bind(this, sheet));
+            html.find(".test").click(LsFunction.testFunc.bind(this, sheet));
 
             // Set Listener for PDFoundry
 
@@ -167,11 +179,35 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
             // Set Listeners for Navigation
 
-            html.find(".changeTab").click(LsFunction.changeTab.bind(this, this.getData()));
+            html.find(".changeTab").click(LsFunction.changeTab.bind(this, sheet));
+            html.find(".showSkills").click(LsFunction.showAllSkills.bind(this, sheet));
 
             // Set Listener for Context / Right-Click Menu
 
             if(! this.id.includes("Token")) new ContextMenu(html, ".item-context", LsFunction.getItemContextMenu());
+
+            // Set Listener on Mirakel Template Change
+
+            html.find(".applyMirTemp").click(LsFunction.applyMirTemp.bind(this, sheet));
+
+            // Set Listener for Skill Macrobar Support 
+
+            let handler = ev => this._onDragStart(ev);
+
+            // Find all items on the character sheet.
+            html.find(".skillitem").each((i, li) => {
+
+                // Add draggable attribute and dragstart listener.
+                li.setAttribute("draggable", true);
+                li.addEventListener("dragstart", handler, false);
+            });
+
+            html.find(".statitem").each((i, li) => {
+
+                // Add draggable attribute and dragstart listener.
+                li.setAttribute("draggable", true);
+                li.addEventListener("dragstart", handler, false);
+            });
         }
 
         super.activateListeners(html);
@@ -198,21 +234,21 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             case "armour":
 
                 const siblings = this.actor.items.filter(i => {
-                    return (i.data._id !== source.data._id);
+                    return (i._id !== source._id);
                 });
 
                 // Get the drop Target
 
                 const dropTarget = event.target.closest(".item");
                 const targetId = dropTarget ? dropTarget.dataset.itemId : null;
-                const target = siblings.find(s => s.data._id === targetId);
+                const target = siblings.find(s => s._id === targetId);
 
                 // Perform Sort
 
                 const sortUpdates = SortingHelpers.performIntegerSort(source, { target: target, siblings }); 
                 const updateData = sortUpdates.map(u => {
                     const update = u.update;
-                    update._id = u.target.data._id;
+                    update._id = u.target._id;
                     return update;
                 });
 
@@ -240,15 +276,15 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         sheetData.system.magical = false;
         sheetData.system.klerikal = false;
         
-        let mag1 = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag1")})[0];
-        let mag2 = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag2")})[0];
-        let mag3 = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag3")})[0];
+        let mag1 = sheetData.advantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.mag1")})[0];
+        let mag2 = sheetData.advantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.mag2")})[0];
+        let mag3 = sheetData.advantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.mag3")})[0];
         let klr1 = sheetData.holyTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.lit1"))})[0];
         let klr2 = sheetData.advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.kler"))})[0];
         let klr3 = sheetData.holyTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.akul"))})[0];
 
-        if(mag1 != null || mag2 != null || mag3 != null) sheetData.system.magical = true;
-        if(klr1 != null || klr2 != null || klr3 != null) sheetData.system.klerikal = true;
+        if(mag1 || mag2 || mag3) sheetData.system.magical = true;
+        if(klr1 || klr2 || klr3) sheetData.system.klerikal = true;
         
         // Calculate Armour Ratings
 
@@ -269,26 +305,26 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             let n = 0;
             let m = 1;
 
-            if (item.system.z && parseInt(item.system.star) > 0) m = 2;
+            if (item.system.armour.Z && parseInt(item.system.armour.star) > 0) m = 2;
 
-            headArmour += parseInt(item.system.head);
-            n += (parseInt(item.system.head) * 2);
-            bodyArmour += parseInt(item.system.body);
-            n += (parseInt(item.system.body) * 4);
-            backArmour += parseInt(item.system.back);
-            n += (parseInt(item.system.back) * 4);
-            stomachArmour += parseInt(item.system.stomach);
-            n += (parseInt(item.system.stomach) * 4);
-            rightarmArmour += parseInt(item.system.rightarm);
-            n += (parseInt(item.system.rightarm) * 1);
-            leftarmArmour += parseInt(item.system.leftarm);
-            n += (parseInt(item.system.leftarm) * 1);
-            rightlegArmour += parseInt(item.system.rightleg);
-            n += (parseInt(item.system.rightleg) * 2);
-            leftlegArmour += parseInt(item.system.leftleg);
-            n += (parseInt(item.system.leftleg) * 2);
+            headArmour += parseInt(item.system.armour.head);
+            n += (parseInt(item.system.armour.head) * 2);
+            bodyArmour += parseInt(item.system.armour.body);
+            n += (parseInt(item.system.armour.body) * 4);
+            backArmour += parseInt(item.system.armour.back);
+            n += (parseInt(item.system.armour.back) * 4);
+            stomachArmour += parseInt(item.system.armour.stomach);
+            n += (parseInt(item.system.armour.stomach) * 4);
+            rightarmArmour += parseInt(item.system.armour.rightarm);
+            n += (parseInt(item.system.armour.rightarm) * 1);
+            leftarmArmour += parseInt(item.system.armour.leftarm);
+            n += (parseInt(item.system.armour.leftarm) * 1);
+            rightlegArmour += parseInt(item.system.armour.rightleg);
+            n += (parseInt(item.system.armour.rightleg) * 2);
+            leftlegArmour += parseInt(item.system.armour.leftleg);
+            n += (parseInt(item.system.armour.leftleg) * 2);
 
-            if (item.system.z != true) stars += parseInt(item.system.star);
+            if (item.system.armour.Z != true) stars += parseInt(item.system.armour.star);
 
             gRSArmour += (n / 20);
             gBEArmour += ((n / 20) / m);
@@ -298,7 +334,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         let natArmourAd = sheetData.advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.natAmour"))});
         let natArmour = 0;
-        if ( natArmourAd.length > 0 && natArmourAd[0].system.value > 0) natArmour = natArmourAd[0].system.value;
+        if ( natArmourAd.length > 0 && natArmourAd[0].system.trait.value > 0) natArmour = natArmourAd[0].system.trait.value;
 
         // Save Armour Rating in Actor
 
@@ -318,19 +354,19 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         let checkArmour1 = sheetData.combatTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.trait.armour1") + " (")})[0];
         
-        if(checkArmour1 != null) { 
+        if(checkArmour1) { 
         
-            let isrightArmour = sheetData.equiptArmour.filter(function(item) {return item.system.type.includes(checkArmour1.name.split("(")[1].slice(0, -1))});
+            let isrightArmour = sheetData.equiptArmour.filter(function(item) {return item.system.armour.type.includes(checkArmour1.name.split("(")[1].slice(0, -1))});
             if(isrightArmour.length > 0) o = 1;
         }    
 
         // STEP 2 Armour Profficiany 2 & 3
 
-        let checkArmour2 = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.armour2")})[0];
-        let checkArmour3 = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.armour3")})[0];
+        let checkArmour2 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.armour2")})[0];
+        let checkArmour3 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.armour3")})[0];
 
-        if(checkArmour2 != null) o = 1;
-        if(checkArmour3 != null) o += 1;
+        if(checkArmour2) o = 1;
+        if(checkArmour3) o += 1;
 
         // Final Amount and also so its not less than 0
 
@@ -356,21 +392,21 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         // Geschwindigkeit
 
-        let checkFlink = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.flink")})[0];
-        let checkUnsporty = sheetData.flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.unsporty")})[0];
-        let checkSmall = sheetData.flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.small")})[0];
-        let checkDwarf = sheetData.flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.dwarf")})[0];
+        let checkFlink = sheetData.advantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.flink")})[0];
+        let checkUnsporty = sheetData.flaws.filter(function(item) {return item.name === game.i18n.localize("GDSA.flaws.unsporty")})[0];
+        let checkSmall = sheetData.flaws.filter(function(item) {return item.name === game.i18n.localize("GDSA.flaws.small")})[0];
+        let checkDwarf = sheetData.flaws.filter(function(item) {return item.name === game.i18n.localize("GDSA.flaws.dwarf")})[0];
         
         sheetData.system.GS.modi = 0;
 
-        if(checkFlink != null) sheetData.system.GS.modi = checkFlink.system.value;
-        if(parseInt(sheetData.system.GE.value) >= 16) sheetData.system.GS.modi += 1;
-        if(parseInt(sheetData.system.GE.value) <= 10) sheetData.system.GS.modi -= 1;
+        if(checkFlink) sheetData.system.GS.modi = checkFlink.system.trait.value;
+        if((parseInt(sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp)) >= 16) sheetData.system.GS.modi += 1;
+        if((parseInt(sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp)) <= 10) sheetData.system.GS.modi -= 1;
 
-        if(checkUnsporty != null) sheetData.system.GS.modi -= 1;
-        if(checkSmall != null) sheetData.system.GS.modi -= 1;
-        if(checkDwarf != null) sheetData.system.GS.modi -= 2;
-        if(checkDwarf != null) sheetData.system.GS.modi -= (BE / 2);
+        if(checkUnsporty) sheetData.system.GS.modi -= 1;
+        if(checkSmall) sheetData.system.GS.modi -= 1;
+        if(checkDwarf) sheetData.system.GS.modi -= 2;
+        if(checkDwarf) sheetData.system.GS.modi -= (BE / 2);
         else sheetData.system.GS.modi -= BE;
 
         sheetData.system.GS.value = 8 + parseInt(sheetData.system.GS.modi);
@@ -378,62 +414,82 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         // INI Basis - STEP 1 BE Calculation with Armour Profficiancy III
 
         let eBE = BE;
-        let checkArmour = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.armour3")})[0];
-        if(checkArmour != null) eBE = (BE - 2) / 2;
+        let checkArmour = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.armour3")})[0];
+        if(checkArmour) eBE = (BE - 2) / 2;
         if(eBE < 0) eBE = 0;
 
         // Calculate INIBase and Save
 
-        let INIBase = Math.round(((parseInt(sheetData.system.MU.value) + parseInt(sheetData.system.MU.value) + parseInt(sheetData.system.IN.value) + parseInt(sheetData.system.GE.value)) / 5));
-        sheetData.system.INIBasis.value = INIBase;
+        let INIBase = Math.round((( parseInt(sheetData.system.MU.value) + 
+                                    parseInt(sheetData.system.MU.temp) + 
+                                    parseInt(sheetData.system.MU.value) + 
+                                    parseInt(sheetData.system.MU.temp) + 
+                                    parseInt(sheetData.system.IN.value) + 
+                                    parseInt(sheetData.system.IN.temp) + 
+                                    parseInt(sheetData.system.GE.value) + 
+                                    parseInt(sheetData.system.GE.temp)) / 5));
+        sheetData.system.INIBasis.value = INIBase + sheetData.system.INIBasis.tempmodi;
         sheetData.system.INIBasis.modi = 0;
 
         // Get Weapon / Shield INI Modi
 
         let weaponModi = 0;
-        if(sheetData.equiptMelee != null) for(const item of sheetData.equiptMelee) weaponModi += parseInt(item.system.INI);
-        if(sheetData.equiptShields != null) for(const item of sheetData.equiptShields) weaponModi += parseInt(item.system.INI);
+        if(sheetData.equiptMelee) for(const item of sheetData.equiptMelee) weaponModi += parseInt(item.system.weapon.INI);
+        if(sheetData.equiptShields) for(const item of sheetData.equiptShields) weaponModi += parseInt(item.system.weapon.INI);
 
         sheetData.system.equipINI = weaponModi;
 
         // Check for Traits for Ini Calc
 
-        let checkKampfge = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.kampfge")})[0];
-        let checkKampfre = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.kampfre")})[0];
-        let checkKlingen = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.klingen")})[0];
+        let checkKampfge = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.kampfge")})[0];
+        let checkKampfre = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.kampfre")})[0];
+        let checkKlingen = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.klingen")})[0];
 
-        if(checkKampfge != null) sheetData.system.INIBasis.modi += 2;
-        if(checkKampfre != null) sheetData.system.INIBasis.modi += 4;
+        if(checkKampfge) sheetData.system.INIBasis.modi += 2;
+        if(checkKampfre) sheetData.system.INIBasis.modi += 4;
 
         sheetData.system.INIBasis.value = sheetData.system.INIBasis.value + sheetData.system.INIBasis.modi - eBE + sheetData.system.equipINI;
 
         // Change Dice 
 
         sheetData.system.INIDice = "1d6";
-        if(checkKlingen != null) sheetData.system.INIDice = "2d6";
+        if(checkKlingen) sheetData.system.INIDice = "2d6";
 
         // Wundschwelle
 
         let checkEisern = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.iron")})[0];
         let checkGlass = sheetData.flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.glass")})[0];
 
-        sheetData.system.WS = Math.round(parseInt(sheetData.system.KO.value) / 2);
+        sheetData.system.WS = Math.round((parseInt(sheetData.system.KO.value) + parseInt(sheetData.system.KO.temp))/ 2);
 
-        if(checkEisern != null) sheetData.system.WS += 2;
-        if(checkGlass != null) sheetData.system.WS -= 2;
+        if(checkEisern) sheetData.system.WS += 2;
+        if(checkGlass) sheetData.system.WS -= 2;
 
         // Ausweichen
         
-        let checkDogde1 = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.dogde1")})[0];
-        let checkDogde2 = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.dogde2")})[0];
-        let checkDogde3 = sheetData.combatTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.dogde3")})[0];
+        let checkDogde1 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.dogde1")})[0];
+        let checkDogde2 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.dogde2")})[0];
+        let checkDogde3 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.dogde3")})[0];
 
         sheetData.system.Dogde = parseInt(sheetData.system.PABasis.value);
-        if(checkUnsporty != null) sheetData.system.Dogde -= 1;
-        if(checkDogde1 != null) sheetData.system.Dogde += 3;
-        if(checkDogde2 != null) sheetData.system.Dogde += 3;
-        if(checkDogde3 != null) sheetData.system.Dogde += 3;
-        if(checkFlink != null) sheetData.system.Dogde += checkFlink.system.value;
+        if(checkUnsporty) sheetData.system.Dogde -= 1;
+        if(checkDogde1) sheetData.system.Dogde += 3;
+        if(checkDogde2) sheetData.system.Dogde += 3;
+        if(checkDogde3) sheetData.system.Dogde += 3;
+        if(checkFlink) sheetData.system.Dogde += checkFlink.system.trait.value;
+        sheetData.system.Dogde -= BE;
+
+        // Calculate Dodge Bonus from Acrobatik
+
+        let akro = sheetData.system.skill.Akrobatik;
+        if(!(akro >= 0)) akro = 0;
+        let akBonus = Math.floor((akro - 9) / 3);
+        if(akBonus < 0) akBonus = 0;
+        sheetData.system.Dogde += akBonus;
+
+        // Add Modi to MR
+
+        sheetData.system.MR.value = sheetData.system.MRBase + sheetData.system.MR.tempmodi;
 
         // Talentspezialisierungen Array Generation
 
@@ -444,6 +500,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         for (const spezi of skillSpez) {
 
             if(!spezi.name.includes("(")) continue;
+            if(CONFIG.INIT) continue;
 
             let skillName = spezi.name.split("(")[0].substr(22).slice(0,-1);
             let spezilation = spezi.name.split("(")[1].slice(0, -1);
@@ -451,7 +508,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             const objekt = {
                 fullstring: spezi.name,
                 talentname: skillName,
-                talentshort: Util.getSkillShort(skillName),
+                talentshort: Util.getSkillName(skillName),
                 spezi: spezilation
             };
 
@@ -481,6 +538,26 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         sheetData.system.SkillSpez = spezObj;
         sheetData.system.SpellSpez = spelObj;
+
+        // Setze Meisterhandwerke
+
+        let skillMHK = sheetData.advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.mhk"))});
+
+        let mhkObj = [];
+
+        for (const spezi of skillMHK) {
+
+            let skillName = spezi.name.slice(16);
+
+            const objekt = {
+                fullstring: spezi.name,
+                talentname: skillName
+            };
+
+            mhkObj.push(objekt);
+        }
+
+        sheetData.system.mhkList = mhkObj;
 
         // Setzen der Repräsentation
 
@@ -560,22 +637,6 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if(checkGoofy != null) sheetData.goofy = true;
         else sheetData.goofy = false;
 
-        // Set Attributes in Lang und Sign 
-
-        for (let i = 0; i < sheetData.langs.length; i++) {
-
-            sheetData.langs[i].system.att1 = sheetData.system.KL.value;
-            sheetData.langs[i].system.att2 = sheetData.system.IN.value;
-            sheetData.langs[i].system.att3 = sheetData.system.CH.value;
-        }
-
-        for (let i = 0; i < sheetData.signs.length; i++) {
-
-            sheetData.signs[i].system.att1 = sheetData.system.KL.value;
-            sheetData.signs[i].system.att2 = sheetData.system.IN.value;
-            sheetData.signs[i].system.att3 = sheetData.system.CH.value;
-        }
-
         // Sort Lang, Sign, Advantages, Flaws, Spells, general and combat Traits
 
         sheetData.advantages.sort(function(a, b){
@@ -623,34 +684,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             return 0;
         });
 
-        sheetData.objectTraits.sort(function(a, b){
-
-            let x = a.name.toLowerCase();
-            let y = b.name.toLowerCase();
-            if (x < y) {return -1;}
-            if (x > y) {return 1;}
-            return 0;
-        });
-
         sheetData.holyTraits.sort(function(a, b){
-
-            let x = a.name.toLowerCase();
-            let y = b.name.toLowerCase();
-            if (x < y) {return -1;}
-            if (x > y) {return 1;}
-            return 0;
-        });
-          
-        sheetData.langs.sort(function(a, b){
-
-            let x = a.name.toLowerCase();
-            let y = b.name.toLowerCase();
-            if (x < y) {return -1;}
-            if (x > y) {return 1;}
-            return 0;
-        });
-
-        sheetData.signs.sort(function(a, b){
 
             let x = a.name.toLowerCase();
             let y = b.name.toLowerCase();
@@ -714,5 +748,54 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         });
     
         return sheetData;
+    }
+
+    _onDragStart(event) {
+
+        if(event.srcElement.className != "skillitem" && event.srcElement.className != "statitem") super._onDragStart(event);
+
+        else if(event.srcElement.className === "skillitem") {
+
+            // Get Element and Skill Infos
+
+            let element = event.currentTarget;
+            let message = element.closest(".skillitem");
+            let isSpez = (message.querySelector("[class=skillTemp]").name === "spezi");
+            let isMeta = (message.querySelector("[class=skillTemp]").name === "meta");
+            
+            // Prepare DragData
+
+            const dragData = {
+                type: "skill",
+                name: message.querySelector("[class=skillTemp]").dataset.lbl,
+                item: message.querySelector("[class=skillTemp]").dataset.stat,
+                actorId: message.querySelector("[class=skillTemp]").dataset.actor,
+                isSpez: isSpez,
+                isMeta: isMeta
+            };
+    
+            // Set data transfer
+    
+            event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+
+        } else if(event.srcElement.className === "statitem") {
+
+            // Get Element and Skill Infos
+
+            let element = event.currentTarget;
+            let message = element.closest(".statitem");
+            
+            // Prepare DragData
+
+            const dragData = {
+                type: "stat",
+                actorId: message.dataset.actor,
+                stat: message.dataset.stattype
+            };
+    
+            // Set data transfer
+    
+            event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+        } 
     }
 }

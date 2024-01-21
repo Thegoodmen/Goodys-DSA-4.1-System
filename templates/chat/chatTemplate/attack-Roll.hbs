@@ -1,0 +1,104 @@
+<div class="GDSA chat message">
+    <div class="flawBox {{#if modPresent}}statModBoxAdd{{/if}}">
+        
+        <div class="flawName">{{localize "GDSA.chat.dialog.attack"}} ({{ATKValue}})</div>
+        <div class="dicefiller"></div>
+
+        <div id="collapsable">
+            <div class="spellHeader">
+                <div class="spellInfo">
+                    <div class="dices2">
+                        <div class="dice">{{roll.total}}</div>
+                        {{#if confirm}}<div class="dice">{{roll2.total}}</div>{{/if}}
+                    </div>
+                </div>
+                <div class="spellImg">
+                    <img class="browserImg" name="{{statName}}" data-edit="img" src="{{additional.item.img}}" />
+                </div>
+            </div>
+
+            <div class="skillTable">
+
+                <table >
+                    <tbody>
+                        <tr>
+                            <td><b>{{localize "GDSA.itemsheet.type"}}:</b></td>
+                            <td>{{additional.item.system.weapon.type}} </td>
+                        </tr>
+                        <tr>
+                            <td><b>{{localize "GDSA.itemsheet.skill"}}:</b></td>
+                            <td>{{getLocName additional.skill}}</td>
+                        </tr>
+                        {{#if (equals additional.item.system.type "melee")}}
+                            <tr>
+                                <td><b>{{localize "GDSA.itemsheet.DiKl"}}:</b></td>
+                                <td>{{additional.item.system.weapon.DK}}</td>
+                            </tr>
+                        {{/if}}
+                        {{#if (equals additional.item.system.type "range")}}
+                            <tr>
+                                <td><b>{{localize "GDSA.itemsheet.range"}}:</b></td>
+                                <td>{{localize "GDSA.chat.rangeOpt.till"}} {{additional.item.system.weapon.range5}}m</td>
+                            </tr>
+                        {{/if}}
+                        <tr>
+                            <td><b>{{localize "GDSA.charactersheet.sBE"}}:</b></td>
+                            <td>{{concat "BE " additional.skill.system.tale.BEtype " "}}{{additional.skill.system.tale.BE}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            {{#each additional.used}} 
+                <div class="rollStatMod">{{this}}</div>
+                <div class="dicefiller"></div>
+            {{/each}}
+            
+            {{#if modPresent}}
+                {{#if isAdv}}
+                <div class="rollposMod">{{localize "GDSA.chat.skill.advantageOf"}} {{adv}}</div>
+                <div class="dicefiller"></div>
+                {{/if}}
+                {{#if isDis}}
+                <div class="rollnegMod">{{localize "GDSA.chat.skill.disadvantageOf"}} {{dis}}</div>
+                <div class="dicefiller"></div>
+                {{/if}}
+            {{/if}}
+
+        </div>
+        
+        <div class="dice-formula">
+                {{#if result}}
+                    {{#if critt}}
+                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.critt"}}</div>
+                    {{else}}
+                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.success"}}</div>
+                    {{/if}}
+                {{else}}               
+                    {{#if goof}}
+                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.goof"}}</div>
+                    {{else}}
+                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.fail"}}</div>
+                    {{/if}}
+                {{/if}}
+        </div>
+
+        {{#if goof}}
+            <div class="dicefiller"></div>
+            <div class="rollFlawInfo">{{goofed}}</div>
+        {{/if}}
+
+        <div id="additionalInfo">
+            {{#unless auto}}
+                {{#if result}}
+                    <div class="dicefiller"></div>
+
+                    <button class="item bntChat3 bntChatParry" data-chatId="{{chatId}}">{{localize "GDSA.chat.dialog.parry"}}</button>
+                    <button class="item bntChat3 bntChatDogde" data-chatId="{{chatId}}">{{localize "GDSA.chat.dialog.dogde"}}</button>
+                    <button class="item bntChat3 bntChatDamage" data-chatId="{{chatId}}">{{localize "GDSA.chat.dialog.damage"}}</button>
+                {{/if}}
+            {{/unless}}
+        </div>
+
+    </div>
+</div>

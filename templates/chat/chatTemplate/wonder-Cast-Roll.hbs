@@ -1,0 +1,115 @@
+<div class="GDSA chat message">
+    <div class="flawBox {{#if modPresent}}statModBoxAdd{{/if}}">
+        
+        <div class="spellName">{{statName}}</div>
+        <div class="dicefiller"></div>
+        
+        <div id="collapsable">
+            <div class="spellHeader">
+                <div class="spellInfo">
+                    <div class="dices2">
+                        <div class="dice">{{roll.total}}</div>
+                        <div class="dice">{{roll2.total}}</div>
+                        <div class="dice">{{roll3.total}}</div>
+                    </div>
+                </div>
+                <div class="spellImg">
+                    <img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" />
+                </div>
+            </div>
+
+            <div class="dicefiller"></div>
+
+            <div class="holyTable {{#if power}}bigholy{{/if}}">
+
+                <table >
+                    <tbody>
+                        <tr>
+                            <td><b>{{localize "GDSA.itemsheet.grad"}}:</b></td>
+                            <td>{{grad}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>{{localize "GDSA.itemsheet.lit"}}:</b></td>
+                            <td>{{statValue}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>{{localize "GDSA.system.reach"}}:</b></td>
+                            <td>{{localize (concat "GDSA.wonder." reach "")}} {{reachAdd}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>{{localize "GDSA.system.targt"}}:</b></td>
+                            <td>{{target}}</td>
+                        </tr>
+                        {{#if power}}
+                            <tr>
+                                <td><b>{{localize "GDSA.chat.medi.streng"}}:</b></td>
+                                <td>{{calculateWonder power tap}}</td>
+                            </tr>
+                        {{/if}}
+                        <tr>
+                            <td><b>{{localize "GDSA.itemsheet.ritdur"}}:</b></td>
+                            <td>{{action}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>{{localize "GDSA.itemsheet.wirkdu"}}:</b></td>
+                            <td>{{#unless isSpez}}{{tap}}{{/unless}}{{wirkDur}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>{{localize "GDSA.itemsheet.cost"}}:</b></td>
+                            <td>{{cost}}{{pcost}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div class="spellDisc">
+
+            </div>
+            
+            <div class="dicefiller"></div>
+
+            {{#if varis}}
+                {{#each usedVars}} 
+                    <div class="rollStatMod">{{this}}</div>
+                    <div class="dicefiller"></div>
+                {{/each}}
+            {{/if}}
+            
+            {{#if modPresent}}
+                {{#if isAdv}}
+                <div class="rollposMod">{{localize "GDSA.chat.skill.advantageOf"}} {{adv}}</div>
+                <div class="dicefiller"></div>
+                {{/if}}
+                {{#if isDis}}
+                <div class="rollnegMod">{{localize "GDSA.chat.skill.disadvantageOf"}} {{dis}}</div>
+                <div class="dicefiller"></div>
+                {{/if}}
+            {{/if}}
+        </div>
+
+        <div class="dice-formula">
+            {{#if notEnoughAsP}}
+                <div class="rollFlawFail">{{localize "GDSA.spell.notEnoughAsP"}}<span id="additionalInfo"></span></div>
+            {{else}}
+                {{#if critt}}
+                    <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.critt"}}<span id="additionalInfo"></span></div>
+                {{else}}
+                    {{#if goof}}
+                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.goof"}}<span id="additionalInfo"></span></div>
+                    {{else}}
+                        {{#if result}}
+                            <div class="rollSkillSuccess">{{localize "GDSA.chat.stat.sucessWith"}} {{tap}} {{localize "GDSA.chat.stat.TaPS"}}<br />
+                            <span id="additionalInfo">{{tapMax}}{{localize "GDSA.chat.stat.maxMod"}}</span></div>
+                        {{else}}
+                            <div class="rollSkillFail">{{localize "GDSA.chat.stat.fail"}} <br />
+                            <span id="additionalInfo">{{tap}}{{localize "GDSA.chat.stat.maxErl"}}</span></div>
+                        {{/if}}
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+        </div>
+        
+        <div class="spellFooter"><B>{{localize "GDSA.system.verbr"}}:</B> {{verb}}</div>
+    </div>
+</div>

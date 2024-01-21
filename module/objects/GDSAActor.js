@@ -3,6 +3,8 @@ import * as LSFunction from "../listenerFunctions.js"
 
 export default class GDSAActor extends Actor {
 
+
+
     prepareData() {
 
         // If later something needs to be added preprocessing Data for the Actor
@@ -54,193 +56,22 @@ export default class GDSAActor extends Actor {
         // Calculation of Base Stats
 
         this._setCharacterValues(actorData);
-        
-        // Calculation of META Talents
-
-        this._setAnsitzjagd(actorData);
-        this._setPirschjagd(actorData);
-        this._setNahrungsuchen(actorData);
-        this._setKraeutersuchen(actorData);
-        this._setWachehalten(actorData);
-    }
-
-    _setAnsitzjagd(data) {
-
-        // Reset the Skill Value
-
-        data.skill.ansi = 0;
-
-        // Retrive the Skills nessesary
-
-        let wild = (data.skill.wild === NaN) ? 0 : parseInt(data.skill.wild);
-        let tier = (data.skill.tier === NaN) ? 0 : parseInt(data.skill.tier);
-        let faer = (data.skill.faer === NaN) ? 0 : parseInt(data.skill.faer);
-        let sich = (data.skill.sich === NaN) ? 0 : parseInt(data.skill.sich);
-
-        // Retrive all Range Weapons Skills
-        
-        let armb = parseInt((data.skill.armb.value == null ? 0 : data.skill.armb.value));
-        let blas = parseInt((data.skill.blas.value == null ? 0 : data.skill.blas.value));
-        let bogn = parseInt((data.skill.bogn.value == null ? 0 : data.skill.bogn.value));
-        let disk = parseInt((data.skill.disk.value == null ? 0 : data.skill.disk.value));
-        let sleu = parseInt((data.skill.sleu.value == null ? 0 : data.skill.sleu.value));
-        let wbei = parseInt((data.skill.wbei.value == null ? 0 : data.skill.wbei.value));
-        let wmes = parseInt((data.skill.wmes.value == null ? 0 : data.skill.wmes.value));
-        let wspe = parseInt((data.skill.wspe.value == null ? 0 : data.skill.wspe.value));
-
-        // Put all Range Skills in an Array and retrive the highest Skill Value
-
-        let ftaw = 0;
-        let array = [armb,blas,bogn,disk,sleu,wbei,wmes,wspe];
-        for (var x of array) if(x > ftaw) ftaw = x;
-
-        // Calculate the Value and Test against the Rule that the highest Result can be the doubeld rank involved
-
-        let tempInt = (wild + tier + faer + sich + ftaw) / 5;
-
-        if(tempInt > (wild * 2)) tempInt = wild * 2;
-        if(tempInt > (tier * 2)) tempInt = tier * 2;
-        if(tempInt > (faer * 2)) tempInt = faer * 2;
-        if(tempInt > (sich * 2)) tempInt = sich * 2;
-        if(tempInt > (ftaw * 2)) tempInt = ftaw * 2;
-
-        // Save the Endresult to the Sheet
-
-        data.skill.ansi = Math.round(tempInt);  
-    }
-
-    _setPirschjagd(data) {
-
-        // Reset the Skill Value
-
-        data.skill.pirs = 0;
-
-        // Retrive the Skills nessesary
-
-        let wild = (data.skill.wild === NaN) ? 0 : parseInt(data.skill.wild);
-        let tier = (data.skill.tier === NaN) ? 0 : parseInt(data.skill.tier);
-        let faer = (data.skill.faer === NaN) ? 0 : parseInt(data.skill.faer);
-        let schl = (data.skill.schl === NaN) ? 0 : parseInt(data.skill.schl);
-
-        // Retrive all Range Weapons Skills
-        
-        let armb = parseInt((data.skill.armb.value == null ? 0 : data.skill.armb.value));
-        let blas = parseInt((data.skill.blas.value == null ? 0 : data.skill.blas.value));
-        let bogn = parseInt((data.skill.bogn.value == null ? 0 : data.skill.bogn.value));
-        let disk = parseInt((data.skill.disk.value == null ? 0 : data.skill.disk.value));
-        let sleu = parseInt((data.skill.sleu.value == null ? 0 : data.skill.sleu.value));
-        let wbei = parseInt((data.skill.wbei.value == null ? 0 : data.skill.wbei.value));
-        let wmes = parseInt((data.skill.wmes.value == null ? 0 : data.skill.wmes.value));
-        let wspe = parseInt((data.skill.wspe.value == null ? 0 : data.skill.wspe.value));
-
-        // Put all Range Skills in an Array and retrive the highest Skill Value
-        
-        let ftaw = 0;
-        let array = [armb,blas,bogn,disk,sleu,wbei,wmes,wspe];
-        for (var x of array) if(x > ftaw) ftaw = x;
-
-        // Calculate the Value and Test against the Rule that the highest Result can be the doubeld rank involved
-
-        let tempInt = (wild + tier + faer + schl + ftaw) / 5;
-
-        if(tempInt > (wild * 2)) tempInt = wild * 2;
-        if(tempInt > (tier * 2)) tempInt = tier * 2;
-        if(tempInt > (faer * 2)) tempInt = faer * 2;
-        if(tempInt > (schl * 2)) tempInt = schl * 2;
-        if(tempInt > (ftaw * 2)) tempInt = ftaw * 2;
-
-        // Save the Endresult to the Sheet
-
-        data.skill.pirs = Math.round(tempInt);  
-    }
-
-    _setNahrungsuchen(data) {
-
-        // Reset the Skill Value
-
-        data.skill.nahr = 0;
-
-        // Retrive the Skills nessesary
-
-        let sinn = (data.skill.sinn === NaN) ? 0 : parseInt(data.skill.sinn);
-        let wild = (data.skill.wild === NaN) ? 0 : parseInt(data.skill.wild);
-        let pfla = (data.skill.pfla === NaN) ? 0 : parseInt(data.skill.pfla);
-
-        // Calculate the Value and Test against the Rule that the highest Result can be the doubeld rank involved
-
-        let tempInt = (sinn + wild + pfla) / 3;
-
-        if(tempInt > (sinn * 2)) tempInt = sinn * 2;
-        if(tempInt > (wild * 2)) tempInt = wild * 2;
-        if(tempInt > (pfla * 2)) tempInt = pfla * 2;
-
-        // Save the Endresult to the Sheet
-
-        data.skill.nahr = Math.round(tempInt);
-    }
-
-    _setKraeutersuchen(data) {
-
-        // Reset the Skill Value
-
-        data.skill.krau = 0;
-
-        // Retrive the Skills nessesary
-
-        let sinn = (data.skill.sinn === NaN) ? 0 : parseInt(data.skill.sinn);
-        let wild = (data.skill.wild === NaN) ? 0 : parseInt(data.skill.wild);
-        let pfla = (data.skill.pfla === NaN) ? 0 : parseInt(data.skill.pfla);
-
-        // Calculate the Value and Test against the Rule that the highest Result can be the doubeld rank involved
-
-        let tempInt = (sinn + wild + pfla) / 3;
-
-        if(tempInt > (sinn * 2)) tempInt = sinn * 2;
-        if(tempInt > (wild * 2)) tempInt = wild * 2;
-        if(tempInt > (pfla * 2)) tempInt = pfla * 2;
-
-        // Save the Endresult to the Sheet
-
-        data.skill.krau = Math.round(tempInt);
-    }
-
-    _setWachehalten(data) {
-
-        // Reset the Skill Value
-
-        data.skill.wach = 0;
-
-        // Retrive the Skills nessesary
-
-        let sinn = (data.skill.sinn === NaN) ? 0 : parseInt(data.skill.sinn);
-        let selbst = (data.skill.selb === NaN) ? 0 : parseInt(data.skill.selb);
-
-        // Calculate the Value and Test against the Rule that the highest Result can be the doubeld rank involved
-
-        let tempInt = (selbst + sinn + sinn) / 3;
-
-        if(tempInt > (sinn * 2)) tempInt = sinn * 2;
-        if(tempInt > (selbst * 2)) tempInt = selbst * 2;
-
-        // Save the Endresult to the Sheet
-
-        data.skill.wach = Math.round(tempInt);
     }
 
     async _setCharacterValues(data) {
 
         // Calculate AT, PA and FK Base Values and store them in the Actor
 
-        data.ATBasis.value = Math.round(((parseInt(data.MU.value) + parseInt(data.GE.value) + parseInt(data.KK.value)) / 5));
-        data.PABasis.value = Math.round(((parseInt(data.IN.value) + parseInt(data.GE.value) + parseInt(data.KK.value)) / 5));
-        data.FKBasis.value = Math.round(((parseInt(data.IN.value) + parseInt(data.FF.value) + parseInt(data.KK.value)) / 5));
+        data.ATBasis.value = Math.round(((parseInt(data.MU.value) + parseInt(data.GE.value) + parseInt(data.KK.value) + parseInt(data.MU.temp) + parseInt(data.GE.temp) + parseInt(data.KK.temp)) / 5));
+        data.PABasis.value = Math.round(((parseInt(data.IN.value) + parseInt(data.GE.value) + parseInt(data.KK.value) + parseInt(data.IN.temp) + parseInt(data.GE.temp) + parseInt(data.KK.temp)) / 5));
+        data.FKBasis.value = Math.round(((parseInt(data.IN.value) + parseInt(data.FF.value) + parseInt(data.KK.value) + parseInt(data.IN.temp) + parseInt(data.FF.temp) + parseInt(data.KK.temp)) / 5));
 
 
         // Calculates the LeP, AuP, AsP, KaP and MR maximums Values
 
-        let mtraits = Util.getItems(this, "magicTrait", false);
-        let advantages = Util.getItems(this, "advantage", false);
-        let flaws = Util.getItems(this, "flaw", false);
+        let mtraits = Util.getTemplateSF(this, "magic", false);
+        let advantages = Util.getTemplateItems(this, "adva");
+        let flaws = Util.getTemplateItems(this, "flaw");
         let gds = mtraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.starbody")})[0];
         let asma = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.asma")})[0];
         let ausd = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.ausd")})[0];
@@ -253,17 +84,17 @@ export default class GDSAActor extends Actor {
         let mag2 = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag2")})[0];
         let mag3 = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag3")})[0];
 
-        data.LeP.max = Math.round(((parseInt(data.KO.value) + parseInt(data.KO.value) + parseInt(data.KK.value)) / 2) + parseInt(data.LePInfo.modi) + parseInt(data.LePInfo.buy));
-        if(hole != null) data.LeP.max += hole.system.value;
-        if(nile != null) data.LeP.max -= nile.system.value;
-        data.AuP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.KO.value) + parseInt(data.GE.value)) / 2) + parseInt(data.AuPInfo.modi) + parseInt(data.AuPInfo.buy));
-        if(ausd != null) data.AuP.max += ausd.system.value;
+        data.LeP.max = Math.round(((parseInt(data.KO.value) + parseInt(data.KO.value) + parseInt(data.KK.value) + parseInt(data.KO.temp) + parseInt(data.KO.temp) + parseInt(data.KK.temp)) / 2) + parseInt(data.LePInfo.modi) + parseInt(data.LePInfo.buy));
+        if(hole != null) data.LeP.max += hole.system.trait.value;
+        if(nile != null) data.LeP.max -= nile.system.trait.value;
+        data.AuP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.KO.value) + parseInt(data.GE.value) + parseInt(data.MU.temp) + parseInt(data.KO.temp) + parseInt(data.GE.temp)) / 2) + parseInt(data.AuPInfo.modi) + parseInt(data.AuPInfo.buy));
+        if(ausd != null) data.AuP.max += ausd.system.trait.value;
 
-        if (data.AsPInfo.modi != 0) {
-            if(gds != null) data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value) + parseInt(data.CH.value)) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
-            else data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value)) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
-            if(asma != null) data.AsP.max += asma.system.value;
-            if(nias != null) data.AsP.max -= nias.system.value;
+        if (mag1 != null || mag2 != null || mag3 != null) {
+            if(gds != null) data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value) + parseInt(data.CH.value) + parseInt(data.MU.temp) + parseInt(data.IN.temp) + parseInt(data.CH.temp) + parseInt(data.CH.temp)) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
+            else data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value) + parseInt(data.MU.temp) + parseInt(data.IN.temp) + parseInt(data.CH.temp)) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
+            if(asma != null) data.AsP.max += asma.system.trait.value;
+            if(nias != null) data.AsP.max -= nias.system.trait.value;
             if(mag1 != null) data.AsP.max -= 6;
             if(mag2 != null) data.AsP.max += 6;
             if(mag3 != null) data.AsP.max += 12;
@@ -272,18 +103,18 @@ export default class GDSAActor extends Actor {
         if (data.KaPInfo.modi > 0) data.KaP.max = Math.round(parseInt(data.KaPInfo.modi));
         else data.KaP.max = 0;
 
-        data.MR.value = Math.round(((parseInt(data.MU.value) + parseInt(data.KL.value) + parseInt(data.KO.value)) / 5) + parseInt(data.MR.modi) + parseInt(data.MR.buy));
-        if(homr != null) data.MR.value += homr.system.value;
-        if(nimr != null) data.MR.value -= nimr.system.value;
+        data.MRBase = Math.round(((parseInt(data.MU.value) + parseInt(data.KL.value) + parseInt(data.KO.value) + parseInt(data.MU.temp) + parseInt(data.KL.temp) + parseInt(data.KO.temp)) / 5) + parseInt(data.MR.modi) + parseInt(data.MR.buy));
+        if(homr != null) data.MR.value += homr.system.trait.value;
+        if(nimr != null) data.MR.value -= nimr.system.trait.value;
         if(mag2 != null) data.MR.value += 1;
         if(mag3 != null) data.MR.value += 2;
 
         // Set up Number of Attacks in Combat
 
-        let traits = Util.getItems(this, "combatTrait", false);
-        this.combatTraits = Util.getItems(this, "combatTrait", false);
-        this.equiptMelee = Util.getItems(this, "melee-weapons", true);
-        this.generalTraits = Util.getItems(this, "generalTrait", false);
+        let traits = Util.getTemplateSF(this, "combat", false);
+        this.combatTraits = Util.getTemplateSF(this, "combat", false);
+        this.equiptMelee = Util.getItem(this, "melee", true);
+        this.generalTraits = Util.getTemplateSF(this, "general", false);
         data.ATCount = 1;
         data.PACount = 1;
         let at1 = traits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.twohanded2")})[0];
@@ -296,38 +127,47 @@ export default class GDSAActor extends Actor {
 
         // Set highest Parry for automated Combat
 
-        let weapons = Util.getItems(this, "melee-weapons", false);
-        let shields = Util.getItems(this, "shields", false);
+        let weapons = Util.getItem(this, "melee", false);
+        let shields = Util.getItem(this, "shild", false);
 
         data.mainPA = 0;
 
         for(let weapon of weapons) {
 
-            let skill = weapon.system.skill;
-            let weap = weapon.system.type;
+            if(CONFIG.INIT) continue;
+
+            let skill = weapon.system.weapon.skill;
+            let weap = weapon.system.weapon.type;
 
             // Calculate PAValue
 
-            let PAValue = Util.getSkillPAValue(this, skill);
-            let wm = weapon.system["WM-DEF"];
+            let skillItem = {};
+
+            for (let i = 0; i < CONFIG.Templates.talents.all.length; i++) 
+                if (CONFIG.Templates.talents.all[i]._id === skill) 
+                    skillItem = CONFIG.Templates.talents.all[i];
+
+            let PAValue = data.skill[skillItem.name].def;
+
+            let wm = weapon.system.weapon["WM-DEF"];
             PAValue += wm;
 
             // Has Specilazation ?
 
-            let Spezi = Util.getItems(this, "generalTrait", false).filter(function(item) {return item.name.includes(weap)});
-            let isSpezi= (Spezi.length > 0) ? true : false;
-            if(isSpezi) PAValue += 1;
+            let Spezi = Util.getTemplateSF(this, "general", false).filter(function(item) {return item.name.includes(weap)});
+            if(Spezi.length > 0) PAValue += 1;
 
             if(PAValue > data.mainPA) data.mainPA = PAValue;
         }
 
         for(let shield of shields) {
 
+            if(CONFIG.INIT) continue;
+
             // Get Shield    
 
-            let item = shield; 
-            let type = item.system.heigt;
-            let wm = item.system["WM-DEF"];
+            let type = shield.system.weapon.parType;
+            let wm = shield.system.weapon["WM-DEF"];
 
             // Calculate Parry Value
 
@@ -336,7 +176,7 @@ export default class GDSAActor extends Actor {
             
             // Do Shield or ParryWeapon Weapon
 
-            if(type != game.i18n.localize("GDSA.itemsheet.parryWeapon"))  PABasis = await LSFunction.getShildPABasis(this, PABasis);
+            if(type === "shild")  PABasis = await LSFunction.getShildPABasis(this, PABasis);
             else  PABasis = await LSFunction.getParryWeaponPABasis(this, wm);
 
             if(PABasis > data.mainPA) data.mainPA = PABasis;
@@ -344,26 +184,33 @@ export default class GDSAActor extends Actor {
 
         // Advanced Inventory System
 
-        let itemArray = Util.getItems(this, "generals", false);
+        let itemArray = Util.getItem(this, "item", false);
         let mainArray = [];
         let mainTypes = {meeleW: true, rangeW: true, shield: true, armour: true};
 
+        mainTypes = Object.assign(mainTypes, data.invState);
+          
+        // for (const [key, value] of Object.entries(data.invState)) { mainTypes[key] = value; }
+
         for(let item of itemArray) {
-            if(mainArray.filter(function(a) {return a.type == item.system.type}).length != 1) {
+
+            if(mainArray.filter(function(a) {return a.type === item.system.item.category}).length != 1) {
                 
                 mainArray.push({
-                    type: item.system.type,
-                    weight: parseInt(item.system.weight),
-                    value: parseInt(item.system.value),
+                    type: item.system.item.category,
+                    weight: (parseInt(item.system.weight) * parseInt(item.system.quantity)),
+                    value: (parseInt(item.system.value) * parseInt(item.system.quantity)),
                     item: [item]
                 });
-                mainTypes[item.system.type] = true;}
 
-            else {
+                if (!(item.system.item.category in mainTypes)) mainTypes[item.system.item.category] = true;
+            
+            } else {
 
-                mainArray.filter(function(a) {return a.type == item.system.type})[0].weight += parseInt(item.system.weight);
-                mainArray.filter(function(a) {return a.type == item.system.type})[0].value += parseInt(item.system.value);
-                mainArray.filter(function(a) {return a.type == item.system.type})[0].item.push(item);
+                mainArray.filter(function(a) {return a.type === item.system.item.category})[0].weight += (parseInt(item.system.weight) * parseInt(item.system.quantity));
+                mainArray.filter(function(a) {return a.type === item.system.item.category})[0].value += (parseInt(item.system.value) * parseInt(item.system.quantity));
+                mainArray.filter(function(a) {return a.type === item.system.item.category})[0].item.push(item);
+
             }
         }
 
@@ -371,7 +218,7 @@ export default class GDSAActor extends Actor {
         data.generalItemType = mainTypes;
     }
 
-    setStatData(type, value) {
+    async setStatData(type, value) {
 
         // Methode to update Ressources directly
 
@@ -472,6 +319,18 @@ export default class GDSAActor extends Actor {
             case "APFree":
                 this.update({ "system.APFree.value": value });
                 break;
+            
+            case "mirTemp":
+                this.update({ "system.mirTemp": value });
+                break;
+
+            case "allSkills":
+                await this.update({ "system.allSkills": value});
+                break;
+
+            case "mirakelTemp":
+                await this.update({ "system.mirikal.cus": value});
+                break;
         }
     }
 
@@ -486,8 +345,29 @@ export default class GDSAActor extends Actor {
         this.update({ "system.age": object.age });
         this.update({ "system.height": object.size });
         this.update({ "system.weight": object.weight });
-        this.update({ "system.SO": object.social });
-        
+        this.update({ "system.SO": object.social });        
+    }
+
+    setRitSkills(object) {
+
+        // Methode to update Character Ritual Skills
+
+        this.update({ "system.skill.ritalch": object.ritalch });
+        this.update({ "system.skill.ritderw": object.ritderw });
+        this.update({ "system.skill.ritdrui": object.ritdrui });
+        this.update({ "system.skill.ritdurr": object.ritdurr });
+        this.update({ "system.skill.ritgban": object.ritgban });
+        this.update({ "system.skill.ritgruf": object.ritgruf });
+        this.update({ "system.skill.ritgauf": object.ritgauf });
+        this.update({ "system.skill.ritgbin": object.ritgbin });
+        this.update({ "system.skill.ritgeod": object.ritgeod });
+        this.update({ "system.skill.ritgild": object.ritgild });
+        this.update({ "system.skill.rithexe": object.rithexe });
+        this.update({ "system.skill.ritkris": object.ritkris });
+        this.update({ "system.skill.ritpetr": object.ritpetr });
+        this.update({ "system.skill.ritscha": object.ritscha });
+        this.update({ "system.skill.rittanz": object.rittanz });
+        this.update({ "system.skill.ritzibi": object.ritzibi });        
     }
 
     addLogEntry(Entry) {
@@ -536,5 +416,13 @@ export default class GDSAActor extends Actor {
                 this.update({ "system.wp.all": wound});
                 break;
         }
+    }
+
+    setInventorySystem(type, state) {
+
+        let keyVar = "system.invState." + type;
+
+        this.update({ [keyVar]: state });
+
     }
 }

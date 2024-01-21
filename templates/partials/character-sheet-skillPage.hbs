@@ -17,6 +17,13 @@
 		<a class="item stat-roll" data-stattype="KK" title="roll"><div class="skillHeaderStat">{{localize "GDSA.charactersheet.sKK"}}<br /><b>{{system.KK.value}}</b></div></a>
 		<div class="skillHeaderFiller"></div>
 		<div class="skillHeaderStat">{{localize "GDSA.charactersheet.sBE"}}<br /><b>{{system.gBEArmour}}</b></div>
+		<a class="showSkills" title="showSkills"><div class="skillhide">
+			{{#if system.allSkills}}
+				<i class="fa-solid fa-eye"></i>
+			{{else}}
+				<i class="fa-duotone fa-eye-slash"></i>
+			{{/if}}
+		</div></a>
 	</div>
 </div>
 	

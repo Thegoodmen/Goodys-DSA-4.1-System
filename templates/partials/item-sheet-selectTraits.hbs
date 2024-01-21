@@ -1,0 +1,20 @@
+<option value="none"></option>
+<option value="none">-- {{localize "GDSA.templates.sfGeneral"}} --</option>
+{{#each templates.traits.general as |item|}}
+    <option value="{{item.name}}">{{item.system.tale.DE}}</option>
+{{/each}}
+<option value="none"></option>
+<option value="none">-- {{localize "GDSA.templates.sfCombat"}} --</option>
+{{#each templates.traits.combat as |item|}}
+    <option value="{{item.name}}">{{item.system.tale.DE}}</option>
+{{/each}}
+<option value="none"></option>
+<option value="none">-- {{localize "GDSA.templates.sfMagic"}} --</option>
+{{#each templates.traits.magic as |item|}}
+    <option value="{{item.name}}">{{item.system.tale.DE}}</option>
+{{/each}}
+<option value="none"></option>
+<option value="none">-- {{localize "GDSA.templates.sfHoly"}} --</option>
+{{#each templates.traits.holy as |item|}}
+    <option value="{{item.name}}">{{item.system.tale.DE}}</option>
+{{/each}}

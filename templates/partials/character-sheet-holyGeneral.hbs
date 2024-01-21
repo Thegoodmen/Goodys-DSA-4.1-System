@@ -8,8 +8,8 @@
 
     <div class="skill-lit">
         <table style="display: inline-block">
-                <tr class="item-context">
-                    <td class="skillTableNameBig"><a class="item skill-roll" data-statName="{{localize "GDSA.charactersheet.wonderskill"}}"
+                <tr>
+                    <td class="skillTableNameBig"><a class="item wonder-roll" data-statName="{{localize "GDSA.charactersheet.wonderskill"}}"
                     data-stat_one="{{system.MU.value}}" data-stat_two="{{system.IN.value}}" data-stat_three="{{system.CH.value}}" title="roll">
                         {{localize "GDSA.charactersheet.wonderskill"}}   
                     </a></td> 
@@ -27,12 +27,11 @@
         <div class="flawbnt"><a class="changeTab item" data-destination="holytraitPage" data-origin="holyPage" data-optional="holy">
             <i class="fas fa-book plusSym"></i>
         </a></div>
-        <div class="flawbnt"><a class="item-create" data-type="holyTrait"><i class="fas fa-plus plusSym"></i></a></div>
 		<div class="traithrbox"><hr class="flawhr" /></div>
     	<section class="holytraits">
 			{{#each holyTraits as |Trait id|}}
 				<div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
-                    <div class="trait">{{name}}</div><hr class="flawhr" />
+                    <div class="trait">{{name}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</div><hr class="flawhr" />
                 </div>
 			{{/each}}
 		</section>

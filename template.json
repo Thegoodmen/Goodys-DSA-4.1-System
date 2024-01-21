@@ -186,260 +186,141 @@
                 "nickel": 0
             },
             "skill": {
-                "andr": {
+                "Anderthalbhänder": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "armb": {
+                "Armbrust": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "bela": {
+                "Belagerungswaffen": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "blas": {
+                "Blasrohr": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "bogn": {
+                "Bogen": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "disk": {
+                "Diskus": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "dolc": {
+                "Dolche": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "fech": {
+                "Fechtwaffen": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "hieb": {
+                "Hiebwaffen": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "infa": {
+                "Infanteriewaffen": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "kets": {
+                "Kettenstäbe": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "ketw": {
+                "Kettenwaffen": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "lanz": {
+                "Lanzenreiten": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "peit": {
+                "Peitsche": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "rauf": {
+                "Raufen": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "ring": {
+                "Ringen": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "saeb": {
+                "Säbel": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "sleu": {
+                "Schleuder": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "swer": {
+                "Schwerter": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "sper": {
+                "Speere": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "stab": {
+                "Stäbe": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "wbei": {
+                "Wurfbeile": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "wmes": {
+                "Wurfmesser": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "wspe": {
+                "Wurfspeere": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "zfle": {
+                "Zweihandflegel": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "zhie": {
+                "Zweihand-Hiebwaffen": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "zswe": {
+                "Zweihandschwerter / -säbel": {
                     "value": "",
                     "atk": "",
                     "def": ""
                 },
-                "akro": "",
-                "ath": "",
-                "fly": "",
-                "gau": "",
-                "klet": "",
-                "koer": "",
-                "reit": "",
-                "schl": "",
-                "swim": "",
-                "selb": "",
-                "sich": "",
-                "sing": "",
-                "sinn": "",
-                "ski": "",
-                "stim": "",
-                "danc": "",
-                "tasc": "",
-                "zech": "",
-                "beto": "",
-                "etik": "",
-                "gass": "",
-                "lehr": "",
-                "mens": "",
-                "acti": "",
-                "writ": "",
-                "clot": "",
-                "uber": "",
-                "zeug": "",
-                "faer": "",
-                "fall": "",
-                "fess": "",
-                "fisc": "",
-                "orie": "",
-                "wett": "",
-                "wild": "",
-                "ansi": "",
-                "pirs": "",
-                "nahr": "",
-                "krau": "",
-                "wach": "",
-                "anat": "",
-                "bauk": "",
-                "buks": "",
-                "geog": "",
-                "gesc": "",
-                "gest": "",
-                "goet": "",
-                "hera": "",
-                "huet": "",
-                "krie": "",
-                "kryp": "",
-                "magi": "",
-                "mech": "",
-                "pfla": "",
-                "phil": "",
-                "calc": "",
-                "rect": "",
-                "sage": "",
-                "shae": "",
-                "spra": "",
-                "staa": "",
-                "ster": "",
-                "tier": "",
-                "abri": "",
-                "acke": "",
-                "alch": "",
-                "berg": "",
-                "boge": "",
-                "boot": "",
-                "brau": "",
-                "druc": "",
-                "fahr": "",
-                "fals": "",
-                "fein": "",
-                "feue": "",
-                "flei": "",
-                "gerb": "",
-                "glas": "",
-                "grob": "",
-                "hand": "",
-                "haus": "",
-                "hgif": "",
-                "hkra": "",
-                "hsee": "",
-                "hwun": "",
-                "holz": "",
-                "inst": "",
-                "kart": "",
-                "koch": "",
-                "kris": "",
-                "lede": "",
-                "male": "",
-                "maur": "",
-                "meta": "",
-                "musi": "",
-                "shlo": "",
-                "shna": "",
-                "shne": "",
-                "seef": "",
-                "seil": "",
-                "stme": "",
-                "stsh": "",
-                "stel": "",
-                "stof": "",
-                "taet": "",
-                "toep": "",
-                "vieh": "",
-                "webk": "",
-                "winz": "",
-                "zimm": "",
-                "empa": "",
-                "gefa": "",
-                "gera": "",
-                "krae": "",
-                "magg": "",
-                "prop": "",
-                "tale": "",
-                "tiem": "",
-                "zwer": "",
                 "ritgild": "",
                 "ritscha": "",
                 "ritalch": "",
@@ -469,34 +350,27 @@
                 "lLeg": 0,
                 "all": 0
             },
+            "mirikal": {
+                "template": "Pra",
+                "custom": false,
+                "cus": {}
+            },
             "log": []
         }
     },
     "Item": {
         "types":[
-            "generals",
-            "melee-weapons",
-            "range-weapons",
-            "shields",
-            "armour",
-            "advantage",
-            "flaw",
-            "langu",
-            "signs",
-            "generalTrait",
-            "combatTrait",
-            "magicTrait",
-            "objectTrait",
-            "holyTrait",
+            "Gegenstand",
+            "Template",
             "spell",
-            "ritual",
-            "ritualSkill",
-            "objektRitual",
-            "affiliation",
             "wonder",
+            "ritual",
+            "objektRitual",
+
+            "generalTrait",
+            "affiliation",
             "simple-weapon",
-            "talent",
-            "giftflaw"
+            "talent"
         ],
         "templates": {
             "generalItems": {
@@ -513,12 +387,20 @@
                 "value": 0
             }
         },
+        "Gegenstand": {
+            "templates": ["generalItems"],
+            "type": "item",
+            "quantity": 1
+        },
         "generals" : {
             "templates": [
                 "generalItems"
             ],
             "type": "Wertgegenstand",
             "quantity": 1
+        },
+        "Template": {
+            "type": "none"
         },
         "melee-weapons": {
             "templates": [
@@ -576,21 +458,6 @@
             "leftleg": 0,
             "star": 0,
             "Z": false
-        },
-        "advantage": {
-            "templates": [
-                "trait"
-            ]
-        },
-        "flaw": {
-            "templates": [
-                "trait"
-            ]
-        },
-        "giftflaw": {
-            "templates": [
-                "trait"
-            ]
         },
         "talent": {
             "templates": [

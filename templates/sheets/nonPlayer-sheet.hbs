@@ -87,14 +87,14 @@
 
             <div class="mainRow3">
                 <div class="subhead">{{localize "GDSA.charactersheet.giflaw"}}</div>
-                <div class="addItemBox"><a class="item-create" data-type="giftflaw" title="{{localize "GDSA.charactersheet.addItem"}}">
+                <div class="addItemBox"><a class="template-create" data-type="adva" title="{{localize "GDSA.charactersheet.addItem"}}">
                     <i class="fas fa-plus plusSym2"></i>
                 </a></div>
                 <hr class="hrMenu3">
                 <div class="subrow2">                
                     {{#each gifts as |gift id|}}
-                        <div class="item" data-item-id="{{_id}}" data-FlawValue="{{system.value}}" data-flawName="{{name}}">
-                        <a class="flaw-roll"><div class="traitName item-context" data-item-id="{{_id}}">{{name}} {{#if (ne system.value 0)}}{{system.value}}{{/if}}</div></a>
+                        <div class="item" data-item-id="{{_id}}" data-FlawValue="{{system.trait.value}}" data-flawName="{{name}}">
+                        <a class="flaw-roll"><div class="traitName item-context" data-item-id="{{_id}}">{{name}} {{#if (ne system.trait.value 0)}}{{system.trait.value}}{{/if}}</div></a>
                         <div class="cmbticon"><a class="item-edit" title="Edit"><i class="fas fa-gear faD20Stat"></i></a></div>
                         <div class="cmbticon"><a class="item-delete" title="Delete"><i class="fas fa-trash-can faD20Stat"></i></a></div></div>
                     {{/each}}

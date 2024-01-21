@@ -9,22 +9,109 @@
     <div class="skill-rit">
         <table style="display: inline-block">
             <tr class="headcol">
-                <td class="skillTableNameBig" colspan="2"><div class="addRitKenn">{{localize "GDSA.charactersheet.rit"}}</div></td>
+                <td class="skillTableNameBig" colspan="2"><div class="addRitKenn">{{localize "GDSA.charactersheet.rit"}}</div>
+                    <div class="ritHelper">   
+                        <a class="edit-ritSkill"><i class="fas fa-gear"></i></a>
+                    </div>
+                </td>
             </tr>
-            {{#each ritualSkills as |item id|}}
-                <tr class="item" data-item-id="{{_id}}">
-                    <td class="skillTableNameBig">{{localize (concat "GDSA.ritualSkills." ./system/skill "")}} 
-                            <div class="ritHelper">   
-                                <a class="item-edit"><i class="fas fa-gear"></a></i>
-                                <a class="item-delete"><i class="fas fa-trash-can"></a></i>
-                            </div>
-                    </td>
-                    <td class="skillTableValue"><input class="skillTemp" name="{{concat "system.skill.rit" ./system/skill ""}}" type="number" value="{{getRitData ../system/skill ./system/skill}}" /></td>
-                </tr>
-            {{/each}}
+
+            {{#if (isEqualORGreater system.skill.ritalch 1)}}
                 <tr class="item">
-                    <td class="skillTableNameBig" colspan="2"><a class="item-create" data-type="ritualSkill"><div class="addRitKenn">+</div></a></td>
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.alch"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritalch" type="number" value="{{system.skill.ritalch}}" /></td>
                 </tr>
+            {{/if}}
+            {{#if (isEqualORGreater system.skill.ritderw 1)}}
+                <tr class="item">
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.derw"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritderw" type="number" value="{{system.skill.ritderw}}" /></td>
+                </tr>
+            {{/if}}
+            {{#if (isEqualORGreater system.skill.ritdrui 1)}}
+                <tr class="item">
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.drui"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritdrui" type="number" value="{{system.skill.ritdrui}}" /></td>
+                </tr>
+            {{/if}}
+            {{#if (isEqualORGreater system.skill.ritdurr 1)}}
+                <tr class="item">
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.durr"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritdurr" type="number" value="{{system.skill.ritdurr}}" /></td>
+                </tr>
+            {{/if}}
+            {{#if (isEqualORGreater system.skill.ritgban 1)}}
+                <tr class="item">
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.gban"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritgban" type="number" value="{{system.skill.ritgban}}" /></td>
+                </tr>
+            {{/if}}
+            {{#if (isEqualORGreater system.skill.ritgruf 1)}}
+                <tr class="item">
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.gruf"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritgruf" type="number" value="{{system.skill.ritgruf}}" /></td>
+                </tr>
+            {{/if}}
+            {{#if (isEqualORGreater system.skill.ritgauf 1)}}
+                <tr class="item">
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.gauf"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritgauf" type="number" value="{{system.skill.ritgauf}}" /></td>
+                </tr>
+            {{/if}}
+            {{#if (isEqualORGreater system.skill.ritgbin 1)}}
+                <tr class="item">
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.gbin"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritgbin" type="number" value="{{system.skill.ritgbin}}" /></td>
+                </tr>
+            {{/if}}
+            {{#if (isEqualORGreater system.skill.ritgeod 1)}}
+                <tr class="item">
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.geod"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritgeod" type="number" value="{{system.skill.ritgeod}}" /></td>
+                </tr>
+            {{/if}}
+            {{#if (isEqualORGreater system.skill.ritgild 1)}}
+                <tr class="item">
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.gild"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritgild" type="number" value="{{system.skill.ritgild}}" /></td>
+                </tr>
+            {{/if}}
+            {{#if (isEqualORGreater system.skill.rithexe 1)}}
+                <tr class="item">
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.hexe"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.rithexe" type="number" value="{{system.skill.rithexe}}" /></td>
+                </tr>
+            {{/if}}
+            {{#if (isEqualORGreater system.skill.ritkris 1)}}
+                <tr class="item">
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.kris"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritkris" type="number" value="{{system.skill.ritkris}}" /></td>
+                </tr>
+            {{/if}}
+            {{#if (isEqualORGreater system.skill.ritpetr 1)}}
+                <tr class="item">
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.petr"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritpetr" type="number" value="{{system.skill.ritpetr}}" /></td>
+                </tr>
+            {{/if}}
+            {{#if (isEqualORGreater system.skill.ritscha 1)}}
+                <tr class="item">
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.scha"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritscha" type="number" value="{{system.skill.ritscha}}" /></td>
+                </tr>
+            {{/if}}
+            {{#if (isEqualORGreater system.skill.rittanz 1)}}
+                <tr class="item">
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.tanz"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.rittanz" type="number" value="{{system.skill.rittanz}}" /></td>
+                </tr>
+            {{/if}}
+            {{#if (isEqualORGreater system.skill.ritzibi 1)}}
+                <tr class="item">
+                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.zibi"}}</td>
+                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritzibi" type="number" value="{{system.skill.ritzibi}}" /></td>
+                </tr>
+            {{/if}}
         </table>
     </div>
 
@@ -33,12 +120,11 @@
         <div class="flawbnt"><a class="changeTab item" data-destination="magictraitPage" data-origin="magicPage" data-optional="magic">
             <i class="fas fa-book plusSym"></i>
         </a></div>
-        <div class="flawbnt"><a class="item-create" data-type="magicTrait"><i class="fas fa-plus plusSym"></i></a></div>
 		<div class="traithrbox"><hr class="flawhr" /></div>
     	<section class="holytraits">
 			{{#each magicTraits as |Trait id|}}
 				<div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
-                    <div class="trait">{{name}}</div><hr class="flawhr" />
+                    <div class="trait">{{name}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</div><hr class="flawhr" />
                 </div>
 			{{/each}}
 		</section>

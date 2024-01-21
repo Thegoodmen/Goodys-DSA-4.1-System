@@ -1,9 +1,9 @@
-export async function GetSkillCheckOptions() {
+export async function GetSkillCheckOptions(skill) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/skill-check-dialog.hbs";
-    const html = await renderTemplate(template, {});
+    const template = "systems/GDSA/templates/chat/dialog/skill-Roll.hbs";
+    const html = await renderTemplate(template, skill);
 
     return new Promise(resolve => {
 
@@ -29,11 +29,104 @@ export async function GetSkillCheckOptions() {
     });
 }
 
+export async function GetStatCheckOptions(skill) {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/chat/dialog/stat-Roll.hbs";
+    const html = await renderTemplate(template, skill);
+
+    return new Promise(resolve => {
+
+        // Set up Parameters for Dialog
+
+        const data = {
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.roll"),
+                                callback: html => resolve(_processStatCheckOptions(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
+export async function GetDogdeOptions() {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/chat/dialog/dogde-Roll.hbs";
+    const html = await renderTemplate(template, {});
+
+    return new Promise(resolve => {
+
+        // Set up Parameters for Dialog
+
+        const data = {
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.roll"),
+                                callback: html => resolve(_processDogdeOptions(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
+export async function GetMirikalOptions() {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/chat/dialog/mirikal-Roll.hbs";
+    const html = await renderTemplate(template);
+
+    return new Promise(resolve => {
+
+        // Set up Parameters for Dialog
+
+        const data = {
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.roll"),
+                                callback: html => resolve(_processMirikalCheckOptions(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
 export async function GetWonderOptions(wonder) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/wonder-check-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/wonder-Cast-Roll.hbs";
     const html = await renderTemplate(template, wonder);
 
     return new Promise(resolve => {
@@ -64,7 +157,7 @@ export async function GetSpellOptions(spell) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/spell-check-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/spell-Cast-Roll.hbs";
     const html = await renderTemplate(template, spell);
 
     return new Promise(resolve => {
@@ -95,7 +188,7 @@ export async function GetAttributoOptions(spell) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/spell-attributo-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/spell-attributo.hbs";
     const html = await renderTemplate(template, spell);
 
     return new Promise(resolve => {
@@ -126,7 +219,7 @@ export async function GetFaxiOptions(spell) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/spell-faxio-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/spell-faxio.hbs";
     const html = await renderTemplate(template, spell);
 
     return new Promise(resolve => {
@@ -157,7 +250,7 @@ export async function GetAchazOptions(spell) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/spell-achaz-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/spell-achaz.hbs";
     const html = await renderTemplate(template, spell);
 
     return new Promise(resolve => {
@@ -189,7 +282,7 @@ export async function GetMeditationOptions() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/medi-check-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/medi-Check-Roll.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -220,7 +313,7 @@ export async function GetLePLossInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/getDMG-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/lep-loss.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -252,7 +345,7 @@ export async function GetAsPLossInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/getAsPLoss-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/asp-loss.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -284,7 +377,7 @@ export async function GetAsPInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/getAsP-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/asp-gain.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -316,7 +409,7 @@ export async function GetKaPInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/getKaP-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/kap-gain.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -348,7 +441,7 @@ export async function GetKaPLossInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/getKaPLoss-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/kap-loss.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -380,7 +473,7 @@ export async function GetLePInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/getHeal-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/lep-gain.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -412,7 +505,7 @@ export async function GetRegInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/doReg-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/regeneration-Roll.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -440,12 +533,12 @@ export async function GetRegInfo() {
     });
 }
 
-export async function GetAtkInfo() {
+export async function GetAtkInfo(item) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/doAtk-dialog.hbs";
-    const html = await renderTemplate(template, {});
+    const template = "systems/GDSA/templates/chat/dialog/meele-Attack-Roll.hbs";
+    const html = await renderTemplate(template, item);
 
     return new Promise(resolve => {
 
@@ -472,12 +565,12 @@ export async function GetAtkInfo() {
     });
 }
 
-export async function GetRangeAtkInfo() {
+export async function GetRangeAtkInfo(item) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/doRangeAtk-dialog.hbs";
-    const html = await renderTemplate(template, {});
+    const template = "systems/GDSA/templates/chat/dialog/range-Attack-Roll.hbs";
+    const html = await renderTemplate(template, item);
 
     return new Promise(resolve => {  
 
@@ -508,7 +601,7 @@ export async function GetMoneyOptions() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/money-dialog.hbs";
+    const template = "systems/GDSA/templates/chat/dialog/currency-change.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -668,6 +761,72 @@ export async function editCharRess(context) {
     });
 }
 
+export async function getAdvantage(context) {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/sheets/getAdvantage.hbs";
+    context.config = CONFIG.GDSA;
+    const html = await renderTemplate(template, context);
+
+    return new Promise(resolve => {  
+
+        // Set up Parameters for Dialog
+
+        const data = {
+
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.do"),
+                                callback: html => resolve(_processTempSelection(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
+export async function editRitualSkills(context) {
+
+    // Create Dialog and show to User
+
+    const template = "systems/GDSA/templates/chat/dialog/ritSkill-change.hbs";
+    context.config = CONFIG.GDSA;
+    const html = await renderTemplate(template, context);
+
+    return new Promise(resolve => {  
+
+        // Set up Parameters for Dialog
+
+        const data = {
+
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.chat.skill.do"),
+                                callback: html => resolve(_processEditRitSkill(html[0].querySelector("form")))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
         // #################################################################################################
         // #################################################################################################
         // ##                                                                                             ##
@@ -679,10 +838,106 @@ export async function editCharRess(context) {
 
 function _processSkillCheckOptions(form) {
 
+    let advantage;
+    let disadvantage;
+    let taladvantage = 0;
+    let taldisadvantage = 0;
+    let talS = false;
+    let mirakel = false;
+    let be = false;
+    let beDis = 0;
+    let mhk = 0;
+    let used = [];
+
+    advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
+    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+
+    if(form.talSadvantage != null) taladvantage = parseInt(form.talSadvantage.value !== "" ? form.talSadvantage.value : 0);
+    if(form.talSdisadvantage != null) taldisadvantage = parseInt(form.talSdisadvantage.value !== "" ? form.talSdisadvantage.value : 0);
+
+    if(form.talentS != null) talS = form.talentS.checked;
+    if(form.be != null) be = form.be.checked;
+    if(form.be != null) beDis = form.beValue.value;
+    if(form.mhk != null) mhk = form.mhk.value;
+    if(form.mirakel != null) mirakel = form.mirakel.checked;
+
+    if(be && beDis > 0) { used.push(game.i18n.localize("GDSA.template.BE") + "s " + game.i18n.localize("GDSA.itemsheet.disad")  + " (+ " + beDis + ")")};
+
+    return {
+       
+        advantage: advantage,
+        disadvantage: disadvantage,
+        taladvantage: taladvantage,
+        taldisadvantage: taldisadvantage,
+        be: be,
+        mhk: mhk,
+        used: used,
+        talS: talS,
+        mirakel: mirakel
+    }
+}
+
+function _processStatCheckOptions(form) {
+
+    let advantage;
+    let disadvantage;
+    let taladvantage = 0;
+    let taldisadvantage = 0;
+    let talS = false;
+    let mirakel = false;
+    let used = [];
+    let ironWill = false;
+    let willProt = false;
+
+    advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
+    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+
+    if(form.talSadvantage != null) taladvantage = parseInt(form.talSadvantage.value !== "" ? form.talSadvantage.value : 0);
+    if(form.talSdisadvantage != null) taldisadvantage = parseInt(form.talSdisadvantage.value !== "" ? form.talSdisadvantage.value : 0);
+
+    if(form.talentS != null) talS = form.talentS.checked;
+    if(form.mirakel != null) mirakel = form.mirakel.checked;
+    if(form.ironWill != null) ironWill = form.ironWill.checked;
+    if(form.willProt != null) willProt = form.willProt.checked;
+
+    return {
+       
+        advantage: advantage,
+        disadvantage: disadvantage,
+        taladvantage: taladvantage,
+        taldisadvantage: taldisadvantage,
+        used: used,
+        talS: talS,
+        mirakel: mirakel,
+        ironWill: ironWill,
+        willProt: willProt
+    }
+}
+
+function _processDogdeOptions(form) {
+
+    let disadvantage = 0;
+    let multi = 1;
+    let dk = "";
+    let directed = false;
+    let addCombt = 0;
+
+    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+
+    directed = form.directed.checked;
+    if(directed) multi = 2;
+
+    disadvantage += (parseInt(form.dk.value) * multi) + parseInt(form.addCombt.value);
+
+    if (form.dk.options[form.dk.selectedIndex].text) dk = form.dk.options[form.dk.selectedIndex].text;
+    addCombt = parseInt(form.addCombt.value) / 2;
+
     return {
 
-        advantage: parseInt(form.advantage.value !== "" ? form.advantage.value : 0),
-        disadvantage: parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0)
+        disadvantage: disadvantage,
+        dk: dk,
+        directed: directed,
+        addCombt: addCombt
     }
 }
 
@@ -740,6 +995,43 @@ function _processSpellCheckOptions(form) {
         variants: variants,
         used: used,
         powerC: powerC
+    }
+}
+
+function _processMirikalCheckOptions(form) {
+
+    let advantage = 0;
+    let disadvantage = 0;
+    let used = [];
+
+    advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
+    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+
+    if(form.lastResort.checked) { advantage += 2; used.push(game.i18n.localize("GDSA.system.lastResort") + " (- 2)")};
+    if(form.forcedHoly.checked) { disadvantage += 6; used.push(game.i18n.localize("GDSA.system.magicForced") + " (+ 6)")};
+    if(form.disbeliv.checked) { disadvantage += 3; used.push(game.i18n.localize("GDSA.system.disbelive") + " (+ 3)")};
+    if(form.demonic.checked) { disadvantage += 7; used.push(game.i18n.localize("GDSA.system.chaospres") + " (+ 7)")};
+
+    if (parseInt(form.motivation.value) > 0) disadvantage += Math.round((parseInt(form.motivation.value)) / 2);
+        else advantage += Math.round((parseInt(form.motivation.value) * (-1)) / 2);
+
+    if (parseInt(form.motivation.value) !== 0) used.push(form.motivation.options[form.motivation.selectedIndex].innerHTML)
+    
+    if (parseInt(form.place.value) > 0) disadvantage += parseInt(form.place.value);
+        else advantage += (parseInt(form.place.value) * (-1))
+    
+    if (parseInt(form.place.value) !== 0) used.push(form.place.options[form.place.selectedIndex].innerHTML + " (" + _formatModifikation(form.place.value) + ")")
+
+    if (parseInt(form.time.value) > 0) disadvantage += Math.round((parseInt(form.time.value)) / 2);
+        else advantage += Math.round((parseInt(form.time.value) * (-1)) / 2);
+    
+    if (parseInt(form.time.value) !== 0) used.push(form.time.options[form.time.selectedIndex].innerHTML + " (" + (Math.round((parseInt(form.time.value) * -1) / 2) *  -1) + ")")
+
+    return {
+
+        advantage: advantage,
+        disadvantage: disadvantage,
+        used: used
     }
 }
 
@@ -839,6 +1131,7 @@ function _processGetHealOptions(form) {
 function _processGetRegOptions(form) {
 
     return {
+        dis: parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0),
         lep: parseInt(form.reglep.value !== "" ? form.reglep.value : 0),
         asp: parseInt(form.regasp.value !== "" ? form.regasp.value : 0),
         kap: parseInt(form.regkap.value !== "" ? form.regkap.value : 0)
@@ -847,20 +1140,42 @@ function _processGetRegOptions(form) {
 
 function _processGetAtkInfo(form) {
 
+    let anat = false;
+    let butc = false;
+    let hamme = false;
+    let sturm = false;
+    let used = [];
+
+    if(form.anatomy != null) anat = form.anatomy.checked;
+    if(form.butcher != null) butc = form.butcher.checked;
+    if(form.hamme != null) hamme = form.hamme.checked;
+    if(form.sturm != null) sturm = form.sturm.checked;
+
+    let bDMG = 0;
+
+    if(anat) bDMG++;
+    if(anat) used.push(game.i18n.localize("GDSA.chat.skill.anatomy"));
+    if(butc) bDMG++;
+    if(butc) used.push(game.i18n.localize("GDSA.chat.skill.butcher"));
+
     return {
 
+        bonus: bDMG,
         advan: parseInt(form.advan.value !== "" ? form.advan.value : 0),
         disad: parseInt(form.disad.value !== "" ? form.disad.value : 0),
         wucht: parseInt(form.wucht.value !== "" ? form.wucht.value : 0),
         finte: parseInt(form.finte.value !== "" ? form.finte.value : 0),
-        hamme: form.hamme.checked,
-        sturm: form.sturm.checked}
+        hamme: hamme,
+        sturm: sturm,
+        used: used
+    }
 }
 
 function _processGetRangeAtkInfo(form) {
 
     return {
 
+        advan: parseInt(form.advan.value !== "" ? form.advan.value : 0),
         disad: parseInt(form.disad.value !== "" ? form.disad.value : 0),
         bonus: parseInt(form.bonus.value !== "" ? form.bonus.value : 0),
         aimed: parseInt(form.aimed.value !== "" ? form.aimed.value : 0),
@@ -903,6 +1218,29 @@ function _processCharRess(form) {
     return {
         newModValue: form.modValue.value,
         newBuyValue: form.buyValue.value
+    }
+}
+
+function _processEditRitSkill(form) {
+
+    return {
+
+        ritalch: form.ritalch.value,
+        ritderw: form.ritderw.value,
+        ritdrui: form.ritdrui.value,
+        ritdurr: form.ritdurr.value,
+        ritgban: form.ritgban.value,
+        ritgruf: form.ritgruf.value,
+        ritgauf: form.ritgauf.value,
+        ritgbin: form.ritgbin.value,
+        ritgeod: form.ritgeod.value,
+        ritgild: form.ritgild.value,
+        rithexe: form.rithexe.value,
+        ritkris: form.ritkris.value,
+        ritpetr: form.ritpetr.value,
+        ritscha: form.ritscha.value,
+        rittanz: form.rittanz.value,
+        ritzibi: form.ritzibi.value
     }
 }
 
@@ -954,3 +1292,4 @@ function _processCharStats(form) { return { newvalue: form.value.value }};
 function _processAttributoOptions(form) { return { att: form.att1.value }};
 function _processFaxioOptions(form) { return { dice: parseInt(form.dice.value)+1 }};
 function _formatModifikation(string) { return string[0] + " " + string.substring(1)};
+function _processTempSelection(form) { return { advantage: form.advantages.value}};

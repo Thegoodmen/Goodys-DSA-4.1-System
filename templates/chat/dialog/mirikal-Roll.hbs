@@ -1,0 +1,94 @@
+<form class="dialogConfig">
+    <div class="form-group subMain">
+        <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.chat.skill.mirakel"}}<div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.advantage"}}</label>
+        <input type="number" name="advantage" value="0" />
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.disadvantage"}}</label>
+        <input type="number" name="disadvantage" value="0" />
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <div class="form-group subSub">
+        <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.chat.skill.acca"}}<div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.motivation"}}</label>
+        <select class="mediOpt" name="motivation">
+            {{#select motivation}}
+                <option value="-7">{{localize "GDSA.chat.medi.reasonGood32"}}</option>
+                <option value="-5">{{localize "GDSA.chat.medi.reasonGood22"}}</option>
+                <option value="-3">{{localize "GDSA.chat.medi.reasonGood12"}}</option>
+                <option value="0" selected>{{localize "GDSA.chat.medi.normal"}}</option>
+                <option value="+3">{{localize "GDSA.chat.medi.reasonBad12"}}</option>
+                <option value="+5">{{localize "GDSA.chat.medi.reasonBad22"}}</option>
+                <option value="+7">{{localize "GDSA.chat.medi.reasonBad32"}}</option>
+            {{/select}}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.lastResort"}}</label>
+        <input id="inboxCast" type="checkbox" name="lastResort" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.forcedHoly"}}</label>
+        <input id="inboxCast" type="checkbox" name="forcedHoly" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.place"}}</label>
+        <select class="mediOpt" name="place">
+            {{#select place}}
+                <option value="-4">{{localize "GDSA.chat.medi.holyPlace"}}</option>
+                <option value="-3">{{localize "GDSA.chat.medi.kathedrial"}}</option>
+                <option value="-2">{{localize "GDSA.chat.medi.chapel"}}</option>
+                <option value="-1">{{localize "GDSA.chat.medi.diffrentGod"}}</option>
+                <option value="0" selected>{{localize "GDSA.chat.medi.neutral"}}</option>
+                <option value="+7">{{localize "GDSA.chat.medi.diffrentPlane"}}</option>
+            {{/select}}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.disbeliv"}}</label>
+        <input id="inboxCast" type="checkbox" name="disbeliv" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.demonic"}}</label>
+        <input id="inboxCast" type="checkbox" name="demonic" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.time"}}</label>
+        <select class="mediOpt" name="time">
+            {{#select time}}
+                <option value="0" selected>{{localize "GDSA.chat.medi.normalDay"}}</option>
+                <option value="-1">{{localize "GDSA.chat.medi.monthOfGod"}}</option>
+                <option value="-3">{{localize "GDSA.chat.medi.dayOfGod"}}</option>
+                <option value="+7">{{localize "GDSA.chat.medi.namelessDays"}}</option>
+            {{/select}}
+        </select>
+    </div>
+    
+    <div class="dialogFiller"></div>
+
+    <div class="form-group subSub">
+        <div class="submen"><hr class="subhr" /></div><div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+
+</form>

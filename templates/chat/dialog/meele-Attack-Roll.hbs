@@ -1,0 +1,75 @@
+<form class="dialogConfig">
+    <div class="form-group subMain">
+        <div class="submen"><hr class="subhr" /></div>{{name}}<div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.advantage"}}</label>
+        <input type="number" name="advan" value="0" />
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.disadvantage"}}</label>
+        <input type="number" name="disad" value="0" />
+    </div>
+    
+    <div class="dialogFiller"></div>
+
+    <div class="form-group subSub">
+        <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.chat.skill.modi"}}<div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+
+    <div class="form-group">
+        {{#if (equals system.weapon.type "Faust")}}
+            <label>{{localize "GDSA.chat.skill.straight"}}</label>
+        {{else}}
+            <label>{{localize "GDSA.chat.skill.wucht"}}</label>
+        {{/if}}
+        <input type="number" name="wucht" value="0" />
+    </div>
+    <div class="form-group">
+        {{#if (equals system.weapon.type "Faust")}}
+            <label>{{localize "GDSA.chat.skill.balancing"}}</label>
+        {{else}}
+            <label>{{localize "GDSA.chat.skill.finte"}}</label>
+        {{/if}}
+        <input type="number" name="finte" value="0" />
+    </div>
+    <div class="form-group">
+        {{#if (equals system.weapon.type "Faust")}}
+        {{else}}
+            <label>{{localize "GDSA.chat.skill.sturm"}}</label>
+            <input type="checkbox" name="sturm" value="false" />
+        {{/if}}
+    </div>
+    <div class="form-group">
+        {{#if (equals system.weapon.type "Faust")}}
+        {{else}}
+            <label>{{localize "GDSA.chat.skill.hamme"}}</label>
+            <input type="checkbox" name="hamme" value="false" />
+        {{/if}}
+    </div>
+    <div class="form-group">
+        {{#if anatomy}}
+            <label>{{localize "GDSA.chat.skill.anatomy"}}</label>
+            <input type="checkbox" name="anatomy" value="false" />
+        {{/if}}
+    </div>
+    <div class="form-group">
+        {{#if butcher}}
+            <label>{{localize "GDSA.chat.skill.butcher"}}</label>
+            <input type="checkbox" name="butcher" value="false" />
+        {{/if}}
+    </div>
+    
+    <div class="dialogFiller"></div>
+
+    <div class="form-group subSub">
+        <div class="submen"><hr class="subhr" /></div><div class="submen"><hr class="subhr" /></div>
+    </div>
+
+    <div class="dialogFiller"></div>
+</form>

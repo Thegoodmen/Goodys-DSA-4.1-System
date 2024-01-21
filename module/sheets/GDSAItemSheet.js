@@ -1,4 +1,5 @@
-import * as LsFunction from "../listenerFunctions.js"
+import * as LsFunction from "../listenerFunctions.js";
+import {templateData} from "../apps/templates.js";
 
 export default class GDSAItemSheet extends ItemSheet {
 
@@ -23,10 +24,13 @@ export default class GDSAItemSheet extends ItemSheet {
 
     get template() {
 
+        if(this.item.type === "Template") return `systems/GDSA/templates/sheets/template/${this.item.type}-${this.item.system.type}-sheet.hbs`
+        if(this.item.type === "Gegenstand") return `systems/GDSA/templates/sheets/gegenstand/${this.item.type}-${this.item.system.type}-sheet.hbs`
+
         return `systems/GDSA/templates/sheets/${this.item.type}-sheet.hbs`
     }
 
-    getData() {
+    async getData() {
 
         const baseData = super.getData();
 
@@ -36,7 +40,9 @@ export default class GDSAItemSheet extends ItemSheet {
             editable: this.isEditable,
             item: baseData.item,
             system: baseData.item.system,
-            config: CONFIG.GDSA
+            config: CONFIG.GDSA,
+            template: CONFIG.Templates,
+            templates: CONFIG.Templates
         };
 
         if(sheetData.system.value > 0) {
@@ -49,6 +55,8 @@ export default class GDSAItemSheet extends ItemSheet {
             sheetData.system.copper = value[length-2];
             sheetData.system.nickel = value[length-1];
         }
+
+        this.sheet = sheetData;
 
         return sheetData;
     }
@@ -65,12 +73,16 @@ export default class GDSAItemSheet extends ItemSheet {
 
         if(this.isEditable) {
 
+            let sheet = this.sheet;
+
             // Set Listener for Item Events
 
             html.find(".item-close").click(LsFunction.onItemClose.bind(this));
-            html.find(".addSpellVariants").click(LsFunction.addSpellVariants.bind(this, this.getData()));
-            html.find(".editSpellVariants").click(LsFunction.editSpellVariants.bind(this, this.getData()));
-            html.find(".deleteSpellVariants").click(LsFunction.deleteSpellVariants.bind(this, this.getData()));
+            html.find(".addSpellVariants").click(LsFunction.addSpellVariants.bind(this, sheet));
+            html.find(".editSpellVariants").click(LsFunction.editSpellVariants.bind(this, sheet));
+            html.find(".deleteSpellVariants").click(LsFunction.deleteSpellVariants.bind(this,sheet));
+            html.find(".note-gm-post").click(LsFunction.noteGMPost.bind(this, sheet));
+            html.find(".note-all-post").click(LsFunction.noteAllPost.bind(this, sheet));
         }
 
         super.activateListeners(html);
