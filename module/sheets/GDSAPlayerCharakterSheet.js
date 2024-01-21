@@ -169,7 +169,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".item-delete").click(LsFunction.onItemDelete.bind(this, sheet));
             html.find(".ritCheck").change(LsFunction.changeActiveStat.bind(this, sheet));
             html.find(".castChange").change(LsFunction.changeCastZfW.bind(this, sheet));
-            html.find(".test").change(LsFunction.testFunc.bind(this, sheet));
+            html.find(".test").click(LsFunction.testFunc.bind(this, sheet));
 
             // Set Listener for PDFoundry
 

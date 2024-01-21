@@ -1,10 +1,14 @@
+import GDSAItem from "../objects/GDSAItem.js";
+
 export async function migrationV1() {
 
     console.log("Start Migration Skript V1")
     
     SceneNavigation.displayProgressBar({label: "Migration Progress", pct: 0});
 
-    for (let actor of game.actors.contents) {
+    for (let [i, actor] of game.actors.contents.entries()) {
+
+        SceneNavigation.displayProgressBar({label: actor.name, pct: ((i / actors.length) * 100).toFixed(0)});
         
         const updateData = await actorMigrationV1(actor);
         
@@ -15,7 +19,9 @@ export async function migrationV1() {
         }
     }
 
-    for (let id of game.items.invalidDocumentIds) {
+    for (let [i, id] of game.items.invalidDocumentIds.entries()) {
+
+        SceneNavigation.displayProgressBar({label: "Invalid IDs", pct: ((i / actors.length) * 100).toFixed(0)});
 
         let item = game.items.getInvalid(id);
 
@@ -23,7 +29,7 @@ export async function migrationV1() {
         
         const updateData = await itemMigrationV1(item);
 
-        game.items.createDocument(updateData)
+        await GDSAItem.create(updateData);
         
     }
     
@@ -95,9 +101,13 @@ async function actorMigrationV1(actor) {
         }
     }
 
-    for (let j = 0; j < actor.items._source.length; j++) {
+    const actorItems = actor.items._source;
 
-        let item = actor.items._source[j];
+    for (let j = 0; j < actorItems.length; j++) {
+
+        SceneNavigation.displayProgressBar({label: actor.name + " Items", pct: ((j / actorItems.length) * 100).toFixed(0)});
+
+        let item = actorItems[j];
 
         if (item.type === "advantage") {
 
@@ -162,6 +172,176 @@ async function actorMigrationV1(actor) {
                     }
                 }
 
+            }]);
+
+            await actor.deleteEmbeddedDocuments("Item", [item._id]);
+        
+        } else if (item.type === "melee-weapons") {
+
+            console.log("Migrate General Item from old to new Format for " + actor.name + "!");
+
+            let skill = "";
+            let skillName = "";
+    
+            for (let i = 0; i < cmbtTranslating.length; i++)
+                if (cmbtTranslating[i][0] === item.system.skill) 
+                    skillName = cmbtTranslating[i][1];
+
+            if(skillName) skill = CONFIG.Templates.talents.all.filter(function(item) {return item.name === skillName})[0]._id;
+
+            await actor.createEmbeddedDocuments("Item", [{ 
+                
+                "name": item.name,
+                "img": item.img,
+                "type": "Gegenstand",
+                "system": { 
+                    "type": "melee", 
+                    "weight": item.system.weight,
+                    "value": item.system.value,
+                    "weapon": {
+                        "length": item.system.length,
+                        "type": item.system.type,
+                        "skill": skill,
+                        "BF-cur": item.system["BF-cur"],
+                        "BF-min": item.system["BF-min"],
+                        "DK": item.system.DK,
+                        "INI": item.system.INI,
+                        "WM-ATK": item.system["WM-ATK"],
+                        "WM-DEF": item.system["WM-DEF"],
+                        "TPKK": item.system.TPKK,
+                        "damage": item.system.damage
+                    },
+                    "item": {
+                        "storage": "bag"
+                    },                    
+                    "tale": {
+                        "notes": item.system.description
+                    }
+                }
+
+            }]);
+
+            await actor.deleteEmbeddedDocuments("Item", [item._id]);
+        
+        } else if (item.type === "range-weapons") {
+
+            console.log("Migrate General Item from old to new Format for " + actor.name + "!");
+
+            let skill = "";
+            let skillName = "";
+    
+            for (let i = 0; i < cmbtTranslating.length; i++)
+                if (cmbtTranslating[i][0] === item.system.skill) 
+                    skillName = cmbtTranslating[i][1];
+
+            if(skillName) skill = CONFIG.Templates.talents.all.filter(function(item) {return item.name === skillName})[0]._id;
+
+            await actor.createEmbeddedDocuments("Item", [{ 
+            
+                "name": item.name,
+                "img": item.img,
+                "type": "Gegenstand",
+                "system": { 
+                    "type": "range", 
+                    "weight": item.system.weight,
+                    "value": item.system.value,
+                    "weapon": {
+                        "type": item.system.type,
+                        "skill": skill,
+                        "ammu": "none",
+                        "loadActions": item.system.loadActions,
+                        "kkpre": 0,
+                        "range1": item.system.range.split("/")[0],
+                        "range2": item.system.range.split("/")[1],
+                        "range3": item.system.range.split("/")[2],
+                        "range4": item.system.range.split("/")[3],
+                        "range5": item.system.range.split("/")[4],
+                        "tp1": item.system.tp.split("/")[0],
+                        "tp2": item.system.tp.split("/")[1],
+                        "tp3": item.system.tp.split("/")[2],
+                        "tp4": item.system.tp.split("/")[3],
+                        "tp5": item.system.tp.split("/")[4],
+                        "damage": item.system.damage
+                    },
+                    "item": {
+                        "storage": "bag"
+                    },                    
+                    "tale": {
+                        "notes": item.system.description
+                    }
+                }
+            }]);
+
+            await actor.deleteEmbeddedDocuments("Item", [item._id]);
+        
+        } else if (item.type === "shields") {
+
+            console.log("Migrate General Item from old to new Format for " + actor.name + "!");
+
+            await actor.createEmbeddedDocuments("Item", [{ 
+            
+                "name": item.name,
+                "img": item.img,
+                "type": "Gegenstand",
+                "system": { 
+                    "type": "shild", 
+                    "weight": item.system.weight,
+                    "value": item.system.value,
+                    "weapon": {
+                        "type": item.system.type,
+                        "parType": "null",
+                        "size": "null",
+                        "BF-cur": item.system["BF-cur"],
+                        "BF-min": item.system["BF-min"],
+                        "INI": item.system.INI,
+                        "WM-ATK": item.system["WM-ATK"],
+                        "WM-DEF": item.system["WM-DEF"],
+                    },
+                    "item": {
+                        "storage": "bag"
+                    },                    
+                    "tale": {
+                        "notes": item.system.description
+                    }
+                }
+            }]);
+
+            await actor.deleteEmbeddedDocuments("Item", [item._id]);
+        
+        } else if (item.type === "armour") {
+
+            console.log("Migrate General Item from old to new Format for " + actor.name + "!");
+
+            await actor.createEmbeddedDocuments("Item", [{ 
+            
+                "name": item.name,
+                "img": item.img,
+                "type": "Gegenstand",
+                "system": { 
+                    "type": "armour", 
+                    "weight": item.system.weight,
+                    "value": item.system.value,
+                    "armour": {
+                        "type": item.system.type,
+                        "star": item.system.star,
+                        "Z": item.system.Z,
+                        "head": item.system.head,
+                        "body": item.system.body,
+                        "back": item.system.back,
+                        "stomach": item.system.stomach,
+                        "leftarm": item.system.leftarm,
+                        "rightarm": item.system.rightarm,
+                        "leftleg": item.system.leftleg,
+                        "rightleg": item.system.rightleg,
+                        "gRS": 0
+                    },
+                    "item": {
+                        "storage": "bag"
+                    },                    
+                    "tale": {
+                        "notes": item.system.description
+                    }
+                }
             }]);
 
             await actor.deleteEmbeddedDocuments("Item", [item._id]);
@@ -286,8 +466,7 @@ async function itemMigrationV1(item) {
 
         updateData = { "name": item.name, "type": "Template", "system": { "type": "adva", "trait": { "value": advaValue, "canRoll": false}}};
 
-        item.update({ "type": "Template" })
-        item.update({ "system": { "type": "adva", "trait": { "value": advaValue, "canRoll": true}}});
+        await item.delete();
     
     } else if (item.type === "flaw") {
 
@@ -299,8 +478,7 @@ async function itemMigrationV1(item) {
 
         updateData = { "name": item.name, "type": "Template", "system": { "type": "flaw", "trait": { "value": flawValue, "canRoll": true}}};
 
-        item.update({ "type": "Template" });
-        item.update({ "system": { "type": "flaw", "trait": { "value": flawValue, "canRoll": true}}});
+        await item.delete();
     
     } else if (item.type === "giftflaw") {
 
@@ -312,8 +490,7 @@ async function itemMigrationV1(item) {
 
         updateData = { "name": item.name, "type": "Template", "system": { "type": "adva", "trait": { "value": flawValue, "canRoll": true}}};
 
-        item.update({ "type": "Template" })
-        item.update({ "system": { "type": "adva", "trait": { "value": flawValue, "canRoll": true}}});
+        await item.delete();
 
     } else if (item.type === "generals") {
 
@@ -347,31 +524,181 @@ async function itemMigrationV1(item) {
 
         };
 
-        item.update({ "type": "Gegenstand" })
-        item.update({ "system": { 
+        await item.delete();
+    
+    } else if (item.type === "melee-weapons") {
 
-            "type": "item", 
-            "quantity": item.system.quantity,
-            "weight": item.system.weight,
-            "value": item.system.value,
-            "itemType": (item.system.type === "Edelstein") ? "gem" : "item", 
-            "item": {
-                "storage": "bag",
-                "category": item.system.type
-            },
-            "gem": {
-                "trait": item.system.trait,
-                "cut": item.system.cut,
-                "size": item.system.size,
-                "pAsP": item.system.pAsP
-            },                    
-            "tale": {
-                "notes": item.system.description
+        console.log("Migrate General Item from old to new Format " + item.name + "!");
+
+        let skill = "";
+        let skillName = "";
+
+        for (let i = 0; i < cmbtTranslating.length; i++)
+            if (cmbtTranslating[i][0] === item.system.skill) 
+                skillName = cmbtTranslating[i][1];
+
+        if(skillName) skill = CONFIG.Templates.talents.all.filter(function(item) {return item.name === skillName})[0]._id;
+
+        updateData = { 
+            
+            "name": item.name,
+            "img": item.img,
+            "type": "Gegenstand",
+            "system": { 
+                "type": "melee", 
+                "weight": item.system.weight,
+                "value": item.system.value,
+                "weapon": {
+                    "length": item.system.length,
+                    "type": item.system.type,
+                    "skill": skill,
+                    "BF-cur": item.system["BF-cur"],
+                    "BF-min": item.system["BF-min"],
+                    "DK": item.system.DK,
+                    "INI": item.system.INI,
+                    "WM-ATK": item.system["WM-ATK"],
+                    "WM-DEF": item.system["WM-DEF"],
+                    "TPKK": item.system.TPKK,
+                    "damage": item.system.damage
+                },
+                "item": {
+                    "storage": "bag"
+                },                    
+                "tale": {
+                    "notes": item.system.description
+                }
             }
-        }});
+
+        };
+
+        await item.delete();
+    
+    } else if (item.type === "range-weapons") {
+
+        console.log("Migrate General Item from old to new Format " + item.name + "!");
+
+        let skill = "";
+        let skillName = "";
+
+        for (let i = 0; i < cmbtTranslating.length; i++)
+            if (cmbtTranslating[i][0] === item.system.skill) 
+                skillName = cmbtTranslating[i][1];
+
+        if(skillName) skill = CONFIG.Templates.talents.all.filter(function(item) {return item.name === skillName})[0]._id;
+
+        updateData = { 
+            
+            "name": item.name,
+            "img": item.img,
+            "type": "Gegenstand",
+            "system": { 
+                "type": "range", 
+                "weight": item.system.weight,
+                "value": item.system.value,
+                "weapon": {
+                    "type": item.system.type,
+                    "skill": skill,
+                    "ammu": "none",
+                    "loadActions": item.system.loadActions,
+                    "kkpre": 0,
+                    "range1": item.system.range.split("/")[0],
+                    "range2": item.system.range.split("/")[1],
+                    "range3": item.system.range.split("/")[2],
+                    "range4": item.system.range.split("/")[3],
+                    "range5": item.system.range.split("/")[4],
+                    "tp1": item.system.tp.split("/")[0],
+                    "tp2": item.system.tp.split("/")[1],
+                    "tp3": item.system.tp.split("/")[2],
+                    "tp4": item.system.tp.split("/")[3],
+                    "tp5": item.system.tp.split("/")[4],
+                    "damage": item.system.damage
+                },
+                "item": {
+                    "storage": "bag"
+                },                    
+                "tale": {
+                    "notes": item.system.description
+                }
+            }
+
+        };
+
+        await item.delete();
+    
+    } else if (item.type === "shields") {
+
+        console.log("Migrate General Item from old to new Format " + item.name + "!");
+
+        updateData = { 
+            
+            "name": item.name,
+            "img": item.img,
+            "type": "Gegenstand",
+            "system": { 
+                "type": "shild", 
+                "weight": item.system.weight,
+                "value": item.system.value,
+                "weapon": {
+                    "type": item.system.type,
+                    "parType": "null",
+                    "size": "null",
+                    "BF-cur": item.system["BF-cur"],
+                    "BF-min": item.system["BF-min"],
+                    "INI": item.system.INI,
+                    "WM-ATK": item.system["WM-ATK"],
+                    "WM-DEF": item.system["WM-DEF"],
+                },
+                "item": {
+                    "storage": "bag"
+                },                    
+                "tale": {
+                    "notes": item.system.description
+                }
+            }
+        };
+
+        await item.delete();
+    
+    } else if (item.type === "armour") {
+
+        console.log("Migrate General Item from old to new Format " + item.name + "!");
+
+        updateData = { 
+            
+            "name": item.name,
+            "img": item.img,
+            "type": "Gegenstand",
+            "system": { 
+                "type": "armour", 
+                "weight": item.system.weight,
+                "value": item.system.value,
+                "armour": {
+                    "type": item.system.type,
+                    "star": item.system.star,
+                    "Z": item.system.Z,
+                    "head": item.system.head,
+                    "body": item.system.body,
+                    "back": item.system.back,
+                    "stomach": item.system.stomach,
+                    "leftarm": item.system.leftarm,
+                    "rightarm": item.system.rightarm,
+                    "leftleg": item.system.leftleg,
+                    "rightleg": item.system.rightleg,
+                    "gRS": 0
+                },
+                "item": {
+                    "storage": "bag"
+                },                    
+                "tale": {
+                    "notes": item.system.description
+                }
+            }
+        };
+
+        await item.delete();
     
     } else if (item.type === "langu" || item.type === "signs" || item.type === "ritualSkill")
-        await actor.deleteEmbeddedDocuments("Item", [item._id]);
+        await game.items.delete(item._id);
     
     return updateData;
 }
@@ -576,3 +903,33 @@ const cmbtTemplate = {
     atk: "",
     def: ""
 }
+
+const cmbtTranslating = [
+    ["bastardsword", "Anderthalbhänder"],
+    ["dagger", "Dolche"],
+    ["rapier", "Fechtwaffen"],
+    ["club", "Hiebwaffen"],
+    ["halberd", "Infanteriewaffen"],
+    ["chainstaff", "Kettenstäbe"],
+    ["chainweapon", "Kettenwaffen"],
+    ["lance", "Lanzenreiten"],
+    ["whip", "Peitsche"],
+    ["brawl", "Raufen"],
+    ["wrestle", "Ringen"],
+    ["saber", "Säbel"],
+    ["sword", "Schwerter"],
+    ["spear", "Speere"],
+    ["staff", "Stäbe"],
+    ["twohandflail", "Zweihandflegel"],
+    ["twohandclub", "Zweihand-Hiebwaffen"],
+    ["twohandsword", "Zweihandschwerter / -säbel"],
+    ["crossbow", "Armbrust"],
+    ["siegeweapon", "Belagerungswaffen"],
+    ["blowgun", "Blasrohr"],
+    ["bow", "Bogen"],
+    ["disk", "Diskus"],
+    ["slingshot", "Schleuder"],
+    ["throwingaxe", "Wurfbeile"],
+    ["throwingknife", "Wurfmesser"],
+    ["throwingspear", "Wurfspeere"]
+]

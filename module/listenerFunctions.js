@@ -4,6 +4,7 @@ import * as Dialog from "./dialog.js";
 import Browser from "../module/apps/compBrowser.js"
 import { GDSA } from "./config.js";
 import {getTalent, templateData} from "../module/apps/templates.js";
+import GDSAItem from "./objects/GDSAItem.js";
 
 export async function onSkillRoll(data, event) {
 
@@ -3314,6 +3315,23 @@ export function onItemCreate(data, event) {
         type: itemtype
     };
 
+    // If General Item
+
+    if (itemtype === "generals") itemData = { 
+                
+        "name": game.i18n.localize(name),
+        "type": "Gegenstand",
+        "system": { 
+
+            "type": "item", 
+            "quantity": 1,
+            "weight": 0,
+            "value": 0,
+            "itemType": "item", 
+            "item": { "storage": "bag"}
+        }
+    };
+
     // Create and return new item
 
     return data.actor.createEmbeddedDocuments("Item", [itemData]);
@@ -4403,6 +4421,37 @@ export function testFunc(data,event) {
 
     let element = event.currentTarget;
 
+    console.log(game);
+
+    GDSAItem.create({
+        "name": "Test",
+        "img": "icons/svg/item-bag.svg",
+        "type": "Gegenstand",
+        "system": { 
+            "type": "melee", 
+            "weight": 12,
+            "value": 1000,
+            "weapon": {
+                "length": 220,
+                "type": "pike",
+                "skill": "",
+                "BF-cur": 0,
+                "BF-min": 0,
+                "DK": "N",
+                "INI": 1,
+                "WM-ATK": 1,
+                "WM-DEF": 1,
+                "TPKK": "12/4",
+                "damage": "1d6+5"
+            },
+            "item": {
+                "storage": "bag"
+            },                    
+            "tale": {
+                "notes": ""
+            }
+        }
+    })
 
     console.log(event);
     console.log(data);
