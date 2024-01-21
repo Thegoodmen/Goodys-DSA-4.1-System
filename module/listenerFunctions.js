@@ -134,7 +134,7 @@ export async function doSkillRoll(rollEvent) {
         talSitem.img = "icons/magic/symbols/symbol-lightning-bolt.webp";
 
         let optional1 = {
-            template: "systems/GDSA/templates/chat/chatTemplate/skill-Roll.hbs",
+            template: "systems/gdsa/templates/chat/chatTemplate/skill-Roll.hbs",
             item: talSitem,
             att1: "MU",
             att2: "IN",
@@ -182,7 +182,7 @@ export async function doSkillRoll(rollEvent) {
     // Prepare Optional Roll Data
 
     let optional = {
-        template: "systems/GDSA/templates/chat/chatTemplate/skill-Roll.hbs",
+        template: "systems/gdsa/templates/chat/chatTemplate/skill-Roll.hbs",
         item: skillTemplate,
         att1: skillInfo.att1.toUpperCase(),
         att2: skillInfo.att2.toUpperCase(),
@@ -623,7 +623,7 @@ export async function onSpellRoll(data, event) {
 
 
     let optional = {
-        template: "systems/GDSA/templates/chat/chatTemplate/spell-Cast-Roll.hbs",
+        template: "systems/gdsa/templates/chat/chatTemplate/spell-Cast-Roll.hbs",
         item: item,
         cost: minCost,
         action: action,
@@ -832,7 +832,7 @@ export async function onMirikalRoll(data, event, statname = "") {
 
     let optional = {
 
-        template: "systems/GDSA/templates/chat/chatTemplate/skill-Roll.hbs",
+        template: "systems/gdsa/templates/chat/chatTemplate/skill-Roll.hbs",
         item: talSitem,
         att1: "MU",
         att2: "IN",
@@ -1147,7 +1147,7 @@ export async function onWonderRoll(data, event) {
     let isSpez = (item.system.duration === "Augenblicklich" || item.system.duration === "Permanent" || item.system.duration === "Speziell");
 
     let optional = {
-        template: "systems/GDSA/templates/chat/chatTemplate/wonder-Cast-Roll.hbs",
+        template: "systems/gdsa/templates/chat/chatTemplate/wonder-Cast-Roll.hbs",
         item: item,
         cost: minCost,
         pcost: pCost,
@@ -1241,7 +1241,7 @@ export async function onRitualCreation(data, event) {
     let dieThr = actor.system[item.system.activAtt3].value + actor.system[item.system.activAtt1].temp;
 
     let optional = {
-        template: "systems/GDSA/templates/chat/chatTemplate/objrit-Roll.hbs",
+        template: "systems/gdsa/templates/chat/chatTemplate/objrit-Roll.hbs",
         item: item,
         cost: minCost,
         action: 0,
@@ -1319,7 +1319,7 @@ export async function onRitualActivation(data, event) {
     let dieThr = actor.system[item.system.activAtt3].value + actor.system[item.system.activAtt1].temp;
 
     let optional = {
-        template: "systems/GDSA/templates/chat/chatTemplate/objrit-Roll.hbs",
+        template: "systems/gdsa/templates/chat/chatTemplate/objrit-Roll.hbs",
         item: item,
         cost: minCost,
         action: 0,
@@ -1427,7 +1427,7 @@ export async function onStatRoll(data, event) {
         talSitem.img = "icons/magic/symbols/symbol-lightning-bolt.webp";
         
         let optional1 = {
-            template: "systems/GDSA/templates/chat/chatTemplate/skill-Roll.hbs",
+            template: "systems/gdsa/templates/chat/chatTemplate/skill-Roll.hbs",
             item: talSitem,
             att1: "MU",
             att2: "IN",
@@ -2619,7 +2619,7 @@ export async function onStatLoss(data, type, event) {
 
     // Set Template
 
-    const template = "systems/GDSA/templates/chat/chatTemplate/" + type.toLowerCase() + "-change.hbs";
+    const template = "systems/gdsa/templates/chat/chatTemplate/" + type.toLowerCase() + "-change.hbs";
 
     // Create Dialog
 
@@ -2661,7 +2661,7 @@ export async function onStatGain(data, type, event) {
 
     // Set Template
 
-    const template = "systems/GDSA/templates/chat/" + type + "Info.hbs";
+    const template = "systems/gdsa/templates/chat/" + type + "Info.hbs";
 
     // Create Dialog
 
@@ -2955,7 +2955,7 @@ export async function doOrientation(data, event) {
 
     let templateContext = {actor: combatant, value: newIni}
 
-    let chatModel = { user: game.user.id, speaker: ChatMessage.getSpeaker({combatant}), content: await renderTemplate("systems/GDSA/templates/chat/chatTemplate/oriantation-Roll.hbs", templateContext)};
+    let chatModel = { user: game.user.id, speaker: ChatMessage.getSpeaker({combatant}), content: await renderTemplate("systems/gdsa/templates/chat/chatTemplate/oriantation-Roll.hbs", templateContext)};
     let roll = new Roll("1d20", {});
     let message = await roll.toMessage(chatModel);
 }
@@ -3565,7 +3565,7 @@ export async function onMoneyChange(data, event) {
 
     // Create Dialog
 
-    const template = "systems/GDSA/templates/chat/chatTemplate/currency-change.hbs";
+    const template = "systems/gdsa/templates/chat/chatTemplate/currency-change.hbs";
     let MonyInfo = await Dialog.GetMoneyOptions();
     if (MonyInfo.cancelled) return;
 
@@ -4393,7 +4393,7 @@ export async function noteGMPost(data, event) {
     
     let templateContext = {name: data.item.name, value: data.system.tale.notes}
     let chatModel = { user: game.user.id, speaker: null, type: 1, 
-        content: await renderTemplate("systems/GDSA/templates/chat/chatTemplate/note-Post.hbs", templateContext)};
+        content: await renderTemplate("systems/gdsa/templates/chat/chatTemplate/note-Post.hbs", templateContext)};
     let message = await ChatMessage.create(chatModel);
 
     message.setFlag('gdsa', 'isCollapsable', true);
@@ -4407,7 +4407,7 @@ export async function noteAllPost(data, event) {
     
     let templateContext = {name: data.item.name, value: data.system.tale.notes}
     let chatModel = { user: game.user.id, speaker: null, 
-        content: await renderTemplate("systems/GDSA/templates/chat/chatTemplate/note-Post.hbs", templateContext)};
+        content: await renderTemplate("systems/gdsa/templates/chat/chatTemplate/note-Post.hbs", templateContext)};
     let message = await ChatMessage.create(chatModel);
 
     message.setFlag('gdsa', 'isCollapsable', true);

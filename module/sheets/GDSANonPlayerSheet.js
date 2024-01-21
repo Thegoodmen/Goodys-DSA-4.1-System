@@ -17,7 +17,7 @@ export default class GDSANonPlayerSheet extends ActorSheet {
 
         return mergeObject(super.defaultOptions, {
 
-            template: "systems/GDSA/templates/sheets/nonPlayer-sheet.hbs",
+            template: "systems/gdsa/templates/sheets/nonPlayer-sheet.hbs",
             width: 632,
             height: "auto",
             resizable: false,

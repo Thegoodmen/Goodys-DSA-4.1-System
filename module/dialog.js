@@ -2,7 +2,7 @@ export async function GetSkillCheckOptions(skill) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/skill-Roll.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/skill-Roll.hbs";
     const html = await renderTemplate(template, skill);
 
     return new Promise(resolve => {
@@ -33,7 +33,7 @@ export async function GetStatCheckOptions(skill) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/stat-Roll.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/stat-Roll.hbs";
     const html = await renderTemplate(template, skill);
 
     return new Promise(resolve => {
@@ -64,7 +64,7 @@ export async function GetDogdeOptions() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/dogde-Roll.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/dogde-Roll.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -95,7 +95,7 @@ export async function GetMirikalOptions() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/mirikal-Roll.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/mirikal-Roll.hbs";
     const html = await renderTemplate(template);
 
     return new Promise(resolve => {
@@ -126,7 +126,7 @@ export async function GetWonderOptions(wonder) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/wonder-Cast-Roll.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/wonder-Cast-Roll.hbs";
     const html = await renderTemplate(template, wonder);
 
     return new Promise(resolve => {
@@ -157,7 +157,7 @@ export async function GetSpellOptions(spell) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/spell-Cast-Roll.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/spell-Cast-Roll.hbs";
     const html = await renderTemplate(template, spell);
 
     return new Promise(resolve => {
@@ -188,7 +188,7 @@ export async function GetAttributoOptions(spell) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/spell-attributo.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/spell-attributo.hbs";
     const html = await renderTemplate(template, spell);
 
     return new Promise(resolve => {
@@ -219,7 +219,7 @@ export async function GetFaxiOptions(spell) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/spell-faxio.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/spell-faxio.hbs";
     const html = await renderTemplate(template, spell);
 
     return new Promise(resolve => {
@@ -250,7 +250,7 @@ export async function GetAchazOptions(spell) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/spell-achaz.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/spell-achaz.hbs";
     const html = await renderTemplate(template, spell);
 
     return new Promise(resolve => {
@@ -282,7 +282,7 @@ export async function GetMeditationOptions() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/medi-Check-Roll.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/medi-Check-Roll.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -313,7 +313,7 @@ export async function GetLePLossInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/lep-loss.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/lep-loss.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -345,7 +345,7 @@ export async function GetAsPLossInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/asp-loss.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/asp-loss.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -377,7 +377,7 @@ export async function GetAsPInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/asp-gain.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/asp-gain.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -409,7 +409,7 @@ export async function GetKaPInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/kap-gain.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/kap-gain.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -441,7 +441,7 @@ export async function GetKaPLossInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/kap-loss.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/kap-loss.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -473,7 +473,7 @@ export async function GetLePInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/lep-gain.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/lep-gain.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -505,7 +505,7 @@ export async function GetRegInfo() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/regeneration-Roll.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/regeneration-Roll.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -537,7 +537,7 @@ export async function GetAtkInfo(item) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/meele-Attack-Roll.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/meele-Attack-Roll.hbs";
     const html = await renderTemplate(template, item);
 
     return new Promise(resolve => {
@@ -569,7 +569,7 @@ export async function GetRangeAtkInfo(item) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/range-Attack-Roll.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/range-Attack-Roll.hbs";
     const html = await renderTemplate(template, item);
 
     return new Promise(resolve => {  
@@ -601,7 +601,7 @@ export async function GetMoneyOptions() {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/currency-change.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/currency-change.hbs";
     const html = await renderTemplate(template, {});
 
     return new Promise(resolve => {
@@ -633,7 +633,7 @@ export async function GetSpellVariantEdit(spell) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/ressources/spellVariant.hbs";
+    const template = "systems/gdsa/templates/ressources/spellVariant.hbs";
     spell.config = CONFIG.GDSA;
     const html = await renderTemplate(template, spell);
 
@@ -666,7 +666,7 @@ export async function editCharFacts(context) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/ressources/charStats.hbs";
+    const template = "systems/gdsa/templates/ressources/charStats.hbs";
     context.config = CONFIG.GDSA;
     const html = await renderTemplate(template, context);
 
@@ -699,7 +699,7 @@ export async function editCharStats(context) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/ressources/charAttributes.hbs";
+    const template = "systems/gdsa/templates/ressources/charAttributes.hbs";
     context.config = CONFIG.GDSA;
     const html = await renderTemplate(template, context);
 
@@ -732,7 +732,7 @@ export async function editCharRess(context) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/ressources/charRessources.hbs";
+    const template = "systems/gdsa/templates/ressources/charRessources.hbs";
     context.config = CONFIG.GDSA;
     const html = await renderTemplate(template, context);
 
@@ -765,7 +765,7 @@ export async function getAdvantage(context) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/sheets/getAdvantage.hbs";
+    const template = "systems/gdsa/templates/sheets/getAdvantage.hbs";
     context.config = CONFIG.GDSA;
     const html = await renderTemplate(template, context);
 
@@ -798,7 +798,7 @@ export async function editRitualSkills(context) {
 
     // Create Dialog and show to User
 
-    const template = "systems/GDSA/templates/chat/dialog/ritSkill-change.hbs";
+    const template = "systems/gdsa/templates/chat/dialog/ritSkill-change.hbs";
     context.config = CONFIG.GDSA;
     const html = await renderTemplate(template, context);
 

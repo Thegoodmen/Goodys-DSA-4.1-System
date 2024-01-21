@@ -3154,7 +3154,7 @@
   width: 32px;
   margin-top: 4px;
   margin-left: -4px;
-  background: url(../GDSA/templates/img/d20.svg) no-repeat 50% 50%;
+  background: url(../gdsa/templates/img/d20.svg) no-repeat 50% 50%;
   background-size: 32px;
   display: block;
 }

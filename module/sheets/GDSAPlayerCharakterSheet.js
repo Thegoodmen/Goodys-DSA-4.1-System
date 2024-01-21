@@ -17,7 +17,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         return mergeObject(super.defaultOptions, {
 
-            template: "systems/GDSA/templates/sheets/charakter-sheet.hbs",
+            template: "systems/gdsa/templates/sheets/charakter-sheet.hbs",
             width: 632,
             height: 825,
             resizable: false,

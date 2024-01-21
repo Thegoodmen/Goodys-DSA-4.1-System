@@ -5,7 +5,7 @@
 	    	<img class="img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
 	   	</div>
 	   	<div class="infoDivider"></div>
-		{{> "systems/GDSA/templates/partials/character-sheet-facts.hbs"}}
+		{{> "systems/gdsa/templates/partials/character-sheet-facts.hbs"}}
     </div>
 
     <div class="filler"></div>
@@ -17,7 +17,7 @@
 			<div class="flawhrbox"><hr class="flawhr" /></div>
 	    	<section class="advantages">
 				{{#each advantages as |advantage id|}}
-					{{> "systems/GDSA/templates/partials/character-sheet-advantages.hbs" advantage}}
+					{{> "systems/gdsa/templates/partials/character-sheet-advantages.hbs" advantage}}
 				{{/each}}
 			</section>
 	   	</div>
@@ -30,7 +30,7 @@
 			<div class="flawhrbox"><hr class="flawhr" /></div>
 	    	<section class="advantages">
 				{{#each flaws as |flaw id|}}
-					{{> "systems/GDSA/templates/partials/character-sheet-advantages.hbs" flaw}}
+					{{> "systems/gdsa/templates/partials/character-sheet-advantages.hbs" flaw}}
 				{{/each}}
 			</section>
 	   	</div>
@@ -39,9 +39,9 @@
 	<div class="filler"></div>
 
 	   <div class="valueBox">
-	   	{{> "systems/GDSA/templates/partials/character-sheet-value1.hbs"}}
+	   	{{> "systems/gdsa/templates/partials/character-sheet-value1.hbs"}}
 	   	<div class="valueDivider"></div>
-	   	{{> "systems/GDSA/templates/partials/character-sheet-value2.hbs"}}
+	   	{{> "systems/gdsa/templates/partials/character-sheet-value2.hbs"}}
     </div>
     
     <div class="filler"></div>
