@@ -2366,12 +2366,15 @@ export async function getShildPABasis(data, PABasis) {
     // Add Special Combat Trait Modifiers
 
     let cbtTraits = data.combatTraits;
-    let isLefthand = cbtTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.leftHand")})[0];
-    let isShildI = cbtTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.schildI")})[0];
-    let isShildII = cbtTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.schildII")})[0];
+    let isLefthand = cbtTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.leftHand")})[0];
+    let isShildI = cbtTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.schildI")})[0];
+    let isShildII = cbtTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.schildII")})[0];
+    let isShildIII = cbtTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.schildIII")})[0];
+
     if(isLefthand != null) PABasis += 1;
     if(isShildI != null) PABasis += 2;
     if(isShildII != null) PABasis += 2;
+    if(isShildIII != null) PABasis += 2;
 
     // Check for hightest Parry
 

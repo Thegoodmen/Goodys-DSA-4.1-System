@@ -31,7 +31,7 @@
             </div>
             {{#if (getData actor.system.generalItemType "meeleW")}}
                 {{#each meleeweapons as |item id|}}
-                    <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
+                    <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{getSkillFromTemp system.weapon.skill}}</i>
                         <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
                         <div class="itemWorn">
                             {{#if system.worn}}
@@ -58,7 +58,7 @@
             </div>
             {{#if (getData actor.system.generalItemType "rangeW")}}
                 {{#each rangeweapons as |item id|}}
-                    <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
+                    <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{getSkillFromTemp system.weapon.skill}}</i>
                         <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
                         <div class="itemWorn">
                             {{#if system.worn}}
@@ -85,7 +85,7 @@
             </div>
             {{#if (getData actor.system.generalItemType "shield")}}
                 {{#each shields as |item id|}}
-                    <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
+                    <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{localize (concat "GDSA.itemsheet." system.weapon.parType "")}}</i>
                         <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
                         <div class="itemWorn">
                             {{#if system.worn}}
@@ -112,7 +112,7 @@
             </div>
             {{#if (getData actor.system.generalItemType "armour")}}
                 {{#each armour as |item id|}}
-                    <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
+                    <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{#if system.armour.Z}} {{localize "GDSA.itemsheet.zArmour"}} {{else}} {{localize "GDSA.itemsheet.zoneArmour"}} {{/if}}</i>
                         <div class="itemImgBox"><img class="itemImg" src="{{img}}"></div>
                         <div class="itemWorn">
                             {{#if system.worn}}

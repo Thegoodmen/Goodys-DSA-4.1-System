@@ -62,7 +62,11 @@
             "talType": "Talentgruppe",
             "selectTemplate": "Bitte triff aus den Templates eine Auswahl",
             "newEntry": "Neuer Eintrag",
-            "sleeping": "ruhend"
+            "sleeping": "ruhend",
+            "objectRounded": "Objektrituale",
+            "liturgy": "Liturgien",
+            "search": "Suche",
+            "litGrad": "Liturgiegrad"
         },
         "templates": {
             "tal": "Talent",
@@ -382,6 +386,7 @@
             "heigt": "Größe",
             "star": "Sternchen",
             "zArmour": "Zusatzrüstung",
+            "zoneArmour": "Zonenrüstung",
             "parryWeapon": "Paradewaffe",
             "zfw": "ZfW",
             "lvl": "Grad",
@@ -1053,6 +1058,7 @@
             "leftHand": "Linkhand",
             "schildI": "Schildkampf I",
             "schildII": "Schildkampf II",
+            "schildIII": "Waffenmeister (Schild)",
             "armour1": "Rüstungsgewöhnung I",
             "armour2": "Rüstungsgewöhnung II",
             "armour3": "Rüstungsgewöhnung III",

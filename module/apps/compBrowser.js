@@ -54,7 +54,8 @@ export default class GDSACompBrowser extends FormApplication {
 
             // Set General Values
 
-            config: CONFIG.GDSA
+            config: CONFIG.GDSA,
+            template: CONFIG.Templates
         }
 
         // Keep Selection
@@ -137,7 +138,7 @@ export default class GDSACompBrowser extends FormApplication {
                 for(let item of itemArray) {
 
                     if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
-                        if(item.type === "melee-weapons")
+                        if(item.type === "Gegenstand" && item.system.type === "melee")
                             if(this.skill === "none" || this.checkForSkill(item, this.skill))
                                 sortedArray.push(item)
                 }
@@ -151,7 +152,7 @@ export default class GDSACompBrowser extends FormApplication {
                 for(let item of itemArray) {
 
                     if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
-                        if(item.type === "range-weapons")
+                        if(item.type === "Gegenstand" && item.system.type === "range")
                             if(this.skill === "none" || this.checkForSkill(item, this.skill))
                                 sortedArray.push(item)
                 }
@@ -165,7 +166,7 @@ export default class GDSACompBrowser extends FormApplication {
                 for(let item of itemArray) {
 
                     if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
-                        if(item.type === "shields")
+                        if(item.type === "Gegenstand" && item.system.type === "shild")
                             sortedArray.push(item)
                 }
 
@@ -178,7 +179,7 @@ export default class GDSACompBrowser extends FormApplication {
                 for(let item of itemArray) {
 
                     if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
-                        if(item.type === "armour")
+                        if(item.type === "Gegenstand" && item.system.type === "armour")
                             if(this.aPlace === "none" || this.checkArmourRat(item, this.aPlace))
                                 sortedArray.push(item)
                 }
@@ -447,14 +448,14 @@ export default class GDSACompBrowser extends FormApplication {
 
     checkForSkill(item, skill) {
 
-        if(item.system.skill === skill) return true;      
+        if(item.system.weapon.skill === skill) return true;      
         
         return false
     }
 
     checkArmourRat(item, place) {
 
-        if(item.system[place] > 0) return true;      
+        if(item.system.armour[place] > 0) return true;      
         
         return false
     }

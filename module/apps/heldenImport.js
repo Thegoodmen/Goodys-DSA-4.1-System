@@ -821,9 +821,9 @@ function generateHeroObject(event, xml) {
                 def: getDefFromNode(getElementByAttribute(combatArray, "Zweihandflegel"))
             },
             "Zweihand-Hiebwaffen": {
-                value: getSkillFromNode(getElementByAttribute(skillArray, "Zweihand-Hiebwaffen")),
-                atk: getAtkFromNode(getElementByAttribute(combatArray, "Zweihand-Hiebwaffen")),
-                def: getDefFromNode(getElementByAttribute(combatArray, "Zweihand-Hiebwaffen"))
+                value: getSkillFromNode(getElementByAttribute(skillArray, "Zweihandhiebwaffen")),
+                atk: getAtkFromNode(getElementByAttribute(combatArray, "Zweihandhiebwaffen")),
+                def: getDefFromNode(getElementByAttribute(combatArray, "Zweihandhiebwaffen"))
             },
             "Zweihandschwerter / -säbel": {
                 value: getSkillFromNode(getElementByAttribute(skillArray, "Zweihandschwerter / -säbel")),

@@ -210,6 +210,8 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("getItemtype", function(item) { return game.i18n.localize(CONFIG.GDSA.itemGenType[item])});
 
+    Handlebars.registerHelper("getSkillFromTemp", function(id) { return CONFIG.Templates.talents.all.filter(function(item) {return item._id === id})[0].system.tale[game.settings.get("core", "language").toUpperCase()]});
+
     Handlebars.registerHelper("getRitData", function(object1, value1) {
         
         let fullValue = "rit" + value1; 

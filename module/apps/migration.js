@@ -1,6 +1,8 @@
 export async function migrationV1() {
 
     console.log("Start Migration Skript V1")
+    
+    SceneNavigation.displayProgressBar({label: "Migration Progress", pct: 0});
 
     for (let actor of game.actors.contents) {
         
@@ -61,6 +63,7 @@ export async function migrationV1() {
         await pack.configure({ locked: wasLocked });
     }
 
+    SceneNavigation.displayProgressBar({label: "Migration Progress", pct: 100});
     console.log("Finished running World-Migration!")
 
     game.settings.set('gdsa', 'systemMigrationVersion', game.system.version);
@@ -106,9 +109,8 @@ async function actorMigrationV1(actor) {
 
             await actor.createEmbeddedDocuments("Item", [{ "name": item.name, "type": "Template", "system": { "type": "adva", "trait": { "value": advaValue, "canRoll": false}}}]);
             await actor.deleteEmbeddedDocuments("Item", [item._id]);
-        }   
-
-        if (item.type === "flaw") {
+        
+        } else if (item.type === "flaw") {
 
             console.log("Migrate Flaw from old to new Format for " + actor.name + "!");
 
@@ -118,9 +120,8 @@ async function actorMigrationV1(actor) {
 
             await actor.createEmbeddedDocuments("Item", [{ "name": item.name, "type": "Template", "system": { "type": "flaw", "trait": { "value": flawValue, "canRoll": true}}}]);
             await actor.deleteEmbeddedDocuments("Item", [item._id]);
-        }     
-
-        if (item.type === "giftflaw") {
+        
+        } else if (item.type === "giftflaw") {
 
             console.log("Migrate Gift/Flaw from old to new Format for " + actor.name + "!");
 
@@ -130,9 +131,42 @@ async function actorMigrationV1(actor) {
 
             await actor.createEmbeddedDocuments("Item", [{ "name": item.name, "type": "Template", "system": { "type": "adva", "trait": { "value": flawValue, "canRoll": true}}}]);
             await actor.deleteEmbeddedDocuments("Item", [item._id]);
-        }     
+        
+        } else if (item.type === "generals") {
 
-        if (item.type === "langu" || item.type === "signs" || item.type === "ritualSkill")
+            console.log("Migrate General Item from old to new Format for " + actor.name + "!");
+
+            await actor.createEmbeddedDocuments("Item", [{ 
+                
+                "name": item.name,
+                "img": item.img,
+                "type": "Gegenstand",
+                "system": { 
+                    "type": "item", 
+                    "quantity": item.system.quantity,
+                    "weight": item.system.weight,
+                    "value": item.system.value,
+                    "itemType": (item.system.type === "Edelstein") ? "gem" : "item", 
+                    "item": {
+                        "storage": "bag",
+                        "category": item.system.type
+                    },
+                    "gem": {
+                        "trait": item.system.trait,
+                        "cut": item.system.cut,
+                        "size": item.system.size,
+                        "pAsP": item.system.pAsP
+                    },                    
+                    "tale": {
+                        "notes": item.system.description
+                    }
+                }
+
+            }]);
+
+            await actor.deleteEmbeddedDocuments("Item", [item._id]);
+        
+        } else if (item.type === "langu" || item.type === "signs" || item.type === "ritualSkill")
             await actor.deleteEmbeddedDocuments("Item", [item._id]);
 
         if (actor.type === "PlayerCharakter") {
@@ -155,9 +189,8 @@ async function actorMigrationV1(actor) {
                     await actor.createEmbeddedDocuments("Item", [newItem]);
                     await actor.deleteEmbeddedDocuments("Item", [item._id]);                
                 }
-            }
 
-            if (item.type === "combatTrait") {
+            } else if (item.type === "combatTrait") {
 
                 let templateArray = CONFIG.Templates.traits.combat;
                 let templateItem = templateArray.filter(function(array) {return ( array.name === item.name || array.system.tale.DE === item.name || array.system.tale.EN === item.name )});
@@ -175,29 +208,8 @@ async function actorMigrationV1(actor) {
                     await actor.createEmbeddedDocuments("Item", [newItem]);
                     await actor.deleteEmbeddedDocuments("Item", [item._id]);                
                 }
-            }
 
-            if (item.type === "magicTrait") {
-
-                let templateArray = CONFIG.Templates.traits.magic;
-                let templateItem = templateArray.filter(function(array) {return ( array.name === item.name || array.system.tale.DE === item.name || array.system.tale.EN === item.name )});
-
-                if (templateItem.length != 0) {
-
-                    console.log("Migrate SF from old to new Format (" + item.name + ")");
-                    await actor.createEmbeddedDocuments("Item", templateItem);
-                    await actor.deleteEmbeddedDocuments("Item", [item._id]);
-
-                } else {
-                    
-                    console.log("Create new SF in the new Format (" + item.name + ")");
-                    let newItem = { "name": item.name, "type": "Template", "img": "icons/magic/symbols/circled-gem-pink.webp", "system": { "type": "trai", "sf": { "type": "magic", "ver": 0 }, "tale": { "DE": item.name, "EN": item.name }}}
-                    await actor.createEmbeddedDocuments("Item", [newItem]);
-                    await actor.deleteEmbeddedDocuments("Item", [item._id]);                
-                }
-            }
-
-            if (item.type === "objectTrait") {
+            } else if (item.type === "magicTrait") {
 
                 let templateArray = CONFIG.Templates.traits.magic;
                 let templateItem = templateArray.filter(function(array) {return ( array.name === item.name || array.system.tale.DE === item.name || array.system.tale.EN === item.name )});
@@ -215,9 +227,27 @@ async function actorMigrationV1(actor) {
                     await actor.createEmbeddedDocuments("Item", [newItem]);
                     await actor.deleteEmbeddedDocuments("Item", [item._id]);                
                 }
-            }
 
-            if (item.type === "holyTrait") {
+            } else if (item.type === "objectTrait") {
+
+                let templateArray = CONFIG.Templates.traits.magic;
+                let templateItem = templateArray.filter(function(array) {return ( array.name === item.name || array.system.tale.DE === item.name || array.system.tale.EN === item.name )});
+
+                if (templateItem.length != 0) {
+
+                    console.log("Migrate SF from old to new Format (" + item.name + ")");
+                    await actor.createEmbeddedDocuments("Item", templateItem);
+                    await actor.deleteEmbeddedDocuments("Item", [item._id]);
+
+                } else {
+                    
+                    console.log("Create new SF in the new Format (" + item.name + ")");
+                    let newItem = { "name": item.name, "type": "Template", "img": "icons/magic/symbols/circled-gem-pink.webp", "system": { "type": "trai", "sf": { "type": "magic", "ver": 0 }, "tale": { "DE": item.name, "EN": item.name }}}
+                    await actor.createEmbeddedDocuments("Item", [newItem]);
+                    await actor.deleteEmbeddedDocuments("Item", [item._id]);                
+                }
+            
+            } else if (item.type === "holyTrait") {
 
                 let templateArray = CONFIG.Templates.traits.holy;
                 let templateItem = templateArray.filter(function(array) {return ( array.name === item.name || array.system.tale.DE === item.name || array.system.tale.EN === item.name )});
@@ -236,8 +266,6 @@ async function actorMigrationV1(actor) {
                     await actor.deleteEmbeddedDocuments("Item", [item._id]);                
                 }
             }
-
-            // if (item.type === "Template") console.log(item);
         }
     }
     
@@ -260,9 +288,8 @@ async function itemMigrationV1(item) {
 
         item.update({ "type": "Template" })
         item.update({ "system": { "type": "adva", "trait": { "value": advaValue, "canRoll": true}}});
-    }   
-
-    if (item.type === "flaw") {
+    
+    } else if (item.type === "flaw") {
 
         console.log("Migrate Item from old to new Format " + item.name + "!");
 
@@ -274,9 +301,8 @@ async function itemMigrationV1(item) {
 
         item.update({ "type": "Template" });
         item.update({ "system": { "type": "flaw", "trait": { "value": flawValue, "canRoll": true}}});
-    }     
-
-    if (item.type === "giftflaw") {
+    
+    } else if (item.type === "giftflaw") {
 
         console.log("Migrate Item from old to new Format " + item.name + "!");
 
@@ -289,9 +315,62 @@ async function itemMigrationV1(item) {
         item.update({ "type": "Template" })
         item.update({ "system": { "type": "adva", "trait": { "value": flawValue, "canRoll": true}}});
 
-    }     
+    } else if (item.type === "generals") {
 
-    if (item.type === "langu" || item.type === "signs" || item.type === "ritualSkill")
+        console.log("Migrate General Item from old to new Format " + item.name + "!");
+
+        updateData = { 
+            
+            "name": item.name,
+            "img": item.img,
+            "type": "Gegenstand",
+            "system": { 
+                "type": "item", 
+                "quantity": item.system.quantity,
+                "weight": item.system.weight,
+                "value": item.system.value,
+                "itemType": (item.system.type === "Edelstein") ? "gem" : "item", 
+                "item": {
+                    "storage": "bag",
+                    "category": item.system.type
+                },
+                "gem": {
+                    "trait": item.system.trait,
+                    "cut": item.system.cut,
+                    "size": item.system.size,
+                    "pAsP": item.system.pAsP
+                },                    
+                "tale": {
+                    "notes": item.system.description
+                }
+            }
+
+        };
+
+        item.update({ "type": "Gegenstand" })
+        item.update({ "system": { 
+
+            "type": "item", 
+            "quantity": item.system.quantity,
+            "weight": item.system.weight,
+            "value": item.system.value,
+            "itemType": (item.system.type === "Edelstein") ? "gem" : "item", 
+            "item": {
+                "storage": "bag",
+                "category": item.system.type
+            },
+            "gem": {
+                "trait": item.system.trait,
+                "cut": item.system.cut,
+                "size": item.system.size,
+                "pAsP": item.system.pAsP
+            },                    
+            "tale": {
+                "notes": item.system.description
+            }
+        }});
+    
+    } else if (item.type === "langu" || item.type === "signs" || item.type === "ritualSkill")
         await actor.deleteEmbeddedDocuments("Item", [item._id]);
     
     return updateData;
@@ -493,7 +572,7 @@ const cmbtSkills = [
 ]
 
 const cmbtTemplate = {
-    vale: "",
+    value: "",
     atk: "",
     def: ""
 }
