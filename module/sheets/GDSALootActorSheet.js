@@ -15,7 +15,7 @@ export default class GDSALootActorSheet extends ActorSheet {
 
         return mergeObject(super.defaultOptions, {
 
-            template: "systems/GDSA/templates/sheets/lootActor-sheet.hbs",
+            template: "systems/gdsa/templates/sheets/lootActor-sheet.hbs",
             width: 632,
             height: 625,
             resizable: false,

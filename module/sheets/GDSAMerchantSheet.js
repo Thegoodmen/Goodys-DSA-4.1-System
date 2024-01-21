@@ -15,7 +15,7 @@ export default class GDSAMerchantSheet extends ActorSheet {
 
         return mergeObject(super.defaultOptions, {
 
-            template: "systems/GDSA/templates/sheets/merchant-sheet.hbs",
+            template: "systems/gdsa/templates/sheets/merchant-sheet.hbs",
             width: 632,
             height: 625,
             resizable: false,

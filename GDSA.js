@@ -30,7 +30,7 @@ Hooks.once("init", async () => {
 
     CONFIG.Combat.initiative.formula = "1d6 + @INIBasis.value + @INIBasis.modi";
 	Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
-    CONFIG.ChatMessage.template = "./systems/GDSA/templates/ressources/chatMessage.hbs";
+    CONFIG.ChatMessage.template = "./systems/gdsa/templates/ressources/chatMessage.hbs";
     CONFIG.GDSA = GDSA;
     CONFIG.INIT = true;
     CONFIG.Actor.documentClass = GDSAActor;
@@ -41,7 +41,7 @@ Hooks.once("init", async () => {
     CONFIG.fontDefinitions["MasonSerifBold"] = {
         editor: true,
         fonts: [
-          {urls: ["systems/GDSA/fonts/mason-serif-bold.otf"]}
+          {urls: ["systems/gdsa/fonts/mason-serif-bold.otf"]}
         ]
     };
     CONFIG.defaultFontFamily = "MasonSerifBold";
@@ -134,43 +134,43 @@ function preloadHandlebarsTemplates() {
 
     const templatePaths = [
 
-        "systems/GDSA/templates/partials/character-sheet-advantages.hbs",
-        "systems/GDSA/templates/partials/character-sheet-menu.hbs",
-        "systems/GDSA/templates/partials/character-sheet-mainPage.hbs",
-        "systems/GDSA/templates/partials/character-sheet-skillPage.hbs",
-        "systems/GDSA/templates/partials/character-sheet-combatPage.hbs",
-        "systems/GDSA/templates/partials/character-sheet-gmPage.hbs",
-        "systems/GDSA/templates/partials/character-sheet-magicPage.hbs",
-        "systems/GDSA/templates/partials/character-sheet-holyPage.hbs",
-        "systems/GDSA/templates/partials/character-sheet-itemPage.hbs",
-        "systems/GDSA/templates/partials/character-sheet-traitPage.hbs",
-        "systems/GDSA/templates/partials/character-sheet-generaltraitPage.hbs",
-        "systems/GDSA/templates/partials/character-sheet-combattraitPage.hbs",
-        "systems/GDSA/templates/partials/character-sheet-magictraitPage.hbs",
-        "systems/GDSA/templates/partials/character-sheet-objecttraitPage.hbs",
-        "systems/GDSA/templates/partials/character-sheet-objektRit.hbs",
-        "systems/GDSA/templates/partials/character-sheet-holytraitPage.hbs",
-        "systems/GDSA/templates/partials/character-sheet-facts.hbs",
-        "systems/GDSA/templates/partials/character-sheet-value1.hbs",
-        "systems/GDSA/templates/partials/character-sheet-value2.hbs",
-        "systems/GDSA/templates/partials/character-sheet-combatSkills.hbs",
-        "systems/GDSA/templates/partials/character-sheet-bodySkills.hbs",
-        "systems/GDSA/templates/partials/character-sheet-socialSkills.hbs",
-        "systems/GDSA/templates/partials/character-sheet-natureSkills.hbs",
-        "systems/GDSA/templates/partials/character-sheet-langSkills.hbs",
-        "systems/GDSA/templates/partials/character-sheet-knowledgeSkills.hbs",
-        "systems/GDSA/templates/partials/character-sheet-craftSkills.hbs",
-        "systems/GDSA/templates/partials/character-sheet-giftSkills.hbs",
-        "systems/GDSA/templates/partials/character-sheet-woundChart.hbs",
-        "systems/GDSA/templates/partials/character-sheet-magicCast.hbs",
-        "systems/GDSA/templates/partials/character-sheet-magicGeneral.hbs",
-        "systems/GDSA/templates/partials/character-sheet-magicRitu.hbs",
-        "systems/GDSA/templates/partials/character-sheet-holyMirikal.hbs",
-        "systems/GDSA/templates/partials/character-sheet-holyGeneral.hbs",
-        "systems/GDSA/templates/partials/character-sheet-holyWonder.hbs",
-        "systems/GDSA/templates/partials/item-sheet-selectTalents.hbs",
-        "systems/GDSA/templates/partials/item-sheet-selectAttributes.hbs",
-        "systems/GDSA/templates/partials/item-sheet-selectTraits.hbs"
+        "systems/gdsa/templates/partials/character-sheet-advantages.hbs",
+        "systems/gdsa/templates/partials/character-sheet-menu.hbs",
+        "systems/gdsa/templates/partials/character-sheet-mainPage.hbs",
+        "systems/gdsa/templates/partials/character-sheet-skillPage.hbs",
+        "systems/gdsa/templates/partials/character-sheet-combatPage.hbs",
+        "systems/gdsa/templates/partials/character-sheet-gmPage.hbs",
+        "systems/gdsa/templates/partials/character-sheet-magicPage.hbs",
+        "systems/gdsa/templates/partials/character-sheet-holyPage.hbs",
+        "systems/gdsa/templates/partials/character-sheet-itemPage.hbs",
+        "systems/gdsa/templates/partials/character-sheet-traitPage.hbs",
+        "systems/gdsa/templates/partials/character-sheet-generaltraitPage.hbs",
+        "systems/gdsa/templates/partials/character-sheet-combattraitPage.hbs",
+        "systems/gdsa/templates/partials/character-sheet-magictraitPage.hbs",
+        "systems/gdsa/templates/partials/character-sheet-objecttraitPage.hbs",
+        "systems/gdsa/templates/partials/character-sheet-objektRit.hbs",
+        "systems/gdsa/templates/partials/character-sheet-holytraitPage.hbs",
+        "systems/gdsa/templates/partials/character-sheet-facts.hbs",
+        "systems/gdsa/templates/partials/character-sheet-value1.hbs",
+        "systems/gdsa/templates/partials/character-sheet-value2.hbs",
+        "systems/gdsa/templates/partials/character-sheet-combatSkills.hbs",
+        "systems/gdsa/templates/partials/character-sheet-bodySkills.hbs",
+        "systems/gdsa/templates/partials/character-sheet-socialSkills.hbs",
+        "systems/gdsa/templates/partials/character-sheet-natureSkills.hbs",
+        "systems/gdsa/templates/partials/character-sheet-langSkills.hbs",
+        "systems/gdsa/templates/partials/character-sheet-knowledgeSkills.hbs",
+        "systems/gdsa/templates/partials/character-sheet-craftSkills.hbs",
+        "systems/gdsa/templates/partials/character-sheet-giftSkills.hbs",
+        "systems/gdsa/templates/partials/character-sheet-woundChart.hbs",
+        "systems/gdsa/templates/partials/character-sheet-magicCast.hbs",
+        "systems/gdsa/templates/partials/character-sheet-magicGeneral.hbs",
+        "systems/gdsa/templates/partials/character-sheet-magicRitu.hbs",
+        "systems/gdsa/templates/partials/character-sheet-holyMirikal.hbs",
+        "systems/gdsa/templates/partials/character-sheet-holyGeneral.hbs",
+        "systems/gdsa/templates/partials/character-sheet-holyWonder.hbs",
+        "systems/gdsa/templates/partials/item-sheet-selectTalents.hbs",
+        "systems/gdsa/templates/partials/item-sheet-selectAttributes.hbs",
+        "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs"
     ];
     
     return loadTemplates(templatePaths);
