@@ -65,6 +65,8 @@ Hooks.once("ready", async () => {
     CONFIG.INIT = false;
     CONFIG.Templates = await Template.templateData();
 
+    Hooks.on("hotbarDrop", (bar, data, slot) => createGDSAMacro(data, slot));
+
     if(!game.user.isGM) return;
 
     const currentVersion = game.settings.get("gdsa", "systemMigrationVersion");
@@ -76,8 +78,6 @@ Hooks.once("ready", async () => {
     needsMigration = true;
 
     if (needsMigration) Migration.migrationV1();
-
-    Hooks.on("hotbarDrop", (bar, data, slot) => createGDSAMacro(data, slot));
 });
 
 Hooks.once("renderChatMessage", () => {

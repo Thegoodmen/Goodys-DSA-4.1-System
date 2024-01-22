@@ -136,7 +136,7 @@ export function getGoofyFK(value) {
         case 8:
         case 9:
         case 10:
-            return "Fehlschuß";
+            return "Fehlschuss";
         case 11:
         case 12:
             return "Kameraden getroffen";
