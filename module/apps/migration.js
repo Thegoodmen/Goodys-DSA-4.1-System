@@ -79,6 +79,7 @@ async function actorMigrationV1(actor) {
 
     let updateData = {};
     let actorData = actor.system;
+    console.log(actor);
 
     if (actor.type === "PlayerCharakter") {
 
@@ -102,23 +103,24 @@ async function actorMigrationV1(actor) {
     }
 
     const actorItems = actor.items._source;
-
+    //if (actor._id === "Y2jvWVMH7dFlDLvL") await actor.deleteEmbeddedDocuments("Item", ["JtZTwtXzC32B2gIq"]);
+    
     for (let j = 0; j < actorItems.length; j++) {
 
         SceneNavigation.displayProgressBar({label: actor.name + " Items", pct: ((j / actorItems.length) * 100).toFixed(0)});
 
-        let item = actorItems[j];
+        var item = actorItems[j];
 
         if (item.type === "advantage") {
 
-            console.log("Migrate Advantages from old to new Format for " + actor.name + "!");
+            console.log("Migrate Advantages from old to new Format for " + "!");
 
             let advaValue = item.system.value;
 
             if (parseInt(advaValue) === 0) advaValue = "";
 
-            await actor.createEmbeddedDocuments("Item", [{ "name": item.name, "type": "Template", "system": { "type": "adva", "trait": { "value": advaValue, "canRoll": false}}}]);
-            await actor.deleteEmbeddedDocuments("Item", [item._id]);
+            actor.createEmbeddedDocuments("Item", [{ "name": item.name , "type": "Template", "system": { "type": "adva", "trait": { "value": advaValue, "canRoll": false}}}]);
+            actor.deleteEmbeddedDocuments("Item", [item._id]);
         
         } else if (item.type === "flaw") {
 
@@ -178,7 +180,7 @@ async function actorMigrationV1(actor) {
         
         } else if (item.type === "melee-weapons") {
 
-            console.log("Migrate General Item from old to new Format for " + actor.name + "!");
+            console.log("Migrate Melee Weapon from old to new Format for " + actor.name + "!");
 
             let skill = "";
             let skillName = "";
@@ -225,7 +227,7 @@ async function actorMigrationV1(actor) {
         
         } else if (item.type === "range-weapons") {
 
-            console.log("Migrate General Item from old to new Format for " + actor.name + "!");
+            console.log("Migrate Range Weapon from old to new Format for " + actor.name + "!");
 
             let skill = "";
             let skillName = "";
@@ -276,7 +278,7 @@ async function actorMigrationV1(actor) {
         
         } else if (item.type === "shields") {
 
-            console.log("Migrate General Item from old to new Format for " + actor.name + "!");
+            console.log("Migrate Schild from old to new Format for " + actor.name + "!");
 
             await actor.createEmbeddedDocuments("Item", [{ 
             
@@ -310,7 +312,7 @@ async function actorMigrationV1(actor) {
         
         } else if (item.type === "armour") {
 
-            console.log("Migrate General Item from old to new Format for " + actor.name + "!");
+            console.log("Migrate Armour from old to new Format for " + actor.name + "!");
 
             await actor.createEmbeddedDocuments("Item", [{ 
             
