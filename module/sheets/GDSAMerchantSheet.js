@@ -47,14 +47,15 @@ export default class GDSAMerchantSheet extends ActorSheet {
             items: baseData.items,
             config: CONFIG.GDSA,
             isGM: game.user.isGM,
+            game: game,
 
             // Create for each Item Type its own Array
 
-            generals: Util.getItems(baseData, "generals", false),
-            meleeweapons: Util.getItems(baseData, "melee-weapons", false),
-            rangeweapons: Util.getItems(baseData, "range-weapons", false),
-            shields: Util.getItems(baseData, "shields", false),
-            armour: Util.getItems(baseData, "armour", false),
+            generals: Util.getItem(baseData, "item", false),
+            meleeweapons: Util.getItem(baseData, "melee", false),
+            rangeweapons: Util.getItem(baseData, "range", false),
+            shields: Util.getItem(baseData, "shild", false),
+            armour: Util.getItem(baseData, "armour", false),
             affiliation: Util.getItems(baseData, "affiliation", false),
         };
 
