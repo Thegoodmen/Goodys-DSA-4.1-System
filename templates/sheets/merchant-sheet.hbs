@@ -1,28 +1,34 @@
-<form class="{{cssClass}}" autocomplete="off">
+<form class="{{cssClass}}" autocomplete="off">{{doLog this}}
     <div class="sheet2">
 
     <header class="sheet-header">
-        <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="64" width="64"/>
-        <h1><input class="nameLable" name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'Name'}}" {{#unless isGM}}disabled{{/unless}}/></h1>
+        <div class="merchantHead">
+            <img src="{{actor.img}}" class="merchantImg" data-edit="img" title="{{actor.name}}" height="67" width="67"/>
+            <div class="merchantName"><input class="nameLableMerch" name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'Name'}}" {{#unless isGM}}disabled{{/unless}}/></div>
+            {{#each affiliation as |item id|}}
+                <div class="affiliateBar {{#if ../isGM}}item-context{{/if}}" data-item-id="{{_id}}" style="color: {{system.fontColo}}; background-color: {{system.backgroundColor}}">
+                    <div class="affiImg"><img class="affiIMG" src="{{item.img}}" title="{{item.name}}" /></div>
+                    <div class="affiName">{{item.name}}</div>
+                </div>
+            {{/each}}
+        </div>
     </header>
 
-        <div class="invFiller2"></div>
+        <div class="invFiller3"></div>
 
 		<section class="sheet-body">
 
             <div class="merchantInfo">
-                <textarea class="merchantDisc" name="system.description" {{#unless isGM}}disabled{{/unless}}>{{system.description}}</textarea>
-                <div class="affiliate">
-                    Zugehörigkeit:<br />
-                    {{#each affiliation as |item id|}}
-                        <div class="affiliateBar {{#if ../isGM}}item-context{{/if}}" data-item-id="{{_id}}">
-                            <div class="affiImg"><img class="affiIMG" src="{{item.img}}" title="{{item.name}}" /></div>
-                            <div class="affiName" style="color: {{system.fontColo}}; background-color: {{system.backgroundColor}}">{{item.name}}</div>
-                        </div>
-                    {{/each}}
+                <div class="merchMenuBox">
+                    <a class="item menuMainItem merchMenu">{{localize "GDSA.itemsheet.description"}}</a>
+                    {{#if isGM}}
+                        <span class="merchMenuDiv">|</span> 
+                        <a class="item menuMainItem merchMenu">{{localize "GDSA.system.settings"}}</a>
+                    {{/if}}
                 </div>
+                <textarea class="merchantDisc" name="system.description" {{#unless isGM}}disabled{{/unless}}>{{system.description}}</textarea>
                 <div class="classification">
-                    Qualität: <select class="classificationSelection" name="system.skill" {{#unless isGM}}disabled{{/unless}}>
+                    <!-- Qualität: <select class="classificationSelection" name="system.skill" {{#unless isGM}}disabled{{/unless}}>
                         {{#select system.skill}}
                         <option value="1">{{localize "GDSA.chat.dialog.lvl1"}}</option>
                         <option value="2">{{localize "GDSA.chat.dialog.lvl2"}}</option>
@@ -30,7 +36,16 @@
                         <option value="4">{{localize "GDSA.chat.dialog.lvl4"}}</option>
                         <option value="5">{{localize "GDSA.chat.dialog.lvl5"}}</option>
                         {{/select}}
-                    </select><br />
+                    </select><br /> 
+                    
+                    
+                        {{#each game.users as |user|}}
+                            {{#unless user.isGM}}
+                                {{#if user.character}}
+                                    {{user.character.name}} <i>{{user.character._id}}</i>
+                                {{/if}}
+                            {{/unless}}
+	                    {{/each}}-->
                     {{localize "GDSA.charactersheet.uberSkill"}}<a class="merch-roll" data-skill="uber" title="roll"><i class="fas fa-dice-d20 merchRoll"></i></a><br />
                     {{localize "GDSA.charactersheet.handSkill"}}<a class="merch-roll" data-skill="hand" title="roll"><i class="fas fa-dice-d20 merchRoll"></i></a>
                 </div>
@@ -48,7 +63,7 @@
                             {{/if}}
                         </div>
                         {{#each inventar as |item id|}}
-                            <div class="invItem2 {{#if ../isGM}}item-context{{/if}} item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
+                            <div class="invItem2 {{#if ../isGM}}item-context{{/if}} item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{localize (concat "GDSA.templates." system.itemType "")}}</i>
                                 {{#if ../isGM}}
                                     <div class="changeAmount">
                                         <a class="addQuant"><i class="fas fa-plus"></i></a>

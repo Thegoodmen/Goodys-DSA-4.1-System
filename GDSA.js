@@ -198,7 +198,7 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("doLog", function(value) { console.log(value)});
 
-    Handlebars.registerHelper("getGold", function(value) { return value.slice(0, -3)});
+    Handlebars.registerHelper("getGold", function(value) { return String(value).slice(0, -3)});
 
     Handlebars.registerHelper("formatNumber", function(number) { return new Intl.NumberFormat("de-DE").format(parseInt(number))});
 

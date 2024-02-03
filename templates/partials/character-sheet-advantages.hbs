@@ -1,5 +1,5 @@
 <div class="item item-context {{#if system.trait.canRoll}}flaw-roll{{/if}}" data-type="{{system.type}}" data-item-id="{{_id}}" data-flawValue="{{system.trait.value}}" data-flawName="{{name}}">
-    <a class="test" data-type="advantage"><div class="flaw">{{name}}
+    <a class="test" data-type="advantage"><div class="flaw">{{#unless name}}{{system.tale.DE}}{{else}}{{name}}{{/unless}}
         {{#if (ne system.trait.value 0)}}
             {{#unless (hasRomNum name)}}
                 {{system.trait.value}}

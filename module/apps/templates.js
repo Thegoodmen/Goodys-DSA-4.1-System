@@ -226,6 +226,47 @@ async function getSpells() {
     return spell;
 }
 
+async function getRituals() {
+
+    let templatesSystem = await game.packs.get("gdsa.rituale").getDocuments();
+    let templatesWorld = [];
+    let talentArray = templatesWorld.concat(templatesSystem);
+
+    let spell = {
+
+        gild: talentArray.filter(function(item) {return item.system.creatTalent === "gild"}),
+        scha: talentArray.filter(function(item) {return item.system.creatTalent === "scha"}),
+        alch: talentArray.filter(function(item) {return item.system.creatTalent === "alch"}),
+        kris: talentArray.filter(function(item) {return item.system.creatTalent === "kris"}),
+        hexe: talentArray.filter(function(item) {return item.system.creatTalent === "hexe"}),
+        drui: talentArray.filter(function(item) {return item.system.creatTalent === "drui"}),
+        geod: talentArray.filter(function(item) {return item.system.creatTalent === "geod"}),
+        zibi: talentArray.filter(function(item) {return item.system.creatTalent === "zibi"}),
+        durr: talentArray.filter(function(item) {return item.system.creatTalent === "durr"}),
+        derw: talentArray.filter(function(item) {return item.system.creatTalent === "derw"}),
+        tanz: talentArray.filter(function(item) {return item.system.creatTalent === "tanz"}),
+        bard: talentArray.filter(function(item) {return item.system.creatTalent === "bard"}),
+        gruf: talentArray.filter(function(item) {return item.system.creatTalent === "gruf"}),
+        gban: talentArray.filter(function(item) {return item.system.creatTalent === "gban"}),
+        gbin: talentArray.filter(function(item) {return item.system.creatTalent === "gbin"}),
+        gauf: talentArray.filter(function(item) {return item.system.creatTalent === "gauf"}),
+        petr: talentArray.filter(function(item) {return item.system.creatTalent === "petr"}),
+        all: talentArray
+    };
+
+    spell.all.sort(function(a, b){
+        let x = a.name.toLowerCase();
+        let y = b.name.toLowerCase();
+        if (x < y) {return -1;}
+        if (x > y) {return 1;}
+        return 0;
+    });
+
+    spell.schamObj = spell.gruf.concat(spell.gban, spell.gbin, spell.gauf);
+    spell.joinMag = spell.gild.concat(spell.alch, spell.hexe, spell.scha, spell.kris);
+
+    return spell;
+}
 
 async function getCults() {
 
@@ -373,7 +414,8 @@ export async function templateData() {
         cults: await getCults(),
         traits: await getTraits(),
         advantage: await getAdvantages(),
-        flaw: await getFlaws()
+        flaw: await getFlaws(),
+        ritual: await getRituals()
     };
 }
 

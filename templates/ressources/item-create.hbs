@@ -1,0 +1,40 @@
+<form id="document-create" autocomplete="off">
+    
+    <div class="form-group">
+        <label>{{localize "GDSA.system.name"}}</label>
+        <div class="form-fields">
+            <input id="itemCreOptName" type="text" name="name" placeholder="{{name}}" autofocus>
+        </div>
+    </div>
+
+    {{#if hasTypes}}
+        <div class="form-group">
+            <label>{{localize "GDSA.system.type"}}</label>
+            <div class="form-fields">
+                <select class="itemCreOpt" name="type">                    
+                    {{#each types as |name type|}}
+                        <option value="{{type}}">{{localize (concat "GDSA.itemtypes." type "")}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+    {{/if}}
+
+    {{#if hasFolders}}
+        <div class="form-group">
+            <label>{{localize "GDSA.system.folder"}}</label>
+            <div class="form-fields">
+                <select class="itemCreOpt" name="folder">
+                    {{#select folder}}
+                        <option value=""></option>
+                        {{#each folders}}
+                            <option value="{{ this.id }}">{{ this.name }}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+        </div>
+    {{/if}}
+
+    {{{content}}}
+</form>
