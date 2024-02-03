@@ -12,7 +12,7 @@
     "version": "1.0.0",
     "compatibility": {
         "minimum": 10,
-        "verified": "11.308",
+        "verified": "11.315",
         "maximum": 11
     },
     "esmodules": [
@@ -76,6 +76,11 @@
             "lang": "de",
             "name": "Deutsch",
             "path": "lang/de.json"
+        },
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "lang/en.json"
         }
     ],
     "relationships": {

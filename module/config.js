@@ -260,7 +260,15 @@ GDSA.itemTypes = {
 
 GDSA.itemGenType = {
     item: "GDSA.templates.itemGeneral",
-    gem: "GDSA.itemsheet.cystal"
+    gem: "GDSA.templates.cystal",
+    herb: "GDSA.templates.herb", 
+    important: "GDSA.templates.important", 
+    tool: "GDSA.templates.tool", 
+    equipment: "GDSA.templates.equipment", 
+    ressource: "GDSA.templates.ressource", 
+    luxus: "GDSA.templates.luxus", 
+    container: "GDSA.templates.container", 
+    vehical: "GDSA.templates.vehical"
 };
 
 GDSA.sfgeneral = [

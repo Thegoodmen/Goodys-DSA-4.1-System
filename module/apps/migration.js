@@ -79,7 +79,6 @@ async function actorMigrationV1(actor) {
 
     let updateData = {};
     let actorData = actor.system;
-    console.log(actor);
 
     if (actor.type === "PlayerCharakter") {
 

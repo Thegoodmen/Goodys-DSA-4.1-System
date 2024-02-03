@@ -63,7 +63,7 @@
                             {{/if}}
                         </div>
                         {{#each inventar as |item id|}}
-                            <div class="invItem2 {{#if ../isGM}}item-context{{/if}} item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{system.type}}</i>
+                            <div class="invItem2 {{#if ../isGM}}item-context{{/if}} item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{localize (concat "GDSA.templates." system.itemType "")}}</i>
                                 {{#if ../isGM}}
                                     <div class="changeAmount">
                                         <a class="addQuant"><i class="fas fa-plus"></i></a>

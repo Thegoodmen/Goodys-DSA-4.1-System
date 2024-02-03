@@ -67,7 +67,12 @@
             "liturgy": "Liturgien",
             "search": "Suche",
             "litGrad": "Liturgiegrad",
-            "settings": "Einstellungen"
+            "settings": "Einstellungen",
+            "creaNewItem": "Erstelle neues Item",
+            "newItem": "Neues Item",
+            "name": "Name",
+            "type": "Type",
+            "folder": "Ordner"
         },
         "templates": {
             "tal": "Talent",
@@ -109,7 +114,17 @@
             "aspL": "AsP Verlust",
             "kapG": "KaP Gewinn",
             "kapL": "KaP Verlust",
-            "medi": "Meditation"
+            "medi": "Meditation",
+            "herb": "Kräuter / Alchemika",
+            "important": "Wertgegenstand",
+            "tool": "Werkzeug",
+            "equipment": "Ausrüstung",
+            "ressource": "Ressource",
+            "luxus": "Luxusgut",
+            "container": "Behälter",
+            "vehical": "Fahrzeug",
+            "gem": "Edelstein",
+            "item": "Gegenstand"
         },
         "info": {
             "itemAdd": "Ein Item wurde dem Charakter hinzugefügt.",
@@ -1107,6 +1122,18 @@
             "zorn": "Zorn der Elemente",
             "plano": "plano",
             "noGem": "Kein passender"
+        },
+        "itemtypes": {
+            "Gegenstand": "Gegenstand",
+            "Template": "Template",
+            "spell": "Zauber",
+            "wonder": "Liturgie",
+            "ritual": "Ritual",
+            "objektRitual": "Objektritual",
+            "generalTrait": "NPC-Trait (depre)",
+            "affiliation": "NPC-Zugehörigkeit (depre)",
+            "simple-weapon": "NPC-Waffe (depre)",
+            "talent": "NPC-Talent (depre)"
         }
     }
 }

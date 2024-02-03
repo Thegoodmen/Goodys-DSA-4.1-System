@@ -1,7 +1,5 @@
-2024/01/21-19:15:40.620 2faf0 Recovering log #216
-2024/01/21-19:15:40.630 2faf0 Delete type=0 #216
-2024/01/21-19:15:40.630 2faf0 Delete type=3 #214
-2024/01/21-21:40:59.561 2d634 Level-0 table #221: started
-2024/01/21-21:40:59.561 2d634 Level-0 table #221: 0 bytes OK
-2024/01/21-21:40:59.565 2d634 Delete type=0 #219
-2024/01/21-21:40:59.573 2d634 Manual compaction at level-0 from '!items!0wNoNzFfZ5e7MEds' @ 72057594037927935 : 1 .. '!items!zl2hUvFRu5iTQyRs' @ 0 : 0; will stop at (end)
+2024/01/28-11:58:31.878 88d4 Log #223: 0 ops saved to Table #224 OK
+2024/01/28-11:58:31.879 88d4 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\rituale/000223.log: OK
+2024/01/28-11:58:31.880 88d4 Table #145: 169 entries OK
+2024/01/28-11:58:31.883 88d4 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\rituale/MANIFEST-000222: OK
+2024/01/28-11:58:31.888 88d4 **** Repaired leveldb C:\FoundryVTT\Data\systems\gdsa\packs\rituale; recovered 1 files; 56286 bytes. Some data may have been lost. ****

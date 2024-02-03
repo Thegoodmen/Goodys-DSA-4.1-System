@@ -1372,6 +1372,12 @@
 .mediOpt {
   width: 232px;
 }
+.itemCreOpt {
+  width: 205px;
+}
+#itemCreOptName {
+  width: 205px;
+}
 .GDSA.sheet.npcSheet .namelbl {
   width: 500px;
   height: 50px;
@@ -2718,6 +2724,7 @@
   margin: 7px;
   float: left;
   padding-left: 20px;
+  overflow-y: auto;
 }
 .importName {
   font-size: 25px;

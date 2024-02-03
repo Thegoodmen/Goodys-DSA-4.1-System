@@ -1,7 +1,5 @@
-2024/01/21-19:15:40.632 2c6ec Recovering log #224
-2024/01/21-19:15:40.641 2c6ec Delete type=0 #224
-2024/01/21-19:15:40.641 2c6ec Delete type=3 #222
-2024/01/21-21:40:59.599 2d634 Level-0 table #229: started
-2024/01/21-21:40:59.599 2d634 Level-0 table #229: 0 bytes OK
-2024/01/21-21:40:59.603 2d634 Delete type=0 #227
-2024/01/21-21:40:59.603 2d634 Manual compaction at level-0 from '!items!06aMB39mcK5uHm76' @ 72057594037927935 : 1 .. '!items!zzDuPodwSVGdCXab' @ 0 : 0; will stop at (end)
+2024/01/28-11:58:31.904 88d4 Log #231: 0 ops saved to Table #232 OK
+2024/01/28-11:58:31.905 88d4 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\templates/000231.log: OK
+2024/01/28-11:58:31.907 88d4 Table #153: 1130 entries OK
+2024/01/28-11:58:31.909 88d4 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\templates/MANIFEST-000230: OK
+2024/01/28-11:58:31.913 88d4 **** Repaired leveldb C:\FoundryVTT\Data\systems\gdsa\packs\templates; recovered 1 files; 566273 bytes. Some data may have been lost. ****
