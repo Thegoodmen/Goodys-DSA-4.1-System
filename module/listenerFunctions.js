@@ -1198,10 +1198,8 @@ export async function onRitualCreation(data, event) {
     // Get Skill Value from the HTML
     
     let skill = item.system.creatTalent;
-    let actorSkills = actor.sheet.getData().ritualSkills;
-    let ritualSkill = actorSkills.filter(function(item) {return item.system.skill == skill});
-    if (ritualSkill.length === 0) return;
     let statvalue = actor.sheet.getData().system.skill["rit" + skill];
+    if (!statvalue < 0) return;
 
     // Check if Shift is presst for Skip Dialog
 
@@ -1276,10 +1274,8 @@ export async function onRitualActivation(data, event) {
     // Get Skill Value from the HTML
     
     let skill = item.system.activTalent;
-    let actorSkills = actor.sheet.getData().ritualSkills;
-    let ritualSkill = actorSkills.filter(function(item) {return item.system.skill == skill});
-    if (ritualSkill.length === 0) return;
     let statvalue = actor.sheet.getData().system.skill["rit" + skill];
+    if (!statvalue < 0) return;
 
     // Check if Shift is presst for Skip Dialog
 

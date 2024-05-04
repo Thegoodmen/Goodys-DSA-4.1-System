@@ -279,11 +279,13 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let mag1 = sheetData.advantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.mag1")})[0];
         let mag2 = sheetData.advantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.mag2")})[0];
         let mag3 = sheetData.advantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.mag3")})[0];
+        let mag4 = sheetData.advantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.mag4")})[0];
+        let mag5 = sheetData.disadvantages.filter(function(item) {return item.name === game.i18n.localize("GDSA.advantage.mag4")})[0];
         let klr1 = sheetData.holyTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.lit1"))})[0];
         let klr2 = sheetData.advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.kler"))})[0];
         let klr3 = sheetData.holyTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.akul"))})[0];
 
-        if(mag1 || mag2 || mag3) sheetData.system.magical = true;
+        if(mag1 || mag2 || mag3 || mag4 || mag5) sheetData.system.magical = true;
         if(klr1 || klr2 || klr3) sheetData.system.klerikal = true;
         
         // Calculate Armour Ratings

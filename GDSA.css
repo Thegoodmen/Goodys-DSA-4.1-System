@@ -228,6 +228,7 @@
   float: left;
   overflow-y: scroll;
   height: 165px;
+  scrollbar-width: none;
 }
 .GDSA.sheet.characterSheet .valueBox {
   width: 616px;
@@ -414,6 +415,7 @@
   overflow-y: scroll;
   height: 600px;
   overflow-x: hidden;
+  scrollbar-width: none;
 }
 .GDSA.sheet.characterSheet .langbox {
   width: 100%;
@@ -444,6 +446,7 @@
   width: 620px;
   float: left;
   overflow-x: scroll;
+  scrollbar-width: none;
 }
 .GDSA.sheet.characterSheet .skillHeaderBox {
   width: 620px;
@@ -825,16 +828,19 @@
   float: left;
   overflow-y: scroll;
   height: 68px;
+  scrollbar-width: none;
 }
 .GDSA.sheet.characterSheet .traits2 {
   float: left;
   overflow-y: scroll;
   height: 180px;
+  scrollbar-width: none;
 }
 .GDSA.sheet.characterSheet .magtraits {
   float: left;
   overflow-y: scroll;
   height: 140px;
+  scrollbar-width: none;
 }
 .GDSA.sheet.characterSheet .trait {
   width: 552px;
@@ -869,6 +875,7 @@
   padding-left: 20px;
   float: left;
   overflow-y: scroll;
+  scrollbar-width: none;
 }
 .GDSA.sheet.characterSheet .inventory3 {
   width: 70%;
@@ -879,6 +886,7 @@
   border-left-width: 2px;
   border-left-style: groove;
   margin-left: 16px;
+  scrollbar-width: none;
 }
 .GDSA.sheet.characterSheet .inventory4 {
   width: 100%;
@@ -1107,6 +1115,7 @@
   overflow-y: scroll;
   display: inline-block;
   height: 196px;
+  scrollbar-width: none;
 }
 .GDSA.sheet.characterSheet .magicTraitBox {
   width: 562px;
@@ -1259,6 +1268,7 @@
   float: left;
   overflow-y: scroll;
   height: 308px;
+  scrollbar-width: none;
 }
 .GDSA.sheet.characterSheet .allItem {
   padding-left: 75px;
@@ -2417,6 +2427,8 @@
   border: solid black 1px;
   padding: 10px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: auto;
 }
 .GDSA.sheet.itemSheet .spellName {
   float: left;
@@ -2491,6 +2503,8 @@
   border: solid black 1px;
   padding: 10px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: auto;
 }
 .GDSA.sheet.itemSheet .litNotes {
   height: 234px;
@@ -2725,6 +2739,8 @@
   float: left;
   padding-left: 20px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: auto;
 }
 .importName {
   font-size: 25px;
@@ -2846,7 +2862,7 @@
 .GDSA.chat.message .spellInfo {
   float: left;
   height: 80px;
-  width: 192px;
+  width: 188px;
   padding-top: 10px;
 }
 .GDSA.chat.message .spellImg {
@@ -3133,6 +3149,9 @@
 }
 .GDSA.chat.message input:checked + .slider:before {
   transform: translateX(20px);
+}
+#chat-log {
+  scrollbar-width: thin;
 }
 .cbt-Box {
   height: 40px;
