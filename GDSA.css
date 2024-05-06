@@ -140,10 +140,10 @@
 }
 .GDSA.sheet.characterSheet .img {
   max-height: 100%;
-  max-width: 100%;
+  max-width: 99%;
   background: #787d81;
   vertical-align: middle;
-  margin-left: -4px;
+  margin-left: -2px;
 }
 .GDSA.sheet.characterSheet .imgHelper {
   display: inline-block;
@@ -1378,6 +1378,69 @@
   height: 14px;
   margin: auto;
   padding-left: 10px;
+}
+.GDSA.sheet.characterSheet .charBanner {
+  width: 232px;
+  height: 750px;
+  background-image: url(templates/img/Banner.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-x: -30px;
+}
+.GDSA.sheet.characterSheet .charBannerBox {
+  float: left;
+  width: 210px;
+  height: 600px;
+  overflow: hidden;
+}
+.GDSA.sheet.characterSheet .nameBox {
+  float: left;
+  width: 400px;
+  height: 50px;
+  font-size: 26px;
+  padding-left: 5px;
+  padding-top: 20px;
+  overflow: hidden;
+}
+.GDSA.sheet.characterSheet .intercepter {
+  float: left;
+  width: 390px;
+  height: 3px;
+}
+.GDSA.sheet.characterSheet .charsheet {
+  width: 620px;
+  height: 765px;
+  display: contents;
+  font-family: MasonSerifBold;
+  src: url('fonts/mason-serif-bold.otf') format('opentype');
+}
+.GDSA.sheet.characterSheet .charImgBanner {
+  float: left;
+  width: 170px;
+  height: 215px;
+  border: 10px solid transparent;
+  border-image: url(templates/img/border.png) 20% round;
+  text-align: center;
+  display: block;
+  justify-content: center;
+  white-space: nowrap;
+  margin-left: 20px;
+  margin-top: 40px;
+}
+.GDSA.sheet.characterSheet .charNotes {
+  height: 170px;
+  margin-top: 5px;
+  resize: none;
+}
+.GDSA.sheet.characterSheet .bannerTopic {
+  float: left;
+  width: 100%;
+  height: 25px;
+}
+.GDSA.sheet.characterSheet .bannerline {
+  float: left;
+  width: 100%;
+  height: 5px;
 }
 .mediOpt {
   width: 232px;

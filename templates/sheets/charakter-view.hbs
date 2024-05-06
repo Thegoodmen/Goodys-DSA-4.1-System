@@ -1,0 +1,25 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <div class="charsheet">
+
+        <div class="charBannerBox">
+            <div class="charBanner">
+                <div class="charImgBanner">
+                    <span class="imgHelper"></span>
+                    <img class="img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+                </div>
+                <div class="bannerTopic">Fraktion:</div>
+                <hr class="bannerline">
+                <div class="bannerTopic">Verbündet:</div>
+                <hr class="bannerline">
+                <div class="bannerTopic">Verfeindet:</div>
+                <hr class="bannerline">
+	   	    </div>
+        </div>
+
+        <div class="nameBox">{{actor.name}}</div>
+
+        <hr class="intercepter">
+
+        <textarea class="charNotes" name="system.notes">{{system.notes}}</textarea>
+    </div>
+</form>
