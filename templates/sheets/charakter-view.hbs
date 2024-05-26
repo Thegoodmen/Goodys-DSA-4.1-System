@@ -16,8 +16,20 @@
                 {{/each}}
                 <hr class="bannerline">
                 <div class="bannerTopic">Verbündet:</div>
+                {{#each affilPosi as |item id|}}
+                    <div class="affilBar {{#if ../isGM}}item-context{{/if}}" data-item-id="{{_id}}" style="color: {{system.affi.fontColo}}; background-color: {{system.affi.backgroundColor}}">
+                        <div class="affilImg"><img class="affiIMG" src="{{item.img}}" title="{{item.name}}" /></div>
+                        <div class="affilName">{{name}}</div>
+                    </div>
+                {{/each}}
                 <hr class="bannerline">
                 <div class="bannerTopic">Verfeindet:</div>
+                {{#each affilNega as |item id|}}
+                    <div class="affilBar {{#if ../isGM}}item-context{{/if}}" data-item-id="{{_id}}" style="color: {{system.affi.fontColo}}; background-color: {{system.affi.backgroundColor}}">
+                        <div class="affilImg"><img class="affiIMG" src="{{item.img}}" title="{{item.name}}" /></div>
+                        <div class="affilName">{{name}}</div>
+                    </div>
+                {{/each}}
                 <hr class="bannerline">
 	   	    </div>
             {{#if editable}}
