@@ -1,0 +1,34 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <div class="charsheet">
+
+        <div class="charBannerBox">
+            <div class="charBanner">
+                <div class="charImgBanner">
+                    <span class="imgHelper"></span>
+                    <img class="img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+                </div>
+                <div class="bannerTopic">Fraktion:</div>
+                {{#each affilPart as |item id|}}
+                    <div class="affilBar {{#if ../isGM}}item-context{{/if}}" data-item-id="{{_id}}" style="color: {{system.affi.fontColo}}; background-color: {{system.affi.backgroundColor}}">
+                        <div class="affilImg"><img class="affiIMG" src="{{item.img}}" title="{{item.name}}" /></div>
+                        <div class="affilName">{{name}}</div>
+                    </div>
+                {{/each}}
+                <hr class="bannerline">
+                <div class="bannerTopic">Verbündet:</div>
+                <hr class="bannerline">
+                <div class="bannerTopic">Verfeindet:</div>
+                <hr class="bannerline">
+	   	    </div>
+            {{#if editable}}
+                <div class="charBackBotton"><a class="changeTab" data-destination="mainPage" data-origin="characterView"><i class="fa-solid fa-arrow-left-long"></i></a></div>
+            {{/if}}
+        </div>
+
+        <div class="nameBox">{{actor.name}}</div>
+
+        <hr class="intercepter">
+
+        <textarea class="charNotes" name="system.notes">{{system.notes}}</textarea>
+    </div>
+</form>

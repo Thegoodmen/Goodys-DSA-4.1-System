@@ -334,6 +334,9 @@ export default class GDSAActor extends Actor {
         }
     }
 
+    async hideMenu() { await this.update({ "system.hideMenu": true});}
+    async showMenu() { await this.update({ "system.hideMenu": false});}
+
     setCharData(object) {
 
         // Methode to update Character Infos

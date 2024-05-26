@@ -70,12 +70,11 @@ Hooks.once("ready", async () => {
     if(!game.user.isGM) return;
 
     const currentVersion = game.settings.get("gdsa", "systemMigrationVersion");
-    console.log(currentVersion);
-    const NEEDS_MIGRATION_VERSION = 0.01;
+    const NEEDS_MIGRATION_VERSION = "1.0.0";
 
     let needsMigration = !currentVersion || isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion);
 
-    needsMigration = true;
+    needsMigration = false;
 
     if (needsMigration) Migration.migrationV1();
 });
@@ -170,7 +169,8 @@ function preloadHandlebarsTemplates() {
         "systems/gdsa/templates/partials/character-sheet-holyWonder.hbs",
         "systems/gdsa/templates/partials/item-sheet-selectTalents.hbs",
         "systems/gdsa/templates/partials/item-sheet-selectAttributes.hbs",
-        "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs"
+        "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs",
+        "systems/gdsa/templates/sheets/charakter-view.hbs"
     ];
     
     return loadTemplates(templatePaths);

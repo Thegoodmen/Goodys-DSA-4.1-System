@@ -17,7 +17,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         return mergeObject(super.defaultOptions, {
 
-            template: "systems/gdsa/templates/sheets/charakter-sheet.hbs",
+            //template: "systems/gdsa/templates/sheets/charakter-sheet.hbs",
             width: 632,
             height: 825,
             resizable: false,
@@ -27,7 +27,16 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
                     {navSelector: ".holy-tabs", contentSelector: ".holy-body", initial: "hgeneral"}],
             classes: ["GDSA", "sheet", "characterSheet"]
         });
-    } 
+    }
+
+    get template() {
+
+        if(this.object.permission === 1) return "systems/gdsa/templates/sheets/charakter-view.hbs";
+        if(this.object.permission === 2) return "systems/gdsa/templates/sheets/charakter-sheet.hbs";
+        if(this.object.permission === 3) return "systems/gdsa/templates/sheets/charakter-sheet.hbs";
+
+        return "systems/gdsa/templates/sheets/charakter-sheet.hbs"
+    }
 
     getData() {
 
@@ -76,6 +85,9 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             equiptShield: Util.getItem(baseData, "shild", true),
             armour: Util.getItem(baseData, "armour", false),
             equiptArmour: Util.getItem(baseData, "armour", true),
+            affilPart: Util.getTemplateAffi(baseData, "part"),
+            affilPosi: Util.getTemplateAffi(baseData, "posi"),
+            affilNega: Util.getTemplateAffi(baseData, "nega")
         };
 
         // Create one Array with everything that is part of the Inventory
