@@ -4297,8 +4297,12 @@ export function changeTab(data, event) {
     
     data.system.origin = origin;
     data.system.optional = optional;
+    if(destination === "characterView") data.actor.hideMenu();
+    if(destination === "mainPage") data.actor.showMenu();
     actor.sheet._tabs[0].activate(destination);
     data.actor.render();
+
+    console.log(data);
 }
 
 export function containsWord(str, word) {

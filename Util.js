@@ -37,6 +37,25 @@ export function getTemplateItems(data, type) {
     return itemArray;
 }
 
+export function getTemplateAffi(data, type) {
+
+    // #################################################################################################
+    // #################################################################################################
+    // ##                                                                                             ##
+    // ##      Helper-Function for filling up the Arrays with specific Types and also Worn Status     ##
+    // ##                                                                                             ##
+    // #################################################################################################
+    // #################################################################################################
+
+    // Filter items of a Type
+
+    let tempArray = data.items.filter(function(item) {return item.type === "Template"});
+    let itemArray = tempArray.filter(function(item) {return item.system.type === "affi"});
+    let affiArray = itemArray.filter(function(item) {return item.system.affi.type === type});
+
+    return affiArray;
+}
+
 export function getTemplateSF(data, type) {
 
     // #################################################################################################

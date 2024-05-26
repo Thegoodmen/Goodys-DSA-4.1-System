@@ -169,7 +169,8 @@ function preloadHandlebarsTemplates() {
         "systems/gdsa/templates/partials/character-sheet-holyWonder.hbs",
         "systems/gdsa/templates/partials/item-sheet-selectTalents.hbs",
         "systems/gdsa/templates/partials/item-sheet-selectAttributes.hbs",
-        "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs"
+        "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs",
+        "systems/gdsa/templates/sheets/charakter-view.hbs"
     ];
     
     return loadTemplates(templatePaths);

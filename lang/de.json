@@ -79,6 +79,7 @@
             "kult": "Gott / Kult",
             "adva": "Vorteil",
             "flaw": "Nachteil",
+            "affi": "Zugehörigkeit",
             "value": "Wert",
             "canRoll": "Kann geprobt werden",
             "DK": "Distanzklasse",
@@ -124,7 +125,13 @@
             "container": "Behälter",
             "vehical": "Fahrzeug",
             "gem": "Edelstein",
-            "item": "Gegenstand"
+            "item": "Gegenstand",
+            "fontC": "Schriftfarbe",
+            "backC": "Hintergrund",
+            "state": "Art",
+            "isPart": "Zugehörig",
+            "isPosi": "Verbündet",
+            "isNega": "Verfeindet"
         },
         "info": {
             "itemAdd": "Ein Item wurde dem Charakter hinzugefügt.",

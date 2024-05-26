@@ -1,9 +1,9 @@
 <form class="{{cssClass}}" autocomplete="off">
     <div class="sheet">
-	
-	    <div class="menuBar">
-			{{> "systems/gdsa/templates/partials/character-sheet-menu.hbs"}}
-	    </div>
+
+			<div class="menuBar" {{#if system.hideMenu}}style="display: none"{{/if}}>
+				{{> "systems/gdsa/templates/partials/character-sheet-menu.hbs"}}
+			</div>
 
 	    <div class="fillerHead"></div>
 
@@ -59,6 +59,10 @@
 
 			<div class="tab traitPage" data-group="primary" data-tab="holytraitPage">
 				{{> "systems/gdsa/templates/partials/character-sheet-holytraitPage.hbs"}}
+			</div>
+
+			<div class="tab traitPage" data-group="primary" data-tab="characterView">
+				{{> "systems/gdsa/templates/sheets/charakter-view.hbs"}}
 			</div>
 			
 		</section>

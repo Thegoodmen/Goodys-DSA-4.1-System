@@ -169,6 +169,11 @@
   float: left;
   text-align: left;
 }
+.GDSA.sheet.characterSheet .factValue2 {
+  width: 270px;
+  float: left;
+  text-align: left;
+}
 .GDSA.sheet.characterSheet .factDivider {
   margin-top: 2px;
   margin-bottom: 3px;
@@ -185,6 +190,13 @@
   height: 15px;
   position: absolute;
   top: 146px;
+  right: 12px;
+}
+.GDSA.sheet.characterSheet .characterBNT2 {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 125px;
   right: 12px;
 }
 .GDSA.sheet.characterSheet .CharLog {
@@ -1426,6 +1438,7 @@
   white-space: nowrap;
   margin-left: 20px;
   margin-top: 40px;
+  margin-bottom: 12px;
 }
 .GDSA.sheet.characterSheet .charNotes {
   height: 170px;
@@ -1436,11 +1449,45 @@
   float: left;
   width: 100%;
   height: 25px;
+  padding-left: 15px;
 }
 .GDSA.sheet.characterSheet .bannerline {
   float: left;
-  width: 100%;
-  height: 5px;
+  width: 71%;
+  height: 1px;
+  margin-left: 13px;
+}
+.GDSA.sheet.characterSheet .affilBar {
+  float: left;
+  margin-left: 20px;
+  border-radius: 15px;
+  border: 2px solid;
+  border-color: #00000082;
+  background-color: darkblue;
+  color: white;
+}
+.GDSA.sheet.characterSheet .affilImg {
+  width: 23px;
+  height: 23px;
+  float: left;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.GDSA.sheet.characterSheet .affilName {
+  height: 24px;
+  width: 120px;
+  float: left;
+  padding: 1px;
+  padding-left: 5px;
+  padding-top: 2px;
+}
+.GDSA.sheet.characterSheet .charBackBotton {
+  height: 20px;
+  width: 20px;
+  font-size: 28px;
+  position: absolute;
+  top: 45px;
+  left: 95px;
 }
 .mediOpt {
   width: 232px;
@@ -2589,6 +2636,23 @@
 .GDSA.sheet.itemSheet .skillFiller {
   width: 100%;
   height: 5px;
+}
+.GDSA.sheet.itemSheet .coloPickTemplate {
+  float: left;
+  width: 150px;
+  margin-left: 105px;
+}
+.GDSA.sheet.itemSheet .coloPickLbl {
+  float: left;
+  margin-top: 5px;
+  font-weight: bold;
+}
+.GDSA.sheet.itemSheet .inputTempColo {
+  width: 150px;
+  height: 25px;
+  margin-left: 105px;
+  margin-right: 0px;
+  margin-bottom: 5px;
 }
 .spellvariInput {
   margin-left: 44px;

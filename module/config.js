@@ -207,7 +207,8 @@ GDSA.tempTypes = {
     flaw: "GDSA.templates.flaw",
     trai: "GDSA.templates.sf",
     tale: "GDSA.templates.tal",
-    kult: "GDSA.templates.kult"
+    kult: "GDSA.templates.kult",
+    affi: "GDSA.templates.affi"
 }
 
 GDSA.sfTypes = {
