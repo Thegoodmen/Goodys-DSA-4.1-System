@@ -13,7 +13,7 @@ export default class GDSAMerchantSheet extends ActorSheet {
         // #################################################################################################
         // #################################################################################################
 
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
 
             template: "systems/gdsa/templates/sheets/merchant-sheet.hbs",
             width: 632,

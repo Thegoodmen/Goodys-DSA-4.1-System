@@ -7,43 +7,17 @@
 
     <div class="form-group">
         <label>{{localize "GDSA.chat.medi.place"}}</label>
-        <select class="mediOpt" name="place">
-            {{#select place}}
-                <option value="0" selected>{{localize "GDSA.chat.medi.neutral"}}</option>
-                <option value="-1">{{localize "GDSA.chat.medi.diffrentGod"}}</option>
-                <option value="-2">{{localize "GDSA.chat.medi.chapel"}}</option>
-                <option value="-3">{{localize "GDSA.chat.medi.kathedrial"}}</option>
-                <option value="-4">{{localize "GDSA.chat.medi.holyPlace"}}</option>
-                <option value="+3">{{localize "GDSA.chat.medi.placeOfDisbelive"}}</option>
-                <option value="+3">{{localize "GDSA.chat.medi.disbeliverPresent"}}</option>
-                <option value="+7">{{localize "GDSA.chat.medi.diffrentPlane"}}</option>
-                <option value="+7">{{localize "GDSA.chat.medi.demonicPlace"}}</option>
-            {{/select}}
-        </select>
+        <select class="mediOpt" name="place">{{selectOptions config.holyPlace selected=place localize=true}}</select>
     </div>
 
     <div class="form-group">
         <label>{{localize "GDSA.chat.medi.time"}}</label>
-        <select class="mediOpt" name="time">
-            {{#select time}}
-                <option value="0" selected>{{localize "GDSA.chat.medi.normalDay"}}</option>
-                <option value="-1">{{localize "GDSA.chat.medi.monthOfGod"}}</option>
-                <option value="-3">{{localize "GDSA.chat.medi.dayOfGod"}}</option>
-                <option value="+7">{{localize "GDSA.chat.medi.namelessDays"}}</option>
-            {{/select}}
-        </select>
+        <select class="mediOpt" name="time">{{selectOptions config.holyTime selected=time localize=true}}</select>
     </div>
 
     <div class="form-group">
         <label>{{localize "GDSA.chat.medi.last"}}</label>
-        <select class="mediOpt" name="last">
-            {{#select last}}
-                <option value="+12">{{localize "GDSA.chat.medi.oneDay"}}</option>
-                <option value="+8">{{localize "GDSA.chat.medi.twoDays"}}</option>
-                <option value="+4">{{localize "GDSA.chat.medi.week"}}</option>
-                <option value="0" selected>{{localize "GDSA.chat.medi.month"}}</option>
-            {{/select}}
-        </select>        
+        <select class="mediOpt" name="last">{{selectOptions config.holyLast selected=last localize=true}}</select>    
     </div>
         
     <div class="dialogFiller"></div>

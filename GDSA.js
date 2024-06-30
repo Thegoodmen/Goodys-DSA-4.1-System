@@ -72,7 +72,7 @@ Hooks.once("ready", async () => {
     const currentVersion = game.settings.get("gdsa", "systemMigrationVersion");
     const NEEDS_MIGRATION_VERSION = "1.0.0";
 
-    let needsMigration = !currentVersion || isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion);
+    let needsMigration = !currentVersion || foundry.utils.isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion);
 
     needsMigration = false;
 
@@ -167,9 +167,6 @@ function preloadHandlebarsTemplates() {
         "systems/gdsa/templates/partials/character-sheet-holyMirikal.hbs",
         "systems/gdsa/templates/partials/character-sheet-holyGeneral.hbs",
         "systems/gdsa/templates/partials/character-sheet-holyWonder.hbs",
-        "systems/gdsa/templates/partials/item-sheet-selectTalents.hbs",
-        "systems/gdsa/templates/partials/item-sheet-selectAttributes.hbs",
-        "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs",
         "systems/gdsa/templates/sheets/charakter-view.hbs"
     ];
     
@@ -212,6 +209,16 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("getSkillFromTemp", function(id) { return CONFIG.Templates.talents.all.filter(function(item) {return item._id === id})[0].system.tale[game.settings.get("core", "language").toUpperCase()]});
 
+    Handlebars.registerHelper('for', function(from, to, incr, content) {
+
+        let result = "";
+
+        for(let i = from; i < to; i += incr)
+            result += content.fn(i);
+
+        return result;
+    });
+    
     Handlebars.registerHelper("getRitData", function(object1, value1) {
         
         let fullValue = "rit" + value1; 

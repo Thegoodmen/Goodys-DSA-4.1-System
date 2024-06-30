@@ -361,10 +361,10 @@
     "Item": {
         "types":[
             "Gegenstand",
-            "Template",
             "spell",
             "wonder",
             "ritual",
+            "Template",
             "objektRitual",
 
             "generalTrait",
@@ -562,7 +562,8 @@
             "reach": "",
             "duration": "",
             "wdzPage": "",
-            "isActiv": false
+            "isActiv": false,
+            "type": "none"
         },
         "affiliation": {
             "fontColo": "#ffffff",

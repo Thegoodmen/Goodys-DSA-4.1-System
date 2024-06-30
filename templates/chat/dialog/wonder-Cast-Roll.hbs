@@ -52,17 +52,7 @@
 
     <div class="form-group">
         <label>{{localize "GDSA.chat.medi.motivation"}}</label>
-        <select class="mediOpt" name="motivation">
-            {{#select motivation}}
-                <option value="-7">{{localize "GDSA.chat.medi.reasonGood3"}}</option>
-                <option value="-5">{{localize "GDSA.chat.medi.reasonGood2"}}</option>
-                <option value="-3">{{localize "GDSA.chat.medi.reasonGood1"}}</option>
-                <option value="0" selected>{{localize "GDSA.chat.medi.normal"}}</option>
-                <option value="+3">{{localize "GDSA.chat.medi.reasonBad1"}}</option>
-                <option value="+5">{{localize "GDSA.chat.medi.reasonBad2"}}</option>
-                <option value="+7">{{localize "GDSA.chat.medi.reasonBad3"}}</option>
-            {{/select}}
-        </select>
+        <select class="mediOpt" name="motivation">{{selectOptions config.holyMotivation selected=motivation localize=true}}</select>
     </div>
 
     <div class="form-group">
@@ -77,16 +67,7 @@
 
     <div class="form-group">
         <label>{{localize "GDSA.chat.medi.place"}}</label>
-        <select class="mediOpt" name="place">
-            {{#select place}}
-                <option value="-4">{{localize "GDSA.chat.medi.holyPlace"}}</option>
-                <option value="-3">{{localize "GDSA.chat.medi.kathedrial"}}</option>
-                <option value="-2">{{localize "GDSA.chat.medi.chapel"}}</option>
-                <option value="-1">{{localize "GDSA.chat.medi.diffrentGod"}}</option>
-                <option value="0" selected>{{localize "GDSA.chat.medi.neutral"}}</option>
-                <option value="+7">{{localize "GDSA.chat.medi.diffrentPlane"}}</option>
-            {{/select}}
-        </select>
+        <select class="mediOpt" name="place">{{selectOptions config.holyPlace selected=place localize=true}}</select>
     </div>
 
     <div class="form-group">
@@ -101,28 +82,12 @@
 
     <div class="form-group">
         <label>{{localize "GDSA.chat.medi.time"}}</label>
-        <select class="mediOpt" name="time">
-            {{#select time}}
-                <option value="0" selected>{{localize "GDSA.chat.medi.normalDay"}}</option>
-                <option value="-1">{{localize "GDSA.chat.medi.monthOfGod"}}</option>
-                <option value="-3">{{localize "GDSA.chat.medi.dayOfGod"}}</option>
-                <option value="+7">{{localize "GDSA.chat.medi.namelessDays"}}</option>
-            {{/select}}
-        </select>
+        <select class="mediOpt" name="time">{{selectOptions config.holyTime selected=time localize=true}}</select>
     </div>
 
     <div class="form-group">
         <label>{{localize "GDSA.chat.medi.resulting"}}</label>
-        <select class="mediOpt" name="resulting">
-            {{#select resulting}}
-                <option value="-2">{{localize "GDSA.chat.medi.ordert2"}}</option>
-                <option value="-1">{{localize "GDSA.chat.medi.ordert1"}}</option>
-                <option value="0" selected>{{localize "GDSA.chat.medi.normal"}}</option>
-                <option value="+3">{{localize "GDSA.chat.medi.disrupting1"}}</option>
-                <option value="+5">{{localize "GDSA.chat.medi.disrupting2"}}</option>
-                <option value="+7">{{localize "GDSA.chat.medi.disrupting3"}}</option>
-            {{/select}}
-        </select>        
+        <select class="mediOpt" name="resulting">{{selectOptions config.holyResulting selected=resulting localize=true}}</select>       
     </div>
 
     <div class="form-group">
@@ -142,15 +107,7 @@
 
     <div class="form-group">
         <label>{{localize "GDSA.chat.medi.help"}}</label>
-        <select class="mediOpt" name="help">
-            {{#select help}}
-                <option value="0" selected>{{localize "GDSA.chat.medi.none"}}</option>
-                <option value="-1">{{localize "GDSA.chat.medi.upSix"}}</option>
-                <option value="-2">{{localize "GDSA.chat.medi.upTwelth"}}</option>
-                <option value="-3">{{localize "GDSA.chat.medi.upSixthy"}}</option>
-                <option value="-5">{{localize "GDSA.chat.medi.wayMore"}}</option>
-            {{/select}}
-        </select>        
+        <select class="mediOpt" name="help">{{selectOptions config.holyHelp selected=help localize=true}}</select>      
     </div>
     
     <div class="dialogFiller"></div>

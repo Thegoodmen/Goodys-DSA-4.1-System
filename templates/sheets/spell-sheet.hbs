@@ -1,7 +1,7 @@
 <form class="{{cssClass}}" autocomplete="off">
 
     <div class="browserImgBox3"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
-
+    
     <div class="ritHelper7">
         <div class="spHelper1">{{localize "GDSA.itemsheet.name"}}</div>
         <div class="spHelper4">{{localize "GDSA.itemsheet.zfw"}}</div>
@@ -10,95 +10,52 @@
         <div class="spHelper3"><input class="spHelper3" name="system.zfw" type="text" value="{{system.zfw}}" /></div>
         <div class="spHelper3"><input class="mwHelper6" name="system.isMR" type="checkbox" {{checked system.isMR}} /></div>
     </div>
-    
-    <div class="itemRow3">
-        <select class="spHelper5" name="system.att1">
-            {{#select system.att1}}
-                {{#each config.attributes as |name type|}}
-                    <option value="{{type}}">{{type}}</option>
-                {{/each}}
-            {{/select}}
-        </select>
-        <select class="spHelper5" name="system.att2">
-            {{#select system.att2}}
-                {{#each config.attributes as |name type|}}
-                    <option value="{{type}}">{{type}}</option>
-                {{/each}}
-            {{/select}}
-        </select>
-        <select class="spHelper5" name="system.att3">
-            {{#select system.att3}}
-                {{#each config.attributes as |name type|}}
-                    <option value="{{type}}">{{type}}</option>
-                {{/each}}
-            {{/select}}
-        </select>
 
-        PDF<input class="ritHelper6" name="system.lcdPage" type="text" value="{{system.lcdPage}}" />
+    <div class="itemRow3">
+        <select class="spHelper5" name="system.att1">{{selectOptions config.attributes selected=system.att1 blank="" localize=true}}</select>
+        <select class="spHelper5" name="system.att2">{{selectOptions config.attributes selected=system.att2 blank="" localize=true}}</select>
+        <select class="spHelper5" name="system.att3">{{selectOptions config.attributes selected=system.att3 blank="" localize=true}}</select>
+        {{localize "GDSA.templates.pdf"}}<input class="ritHelper6" name="system.lcdPage" type="text" value="{{system.lcdPage}}" />
     </div>
-	<nav class="tabs nav spell-tabs" data-group="spell">
-        <a class="item" data-tab="spellDetails"><div class="spellMenu2">Details</div></a>  
-        <a class="item" data-tab="spellVariants"><div class="spellMenu">Varianten</div></a>
-        <a class="item" data-tab="spellEffects"><div class="spellMenu">Effekte</div></a>
-        <a class="item" data-tab="spellNotes"><div class="spellMenu">Notizen</div></a>
-    </nav>
+
+    <div class="itemMenu4">
+        <nav class="tabs nav spell-tabs" data-group="spell">
+            <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.templates.detail"}}</div></a>  
+            <a class="item" data-tab="spellVariants"><div class="spellMenu">{{localize "GDSA.chat.skill.vari"}}</div></a>
+            <a class="item" data-tab="spellEffects"><div class="spellMenu">{{localize "GDSA.templates.effect"}}</div></a>
+            <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
+        </nav>
+    </div>
+
     <div class="spellMenuBox">
-	    <section class="spell-body">
+        <section class="spell-body">
+
             <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
-                <div class="input100 spellName">Repräsentation:</div>
-                <select class="input70s" name="system.rep">
-                    {{#select system.rep}}
-                        {{#each config.magicReps as |name type|}}
-                            <option value="{{type}}">{{localize name}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select>
-                <div class="input100 spellName">Merkmal 1:</div>
-                <select class="input70s" name="system.trait1">
-                    {{#select system.trait1}}
-                        {{#each config.magicTraits as |name type|}}
-                            <option value="{{type}}">{{localize name}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select>
-                <div class="input100 spellName">Merkmal 2:</div>
-                <select class="input70s" name="system.trait2">
-                    {{#select system.trait2}}
-                        {{#each config.magicTraits as |name type|}}
-                            <option value="{{type}}">{{localize name}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select>
-                <div class="input100 spellName">Merkmal 3:</div>
-                <select class="input70s" name="system.trait3">
-                    {{#select system.trait3}}
-                        {{#each config.magicTraits as |name type|}}
-                            <option value="{{type}}">{{localize name}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select>
-                <div class="input100 spellName">Merkmal 4:</div>
-                <select class="input70s" name="system.trait4">
-                    {{#select system.trait4}}
-                        {{#each config.magicTraits as |name type|}}
-                            <option value="{{type}}">{{localize name}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select>
-                <div class="spellLine">Verfügbare Modifikationen:</div>
+                <div class="input100 spellName">{{localize "GDSA.trait.reps"}}:</div>
+                <select class="input70s" name="system.rep">{{selectOptions config.magicReps selected=system.rep blank="" localize=true}}</select>
+
+                {{#for 1 5 1}}
+                    <div class="input100 spellName">{{localize "GDSA.itemsheet.trait"}} {{this}}:</div>
+                    <select class="input70s" name="system.trait{{this}}">
+                        {{selectOptions ../config.magicTraits selected=(getData ../system (concat "trait" this "")) blank="" localize=true}}
+                    </select>
+                {{/for}}
+
+                <div class="spellLine">{{localize "GDSA.system.avaMod"}}:</div>
                 <div class="spellModiBox">
-                    <input class="mwHelper1" name="system.technic" type="checkbox" {{checked system.technic}} /> Technik <br />
-                    <input class="mwHelper1" name="system.casttime" type="checkbox" {{checked system.casttime}} /> Zauberdauer
+                    <input class="mwHelper1" name="system.technic" type="checkbox" {{checked system.technic}} /> {{localize "GDSA.system.tech"}} <br />
+                    <input class="mwHelper1" name="system.casttime" type="checkbox" {{checked system.casttime}} /> {{localize "GDSA.system.casttime"}}
                 </div>
                 <div class="spellModiBox">
-                    <input class="mwHelper1" name="system.forced" type="checkbox" {{checked system.forced}} /> Erzwingen <br />
-                    <input class="mwHelper1" name="system.cost" type="checkbox" {{checked system.cost}} /> Kosten
+                    <input class="mwHelper1" name="system.forced" type="checkbox" {{checked system.forced}} /> {{localize "GDSA.system.force"}} <br />
+                    <input class="mwHelper1" name="system.cost" type="checkbox" {{checked system.cost}} /> {{localize "GDSA.itemsheet.cost"}}
                 </div>
                 <div class="spellModiBox">
-                    <input class="mwHelper1" name="system.range" type="checkbox" {{checked system.range}} /> Reichweite <br />
-                    <input class="mwHelper1" name="system.duration" type="checkbox" {{checked system.duration}} /> Wirkungsdauer
+                    <input class="mwHelper1" name="system.range" type="checkbox" {{checked system.range}} /> {{localize "GDSA.system.reach"}} <br />
+                    <input class="mwHelper1" name="system.duration" type="checkbox" {{checked system.duration}} /> {{localize "GDSA.system.duration"}}
                 </div>
-                <div class="spellLine">Verbreitung:</div>
+
+                <div class="spellLine">{{localize "GDSA.system.verbr"}}:</div>
                 <div class="spellModiBox">
                     <div class="spellVLine"><div class="spellVName">Mag</div><input class="input40" name="system.vMag" type="number" value="{{system.vMag}}" /></div>
                     <div class="spellVLine"><div class="spellVName">Dru</div><input class="input40" name="system.vDru" type="number" value="{{system.vDru}}" /></div>
@@ -136,29 +93,29 @@
             
             <div class="tab spellEffects" data-group="spell" data-tab="spellEffects">
 
-                <div class="input100 spellName">Kosten:</div>
-                <input class="input60c" name="system.costs" type="text" value="{{system.costs}}" /> 
+                <div class="input100 spellName">{{localize "GDSA.itemsheet.cost"}}:</div>
+                <input class="input60c" name="system.costs" type="text" value="{{system.costs}}" />
+
                 <div class="input100f">
                     <input class="mwHelper5" name="system.diffrentCost" type="checkbox" {{checked system.diffrentCost}} />
                     <select class="input70a" name="system.repAlt" {{#unless system.diffrentCost}}disabled{{/unless}}>
-                        {{#select system.repAlt}}
-                            {{#each config.magicReps as |name type|}}
-                                <option value="{{type}}">{{localize name}}</option>
-                            {{/each}}
-                        {{/select}}
+                        {{selectOptions config.magicReps selected=system.repAlt blank="" localize=true}}
                     </select>
                     <input class="input60c" name="system.costsAlt" type="text" value="{{system.costsAlt}}" {{#unless system.diffrentCost}}disabled{{/unless}}/> 
                 </div>
+
             </div>
             
             <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
-                <div class="input100 spellName">Komplexität:</div>
+                <div class="input100 spellName">{{localize "GDSA.charactersheet.komplex"}}:</div>
                 <input type="text" class="input100c" name="system.komp" value="{{system.komp}}" />
-                <div class="input100 spellName">Zauberdauer:</div>
+                <div class="input100 spellName">{{localize "GDSA.system.casttime"}}:</div>
                 <input type="number" class="input100c" name="system.zduration" value="{{system.zduration}}" />
             </div>
+            
         </section>
     </div>
 
     <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+
 </form>

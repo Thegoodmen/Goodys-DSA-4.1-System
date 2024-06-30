@@ -19,36 +19,35 @@
 		<section class="sheet-body">
 
             <div class="merchantInfo">
+
                 <div class="merchMenuBox">
-                    <a class="item menuMainItem merchMenu">{{localize "GDSA.itemsheet.description"}}</a>
+                    {{#if isGM}}<a class="item menuMainItem merchMenu">{{/if}}{{localize "GDSA.itemsheet.description"}}{{#if isGM}}</a>{{/if}}
                     {{#if isGM}}
                         <span class="merchMenuDiv">|</span> 
                         <a class="item menuMainItem merchMenu">{{localize "GDSA.system.settings"}}</a>
                     {{/if}}
                 </div>
+
                 <textarea class="merchantDisc" name="system.description" {{#unless isGM}}disabled{{/unless}}>{{system.description}}</textarea>
+
                 <div class="classification">
-                    <!-- Qualität: <select class="classificationSelection" name="system.skill" {{#unless isGM}}disabled{{/unless}}>
-                        {{#select system.skill}}
-                        <option value="1">{{localize "GDSA.chat.dialog.lvl1"}}</option>
-                        <option value="2">{{localize "GDSA.chat.dialog.lvl2"}}</option>
-                        <option value="3">{{localize "GDSA.chat.dialog.lvl3"}}</option>
-                        <option value="4">{{localize "GDSA.chat.dialog.lvl4"}}</option>
-                        <option value="5">{{localize "GDSA.chat.dialog.lvl5"}}</option>
-                        {{/select}}
+                    <!--{{localize "GDSA.system.quali"}}:
+                    <select class="classificationSelection" name="system.skill" {{#unless isGM}}disabled{{/unless}}>
+                        {{selectOptions config.merchantType selected=system.skill localize=true}}
                     </select><br /> 
                     
-                    
-                        {{#each game.users as |user|}}
-                            {{#unless user.isGM}}
-                                {{#if user.character}}
-                                    {{user.character.name}} <i>{{user.character._id}}</i>
-                                {{/if}}
-                            {{/unless}}
-	                    {{/each}}-->
+                    {{#each game.users as |user|}}
+                        {{#unless user.isGM}}
+                            {{#if user.character}}
+                                {{user.character.name}} <i>{{user.character._id}}</i>
+                            {{/if}}
+                        {{/unless}}
+	                {{/each}}-->
+
                     {{localize "GDSA.charactersheet.uberSkill"}}<a class="merch-roll" data-skill="uber" title="roll"><i class="fas fa-dice-d20 merchRoll"></i></a><br />
                     {{localize "GDSA.charactersheet.handSkill"}}<a class="merch-roll" data-skill="hand" title="roll"><i class="fas fa-dice-d20 merchRoll"></i></a>
                 </div>
+
             </div>
 
             <div class="inventory3">

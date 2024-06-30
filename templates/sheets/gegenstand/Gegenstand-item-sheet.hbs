@@ -6,99 +6,51 @@
         <div class="spHelper23"><b>{{localize "GDSA.itemsheet.name"}}</b></div>
         <div class="spHelper4"><b>{{localize "GDSA.itemsheet.weight"}}</b></div>
         <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
-        <div class="spHelper3">
-            <input class="spHelper5" name="system.weight" type="number" value="{{system.weight}}" />
-        </div>
+        <div class="spHelper3"><input class="spHelper5" name="system.weight" type="number" value="{{system.weight}}" /></div>
     </div>
 
     <div class="itemRow4">
         <div class="spHelper22"><b>{{localize "GDSA.itemsheet.typeItem"}}</b></div>
         <div class="spHelper31"><b>{{localize "GDSA.itemsheet.quantity"}}</b></div>
         <div class="spHelper31"><b>{{localize "GDSA.itemsheet.singleValue"}}</b></div>
-        
-        <div class="spHelper21">
-            <select class="spHelper20" name="system.type">
-                {{#select system.type}}
-                    {{#each config.itemTypes as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
-        </div>
-        <div class="spHelper31">
-            <input class="input70" name="system.quantity" type="number" value="{{system.quantity}}"/>
-        </div>
-        <div class="spHelper31">
-            <input class="spHelper5" name="system.value" type="number" value="{{system.value}}" />
-        </div>
+        <div class="spHelper21"><select class="spHelper20" name="system.type">{{selectOptions config.itemTypes selected=system.type blank="" localize=true}}</select></div>
+        <div class="spHelper31"><input class="input70" name="system.quantity" type="number" value="{{system.quantity}}"/></div>
+        <div class="spHelper31"><input class="spHelper5" name="system.value" type="number" value="{{system.value}}" /></div>
     </div>
 
-    <nav class="tabs nav spell-tabs" data-group="spell">
-        <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>
-        <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
-    </nav>
+    <div class="itemMenu2">
+        <nav class="tabs nav spell-tabs" data-group="spell">
+            <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>
+            <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
+        </nav>
+    </div>
     
     <div class="spellMenuBox">
 	    <section class="spell-body">
+
             <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
-
                 <div class="input220 spellName">{{localize "GDSA.itemsheet.itemType"}}:</div>
-                <select class="input180" name="system.itemType">
-                    {{#select system.itemType}}
-                        {{#each config.itemGenType as |name type|}}
-                            <option value="{{type}}">{{localize name}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select>
-
+                <select class="input180" name="system.itemType">{{selectOptions config.itemGenType selected=system.itemType blank="" localize=true}}</select>
                 <div class="input220 spellName">{{localize "GDSA.itemsheet.storageT"}}:</div>
-                <select class="input180" name="system.item.storage">
-                    {{#select system.item.storage}}
-                        <option value="bag">{{localize "GDSA.itemsheet.storageBag"}}</option>
-                        <option value="carriage">{{localize "GDSA.itemsheet.storageCarriage"}}</option>
-                        <option value="away">{{localize "GDSA.itemsheet.storageAway"}}</option>
-                    {{/select}}
-                </select>
-
+                <select class="input180" name="system.item.storage">{{selectOptions config.itemStorage selected=system.item.storage localize=true}}</select>
                 <div class="input220 spellName">{{localize "GDSA.itemsheet.category"}}:</div>
                 <input class="input180" name="system.item.category" type="text" value="{{system.item.category}}"/>
-                
-                {{#if (equals system.itemType "gem")}}
-                    
+                {{#if (equals system.itemType "gem")}}    
                     <div class="input220 spellName">{{localize "GDSA.itemsheet.trait"}}:</div>
-                    <select class="input180" name="system.gem.trait">
-                        {{#select system.gem.trait}}
-                            {{#each config.magicTraits as |name type|}}
-                                <option value="{{type}}">{{localize name}}</option>
-                            {{/each}}
-                        {{/select}}
-                    </select>
-
+                    <select class="input180" name="system.gem.trait">{{selectOptions config.magicTraits selected=system.gem.trait blank="" localize=true}}</select>
                     <div class="input220 spellName">{{localize "GDSA.itemsheet.cut"}}:</div>
-                    <select class="input180" name="system.gem.cut">
-                        {{#select system.gem.cut}}
-                            {{#each config.cuts as |name type|}}
-                                <option value="{{type}}">{{localize name}}</option>
-                            {{/each}}
-                        {{/select}}
-                    </select>
-
+                    <select class="input180" name="system.gem.cut">{{selectOptions config.cuts selected=system.gem.cut blank="" localize=true}}</select>
                     <div class="input220 spellName">{{localize "GDSA.itemsheet.size"}}:</div>
                     <input class="input180" name="system.gem.size" type="text" value="{{system.gem.size}}"/>
-
                     <div class="input220 spellName">{{localize "GDSA.itemsheet.pAsP"}}:</div>
                     <input class="input180" name="system.gem.pAsP" type="text" value="{{system.gem.pAsP}}"/>
-                    
                 {{/if}}
- 
             </div>
             
             <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
-                
-                <textarea class="litNotes" name="system.tale.notes">{{system.tale.notes}}</textarea>
+                <div class="itemNotesOut">{{editor system.notes class="itemNotesIn" target="system.notes" button=true engine="prosemirror" collaborate=false}}</div>
                 <button class="noteBnt note-gm-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postGM"}}</button>
                 <button class="noteBnt note-all-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postAll"}}</button>
-
             </div>
 
         </section>

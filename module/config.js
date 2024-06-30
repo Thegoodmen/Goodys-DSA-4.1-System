@@ -1,7 +1,6 @@
 export const GDSA = {};
 
 GDSA.attributes = {
-    none: "",
     MU: "MU",
     KL: "KL",
     IN: "IN",
@@ -13,7 +12,6 @@ GDSA.attributes = {
 }
 
 GDSA.amourPlace = {
-    none: "",
     head: "GDSA.armour.head",
     body: "GDSA.armour.body",
     back: "GDSA.armour.back",
@@ -25,7 +23,6 @@ GDSA.amourPlace = {
 }
 
 GDSA.ritualSkills = {
-    none: "",
     gild: "GDSA.ritualSkills.gild",
     scha: "GDSA.ritualSkills.scha",
     alch: "GDSA.ritualSkills.alch",
@@ -46,7 +43,6 @@ GDSA.ritualSkills = {
 }
 
 GDSA.magicTraits = {
-    none: "",
     anti: "GDSA.magicTraits.anti",
     conju: "GDSA.magicTraits.conju",
     attri: "GDSA.magicTraits.attri",
@@ -90,7 +86,6 @@ GDSA.magicTraits = {
 }
 
 GDSA.cuts = {
-    none: "",
     brill: "GDSA.cuts.brill",
     rosen: "GDSA.cuts.rosen",
     pende: "GDSA.cuts.pende",
@@ -100,7 +95,6 @@ GDSA.cuts = {
 }
 
 GDSA.wonderRange = {
-    none: "",
     self: "GDSA.wonder.self",
     touc: "GDSA.wonder.touc",
     sigt: "GDSA.wonder.sigt",
@@ -108,7 +102,6 @@ GDSA.wonderRange = {
 }
 
 GDSA.wonderCastDuration = {
-    none: "",
     action: "GDSA.wonder.action",
     rounds: "GDSA.wonder.rounds",
     halfho: "GDSA.wonder.halfho",
@@ -117,7 +110,6 @@ GDSA.wonderCastDuration = {
 }
 
 GDSA.wonderTarget = [
-    "",
     "G",
     "P",
     "PP",
@@ -132,7 +124,6 @@ GDSA.wonderTarget = [
 ]
 
 GDSA.wonderPower = [
-    "",
     "LkP*/2",
     "LkP*/2 + 5",
     "LkP*",
@@ -145,7 +136,6 @@ GDSA.wonderPower = [
 ]
 
 GDSA.wonderDuration = [
-    "",
     "Augenblicklich",
     "LkP* KR",
     "LkP* x 10 KR",
@@ -160,7 +150,6 @@ GDSA.wonderDuration = [
 ]
 
 GDSA.magicReps = {
-    none: "",
     mag: "GDSA.reps.mag",
     dru: "GDSA.reps.dru",
     bor: "GDSA.reps.bor",
@@ -173,7 +162,6 @@ GDSA.magicReps = {
 }
 
 GDSA.holyReps = {
-    none: "",
     pra: "GDSA.holyreps.pra",
     ron: "GDSA.holyreps.ron",
     phx: "GDSA.holyreps.phx",
@@ -201,8 +189,86 @@ GDSA.holyReps = {
     nam: "GDSA.holyreps.nam"
 }
 
+GDSA.holyRepo = {
+    Pra: "GDSA.holyreps.pra",
+    Ron: "GDSA.holyreps.ron",
+    Phx: "GDSA.holyreps.phx",
+    Fir: "GDSA.holyreps.fir",
+    Tra: "GDSA.holyreps.tra",
+    Ing: "GDSA.holyreps.ing",
+    Bor: "GDSA.holyreps.bor",
+    Eff: "GDSA.holyreps.eff",
+    Hes: "GDSA.holyreps.hes",
+    Per: "GDSA.holyreps.per",
+    Rah: "GDSA.holyreps.rah",
+    Tsa: "GDSA.holyreps.tsa",
+    Ifi: "GDSA.holyreps.ifi",
+    Ave: "GDSA.holyreps.ave",
+    Kor: "GDSA.holyreps.kor",
+    Nan: "GDSA.holyreps.nan",
+    Swf: "GDSA.holyreps.swf",
+    Ang: "GDSA.holyreps.ang",
+    Tai: "GDSA.holyreps.tai",
+    Grv: "GDSA.holyreps.grv",
+    Him: "GDSA.holyreps.him",
+    Zsa: "GDSA.holyreps.zsa",
+    Hsz: "GDSA.holyreps.hsz",
+    Kam: "GDSA.holyreps.kam",
+    Nam: "GDSA.holyreps.nam"
+}
+
+GDSA.holyTime = {
+    "0": "GDSA.chat.medi.normalDay",
+    "-1": "GDSA.chat.medi.monthOfGod",
+    "-3": "GDSA.chat.medi.dayOfGod",
+    "+7": "GDSA.chat.medi.namelessDays"
+}
+
+GDSA.holyPlace = {
+    "0" : "GDSA.chat.medi.neutral",
+    "-1": "GDSA.chat.medi.diffrentGod",
+    "-2": "GDSA.chat.medi.chapel",
+    "-3": "GDSA.chat.medi.kathedrial",
+    "-4": "GDSA.chat.medi.holyPlace",
+    "+3": "GDSA.chat.medi.disbeliverPresent",
+    "+7": "GDSA.chat.medi.demonicPlace"
+}
+
+GDSA.holyMotivation = {
+    "-7": "GDSA.chat.medi.reasonGood3",
+    "-5": "GDSA.chat.medi.reasonGood2",
+    "-3": "GDSA.chat.medi.reasonGood1",
+    "0" : "GDSA.chat.medi.normal",
+    "+3": "GDSA.chat.medi.reasonBad1",
+    "+5": "GDSA.chat.medi.reasonBad2",
+    "+7": "GDSA.chat.medi.reasonBad3"
+}
+
+GDSA.holyResulting = {
+    "-2": "GDSA.chat.medi.ordert2",
+    "-1": "GDSA.chat.medi.ordert1",
+    "0" : "GDSA.chat.medi.normal",
+    "+3": "GDSA.chat.medi.disrupting1",
+    "+5": "GDSA.chat.medi.disrupting2",
+    "+7": "GDSA.chat.medi.disrupting3"
+}
+
+GDSA.holyHelp = {
+    "0" : "GDSA.chat.medi.none",
+    "-1": "GDSA.chat.medi.upSix",
+    "-2": "GDSA.chat.medi.upTwelth",
+    "-3": "GDSA.chat.medi.upSixthy",
+    "-5": "GDSA.chat.medi.wayMore"
+}
+
+GDSA.holyLast = {
+    "+12": "GDSA.chat.medi.oneDay",
+    "+8" : "GDSA.chat.medi.twoDays",
+    "+4" : "GDSA.chat.medi.week",
+    "0"  : "GDSA.chat.medi.month"
+}
+
 GDSA.tempTypes = {
-    none: "",
     adva: "GDSA.templates.adva",
     flaw: "GDSA.templates.flaw",
     trai: "GDSA.templates.sf",
@@ -211,8 +277,52 @@ GDSA.tempTypes = {
     affi: "GDSA.templates.affi"
 }
 
+GDSA.ritTypes = {
+    schama: "GDSA.templates.schamaRit",
+    ritual: "GDSA.templates.ritual",
+    objrit: "GDSA.templates.objRit"
+}
+
+GDSA.merchantType = {
+    1: "GDSA.chat.dialog.lvl1",
+    2: "GDSA.chat.dialog.lvl2",
+    3: "GDSA.chat.dialog.lvl3",
+    4: "GDSA.chat.dialog.lvl4",
+    5: "GDSA.chat.dialog.lvl5"
+}
+
+GDSA.requtype = {
+    attribut: "GDSA.templates.attribut",
+    talent: "GDSA.templates.tal",
+    trait: "GDSA.templates.sf",
+    advantage: "GDSA.templates.adva",
+    flaw: "GDSA.templates.flaw",
+    spell: "GDSA.templates.spell"
+}
+
+GDSA.requatt = {
+    MU: "GDSA.charactersheet.MU",
+    KL: "GDSA.charactersheet.KL",
+    IN: "GDSA.charactersheet.IN",
+    CH: "GDSA.charactersheet.CH",
+    FF: "GDSA.charactersheet.FF",
+    GE: "GDSA.charactersheet.GE",
+    KO: "GDSA.charactersheet.KO",
+    KK: "GDSA.charactersheet.KK",
+    MR: "GDSA.charactersheet.MR",
+    INI: "GDSA.charactersheet.INIBasis",
+    ATB: "GDSA.charactersheet.ATBasis",
+    PAB: "GDSA.charactersheet.PABasis",
+    FKB: "GDSA.charactersheet.FKBasis"
+}
+
+GDSA.requcon = {
+    AND: "GDSA.templates.and",
+    OR: "GDSA.templates.or",
+    NOT: "GDSA.templates.not"
+}
+
 GDSA.sfTypes = {
-    none: "",
     general: "GDSA.templates.sfGeneral",
     combat: "GDSA.templates.sfCombat",
     magic: "GDSA.templates.sfMagic",
@@ -220,7 +330,6 @@ GDSA.sfTypes = {
 }
 
 GDSA.taleTypes = {
-    none: "",
     combat: "GDSA.charactersheet.combatSkills",
     body: "GDSA.charactersheet.bodySkills",
     social: "GDSA.charactersheet.socialSkills",
@@ -233,14 +342,68 @@ GDSA.taleTypes = {
     meta: "GDSA.charactersheet.metaSkills"
 }
 
+GDSA.beType = {
+    "-": "-",
+    "x": "x"
+}
+
+GDSA.taleType = {
+    true: "GDSA.charactersheet.baseSkill",
+    false: "GDSA.charactersheet.specialSkill"
+}
+
+GDSA.taleReqUsa = {
+    0:  "",
+    10: "ab 10"
+}
+
+GDSA.taleAltDis = {
+    0:  "",
+    5:  "5",
+    10: "10",
+    15: "15"
+}
+
+GDSA.langFam = {
+    garethi: "GDSA.template.garethi",
+    tulamidya: "GDSA.template.tulamidya",
+    thorwalsch: "GDSA.template.thorwalsch",
+    elf: "GDSA.template.elf",
+    zwerg: "GDSA.template.zwerg",
+    ork: "GDSA.template.ork",
+    rissoal: "GDSA.template.rissoal",
+    alone: "GDSA.template.alone",
+    secret: "GDSA.template.secret"
+}
+
+GDSA.levelup = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F"
+]
+
+GDSA.cmbttype = {
+    meele: "GDSA.charactersheet.meeleSkills",
+    range: "GDSA.charactersheet.rangeSkills",
+    hand: "GDSA.charactersheet.handSkills"
+}
+
 GDSA.cultTypes = {
     twelf: "GDSA.charactersheet.twelf",
     half: "GDSA.charactersheet.half",
-    other: "GDSA.charactersheet.other",
+    other: "GDSA.charactersheet.other"
+}
+
+GDSA.mirDis = {
+    0:  "GDSA.charactersheet.mirPlus",
+    6:  "GDSA.charactersheet.mirNeut",
+    18: "GDSA.charactersheet.mirMinus"
 }
 
 GDSA.taleAttributes = {
-    none: "",
     mu: "GDSA.charactersheet.sMU",
     kl: "GDSA.charactersheet.sKL",
     in: "GDSA.charactersheet.sIN",
@@ -251,17 +414,33 @@ GDSA.taleAttributes = {
     kk: "GDSA.charactersheet.sKK"
 }
 
+GDSA.requCond = {
+    requ: "GDSA.template.requ",
+    not:  "GDSA.template.notrequ"
+}
+
+GDSA.resti = {
+    only: "GDSA.itemsheet.only",
+    not: "GDSA.itemsheet.not"
+}
+
+GDSA.affilation = {
+    part: "GDSA.templates.isPart",
+    posi: "GDSA.templates.isPosi",
+    nega: "GDSA.templates.isNega"
+}
+
 GDSA.itemTypes = {
     item: "GDSA.templates.itemGeneral",
     melee: "GDSA.templates.itemMelee",
     range: "GDSA.templates.itemRange",
     armour: "GDSA.templates.itemArmour",
     shild: "GDSA.templates.itemShild"
-};
+}
 
 GDSA.itemGenType = {
     item: "GDSA.templates.itemGeneral",
-    gem: "GDSA.templates.cystal",
+    gem: "GDSA.itemsheet.cystal",
     herb: "GDSA.templates.herb", 
     important: "GDSA.templates.important", 
     tool: "GDSA.templates.tool", 
@@ -270,7 +449,81 @@ GDSA.itemGenType = {
     luxus: "GDSA.templates.luxus", 
     container: "GDSA.templates.container", 
     vehical: "GDSA.templates.vehical"
-};
+}
+
+GDSA.itemCurrentcyExchange = {
+    add : "GDSA.chat.dialog.add",
+    remove : "GDSA.chat.dialog.remove"
+}
+
+GDSA.itemStorage = {
+    bag: "GDSA.itemsheet.storageBag",
+    carriage: "GDSA.itemsheet.storageCarriage",
+    away: "GDSA.itemsheet.storageAway"
+}
+
+GDSA.parryType = {
+    shild: "GDSA.itemsheet.shild",
+    parryWeapon: "GDSA.itemsheet.parryWeapons"
+}
+
+GDSA.shildSize = {
+    small: "GDSA.itemsheet.small",
+    big: "GDSA.itemsheet.big",
+    veryBig: "GDSA.itemsheet.veryBig"
+}
+
+GDSA.arrowType = {
+    none: "GDSA.itemsheet.noAmmo",
+    stone: "GDSA.itemsheet.stone",
+    arrow: "GDSA.itemsheet.arrow",
+    bolt: "GDSA.itemsheet.cbolt",
+    round: "GDSA.itemsheet.round"
+}
+
+GDSA.rangeWinds = {
+    "0" : "GDSA.chat.rangeOpt.noWind",
+    "-4": "GDSA.chat.rangeOpt.lightWind",
+    "-8": "GDSA.chat.rangeOpt.heavyWind"
+}
+
+GDSA.rangeSight = {
+    "0" : "GDSA.chat.rangeOpt.goodSight",
+    "-2": "GDSA.chat.rangeOpt.evening",
+    "-4": "GDSA.chat.rangeOpt.moon",
+    "-6": "GDSA.chat.rangeOpt.star",
+    "-8": "GDSA.chat.rangeOpt.night"
+}
+
+GDSA.rangeMovem = {
+    "4" : "GDSA.chat.rangeOpt.screwed",
+    "2" : "GDSA.chat.rangeOpt.still",
+    "0" : "GDSA.chat.rangeOpt.lightMovement",
+    "-2": "GDSA.chat.rangeOpt.movement",
+    "-4": "GDSA.chat.rangeOpt.fastMovement"
+}
+
+GDSA.rangeHidea = {
+    "0" : "GDSA.chat.rangeOpt.noHide",
+    "-2": "GDSA.chat.rangeOpt.halfHide",
+    "-4": "GDSA.chat.rangeOpt.threeQuarterHide"
+}
+
+GDSA.rangeSizeX = {
+    "-10": "GDSA.chat.rangeOpt.veryTiny",
+    "-8" : "GDSA.chat.rangeOpt.tiny",
+    "-6" : "GDSA.chat.rangeOpt.verySmall",
+    "-4" : "GDSA.chat.rangeOpt.small",
+    "-2" : "GDSA.chat.rangeOpt.normal",
+    "0"  : "GDSA.chat.rangeOpt.tall",
+    "2"  : "GDSA.chat.rangeOpt.veryTall"
+}
+
+GDSA.cbtType = {
+    NPC: "GDSA.combat.NPC",
+    PC: "GDSA.combat.PC",
+    Enemy: "GDSA.combat.Enemy"
+}
 
 GDSA.sfgeneral = [
     "Ortskenntnis", 
@@ -279,7 +532,7 @@ GDSA.sfgeneral = [
     "Zauberspezialisierung",
     "Wahrer Name:",
     "Die Gestalt aus Rauch"
-];
+]
 
 GDSA.sfobject = [
     "Apport",
@@ -296,7 +549,7 @@ GDSA.sfobject = [
     "Szepter",
     "Tapasuul",
     "Schlangenszepters"
-];
+]
 
 GDSA.sfrit = [
     "Elfenlied",
@@ -304,4 +557,4 @@ GDSA.sfrit = [
     "Hexenritual",
     "Ritual",
     "Hexenfluch"
-];
+]

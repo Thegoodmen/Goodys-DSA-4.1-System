@@ -15,7 +15,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         // #################################################################################################
         // #################################################################################################
 
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
 
             //template: "systems/gdsa/templates/sheets/charakter-sheet.hbs",
             width: 632,
