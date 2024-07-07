@@ -1,23 +1,19 @@
-
 export default class GDSACompBrowser extends FormApplication {
 
     constructor(object={}, options={}, type="", actor="") {
         
         super(options);
         this.object = object;
-        this.form = null;
-        this.filepickers = [];
-        this.editors = {};
         this.type = type;
         this.actor = actor;
         this.itemList = [];
 
         this.searchString = "";
-        this.trait = "none";
-        this.rep = "none";
-        this.skill = "none";
-        this.aPlace = "none";
-        this.rittSkill = "none";
+        this.trait = "";
+        this.rep = "";
+        this.skill = "";
+        this.aPlace = "";
+        this.rittSkill = "";
         this.v0 = false;
         this.v1 = false;
         this.v2 = false;
@@ -36,7 +32,7 @@ export default class GDSACompBrowser extends FormApplication {
 
     static get defaultOptions() {
 
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             classes: ["GDSA", "browser"],
             template: "systems/gdsa/templates/apps/compBrowser.hbs",
             width: 800,
@@ -57,6 +53,8 @@ export default class GDSACompBrowser extends FormApplication {
             config: CONFIG.GDSA,
             template: CONFIG.Templates
         }
+
+        console.log(this.skill);
 
         // Keep Selection
         
@@ -104,10 +102,10 @@ export default class GDSACompBrowser extends FormApplication {
                 for(let spell of itemArray) {
 
                     if(this.searchString === null || spell.name.toLowerCase().includes(this.searchString.toLowerCase())) 
-                        if(this.trait === "none" || this.checkForTrait(spell, this.trait))
-                            if(this.rep === "none" || this.checkForRep(spell, this.rep))
+                        if(this.trait === "" || this.checkForTrait(spell, this.trait))
+                            if(this.rep === "" || this.checkForRep(spell, this.rep))
                                 if(nonK || this.checkKomp(spell.system.komp.toUpperCase()))
-                                    if(this.rep === "none" || nonV)
+                                    if(this.rep === "" || nonV)
                                         sortedArray.push(spell);
                                     else if(this.rep === "mag" && selV[spell.system.vMag])
                                         sortedArray.push(spell);
@@ -139,7 +137,7 @@ export default class GDSACompBrowser extends FormApplication {
 
                     if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
                         if(item.type === "Gegenstand" && item.system.type === "melee")
-                            if(this.skill === "none" || this.checkForSkill(item, this.skill))
+                            if(this.skill === "" || this.checkForSkill(item, this.skill))
                                 sortedArray.push(item)
                 }
 
@@ -153,7 +151,7 @@ export default class GDSACompBrowser extends FormApplication {
 
                     if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
                         if(item.type === "Gegenstand" && item.system.type === "range")
-                            if(this.skill === "none" || this.checkForSkill(item, this.skill))
+                            if(this.skill === "" || this.checkForSkill(item, this.skill))
                                 sortedArray.push(item)
                 }
 
@@ -180,7 +178,7 @@ export default class GDSACompBrowser extends FormApplication {
 
                     if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
                         if(item.type === "Gegenstand" && item.system.type === "armour")
-                            if(this.aPlace === "none" || this.checkArmourRat(item, this.aPlace))
+                            if(this.aPlace === "" || this.checkArmourRat(item, this.aPlace))
                                 sortedArray.push(item)
                 }
 
@@ -194,7 +192,7 @@ export default class GDSACompBrowser extends FormApplication {
 
                     if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
                         if(item.type === "objektRitual")
-                            if(this.rittSkill === "none" || this.checkRitualSkill(item, this.rittSkill))
+                            if(this.rittSkill === "" || this.checkRitualSkill(item, this.rittSkill))
                                 sortedArray.push(item)
                 }
 
@@ -214,7 +212,7 @@ export default class GDSACompBrowser extends FormApplication {
                     if(this.searchString === null || wonder.name.toLowerCase().includes(this.searchString.toLowerCase())) 
                         if(wonder.type === "wonder")
                             if(selV[wonder.system.grad] || nonK)
-                                if(this.rep === "none")
+                                if(this.rep === "")
                                     sortedArray.push(wonder);
                                 else if(this.rep === "pra" && wonder.system.verb.Pra)
                                     sortedArray.push(wonder);

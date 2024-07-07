@@ -98,6 +98,27 @@ export function getItem(data, type, worn) {
 
 }
 
+export function getRitual(data, type) {
+
+    // #################################################################################################
+    // #################################################################################################
+    // ##                                                                                             ##
+    // ##      Helper-Function for filling up the Arrays with specific Types                          ##
+    // ##                                                                                             ##
+    // #################################################################################################
+    // #################################################################################################
+
+    // Filter items of a Type
+
+    let tempArray = data.items.filter(function(item) {return item.type === "objektRitual"});
+    let itemArray = tempArray.filter(function(item) {return item.system.type === type});
+
+    // If Indicated by worn, filter again for item Status worn
+
+    return itemArray;
+
+}
+
 export function getGoofyMelee(value) {
 
     switch (value) {

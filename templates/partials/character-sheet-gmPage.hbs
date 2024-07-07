@@ -25,5 +25,28 @@
                 </tr>
             {{/each}}
         </table>
+
+        <h2>{{localize "fs2e.sheet.effects"}}
+        <a class="effect-control" data-action="create">
+          <i class="fas fa-plus"></i>
+        </a>
+      </h2>
+      <ol>
+        {{#each effects as |effect|}}
+        <li class="item effect" data-effect-id="{{effect._id}}">
+          <div class="item-name effect-name">
+            <h4>{{effect.data.label}}</h4>
+          </div>
+          <div class="effect-controls">
+            <a class="effect-control" data-action="edit" title="{{localize 'DND5E.EffectEdit'}}">
+              <i class="fas fa-edit"></i>
+            </a>
+            <a class="effect-control" data-action="delete" title="{{localize 'DND5E.EffectDelete'}}">
+              <i class="fas fa-trash"></i>
+            </a>
+          </div>
+        </li>
+        {{/each}}
+      </ol>
     </div>
 </section>

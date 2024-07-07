@@ -404,6 +404,23 @@ async function getFlaws() {
     return traits;
 }
 
+async function getEffects() {
+
+    let templatesSystem = await game.packs.get("gdsa.templates").getDocuments();
+    let templatesWorld = await game.packs.get("world.templates") === undefined ? [] : await game.packs.get("world.templates").getDocuments();
+    let templates = templatesWorld.concat(templatesSystem);
+
+    templates = templates.filter(function(item) {return item.type == "Template"});
+
+    let talentArray = templates.filter(function(item) {return item.system.type == "affi"});
+
+    let effects = {
+        all: talentArray[0].effects.contents
+    };
+
+    return effects;
+}
+
 export async function templateData() {
 
     return {
@@ -415,7 +432,8 @@ export async function templateData() {
         traits: await getTraits(),
         advantage: await getAdvantages(),
         flaw: await getFlaws(),
-        ritual: await getRituals()
+        ritual: await getRituals(),
+        effects: await getEffects(),
     };
 }
 

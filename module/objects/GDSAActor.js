@@ -62,9 +62,18 @@ export default class GDSAActor extends Actor {
 
         // Calculate AT, PA and FK Base Values and store them in the Actor
 
-        data.ATBasis.value = Math.round(((parseInt(data.MU.value) + parseInt(data.GE.value) + parseInt(data.KK.value) + parseInt(data.MU.temp) + parseInt(data.GE.temp) + parseInt(data.KK.temp)) / 5));
-        data.PABasis.value = Math.round(((parseInt(data.IN.value) + parseInt(data.GE.value) + parseInt(data.KK.value) + parseInt(data.IN.temp) + parseInt(data.GE.temp) + parseInt(data.KK.temp)) / 5));
-        data.FKBasis.value = Math.round(((parseInt(data.IN.value) + parseInt(data.FF.value) + parseInt(data.KK.value) + parseInt(data.IN.temp) + parseInt(data.FF.temp) + parseInt(data.KK.temp)) / 5));
+        let MU = parseInt(data.MU.value) + parseInt(data.MU.temp) + parseInt(data.MU.baseAnti);
+        let KL = parseInt(data.KL.value) + parseInt(data.KL.temp) + parseInt(data.KL.baseAnti);
+        let IN = parseInt(data.IN.value) + parseInt(data.IN.temp) + parseInt(data.IN.baseAnti);
+        let CH = parseInt(data.CH.value) + parseInt(data.CH.temp) + parseInt(data.CH.baseAnti);
+        let FF = parseInt(data.FF.value) + parseInt(data.FF.temp) + parseInt(data.FF.baseAnti);
+        let GE = parseInt(data.GE.value) + parseInt(data.GE.temp) + parseInt(data.GE.baseAnti);
+        let KO = parseInt(data.KO.value) + parseInt(data.KO.temp) + parseInt(data.KO.baseAnti);
+        let KK = parseInt(data.KK.value) + parseInt(data.KK.temp) + parseInt(data.KK.baseAnti);
+
+        data.ATBasis.value = Math.round((MU + GE + KK) / 5);
+        data.PABasis.value = Math.round((IN + GE + KK) / 5);
+        data.FKBasis.value = Math.round((IN + FF + KK) / 5);
 
 
         // Calculates the LeP, AuP, AsP, KaP and MR maximums Values
@@ -84,15 +93,15 @@ export default class GDSAActor extends Actor {
         let mag2 = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag2")})[0];
         let mag3 = advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.mag3")})[0];
 
-        data.LeP.max = Math.round(((parseInt(data.KO.value) + parseInt(data.KO.value) + parseInt(data.KK.value) + parseInt(data.KO.temp) + parseInt(data.KO.temp) + parseInt(data.KK.temp)) / 2) + parseInt(data.LePInfo.modi) + parseInt(data.LePInfo.buy));
+        data.LeP.max = Math.round(((KO + KO + KK) / 2) + parseInt(data.LePInfo.modi) + parseInt(data.LePInfo.buy));
         if(hole != null) data.LeP.max += hole.system.trait.value;
         if(nile != null) data.LeP.max -= nile.system.trait.value;
-        data.AuP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.KO.value) + parseInt(data.GE.value) + parseInt(data.MU.temp) + parseInt(data.KO.temp) + parseInt(data.GE.temp)) / 2) + parseInt(data.AuPInfo.modi) + parseInt(data.AuPInfo.buy));
+        data.AuP.max = Math.round(((MU + KO + GE) / 2) + parseInt(data.AuPInfo.modi) + parseInt(data.AuPInfo.buy));
         if(ausd != null) data.AuP.max += ausd.system.trait.value;
 
         if (mag1 != null || mag2 != null || mag3 != null) {
-            if(gds != null) data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value) + parseInt(data.CH.value) + parseInt(data.MU.temp) + parseInt(data.IN.temp) + parseInt(data.CH.temp) + parseInt(data.CH.temp)) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
-            else data.AsP.max = Math.round(((parseInt(data.MU.value) + parseInt(data.IN.value) + parseInt(data.CH.value) + parseInt(data.MU.temp) + parseInt(data.IN.temp) + parseInt(data.CH.temp)) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
+            if(gds != null) data.AsP.max = Math.round(((MU + IN + CH + CH) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
+            else data.AsP.max = Math.round(((MU + IN + CH) / 2) + parseInt(data.AsPInfo.modi) + parseInt(data.AsPInfo.buy));
             if(asma != null) data.AsP.max += asma.system.trait.value;
             if(nias != null) data.AsP.max -= nias.system.trait.value;
             if(mag1 != null) data.AsP.max -= 6;
@@ -103,7 +112,7 @@ export default class GDSAActor extends Actor {
         if (data.KaPInfo.modi > 0) data.KaP.max = Math.round(parseInt(data.KaPInfo.modi));
         else data.KaP.max = 0;
 
-        data.MRBase = Math.round(((parseInt(data.MU.value) + parseInt(data.KL.value) + parseInt(data.KO.value) + parseInt(data.MU.temp) + parseInt(data.KL.temp) + parseInt(data.KO.temp)) / 5) + parseInt(data.MR.modi) + parseInt(data.MR.buy));
+        data.MRBase = Math.round(((MU + KL + KO) / 5) + parseInt(data.MR.modi) + parseInt(data.MR.buy));
         if(homr != null) data.MR.value += homr.system.trait.value;
         if(nimr != null) data.MR.value -= nimr.system.trait.value;
         if(mag2 != null) data.MR.value += 1;

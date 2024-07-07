@@ -42,6 +42,35 @@ GDSA.ritualSkills = {
     petr: "GDSA.ritualSkills.petr"
 }
 
+GDSA.schamSkills = {
+    gruf: "GDSA.ritualSkills.gruf",
+    gban: "GDSA.ritualSkills.gban",
+    gbin: "GDSA.ritualSkills.gbin",
+    gauf: "GDSA.ritualSkills.gauf"
+}
+
+GDSA.schamRitDuration = [
+    "Augenblicklich",
+    "RkP* KR",
+    "RkP* x 10 KR",
+    "RkP* SR",
+    "RkP* Stunden",
+    "RkP* Tage",
+    "RkP* Wochen",
+    "RkP* Monate",
+    "RkP* Jahre",
+    "Permanent",
+    "Speziell"
+]
+
+GDSA.schamCastDuration = {
+    action: "GDSA.rit.action",
+    rounds: "GDSA.rit.rounds",
+    halfho: "GDSA.rit.halfho",
+    hours: "GDSA.rit.hours",
+    days: "GDSA.rit.days"
+}
+
 GDSA.magicTraits = {
     anti: "GDSA.magicTraits.anti",
     conju: "GDSA.magicTraits.conju",
@@ -83,6 +112,73 @@ GDSA.magicTraits = {
     humu: "GDSA.magicTraits.humu",
     luft: "GDSA.magicTraits.luft",
     erz: "GDSA.magicTraits.erz"
+}
+
+GDSA.schamLocation = {
+    "-7": "GDSA.ritual.holyPlace",
+    "-5": "GDSA.ritual.religPlace",
+    "-3": "GDSA.ritual.ritPlace3",
+    "-2": "GDSA.ritual.ritPlace2",
+    "-1": "GDSA.ritual.ritPlace1",
+    "+3": "GDSA.ritual.noPlace",
+    "+7": "GDSA.ritual.otherDim"
+}
+
+GDSA.schamTime = {
+    "-4": "GDSA.ritual.matchingTime",
+    "-2": "GDSA.ritual.closeTime",
+    "+0": "GDSA.ritual.naturlTime",
+    "+2": "GDSA.ritual.missMatchTime",
+    "+4": "GDSA.ritual.oppositTime"
+}
+
+GDSA.schamNatur = {
+    "-2": "GDSA.ritual.matchingNatur",
+    "-1": "GDSA.ritual.closeNatur",
+    "+0": "GDSA.ritual.naturlNatur",
+    "+1": "GDSA.ritual.missMatchNatur",
+    "+2": "GDSA.ritual.oppositNatur"
+}
+
+GDSA.schamFetisch = {
+    "-2": "GDSA.ritual.specialFet",
+    "-1": "GDSA.ritual.goodFet",
+    "+1": "GDSA.ritual.improveFet",
+    "+2": "GDSA.ritual.missingFet"
+}
+
+GDSA.schamWear = {
+    "-2": "GDSA.ritual.perfectWear",
+    "-1": "GDSA.ritual.goodWear",
+    "+1": "GDSA.ritual.unfittingWear",
+    "+2": "GDSA.ritual.missingWear"
+}
+
+GDSA.schamDrug = {
+    "-8": "GDSA.ritual.whiteLotus",
+    "-7": "GDSA.ritual.whiteYellowLotus",
+    "-6": "GDSA.ritual.sneakingDeath",
+    "-5": "GDSA.ritual.gandel",
+    "-4": "GDSA.ritual.ilmen",
+    "-3": "GDSA.ritual.water",
+    "-2": "GDSA.ritual.cucumber",
+    "-1": "GDSA.ritual.cheriach",
+    "+0": "GDSA.ritual.mohacca",
+    "+1": "GDSA.ritual.alk",
+    "+2": "GDSA.ritual.noDrugs",
+}
+
+GDSA.schamHelper = {
+    "Wdm": ["Akrobatik", "Tanzen", "Singen", "Musizieren"],
+    "Utu": ["Akrobatik", "Tanzen", "Singen", "Musizieren"],
+    "Toc": ["Akrobatik", "Tanzen", "Singen", "Musizieren"],
+    "Niv": ["Tanzen", "Singen", "Musizieren"],
+    "Ork": ["Selbstbeherrschung", "Tanzen"],
+    "Gob": ["Malen / Zeichnen", "Gesteinskunde", "Tierkunde", "Stimmen Imitieren"],
+    "Gja": ["Wettervorhersage", "Pflanzenkunde", "Tierkunde", "Tanzen"],
+    "Fer": ["Zechen", "Tierkunde", "Heilkunde: Gift", "Stimmen Imitieren"],
+    "Tzk": ["Tanzen", "Selbstbeherrschung", "Pflanzenkunde", "Gesteinskunde"],
+    "Ach": ["Malen / Zeichnen", "Gesteinskunde", "Wildnisleben"]
 }
 
 GDSA.cuts = {
@@ -274,7 +370,9 @@ GDSA.tempTypes = {
     trai: "GDSA.templates.sf",
     tale: "GDSA.templates.tal",
     kult: "GDSA.templates.kult",
-    affi: "GDSA.templates.affi"
+    affi: "GDSA.templates.affi",
+    npct: "GDSA.templates.npct",
+    npcw: "GDSA.templates.npcw"
 }
 
 GDSA.ritTypes = {
@@ -523,6 +621,76 @@ GDSA.cbtType = {
     NPC: "GDSA.combat.NPC",
     PC: "GDSA.combat.PC",
     Enemy: "GDSA.combat.Enemy"
+}
+
+GDSA.npcSpecialSkills = {
+    "cmbt-2atk": "2 Angriffe",
+    "cmbt-3atk": "3 Angriffe",
+    "cmbt-4atk": "4 Angriffe",
+    "cmbt-2par": "2 Paraden",
+    "cmbt-3par": "3 Paraden",
+    "cmbt-4par": "4 Paraden",
+    "manu-ansp": "Anspringen",
+    "manu-dopp": "Doppelangriff",
+    "manu-flya": "Flugangriff",
+    "manu-gezA": "Geziehlter Angriff",
+    "manu-ambu": "Hinterhalt",
+    "manu-nied": "Niederwerfen",
+    "manu-flyd": "Sturzfluf",
+    "manu-verb": "Verbeißen",
+    "size-bigg": "Großer Gegner",
+    "size-huge": "Riesiger Gegner",
+    "type-flya": "Fliegender Gegner",
+    "trai-auss": "Ausfall",
+    "trai-bhk1": "Beidhändiger Kampf I",
+    "trai-bhk2": "Beidhändiger Kampf II",
+    "trai-bind": "Binden",
+    "trai-fint": "Finte",
+    "trai-form": "Formation",
+    "trai-gezi": "Geziehlter Stich",
+    "trai-hamm": "Hammerschlag",
+    "trai-par1": "Parrierwaffen I",
+    "trai-par2": "Parrierwaffen II",
+    "trai-shi1": "Schildkampf I",
+    "trai-shi2": "Schildkampf II",
+    "trai-shi3": "Schildkampf III",
+    "trai-stur": "Sturmangriff",
+    "trai-wuch": "Wuchtschlag",
+    "mtra-alim": "Ausweichen in den Limbus",
+    "mtra-krit": "Kritische Konsistenz",
+    "mtra-lang": "Langer Arm",
+    "mtra-lebr": "Lebensraub",
+    "mtra-sch1": "Schreckgestallt I", 
+    "mtra-sch2": "Schreckgestallt II", 
+    "mtra-par1": "Paraphysikalität I",
+    "mtra-par2": "Paraphysikalität II",
+    "mtra-prä1": "Präsenz I",
+    "mtra-prä2": "Präsenz II",
+    "mtra-rass": "Rasserei",
+    "mtra-reg1": "Regeneration I",
+    "mtra-reg2": "Regeneration II",
+    "mtra-reg3": "Regeneration III",
+    "immu-elem": "Immunität gegen Elementar",
+    "immu-gewe": "Immunität gegen Geweihten Schaden",
+    "immu-hieb": "Immunität gegen Hiebwaffen",
+    "immu-magi": "Immunität gegen Magischen Schaden",
+    "immu-stic": "Immunität gegen Stichwaffen",
+    "immu-pfeB": "Immunität gegen Pfeile/Bolzen",
+    "immu-prof": "Immunität gegen Profanen Schaden",
+    "resi-elem": "Resistenz gegen Elementar",
+    "resi-gewe": "Resistenz gegen Geweihten Schaden",
+    "resi-hieb": "Resistenz gegen Hiebwaffen",
+    "resi-magi": "Resistenz gegen Magischen Schaden",
+    "resi-stic": "Resistenz gegen Stichwaffen",
+    "resi-pfeB": "Resistenz gegen Pfeile/Bolzen",
+    "resi-prof": "Resistenz gegen Profanen Schaden",
+    "verw-elem": "Verwundbarkeit gegen Elementar",
+    "verw-gewe": "Verwundbarkeit gegen Geweihten Schaden",
+    "verw-hieb": "Verwundbarkeit gegen Hiebwaffen",
+    "verw-magi": "Verwundbarkeit gegen Magischen Schaden",
+    "verw-stic": "Verwundbarkeit gegen Stichwaffen",
+    "verw-pfeB": "Verwundbarkeit gegen Pfeile/Bolzen",
+    "verw-prof": "Verwundbarkeit gegen Profanen Schaden"
 }
 
 GDSA.sfgeneral = [

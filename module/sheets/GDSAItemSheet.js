@@ -24,11 +24,14 @@ export default class GDSAItemSheet extends ItemSheet {
 
     get template() {
 
-        if(this.item.type === "Template") return `systems/gdsa/templates/sheets/template/${this.item.type}-${this.item.system.type}-sheet.hbs`
-        if(this.item.type === "Gegenstand") return `systems/gdsa/templates/sheets/gegenstand/${this.item.type}-${this.item.system.type}-sheet.hbs`
-        if(this.item.type === "objektRitual") return `systems/gdsa/templates/sheets/ritual/${this.item.type}-${this.item.system.type}-sheet.hbs`
+        let itemType = this.item.system.type;
 
-        return `systems/gdsa/templates/sheets/${this.item.type}-sheet.hbs`
+        if(itemType === "none") itemType = "";
+        if(this.item.type === "Template") return `systems/gdsa/templates/sheets/template/${this.item.type}-${itemType}-sheet.hbs`
+        if(this.item.type === "Gegenstand") return `systems/gdsa/templates/sheets/gegenstand/${this.item.type}-${itemType}-sheet.hbs`
+        if(this.item.type === "objektRitual") return `systems/gdsa/templates/sheets/ritual/${this.item.type}-${itemType}-sheet.hbs`
+
+        return `systems/gdsa/templates/sheets/items/${this.item.type}-sheet.hbs`
     }
 
     async getData() {
@@ -44,6 +47,7 @@ export default class GDSAItemSheet extends ItemSheet {
             config: CONFIG.GDSA,
             template: CONFIG.Templates,
             templates: CONFIG.Templates,
+            effects: baseData.item.effects,
             selTalents: this.getSelectTalents(),
             selTraits: this.getSelectTraits(),
             selTalentN: this.getSelectTalentsN(),
@@ -88,6 +92,10 @@ export default class GDSAItemSheet extends ItemSheet {
             html.find(".deleteSpellVariants").click(LsFunction.deleteSpellVariants.bind(this,sheet));
             html.find(".note-gm-post").click(LsFunction.noteGMPost.bind(this, sheet));
             html.find(".note-all-post").click(LsFunction.noteAllPost.bind(this, sheet));
+
+            // Set Listener for Active Effects
+
+            html.find(".effect-control").click(this._onEffectControl.bind(this));
         }
 
         super.activateListeners(html);
@@ -214,6 +222,9 @@ export default class GDSAItemSheet extends ItemSheet {
 
     getWeaponRange(system) {
 
+        if(this.item.type != "Gegenstand") return {};
+        if(this.item.system.type != "range") return {};
+
         let response = {};
 
         response["2"]   = game.i18n.localize("GDSA.chat.rangeOpt.till") + system.weapon.range1 + game.i18n.localize("GDSA.chat.rangeOpt.meter");
@@ -223,6 +234,34 @@ export default class GDSAItemSheet extends ItemSheet {
         response["-12"] = game.i18n.localize("GDSA.chat.rangeOpt.till") + system.weapon.range5 + game.i18n.localize("GDSA.chat.rangeOpt.meter");
 
         return response;
+    }
+    
+    _onEffectControl(event) {
+
+        event.preventDefault();
+
+        const owner = this.item;
+        const a = event.currentTarget;
+        const li = a.closest("li");
+        const effect = li?.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null;
+
+        switch (a.dataset.action) {
+
+            case "create":
+                console.log(game);
+                return owner.createEmbeddedDocuments("ActiveEffect", [{
+                label: "New Effect",
+                icon: "icons/svg/aura.svg",
+                origin: owner.uuid,
+                disabled: true
+                }]);
+
+            case "edit":
+                return effect.sheet.render(true);
+
+            case "delete":
+                return effect.delete();
+        }
     }
 
 }

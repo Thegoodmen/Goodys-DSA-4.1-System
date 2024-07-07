@@ -1,10 +1,14 @@
-<div class="item item-context {{#if system.trait.canRoll}}flaw-roll{{/if}}" data-type="{{system.type}}" data-item-id="{{_id}}" data-flawValue="{{system.trait.value}}" data-flawName="{{name}}">
-    <a class="test" data-type="advantage"><div class="flaw">{{#unless name}}{{system.tale.DE}}{{else}}{{name}}{{/unless}}
+<div class="item rowAdvan" data-type="{{system.type}}" data-item-id="{{_id}}" data-flawValue="{{system.trait.value}}" data-flawName="{{name}}">
+    <div class="flaw{{#if system.trait.canRoll}} flaw-roll{{/if}}"><a data-type="advantage">{{#unless name}}{{system.tale.DE}}{{else}}{{name}}{{/unless}}
         {{#if (ne system.trait.value 0)}}
             {{#unless (hasRomNum name)}}
                 {{system.trait.value}}
             {{/unless}}
         {{/if}}
-    </div></a>
+    </a></div>
 	<hr class="flawhr" />
+    <div class="contAdvan">
+        <div class="editAdvan"><a class="item-edit"><i class="fas fa-edit"></i></a></div>
+        <div class="delAdvan"><a class="item-delete"><i class="fas fa-trash"></i></a></div>
+    </div>
 </div>

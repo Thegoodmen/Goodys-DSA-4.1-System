@@ -35,51 +35,42 @@
 
     <div class="spellMenuBox">
 	    <section class="spell-body">
-            <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
 
+            <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
                 <div class="input100 spellName">{{localize "GDSA.itemsheet.skill"}}:</div>
                 <select class="input70s" name="system.creatTalent">{{selectOptions config.ritualSkills selected=system.creatTalent blank="" localize=true}}</select>
-
                 <div class="input100g spellName">{{localize "GDSA.itemsheet.attri"}}:</div>
                 {{#for 1 4 1}}
                     <select class="input100h" name="system.creatAtt{{this}}">{{selectOptions ../config.attributes selected=(getData ../system (concat "creatAtt" this "")) blank=""}}</select>
                 {{/for}}
-
                 <div class="input100 spellName">{{localize "GDSA.itemsheet.disad"}}:</div>
                 <input class="input70s" name="system.creatDisAd" type="number" value="{{system.creatDisAd}}" />
                 <div class="input100 spellName">{{localize "GDSA.itemsheet.cost"}}:</div>
                 <input class="input70s" name="system.creatCost" type="number" value="{{system.creatCost}}" />
                 <div class="input100 spellName">{{localize "GDSA.itemsheet.pcosts"}}:</div>
                 <input class="input70s" name="system.creatCostP" type="number" value="{{system.creatCostP}}" />
-
             </div>
 
             <div class="tab spellVariants" data-group="spell" data-tab="spellVariants">
-
                 <div class="input100 spellName">{{localize "GDSA.itemsheet.skill"}}:</div>
                 <select class="input70s" name="system.activTalent">{{selectOptions config.ritualSkills selected=system.activTalent blank="" localize=true}}</select>
-
                 <div class="input100g spellName">{{localize "GDSA.itemsheet.attri"}}:</div>
                 {{#for 1 4 1}}
                     <select class="input100h" name="system.activAtt{{this}}">{{selectOptions ../config.attributes selected=(getData ../system (concat "activAtt" this "")) blank=""}}</select>
                 {{/for}}
-
                 <div class="input100 spellName">{{localize "GDSA.itemsheet.disad"}}:</div>
                 <input class="input70s" name="system.activDisAd" type="number" value="{{system.activDisAd}}" />
                 <div class="input100 spellName">{{localize "GDSA.itemsheet.cost"}}:</div>
                 <input class="input70s" name="system.activCost" type="number" value="{{system.activCost}}" />
                 <div class="input100 spellName">{{localize "GDSA.itemsheet.zduration"}}:</div>
                 <input class="input70s" name="system.activDura" type="number" value="{{system.activDura}}" />
-
             </div>
             
             <div class="tab spellEffects" data-group="spell" data-tab="spellEffects">
-
                 {{#for 1 5 1}}
                     <div class="input100 spellName">{{localize "GDSA.itemsheet.trait"}}:</div>
                     <select class="input70s" name="system.trait{{this}}">{{selectOptions ../config.magicTraits selected=(getData ../system (concat "trait" this "")) blank="" localize=true}}</select>
                 {{/for}}
-
             </div>
 
             <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
@@ -87,6 +78,7 @@
                 <button class="noteBnt note-gm-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postGM"}}</button>
                 <button class="noteBnt note-all-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postAll"}}</button>
             </div>
+            
         </section>
     </div>
 

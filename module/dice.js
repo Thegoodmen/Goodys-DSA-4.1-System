@@ -25,8 +25,8 @@ export async function statCheck(statName, statValue, statMod, actor, modi = 0, o
 
     // Roll 2 Dices 
 
-    let rollResult = await new Roll("1d20", {}).roll({ async: true});
-    let rollResult2 = await new Roll("1d20", {}).roll({ async: true});
+    let rollResult = await new Roll("1d20", {}).roll();
+    let rollResult2 = await new Roll("1d20", {}).roll();
 
     // Set up the Total Value of the Attribut Value +/- the Modifier
 
@@ -108,8 +108,8 @@ export async function dogdeCheck(statName, statValue, statMod, actor, context = 
 
     // Roll 2 Dices 
 
-    let rollResult1 = await new Roll("1d20", {}).roll({ async: true});
-    let rollResult2 = await new Roll("1d20", {}).roll({ async: true});
+    let rollResult1 = await new Roll("1d20", {}).roll();
+    let rollResult2 = await new Roll("1d20", {}).roll();
 
     // Set up the Total Value of the Attribut Value +/- the Modifier
 
@@ -181,8 +181,8 @@ export async function flawCheck(flawName, flawValue, actor) {
 
     // Roll 2 Dices
 
-    let rollResult = await new Roll("1d20", {}).roll({ async: true });
-    let rollResult2 = await new Roll("1d20", {}).roll({ async: true });
+    let rollResult = await new Roll("1d20", {}).roll();
+    let rollResult2 = await new Roll("1d20", {}).roll();
 
     // Check the Result and if a Confirm roll is needed
 
@@ -244,9 +244,9 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
 
     // Roll 3 Dices
 
-    let rollResult = await new Roll("1d20", {}).roll({ async: true});
-    let rollResult2 = await new Roll("1d20", {}).roll({ async: true});
-    let rollResult3 = await new Roll("1d20", {}).roll({ async: true});
+    let rollResult = await new Roll("1d20", {}).roll();
+    let rollResult2 = await new Roll("1d20", {}).roll();
+    let rollResult3 = await new Roll("1d20", {}).roll();
 
     // Define Endvariabels
 
@@ -412,8 +412,8 @@ export async function doLePReg(actor, HPBonus) {
 
     // Roll 2 Dices
 
-    let rollResult = await new Roll("1d6", {}).roll({ async: true });
-    let rollResult2 = await new Roll("1d20", {}).roll({ async: true });
+    let rollResult = await new Roll("1d6", {}).roll();
+    let rollResult2 = await new Roll("1d20", {}).roll();
 
     // Add togehter the D6 Regeneration, with the HPBonus and add 1 Additional point if the Attribut Check passed
 
@@ -463,8 +463,8 @@ export async function doAsPReg(actor, APBonus, isMaster) {
     
     // Roll 2 Dices
 
-    let rollResult = await new Roll("1d6", {}).roll({ async: true });
-    let rollResult2 = await new Roll("1d20", {}).roll({ async: true });
+    let rollResult = await new Roll("1d6", {}).roll();
+    let rollResult2 = await new Roll("1d20", {}).roll();
 
     // Add togehter the D6 Regeneration, with the HPBonus and add 1 Additional point if the Attribut Check passed
 
@@ -515,9 +515,9 @@ export async function doKaPReg(actor, modi) {
 
     // Roll 3 Dices
  
-    let rollResult = await new Roll("1d20", {}).roll({ async: true});
-    let rollResult2 = await new Roll("1d20", {}).roll({ async: true});
-    let rollResult3 = await new Roll("1d20", {}).roll({ async: true});
+    let rollResult = await new Roll("1d20", {}).roll();
+    let rollResult2 = await new Roll("1d20", {}).roll();
+    let rollResult3 = await new Roll("1d20", {}).roll();
  
     // Define Endvariabels
  
@@ -682,9 +682,9 @@ export async function ATKCheck(atk, modi, actor, auto = false, isMeele = true, c
 
     // Roll 2 D20 Dices and 2 D6 Dices
 
-    let rollResult1 = await new Roll("1d20", {}).roll({ async: true});
-    let rollResult2 = await new Roll("1d20", {}).roll({ async: true});
-    let rollResult3 = await new Roll("2d6", {}).roll({ async: true});
+    let rollResult1 = await new Roll("1d20", {}).roll();
+    let rollResult2 = await new Roll("1d20", {}).roll();
+    let rollResult3 = await new Roll("2d6", {}).roll();
 
     // Set up the Total Value of the Attribut Value +/- the Modifier
     
@@ -765,9 +765,9 @@ export async function PACheck(parry, modi, actor, context = {}) {
 
     // Roll 2 Dices
 
-    let rollResult1 = await new Roll("1d20", {}).roll({ async: true});
-    let rollResult2 = await new Roll("1d20", {}).roll({ async: true});
-    let rollResult3 = await new Roll("2d6", {}).roll({ async: true});
+    let rollResult1 = await new Roll("1d20", {}).roll();
+    let rollResult2 = await new Roll("1d20", {}).roll();
+    let rollResult3 = await new Roll("2d6", {}).roll();
 
     // Set up the Total Value of the Attribut Value +/- the Modifier
     
@@ -849,12 +849,12 @@ export async function DMGRoll(formula, actor, multi, chatId = "") {
 
     // Roll the Dice and add together the DMG
 
-    let rollResult = await new Roll(formula, {}).roll({ async: true});
+    let rollResult = await new Roll(formula, {}).roll();
     let total = parseInt(rollResult.total) * parseInt(multi);
 
     // Roll the Dice for the Zone and get the Zone
 
-    let zone = await new Roll("1d20", {}).roll({ async: true});
+    let zone = await new Roll("1d20", {}).roll();
     let hitZone = Util.getZone(zone.total);
 
     // Fill the Context for the Chat HTML to fill  
@@ -901,7 +901,7 @@ export async function CrittMisMeele(actor) {
 
     // Roll 2 Dices
 
-    let rollResult = await new Roll("2d6", {}).roll({ async: true});
+    let rollResult = await new Roll("2d6", {}).roll();
 
     // Fill the Context for the Chat HTML to fill  
 
@@ -942,7 +942,7 @@ export async function CrittMisRange(actor) {
 
     // Roll 2 Dices
 
-    let rollResult = await new Roll("2d6", {}).roll({ async: true});
+    let rollResult = await new Roll("2d6", {}).roll();
 
     // Fill the Context for the Chat HTML to fill  
 
@@ -983,7 +983,7 @@ export async function HitZone(actor) {
 
     // Roll 2 Dices
 
-    let rollResult = await new Roll("1d20", {}).roll({ async: true});
+    let rollResult = await new Roll("1d20", {}).roll();
 
     // Fill the Context for the Chat HTML to fill  
 
@@ -1028,12 +1028,12 @@ export async function DMGRollWitoutChat(formula, actor, multi, hasNoZone = false
 
     // Roll the Dice and add together the DMG
 
-    let rollResult = await new Roll(formula, {}).roll({ async: true});
+    let rollResult = await new Roll(formula, {}).roll();
     let total = parseInt(rollResult.total) * parseInt(multi);
 
     // Roll the Dice for the Zone and get the Zone
 
-    let zone = await new Roll("1d20", {}).roll({ async: true});
+    let zone = await new Roll("1d20", {}).roll();
     let hitZone = Util.getZone(zone.total);
 
     // Fill the Context for the Chat HTML to fill  

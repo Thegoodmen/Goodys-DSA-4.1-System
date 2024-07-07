@@ -1,0 +1,100 @@
+<form class="dialogConfig">
+    <div class="form-group subMain"><div class="submen"><hr class="subhr" /></div>{{name}}<div class="submen"><hr class="subhr" /></div></div>
+    <div class="dialogFiller"></div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.advantage"}}</label>
+        <input type="number" name="advantage" value="0" />
+    </div>
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.disadvantage"}}</label>
+        <input type="number" name="disadvantage" value="0" />
+    </div>
+
+    <div class="dialogFiller"></div>
+    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.chat.skill.modi"}}<div class="submen"><hr class="subhr" /></div></div>
+    <div class="dialogFiller"></div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.ritDura"}} {{localize "GDSA.chat.medi.decre"}}</label>
+        <input id="inboxCast" type="checkbox" name="ritduaration" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.target"}} {{localize "GDSA.chat.medi.incre"}}</label>
+        <input id="inboxCast" type="checkbox" name="target" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.rangeH"}} {{localize "GDSA.chat.medi.incre"}}</label>
+        <input id="inboxCast" type="checkbox" name="rangeH" {{#unless (checkWonderRange this)}}disabled{{/unless}} />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.wirkDur"}} {{localize "GDSA.chat.medi.incre"}}</label>
+        <input id="inboxCast" type="checkbox" name="duration" {{#if (equals system.duration "Permanent")}}disabled{{/if}} {{#if (equals system.duration "Speziell")}}disabled{{/if}} {{#if (equals system.duration "Augenblicklich")}}disabled{{/if}} />
+    </div>
+    
+    <div class="dialogFiller"></div>
+    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.chat.skill.acca"}}<div class="submen"><hr class="subhr" /></div></div>
+    <div class="dialogFiller"></div>
+
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.medi.place"}}</label>
+        <select class="mediOpt" name="place">{{selectOptions config.schamLocation localize=true}}</select>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.chat.skill.disbeliv"}}</label>
+        <input id="inboxCast" type="checkbox" name="disbeliv" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.ritual.time"}}</label>
+        <select class="mediOpt" name="time">{{selectOptions config.schamTime localize=true}}</select>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.ritual.naturevent"}}</label>
+        <select class="mediOpt" name="naturevent">{{selectOptions config.schamNatur localize=true}}</select>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.ritual.holyDay"}}</label>
+        <input id="inboxCast" type="checkbox" name="holdyday" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.ritual.fetisch"}}</label>
+        <select class="mediOpt" name="fetisch">{{selectOptions config.schamFetisch localize=true}}</select>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.ritual.wearable"}}</label>
+        <select class="mediOpt" name="wear">{{selectOptions config.schamWear localize=true}}</select>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.ritual.drugs"}}</label>
+        <select class="mediOpt" name="drug">{{selectOptions config.schamDrug localize=true}}</select>
+    </div>
+    
+    <div class="dialogFiller"></div>
+    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.ritual.helper"}}<div class="submen"><hr class="subhr" /></div></div>
+    <div class="dialogFiller"></div>
+
+    <input id="inboxCast" type="hidden" name="helper" value="{{getData config.schamHelper schamType}}" />
+    {{#each (getData config.schamHelper schamType)}}
+        <div class="form-group">
+            <label>{{this}}</label>
+            <input id="inboxCast" type="checkbox" name="helptale{{@index}}" />
+            <input id="inboxCast" type="hidden" name="helptype{{@index}}" value="{{this}}" />
+        </div>
+    {{/each}}
+
+    <div class="dialogFiller"></div>
+    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div><div class="submen"><hr class="subhr" /></div></div>
+    <div class="dialogFiller"></div>
+    
+</form>
