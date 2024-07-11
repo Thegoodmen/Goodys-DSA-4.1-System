@@ -1,5 +1,7 @@
 import * as Util from "../../Util.js";
 import * as LsFunction from "../listenerFunctions.js"
+import * as Dialog from "../dialog.js";
+import MultiSelect from "../apps/multiselect.js"
 
 export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
@@ -15,7 +17,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         // #################################################################################################
         // #################################################################################################
 
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
 
             //template: "systems/gdsa/templates/sheets/charakter-sheet.hbs",
             width: 632,
@@ -62,6 +64,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             config: CONFIG.GDSA,
             isGM: game.user.isGM,
             template: CONFIG.Templates,
+            effects: baseData.effects,
 
             // Create for each Item Type its own Array
 
@@ -73,8 +76,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             holyTraits: Util.getTemplateSF(baseData, "holy", false),
             ritualSkills: Util.getItems(baseData, "ritualSkill", false),
             spells: Util.getItems(baseData, "spell", false),
-            rituals: Util.getItems(baseData, "ritual", false),
-            objRituals:  Util.getItems(baseData, "objektRitual", false),
+            rituals: (Util.getRitual(baseData,"ritual")).concat(Util.getRitual(baseData, "schama")),
+            objRituals:  Util.getRitual(baseData,"objrit"),
             wonders: Util.getItems(baseData, "wonder", false),
             generals: Util.getItem(baseData, "item", false),
             meleeweapons: Util.getItem(baseData, "melee", false),
@@ -138,6 +141,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".mirRoll").click(LsFunction.onMirikalRoll.bind(this, sheet));
             html.find(".wonder-roll").click(LsFunction.onWonderRoll.bind(this, sheet));
             html.find(".spell-roll").click(LsFunction.onSpellRoll.bind(this, sheet));
+            html.find(".ritual-roll").click(LsFunction.onRitualRoll.bind(this, sheet));
+            html.find(".scham-roll").click(LsFunction.onSchamanRoll.bind(this, sheet));
             html.find(".ritCrea-roll").click(LsFunction.onRitualCreation.bind(this, sheet));
             html.find(".ritAkti-roll").click(LsFunction.onRitualActivation.bind(this, sheet));
             html.find(".m-fail-roll").click(LsFunction.onCritMisMeeleRoll.bind(this, sheet));
@@ -162,7 +167,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
             if(! this.id.includes("Token")) html.find(".item-create").click(LsFunction.onItemCreate.bind(this, sheet));
             if(! this.id.includes("Token")) html.find(".template-create").click(LsFunction.onTemplateCreate.bind(this, sheet));
-            if(! this.id.includes("Token")) html.find(".item-edit").click(LsFunction.onItemEdit.bind(this, sheet));
+            html.find(".item-edit").click(LsFunction.onItemEdit.bind(this, sheet));
             html.find(".advantage-create").click(LsFunction.addAdvantage.bind(this, sheet));
             html.find(".disadvantage-create").click(LsFunction.addDisadvantage.bind(this, sheet));
             html.find(".item-apply").click(LsFunction.onItemEquip.bind(this, sheet));
@@ -220,6 +225,11 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
                 li.setAttribute("draggable", true);
                 li.addEventListener("dragstart", handler, false);
             });
+
+            // Set Listener for Active Effects
+
+            html.find(".effect-control").click(this._onEffectControl.bind(this));
+            html.find(".data-multi-select").each((i, li) => { new MultiSelect(li) });
         }
 
         super.activateListeners(html);
@@ -299,6 +309,10 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         if(mag1 || mag2 || mag3 || mag4 || mag5) sheetData.system.magical = true;
         if(klr1 || klr2 || klr3) sheetData.system.klerikal = true;
+
+        sheetData.system.ATBasis.value = sheetData.system.ATBasis.value + sheetData.system.ATBasis.tempmodi;
+        sheetData.system.PABasis.value = sheetData.system.PABasis.value + sheetData.system.PABasis.tempmodi;
+        sheetData.system.FKBasis.value = sheetData.system.FKBasis.value + sheetData.system.FKBasis.tempmodi;
         
         // Calculate Armour Ratings
 
@@ -414,8 +428,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         sheetData.system.GS.modi = 0;
 
         if(checkFlink) sheetData.system.GS.modi = checkFlink.system.trait.value;
-        if((parseInt(sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp)) >= 16) sheetData.system.GS.modi += 1;
-        if((parseInt(sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp)) <= 10) sheetData.system.GS.modi -= 1;
+        if((parseInt(sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp) + parseInt(sheetData.system.GE.baseAnti)) >= 16) sheetData.system.GS.modi += 1;
+        if((parseInt(sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp) + parseInt(sheetData.system.GE.baseAnti)) <= 10) sheetData.system.GS.modi -= 1;
 
         if(checkUnsporty) sheetData.system.GS.modi -= 1;
         if(checkSmall) sheetData.system.GS.modi -= 1;
@@ -423,7 +437,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if(checkDwarf) sheetData.system.GS.modi -= (BE / 2);
         else sheetData.system.GS.modi -= BE;
 
-        sheetData.system.GS.value = 8 + parseInt(sheetData.system.GS.modi);
+        sheetData.system.GS.value = 8 + parseInt(sheetData.system.GS.modi) + parseInt(sheetData.system.GS.pen);
 
         // INI Basis - STEP 1 BE Calculation with Armour Profficiancy III
 
@@ -436,12 +450,16 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         let INIBase = Math.round((( parseInt(sheetData.system.MU.value) + 
                                     parseInt(sheetData.system.MU.temp) + 
+                                    parseInt(sheetData.system.MU.baseAnti) + 
                                     parseInt(sheetData.system.MU.value) + 
                                     parseInt(sheetData.system.MU.temp) + 
+                                    parseInt(sheetData.system.MU.baseAnti) + 
                                     parseInt(sheetData.system.IN.value) + 
                                     parseInt(sheetData.system.IN.temp) + 
+                                    parseInt(sheetData.system.IN.baseAnti) + 
                                     parseInt(sheetData.system.GE.value) + 
-                                    parseInt(sheetData.system.GE.temp)) / 5));
+                                    parseInt(sheetData.system.GE.temp) +
+                                    parseInt(sheetData.system.GE.baseAnti)) / 5));
         sheetData.system.INIBasis.value = INIBase + sheetData.system.INIBasis.tempmodi;
         sheetData.system.INIBasis.modi = 0;
 
@@ -462,7 +480,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if(checkKampfge) sheetData.system.INIBasis.modi += 2;
         if(checkKampfre) sheetData.system.INIBasis.modi += 4;
 
-        sheetData.system.INIBasis.value = sheetData.system.INIBasis.value + sheetData.system.INIBasis.modi - eBE + sheetData.system.equipINI;
+        sheetData.system.INIBasis.value = sheetData.system.INIBasis.value + sheetData.system.INIBasis.modi - eBE + sheetData.system.equipINI + sheetData.system.INIBasis.sysModi;
 
         // Change Dice 
 
@@ -812,4 +830,50 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
         } 
     }
+    
+    _onEffectControl(event) {
+
+        event.preventDefault();
+
+        const owner = this.actor;
+        const a = event.currentTarget;
+        const li = a.closest("li");
+        const effect = li?.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null;
+
+        switch (a.dataset.action) {
+
+            case "create":
+                return owner.createEmbeddedDocuments("ActiveEffect", [{
+                label: "New Effect",
+                icon: "icons/svg/aura.svg",
+                origin: owner.uuid,
+                disabled: true
+                }]);
+
+            case "edit":
+                return effect.sheet.render(true);
+
+            case "delete":
+                return effect.delete();
+        }
+    }
+
+    _getHeaderButtons() {
+
+        const baseData = super._getHeaderButtons();
+
+        let notesBnt = {"class": "note-sheet", "icon": "fas fa-sheet-plastic", "label": "Notes", "onclick":  ev => this.openNotes(ev)};
+
+        let response = [notesBnt].concat(baseData);
+
+        return response;
+    }
+
+    async openNotes(ev) {
+
+        let newNote = await Dialog.editCharNotes({ "system": { "notes": this.sheet.system.note}});
+
+        this.sheet.system.note = newNote;
+    }
+    
 }

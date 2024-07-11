@@ -24,14 +24,7 @@
     <div class="form-group">
         <label>Combat Type</label>
         <div class="form-fields">
-            <select name="flags.gdsa.combatType">
-                {{#select data.flags.gdsa.combatType}}
-                    <option value="" selected></option>
-                    <option value="NPC">{{ localize "GDSA.combat.NPC" }}</option>
-                    <option value="PC">{{ localize "GDSA.combat.PC" }}</option>
-                    <option value="Enemy">{{ localize "GDSA.combat.Enemy" }}</option>
-                {{/select}}
-            </select>
+            <select name="data.flags.gdsa.combatType">{{selectOptions config.cbtType selected=data.flags.gdsa.combatType blank="" localize=true}}</select>
         </div>
     </div>
 

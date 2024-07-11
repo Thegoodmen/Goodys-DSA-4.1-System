@@ -210,13 +210,15 @@
   float: left;
 }
 .GDSA.sheet.characterSheet .flaw {
-  width: 295px;
+  width: 240px;
   height: 14px;
   text-align: left;
   padding-left: 10px;
   font-size: 11px;
 }
 .GDSA.sheet.characterSheet .flawhr {
+  width: 285px;
+  margin-left: 7px;
   margin-top: 2px;
   margin-bottom: 2px;
 }
@@ -1489,6 +1491,190 @@
   top: 45px;
   left: 95px;
 }
+.GDSA.sheet.characterSheet .rowAdvan {
+  position: relative;
+}
+.GDSA.sheet.characterSheet .rowAdvan:hover {
+  display: block;
+}
+.GDSA.sheet.characterSheet .rowAdvan:hover .editAdvan,
+.GDSA.sheet.characterSheet .rowAdvan.hover .editAdvan {
+  display: block;
+}
+.GDSA.sheet.characterSheet .rowAdvan:hover .delAdvan,
+.GDSA.sheet.characterSheet .rowAdvan.hover .delAdvan {
+  display: block;
+}
+.GDSA.sheet.characterSheet .editAdvan {
+  position: absolute;
+  right: 15px;
+  top: 0px;
+  display: none;
+}
+.GDSA.sheet.characterSheet .delAdvan {
+  position: absolute;
+  right: 1px;
+  top: 0px;
+  display: none;
+}
+.GDSA.sheet.characterSheet .multi-select {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  user-select: none;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-header {
+  border: 1px solid #dee2e6;
+  padding: 7px 30px 7px 12px;
+  overflow: hidden;
+  gap: 7px;
+  min-height: 45px;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-header::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23949ba3' viewBox='0 0 16 16'%3E%3Cpath d='M8 13.1l-8-8 2.1-2.2 5.9 5.9 5.9-5.9 2.1 2.2z'/%3E%3C/svg%3E");
+  height: 12px;
+  width: 12px;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-header.multi-select-header-active {
+  border-color: #c1c9d0;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-header.multi-select-header-active::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-header.multi-select-header-active + .multi-select-options {
+  display: flex;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-header .multi-select-header-placeholder {
+  color: #65727e;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-header .multi-select-header-option {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-header .multi-select-header-max {
+  font-size: 14px;
+  color: #65727e;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-options {
+  display: none;
+  box-sizing: border-box;
+  flex-flow: wrap;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  margin-top: 5px;
+  padding: 5px;
+  background: #dfdfdf;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-height: 185px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-options::-webkit-scrollbar {
+  width: 5px;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-options::-webkit-scrollbar-track {
+  background: #f0f1f3;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-options::-webkit-scrollbar-thumb {
+  background: #cdcfd1;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-options::-webkit-scrollbar-thumb:hover {
+  background: #b2b6b9;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-option,
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-all {
+  padding: 4px 12px;
+  height: 24px;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-option .multi-select-option-radio,
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-all .multi-select-option-radio {
+  margin-right: 14px;
+  height: 16px;
+  width: 16px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-option .multi-select-option-text,
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-all .multi-select-option-text {
+  box-sizing: border-box;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+  font-size: 12px;
+  line-height: 14px;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-option.multi-select-selected .multi-select-option-radio,
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-all.multi-select-selected .multi-select-option-radio {
+  border-color: #40c979;
+  background-color: #40c979;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-option.multi-select-selected .multi-select-option-radio::after,
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-all.multi-select-selected .multi-select-option-radio::after {
+  content: "";
+  display: block;
+  width: 3px;
+  height: 7px;
+  margin: 0.12em 0 0 0.27em;
+  border: solid #fff;
+  border-width: 0 0.15em 0.15em 0;
+  transform: rotate(45deg);
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-option.multi-select-selected .multi-select-option-text,
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-all.multi-select-selected .multi-select-option-text {
+  color: #40c979;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-option:hover,
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-option:active,
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-all:hover,
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-all:active {
+  background-color: #f3f4f7;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-all {
+  border-bottom: 1px solid #f1f3f5;
+  border-radius: 0;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-search {
+  padding: 7px 10px;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  margin: 10px 10px 5px 10px;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-options .multi-select-search::placeholder {
+  color: #b2b5b9;
+}
+.GDSA.sheet.characterSheet .multi-select .multi-select-header,
+.GDSA.sheet.characterSheet .multi-select .multi-select-option,
+.GDSA.sheet.characterSheet .multi-select .multi-select-all {
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: 16px;
+  color: #212529;
+}
 .mediOpt {
   width: 232px;
 }
@@ -1769,6 +1955,180 @@
   background-color: #1d66ec;
   color: white;
 }
+.GDSA.sheet.npcSheet .trait-mtras {
+  background-color: #2892f6;
+  color: white;
+}
+.GDSA.sheet.npcSheet .trait-sizes {
+  background-color: #b51ffa;
+  color: #000000;
+}
+.GDSA.sheet.npcSheet .trait-resis {
+  background-color: #c9bc08;
+  color: white;
+}
+.GDSA.sheet.npcSheet .trait-verwe {
+  background-color: #e61bca;
+  color: #000000;
+}
+.GDSA.sheet.npcSheet .multi-select {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  user-select: none;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-header {
+  border: 1px solid #dee2e6;
+  padding: 7px 30px 7px 12px;
+  overflow: hidden;
+  gap: 7px;
+  min-height: 45px;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-header::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23949ba3' viewBox='0 0 16 16'%3E%3Cpath d='M8 13.1l-8-8 2.1-2.2 5.9 5.9 5.9-5.9 2.1 2.2z'/%3E%3C/svg%3E");
+  height: 12px;
+  width: 12px;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-header.multi-select-header-active {
+  border-color: #c1c9d0;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-header.multi-select-header-active::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-header.multi-select-header-active + .multi-select-options {
+  display: flex;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-header .multi-select-header-placeholder {
+  color: #65727e;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-header .multi-select-header-option {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-header .multi-select-header-max {
+  font-size: 14px;
+  color: #65727e;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-options {
+  display: none;
+  box-sizing: border-box;
+  flex-flow: wrap;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  margin-top: 5px;
+  padding: 5px;
+  background: #dfdfdf;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-height: 185px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-options::-webkit-scrollbar {
+  width: 5px;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-options::-webkit-scrollbar-track {
+  background: #f0f1f3;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-options::-webkit-scrollbar-thumb {
+  background: #cdcfd1;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-options::-webkit-scrollbar-thumb:hover {
+  background: #b2b6b9;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-option,
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-all {
+  padding: 4px 12px;
+  height: 24px;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-option .multi-select-option-radio,
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-all .multi-select-option-radio {
+  margin-right: 14px;
+  height: 16px;
+  width: 16px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-option .multi-select-option-text,
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-all .multi-select-option-text {
+  box-sizing: border-box;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+  font-size: 12px;
+  line-height: 14px;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-option.multi-select-selected .multi-select-option-radio,
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-all.multi-select-selected .multi-select-option-radio {
+  border-color: #40c979;
+  background-color: #40c979;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-option.multi-select-selected .multi-select-option-radio::after,
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-all.multi-select-selected .multi-select-option-radio::after {
+  content: "";
+  display: block;
+  width: 3px;
+  height: 7px;
+  margin: 0.12em 0 0 0.27em;
+  border: solid #fff;
+  border-width: 0 0.15em 0.15em 0;
+  transform: rotate(45deg);
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-option.multi-select-selected .multi-select-option-text,
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-all.multi-select-selected .multi-select-option-text {
+  color: #40c979;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-option:hover,
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-option:active,
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-all:hover,
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-all:active {
+  background-color: #f3f4f7;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-all {
+  border-bottom: 1px solid #f1f3f5;
+  border-radius: 0;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-search {
+  padding: 7px 10px;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  margin: 10px 10px 5px 10px;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-options .multi-select-search::placeholder {
+  color: #b2b5b9;
+}
+.GDSA.sheet.npcSheet .multi-select .multi-select-header,
+.GDSA.sheet.npcSheet .multi-select .multi-select-option,
+.GDSA.sheet.npcSheet .multi-select .multi-select-all {
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: 16px;
+  color: #212529;
+}
 .GDSA.sheet.itemSheet .centered {
   text-align: center;
 }
@@ -1801,6 +2161,34 @@
   width: 375px;
   height: 55px;
   float: left;
+}
+.GDSA.sheet.itemSheet .itemMenu1 {
+  width: 100px;
+  height: 22px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .itemMenu2 {
+  width: 194px;
+  height: 22px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .itemMenu3 {
+  width: 285px;
+  height: 22px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .itemMenu4 {
+  width: 378px;
+  height: 22px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .itemNotesOut {
+  height: 300px;
+  width: 408px;
+}
+.GDSA.sheet.itemSheet .itemNotesIn {
+  height: 200px;
+  width: 380px;
 }
 .GDSA.sheet.itemSheet .itemDescBox {
   width: 450px;
@@ -1969,9 +2357,20 @@
   float: left;
   margin-right: 15px;
 }
+.GDSA.sheet.itemSheet .input100g {
+  width: 100px;
+  margin-right: 30px;
+}
 .GDSA.sheet.itemSheet .input100f {
   width: 245px;
   float: left;
+}
+.GDSA.sheet.itemSheet .input100h {
+  width: 64px;
+  text-align: center;
+  float: left;
+  margin-right: 2px;
+  margin-bottom: 5px;
 }
 .GDSA.sheet.itemSheet .input95 {
   width: 95px;
@@ -1994,6 +2393,13 @@
   margin-left: 30px;
   margin-right: 75px;
   margin-bottom: 5px;
+}
+.GDSA.sheet.itemSheet .input70sb {
+  width: 195px;
+  margin-left: 30px;
+  margin-right: 75px;
+  margin-bottom: 5px;
+  padding-left: 8px;
 }
 .GDSA.sheet.itemSheet .input70sa {
   width: 195px;
@@ -2381,6 +2787,11 @@
   float: left;
   width: 80px;
 }
+.GDSA.sheet.itemSheet .spHelper32 {
+  float: left;
+  width: 40px;
+  margin: 0px 11px;
+}
 .GDSA.sheet.itemSheet .spHelper4 {
   float: left;
   width: 49px;
@@ -2405,6 +2816,10 @@
   width: 80px;
   margin-right: 10px;
   margin-left: 23px;
+}
+.GDSA.sheet.itemSheet .spHelper55 {
+  width: 160px;
+  margin-right: 10px;
 }
 .GDSA.sheet.itemSheet .spHelper6 {
   float: left;
@@ -2489,6 +2904,28 @@
   height: 20px;
   float: left;
 }
+.GDSA.sheet.itemSheet .spHelper25 {
+  float: left;
+  width: 105px;
+  margin-right: 56px;
+}
+.GDSA.sheet.itemSheet .spHelper26 {
+  float: left;
+  width: 115px;
+  margin-right: 10px;
+}
+.GDSA.sheet.itemSheet .spHelper27 {
+  float: left;
+  width: 55px;
+  text-align-last: end;
+  margin-right: 21px;
+}
+.GDSA.sheet.itemSheet .spHelper28 {
+  float: left;
+  width: 47px;
+  text-align-last: end;
+  margin-right: 29px;
+}
 .GDSA.sheet.itemSheet .tempHelper1 {
   height: 1250px;
   width: 80%;
@@ -2550,15 +2987,21 @@
   margin-top: 11px;
   font-weight: bold;
 }
-.GDSA.sheet.itemSheet .spell-tabs {
-  display: contents;
-}
 .GDSA.sheet.itemSheet .spellModiBox {
   width: 130px;
   float: left;
 }
+.GDSA.sheet.itemSheet .spellModiBoxEnd {
+  width: 120px;
+  float: left;
+}
+.GDSA.sheet.itemSheet .spellModiBoxFiller {
+  width: 26px;
+  height: 45px;
+  float: left;
+}
 .GDSA.sheet.itemSheet .spellLine {
-  width: 375px;
+  width: 400px;
   float: left;
   margin-top: 8px;
   margin-bottom: 8px;
@@ -2653,6 +3096,12 @@
   margin-left: 105px;
   margin-right: 0px;
   margin-bottom: 5px;
+}
+.GDSA.sheet.itemSheet .effect {
+  display: flex;
+}
+.GDSA.sheet.itemSheet .effect-name {
+  width: 180px;
 }
 .spellvariInput {
   margin-left: 44px;
@@ -2954,6 +3403,13 @@
   text-align: center;
   font-weight: bold;
 }
+.prosemirror {
+  height: 280px;
+  --color-control-bg: #d9d8c8;
+  --color-hover-bg: #f0f0e0;
+  --menu-height: 26px;
+  --menu-background: rgba(0, 0, 0, 0.1);
+}
 .GDSA.chat.message .infoBox {
   font-size: 15px;
   padding-top: 8px;
@@ -2979,7 +3435,7 @@
   font-family: MasonSerifBold;
   src: url('fonts/mason-serif-bold.otf') format('opentype');
   text-align: center;
-  padding-top: 2px;
+  padding-top: 4px;
 }
 .GDSA.chat.message .spellHeader {
   float: left;
@@ -2989,7 +3445,7 @@
 .GDSA.chat.message .spellInfo {
   float: left;
   height: 80px;
-  width: 188px;
+  width: 187px;
   padding-top: 10px;
 }
 .GDSA.chat.message .spellImg {
@@ -3280,6 +3736,14 @@
 #chat-log {
   scrollbar-width: thin;
 }
+.itemNotesOut {
+  height: 500px;
+  width: 450px;
+}
+.itemNotesIn {
+  height: 490px;
+  width: 440px;
+}
 .cbt-Box {
   height: 40px;
   width: 298px;
@@ -3467,4 +3931,40 @@
   font-size: 11px;
   padding-top: 2px;
   margin-top: 11px;
+}
+.buff-hud {
+  position: fixed;
+  right: 320px;
+  top: 25px;
+  padding: 0px;
+  min-height: 180px;
+  max-width: 260px;
+  overflow: hidden;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+.buffSpan {
+  float: right;
+}
+.buffLine {
+  float: right;
+  width: 260px;
+  height: 135px;
+  display: block;
+}
+.testBuff {
+  background: black;
+  width: 40px;
+  height: 40px;
+  border: 2px solid red;
+  border-radius: 9px;
+  background: url(/icons/skills/wounds/bone-broken-marrow-red.webp);
+  background-size: contain;
+  font-size: 22px;
+  color: #fdf3a3;
+  text-align: right;
+  padding-top: 13px;
+  padding-right: 4px;
+  -webkit-text-stroke: 1px black;
 }

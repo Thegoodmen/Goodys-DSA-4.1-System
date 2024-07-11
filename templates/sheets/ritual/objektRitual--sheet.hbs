@@ -1,0 +1,40 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+    <div class="browserImgBox3"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
+
+    <div class="ritHelper7">
+        <div class="spHelper1"><b>{{localize "GDSA.itemsheet.name"}}</b></div>
+        <div class="spHelper4"><b>{{localize "GDSA.template.type"}}</b></div>
+        <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
+        <div class="spHelper3">
+            <select class="spHelper5" name="system.type">{{selectOptions config.ritTypes selected=system.type blank="" localize=true}}</select>
+        </div>
+    </div>
+
+    <div class="itemRow3">
+        <div class="spHelper25"><b>{{localize "GDSA.templates.prereq"}}</b></div>
+        <div class="spHelper27"><b>{{localize "GDSA.itemsheet.activ"}}</b></div>
+        <div class="spHelper4"><b>{{localize "GDSA.itemsheet.verb"}}</b></div>
+        <div class="spHelper4"><b>{{localize "GDSA.templates.pdf"}}</b></div>
+        <div class="spHelper1">
+            <div class="spHelper19"><input class="spHelper55" name="system.prereq" type="text" value="{{system.prereq}}" /></div>
+            <div class="spHelper19"><input class="spHelper10" name="system.isActiv" type="checkbox" {{checked system.isActiv}} /></div>
+            <div class="spHelper19"><input class="spHelper3" name="system.vRit" type="number" value="{{system.vRit}}" /></div>
+        </div>
+        <div class="spHelper19"><input class="spHelper5" name="system.wdzPage" type="text" value="{{system.wdzPage}}" /></div>
+    </div>
+
+    <div class="itemMenu1">
+        <nav class="tabs nav spell-tabs" data-group="spell">
+            <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.system.general"}}</div></a>
+        </nav>
+    </div>
+
+    <div class="spellMenuBox">
+	    <section class="spell-body">
+            <div class="tab spellDetails" data-group="spell" data-tab="spellDetails"></div>
+        </section>
+    </div>
+
+    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+</form>

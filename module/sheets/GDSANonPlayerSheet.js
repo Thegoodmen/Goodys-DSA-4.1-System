@@ -1,5 +1,7 @@
 import * as Util from "../../Util.js";
 import * as LsFunction from "../listenerFunctions.js"
+import MultiSelect from "../apps/multiselect.js"
+import * as Dialog from "../dialog.js";
 
 export default class GDSANonPlayerSheet extends ActorSheet {
 
@@ -15,7 +17,7 @@ export default class GDSANonPlayerSheet extends ActorSheet {
         // #################################################################################################
         // #################################################################################################
 
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
 
             template: "systems/gdsa/templates/sheets/nonPlayer-sheet.hbs",
             width: 632,
@@ -53,9 +55,9 @@ export default class GDSANonPlayerSheet extends ActorSheet {
             // Create for each Item Type its own Array
 
             gifts: Util.getTemplateItems(baseData, "adva").concat(Util.getTemplateItems(baseData, "flaw")),
-            talents: Util.getItems(baseData, "talent", false),
-            weapons: Util.getItems(baseData, "simple-weapon",false),
-            traits: Util.getItems(baseData, "generalTrait",false)
+            talents: Util.getTemplateItems(baseData, "npct", false),
+            weapons: Util.getTemplateItems(baseData, "npcw",false),
+            casts: Util.getItems(baseData, "spell", false)
         };
 
         // Calculate Percent for Ressource Bars in Sheet and if no AsP / KaP grey out
@@ -104,7 +106,28 @@ export default class GDSANonPlayerSheet extends ActorSheet {
 
         if(! this.id.includes("Token")) new ContextMenu(html, ".item-context", LsFunction.getItemContextMenu());
 
+
+        html.find(".data-multi-select").each((i, li) => { new MultiSelect(li) });
+
         super.activateListeners(html);
+    }
+
+    _getHeaderButtons() {
+
+        const baseData = super._getHeaderButtons();
+
+        let notesBnt = {"class": "note-sheet", "icon": "fas fa-sheet-plastic", "label": "Notes", "onclick":  ev => this.openNotes(ev)};
+
+        let response = [notesBnt].concat(baseData);
+
+        return response;
+    }
+
+    async openNotes(ev) {
+
+        let newNote = await Dialog.editCharNotes({ "system": { "notes": this.sheet.system.note}});
+
+        this.sheet.system.note = newNote;
     }
 
 

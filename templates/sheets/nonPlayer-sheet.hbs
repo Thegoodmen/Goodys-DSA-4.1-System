@@ -103,14 +103,20 @@
 
             <div class="mainRow3">
                 <div class="subhead">{{localize "GDSA.charactersheet.talente"}}</div>
-                <div class="addItemBox"><a class="item-create" data-type="talent" title="{{localize "GDSA.charactersheet.addItem"}}">
+                <div class="addItemBox"><a class="template-create" data-type="npct" title="{{localize "GDSA.charactersheet.addItem"}}">
                     <i class="fas fa-plus plusSym2"></i>
                 </a></div>
                 <hr class="hrMenu3">
                 <div class="subrow2">       
                     {{#each talents as |talent id|}}
-                        <div class="item" data-item-id="{{_id}}" data-value="{{system.value}}" data-name="{{name}}">
-                        <a class="npc-roll"><div class="traitName item-context" data-item-id="{{_id}}">{{name}} {{system.value}}</div></a>
+                        <div class="item" data-item-id="{{_id}}" data-value="{{system.tale.taw}}" data-name="{{name}}">
+                        <a class="npc-roll"><div class="traitName item-context" data-item-id="{{_id}}">{{name}} {{system.tale.taw}}</div></a>
+                        <div class="cmbticon"><a class="item-edit" title="Edit"><i class="fas fa-gear faD20Stat"></i></a></div>
+                        <div class="cmbticon"><a class="item-delete" title="Delete"><i class="fas fa-trash-can faD20Stat"></i></a></div></div>
+                    {{/each}}
+                    {{#each casts as |talent id|}}
+                        <div class="item" data-item-id="{{_id}}" data-value="{{system.zfw}}" data-name="{{name}}">
+                        <a class="npc-roll"><div class="traitName item-context" data-item-id="{{_id}}">{{name}} {{system.zfw}}</div></a>
                         <div class="cmbticon"><a class="item-edit" title="Edit"><i class="fas fa-gear faD20Stat"></i></a></div>
                         <div class="cmbticon"><a class="item-delete" title="Delete"><i class="fas fa-trash-can faD20Stat"></i></a></div></div>
                     {{/each}}
@@ -126,7 +132,7 @@
             </a></div>
             <hr class="hrMenu2">
             {{#each weapons as |weapon id|}}
-                <div class="combatline item" data-item-id="{{_id}}" data-at="{{system.at}}" data-pa="{{system.pa}}" data-dmg="{{system.tp}}">
+                <div class="combatline item" data-item-id="{{_id}}" data-at="{{system.at}}" data-pa="{{system.pa}}" data-dmg="{{system.tp}}" data-name="{{name}}">
                     <div class="cmbtName">{{name}}</div>
                     <div class="cmbtlbl">{{localize "GDSA.itemsheet.at"}}</div>
                     <input class="cmbtInput" name="system.at" type="number" value="{{system.at}}" disabled/>
@@ -148,13 +154,10 @@
 
         <div class="mainColum3">
             <div class="subhead">{{localize "GDSA.charactersheet.spcmbt"}}</div>
-            <div class="addItemBox2"><a class="item-create" data-type="generalTrait" title="{{localize "GDSA.charactersheet.addItem"}}">
-                <i class="fas fa-plus plusSym2"></i>
-            </a></div>
             <hr class="hrMenu2">
-            {{#each traits as |trait id|}}
-                <div class="cmbtTrait item-context {{getTraitCSS name}}" data-item-id="{{_id}}">{{name}}</div>
-            {{/each}}
+            <select id="spezi" class="data-multi-select" name="spezi" data-placeholder="Select" data-select-all="false">
+                {{selectOptions config.npcSpecialSkills selected=system.spezi}}
+            </select>
         </div>
 
 

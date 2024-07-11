@@ -9,40 +9,49 @@
             "Stats": {
                 "MU": {
                     "value": 12,
-                    "temp": 0
+                    "temp": 0,
+                    "baseAnti": 0
                 },
                 "KL": {
                     "value": 12,
-                    "temp": 0
+                    "temp": 0,
+                    "baseAnti": 0
                 },
                 "IN": {
                     "value": 12,
-                    "temp": 0
+                    "temp": 0,
+                    "baseAnti": 0
                 },
                 "CH": {
                     "value": 12,
-                    "temp": 0
+                    "temp": 0,
+                    "baseAnti": 0
                 },
                 "FF": {
                     "value": 12,
-                    "temp": 0
+                    "temp": 0,
+                    "baseAnti": 0
                 },
                 "GE": {
                     "value": 12,
-                    "temp": 0
+                    "temp": 0,
+                    "baseAnti": 0
                 },
                 "KO": {
                     "value": 12,
-                    "temp": 0
+                    "temp": 0,
+                    "baseAnti": 0
                 },
                 "KK": {
                     "value": 12,
-                    "temp": 0
+                    "temp": 0,
+                    "baseAnti": 0
                 },
                 "GS": {
                     "value": 8,
                     "modi": 0,
-                    "temp": 0
+                    "temp": 0,
+                    "pen": 0
                 },
                 "LeP": {
                     "max": 0,
@@ -89,7 +98,8 @@
                 "INIBasis": {
                     "value": 0,
                     "modi": 0,
-                    "tempmodi": 0
+                    "tempmodi": 0,
+                    "sysModi": 0
                 },
                 "ATBasis": {
                     "value": 0,
@@ -171,6 +181,8 @@
             "equipINI": 0,
             "INIDice": "1d6",
             "editInv": false,
+            "simpleCheckPen": 0,
+            "fullCheckPen": 0,
             "AP": {
                 "value": 0,
                 "free": 0,
@@ -361,16 +373,10 @@
     "Item": {
         "types":[
             "Gegenstand",
-            "Template",
             "spell",
-            "wonder",
-            "ritual",
             "objektRitual",
-
-            "generalTrait",
-            "affiliation",
-            "simple-weapon",
-            "talent"
+            "wonder",
+            "Template"
         ],
         "templates": {
             "generalItems": {
@@ -382,9 +388,6 @@
                 "trait": "",
                 "size": 1,
                 "pAsP": 0
-            },
-            "trait":{
-                "value": 0
             }
         },
         "Gegenstand": {
@@ -392,102 +395,8 @@
             "type": "item",
             "quantity": 1
         },
-        "generals" : {
-            "templates": [
-                "generalItems"
-            ],
-            "type": "Wertgegenstand",
-            "quantity": 1
-        },
         "Template": {
-            "type": "none"
-        },
-        "melee-weapons": {
-            "templates": [
-                "generalItems"
-            ],
-            "type": "(Lang-)Schwert",
-            "skill": "sword",
-            "damage": "1d6 + 5",
-            "TPKK": "12/2",
-            "length": "100",
-            "BF-min": 1,
-            "BF-cur": 1,
-            "INI": 0,
-            "DK": "N",
-            "WM-ATK": 0,
-            "WM-DEF": 0,
-            "improvised": false,
-            "twohanded": false
-        },
-        "range-weapons": {
-            "templates": [
-                "generalItems"
-            ],
-            "type": "Langbogen",
-            "skill": "bow",
-            "damage": "1d6 + 6",
-            "range": "10/25/50/100/200",
-            "tp": "+3/+2/+1/0/-1",
-            "loadActions": "4"
-        },
-        "shields": {
-            "templates": [
-                "generalItems"
-            ],
-            "type": "Schild",
-            "heigt": "groß",
-            "WM-ATK": 0,
-            "WM-DEF": 0,
-            "BF-min": 1,
-            "BF-cur": 1,
-            "INI": 0
-        },
-        "armour": {
-            "templates": [
-                "generalItems"
-            ],
-            "type": "Kürass",
-            "head": 0,
-            "body": 0,
-            "back": 0,
-            "stomach": 0,
-            "rightarm": 0,
-            "leftarm": 0,
-            "rightleg": 0,
-            "leftleg": 0,
-            "star": 0,
-            "Z": false
-        },
-        "talent": {
-            "templates": [
-                "trait"
-            ]
-        },
-        "langu": {
-            "name": "Garethi",
-            "komp": 21,
-            "value": 0
-        },
-        "signs": {
-            "name": "Kusliker Zeichen",
-            "komp": 10,
-            "value": 0
-        },
-        "generalTrait": {
-            "name": "Kulturkunde: Mittelreich"
-        },
-        "combatTrait": {
-            "name": "Aufmerksamkeit"
-        },
-        "magicTrait": {
-            "name": "Verbotene Pforten"
-        },
-        "objectTrait": {
-            "name": "Stabzauber: Bindung"
-        },
-        "holyTrait": {
-            "name": "Karmalquest"
+            "type": "s"
         },
         "spell": {
             "name": "Blitz dich find",
@@ -525,19 +434,6 @@
             "diffrentCost": false,
             "vari": {}
         },
-        "ritual": {
-            "name": "Stab: Bindung",
-            "att1": "KL",
-            "att2": "KL",
-            "att3": "KL",
-            "skill": "gild",
-            "disad": 4,
-            "wdzPage": "0"
-        },
-        "ritualSkill": {
-            "skill": "gild",
-            "rkw": 0
-        },
         "objektRitual": {
             "vRit": 0,
             "creatTalent": "gild",
@@ -562,11 +458,8 @@
             "reach": "",
             "duration": "",
             "wdzPage": "",
-            "isActiv": false
-        },
-        "affiliation": {
-            "fontColo": "#ffffff",
-            "backgroundColor": "#000000"
+            "isActiv": false,
+            "type": ""
         },
         "wonder": {
             "grad": 2,
@@ -605,22 +498,6 @@
                 "Nam": false
             },
             "notes": ""
-        },
-        "simple-weapon": {
-            "at": 12,
-            "pa": 12,
-            "dk": "H",
-            "tp": "1d6 + 5",
-            "profan": true,
-            "magic": false,
-            "fire": false,
-            "ice": false,
-            "earth": false,
-            "plant": false,
-            "water": false,
-            "air": false,
-            "holy": false,
-            "tpa": false
         }
     }
 }

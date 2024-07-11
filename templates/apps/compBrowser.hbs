@@ -5,27 +5,10 @@
         <input class="browserMenuInput searchbar" id="menuSearch" type="text" name="search" value="{{search}}" /> 
 
         {{#if (equals type "spell")}}
-
             <div class="browserMenuEntry">{{localize "GDSA.itemsheet.trait"}}</div>
-
-            <select class="browserMenuInput" name="trait">
-                {{#select trait}}
-                    {{#each config.magicTraits as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>     
-
+            <select class="browserMenuInput" name="trait">{{selectOptions config.magicTraits selected=trait blank="" localize=true}}</select>  
             <div class="browserMenuEntry">{{localize "GDSA.trait.reps"}}</div>
-
-            <select class="browserMenuInput" name="rep">
-                {{#select rep}}
-                    {{#each config.magicReps as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
-
+            <select class="browserMenuInput" name="rep">{{selectOptions config.magicReps selected=rep blank="" localize=true}}</select>  
             <div class="browserMenuEntry">{{localize "GDSA.system.verbr"}}</div>
             <input id="menuVer" class="browserInput" name="V0" type="checkbox" {{checked v0}}/><div class="spellVMenu">0</div>
             <input id="menuVer" class="browserInput" name="V1" type="checkbox" {{checked v1}}/><div class="spellVMenu">1</div>
@@ -35,9 +18,7 @@
             <input id="menuVer" class="browserInput" name="V4" type="checkbox" {{checked v4}}/><div class="spellVMenu">4</div>
             <input id="menuVer" class="browserInput" name="V5" type="checkbox" {{checked v5}}/><div class="spellVMenu">5</div>
             <input id="menuVer" class="browserInput" name="V6" type="checkbox" {{checked v6}}/><div class="spellVMenu">6</div>
-
-            <div class="browserMenuEntry">{{localize "GDSA.charactersheet.komplex"}}</div>
-            <div class="spellVSpacer"></div>
+            <div class="browserMenuEntry">{{localize "GDSA.charactersheet.komplex"}}</div><div class="spellVSpacer"></div>
             <input id="menuVer" class="browserInput" name="KA" type="checkbox" {{checked kA}}/><div class="spellVMenu">A</div>
             <input id="menuVer" class="browserInput" name="KB" type="checkbox" {{checked kB}}/><div class="spellVMenu">B</div>
             <input id="menuVer" class="browserInput" name="KC" type="checkbox" {{checked kC}}/><div class="spellVMenu">C</div>
@@ -49,75 +30,28 @@
 
 
         {{#if (equals type "melee-weapons")}}
-
             <div class="browserMenuEntry">{{localize "GDSA.charactersheet.talent"}}</div>
-
-            <select class="browserMenuInput" name="skill">
-                <option value="none"></option>
-                {{#select skill}}
-                    {{#each template.talents.meele as |item|}}
-                        <option value="{{item._id}}">{{item.name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select> 
-
+            <select class="browserMenuInput" name="skill">{{selectOptions template.talents.meele selected=skill blank="" valueAttr="id" labelAttr="name" localize=true}}</select>
         {{/if}}
 
         {{#if (equals type "range-weapons")}}
-
             <div class="browserMenuEntry">{{localize "GDSA.charactersheet.talent"}}</div>
-
-            <select class="browserMenuInput" name="skill">
-                <option value="none"></option>
-                {{#select skill}}
-                    {{#each template.talents.range as |item|}}
-                        <option value="{{item._id}}">{{item.name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select> 
-
+            <select class="browserMenuInput" name="skill">{{selectOptions template.talents.range selected=skill blank="" valueAttr="id" labelAttr="name" localize=true}}</select>
         {{/if}}
 
         {{#if (equals type "armour")}}
-
             <div class="browserMenuEntry">{{localize "GDSA.charactersheet.armour"}}</div>
-
-            <select class="browserMenuInput" name="aPlace">
-                {{#select aPlace}}
-                    {{#each config.amourPlace as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select> 
-
+            <select class="browserMenuInput" name="aPlace">{{selectOptions config.amourPlace selected=aPlace blank="" localize=true}}</select>
         {{/if}}
 
         {{#if (equals type "objektRitual")}}
-
             <div class="browserMenuEntry">{{localize "GDSA.charactersheet.rit"}}</div>
-
-            <select class="browserMenuInput" name="rittSkill">
-                {{#select rittSkill}}
-                    {{#each config.ritualSkills as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select> 
-
+            <select class="browserMenuInput" name="rittSkill">{{selectOptions config.ritualSkills selected=rittSkill blank="" localize=true}}</select>
         {{/if}}       
 
         {{#if (equals type "wonder")}}
-
             <div class="browserMenuEntry">{{localize "GDSA.system.verbr"}}</div>
-
-            <select class="browserMenuInput" name="rep">
-                {{#select rep}}
-                    {{#each config.holyReps as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
-
+            <select class="browserMenuInput" name="rep">{{selectOptions config.holyReps selected=rep blank="" localize=true}}</select>
             <div class="browserMenuEntry">{{localize "GDSA.system.litGrad"}}</div>
             <div class="spellVSpacer"></div>
             <input id="menuVer" class="browserInput" name="KA" type="checkbox" {{checked kA}}/><div class="spellVMenu">I</div>
@@ -127,7 +61,6 @@
             <input id="menuVer" class="browserInput" name="KD" type="checkbox" {{checked kD}}/><div class="spellVMenu">IV</div>
             <input id="menuVer" class="browserInput" name="KE" type="checkbox" {{checked kE}}/><div class="spellVMenu">V</div>
             <input id="menuVer" class="browserInput" name="KF" type="checkbox" {{checked kF}}/><div class="spellVMenu">VI</div>
-
         {{/if}}    
 
     </div>

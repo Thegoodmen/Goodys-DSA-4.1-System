@@ -1,0 +1,61 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+    <div class="browserImgBox3"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
+
+    <div class="ritHelper7">
+        <div class="spHelper1">{{localize "GDSA.itemsheet.name"}}</div>
+        <div class="spHelper1"><input class="spHelper6" name="name" type="text" value="{{item.name}}" /></div>
+    </div>
+    
+    <div class="itemRow3">
+        <div class="spHelper8">{{localize "GDSA.itemsheet.lvl"}}</div>
+        <div class="spHelper3"><input class="spHelper3" name="system.grad" type="text" value="{{system.grad}}" /></div>
+        <div class="spHelper8">{{localize "GDSA.templates.pdf"}}</div>
+        <div class="spHelper3"><input class="spHelper3" name="system.lltPage" type="text" value="{{system.lltPage}}" /></div>
+        <div class="spHelper8">{{localize "GDSA.chat.medi.target"}}</div>
+        <div class="spHelper3"><select class="spHelper3" name="system.target">{{selectOptions config.wonderTarget selected=system.target blank=""}}</select></div>
+    </div>
+
+    <div class="itemMenu4">
+        <nav class="tabs nav spell-tabs" data-group="spell">
+            <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.templates.detail"}}</div></a>  
+            <a class="item" data-tab="spellVariants"><div class="spellMenu">{{localize "GDSA.system.verbr"}}</div></a>
+            <a class="item" data-tab="spellEffects"><div class="spellMenu">{{localize "GDSA.templates.effect"}}</div></a>
+            <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
+        </nav>
+    </div>
+
+    <div class="spellMenuBox2">
+	    <section class="spell-body">
+
+            <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
+                <div class="input100 spellName">{{localize "GDSA.chat.medi.ritDura"}}:</div>
+                <select class="input70sa" name="system.ritduaration">{{selectOptions config.wonderCastDuration selected=system.ritduaration blank="" localize=true}}</select>
+                <input class="ritHelper6" name="system.ritshortdura" type="text" value="{{system.ritshortdura}}" />
+                <div class="input100 spellName">{{localize "GDSA.chat.medi.wirkDur"}}:</div>
+                <select class="input70s" name="system.duration">{{selectOptions config.wonderDuration selected=system.duration blank=""}}</select>
+                <div class="input100 spellName">{{localize "GDSA.chat.medi.rangeH"}}:</div>
+                <select class="input70s" name="system.range">{{selectOptions config.wonderRange selected=system.range blank="" localize=true}}</select>
+                <div class="input100 spellName">{{localize "GDSA.chat.medi.streng"}}:</div>
+                <select class="input70s" name="system.power">{{selectOptions config.wonderPower selected=system.power blank=""}}</select>
+            </div>
+
+            <div class="tab spellVariants" data-group="spell" data-tab="spellVariants">
+                {{#each config.holyRepo as |name type|}}
+                    {{#if @last}}<div class="spHelper11"></div>{{/if}}<div class="spHelper9">{{localize name}}</div>
+                    <div class="spHelper10"><input class="mwHelper6" name="system.verb.{{type}}" type="checkbox" {{checked (getData ../system.verb type)}} /></div>
+                {{/each}}
+            </div>
+
+            <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
+                <div class="itemNotesOut">{{editor system.notes class="itemNotesIn" target="system.notes" button=true engine="prosemirror" collaborate=false}}</div>
+                <button class="noteBnt note-gm-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postGM"}}</button>
+                <button class="noteBnt note-all-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postAll"}}</button>
+            </div>
+        
+        </section>
+    </div>
+
+    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+
+</form>

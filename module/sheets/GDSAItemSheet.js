@@ -13,7 +13,7 @@ export default class GDSAItemSheet extends ItemSheet {
         // #################################################################################################
         // #################################################################################################
 
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
 
             width: 466,
             resizable: false,
@@ -24,10 +24,14 @@ export default class GDSAItemSheet extends ItemSheet {
 
     get template() {
 
-        if(this.item.type === "Template") return `systems/gdsa/templates/sheets/template/${this.item.type}-${this.item.system.type}-sheet.hbs`
-        if(this.item.type === "Gegenstand") return `systems/gdsa/templates/sheets/gegenstand/${this.item.type}-${this.item.system.type}-sheet.hbs`
+        let itemType = this.item.system.type;
 
-        return `systems/gdsa/templates/sheets/${this.item.type}-sheet.hbs`
+        if(itemType === "none") itemType = "";
+        if(this.item.type === "Template") return `systems/gdsa/templates/sheets/template/${this.item.type}-${itemType}-sheet.hbs`
+        if(this.item.type === "Gegenstand") return `systems/gdsa/templates/sheets/gegenstand/${this.item.type}-${itemType}-sheet.hbs`
+        if(this.item.type === "objektRitual") return `systems/gdsa/templates/sheets/ritual/${this.item.type}-${itemType}-sheet.hbs`
+
+        return `systems/gdsa/templates/sheets/items/${this.item.type}-sheet.hbs`
     }
 
     async getData() {
@@ -42,7 +46,12 @@ export default class GDSAItemSheet extends ItemSheet {
             system: baseData.item.system,
             config: CONFIG.GDSA,
             template: CONFIG.Templates,
-            templates: CONFIG.Templates
+            templates: CONFIG.Templates,
+            effects: baseData.item.effects,
+            selTalents: this.getSelectTalents(),
+            selTraits: this.getSelectTraits(),
+            selTalentN: this.getSelectTalentsN(),
+            setWeaponR: this.getWeaponRange(baseData.item.system)
         };
 
         if(sheetData.system.value > 0) {
@@ -83,8 +92,176 @@ export default class GDSAItemSheet extends ItemSheet {
             html.find(".deleteSpellVariants").click(LsFunction.deleteSpellVariants.bind(this,sheet));
             html.find(".note-gm-post").click(LsFunction.noteGMPost.bind(this, sheet));
             html.find(".note-all-post").click(LsFunction.noteAllPost.bind(this, sheet));
+
+            // Set Listener for Active Effects
+
+            html.find(".effect-control").click(this._onEffectControl.bind(this));
         }
 
         super.activateListeners(html);
     }
+
+    getSelectTalents() {
+
+        let response = {};
+
+        response["meele"] = "GDSA.charactersheet.-meeleSkills";
+
+        for (const element of CONFIG.Templates.talents.meele) response[element.name] = element.system.tale.DE;
+
+        response["none2"] = "";
+        response["range"] = "GDSA.charactersheet.-rangeSkills";
+
+        for (const element of CONFIG.Templates.talents.range) response[element.name] = element.system.tale.DE;
+
+        response["none3"] = "";
+        response["none4"] = "GDSA.charactersheet.-bodySkills";
+
+        for (const element of CONFIG.Templates.talents.body) response[element.name] = element.system.tale.DE;
+
+        response["none5"] = "";
+        response["none6"] = "GDSA.charactersheet.-socialSkills";
+
+        for (const element of CONFIG.Templates.talents.social) response[element.name] = element.system.tale.DE;
+
+        response["none7"] = "";
+        response["none8"] = "GDSA.charactersheet.-natureSkills";
+
+        for (const element of CONFIG.Templates.talents.nature) response[element.name] = element.system.tale.DE;
+
+        response["none9"] = "";
+        response["none10"] = "GDSA.charactersheet.-knowledgeSkills";
+
+        for (const element of CONFIG.Templates.talents.knowledge) response[element.name] = element.system.tale.DE;
+
+        response["none11"] = "";
+        response["none12"] = "GDSA.charactersheet.-craftSkills";
+
+        for (const element of CONFIG.Templates.talents.craft) response[element.name] = element.system.tale.DE;
+
+        response["none13"] = "";
+        response["none14"] = "GDSA.charactersheet.-addSkills";
+        response["Liturgiekenntnis"] = "GDSA.charactersheet.wonderskill";
+        response["Geister rufen"] = "GDSA.ritualSkills.gruf";
+        response["Geister bannen"] = "GDSA.ritualSkills.gban";
+        response["Geister binden"] = "GDSA.ritualSkills.gbin";
+        response["Geister aufnehmen"] = "GDSA.ritualSkills.gauf";
+
+        return response;
+    }
+
+    getSelectTalentsN() {
+
+        let response = {};
+
+        response["meele"] = "GDSA.charactersheet.-meeleSkills";
+
+        for (const element of CONFIG.Templates.talents.meele) response[element.name] = element.system.tale.DE;
+
+        response["none2"] = "";
+        response["range"] = "GDSA.charactersheet.-rangeSkills";
+
+        for (const element of CONFIG.Templates.talents.range) response[element.name] = element.system.tale.DE;
+
+        response["none3"] = "";
+        response["none4"] = "GDSA.charactersheet.-bodySkills";
+
+        for (const element of CONFIG.Templates.talents.body) response[element.name] = element.system.tale.DE;
+
+        response["none5"] = "";
+        response["none6"] = "GDSA.charactersheet.-socialSkills";
+
+        for (const element of CONFIG.Templates.talents.social) response[element.name] = element.system.tale.DE;
+
+        response["none7"] = "";
+        response["none8"] = "GDSA.charactersheet.-natureSkills";
+
+        for (const element of CONFIG.Templates.talents.nature) response[element.name] = element.system.tale.DE;
+
+        response["none9"] = "";
+        response["none10"] = "GDSA.charactersheet.-knowledgeSkills";
+
+        for (const element of CONFIG.Templates.talents.knowledge) response[element.name] = element.system.tale.DE;
+
+        response["none11"] = "";
+        response["none12"] = "GDSA.charactersheet.-craftSkills";
+
+        for (const element of CONFIG.Templates.talents.craft) response[element.name] = element.system.tale.DE;
+
+        return response;
+    }
+
+    getSelectTraits() {
+
+        let response = {};
+
+        response["none1"] = "GDSA.templates.-sfGeneral";
+
+        for (const element of CONFIG.Templates.traits.general) response[element.name] = element.system.tale.DE;
+
+        response["none2"] = "";
+        response["none3"] = "GDSA.templates.-sfCombat";
+
+        for (const element of CONFIG.Templates.traits.combat) response[element.name] = element.system.tale.DE;
+
+        response["none4"] = "";
+        response["none5"] = "GDSA.templates.-sfMagic";
+
+        for (const element of CONFIG.Templates.traits.magic) response[element.name] = element.system.tale.DE;
+
+        response["none6"] = "";
+        response["none7"] = "GDSA.templates.-sfHoly";
+
+        for (const element of CONFIG.Templates.traits.holy) response[element.name] = element.system.tale.DE;
+
+
+        return response;
+    }
+
+    
+
+    getWeaponRange(system) {
+
+        if(this.item.type != "Gegenstand") return {};
+        if(this.item.system.type != "range") return {};
+
+        let response = {};
+
+        response["2"]   = game.i18n.localize("GDSA.chat.rangeOpt.till") + system.weapon.range1 + game.i18n.localize("GDSA.chat.rangeOpt.meter");
+        response["0"]   = game.i18n.localize("GDSA.chat.rangeOpt.till") + system.weapon.range2 + game.i18n.localize("GDSA.chat.rangeOpt.meter");
+        response["-4"]  = game.i18n.localize("GDSA.chat.rangeOpt.till") + system.weapon.range3 + game.i18n.localize("GDSA.chat.rangeOpt.meter");
+        response["-8"]  = game.i18n.localize("GDSA.chat.rangeOpt.till") + system.weapon.range4 + game.i18n.localize("GDSA.chat.rangeOpt.meter");
+        response["-12"] = game.i18n.localize("GDSA.chat.rangeOpt.till") + system.weapon.range5 + game.i18n.localize("GDSA.chat.rangeOpt.meter");
+
+        return response;
+    }
+    
+    _onEffectControl(event) {
+
+        event.preventDefault();
+
+        const owner = this.item;
+        const a = event.currentTarget;
+        const li = a.closest("li");
+        const effect = li?.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null;
+
+        switch (a.dataset.action) {
+
+            case "create":
+                console.log(game);
+                return owner.createEmbeddedDocuments("ActiveEffect", [{
+                label: "New Effect",
+                icon: "icons/svg/aura.svg",
+                origin: owner.uuid,
+                disabled: true
+                }]);
+
+            case "edit":
+                return effect.sheet.render(true);
+
+            case "delete":
+                return effect.delete();
+        }
+    }
+
 }

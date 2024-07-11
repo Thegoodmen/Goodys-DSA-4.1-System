@@ -36,85 +36,33 @@
 
     <div class="form-group">
         <label>{{localize "GDSA.chat.skill.winds"}}</label>
-        <select name="winds">
-            {{#select winds}}
-                <option value="0" selected>{{localize "GDSA.chat.rangeOpt.noWind"}}</option>
-                <option value="-4">{{localize "GDSA.chat.rangeOpt.lightWind"}}</option>
-                <option value="-8">{{localize "GDSA.chat.rangeOpt.heavyWind"}}</option>
-            {{/select}}
-        </select>
+        <select name="winds">{{selectOptions config.rangeWinds selected=winds localize=true}}</select>
     </div>
     <div class="form-group">
         <label>{{localize "GDSA.chat.skill.sight"}}</label>
-        <select name="sight">
-            {{#select sight}}
-                <option value="0" selected>{{localize "GDSA.chat.rangeOpt.goodSight"}}</option>
-                <option value="-2">{{localize "GDSA.chat.rangeOpt.dust"}}</option>
-                <option value="-4">{{localize "GDSA.chat.rangeOpt.cloud"}}</option>
-                <option value="-2">{{localize "GDSA.chat.rangeOpt.evening"}}</option>
-                <option value="-4">{{localize "GDSA.chat.rangeOpt.moon"}}</option>
-                <option value="-6">{{localize "GDSA.chat.rangeOpt.star"}}</option>
-                <option value="-8">{{localize "GDSA.chat.rangeOpt.night"}}</option>
-                <option value="-8">{{localize "GDSA.chat.rangeOpt.invis"}}</option>
-            {{/select}}
-        </select>
+        <select name="sight">{{selectOptions config.rangeSight selected=sight localize=true}}</select>
     </div>
     <div class="form-group">
         <label>{{localize "GDSA.chat.skill.dista"}}</label>
-        <select name="dista">
-            {{#select dista}}
-                <option value="2">{{localize "GDSA.chat.rangeOpt.till"}} {{system.weapon.range1}} {{localize "GDSA.chat.rangeOpt.meter"}}</option>
-                <option value="0" selected>{{localize "GDSA.chat.rangeOpt.till"}} {{system.weapon.range2}} {{localize "GDSA.chat.rangeOpt.meter"}}</option>
-                <option value="-4">{{localize "GDSA.chat.rangeOpt.till"}} {{system.weapon.range3}} {{localize "GDSA.chat.rangeOpt.meter"}}</option>
-                <option value="-8">{{localize "GDSA.chat.rangeOpt.till"}} {{system.weapon.range4}} {{localize "GDSA.chat.rangeOpt.meter"}}</option>
-                <option value="-12">{{localize "GDSA.chat.rangeOpt.till"}} {{system.weapon.range5}} {{localize "GDSA.chat.rangeOpt.meter"}}</option>
-            {{/select}}
-        </select>   
+        <select name="dista">{{selectOptions setWeaponR selected=dista}}</select>
     </div>
     
     <div class="dialogFiller"></div>
 
     <div class="form-group">
         <label>{{localize "GDSA.chat.skill.movem"}}</label>
-        <select name="movem">
-            {{#select movem}}
-                <option value="4">{{localize "GDSA.chat.rangeOpt.screwed"}}</option>
-                <option value="2">{{localize "GDSA.chat.rangeOpt.still"}}</option>
-                <option value="0" selected>{{localize "GDSA.chat.rangeOpt.lightMovement"}}</option>
-                <option value="-2">{{localize "GDSA.chat.rangeOpt.movement"}}</option>
-                <option value="-4">{{localize "GDSA.chat.rangeOpt.fastMovement"}}</option>
-            {{/select}}
-        </select>        
+        <select name="movem">{{selectOptions config.rangeMovem selected=movem localize=true}}</select>     
     </div>
     <div class="form-group">
         <label>{{localize "GDSA.chat.skill.hida"}}</label>
-        <select name="hidea">
-            {{#select hidea}}
-                <option value="0" selected>{{localize "GDSA.chat.rangeOpt.noHide"}}</option>
-                <option value="-2">{{localize "GDSA.chat.rangeOpt.halfHide"}}</option>
-                <option value="-4">{{localize "GDSA.chat.rangeOpt.threeQuarterHide"}}</option>
-            {{/select}}
-        </select>   
+        <select name="hidea">{{selectOptions config.rangeHidea selected=hidea localize=true}}</select>  
     </div>
-    
     <div class="dialogFiller"></div>
-
     <div class="form-group">
         <label>{{localize "GDSA.chat.skill.sizeX"}}</label>
-        <select name="sizeX">
-            {{#select sizeX}}
-                <option value="-10">{{localize "GDSA.chat.rangeOpt.veryTiny"}}</option>
-                <option value="-8">{{localize "GDSA.chat.rangeOpt.tiny"}}</option>
-                <option value="-6">{{localize "GDSA.chat.rangeOpt.verySmall"}}</option>
-                <option value="-4">{{localize "GDSA.chat.rangeOpt.small"}}</option>
-                <option value="-2" selected>{{localize "GDSA.chat.rangeOpt.normal"}}</option>
-                <option value="0">{{localize "GDSA.chat.rangeOpt.tall"}}</option>
-                <option value="2">{{localize "GDSA.chat.rangeOpt.veryTall"}}</option>
-                <option value="2">{{localize "GDSA.chat.rangeOpt.huge"}}</option>
-            {{/select}}
-        </select>   
+        <select name="sizeX">{{selectOptions config.rangeSizeX selected=sizeX localize=true}}</select> 
     </div>
-    
+
     <div class="dialogFiller"></div>
 
     <div class="form-group subSub">

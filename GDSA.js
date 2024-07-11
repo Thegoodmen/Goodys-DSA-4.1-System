@@ -16,6 +16,7 @@ import HeldenImporter from "./module/apps/heldenImport.js";
 import * as Migration from "./module/apps/migration.js";
 import * as Template from "./module/apps/templates.js";
 import * as Dice from "./module/dice.js";
+import BuffHud from "./module/apps/buff-hud.js";
 
 Hooks.once("init", async () => {
 
@@ -67,12 +68,14 @@ Hooks.once("ready", async () => {
 
     Hooks.on("hotbarDrop", (bar, data, slot) => createGDSAMacro(data, slot));
 
+    game.gdsa.buffHud = new BuffHud();
+
     if(!game.user.isGM) return;
 
     const currentVersion = game.settings.get("gdsa", "systemMigrationVersion");
     const NEEDS_MIGRATION_VERSION = "1.0.0";
 
-    let needsMigration = !currentVersion || isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion);
+    let needsMigration = !currentVersion || foundry.utils.isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion);
 
     needsMigration = false;
 
@@ -110,6 +113,31 @@ Hooks.once("socketlib.ready", () => {
     GDSA.socket = socketlib.registerSystem("gdsa");
     GDSA.socket.register("adjustRessource", adjustRessource);
     GDSA.socket.register("sendToMemory", sendToMemory);
+});
+
+Hooks.on("updateActorDelta", (ActorDelta, data, time, userId) => {
+
+    if(data.system.LeP && ActorDelta.type === "PlayerCharakter") LsFunction.onActorLePChange(ActorDelta.parent)
+    if(data.system.AuP && ActorDelta.type === "PlayerCharakter") LsFunction.onActorAuPChange(ActorDelta.parent)
+
+    game.gdsa.buffHud.render();
+
+});
+
+Hooks.on("refreshToken", (token, refresh) => {
+
+    game.gdsa.buffHud?.render();
+
+});
+
+Hooks.on("controlToken", (token, isSelected) => {
+
+    let selEffects = false;
+    if(isSelected) selEffects = token;
+
+    game.gdsa.buffHud.setSelectedEffects(selEffects);
+    game.gdsa.buffHud.render();
+
 });
 
 function registerSystemSettings() {
@@ -167,9 +195,6 @@ function preloadHandlebarsTemplates() {
         "systems/gdsa/templates/partials/character-sheet-holyMirikal.hbs",
         "systems/gdsa/templates/partials/character-sheet-holyGeneral.hbs",
         "systems/gdsa/templates/partials/character-sheet-holyWonder.hbs",
-        "systems/gdsa/templates/partials/item-sheet-selectTalents.hbs",
-        "systems/gdsa/templates/partials/item-sheet-selectAttributes.hbs",
-        "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs",
         "systems/gdsa/templates/sheets/charakter-view.hbs"
     ];
     
@@ -212,6 +237,21 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("getSkillFromTemp", function(id) { return CONFIG.Templates.talents.all.filter(function(item) {return item._id === id})[0].system.tale[game.settings.get("core", "language").toUpperCase()]});
 
+    Handlebars.registerHelper('for', function(from, to, incr, content) {
+
+        let result = "";
+
+        for(let i = from; i < to; i += incr)
+            result += content.fn(i);
+
+        return result;
+    });
+
+    Handlebars.registerHelper("getNumber", function(name) {
+
+        return "I".repeat((name.match(/I/g) || []).length);
+    });
+    
     Handlebars.registerHelper("getRitData", function(object1, value1) {
         
         let fullValue = "rit" + value1; 
@@ -323,7 +363,7 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("getTraitCSS", function(value) {
 
-        if(value.includes("Gegner")) return "trait-type";
+        if(value.includes("cmbt")) return "trait-type";
         if(value.includes("Immunität")) return "trait-immu";
         if(value.includes("Ressistenz")) return "trait-ressi";
         if(value.includes("Empfindlichkeit")) return "trait-vunalb";
@@ -500,6 +540,58 @@ function registerHandelbarsHelpers() {
         else if (name.split(" ").includes("XV")) return true;
         else return false;
 
+    });
+
+    Handlebars.registerHelper("getSchamAtt", function(tale, count) {
+        
+        switch (tale) {
+            case "gban":
+                switch (count) {
+                    case 1:
+                        return "MU";
+                    case 2:
+                        return "CH";
+                    case 3:
+                        return "KK";
+                    default:
+                        return "";
+                }
+            case "gruf":
+                switch (count) {
+                    case 1:
+                        return "MU";
+                    case 2:
+                        return "IN";
+                    case 3:
+                        return "CH";
+                    default:
+                        return "";
+                }
+            case "gbin":
+                switch (count) {
+                    case 1:
+                        return "KL";
+                    case 2:
+                        return "IN";
+                    case 3:
+                        return "CH";
+                    default:
+                        return "";
+                }
+            case "gauf":
+                switch (count) {
+                    case 1:
+                        return "MU";
+                    case 2:
+                        return "IN";
+                    case 3:
+                        return "KO";
+                    default:
+                        return "";
+                }
+            default:
+                return "";
+        }
     });
 
     Handlebars.registerHelper("isSleeping", function(sf, char) {

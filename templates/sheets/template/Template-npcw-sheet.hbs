@@ -1,0 +1,51 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+    <div class="browserImgBox4"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
+
+    <div class="ritHelper20">
+        <div class="spHelper1"><b>{{localize "GDSA.itemsheet.name"}}</b></div>
+        <div class="spHelper4"><b>{{localize "GDSA.template.type"}}</b></div>
+        <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
+        <div class="spHelper3">
+            <select class="spHelper5" name="system.type">{{selectOptions config.tempTypes selected=system.type blank="" localize=true}}</select>
+        </div>
+    </div>   
+
+    <div class="itemMenu2">
+        <nav class="tabs nav spell-tabs" data-group="spell">
+            <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>
+            <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
+        </nav>
+    </div>
+    
+    <div class="spellMenuBox">
+	    <section class="spell-body">
+
+            <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
+
+                <div class="input100 spellName">{{localize "GDSA.trait.mAttacks"}}:</div>
+                <input class="input85s" name="system.at" type="number" value="{{system.at}}" />
+                <div class="input100 spellName">{{localize "GDSA.trait.mParrys"}}:</div>
+                <input class="input85s" name="system.pa" type="number" value="{{system.pa}}" />
+                <div class="input100 spellName">{{localize "GDSA.templates.DK"}}:</div>
+                <input class="input85s" name="system.dk" type="text" value="{{system.dk}}" />
+                <div class="input100 spellName">{{localize "GDSA.itemsheet.damage"}}:</div>
+                <input class="input85s" name="system.tp" type="text" value="{{system.tp}}" />
+
+            </div>
+
+            <div class="tab spellVariants" data-group="spell" data-tab="spellVariants"></div>
+            
+            <div class="tab spellEffects" data-group="spell" data-tab="spellEffects"></div>
+            
+            <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
+                <div class="itemNotesOut">{{editor system.notes class="itemNotesIn" target="system.notes" button=true engine="prosemirror" collaborate=false}}</div>
+                <button class="noteBnt note-gm-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postGM"}}</button>
+                <button class="noteBnt note-all-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postAll"}}</button>
+            </div>
+
+        </section>
+    </div>
+ 
+    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+</form>

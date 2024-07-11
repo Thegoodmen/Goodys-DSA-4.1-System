@@ -7,13 +7,7 @@
         <div class="spHelper4"><b>{{localize "GDSA.template.type"}}</b></div>
         <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
         <div class="spHelper3">
-            <select class="spHelper5" name="system.type">
-                {{#select system.type}}
-                    {{#each config.tempTypes as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
+            <select class="spHelper5" name="system.type">{{selectOptions config.tempTypes selected=system.type blank="" localize=true}}</select>
         </div>
     </div>
 
@@ -37,443 +31,65 @@
         </div>
     </div>
 
-    <nav class="tabs nav spell-tabs" data-group="spell">
-        <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>
-        <a class="item" data-tab="spellVariants"><div class="spellMenu">{{localize "GDSA.template.localize"}}</div></a>
-        <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
-    </nav>
+    <div class="itemMenu3">
+        <nav class="tabs nav spell-tabs" data-group="spell">
+            <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>
+            <a class="item" data-tab="spellVariants"><div class="spellMenu">{{localize "GDSA.template.localize"}}</div></a>
+            <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
+        </nav>
+    </div>
 
     <div class="spellMenuBox">
 	    <section class="spell-body">
+
             <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
-
                 <div class="spellLine">{{localize "GDSA.template.requierment"}}:</div>
-                
-                <select class="spHelper53" name="system.trait.requ.type1">
-                    {{#select system.trait.requ.type1}}
-                        <option value=""></option>
-                        <option value="attribut">{{localize "GDSA.templates.attribut"}}</option>
-                        <option value="talent">{{localize "GDSA.templates.tal"}}</option>
-                        <option value="trait">{{localize "GDSA.templates.sf"}}</option>
-                        <option value="advantage">{{localize "GDSA.templates.adva"}}</option>
-                        <option value="flaw">{{localize "GDSA.templates.flaw"}}</option>
-                    {{/select}}
-                </select>
-
-                <select class="input105s" name="system.trait.requ.tale1">
-                    {{#select system.trait.requ.tale1}}
-                        {{#if (equals system.trait.requ.type1 "attribut")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectAttributes.hbs" this}}
+                {{#for 1 10 1}}
+                    <select class="spHelper53" name="system.trait.requ.type{{this}}">
+                        {{selectOptions ../config.requtype selected=(getData ../system.trait.requ (concat "type" this "")) blank="" localize=true}}
+                    </select>
+                    <select class="input105s" name="system.trait.requ.tale{{this}}">
+                        {{#if (equals (getData ../system/trait/requ (concat "type" this "")) "attribut")}}
+                            {{selectOptions ../config.requatt selected=(getData ../system.trait.requ (concat "tale" this "")) blank="" localize=true}}
                         {{/if}}
-                        {{#if (equals system.trait.requ.type1 "talent")}}
-				            {{> "systems/gdsa/templates/partials/item-sheet-selectTalents.hbs" this}}
+                        {{#if (equals (getData ../system/trait/requ (concat "type" this "")) "talent")}}
+                            {{selectOptions ../selTalents selected=(getData ../system.trait.requ (concat "tale" this "")) blank="" localize=true}}
                         {{/if}}
-                        {{#if (equals system.trait.requ.type1 "trait")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs" this}}
+                        {{#if (equals (getData ../system/trait/requ (concat "type" this "")) "trait")}}
+                            {{selectOptions ../selTraits selected=(getData ../system.trait.requ (concat "tale" this "")) blank="" localize=true}}
                         {{/if}}
-                        {{#if (equals system.trait.requ.type1 "advantage")}}
-                            <option value="none"></option>
-                            {{#each templates.advantage.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
+                        {{#if (equals (getData ../system/trait/requ (concat "type" this "")) "advantage")}}
+                            {{selectOptions ../templates/advantage/all selected=(getData ../system.trait.requ (concat "tale" this "")) blank="" valueAttr="name" labelAttr="name"}}
                         {{/if}}
-                        {{#if (equals system.trait.requ.type1 "flaw")}}
-                            <option value="none"></option>
-                            {{#each templates.flaw.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
+                        {{#if (equals (getData ../system/trait/requ (concat "type" this "")) "flaw")}}
+                            {{selectOptions ../templates/flaw/all selected=(getData ../system.trait.requ (concat "tale" this "")) blank="" valueAttr="name" labelAttr="name"}}
                         {{/if}}
-                    {{/select}}
-                </select>
-
-                <select class="spHelper52" name="system.trait.requ.condition1">
-                    {{#select system.trait.requ.condition1}}
-                        <option value="none"></option>
-                        <option value="requ">{{localize "GDSA.template.requ"}}</option>
-                        <option value="not">{{localize "GDSA.template.notrequ"}}</option>
-                    {{/select}}
-                </select>
-                
-                <select class="spHelper53" name="system.trait.requ.type2">
-                    {{#select system.trait.requ.type2}}
-                        <option value=""></option>
-                        <option value="attribut">{{localize "GDSA.templates.attribut"}}</option>
-                        <option value="talent">{{localize "GDSA.templates.tal"}}</option>
-                        <option value="trait">{{localize "GDSA.templates.sf"}}</option>
-                        <option value="advantage">{{localize "GDSA.templates.adva"}}</option>
-                        <option value="flaw">{{localize "GDSA.templates.flaw"}}</option>
-                    {{/select}}
-                </select>
-
-                <select class="input105s" name="system.trait.requ.tale2">
-                    {{#select system.trait.requ.tale2}}
-                        {{#if (equals system.trait.requ.type2 "attribut")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectAttributes.hbs" this}}
+                        {{#if (equals (getData ../system/trait/requ (concat "type" this "")) "spell")}}
+                            {{selectOptions ../templates/spell/all selected=(getData ../system.trait.requ (concat "tale" this "")) blank="" valueAttr="name" labelAttr="name"}}
                         {{/if}}
-                        {{#if (equals system.trait.requ.type2 "talent")}}
-				            {{> "systems/gdsa/templates/partials/item-sheet-selectTalents.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type2 "trait")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type2 "advantage")}}
-                            <option value="none"></option>
-                            {{#each templates.advantage.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type2 "flaw")}}
-                            <option value="none"></option>
-                            {{#each templates.flaw.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                    {{/select}}
-                </select>
-
-                <select class="spHelper52" name="system.trait.requ.condition2">
-                    {{#select system.trait.requ.condition2}}
-                        <option value="none"></option>
-                        <option value="requ">{{localize "GDSA.template.requ"}}</option>
-                        <option value="not">{{localize "GDSA.template.notrequ"}}</option>
-                    {{/select}}
-                </select>
-                
-                <select class="spHelper53" name="system.trait.requ.type3">
-                    {{#select system.trait.requ.type3}}
-                        <option value=""></option>
-                        <option value="attribut">{{localize "GDSA.templates.attribut"}}</option>
-                        <option value="talent">{{localize "GDSA.templates.tal"}}</option>
-                        <option value="trait">{{localize "GDSA.templates.sf"}}</option>
-                        <option value="advantage">{{localize "GDSA.templates.adva"}}</option>
-                        <option value="flaw">{{localize "GDSA.templates.flaw"}}</option>
-                    {{/select}}
-                </select>
-
-                <select class="input105s" name="system.trait.requ.tale3">
-                    {{#select system.trait.requ.tale3}}
-                        {{#if (equals system.trait.requ.type3 "attribut")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectAttributes.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type3 "talent")}}
-				            {{> "systems/gdsa/templates/partials/item-sheet-selectTalents.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type3 "trait")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type3 "advantage")}}
-                            <option value="none"></option>
-                            {{#each templates.advantage.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type3 "flaw")}}
-                            <option value="none"></option>
-                            {{#each templates.flaw.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                    {{/select}}
-                </select>
-
-                <select class="spHelper52" name="system.trait.requ.condition3">
-                    {{#select system.trait.requ.condition3}}
-                        <option value="none"></option>
-                        <option value="requ">{{localize "GDSA.template.requ"}}</option>
-                        <option value="not">{{localize "GDSA.template.notrequ"}}</option>
-                    {{/select}}
-                </select>
-                
-                <select class="spHelper53" name="system.trait.requ.type4">
-                    {{#select system.trait.requ.type4}}
-                        <option value=""></option>
-                        <option value="attribut">{{localize "GDSA.templates.attribut"}}</option>
-                        <option value="talent">{{localize "GDSA.templates.tal"}}</option>
-                        <option value="trait">{{localize "GDSA.templates.sf"}}</option>
-                        <option value="advantage">{{localize "GDSA.templates.adva"}}</option>
-                        <option value="flaw">{{localize "GDSA.templates.flaw"}}</option>
-                    {{/select}}
-                </select>
-
-                <select class="input105s" name="system.trait.requ.tale4">
-                    {{#select system.trait.requ.tale4}}
-                        {{#if (equals system.trait.requ.type4 "attribut")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectAttributes.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type4 "talent")}}
-				            {{> "systems/gdsa/templates/partials/item-sheet-selectTalents.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type4 "trait")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type4 "advantage")}}
-                            <option value="none"></option>
-                            {{#each templates.advantage.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type4 "flaw")}}
-                            <option value="none"></option>
-                            {{#each templates.flaw.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                    {{/select}}
-                </select>
-
-                <select class="spHelper52" name="system.trait.requ.condition4">
-                    {{#select system.trait.requ.condition4}}
-                        <option value="none"></option>
-                        <option value="requ">{{localize "GDSA.template.requ"}}</option>
-                        <option value="not">{{localize "GDSA.template.notrequ"}}</option>
-                    {{/select}}
-                </select>
-                
-                <select class="spHelper53" name="system.trait.requ.type5">
-                    {{#select system.trait.requ.type5}}
-                        <option value=""></option>
-                        <option value="attribut">{{localize "GDSA.templates.attribut"}}</option>
-                        <option value="talent">{{localize "GDSA.templates.tal"}}</option>
-                        <option value="trait">{{localize "GDSA.templates.sf"}}</option>
-                        <option value="advantage">{{localize "GDSA.templates.adva"}}</option>
-                        <option value="flaw">{{localize "GDSA.templates.flaw"}}</option>
-                    {{/select}}
-                </select>
-
-                <select class="input105s" name="system.trait.requ.tale5">
-                    {{#select system.trait.requ.tale5}}
-                        {{#if (equals system.trait.requ.type5 "attribut")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectAttributes.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type5 "talent")}}
-				            {{> "systems/gdsa/templates/partials/item-sheet-selectTalents.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type5 "trait")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type5 "advantage")}}
-                            <option value="none"></option>
-                            {{#each templates.advantage.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type5 "flaw")}}
-                            <option value="none"></option>
-                            {{#each templates.flaw.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                    {{/select}}
-                </select>
-
-                <select class="spHelper52" name="system.trait.requ.condition5">
-                    {{#select system.trait.requ.condition5}}
-                        <option value="none"></option>
-                        <option value="requ">{{localize "GDSA.template.requ"}}</option>
-                        <option value="not">{{localize "GDSA.template.notrequ"}}</option>
-                    {{/select}}
-                </select>
-                
-                <select class="spHelper53" name="system.trait.requ.type6">
-                    {{#select system.trait.requ.type6}}
-                        <option value=""></option>
-                        <option value="attribut">{{localize "GDSA.templates.attribut"}}</option>
-                        <option value="talent">{{localize "GDSA.templates.tal"}}</option>
-                        <option value="trait">{{localize "GDSA.templates.sf"}}</option>
-                        <option value="advantage">{{localize "GDSA.templates.adva"}}</option>
-                        <option value="flaw">{{localize "GDSA.templates.flaw"}}</option>
-                    {{/select}}
-                </select>
-
-                <select class="input105s" name="system.trait.requ.tale6">
-                    {{#select system.trait.requ.tale6}}
-                        {{#if (equals system.trait.requ.type6 "attribut")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectAttributes.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type6 "talent")}}
-				            {{> "systems/gdsa/templates/partials/item-sheet-selectTalents.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type6 "trait")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type6 "advantage")}}
-                            <option value="none"></option>
-                            {{#each templates.advantage.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type6 "flaw")}}
-                            <option value="none"></option>
-                            {{#each templates.flaw.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                    {{/select}}
-                </select>
-
-                <select class="spHelper52" name="system.trait.requ.condition6">
-                    {{#select system.trait.requ.condition6}}
-                        <option value="none"></option>
-                        <option value="requ">{{localize "GDSA.template.requ"}}</option>
-                        <option value="not">{{localize "GDSA.template.notrequ"}}</option>
-                    {{/select}}
-                </select>
-                
-                <select class="spHelper53" name="system.trait.requ.type7">
-                    {{#select system.trait.requ.type7}}
-                        <option value=""></option>
-                        <option value="attribut">{{localize "GDSA.templates.attribut"}}</option>
-                        <option value="talent">{{localize "GDSA.templates.tal"}}</option>
-                        <option value="trait">{{localize "GDSA.templates.sf"}}</option>
-                        <option value="advantage">{{localize "GDSA.templates.adva"}}</option>
-                        <option value="flaw">{{localize "GDSA.templates.flaw"}}</option>
-                    {{/select}}
-                </select>
-
-                <select class="input105s" name="system.trait.requ.tale7">
-                    {{#select system.trait.requ.tale7}}
-                        {{#if (equals system.trait.requ.type7 "attribut")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectAttributes.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type7 "talent")}}
-				            {{> "systems/gdsa/templates/partials/item-sheet-selectTalents.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type7 "trait")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type7 "advantage")}}
-                            <option value="none"></option>
-                            {{#each templates.advantage.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type7 "flaw")}}
-                            <option value="none"></option>
-                            {{#each templates.flaw.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                    {{/select}}
-                </select>
-
-                <select class="spHelper52" name="system.trait.requ.condition7">
-                    {{#select system.trait.requ.condition7}}
-                        <option value="none"></option>
-                        <option value="requ">{{localize "GDSA.template.requ"}}</option>
-                        <option value="not">{{localize "GDSA.template.notrequ"}}</option>
-                    {{/select}}
-                </select>
-                
-                <select class="spHelper53" name="system.trait.requ.type8">
-                    {{#select system.trait.requ.type8}}
-                        <option value=""></option>
-                        <option value="attribut">{{localize "GDSA.templates.attribut"}}</option>
-                        <option value="talent">{{localize "GDSA.templates.tal"}}</option>
-                        <option value="trait">{{localize "GDSA.templates.sf"}}</option>
-                        <option value="advantage">{{localize "GDSA.templates.adva"}}</option>
-                        <option value="flaw">{{localize "GDSA.templates.flaw"}}</option>
-                    {{/select}}
-                </select>
-
-                <select class="input105s" name="system.trait.requ.tale8">
-                    {{#select system.trait.requ.tale8}}
-                        {{#if (equals system.trait.requ.type8 "attribut")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectAttributes.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type8 "talent")}}
-				            {{> "systems/gdsa/templates/partials/item-sheet-selectTalents.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type8 "trait")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type8 "advantage")}}
-                            <option value="none"></option>
-                            {{#each templates.advantage.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type8 "flaw")}}
-                            <option value="none"></option>
-                            {{#each templates.flaw.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                    {{/select}}
-                </select>
-
-                <select class="spHelper52" name="system.trait.requ.condition8">
-                    {{#select system.trait.requ.condition8}}
-                        <option value="none"></option>
-                        <option value="requ">{{localize "GDSA.template.requ"}}</option>
-                        <option value="not">{{localize "GDSA.template.notrequ"}}</option>
-                    {{/select}}
-                </select>
-                
-                <select class="spHelper53" name="system.trait.requ.type9">
-                    {{#select system.trait.requ.type9}}
-                        <option value=""></option>
-                        <option value="attribut">{{localize "GDSA.templates.attribut"}}</option>
-                        <option value="talent">{{localize "GDSA.templates.tal"}}</option>
-                        <option value="trait">{{localize "GDSA.templates.sf"}}</option>
-                        <option value="advantage">{{localize "GDSA.templates.adva"}}</option>
-                        <option value="flaw">{{localize "GDSA.templates.flaw"}}</option>
-                    {{/select}}
-                </select>
-
-                <select class="input105s" name="system.trait.requ.tale9">
-                    {{#select system.trait.requ.tale9}}
-                        {{#if (equals system.trait.requ.type9 "attribut")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectAttributes.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type9 "talent")}}
-				            {{> "systems/gdsa/templates/partials/item-sheet-selectTalents.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type9 "trait")}}
-                            {{> "systems/gdsa/templates/partials/item-sheet-selectTraits.hbs" this}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type9 "advantage")}}
-                            <option value="none"></option>
-                            {{#each templates.advantage.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                        {{#if (equals system.trait.requ.type9 "flaw")}}
-                            <option value="none"></option>
-                            {{#each templates.flaw.all as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/if}}
-                    {{/select}}
-                </select>
-
-                <select class="spHelper52" name="system.trait.requ.condition9">
-                    {{#select system.trait.requ.condition9}}
-                        <option value="none"></option>
-                        <option value="requ">{{localize "GDSA.template.requ"}}</option>
-                        <option value="not">{{localize "GDSA.template.notrequ"}}</option>
-                    {{/select}}
-                </select>
-
+                    </select>
+                    <select class="spHelper52" name="system.trait.requ.condition{{this}}">
+                        {{selectOptions ../config/requCond selected=(getData ../system.trait.requ (concat "condition" this "")) blank="" localize=true}}
+                    </select>
+                {{/for}}
             </div>
 
             <div class="tab spellVariants" data-group="spell" data-tab="spellVariants">
-
                 <div class="input100 spellName">{{localize "GDSA.template.DE"}}:</div>
                 <input class="input85s" name="system.tale.DE" type="text" value="{{system.tale.DE}}" />
                 <div class="input100 spellName">{{localize "GDSA.template.EN"}}:</div>
                 <input class="input85s" name="system.tale.EN" type="text" value="{{system.tale.EN}}" />
-
             </div>
             
             <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
-
-                <textarea class="litNotes" name="system.tale.notes">{{system.tale.notes}}</textarea>
+                <div class="itemNotesOut">{{editor system.notes class="itemNotesIn" target="system.notes" button=true engine="prosemirror" collaborate=false}}</div>
                 <button class="noteBnt note-gm-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postGM"}}</button>
                 <button class="noteBnt note-all-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postAll"}}</button>
-
             </div>
+
         </section>
     </div>
 
     <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+    
 </form>

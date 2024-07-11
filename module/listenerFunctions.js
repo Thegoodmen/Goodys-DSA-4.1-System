@@ -50,9 +50,9 @@ export async function doSkillRoll(rollEvent) {
 
     // Set Stats for Skill Roll
 
-    let statOne = ( system[skillInfo.att1.toUpperCase()].value + system[skillInfo.att1.toUpperCase()].temp );
-    let statTwo = ( system[skillInfo.att2.toUpperCase()].value + system[skillInfo.att2.toUpperCase()].temp );
-    let statThree = ( system[skillInfo.att3.toUpperCase()].value + system[skillInfo.att3.toUpperCase()].temp );
+    let statOne = ( parseInt(system[skillInfo.att1.toUpperCase()].value) + parseInt(system[skillInfo.att1.toUpperCase()].temp));
+    let statTwo = ( parseInt(system[skillInfo.att2.toUpperCase()].value) + parseInt(system[skillInfo.att2.toUpperCase()].temp));
+    let statThree = ( parseInt(system[skillInfo.att3.toUpperCase()].value) + parseInt(system[skillInfo.att3.toUpperCase()].temp));
 
     // Check if Talentschub is present
 
@@ -118,6 +118,11 @@ export async function doSkillRoll(rollEvent) {
 
     let modif = parseInt(advantage) - parseInt(disadvantage);
     if(useBe) modif = modif - parseInt(beDisadvantage);
+
+    // Apply Penalty from low Health
+
+    modif -= parseInt(system.fullCheckPen);
+    if(system.fullCheckPen > 0)used.push(game.i18n.localize("GDSA.template.lowLeP") + " (+ " + system.fullCheckPen + ")")
 
     // Check if Talentschub should be rolled
 
@@ -198,6 +203,8 @@ export async function doSkillRoll(rollEvent) {
 
     let response = await Dice.skillCheck(showname, statvalue, statOne, statTwo, statThree, actor, actor.goofy, modif, optional);
     response.message.setFlag('gdsa', 'isCollapsable', true);
+
+    return response;
 }
 
 export async function onSpellRoll(data, event) {
@@ -255,7 +262,7 @@ export async function onSpellRoll(data, event) {
 
     // Preap General
 
-    if(item.system.rep === "none") ui.notifications.warn('Bitte eine Repräsentation im Zauber auswählen!')
+    if(item.system.rep === "none" || item.system.rep === "") ui.notifications.warn('Bitte eine Repräsentation im Zauber auswählen!')
 
     item.hasRep = data.system.Reps[item.system.rep];
     item.hasPowerC = (powerC.length !== 0);
@@ -572,6 +579,12 @@ export async function onSpellRoll(data, event) {
     
     let modif = parseInt(advantage) - parseInt(disadvantage);
 
+
+    // Apply Penalty from low Health
+
+    modif -= parseInt(system.fullCheckPen);
+    if(system.fullCheckPen > 0) usedVars.push(game.i18n.localize("GDSA.template.lowLeP") + " (+ " + system.fullCheckPen + ")")
+
     // Calculate min. Cost
 
     let minCost =  item.system.costs;
@@ -620,7 +633,6 @@ export async function onSpellRoll(data, event) {
     if (animag.length !== 0 && klamount > 0) usedVars.push(klamount + "x " + game.i18n.localize("GDSA.advantage.animag") + " " + animag[0].system.value + " (+ " + (klamount * animag[0].system.value) + ")");
     if (schaus.length !== 0 && chamount > 0) usedVars.push(chamount + "x " + game.i18n.localize("GDSA.advantage.schaus") + " " + schaus[0].system.value + " (+ " + (chamount * schaus[0].system.value) + ")");
     if (zoezau.length !== 0 && muamount > 0) usedVars.push(muamount + "x " + game.i18n.localize("GDSA.advantage.zoezau") + " " + zoezau[0].system.value + " (+ " + (muamount * zoezau[0].system.value) + ")");
-
 
     let optional = {
         template: "systems/gdsa/templates/chat/chatTemplate/spell-Cast-Roll.hbs",
@@ -764,6 +776,353 @@ export async function onSpellRoll(data, event) {
     }
 }
 
+export async function onRitualRoll(data, event) {
+
+    event.preventDefault();
+
+    // Get Element and Actor
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+
+    // Get Dataset from HTML
+
+    let dataset = element.closest(".item").dataset;
+
+    // Get Item
+
+    let item = actor.items.get(dataset.itemId);
+
+    // Check if Shift is presst for Skip Dialog
+
+    let options = event.shiftKey ? false : true;
+    let checkOptions = false;
+    let advantage = 0;
+    let disadvantage = 0;
+    let spellValue = 0;
+    let spellName = "";
+    let usedVars = [];
+    let usedVar = [];
+    let notEnoughAsP = false;
+
+    // Preap General
+
+    if(item.system.ritTalent === "none" || item.system.ritTalent === "") ui.notifications.warn('Bitte eine Repräsentation im Ritual auswählen!')
+
+    // Generate Dialog for Modifikations
+
+    if(options) {
+
+        checkOptions = await Dialog.GetRitualOptions(item);
+        
+        advantage = checkOptions.advantage;
+        disadvantage = checkOptions.disadvantage;
+        usedVars = checkOptions.used;
+    };
+
+    if (checkOptions.cancelled) return;
+
+    // Set ZfW of Spell
+
+    spellValue = dataset.ritknow;
+    spellName = dataset.statname;
+
+    let ritMod =  (item.system.disadv === "" || item.system.disadv === null) ? 0 : item.system.disadv;
+    let modif = parseInt(advantage) - parseInt(disadvantage) - parseInt(ritMod);
+
+    // Calculate min. Cost
+
+    let minCost =  item.system.aspCost === "" ? 0 : item.system.aspCost;
+    minCost = parseInt(minCost);
+    
+    if(minCost > actor.system.AsP.value) notEnoughAsP = true;
+
+    let optional = {
+        template: "systems/gdsa/templates/chat/chatTemplate/spell-Ritual-Roll.hbs",
+        config: GDSA,
+        item: item,
+        cost: minCost,
+        usedVar: usedVar,
+        usedVars: usedVars,
+        att1: item.system.att1,
+        att2: item.system.att2,
+        att3: item.system.att3,
+        notEnoughAsP: notEnoughAsP
+    };
+
+    optional.vari = (usedVar.length > 0);
+    optional.varis = (usedVars.length > 0);
+
+    // Execute Roll
+
+    let spellCheck = await Dice.skillCheck(dataset.statname, spellValue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif, optional);
+    spellCheck.message.setFlag('gdsa', 'isCollapsable', true);
+}
+
+export async function onSchamanRoll(data, event) {
+
+    event.preventDefault();
+
+    // Get Element and Actor
+
+    let element = event.currentTarget;
+    let actor = data.actor;
+
+    // Get Dataset from HTML
+
+    let dataset = element.closest(".item").dataset;
+
+    // Get Item
+
+    let item = actor.items.get(dataset.itemId);
+
+    // Check if Shift is presst for Skip Dialog
+
+    let options = event.shiftKey ? false : true;
+    let checkOptions = false;
+    let advantage = 0;
+    let disadvantage = 0;
+    let spellValue = 0;
+    let spellName = "";
+    let usedVars = [];
+    let usedVar = [];
+
+    let helperTal = [];
+    let modReach = false;
+    let modRitDur = false;
+    let modTarget = false;
+    let modDura = false;
+    
+    let notEnoughAsP = false;
+
+    // Preap General
+
+    if(item.system.skill === "none" || item.system.skill === "") {ui.notifications.warn('Bitte ein Talent im Ritual auswählen!'); return}
+
+    // Find what Type Schamen is Casting
+
+    let magigTraits = data.magicTraits.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.system.ritknow"))});
+
+    if(magigTraits.length === 0) { ui.notifications.warn('Bitte eine schamanische Ritualkenntnis im Charakter hinzufügen!'); return}
+
+    let schamType = "";
+
+    if (magigTraits.filter(function(item) {return item.name.includes("Waldmenschen")}).length > 0) schamType = "Wdm";
+    if (magigTraits.filter(function(item) {return item.name.includes("Utulu")}).length > 0) schamType = "Utu";
+    if (magigTraits.filter(function(item) {return item.name.includes("Tocamuyac")}).length > 0) schamType = "Toc";
+    if (magigTraits.filter(function(item) {return item.name.includes("Nivese")}).length > 0) schamType = "Niv";
+    if (magigTraits.filter(function(item) {return item.name.includes("Ork")}).length > 0) schamType = "Ork";
+    if (magigTraits.filter(function(item) {return item.name.includes("Goblin")}).length > 0) schamType = "Gob";
+    if (magigTraits.filter(function(item) {return item.name.includes("Gjalsker")}).length > 0) schamType = "Gja";
+    if (magigTraits.filter(function(item) {return item.name.includes("Ferkina")}).length > 0) schamType = "Fer";
+    if (magigTraits.filter(function(item) {return item.name.includes("Troll")}).length > 0) schamType = "Tzk";
+    if (magigTraits.filter(function(item) {return item.name.includes("Achaz")}).length > 0) schamType = "Ach";
+
+    item.schamType = schamType;
+
+    // Generate Dialog for Modifikations
+
+    if(options) {
+
+        item.config = GDSA;
+        checkOptions = await Dialog.GetSchamanOptions(item);
+
+        advantage = checkOptions.advantage;
+        disadvantage = checkOptions.disadvantage;
+        usedVars = checkOptions.used;
+        helperTal = checkOptions.helper;
+        modReach = checkOptions.reach;
+        modRitDur = checkOptions.ritdur;
+        modTarget = checkOptions.target;
+        modDura = checkOptions.wdura;
+
+    };
+
+    if (checkOptions.cancelled) return;
+
+    // Hilfstalente
+
+    let numOfHelper = helperTal.length;
+    let helperAdvantage = 0;
+    let helperDisadvantage = 0;
+    let helperModi = 0;
+
+    for (const help of helperTal) {
+
+        let rollEvent = {
+            name: help,
+            item: await getTalent(help),
+            actor: actor,
+            stat: actor.system.skill[help],
+            skipMenu: true
+        }
+  
+        let response = await doSkillRoll(rollEvent);
+        if(response.succ) helperAdvantage += parseInt(response.value);
+        else helperDisadvantage += 7;
+    }
+  
+    helperModi = (Math.round(helperAdvantage / numOfHelper) - helperDisadvantage) * -1;
+    let helperModString = helperModi > 0 ? "+ " + helperModi : helperModi.toString()[0] + " " + helperModi.toString().substring(1);
+    usedVars.push("Hilfstalent(e) (" + helperModString + ")");
+
+    // Calculate Castinduration
+
+    let action  = item.system.ritduaration;
+    let acount = item.system.ritshortdura;
+    let targets = item.system.target;
+    let wirkDur = parseInt(item.system.duration);
+    let grad = parseInt(item.system.grad);
+    let isAuf = false;
+
+    if(numOfHelper > 0) {
+
+        for (let index = 0; index < numOfHelper; index++) {
+            switch (action) {
+    
+                case "action":
+                    
+                    action = "rounds"
+                    break;
+    
+                case "rounds":
+                    
+                    action = "halfho";
+                    break;
+    
+                case "halfho":
+                    
+                    action = "hours";
+                    acount = 3;
+                    break;
+    
+                case "hours":
+                    
+                    action = "days";
+                    acount = 2;
+                    break;
+    
+                case "days":
+                    
+                    acount = parseInt(acount) * 2;
+                    break;
+            }
+        }
+
+    } else if(modRitDur) {
+
+        isAuf = true;
+        grad++;
+
+        used.push(game.i18n.localize("GDSA.chat.medi.incRit") + " (+ 1 Grad)");
+
+        switch (action) {
+
+            case "action":
+                
+                if ( acount != NaN )
+                    acount = parseInt(acount) / 2;
+                else
+                    acount = 20;
+                break;
+
+            case "rounds":
+                
+                action = "action";
+                acount = 20;
+                break;
+
+            case "halfho":
+                
+                action = "rounds";
+                break;
+
+            case "hours":
+                
+                action = "halfho";
+                break;
+
+            case "days":
+                
+                action = "hours";
+                acount = "";
+                break;
+        }
+    }
+
+    if (modReach) {
+        grad++;
+        used.push(game.i18n.localize("GDSA.chat.medi.incRea") + " (+ 1 Grad)");
+    }
+
+    if (modTarget) {
+        grad++;
+        used.push(game.i18n.localize("GDSA.chat.medi.incTar") + " (+ 1 Grad)");
+
+        if (targets === "G") targets = "P";
+        if (targets.includes("P")) targets = targets + "P";
+        if (targets.includes("Z")) targets = targets + "Z";
+    }
+
+    if (modDura) {
+        grad++;
+        used.push(game.i18n.localize("GDSA.chat.medi.incWDu") + " (+ 1 Grad)");
+        wirkDur++;
+    }
+
+    wirkDur = GDSA.schamRitDuration[wirkDur];
+    wirkDur = wirkDur.replace("RkP*", "").replace(" x 1", "");
+    let keuleAdv = data.objRituals.filter(function(item) {return item.name.includes("Hilfe der Keule")}).length;
+    if(keuleAdv > 0) used.push(game.i18n.localize("GDSA.chat.medi.incRea") + " (- " + keuleAdv + ")");
+    let gradDis = grad > 1 ? (grad - 1) * 2 : 0;
+
+    let optAnswer = await Dice.DMGRollWitoutChat(grad + "d6", actor, 1, true);
+
+    // Set ZfW of Spell
+
+    spellValue = dataset.ritknow;
+    spellName = dataset.statname;
+
+    let modif = parseInt(advantage) - parseInt(disadvantage) - parseInt(helperModi) + parseInt(keuleAdv) - parseInt(gradDis);
+
+    // Calculate min. Cost
+
+    let minCost =  item.system.aspCost === "" ? 0 : item.system.aspCost;
+    minCost = parseInt(minCost);
+    
+    if(minCost > actor.system.AsP.value) notEnoughAsP = true;
+
+    console.log(action);
+    if (action === "action") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (" + acount + " Aktionen)";
+    if (action === "rounds") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (Eine Spielrunde)";
+    if (action === "halfho") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (Eine halbe Stunde)";
+    if (action === "hours") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (" + acount + " Stunden)";
+    if (action === "days") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (" + acount + " Tage)";
+
+    let optional = {
+        template: "systems/gdsa/templates/chat/chatTemplate/spell-Schaman-Roll.hbs",
+        config: GDSA,
+        item: item,
+        action: action,
+        wirkDur: wirkDur,
+        cost: optAnswer.total,
+        usedVar: usedVar,
+        usedVars: usedVars,
+        att1: item.system.att1,
+        att2: item.system.att2,
+        att3: item.system.att3,
+        notEnoughAsP: notEnoughAsP
+    };
+
+    optional.vari = (usedVar.length > 0);
+    optional.varis = (usedVars.length > 0);
+
+    // Execute Roll
+
+    let spellCheck = await Dice.skillCheck(dataset.statname, spellValue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif, optional);
+    spellCheck.message.setFlag('gdsa', 'isCollapsable', true);
+}
+
 export async function onMirikalRoll(data, event, statname = "") {
 
     event.preventDefault();
@@ -818,6 +1177,11 @@ export async function onMirikalRoll(data, event, statname = "") {
 
     let modif = advantage - disadvantage;
     let mirModi = system.mirikal.cus[skill];
+
+    // Apply Penalty from low Health
+
+    modif -= parseInt(system.fullCheckPen);
+    if(system.fullCheckPen > 0) used.push(game.i18n.localize("GDSA.template.lowLeP") + " (+ " + system.fullCheckPen + ")")
 
     if(mirModi === null) mirModi = 0;
 
@@ -1103,6 +1467,11 @@ export async function onWonderRoll(data, event) {
 
     let modif = parseInt(advantage) - parseInt(disadvantage);
 
+    // Apply Penalty from low Health
+
+    modif -= parseInt(system.fullCheckPen);
+    if(system.fullCheckPen > 0) used.push(game.i18n.localize("GDSA.template.lowLeP") + " (+ " + system.fullCheckPen + ")")
+
     // Prepare Optional Objekt
 
     let verb = "";
@@ -1134,11 +1503,11 @@ export async function onWonderRoll(data, event) {
 
     if (verb !== "") verb = verb.substring(0, verb.length - 2);
 
-    if (action === "action") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (" + acount + "Aktionen)";
+    if (action === "action") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (" + acount + " Aktionen)";
     if (action === "rounds") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (Eine Spielrunde)";
     if (action === "halfho") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (Eine halbe Stunde)";
-    if (action === "hours") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (" + acount + "Stunden)";
-    if (action === "days") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (" + acount + "Tage)";
+    if (action === "hours") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (" + acount + " Stunden)";
+    if (action === "days") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (" + acount + " Tage)";
 
     wirkDur = wirkDur.replace("LkP*", "").replace(" x 1", "");
     if(power !== false) power = power.replace("LkP*", "");
@@ -1407,6 +1776,10 @@ export async function onStatRoll(data, event) {
     if (checkOptions.cancelled) return;
 
     let modif = parseInt(advantage) - parseInt(disadvantage);
+
+    // Apply Penalty from low Health
+
+    modif -= parseInt(system.simpleCheckPen);
     
     // Check if Talentschub should be rolled
     
@@ -1846,6 +2219,11 @@ async function onMeeleAttack(data, actor, item, ATKValue, Modi, isSpezi, auto, c
     Modi -= ATKInfo.wucht;
     Modi -= ATKInfo.finte;
 
+    // Apply Penalty from low Health
+
+    Modi -= parseInt(actor.system.simpleCheckPen);
+    if(actor.system.simpleCheckPen > 0) used.push(game.i18n.localize("GDSA.template.lowLeP") + " (+ " + actor.system.simpleCheckPen + ")")
+
     if(ATKInfo.wucht > 0 && item.system.weapon.type !== "Faust") used.push(game.i18n.localize("GDSA.chat.skill.wucht") + " (+ " + ATKInfo.wucht + ")");
     if(ATKInfo.wucht > 0 && item.system.weapon.type === "Faust") used.push(game.i18n.localize("GDSA.chat.skill.straight") + " (+ " + ATKInfo.wucht + ")");
     if(ATKInfo.finte > 0 && item.system.weapon.type !== "Faust") used.push(game.i18n.localize("GDSA.chat.skill.finte") + " (+ " + ATKInfo.finte + ")");
@@ -1968,6 +2346,12 @@ async function onRangeAttack(actor, ATKValue, Modi, isSpezi, item, auto, cacheOb
     Modi += dista;
     Modi += parseInt(ATKInfo.hidea);
     Modi += parseInt(ATKInfo.sizeX);
+
+    // Apply Penalty from low Health
+
+    Modi -= parseInt(actor.system.simpleCheckPen);
+    if(actor.system.simpleCheckPen > 0) used.push(game.i18n.localize("GDSA.template.lowLeP") + " (+ " + actor.system.simpleCheckPen + ")")
+    
             
     // Create Result-Objekt
 
@@ -2044,6 +2428,7 @@ export async function onNPCAttackRoll(data, event) {
 
     let value = element.closest(".item").dataset.at;
     let dmgString = element.closest(".item").dataset.dmg;
+    let weaponName = element.closest(".item").dataset.name;
 
     // Check if in Combat and if ATKs left
 
@@ -2072,9 +2457,11 @@ export async function onNPCAttackRoll(data, event) {
     let chatId = CONFIG.cache.generateNewId();
     GDSA.socket.executeForEveryone("sendToMemory", chatId, cacheObject);
 
+    let context = { "skill": { "system": { "tale": { "DE": "NPC-Angriff", "BEtype": "0"} }}, "item": { "img": "./icons/skills/melee/strike-slashes-orange.webp", "system": { "weapon": { "type": weaponName}}}};
+
     // Execute Roll
     
-    let result = await Dice.ATKCheck(value, modi, actor, auto, true, chatId);
+    let result = await Dice.ATKCheck(value, modi, actor, auto, true, chatId, context);
 
     // Remove one Attack from the Possible Attacks this round
 
@@ -2232,6 +2619,10 @@ export async function onParryRoll(data, event) {
     defModi -=  parseInt(PAInfo.disadvantage);
     defModi += parseInt(PAInfo.advantage);
 
+    // Apply Penalty from low Health
+
+    defModi -= parseInt(system.simpleCheckPen);
+
     // Generate Chat Cache Object and store ID
 
     cacheObject = {
@@ -2263,10 +2654,14 @@ export function onNPCParryRoll(data, event) {
     // Get Stat Value
 
     let value = element.closest(".item").dataset.pa;
+    let weaponName = element.closest(".item").dataset.name;
+
+
+    let context = { "skill": { "system": { "tale": { "DE": "NPC-Angriff", "BEtype": "0"} }}, "item": { "img": "./icons/skills/melee/shield-block-gray-yellow.webp", "system": { "weapon": { "type": weaponName, "size": "null"}}}};
 
     // Execute Roll
     
-    Dice.PACheck(value, 0, actor);
+    Dice.PACheck(value, 0, actor, context);
 }
 
 export async function onShildRoll(data, event) {
@@ -2338,6 +2733,10 @@ export async function onShildRoll(data, event) {
 
     defModi -= parseInt(PAInfo.disadvantage);
     defModi += parseInt(PAInfo.advantage);
+
+    // Apply Penalty from low Health
+
+    defModi -= parseInt(system.simpleCheckPen);
 
     // Generate Chat Cache Object and store ID
 
@@ -2657,7 +3056,7 @@ export async function onStatGain(data, type, event) {
 
     // Set Template
 
-    const template = "systems/gdsa/templates/chat/" + type + "Info.hbs";
+    const template = "systems/gdsa/templates/chat/chatTemplate/" + type.toLowerCase() + "-change.hbs";
 
     // Create Dialog
 
@@ -2766,8 +3165,153 @@ export function onWoundChange(data, event) {
 
     // Update WS Stat and Render
 
+    let additem = false;
+    let delitem = false;
+
+    switch (zone) {
+        case "head":
+            switch (wound) {
+                case 1:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Kopfwunde I"})[0];
+                    break;
+                case 2:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Kopfwunde II"})[0];
+                    break;
+                case 3:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Kopfwunde III"})[0];
+                    break;
+            }
+            delitem = actor.effects.contents.filter(function(a) {return a.name.includes("Kopfwunde")}).map(a => a._id);
+            break;
+        case "chest":
+            switch (wound) {
+                case 1:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Brustwunde I"})[0];
+                    break;
+                case 2:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Brustwunde II"})[0];
+                    break;
+                case 3:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Brustwunde III"})[0];
+                    break;
+            }
+            delitem = actor.effects.contents.filter(function(a) {return a.name.includes("Brustwunde")}).map(a => a._id);
+            break;
+        case "tummy":
+            switch (wound) {
+                case 1:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Bauchwunde I"})[0];
+                    break;
+                case 2:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Bauchwunde II"})[0];
+                    break;
+                case 3:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Bauchwunde III"})[0];
+                    break;
+            }
+            delitem = actor.effects.contents.filter(function(a) {return a.name.includes("Bauchwunde")}).map(a => a._id);
+            break;
+        case "lArm":
+            switch (wound) {
+                case 1:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Armwunde (links) I"})[0];
+                    break;
+                case 2:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Armwunde (links) II"})[0];
+                    break;
+                case 3:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Armwunde (links) III"})[0];
+                    break;
+            }
+            delitem = actor.effects.contents.filter(function(a) {return a.name.includes("Armwunde (links)")}).map(a => a._id);
+            break;
+        case "rArm":
+            switch (wound) {
+                case 1:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Armwunde (rechts) I"})[0];
+                    break;
+                case 2:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Armwunde (rechts) II"})[0];
+                    break;
+                case 3:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Armwunde (rechts) III"})[0];
+                    break;
+            }
+            delitem = actor.effects.contents.filter(function(a) {return a.name.includes("Armwunde (rechts)")}).map(a => a._id);
+            break;
+        case "lLeg":
+            switch (wound) {
+                case 1:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Beinwunde (links) I"})[0];
+                    break;
+                case 2:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Beinwunde (links) II"})[0];
+                    break;
+                case 3:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Beinwunde (links) III"})[0];
+                    break;
+            }
+            delitem = actor.effects.contents.filter(function(a) {return a.name.includes("Beinwunde (links)")}).map(a => a._id);
+            break;
+        case "rLeg":
+            switch (wound) {
+                case 1:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Beinwunde (rechts) I"})[0];
+                    break;
+                case 2:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Beinwunde (rechts) II"})[0];
+                    break;
+                case 3:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Beinwunde (rechts) III"})[0];
+                    break;
+            }
+            delitem = actor.effects.contents.filter(function(a) {return a.name.includes("Beinwunde (rechts)")}).map(a => a._id);
+            break;    
+        default:
+            switch (wound) {
+                case 1:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Ganzkörperwunde I"})[0];
+                    break;
+                case 2:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Ganzkörperwunde II"})[0];
+                    break;
+                case 3:
+                    additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Ganzkörperwunde III"})[0];
+                    break;
+            }
+            delitem = actor.effects.contents.filter(function(a) {return a.name.includes("Ganzkörperwunde")}).map(a => a._id);
+            break;
+    }
+    
+    
+    if (additem) actor.createEmbeddedDocuments("ActiveEffect", [additem]);
+    if (delitem) actor.deleteEmbeddedDocuments("ActiveEffect", delitem);
+
     actor.setWound(zone, wound);
     actor.render();
+}
+
+export function onActorLePChange(actor) {
+
+    actor.actor.deleteEmbeddedDocuments("ActiveEffect", actor.actor.effects.contents.filter(function(a) {return a.name.includes("Sterbend")}).map(a => a._id));
+    actor.actor.deleteEmbeddedDocuments("ActiveEffect", actor.actor.effects.contents.filter(function(a) {return a.name.includes("Kampfunfähig")}).map(a => a._id));
+    actor.actor.deleteEmbeddedDocuments("ActiveEffect", actor.actor.effects.contents.filter(function(a) {return a.name.includes("Niedrige Lebensenergie")}).map(a => a._id));
+    
+    if(parseInt(actor.actor.system.LeP.value) <= 0) actor.actor.createEmbeddedDocuments("ActiveEffect", CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Sterbend"}));
+    else if(parseInt(actor.actor.system.LeP.value) <= 5) actor.actor.createEmbeddedDocuments("ActiveEffect", CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Kampfunfähig"}));
+    else if(parseInt(actor.actor.system.LeP.value) <= (parseInt(actor.actor.system.LeP.max) / 4)) actor.actor.createEmbeddedDocuments("ActiveEffect", CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Niedrige Lebensenergie III"}));
+    else if(parseInt(actor.actor.system.LeP.value) <= (parseInt(actor.actor.system.LeP.max) / 3)) actor.actor.createEmbeddedDocuments("ActiveEffect", CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Niedrige Lebensenergie II"}));
+    else if(parseInt(actor.actor.system.LeP.value) <= (parseInt(actor.actor.system.LeP.max) / 2)) actor.actor.createEmbeddedDocuments("ActiveEffect", CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Niedrige Lebensenergie I"}));
+}
+
+export function onActorAuPChange(actor) {
+
+    actor.actor.deleteEmbeddedDocuments("ActiveEffect", actor.actor.effects.contents.filter(function(a) {return a.name.includes("Kampfunfähig")}).map(a => a._id));
+    actor.actor.deleteEmbeddedDocuments("ActiveEffect", actor.actor.effects.contents.filter(function(a) {return a.name.includes("Niedrige Ausdauer")}).map(a => a._id));
+
+    if(parseInt(actor.actor.system.AuP.value) <= 0) actor.actor.createEmbeddedDocuments("ActiveEffect", CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Kampfunfähig"}));
+    else if(parseInt(actor.actor.system.AuP.value) <= (parseInt(actor.actor.system.AuP.max) / 4)) actor.actor.createEmbeddedDocuments("ActiveEffect", CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Niedrige Ausdauer II"}));
+    else if(parseInt(actor.actor.system.AuP.value) <= (parseInt(actor.actor.system.AuP.max) / 3)) actor.actor.createEmbeddedDocuments("ActiveEffect", CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Niedrige Ausdauer I"}));
 }
 
 export async function onReg(data, event) {
@@ -3481,6 +4025,13 @@ export function onItemClose(event) {
     for (let i = 0; i < game.packs.contents.length; i++) 
         if(game.packs.contents[i].get(itemId) != null) 
             item = game.packs.contents[i].get(itemId)
+
+    // And If its part of an Actor that is an unlinkend Token on the current scene, then the fun beginns
+
+    for (let i = 0; i < game.scenes.current.tokens.contents.length; i++)
+        for (let j = 0; j < game.scenes.current.tokens.contents[i].actor.items.contents.length; j++)
+            if(game.scenes.current.tokens.contents[i].actor.items.contents[j]._id === itemId)
+                item = game.scenes.current.tokens.contents[i].actor.items.contents[j];
 
     // Close Item Sheet
 
@@ -4301,8 +4852,6 @@ export function changeTab(data, event) {
     if(destination === "mainPage") data.actor.showMenu();
     actor.sheet._tabs[0].activate(destination);
     data.actor.render();
-
-    console.log(data);
 }
 
 export function containsWord(str, word) {
@@ -4413,7 +4962,9 @@ export async function noteAllPost(data, event) {
     message.setFlag('gdsa', 'isCollapsable', true);
 }
 
-export async function updateChatMessagesAfterCreation(message) {}
+export async function updateChatMessagesAfterCreation(message) {
+
+}
 
 export function testFunc(data,event) {
 

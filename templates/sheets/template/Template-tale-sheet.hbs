@@ -7,881 +7,115 @@
         <div class="spHelper4"><b>{{localize "GDSA.template.type"}}</b></div>
         <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
         <div class="spHelper3">
-            <select class="spHelper5" name="system.type">
-                {{#select system.type}}
-                    {{#each config.tempTypes as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
+            <select class="spHelper5" name="system.type">{{selectOptions config.tempTypes selected=system.type blank="" localize=true}}</select>
         </div>
     </div>
 
     <div class="itemRow3">
         <div class="spHelper1"><b>{{localize "GDSA.template.att"}}</b></div>
         <div class="spHelper4"><b>{{localize "GDSA.template.kat"}}</b></div>
-        <div class="spHelper13">
-            <select class="spHelper5" name="system.tale.att1">
-                {{#select system.tale.att1}}
-                    {{#each config.taleAttributes as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
-        </div>
-        <div class="spHelper13">
-            <select class="spHelper5" name="system.tale.att2">
-                {{#select system.tale.att2}}
-                    {{#each config.taleAttributes as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
-        </div>
-        <div class="spHelper13">
-            <select class="spHelper5" name="system.tale.att3">
-                {{#select system.tale.att3}}
-                    {{#each config.taleAttributes as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
-        </div>
+        {{#for 1 4 1}}
+            <div class="spHelper13">
+                <select class="spHelper5" name="system.tale.att{{this}}">
+                    {{selectOptions ../config.taleAttributes selected=(getData ../system.tale (concat "att" this "")) blank="" localize=true}}
+                </select>
+            </div>
+        {{/for}}
         <div class="spHelper3">
-            <select class="spHelper5" name="system.tale.type">
-                {{#select system.tale.type}}
-                    {{#each config.taleTypes as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
+            <select class="spHelper5" name="system.tale.type">{{selectOptions config.taleTypes selected=system.tale.type blank="" localize=true}}</select>
         </div>
     </div>
 
-    <nav class="tabs nav spell-tabs" data-group="spell">
-        <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>  
-        {{#if (equals system.tale.type "meta")}}
-        <a class="item" data-tab="spellEffects"><div class="spellMenu">{{localize "GDSA.template.meta"}}</div></a>
-        {{/if}}
-        {{#if (equals system.tale.type "combat")}}
-        <a class="item" data-tab="spellEffects"><div class="spellMenu">{{localize "GDSA.template.combat"}}</div></a>
-        {{/if}}
-        <a class="item" data-tab="spellVariants"><div class="spellMenu">{{localize "GDSA.template.localize"}}</div></a>
-        <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
-    </nav>
+    {{#if (ifOR (equals system.tale.type "meta") (equals system.tale.type "combat"))}}<div class="itemMenu4">{{else}}<div class="itemMenu3">{{/if}}
+        <nav class="tabs nav spell-tabs" data-group="spell">
+            <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>  
+            {{#if (equals system.tale.type "meta")}}
+            <a class="item" data-tab="spellEffects"><div class="spellMenu">{{localize "GDSA.template.meta"}}</div></a>
+            {{/if}}
+            {{#if (equals system.tale.type "combat")}}
+            <a class="item" data-tab="spellEffects"><div class="spellMenu">{{localize "GDSA.template.combat"}}</div></a>
+            {{/if}}
+            <a class="item" data-tab="spellVariants"><div class="spellMenu">{{localize "GDSA.template.localize"}}</div></a>
+            <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
+        </nav>
+    </div>
     
     <div class="spellMenuBox">
 	    <section class="spell-body">
+
             <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
+                {{#if (ifOR (equals system.tale.type "sign") (equals system.tale.type "lang"))}}
 
-            {{#unless (ifOR (equals system.tale.type "sign") (equals system.tale.type "lang"))}}
-                <div class="input100 spellName">{{localize "GDSA.template.BE"}}:</div>
-                <div class="spHelper24">
-                    <input class="input20" name="system.tale.BECheck" type="checkbox" {{#if system.tale.BECheck}}checked="isChecked"{{/if}}/>
-                </div>
-                <select class="spHelper16" name="system.tale.BEtype">
-                    {{#select system.tale.BEtype}}
-                        <option value="-">-</option>
-                        <option value="x">x</option>
-                    {{/select}}
-                </select>
-                <input class="spHelper15" name="system.tale.BE" type="text" value="{{system.tale.BE}}" />
+                    <div class="input100 spellName">{{localize "GDSA.template.langFam"}}:</div>
+                    <select class="input85s" name="system.tale.langFam">{{selectOptions config.langFam selected=system.tale.langFam blank="" localize=true}}</select>
+                    <div class="input100 spellName">{{localize "GDSA.template.levelup"}}:</div>
+                    <select class="input85s" name="system.tale.levelup">{{selectOptions config.levelup selected=system.tale.levelup blank=""}}</select>
+                    <div class="input100 spellName">{{localize "GDSA.template.komplex"}}:</div>
+                    <input class="input85s" name="system.tale.komplex" type="number" value="{{system.tale.komplex}}" />
 
-                <div class="input100 skillType">{{localize "GDSA.template.taletype"}}:</div>
-                    <select class="input70sk" name="system.tale.taletype">
-                        {{#select system.tale.taletype}}
-                            <option value="none"></option>
-                            <option value="true">{{localize "GDSA.charactersheet.baseSkill"}}</option>
-                            <option value="false">{{localize "GDSA.charactersheet.specialSkill"}}</option>
-                        {{/select}}
-                    </select>
+                {{else}}
 
-                <div class="spellLine">{{localize "GDSA.template.requierment"}}:</div>
+                    <div class="input100 spellName">{{localize "GDSA.template.BE"}}:</div>
+                    <div class="spHelper24"><input class="input20" name="system.tale.BECheck" type="checkbox" {{#if system.tale.BECheck}}checked="isChecked"{{/if}}/></div>
+                    <select class="spHelper16" name="system.tale.BEtype">{{selectOptions config.beType selected=system.tale.BEtype}}</select>
+                    <input class="spHelper15" name="system.tale.BE" type="text" value="{{system.tale.BE}}" />
+                    <div class="input100 skillType">{{localize "GDSA.template.taletype"}}:</div>
+                    <select class="input70sk" name="system.tale.taletype">{{selectOptions config.taleType selected=system.tale.taletype blank="" localize=true}}</select>
+                    <div class="spellLine">{{localize "GDSA.template.requierment"}}:</div>
 
-                <select class="spHelper51" name="system.tale.requ.usage1">
-                    {{#select system.tale.requ.usage1}}
-                        <option value="0"></option>
-                        <option value="10">ab 10</option>
-                    {{/select}}
-                </select>
+                    {{#for 1 6 1}}
+                        <select class="spHelper51" name="system.tale.requ.usage{{this}}">
+                            {{selectOptions ../config.taleReqUsa selected=(getData ../system.tale.requ (concat "usage" this ""))}}
+                        </select>
+                        <select class="input105s" name="system.tale.requ.tale{{this}}">
+                            {{selectOptions ../selTalentN selected=(getData ../system.tale.requ (concat "tale" this "")) blank="" localize=true}}
+                        </select>
+                        <input class="spHelper5" name="system.tale.requ.level{{this}}" type="number" value="{{getData ../system.tale.requ (concat "level" this "")}}"/>
+                    {{/for}}
 
-                <select class="input105s" name="system.tale.requ.tale1">
-                    {{#select system.tale.requ.tale1}}
-                        <option value="none"></option>
-                        <option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
-                        {{#each templates.talents.meele as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
-                        {{#each templates.talents.range as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
-                        {{#each templates.talents.body as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
-                        {{#each templates.talents.social as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
-                        {{#each templates.talents.nature as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
-                        {{#each templates.talents.knowledge as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
-                        {{#each templates.talents.craft as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select>
+                    <div class="spellLine">{{localize "GDSA.template.alternitivs"}}:</div>
 
-                <input class="spHelper5" name="system.tale.requ.level1" type="number" value="{{system.tale.requ.level1}}"/>
+                    {{#for 1 6 1}}
+                        <select class="input105" name="system.tale.alt.tale{{this}}">
+                            {{selectOptions ../selTalentN selected=(getData ../system.tale.alt (concat "tale" this "")) blank="" localize=true}}
+                        </select>
+                        <select class="spHelper5" name="system.tale.alt.disad{{this}}">
+                            {{selectOptions ../config.taleAltDis selected=(getData ../system.tale.alt (concat "disad" this ""))}}
+                        </select>
+                    {{/for}}
 
-                <select class="spHelper51" name="system.tale.requ.usage2">
-                    {{#select system.tale.requ.usage2}}
-                        <option value="0"></option>
-                        <option value="10">ab 10</option>
-                    {{/select}}
-                </select>
-
-                <select class="input105s" name="system.tale.requ.tale2">
-                    {{#select system.tale.requ.tale2}}
-                        <option value="none"></option>
-                        <option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
-                        {{#each templates.talents.meele as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
-                        {{#each templates.talents.range as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
-                        {{#each templates.talents.body as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
-                        {{#each templates.talents.social as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
-                        {{#each templates.talents.nature as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
-                        {{#each templates.talents.knowledge as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
-                        {{#each templates.talents.craft as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select>
-
-                <input class="spHelper5" name="system.tale.requ.level2" type="number" value="{{system.tale.requ.level2}}"/>
-
-                <select class="spHelper51" name="system.tale.requ.usage3">
-                    {{#select system.tale.requ.usage3}}
-                        <option value="0"></option>
-                        <option value="10">ab 10</option>
-                    {{/select}}
-                </select>
-
-                <select class="input105s" name="system.tale.requ.tale3">
-                    {{#select system.tale.requ.tale3}}
-                        <option value="none"></option>
-                        <option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
-                        {{#each templates.talents.meele as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
-                        {{#each templates.talents.range as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
-                        {{#each templates.talents.body as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
-                        {{#each templates.talents.social as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
-                        {{#each templates.talents.nature as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
-                        {{#each templates.talents.knowledge as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
-                        {{#each templates.talents.craft as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select>
-
-                <input class="spHelper5" name="system.tale.requ.level3" type="number" value="{{system.tale.requ.level3}}"/>
-
-                <select class="spHelper51" name="system.tale.requ.usage4">
-                    {{#select system.tale.requ.usage4}}
-                        <option value="0"></option>
-                        <option value="10">ab 10</option>
-                    {{/select}}
-                </select>
-
-                <select class="input105s" name="system.tale.requ.tale4">
-                    {{#select system.tale.requ.tale4}}
-                        <option value="none"></option>
-                        <option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
-                        {{#each templates.talents.meele as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
-                        {{#each templates.talents.range as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
-                        {{#each templates.talents.body as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
-                        {{#each templates.talents.social as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
-                        {{#each templates.talents.nature as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
-                        {{#each templates.talents.knowledge as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
-                        {{#each templates.talents.craft as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select>
-
-                <input class="spHelper5" name="system.tale.requ.level4" type="number" value="{{system.tale.requ.level4}}"/>
-
-                <select class="spHelper51" name="system.tale.requ.usage5">
-                    {{#select system.tale.requ.usage5}}
-                        <option value="0"></option>
-                        <option value="10">ab 10</option>
-                    {{/select}}
-                </select>
-
-                <select class="input105s" name="system.tale.requ.tale5">
-                    {{#select system.tale.requ.tale5}}
-                        <option value="none"></option>
-                        <option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
-                        {{#each templates.talents.meele as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
-                        {{#each templates.talents.range as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
-                        {{#each templates.talents.body as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
-                        {{#each templates.talents.social as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
-                        {{#each templates.talents.nature as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
-                        {{#each templates.talents.knowledge as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                        <option value="none"></option>
-                        <option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
-                        {{#each templates.talents.craft as |item|}}
-                            <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select>
-
-                <input class="spHelper5" name="system.tale.requ.level5" type="number" value="{{system.tale.requ.level5}}"/>
-
-                <div class="spellLine">{{localize "GDSA.template.alternitivs"}}:</div>
-
-                <select class="input105" name="system.tale.alt.tale1">
-                        {{#select system.tale.alt.tale1}}
-                            <option value="none"></option>
-                            <option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
-                            {{#each templates.talents.meele as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
-                            {{#each templates.talents.range as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
-                            {{#each templates.talents.body as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
-                            {{#each templates.talents.social as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
-                            {{#each templates.talents.nature as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
-                            {{#each templates.talents.knowledge as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
-                            {{#each templates.talents.craft as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/select}}
-                    </select>
-
-                    <select class="spHelper5" name="system.tale.alt.disad1">
-                        {{#select system.tale.alt.disad1}}
-                            <option value="0"></option>
-                            <option value="5">+ 5</option>
-                            <option value="10">+ 10</option>
-                            <option value="15">+ 15</option>
-                        {{/select}}
-                    </select>
-
-                <select class="input105" name="system.tale.alt.tale2">
-                        {{#select system.tale.alt.tale2}}
-                            <option value="none"></option>
-                            <option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
-                            {{#each templates.talents.meele as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
-                            {{#each templates.talents.range as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
-                            {{#each templates.talents.body as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
-                            {{#each templates.talents.social as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
-                            {{#each templates.talents.nature as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
-                            {{#each templates.talents.knowledge as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
-                            {{#each templates.talents.craft as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/select}}
-                    </select>
-
-                    <select class="spHelper5" name="system.tale.alt.disad2">
-                        {{#select system.tale.alt.disad2}}
-                            <option value="0"></option>
-                            <option value="5">+ 5</option>
-                            <option value="10">+ 10</option>
-                            <option value="15">+ 15</option>
-                        {{/select}}
-                    </select>
-
-                <select class="input105" name="system.tale.alt.tale3">
-                        {{#select system.tale.alt.tale3}}
-                            <option value="none"></option>
-                            <option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
-                            {{#each templates.talents.meele as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
-                            {{#each templates.talents.range as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
-                            {{#each templates.talents.body as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
-                            {{#each templates.talents.social as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
-                            {{#each templates.talents.nature as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
-                            {{#each templates.talents.knowledge as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
-                            {{#each templates.talents.craft as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/select}}
-                    </select>
-
-                    <select class="spHelper5" name="system.tale.alt.disad3">
-                        {{#select system.tale.alt.disad3}}
-                            <option value="0"></option>
-                            <option value="5">+ 5</option>
-                            <option value="10">+ 10</option>
-                            <option value="15">+ 15</option>
-                        {{/select}}
-                    </select>
-
-                <select class="input105" name="system.tale.alt.tale4">
-                        {{#select system.tale.alt.tale4}}
-                            <option value="none"></option>
-                            <option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
-                            {{#each templates.talents.meele as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
-                            {{#each templates.talents.range as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
-                            {{#each templates.talents.body as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
-                            {{#each templates.talents.social as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
-                            {{#each templates.talents.nature as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
-                            {{#each templates.talents.knowledge as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
-                            {{#each templates.talents.craft as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/select}}
-                    </select>
-
-                    <select class="spHelper5" name="system.tale.alt.disad4">
-                        {{#select system.tale.alt.disad4}}
-                            <option value="0"></option>
-                            <option value="5">+ 5</option>
-                            <option value="10">+ 10</option>
-                            <option value="15">+ 15</option>
-                        {{/select}}
-                    </select>
-
-                <select class="input105" name="system.tale.alt.tale5">
-                        {{#select system.tale.alt.tale5}}
-                            <option value="none"></option>
-                            <option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
-                            {{#each templates.talents.meele as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
-                            {{#each templates.talents.range as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
-                            {{#each templates.talents.body as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
-                            {{#each templates.talents.social as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
-                            {{#each templates.talents.nature as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
-                            {{#each templates.talents.knowledge as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
-                            {{#each templates.talents.craft as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/select}}
-                    </select>
-
-                    <select class="spHelper5" name="system.tale.alt.disad5">
-                        {{#select system.tale.alt.disad5}}
-                            <option value="0"></option>
-                            <option value="5">+ 5</option>
-                            <option value="10">+ 10</option>
-                            <option value="15">+ 15</option>
-                        {{/select}}
-                    </select>
-
-            {{/unless}}
-            {{#if (ifOR (equals system.tale.type "sign") (equals system.tale.type "lang"))}}
-
-                <div class="input100 spellName">{{localize "GDSA.template.langFam"}}:</div>
-                <select class="input85s" name="system.tale.langFam">
-                    {{#select system.tale.langFam}}
-                        <option value="none"></option>
-                        <option value="garethi">{{localize "GDSA.template.garethi"}}</option>
-                        <option value="tulamidya">{{localize "GDSA.template.tulamidya"}}</option>
-                        <option value="thorwalsch">{{localize "GDSA.template.thorwalsch"}}</option>
-                        <option value="elf">{{localize "GDSA.template.elf"}}</option>
-                        <option value="zwerg">{{localize "GDSA.template.zwerg"}}</option>
-                        <option value="ork">{{localize "GDSA.template.ork"}}</option>
-                        <option value="rissoal">{{localize "GDSA.template.rissoal"}}</option>
-                        <option value="alone">{{localize "GDSA.template.alone"}}</option>
-                        <option value="secret">{{localize "GDSA.template.secret"}}</option>
-                    {{/select}}
-                </select>
-
-                <div class="input100 spellName">{{localize "GDSA.template.levelup"}}:</div>
-                <select class="input85s" name="system.tale.levelup">
-                    {{#select system.tale.levelup}}
-                        <option value="none"></option>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="C">C</option>
-                        <option value="D">D</option>
-                        <option value="E">E</option>
-                         <option value="F">F</option>
-                    {{/select}}
-                </select>
-
-                <div class="input100 spellName">{{localize "GDSA.template.komplex"}}:</div>
-                <input class="input85s" name="system.tale.komplex" type="number" value="{{system.tale.komplex}}" />
-
-            {{/if}}   
+                {{/if}} 
             </div>
 
             <div class="tab spellVariants" data-group="spell" data-tab="spellVariants">
-
                 <div class="input100 spellName">{{localize "GDSA.template.DE"}}:</div>
                 <input class="input85s" name="system.tale.DE" type="text" value="{{system.tale.DE}}" />
                 <div class="input100 spellName">{{localize "GDSA.template.EN"}}:</div>
                 <input class="input85s" name="system.tale.EN" type="text" value="{{system.tale.EN}}" />
-
             </div>
             
             <div class="tab spellEffects" data-group="spell" data-tab="spellEffects">
                 {{#if (equals system.tale.type "meta")}}
-
-                    <div class="input100 spellName">{{localize "GDSA.template.skill"}} 1:</div>
-                    <select class="input70s" name="system.tale.meta.tal1">
-                        {{#select system.tale.meta.tal1}}
-                            <option value="none"></option>
-                            <option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
-                            {{#each templates.talents.meele as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
-                            {{#each templates.talents.range as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
-                            {{#each templates.talents.body as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
-                            {{#each templates.talents.social as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
-                            {{#each templates.talents.nature as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
-                            {{#each templates.talents.knowledge as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
-                            {{#each templates.talents.craft as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/select}}
-                    </select>
-
-                    <div class="input100 spellName">{{localize "GDSA.template.skill"}} 2:</div>
-                    <select class="input70s" name="system.tale.meta.tal2">
-                        {{#select system.tale.meta.tal2}}
-                            <option value="none"></option>
-                            <option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
-                            {{#each templates.talents.meele as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
-                            {{#each templates.talents.range as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
-                            {{#each templates.talents.body as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
-                            {{#each templates.talents.social as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
-                            {{#each templates.talents.nature as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
-                            {{#each templates.talents.knowledge as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
-                            {{#each templates.talents.craft as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/select}}
-                    </select>
-
-                    <div class="input100 spellName">{{localize "GDSA.template.skill"}} 3:</div>
-                    <select class="input70s" name="system.tale.meta.tal3">
-                        {{#select system.tale.meta.tal3}}
-                            <option value="none"></option>
-                            <option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
-                            {{#each templates.talents.meele as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
-                            {{#each templates.talents.range as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
-                            {{#each templates.talents.body as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
-                            {{#each templates.talents.social as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
-                            {{#each templates.talents.nature as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
-                            {{#each templates.talents.knowledge as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
-                            {{#each templates.talents.craft as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/select}}
-                    </select>
-
-                    <div class="input100 spellName">{{localize "GDSA.template.skill"}} 4:</div>
-                    <select class="input70s" name="system.tale.meta.tal4">
-                        {{#select system.tale.meta.tal4}}
-                            <option value="none"></option>
-                            <option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
-                            {{#each templates.talents.meele as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
-                            {{#each templates.talents.range as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
-                            {{#each templates.talents.body as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
-                            {{#each templates.talents.social as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
-                            {{#each templates.talents.nature as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
-                            {{#each templates.talents.knowledge as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
-                            {{#each templates.talents.craft as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/select}}
-                    </select>
-
-                    <div class="input100 spellName">{{localize "GDSA.template.skill"}} 5:</div>
-                    <select class="input70s" name="system.tale.meta.tal5">
-                        {{#select system.tale.meta.tal5}}
-                            <option value="none"></option>
-                            <option value="meele">-- {{localize "GDSA.charactersheet.meeleSkills"}} --</option>
-                            {{#each templates.talents.meele as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="range">-- {{localize "GDSA.charactersheet.rangeSkills"}} --</option>
-                            {{#each templates.talents.range as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.bodySkills"}} --</option>
-                            {{#each templates.talents.body as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.socialSkills"}} --</option>
-                            {{#each templates.talents.social as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.natureSkills"}} --</option>
-                            {{#each templates.talents.nature as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.knowledgeSkills"}} --</option>
-                            {{#each templates.talents.knowledge as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                            <option value="none"></option>
-                            <option value="none">-- {{localize "GDSA.charactersheet.craftSkills"}} --</option>
-                            {{#each templates.talents.craft as |item|}}
-                                <option value="{{item.name}}">{{item.system.tale.DE}}</option>
-                            {{/each}}
-                        {{/select}}
-                    </select>
-                    
-                {{/if}}
-
-                {{#if (equals system.tale.type "combat")}}
-
+                    {{#for 1 6 1}}
+                        <div class="input100 spellName">{{localize "GDSA.template.skill"}} {{this}}:</div>
+                        <select class="input70s" name="system.tale.meta.tal{{this}}">
+                            {{selectOptions ../selTalentN selected=(getData ../system.tale.meta (concat "tal" this "")) blank="" localize=true}}
+                        </select>
+                    {{/for}}
+                {{else}}
                     <div class="input100 spellName">{{localize "GDSA.template.type"}}:</div>
-                    <select class="input70s" name="system.tale.cmbttype">
-                        {{#select system.tale.cmbttype}}
-                            <option value="none"></option>
-                            <option value="meele">{{localize "GDSA.charactersheet.meeleSkills"}}</option>
-                            <option value="range">{{localize "GDSA.charactersheet.rangeSkills"}}</option>
-                            <option value="hand">{{localize "GDSA.charactersheet.handSkills"}}</option>
-                        {{/select}}
-                    </select>
-
+                    <select class="input70s" name="system.tale.cmbttype">{{selectOptions config.cmbttype selected=system.tale.cmbttype blank=""}}</select>
                     <div class="input100 spellName">{{localize "GDSA.template.levelup"}}:</div>
-                    <select class="input70s" name="system.tale.levelup">
-                        {{#select system.tale.levelup}}
-                            <option value="none"></option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                            <option value="D">D</option>
-                            <option value="E">E</option>
-                            <option value="F">F</option>
-                        {{/select}}
-                    </select>
-
+                    <select class="input70s" name="system.tale.levelup">{{selectOptions config.levelup selected=system.tale.levelup blank=""}}</select>
                 {{/if}}
             </div>
             
             <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
-
-                <textarea class="litNotes" name="system.tale.notes">{{system.tale.notes}}</textarea>
+                <div class="itemNotesOut">{{editor system.notes class="itemNotesIn" target="system.notes" button=true engine="prosemirror" collaborate=false}}</div>
                 <button class="noteBnt note-gm-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postGM"}}</button>
                 <button class="noteBnt note-all-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postAll"}}</button>
-
             </div>
+
         </section>
     </div>
 

@@ -3,61 +3,59 @@
     <div class="browserImgBox4"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
 
     <div class="ritHelper20">
-        <div class="spHelper1">{{localize "GDSA.itemsheet.name"}}</div>
-        <div class="spHelper4">{{localize "GDSA.template.type"}}</div>
+        <div class="spHelper1"><b>{{localize "GDSA.itemsheet.name"}}</b></div>
+        <div class="spHelper4"><b>{{localize "GDSA.template.type"}}</b></div>
         <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
         <div class="spHelper3">
-            <select class="spHelper5" name="system.type">
-                {{#select system.type}}
-                    {{#each config.tempTypes as |name type|}}
-                        <option value="{{type}}">{{localize name}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
+            <select class="spHelper5" name="system.type">{{selectOptions config.tempTypes selected=system.type blank="" localize=true}}</select>
         </div>
     </div>   
 
-    <nav class="tabs nav spell-tabs" data-group="spell">
-        <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>
-        <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
-    </nav>
+    <div class="itemMenu2">
+        <nav class="tabs nav spell-tabs" data-group="spell">
+            <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>
+            <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
+        </nav>
+    </div>
+
     <div class="spellMenuBox">
 	    <section class="spell-body">
-            <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
-                
+            {{doLog this}}
+            <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">                
                 <div class="input100 coloPickLbl">{{localize "GDSA.templates.state"}}:</div>
-                <select class="inputTempColo" name="system.affi.type">
-                    {{#select system.affi.type}}
-                        <option value=""></option>
-                        <option value="part">{{localize "GDSA.templates.isPart"}}</option>
-                        <option value="posi">{{localize "GDSA.templates.isPosi"}}</option>
-                        <option value="nega">{{localize "GDSA.templates.isNega"}}</option>
-                    {{/select}}
-                </select>
-
+                <select class="inputTempColo" name="system.affi.type">{{selectOptions config.affilation selected=system.affi.type blank="" localize=true}}</select>
                 <div class="input100 coloPickLbl">{{localize "GDSA.templates.fontC"}}:</div>
                 <input class="coloPickTemplate" name="system.affi.fontColo" type="color" value="{{system.affi.fontColo}}" />
-
                 <div class="input100 coloPickLbl">{{localize "GDSA.templates.backC"}}:</div>
                 <input class="coloPickTemplate" name="system.affi.backgroundColor" type="color" value="{{system.affi.backgroundColor}}" />
-
-            </div>
-
-            <div class="tab spellVariants" data-group="spell" data-tab="spellVariants">
-
-            </div>
             
-            <div class="tab spellEffects" data-group="spell" data-tab="spellEffects">
-
+                <h2>{{localize "fs2e.sheet.effects"}}
+                    <a class="effect-control" data-action="create"><i class="fas fa-plus"></i></a>
+                </h2>
+                
+                <ol>
+                    {{#each effects as |effect|}}
+                        <li class="item effect" data-effect-id="{{effect._id}}">
+                            <div class="item-name effect-name"><h4>{{effect.name}}</h4></div>
+                            <div class="effect-controls">
+                                <a class="effect-control" data-action="edit" title="{{localize 'GDSA.system.edit'}}">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a class="effect-control" data-action="delete" title="{{localize 'GDSA.system.delete'}}">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </li>
+                    {{/each}}
+                </ol>
             </div>
             
             <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
-                
-                <textarea class="litNotes" name="system.tale.notes">{{system.tale.notes}}</textarea>
+                <div class="itemNotesOut">{{editor system.notes class="itemNotesIn" target="system.notes" button=true engine="prosemirror" collaborate=false}}</div>
                 <button class="noteBnt note-gm-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postGM"}}</button>
                 <button class="noteBnt note-all-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postAll"}}</button>
-
             </div>
+
         </section>
     </div>
  
