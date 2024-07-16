@@ -365,7 +365,7 @@
   text-align: center;
 }
 .GDSA.sheet.characterSheet .magicBox {
-  width: 620px;
+  width: 625px;
   height: 607px;
   text-align: center;
 }
@@ -1683,6 +1683,46 @@
 }
 #itemCreOptName {
   width: 205px;
+}
+.tooltipInI {
+  height: 23px;
+  width: 350px;
+  background-color: #fefff3;
+  color: black;
+  padding-top: 2px;
+  padding-left: 5px;
+  font-family: 'MasonSerifBold';
+}
+.tooltipNum {
+  width: 22px;
+  height: 16px;
+  font-size: 12px;
+  font-family: 'MasonSerifBold';
+  border-width: 1px;
+  text-align: center;
+  padding: 0px;
+  background-color: #f1e7ca;
+}
+#tooltip,
+.locked-tooltip {
+  position: absolute;
+  width: max-content;
+  max-width: 400px;
+  padding: 6px 8px;
+  background: rgba(0, 0, 0, 0.95);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-16);
+  line-height: var(--font-size-16);
+  color: var(--color-text-light-highlight);
+  border: 0.8px solid var(--color-border-dark-secondary);
+  border-radius: 3px;
+  box-shadow: 0 0 4px #000;
+  z-index: var(--z-index-tooltip);
+  pointer-events: none;
+  overflow-wrap: break-word;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 500ms, opacity 500ms;
 }
 .GDSA.sheet.npcSheet .namelbl {
   width: 500px;
@@ -3673,11 +3713,12 @@
   color: white;
 }
 .GDSA.chat.message .bntChat3 {
-  width: 86px;
+  width: 84px;
   border-radius: 10px;
+  padding: 1px 5px;
 }
 .GDSA.chat.message .bntChat4 {
-  width: 43px;
+  width: 40px;
   margin: 0px;
   border-radius: 10px;
 }
@@ -3686,6 +3727,11 @@
   margin: 0px;
   border-radius: 10px;
 }
+.GDSA.chat.message .bntChat6 {
+  width: 86px;
+  border-radius: 10px;
+  padding: 1px 5px;
+}
 .GDSA.chat.message .collabst {
   height: 0px;
   overflow: hidden;
@@ -3693,7 +3739,7 @@
 .GDSA.chat.message .switch {
   position: relative;
   display: inline-block;
-  width: 38px;
+  width: 45px;
   height: 18px;
 }
 .GDSA.chat.message .switch input {
@@ -3731,7 +3777,7 @@
   box-shadow: 0 0 1px #2196F3;
 }
 .GDSA.chat.message input:checked + .slider:before {
-  transform: translateX(20px);
+  transform: translateX(27px);
 }
 #chat-log {
   scrollbar-width: thin;
@@ -3746,7 +3792,7 @@
 }
 .cbt-Box {
   height: 40px;
-  width: 298px;
+  width: 296px;
   background-color: green;
   border-radius: 20px;
   line-height: normal;

@@ -57,7 +57,7 @@
                                 </tr>
                             {{/if}}
                         {{/unless}}
-                        {{#unless (equals additional.item.system.weapon.size "null")}}
+                        {{#unless (ifOR (equals additional.item.system.weapon.size "null") (equals additional.item.system.weapon.size "undefined"))}}
                             <tr>
                                 <td><b>{{localize "GDSA.itemsheet.heigt"}}:</b></td>
                                 <td>{{localize (concat "GDSA.itemsheet." additional.item.system.weapon.size "")}}</td>

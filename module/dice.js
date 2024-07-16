@@ -674,7 +674,8 @@ export async function ATKCheck(atk, modi, actor, auto = false, isMeele = true, c
 
     // Return if the Attribut has a Value of 0, meaning its not rollable
 
-    if(atk === 0) return;
+    if(atk === 0) { ui.notifications.warn('Der Talentwert auf den geprobt werden soll, ist 0!'); return; }
+
 
     // Set up the Path of the Chat HTML
 
@@ -732,7 +733,7 @@ export async function ATKCheck(atk, modi, actor, auto = false, isMeele = true, c
 
     if (game.combat && templateContext.goof && context.combatant)
         game.combat.setInitiative(context.combatant.id, context.combatant.initiative + (isMeele ? Util.getGoofyMeleeIniMod(rollResult3.total) : Util.getGoofyFKIniMod(rollResult3.total)))
-
+    
     return {
         result: templateContext.result,
         critt: templateContext.critt,
@@ -787,7 +788,7 @@ export async function PACheck(parry, modi, actor, context = {}) {
     // Checks the Result of the Roll, if it needs to be confirmed and there if its a Critt or a Goof
     // and add its then to the Context for the Chat
     
-    templateContext.result = (rollResult1.total <= statValueTotal);
+    templateContext.result = rollResult1.total <= statValueTotal ? rollResult1.total === 20 ? false : true : false;
     templateContext.confirm = (rollResult1.total == 1 || rollResult1.total == 20);
     templateContext.critt = (rollResult1.total == 1 && rollResult2.total <= statValueTotal);
     templateContext.goof = (rollResult1.total == 20 && rollResult2.total > statValueTotal);
@@ -806,8 +807,8 @@ export async function PACheck(parry, modi, actor, context = {}) {
     let dices = [rollResult1.dice[0].values[0]];
     const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
     if(rollResult1.total == 1 || rollResult1.total == 20) dices.push(rollResult2.dice[0].values[0]);
-    if(rollResult1.total == 20 && rollResult2.total > statValueTotal) goofDices.push(rollResult3.dice[0].values[0]);
-    if(rollResult1.total == 20 && rollResult2.total > statValueTotal) goofDices.push(rollResult3.dice[0].values[1]);
+    if(rollResult1.total == 20 && rollResult2.total > statValueTotal) 
+        {goofDices.push(rollResult3.dice[0].values[0]); goofDices.push(rollResult3.dice[0].values[1]);} 
 
     let message = await doXD20XD6Roll(chatModel, dices, goofDices);
 
@@ -1024,7 +1025,7 @@ export async function DMGRollWitoutChat(formula, actor, multi, hasNoZone = false
 
     // Set up the Path of the Chat HTML
 
-    const templatePath = "systems/gdsa/templates/chat/damage-Roll.hbs";
+    const templatePath = "systems/gdsa/templates/chat/chatTemplate/damage-Roll.hbs";
 
     // Roll the Dice and add together the DMG
 

@@ -526,7 +526,7 @@ export async function onSpellRoll(data, event) {
 
     if (item.system.rep === "mag") disadvantage = Math.round(disadvantage / 2);
     if (item.system.rep === "mag") if (doubcast) advantage++;
-    for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) disadvantage += item.system.vars[i].disad;
+    if (item.system.vars != undefined) for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) disadvantage += item.system.vars[i].disad;
     if (item.system.rep === "srl") if (item.system.trait1 === "illu" || item.system.trait2 === "illu" || item.system.trait3 === "illu" || item.system.trait4 === "illu") Math.round(disadvantage / 2);
     
     if (animag.length !== 0 && klamount > 0) disadvantage += (klamount * animag[0].system.value);
@@ -590,7 +590,7 @@ export async function onSpellRoll(data, event) {
     let minCost =  item.system.costs;
 
     if (item.system.diffrentCost) if(item.system.rep === item.system.repAlt) minCost =  item.system.costsAlt;
-    for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) if (item.system.vars[i].cost != "") minCost = item.system.vars[i].cost;
+    if (item.system.vars != undefined) for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) if (item.system.vars[i].cost != "") minCost = item.system.vars[i].cost;
  
     minCost = minCost.toLowerCase().replace("w", "d")
     if(minCost.includes("d")) minCost = (await Dice.DMGRollWitoutChat(minCost, actor, 1, true)).total;
@@ -618,13 +618,13 @@ export async function onSpellRoll(data, event) {
     // Calculate Actions
 
     let action = item.system.zduration;
-    for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) if (item.system.vars[i].casttime != null) action = item.system.vars[i].casttime;
+    if (item.system.vars != undefined) for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) if (item.system.vars[i].casttime != null) action = item.system.vars[i].casttime;
     if (item.system.rep !== "elf" && item.system.rep !== "ach" && item.system.rep !== "sch") if (usePowerC) action++;
     if (matrixK.length === 0) action = action + parseInt(actions);
     if (doubcast) action = action * 2;
     if (halfcast > 0) action = Math.round(action / (2 * halfcast));
 
-    for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) usedVar.push(item.system.vars[i].name);
+    if (item.system.vars != undefined) for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) usedVar.push(item.system.vars[i].name);
 
     action += achact;
 
@@ -663,6 +663,7 @@ export async function onSpellRoll(data, event) {
     if(!spellCheck.succ) return;
 
     if (item.name.includes(game.i18n.localize("GDSA.spell.faxi")) && !notEnoughAsP) { 
+        console.log("here");
         const chatModel = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
         await Dice.doXD20XD6Roll(chatModel, optAnswer.d20, optAnswer.d6);
     }
@@ -1162,10 +1163,11 @@ export async function onMirikalRoll(data, event, statname = "") {
     let advantage = 0;
     let disadvantage = 0;
     let used = [];
+    let context = { "config": GDSA };
 
     if(options) {
 
-        checkOptions = await Dialog.GetMirikalOptions();
+        checkOptions = await Dialog.GetMirikalOptions(context);
 
         advantage = checkOptions.advantage;
         disadvantage = checkOptions.disadvantage;
@@ -1595,7 +1597,7 @@ export async function onRitualCreation(data, event) {
 
     let minCost =  item.system.creatCost;
  
-    minCost = minCost.toLowerCase().replace("w", "d")
+    minCost = minCost.toString().toLowerCase().replace("w", "d")
     if(minCost.includes("d")) minCost = (await Dice.DMGRollWitoutChat(minCost, actor, 1, true)).total;
 
     minCost = parseInt(minCost);
@@ -1671,7 +1673,7 @@ export async function onRitualActivation(data, event) {
 
     let minCost =  item.system.activCost;
  
-    minCost = minCost.toLowerCase().replace("w", "d")
+    minCost = minCost.toString().toLowerCase().replace("w", "d")
     if(minCost.includes("d")) minCost = (await Dice.DMGRollWitoutChat(minCost, actor, 1, true)).total;
 
     minCost = parseInt(minCost);
@@ -2270,13 +2272,12 @@ async function onMeeleAttack(data, actor, item, ATKValue, Modi, isSpezi, auto, c
     // Do ATK Roll
 
     let result = await Dice.ATKCheck(ATKValue, Modi, actor, auto, true, chatId, cacheObject);
-
+    
     if (result.critt) cacheObject.multi = cacheObject.multi * 2;
     
     GDSA.socket.executeForEveryone("sendToMemory", chatId, cacheObject);
 
     return {
-
         result: result,
         bonusDMG: bDMG,
         multi: mult,
@@ -2302,7 +2303,7 @@ async function onRangeAttack(actor, ATKValue, Modi, isSpezi, item, auto, cacheOb
 
     // Create Dialog for ATK Options
 
-    let ATKInfo = await Dialog.GetRangeAtkInfo(item);
+    let ATKInfo = await Dialog.GetRangeAtkInfo(await item.sheet.getData());
     if (ATKInfo.cancelled) return;
 
     // Check for Aimed Rounds and Distance
@@ -2538,6 +2539,7 @@ export async function onParryRoll(data, event) {
 
     let element = event.currentTarget;
     let actor = data.actor;
+    let system = data.system;
 
     // Set general Used Indicators
     
@@ -3354,7 +3356,7 @@ export async function onReg(data, event) {
     if(checkAstralBlock != null) APBonus -= 1;
     if(checkRegI != null) APBonus += 1;
     if(checkRegII != null) APBonus += 1;
-    if(checkRegIII != null) APBonus = (statValueKL / 5) + 1;
+    if(checkRegIII != null) APBonus = (statValueKL / 5) + 1 + parseInt(regDialog.asp) + NOBonus;
     if(checkRegIII != null) magActive = true;
     if(system.KaP.max > 0 && system.KaP.max != system.KaP.value) KABonus++; else KABonus = 0; 
 
@@ -3958,7 +3960,7 @@ export function onItemEquip(data, event) {
     // Update Item Status
 
     item.system.worn = true;
-    item.update({ "data.worn": true });
+    item.update({ "system.worn": true });
     actor.render(); 
 }
 
@@ -3979,7 +3981,7 @@ export function onItemRemove(data, event) {
     // Update Item Status
 
     item.system.worn = false;
-    item.update({ "data.worn": false });
+    item.update({ "system.worn": false });
     actor.render(); 
 }
 

@@ -367,7 +367,7 @@
         text-align: center;
     };
     .magicBox{
-        width: 620px;
+        width: 625px;
         height: 607px;
         text-align: center;
     };
@@ -1679,3 +1679,43 @@
 #itemCreOptName  {
     width: 205px;
 };
+.tooltipInI {
+    height: 23px;
+    width: 350px;
+    background-color: #fefff3;
+    color: black;
+    padding-top: 2px;
+    padding-left: 5px;
+    font-family: 'MasonSerifBold';
+};
+.tooltipNum {
+    width: 22px;
+    height: 16px;
+    font-size: 12px;
+    font-family: 'MasonSerifBold';
+    border-width: 1px;
+    text-align: center;
+    padding: 0px;
+    background-color: #f1e7ca;
+};
+
+#tooltip, .locked-tooltip {
+    position: absolute;
+    width: max-content;
+    max-width: 400px;
+    padding: 6px 8px;
+    background: rgba(0, 0, 0, 0.95);
+    font-family: var(--font-primary);
+    font-size: var(--font-size-16);
+    line-height: var(--font-size-16);
+    color: var(--color-text-light-highlight);
+    border: 0.8px solid var(--color-border-dark-secondary);
+    border-radius: 3px;
+    box-shadow: 0 0 4px #000;
+    z-index: var(--z-index-tooltip);
+    pointer-events: none;
+    overflow-wrap: break-word;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 500ms, opacity 500ms;
+}
