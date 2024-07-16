@@ -26,11 +26,10 @@ export default class GDSAItemSheet extends ItemSheet {
 
         let itemType = this.item.system.type;
 
-        if(itemType === "none") itemType = "";
+        if(itemType === "none" || itemType === "s") itemType = "";
         if(this.item.type === "Template") return `systems/gdsa/templates/sheets/template/${this.item.type}-${itemType}-sheet.hbs`
         if(this.item.type === "Gegenstand") return `systems/gdsa/templates/sheets/gegenstand/${this.item.type}-${itemType}-sheet.hbs`
         if(this.item.type === "objektRitual") return `systems/gdsa/templates/sheets/ritual/${this.item.type}-${itemType}-sheet.hbs`
-
         return `systems/gdsa/templates/sheets/items/${this.item.type}-sheet.hbs`
     }
 
@@ -227,11 +226,11 @@ export default class GDSAItemSheet extends ItemSheet {
 
         let response = {};
 
-        response["2"]   = game.i18n.localize("GDSA.chat.rangeOpt.till") + system.weapon.range1 + game.i18n.localize("GDSA.chat.rangeOpt.meter");
-        response["0"]   = game.i18n.localize("GDSA.chat.rangeOpt.till") + system.weapon.range2 + game.i18n.localize("GDSA.chat.rangeOpt.meter");
-        response["-4"]  = game.i18n.localize("GDSA.chat.rangeOpt.till") + system.weapon.range3 + game.i18n.localize("GDSA.chat.rangeOpt.meter");
-        response["-8"]  = game.i18n.localize("GDSA.chat.rangeOpt.till") + system.weapon.range4 + game.i18n.localize("GDSA.chat.rangeOpt.meter");
-        response["-12"] = game.i18n.localize("GDSA.chat.rangeOpt.till") + system.weapon.range5 + game.i18n.localize("GDSA.chat.rangeOpt.meter");
+        response["2"]   = game.i18n.localize("GDSA.chat.rangeOpt.till") + " " + system.weapon.range1 + " " + game.i18n.localize("GDSA.chat.rangeOpt.meter");
+        response["0"]   = game.i18n.localize("GDSA.chat.rangeOpt.till") + " " + system.weapon.range2 + " " + game.i18n.localize("GDSA.chat.rangeOpt.meter");
+        response["-4"]  = game.i18n.localize("GDSA.chat.rangeOpt.till") + " " + system.weapon.range3 + " " + game.i18n.localize("GDSA.chat.rangeOpt.meter");
+        response["-8"]  = game.i18n.localize("GDSA.chat.rangeOpt.till") + " " + system.weapon.range4 + " " + game.i18n.localize("GDSA.chat.rangeOpt.meter");
+        response["-12"] = game.i18n.localize("GDSA.chat.rangeOpt.till") + " " + system.weapon.range5 + " " + game.i18n.localize("GDSA.chat.rangeOpt.meter");
 
         return response;
     }

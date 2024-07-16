@@ -3,7 +3,11 @@
         <div class="headerLable2">{{localize "GDSA.charactersheet.ATBasis"}}</div><div class="headerValue2">{{system.ATBasis.value}}</div> 
         <div class="headerLable2">{{localize "GDSA.charactersheet.PABasis"}}</div><div class="headerValue2">{{system.PABasis.value}}</div>
         <div class="headerLable2">{{localize "GDSA.charactersheet.FKBasis"}}</div><div class="headerValue2">{{system.FKBasis.value}}</div> 
-        <div class="headerLable2">{{localize "GDSA.charactersheet.INIBasis"}}</div><div class="headerValue2">{{system.INIBasis.value}}</div>
+        <div class="headerLable2" data-tooltip=
+        "<div class='tooltipInI'> InI Basis <input class='tooltipNum' value='{{system.iniBaseValue}}' disabled> - BE <input class='tooltipNum' value='{{system.gBEArmour}}' disabled> + Waffenmod <input class='tooltipNum' value='{{system.equipINI}}' disabled> = <input class='tooltipNum' value='{{system.INIBasis.value}}' disabled></div>"
+        data-tooltip-direction="LEFT">{{localize "GDSA.charactersheet.INIBasis"}}</div><div class="headerValue2" data-tooltip=
+        "<div class='tooltipInI'> InI Basis <input class='tooltipNum' value='{{system.iniBaseValue}}' disabled> - BE <input class='tooltipNum' value='{{system.gBEArmour}}' disabled> + Waffenmod <input class='tooltipNum' value='{{system.equipINI}}' disabled> = <input class='tooltipNum' value='{{system.INIBasis.value}}' disabled></div>"
+        data-tooltip-direction="LEFT">{{system.INIBasis.value}}</div>
         <div class="headerLable2">WS</div><div class="headerValue2">{{system.WS}}</div>
 	</div>
 </div>

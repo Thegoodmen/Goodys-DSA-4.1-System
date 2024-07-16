@@ -91,12 +91,12 @@ export async function GetDogdeOptions() {
     });
 }
 
-export async function GetMirikalOptions() {
+export async function GetMirikalOptions(mirikal) {
 
     // Create Dialog and show to User
 
     const template = "systems/gdsa/templates/chat/dialog/mirikal-Roll.hbs";
-    const html = await renderTemplate(template);
+    const html = await renderTemplate(template, mirikal);
 
     return new Promise(resolve => {
 

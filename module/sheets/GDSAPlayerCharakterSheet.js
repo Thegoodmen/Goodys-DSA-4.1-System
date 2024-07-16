@@ -428,8 +428,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         sheetData.system.GS.modi = 0;
 
         if(checkFlink) sheetData.system.GS.modi = checkFlink.system.trait.value;
-        if((parseInt(sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp) + parseInt(sheetData.system.GE.baseAnti)) >= 16) sheetData.system.GS.modi += 1;
-        if((parseInt(sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp) + parseInt(sheetData.system.GE.baseAnti)) <= 10) sheetData.system.GS.modi -= 1;
+        if((parseInt(sheetData.system.GE.value === null ? 0 : sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp === null ? 0 : sheetData.system.GE.temp) + parseInt(sheetData.system.GE.baseAnti)) >= 16) sheetData.system.GS.modi += 1;
+        if((parseInt(sheetData.system.GE.value === null ? 0 : sheetData.system.GE.value) + parseInt(sheetData.system.GE.temp === null ? 0 : sheetData.system.GE.temp) + parseInt(sheetData.system.GE.baseAnti)) <= 10) sheetData.system.GS.modi -= 1;
 
         if(checkUnsporty) sheetData.system.GS.modi -= 1;
         if(checkSmall) sheetData.system.GS.modi -= 1;
@@ -448,17 +448,17 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         // Calculate INIBase and Save
 
-        let INIBase = Math.round((( parseInt(sheetData.system.MU.value) + 
-                                    parseInt(sheetData.system.MU.temp) + 
+        let INIBase = Math.round((( parseInt(sheetData.system.MU.value === null ? 0 : sheetData.system.MU.value) + 
+                                    parseInt(sheetData.system.MU.temp === null ? 0 : sheetData.system.MU.temp) + 
                                     parseInt(sheetData.system.MU.baseAnti) + 
-                                    parseInt(sheetData.system.MU.value) + 
-                                    parseInt(sheetData.system.MU.temp) + 
+                                    parseInt(sheetData.system.MU.value === null ? 0 : sheetData.system.MU.value) + 
+                                    parseInt(sheetData.system.MU.temp === null ? 0 : sheetData.system.MU.temp) + 
                                     parseInt(sheetData.system.MU.baseAnti) + 
-                                    parseInt(sheetData.system.IN.value) + 
-                                    parseInt(sheetData.system.IN.temp) + 
+                                    parseInt(sheetData.system.IN.value === null ? 0 : sheetData.system.IN.value) + 
+                                    parseInt(sheetData.system.IN.temp === null ? 0 : sheetData.system.IN.temp) + 
                                     parseInt(sheetData.system.IN.baseAnti) + 
-                                    parseInt(sheetData.system.GE.value) + 
-                                    parseInt(sheetData.system.GE.temp) +
+                                    parseInt(sheetData.system.GE.value === null ? 0 : sheetData.system.GE.value) + 
+                                    parseInt(sheetData.system.GE.temp === null ? 0 : sheetData.system.GE.temp) +
                                     parseInt(sheetData.system.GE.baseAnti)) / 5));
         sheetData.system.INIBasis.value = INIBase + sheetData.system.INIBasis.tempmodi;
         sheetData.system.INIBasis.modi = 0;
@@ -480,6 +480,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if(checkKampfge) sheetData.system.INIBasis.modi += 2;
         if(checkKampfre) sheetData.system.INIBasis.modi += 4;
 
+        sheetData.system.iniBaseValue = sheetData.system.INIBasis.value + sheetData.system.INIBasis.modi + sheetData.system.INIBasis.sysModi;
         sheetData.system.INIBasis.value = sheetData.system.INIBasis.value + sheetData.system.INIBasis.modi - eBE + sheetData.system.equipINI + sheetData.system.INIBasis.sysModi;
 
         // Change Dice 
@@ -492,7 +493,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let checkEisern = sheetData.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.iron")})[0];
         let checkGlass = sheetData.flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.glass")})[0];
 
-        sheetData.system.WS = Math.round((parseInt(sheetData.system.KO.value) + parseInt(sheetData.system.KO.temp))/ 2);
+        sheetData.system.WS = Math.round((parseInt(sheetData.system.KO.value === null ? 0 : sheetData.system.KO.value) + parseInt(sheetData.system.KO.temp === null ? 0 : sheetData.system.KO.temp))/ 2);
 
         if(checkEisern) sheetData.system.WS += 2;
         if(checkGlass) sheetData.system.WS -= 2;
