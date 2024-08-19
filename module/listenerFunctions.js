@@ -3417,13 +3417,14 @@ export function onATCountToggel(data, event) {
     let element = event.currentTarget;
     
     // Get toggeld Counter and Combatant ID
-
-    let toggeldCounter = element.closest(".toggelAT").dataset.count;
+    
+    let combatId = element.closest(".toggelAT").dataset.cmbtid;
     let combatantId = element.closest(".toggelAT").dataset.id;
+    let toggeldCounter = element.closest(".toggelAT").dataset.count;
 
     // Get ATs left from the Combatant
 
-    let combatant = game.combats.contents[0].combatants.get(combatantId);
+    let combatant = game.combats.get(combatId).combatants.get(combatantId);
     let atLeft = combatant.getFlag("gdsa", "attacks");
 
     // Set new AT Left Flag for Combatant
@@ -3445,12 +3446,13 @@ export function onPACountToggel(data, event) {
     
     // Get toggeld Counter and Combatant ID
 
-    let toggeldCounter = element.closest(".toggelPA").dataset.count;
+    let combatId = element.closest(".toggelAT").dataset.cmbtid;
     let combatantId = element.closest(".toggelPA").dataset.id;
+    let toggeldCounter = element.closest(".toggelPA").dataset.count;
 
     // Get PAs left from the Combatant
 
-    let combatant = game.combats.contents[0].combatants.get(combatantId);
+    let combatant = game.combats.get(combatId).combatants.get(combatantId);
     let paLeft = combatant.getFlag("gdsa", "parries");
 
     // Set new AT Left Flag for Combatant
@@ -3472,11 +3474,12 @@ export async function doOrientation(data, event) {
     
     // Get toggeld Combatant ID
 
+    let combatId = element.closest(".toggelAT").dataset.cmbtid;
     let combatantId = element.closest(".orient").dataset.id;
 
     // Get ATs and PAs left from the Combatant
 
-    let combatant = game.combats.contents[0].combatants.get(combatantId);
+    let combatant = game.combats.get(combatId).combatants.get(combatantId);
     let atLeft = combatant.getFlag("gdsa", "attacks");
     let paLeft = combatant.getFlag("gdsa", "parries");
 
@@ -3493,7 +3496,7 @@ export async function doOrientation(data, event) {
     newIni += 6;
     if (combatant.actor.sheet.getData().system.INIDice == "2d6") newIni += 6;
 
-    game.combat.setInitiative(combatantId, newIni)
+    game.combats.get(combatId).setInitiative(combatantId, newIni)
 
     let templateContext = {actor: combatant, value: newIni}
 
