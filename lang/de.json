@@ -900,7 +900,8 @@
                 "sucessWith": "Erfolg mit",
                 "maxErl": "er Erleichterung notwendig",
                 "maxMod": "er maximale Erschwernis",
-                "TaPS": "TaP*"
+                "TaPS": "TaP*",
+                "ZfPS": "ZfP*"
             },
             "skill": {
                 "optionDialog": "Optionen",

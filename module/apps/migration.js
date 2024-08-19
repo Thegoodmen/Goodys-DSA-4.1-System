@@ -102,7 +102,6 @@ async function actorMigrationV1(actor) {
     }
 
     const actorItems = actor.items._source;
-    //if (actor._id === "Y2jvWVMH7dFlDLvL") await actor.deleteEmbeddedDocuments("Item", ["JtZTwtXzC32B2gIq"]);
     
     for (let j = 0; j < actorItems.length; j++) {
 
@@ -347,7 +346,7 @@ async function actorMigrationV1(actor) {
 
             await actor.deleteEmbeddedDocuments("Item", [item._id]);
         
-        } else if (item.type === "langu" || item.type === "signs" || item.type === "ritualSkill")
+        } else if (item.type === "langu" || item.type === "signs" || item.type === "ritualSkill" || item.type === "ritual" || item.type === "talent" || item.type === "affiliation")
             await actor.deleteEmbeddedDocuments("Item", [item._id]);
 
         if (actor.type === "PlayerCharakter") {
