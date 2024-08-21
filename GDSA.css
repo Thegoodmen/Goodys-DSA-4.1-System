@@ -173,6 +173,7 @@
   width: 290px;
   float: left;
   text-align: left;
+  white-space: nowrap;
 }
 .GDSA.sheet.characterSheet .factValue2 {
   width: 270px;
@@ -220,6 +221,7 @@
   text-align: left;
   padding-left: 10px;
   font-size: 11px;
+  white-space: nowrap;
 }
 .GDSA.sheet.characterSheet .flawhr {
   width: 285px;
@@ -242,6 +244,12 @@
   width: 10px;
   height: 196px;
   float: left;
+}
+.GDSA.sheet.characterSheet .maghr {
+  width: 545px;
+  margin-left: 7px;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 .GDSA.sheet.characterSheet .advantages {
   float: left;

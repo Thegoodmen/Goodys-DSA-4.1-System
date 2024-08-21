@@ -27,11 +27,11 @@
         <div class="flawbnt"><a class="changeTab item" data-destination="holytraitPage" data-origin="holyPage" data-optional="holy">
             <i class="fas fa-book plusSym"></i>
         </a></div>
-		<div class="traithrbox"><hr class="flawhr" /></div>
+		<div class="traithrbox"><hr class="maghr" /></div>
     	<section class="holytraits">
 			{{#each holyTraits as |Trait id|}}
 				<div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
-                    <div class="trait">{{name}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</div><hr class="flawhr" />
+                    <div class="trait">{{name}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</div><hr class="maghr" />
                 </div>
 			{{/each}}
 		</section>

@@ -1044,8 +1044,8 @@ function _processSpellCheckOptions(form) {
 
     let advantage;
     let disadvantage;
+    let nonDiscountDisadvantage;
     let actions;
-
     let actionDoub = false;
     let powerC = false;
     let actionHalf = 0;
@@ -1059,6 +1059,7 @@ function _processSpellCheckOptions(form) {
 
     advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
     disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+    nonDiscountDisadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
     actions = 0;
 
     if(form.tech.checked) { disadvantage = disadvantage + 7; actions = actions + 3; used.push(game.i18n.localize("GDSA.system.technic") + " (+ 7)")};
@@ -1086,6 +1087,7 @@ function _processSpellCheckOptions(form) {
        
         advantage: advantage,
         disadvantage: disadvantage,
+        nonDiscountDisadvantage: nonDiscountDisadvantage,
         actions: actions,
         doubcast: actionDoub,
         halfcast: actionHalf,
