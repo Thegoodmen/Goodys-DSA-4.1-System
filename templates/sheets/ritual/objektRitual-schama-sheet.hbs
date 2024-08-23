@@ -18,7 +18,7 @@
         <div class="spHelper4"><b>{{localize "GDSA.templates.pdf"}}</b></div>
         <div class="spHelper1">
             <div class="spHelper19"><select class="spHelper55" name="system.skill">{{selectOptions config.schamSkills selected=system.skill blank="" localize=true}}</select></div>
-            <div class="spHelper19"><select class="spHelper32" name="system.target">{{selectOptions config.wonderTarget selected=system.target blank=""}}</select></div>
+            <div class="spHelper19"><select class="spHelper32" name="system.target">{{selectOptions config.schamTarget selected=system.target blank=""}}</select></div>
             <div class="spHelper19"><input class="spHelper3" name="system.grad" type="number" value="{{system.grad}}" /></div>
         </div>
         <div class="spHelper19"><input class="spHelper5" name="system.wdzPage" type="text" value="{{system.wdzPage}}" /></div>
@@ -57,7 +57,7 @@
                     <div class="spellVLine"><div class="spellVName">Gja</div><input class="input40" name="system.vGja" type="checkbox" {{checked system.vGja}} /></div>
                 </div>
                 <div class="spellModiBoxEnd">
-                    <div class="spellVLine"><div class="spellVName">Fer</div><input class="input40" name="system.vFer" type="checkbox" {{checked ssystem.vFer}} /></div>
+                    <div class="spellVLine"><div class="spellVName">Fer</div><input class="input40" name="system.vFer" type="checkbox" {{checked system.vFer}} /></div>
                     <div class="spellVLine"><div class="spellVName">Tzk</div><input class="input40" name="system.vTzk" type="checkbox" {{checked system.vTzk}} /></div>
                     <div class="spellVLine"><div class="spellVName">Ach</div><input class="input40" name="system.vAch" type="checkbox" {{checked system.vAch}} /></div>
                 </div>

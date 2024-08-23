@@ -809,11 +809,46 @@ export async function onRitualRoll(data, event) {
     let usedVars = [];
     let usedVar = [];
     let notEnoughAsP = false;
+    let helperAdvantage = 0;
+    let helperDisadvantage = 0;
 
     // Preap General
 
     if(item.system.ritTalent === "none" || item.system.ritTalent === "") ui.notifications.warn('Bitte eine Repräsentation im Ritual auswählen!')
 
+    // Tanzen when Zaubertänzer
+
+    if(item.system.ritTalent === "tanz") {
+
+        let rollEvent = {
+            name: "Tanzen",
+            item: await getTalent("Tanzen"),
+            actor: actor,
+            stat: actor.system.skill["Tanzen"],
+            skipMenu: true
+        }
+       
+        let response = await doSkillRoll(rollEvent);
+        if(response.succ) helperAdvantage += parseInt(response.value);
+        else helperDisadvantage += 7;
+    }
+    // Musizieren when Derwisch
+
+    if(item.system.ritTalent === "derw") {
+
+        let rollEvent = {
+            name: "Musizieren",
+            item: await getTalent("Musizieren"),
+            actor: actor,
+            stat: actor.system.skill["Musizieren"],
+            skipMenu: true
+        }
+       
+        let response = await doSkillRoll(rollEvent);
+        if(response.succ) helperAdvantage += parseInt(response.value);
+        else helperDisadvantage += 7;
+    }
+   
     // Generate Dialog for Modifikations
 
     if(options) {
@@ -829,7 +864,7 @@ export async function onRitualRoll(data, event) {
 
     // Set ZfW of Spell
 
-    spellValue = dataset.ritknow;
+    spellValue = parseInt(dataset.ritknow) + helperAdvantage - helperDisadvantage;
     spellName = dataset.statname;
 
     let ritMod =  (item.system.disadv === "" || item.system.disadv === null) ? 0 : item.system.disadv;

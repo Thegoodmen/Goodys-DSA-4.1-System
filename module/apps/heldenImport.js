@@ -13,7 +13,7 @@ export default class GDSAHeldenImporter extends FormApplication {
 
     static get defaultOptions() {
 
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             classes: ["GDSA", "gmscreen"],
             template: "systems/gdsa/templates/apps/heldenimport.hbs",
             width: 800,
@@ -207,6 +207,15 @@ export default class GDSAHeldenImporter extends FormApplication {
             
         for (let i = 0; i < hero.wonders.length; i++)
             await actor.createEmbeddedDocuments("Item", [hero.wonders[i]]);
+            
+        for (let i = 0; i < hero.objectRit.length; i++)
+            await actor.createEmbeddedDocuments("Item", [hero.objectRit[i]]);
+            
+        for (let i = 0; i < hero.rits.length; i++)
+            await actor.createEmbeddedDocuments("Item", [hero.rits[i]]);
+            
+        //for (let i = 0; i < hero.items.length; i++)
+            //await actor.createEmbeddedDocuments("Item", [hero.items[i]]);
 
         for (let i = 0; i < hero.spells.length; i++) {
 
@@ -318,8 +327,6 @@ export default class GDSAHeldenImporter extends FormApplication {
         }
         
         await delay(1000);
-
-        console.log(actor);
 
         actor.update({ "system.LeP.value": actor.system.LeP.max });
         actor.update({ "system.AuP.value": actor.system.AuP.max });
@@ -759,6 +766,9 @@ function generateHeroObject(event, xml) {
 
             let ritualArray = templates.ritual.schamObj.filter(function(item) {return item.name.includes(traitName.split(":")[1].trim())});
 
+            if (ritualArray.length !== 1)
+                ritualArray = templates.ritual.schamObj.filter(function(item) {return item.name.includes((traitName.split(":")[1]).trim() + " 1")});
+
             if (ritualArray.length === 1) {
 
                 objectRit.push(ritualArray[0]);
@@ -881,6 +891,31 @@ function generateHeroObject(event, xml) {
                     + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
             }
             
+        } else if (traitName.includes("Ritual")) {
+            
+            let ritualArray = templates.ritual.all.filter(function(item) {return item.name.includes(traitName.split(":")[1].trim())});
+
+            if (ritualArray.length === 1) {
+
+                sfRit.push(ritualArray[0]);
+
+            } else if (ritualArray.length > 1) {
+
+                let newItem = ritualArray[0];
+
+                newItem.creatTalent = "";
+                newItem.ritualSkills = "";
+
+                sfRit.push(newItem);
+
+            } else {
+
+                event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                    "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
+                    + traitName.trim() 
+                    + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
+            }
+
         } else if (traitName.includes("Hexenfluch")) {
             // Will follow with Rituals
         } else if (traitName.includes("Hexenritual")) {
@@ -892,8 +927,6 @@ function generateHeroObject(event, xml) {
         } else if (traitName.includes("Zauberzeichen")) {
             // Will follow with Rituals
         } else if (traitName.includes("Melodie")) {
-            // Will follow with Rituals
-        } else if (traitName.includes("Ritual")) {
             // Will follow with Rituals
         } else if (traitName.includes("Runen")) {
             // Will follow with Rituals
