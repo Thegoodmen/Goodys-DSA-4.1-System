@@ -1,3 +1,5 @@
-2024/07/17-01:22:10.951965 30cd5a000 Recovering log #330
-2024/07/17-01:22:10.952792 30cd5a000 Delete type=0 #330
-2024/07/17-01:22:10.952833 30cd5a000 Delete type=3 #329
+2024/08/24-12:51:31.501 28824 Log #335: 0 ops saved to Table #336 OK
+2024/08/24-12:51:31.501 28824 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\liturgien/000335.log: OK
+2024/08/24-12:51:31.503 28824 Table #292: 448 entries OK
+2024/08/24-12:51:31.507 28824 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\liturgien/MANIFEST-000333: OK
+2024/08/24-12:51:31.510 28824 **** Repaired leveldb C:\FoundryVTT\Data\systems\gdsa\packs\liturgien; recovered 1 files; 134543 bytes. Some data may have been lost. ****

@@ -924,7 +924,7 @@ export async function onSchamanRoll(data, event) {
     let disadvantage = 0;
     let spellValue = 0;
     let spellName = "";
-    let usedVars = [];
+    let used = [];
     let usedVar = [];
 
     let helperTal = [];
@@ -969,7 +969,7 @@ export async function onSchamanRoll(data, event) {
 
         advantage = checkOptions.advantage;
         disadvantage = checkOptions.disadvantage;
-        usedVars = checkOptions.used;
+        used = checkOptions.used;
         helperTal = checkOptions.helper;
         modReach = checkOptions.reach;
         modRitDur = checkOptions.ritdur;
@@ -1004,7 +1004,7 @@ export async function onSchamanRoll(data, event) {
   
     helperModi = (Math.round(helperAdvantage / numOfHelper) - helperDisadvantage) * -1;
     let helperModString = helperModi > 0 ? "+ " + helperModi : helperModi.toString()[0] + " " + helperModi.toString().substring(1);
-    usedVars.push("Hilfstalent(e) (" + helperModString + ")");
+    if(!isNaN(helperModi)) used.push("Hilfstalent(e) (" + helperModString + ")");
 
     // Calculate Castinduration
 
@@ -1147,7 +1147,7 @@ export async function onSchamanRoll(data, event) {
         wirkDur: wirkDur,
         cost: optAnswer.total,
         usedVar: usedVar,
-        usedVars: usedVars,
+        usedVars: used,
         att1: item.system.att1,
         att2: item.system.att2,
         att3: item.system.att3,
@@ -1155,7 +1155,7 @@ export async function onSchamanRoll(data, event) {
     };
 
     optional.vari = (usedVar.length > 0);
-    optional.varis = (usedVars.length > 0);
+    optional.varis = (used.length > 0);
 
     // Execute Roll
 
@@ -4625,6 +4625,14 @@ export function getObjectRitContextMenu(data, event) {
     let options = event.shiftKey ? false : true;
 
     if(options) new Browser({},{},"objektRitual", data.actor._id).render(true);
+    else onItemCreate(data, event);
+}
+
+export function getRitContextMenu(data, event) {
+
+    let options = event.shiftKey ? false : true;
+
+    if(options) new Browser({},{},"ritual", data.actor._id).render(true);
     else onItemCreate(data, event);
 }
 

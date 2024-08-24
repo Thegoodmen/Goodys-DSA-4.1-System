@@ -1,5 +1,5 @@
-2024/07/17-01:22:10.903435 30c557000 Recovering log #333
-2024/07/17-01:22:10.927576 30c557000 Level-0 table #335: started
-2024/07/17-01:22:10.929195 30c557000 Level-0 table #335: 99924 bytes OK
-2024/07/17-01:22:10.930408 30c557000 Delete type=0 #333
-2024/07/17-01:22:10.931549 30c557000 Delete type=3 #332
+2024/08/24-12:51:31.482 13774 Log #339: 0 ops saved to Table #342 OK
+2024/08/24-12:51:31.482 13774 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\rituale/000339.log: OK
+2024/08/24-12:51:31.482 13774 Table #341: 370 entries OK
+2024/08/24-12:51:31.485 13774 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\rituale/MANIFEST-000337: OK
+2024/08/24-12:51:31.489 13774 **** Repaired leveldb C:\FoundryVTT\Data\systems\gdsa\packs\rituale; recovered 1 files; 154303 bytes. Some data may have been lost. ****

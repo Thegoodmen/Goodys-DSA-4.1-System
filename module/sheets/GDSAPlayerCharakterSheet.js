@@ -182,6 +182,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".rangeW-add").click(LsFunction.getRangeWContextMenu.bind(this, sheet));
             html.find(".shilds-add").click(LsFunction.getShieldContextMenu.bind(this, sheet));
             html.find(".armour-add").click(LsFunction.getArmourContextMenu.bind(this, sheet));
+            html.find(".ritual-add").click(LsFunction.getRitContextMenu.bind(this, sheet));
             html.find(".objektRitual-add").click(LsFunction.getObjectRitContextMenu.bind(this, sheet));
             html.find(".item-delete").click(LsFunction.onItemDelete.bind(this, sheet));
             html.find(".ritCheck").change(LsFunction.changeActiveStat.bind(this, sheet));

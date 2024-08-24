@@ -184,18 +184,32 @@ export default class GDSACompBrowser extends FormApplication {
 
                 break;
 
-            case "objektRitual":
+            case "ritual":
                 
                 itemArray = await game.packs.get("gdsa.rituale").getDocuments();
                 
                 for(let item of itemArray) {
 
                     if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
-                        if(item.type === "objektRitual")
+                        if(item.system.type ===  "schama" || item.system.type ===  "ritual")
                             if(this.rittSkill === "" || this.checkRitualSkill(item, this.rittSkill))
                                 sortedArray.push(item)
                 }
 
+                break;
+
+            case "objektRitual":
+                    
+                itemArray = await game.packs.get("gdsa.rituale").getDocuments();
+                    
+                for(let item of itemArray) {
+    
+                    if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
+                        if(item.system.type === "objrit")
+                            if(this.rittSkill === "" || this.checkRitualSkill(item, this.rittSkill))
+                                sortedArray.push(item)
+                }
+    
                 break;
 
             case "wonder":

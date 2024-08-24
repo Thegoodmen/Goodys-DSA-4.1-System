@@ -1,15 +1,11 @@
-2024/08/21-09:20:41.733815 309e5c000 Recovering log #348
-2024/08/21-09:20:41.734341 309e5c000 Delete type=0 #348
-2024/08/21-09:20:41.734382 309e5c000 Delete type=3 #346
-2024/08/24-00:29:08.277252 3045d7000 Level-0 table #352: started
-2024/08/24-00:29:08.277854 3045d7000 Level-0 table #352: 18299 bytes OK
-2024/08/24-00:29:08.278361 3045d7000 Delete type=0 #350
-2024/08/24-00:29:08.326716 3045d7000 Manual compaction at level-0 from '!items!06aMB39mcK5uHm76' @ 72057594037927935 : 1 .. '!items.effects!9d44W6jPJJZPi7ez.y1khO9u3W91NFjPH' @ 0 : 0; will stop at '!items!gK3L84Ik1SZZj21z' @ 31585 : 1
-2024/08/24-00:29:08.328571 3045d7000 Compacting 2@0 + 1@1 files
-2024/08/24-00:29:08.386955 3045d7000 Generated table #353@0: 1216 keys, 627535 bytes
-2024/08/24-00:29:08.386989 3045d7000 Compacted 2@0 + 1@1 files => 627535 bytes
-2024/08/24-00:29:08.387110 3045d7000 compacted to: files[ 0 1 0 0 0 0 0 ]
-2024/08/24-00:29:08.387194 3045d7000 Delete type=2 #347
-2024/08/24-00:29:08.387337 3045d7000 Delete type=2 #352
-2024/08/24-00:29:08.387441 3045d7000 Delete type=2 #333
-2024/08/24-00:29:08.415387 3045d7000 Manual compaction at level-0 from '!items!gK3L84Ik1SZZj21z' @ 31585 : 1 .. '!items.effects!9d44W6jPJJZPi7ez.y1khO9u3W91NFjPH' @ 0 : 0; will stop at (end)
+2024/08/24-12:51:31.539 2b74 Delete type=3 #1
+2024/08/24-14:43:22.124 19ce4 Level-0 table #358: started
+2024/08/24-14:43:22.124 19ce4 Level-0 table #358: 0 bytes OK
+2024/08/24-14:43:22.128 19ce4 Delete type=0 #356
+2024/08/24-14:43:22.142 19ce4 Manual compaction at level-0 from '!items!06aMB39mcK5uHm76' @ 72057594037927935 : 1 .. '!items.effects!9d44W6jPJJZPi7ez.y1khO9u3W91NFjPH' @ 0 : 0; will stop at '!items.effects!9d44W6jPJJZPi7ez.y1khO9u3W91NFjPH' @ 31564 : 1
+2024/08/24-14:43:22.142 19ce4 Compacting 1@0 + 0@1 files
+2024/08/24-14:43:22.151 19ce4 Generated table #359@0: 1216 keys, 627535 bytes
+2024/08/24-14:43:22.151 19ce4 Compacted 1@0 + 0@1 files => 627535 bytes
+2024/08/24-14:43:22.154 19ce4 compacted to: files[ 0 1 0 0 0 0 0 ]
+2024/08/24-14:43:22.154 19ce4 Delete type=2 #353
+2024/08/24-14:43:22.171 19ce4 Manual compaction at level-0 from '!items.effects!9d44W6jPJJZPi7ez.y1khO9u3W91NFjPH' @ 31564 : 1 .. '!items.effects!9d44W6jPJJZPi7ez.y1khO9u3W91NFjPH' @ 0 : 0; will stop at (end)

@@ -1,3 +1,5 @@
-2024/07/17-01:22:10.853065 30cd5a000 Recovering log #335
-2024/07/17-01:22:10.853740 30cd5a000 Delete type=3 #334
-2024/07/17-01:22:10.853794 30cd5a000 Delete type=0 #335
+2024/08/24-12:51:31.459 13774 Log #340: 0 ops saved to Table #341 OK
+2024/08/24-12:51:31.459 13774 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\arsenal/000340.log: OK
+2024/08/24-12:51:31.462 13774 Table #297: 1012 entries OK
+2024/08/24-12:51:31.466 13774 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\arsenal/MANIFEST-000338: OK
+2024/08/24-12:51:31.469 13774 **** Repaired leveldb C:\FoundryVTT\Data\systems\gdsa\packs\arsenal; recovered 1 files; 276464 bytes. Some data may have been lost. ****
