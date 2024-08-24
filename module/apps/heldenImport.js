@@ -13,7 +13,7 @@ export default class GDSAHeldenImporter extends FormApplication {
 
     static get defaultOptions() {
 
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             classes: ["GDSA", "gmscreen"],
             template: "systems/gdsa/templates/apps/heldenimport.hbs",
             width: 800,
@@ -132,8 +132,6 @@ export default class GDSAHeldenImporter extends FormApplication {
 
         if(Object.keys(hero).length === 0) return;
 
-        console.log(hero);
-
         let actor = await GDSAActor.create({
             name: "New Test Actor",
             type: "PlayerCharakter",
@@ -207,6 +205,15 @@ export default class GDSAHeldenImporter extends FormApplication {
             
         for (let i = 0; i < hero.wonders.length; i++)
             await actor.createEmbeddedDocuments("Item", [hero.wonders[i]]);
+            
+        for (let i = 0; i < hero.objectRit.length; i++)
+            await actor.createEmbeddedDocuments("Item", [hero.objectRit[i]]);
+            
+        for (let i = 0; i < hero.rits.length; i++)
+            await actor.createEmbeddedDocuments("Item", [hero.rits[i]]);
+            
+        for (let i = 0; i < hero.items.length; i++)
+            await actor.createEmbeddedDocuments("Item", [hero.items[i]]);
 
         for (let i = 0; i < hero.spells.length; i++) {
 
@@ -318,8 +325,6 @@ export default class GDSAHeldenImporter extends FormApplication {
         }
         
         await delay(1000);
-
-        console.log(actor);
 
         actor.update({ "system.LeP.value": actor.system.LeP.max });
         actor.update({ "system.AuP.value": actor.system.AuP.max });
@@ -759,6 +764,9 @@ function generateHeroObject(event, xml) {
 
             let ritualArray = templates.ritual.schamObj.filter(function(item) {return item.name.includes(traitName.split(":")[1].trim())});
 
+            if (ritualArray.length !== 1)
+                ritualArray = templates.ritual.schamObj.filter(function(item) {return item.name.includes((traitName.split(":")[1]).trim() + " 1")});
+
             if (ritualArray.length === 1) {
 
                 objectRit.push(ritualArray[0]);
@@ -881,6 +889,31 @@ function generateHeroObject(event, xml) {
                     + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
             }
             
+        } else if (traitName.includes("Ritual")) {
+            
+            let ritualArray = templates.ritual.all.filter(function(item) {return item.name.includes(traitName.split(":")[1].trim())});
+
+            if (ritualArray.length === 1) {
+
+                sfRit.push(ritualArray[0]);
+
+            } else if (ritualArray.length > 1) {
+
+                let newItem = ritualArray[0];
+
+                newItem.creatTalent = "";
+                newItem.ritualSkills = "";
+
+                sfRit.push(newItem);
+
+            } else {
+
+                event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                    "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
+                    + traitName.trim() 
+                    + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
+            }
+
         } else if (traitName.includes("Hexenfluch")) {
             // Will follow with Rituals
         } else if (traitName.includes("Hexenritual")) {
@@ -892,8 +925,6 @@ function generateHeroObject(event, xml) {
         } else if (traitName.includes("Zauberzeichen")) {
             // Will follow with Rituals
         } else if (traitName.includes("Melodie")) {
-            // Will follow with Rituals
-        } else if (traitName.includes("Ritual")) {
             // Will follow with Rituals
         } else if (traitName.includes("Runen")) {
             // Will follow with Rituals
@@ -950,107 +981,97 @@ function generateHeroObject(event, xml) {
     
     for (let i = 0; i < itemArray.length; i++) {
 
-        let iname = itemArray[i].attributes.name.value;
-        let orgit = itemArray[i].attributes.name.value;
-        let iamou = itemArray[i].attributes.anzahl.value;
-        let iweig = 0;
-        let icost = 0;
-        let armour = null;
-        let meleeW = null;
-        let rangeW = null;
+        const templates = Object.assign({}, CONFIG.Templates);
+        let orignalName = itemArray[i].attributes.name.value;
 
-        if (itemArray[i].getElementsByTagName("modallgemein")[0] !== undefined) {
+        let toolItemsArray = templates.items.all.filter(function(item) {return item.name.includes(orignalName)})
 
-            iname = itemArray[i].getElementsByTagName("modallgemein")[0].getElementsByTagName("name")[0].attributes.value.value;
-            iweig = itemArray[i].getElementsByTagName("modallgemein")[0].getElementsByTagName("gewicht")[0].attributes.value.value;
-            icost = itemArray[i].getElementsByTagName("modallgemein")[0].getElementsByTagName("preis")[0].attributes.value.value;
-        }
+        if (toolItemsArray.length > 0) {
 
-        if (itemArray[i].getElementsByTagName("Rüstung")[0] !== undefined) {
+            if (toolItemsArray.length > 1)
+                toolItemsArray = templates.items.all.filter(function(item) {return item.name === orignalName})
 
-            armour = {};
+            if (toolItemsArray.length === 1 || toolItemsArray.length === 2 && toolItemsArray[0].system.type !== toolItemsArray[1].system.type) {
+                for (let item of toolItemsArray) {
+                    
+                    let newitem = Object.assign({}, item);
 
-            armour.type = itemArray[i].attributes.name.value;
+                    newitem.system.quantity = itemArray[i].attributes.anzahl.value;
 
-            if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("kopf")[0] !== undefined) armour.head = 
-                itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("kopf")[0].attributes.value.value;
-            if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("brust")[0] !== undefined) armour.body = 
-                itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("brust")[0].attributes.value.value;
-            if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("ruecken")[0] !== undefined) armour.back = 
-                itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("ruecken")[0].attributes.value.value;
-            if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("bauch")[0] !== undefined) armour.stomach = 
-                itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("bauch")[0].attributes.value.value;
-            if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("rechterarm")[0] !== undefined) armour.rightarm = 
-                itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("rechterarm")[0].attributes.value.value;
-            if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("linkerarm")[0] !== undefined) armour.leftarm = 
-                itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("linkerarm")[0].attributes.value.value;
-            if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("rechtesbein")[0] !== undefined) armour.rightleg = 
-                itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("rechtesbein")[0].attributes.value.value;
-            if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("linkesbein")[0] !== undefined) armour.leftleg = 
-                itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("linkesbein")[0].attributes.value.value;
-            if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("sterne")[0] !== undefined) armour.star = 
-                itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("sterne")[0].attributes.value.value;
-        }
+                    if (itemArray[i].getElementsByTagName("modallgemein")[0] !== undefined) {
+            
+                        newitem.name = itemArray[i].getElementsByTagName("modallgemein")[0].getElementsByTagName("name")[0].attributes.value.value;
+                        newitem.system.weight = itemArray[i].getElementsByTagName("modallgemein")[0].getElementsByTagName("gewicht")[0].attributes.value.value;
+                        newitem.system.value = itemArray[i].getElementsByTagName("modallgemein")[0].getElementsByTagName("preis")[0].attributes.value.value;
+                    }
+                    if (itemArray[i].getElementsByTagName("Rüstung")[0] !== undefined) {
+            
+                        if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("kopf")[0] !== undefined) newitem.system.armour.head = 
+                            itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("kopf")[0].attributes.value.value;
+                        if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("brust")[0] !== undefined) newitem.system.armour.body = 
+                            itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("brust")[0].attributes.value.value;
+                        if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("ruecken")[0] !== undefined) newitem.system.armour.back = 
+                            itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("ruecken")[0].attributes.value.value;
+                        if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("bauch")[0] !== undefined) newitem.system.armour.stomach = 
+                            itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("bauch")[0].attributes.value.value;
+                        if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("rechterarm")[0] !== undefined) newitem.system.armour.rightarm = 
+                            itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("rechterarm")[0].attributes.value.value;
+                        if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("linkerarm")[0] !== undefined) newitem.system.armour.leftarm = 
+                            itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("linkerarm")[0].attributes.value.value;
+                        if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("rechtesbein")[0] !== undefined) newitem.system.armour.rightleg = 
+                            itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("rechtesbein")[0].attributes.value.value;
+                        if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("linkesbein")[0] !== undefined) newitem.system.armour.leftleg = 
+                            itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("linkesbein")[0].attributes.value.value;
+                        if (itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("sterne")[0] !== undefined) newitem.system.armour.star = 
+                            itemArray[i].getElementsByTagName("Rüstung")[0].getElementsByTagName("sterne")[0].attributes.value.value;
+                    }
+                    if (itemArray[i].getElementsByTagName("Nahkampfwaffe")[0] !== undefined) {
+            
+                        if (itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0] !== undefined) newitem.system.weapon.damage = 
+                            itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0].attributes.mul.value + "d" +
+                            itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0].attributes.w.value + " + " +
+                            itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0].attributes.sum.value;
+                        if (itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("wm")[0] !== undefined) newitem.system.weapon["WM-ATK"] = 
+                            itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("wm")[0].attributes.at.value;
+                        if (itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("wm")[0] !== undefined) newitem.system.weapon["WM-DEF"] = 
+                            itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("wm")[0].attributes.pa.value;
+                        if (itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("inimod")[0] !== undefined) newitem.system.weapon.INI = 
+                            itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("inimod")[0].attributes.ini.value;
+                        if (itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("bf")[0] !== undefined) newitem.system.weapon["BF-min"] = 
+                            itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("bf")[0].attributes.min.value;
+                        if (itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("bf")[0] !== undefined) newitem.system.weapon["BF-cur"] = 
+                            itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("bf")[0].attributes.akt.value;
+                    }
+                    if (itemArray[i].getElementsByTagName("Fernkampfwaffe")[0] !== undefined) {
+            
+                        if (itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0] !== undefined) newitem.system.weapon.damage = 
+                            itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0].attributes.mul.value + "d" +
+                            itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0].attributes.w.value + " + " +
+                            itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0].attributes.sum.value;
+            
+                        if (itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("entfernung")[0] !== undefined) {
+                            newitem.system.weapon.range1 = itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("entfernung")[0].attributes.E0.value;
+                            newitem.system.weapon.range2 = itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("entfernung")[0].attributes.E1.value;
+                            newitem.system.weapon.range3 = itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("entfernung")[0].attributes.E2.value;
+                            newitem.system.weapon.range4 = itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("entfernung")[0].attributes.E3.value;
+                            newitem.system.weapon.range5 = itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("entfernung")[0].attributes.E4.value;
+                        } 
+                        if (itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("tpmod")[0] !== undefined) {
+                            newitem.system.weapon.tp1 = itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("tpmod")[0].attributes.M0.value;
+                            newitem.system.weapon.tp2 = itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("tpmod")[0].attributes.M1.value;
+                            newitem.system.weapon.tp3 = itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("tpmod")[0].attributes.M2.value;
+                            newitem.system.weapon.tp4 = itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("tpmod")[0].attributes.M3.value;
+                            newitem.system.weapon.tp5 = itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("tpmod")[0].attributes.M4.value;
+                        }
+                    }
+                    if (itemArray[i].getElementsByTagName("Wesen")[0] !== undefined) continue;
 
-        if (itemArray[i].getElementsByTagName("Nahkampfwaffe")[0] !== undefined) {
-
-            meleeW = {};
-
-            meleeW.type = itemArray[i].attributes.name.value;
-
-            if (itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0] !== undefined) meleeW.damage = 
-                itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0].attributes.mul.value + "d" +
-                itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0].attributes.w.value + " + " +
-                itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0].attributes.sum.value;
-            if (itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("wm")[0] !== undefined) meleeW["WM-ATK"] = 
-                itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("wm")[0].attributes.at.value;
-            if (itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("wm")[0] !== undefined) meleeW["WM-DEF"] = 
-                itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("wm")[0].attributes.pa.value;
-            if (itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("inimod")[0] !== undefined) meleeW.INI = 
-                itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("inimod")[0].attributes.ini.value;
-            if (itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("bf")[0] !== undefined) meleeW["BF-min"] = 
-                itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("bf")[0].attributes.min.value;
-            if (itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("bf")[0] !== undefined) meleeW["BF-cur"] = 
-                itemArray[i].getElementsByTagName("Nahkampfwaffe")[0].getElementsByTagName("bf")[0].attributes.akt.value;
-        }
-
-        if (itemArray[i].getElementsByTagName("Fernkampfwaffe")[0] !== undefined) {
-
-            rangeW = {};
-
-            rangeW.type = itemArray[i].attributes.name.value;
-
-            if (itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0] !== undefined) rangeW.damage = 
-                itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0].attributes.mul.value + "d" +
-                itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0].attributes.w.value + " + " +
-                itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("trefferpunkte")[0].attributes.sum.value;
-            if (itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("entfernung")[0] !== undefined) rangeW.range = 
-                itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("entfernung")[0].attributes.E0.value + "/" +
-                itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("entfernung")[0].attributes.E1.value + "/" +
-                itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("entfernung")[0].attributes.E2.value + "/" +
-                itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("entfernung")[0].attributes.E3.value + "/" +
-                itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("entfernung")[0].attributes.E4.value;
-            if (itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("tpmod")[0] !== undefined) rangeW.tp = 
-                itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("tpmod")[0].attributes.M0.value + "/" +
-                itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("tpmod")[0].attributes.M1.value + "/" +
-                itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("tpmod")[0].attributes.M2.value + "/" +
-                itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("tpmod")[0].attributes.M3.value + "/" +
-                itemArray[i].getElementsByTagName("Fernkampfwaffe")[0].getElementsByTagName("tpmod")[0].attributes.M4.value;
-        }
-
-        if (itemArray[i].getElementsByTagName("Wesen")[0] !== undefined) continue;
-
-        items.push({
-            name: iname,
-            amount: iamou,
-            weight: iweig,
-            cost: icost,
-            armour: armour,
-            meleeW: meleeW,
-            rangeW: rangeW,
-            orginal: orgit
-        })
-        
+                    items.push(newitem);
+                }
+            } else event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                "<div class='importError'>Der folgende Gegenstand konnte nicht zugewiesen werden: <br /><b>" + orignalName + "</b><br /> Nach dem Import muss jener manuell hinzugefügt werden!</div>";
+        } else event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+            "<div class='importError'>Der folgende Gegenstand wurde nicht gefunden: <br /><b>" + orignalName + "</b><br /> Nach dem Import muss jener manuell hinzugefügt werden!</div>"; 
     }
 
     let attPoints = (

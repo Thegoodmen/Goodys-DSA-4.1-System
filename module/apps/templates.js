@@ -404,6 +404,31 @@ async function getFlaws() {
     return traits;
 }
 
+async function getItems() {
+
+    let templatesSystem = await game.packs.get("gdsa.arsenal").getDocuments();
+    let templatesWorld = await game.packs.get("world.arsenal") === undefined ? [] : await game.packs.get("world.arsenal").getDocuments();
+    let templates = templatesWorld.concat(templatesSystem);
+
+    let meeleArray = templates.filter(function(item) {return item.system.type == "melee"});
+    let rangeArray = templates.filter(function(item) {return item.system.type == "range"});
+    let armourArray = templates.filter(function(item) {return item.system.type == "armour"});
+    let shildArray = templates.filter(function(item) {return item.system.type == "shild"});
+    let generalArray = templates.filter(function(item) {return item.system.type == "item"});
+
+    let items = {
+        melee: meeleArray,
+        range: rangeArray,
+        armour: armourArray,
+        shild: shildArray,
+        general: generalArray,
+        all: templates
+    };
+
+    return items;
+    
+}
+
 async function getEffects() {
 
     let templatesSystem = await game.packs.get("gdsa.templates").getDocuments();
@@ -433,6 +458,7 @@ export async function templateData() {
         advantage: await getAdvantages(),
         flaw: await getFlaws(),
         ritual: await getRituals(),
+        items: await getItems(),
         effects: await getEffects(),
     };
 }

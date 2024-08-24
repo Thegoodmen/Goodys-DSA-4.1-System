@@ -1,3 +1,11 @@
-2024/07/17-01:22:10.951965 30cd5a000 Recovering log #330
-2024/07/17-01:22:10.952792 30cd5a000 Delete type=0 #330
-2024/07/17-01:22:10.952833 30cd5a000 Delete type=3 #329
+2024/08/24-12:51:31.518 28824 Delete type=3 #1
+2024/08/24-14:43:22.128 19ce4 Level-0 table #340: started
+2024/08/24-14:43:22.128 19ce4 Level-0 table #340: 0 bytes OK
+2024/08/24-14:43:22.130 19ce4 Delete type=0 #338
+2024/08/24-14:43:22.154 19ce4 Manual compaction at level-0 from '!items!048Z7NHzxMDrbavS' @ 72057594037927935 : 1 .. '!items!zumbrZmlHLQBYB8J' @ 0 : 0; will stop at '!items!zumbrZmlHLQBYB8J' @ 1355 : 1
+2024/08/24-14:43:22.154 19ce4 Compacting 1@0 + 0@1 files
+2024/08/24-14:43:22.159 19ce4 Generated table #341@0: 448 keys, 134543 bytes
+2024/08/24-14:43:22.159 19ce4 Compacted 1@0 + 0@1 files => 134543 bytes
+2024/08/24-14:43:22.162 19ce4 compacted to: files[ 0 1 0 0 0 0 0 ]
+2024/08/24-14:43:22.162 19ce4 Delete type=2 #292
+2024/08/24-14:43:22.171 19ce4 Manual compaction at level-0 from '!items!zumbrZmlHLQBYB8J' @ 1355 : 1 .. '!items!zumbrZmlHLQBYB8J' @ 0 : 0; will stop at (end)

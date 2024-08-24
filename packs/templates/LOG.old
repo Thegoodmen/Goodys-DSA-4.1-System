@@ -1,3 +1,5 @@
-2024/07/11-19:14:56.529415 30e5e0000 Recovering log #342
-2024/07/11-19:14:56.530138 30e5e0000 Delete type=3 #340
-2024/07/11-19:14:56.530212 30e5e0000 Delete type=0 #342
+2024/08/24-12:51:31.522 2b74 Log #351: 0 ops saved to Table #354 OK
+2024/08/24-12:51:31.522 2b74 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\templates/000351.log: OK
+2024/08/24-12:51:31.525 2b74 Table #353: 1216 entries OK
+2024/08/24-12:51:31.528 2b74 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\templates/MANIFEST-000349: OK
+2024/08/24-12:51:31.531 2b74 **** Repaired leveldb C:\FoundryVTT\Data\systems\gdsa\packs\templates; recovered 1 files; 627535 bytes. Some data may have been lost. ****

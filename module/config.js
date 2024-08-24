@@ -63,6 +63,21 @@ GDSA.schamRitDuration = [
     "Speziell"
 ]
 
+GDSA.schamTarget = [
+    "S",
+    "P",
+    "P+P",
+    "PP",
+    "PPP",
+    "PPPP",
+    "PPPPP",
+    "Z",
+    "ZZ",
+    "ZZZ",
+    "ZZZZ",
+    "ZZZZZ"
+]
+
 GDSA.schamCastDuration = {
     action: "GDSA.rit.action",
     rounds: "GDSA.rit.rounds",

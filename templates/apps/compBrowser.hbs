@@ -44,10 +44,14 @@
             <select class="browserMenuInput" name="aPlace">{{selectOptions config.amourPlace selected=aPlace blank="" localize=true}}</select>
         {{/if}}
 
+        {{#if (equals type "ritual")}}
+            
+        {{/if}}    
+
         {{#if (equals type "objektRitual")}}
             <div class="browserMenuEntry">{{localize "GDSA.charactersheet.rit"}}</div>
             <select class="browserMenuInput" name="rittSkill">{{selectOptions config.ritualSkills selected=rittSkill blank="" localize=true}}</select>
-        {{/if}}       
+        {{/if}}     
 
         {{#if (equals type "wonder")}}
             <div class="browserMenuEntry">{{localize "GDSA.system.verbr"}}</div>
@@ -122,6 +126,18 @@
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
                     <div class="browserName"><b>{{name}}</b> <br /><i> > {{#if system.armour.Z}} {{localize "GDSA.itemsheet.zArmour"}} {{else}} {{localize "GDSA.itemsheet.zoneArmour"}} {{/if}}</i></div>
                     <div class="browserComplex1"></div>
+                </div>
+            {{/each}}
+        {{/if}}
+
+        {{#if (equals type "ritual")}}
+            <div class="headline">{{localize "GDSA.system.ritual"}}</div>
+
+            {{#each items as |item id|}}
+                <div class="item itemBrowserBox" data-id="{{_id}}">
+                    <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
+                    <div class="browserName"><b>{{name}}</b> <br /><i> > Ritualmagie</i></div>
+                    <div class="browserComplex">V{{system.vRit}}</div>
                 </div>
             {{/each}}
         {{/if}}

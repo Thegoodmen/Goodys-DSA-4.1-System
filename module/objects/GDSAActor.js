@@ -26,7 +26,7 @@ export default class GDSAActor extends Actor {
 
         // Set highest Parry for automated Combat
 
-        let weapons = Util.getItems(this, "simple-weapon",false);
+        let weapons = Util.getTemplateItems(this, "npcw",false);
         actorData.mainPA = 0;
         for(let weapon of weapons) if(weapon.system.pa > actorData.mainPA) actorData.mainPA = weapon.system.pa;
         actorData.Dogde = actorData.mainPA;
@@ -156,7 +156,9 @@ export default class GDSAActor extends Actor {
                 if (CONFIG.Templates.talents.all[i]._id === skill) 
                     skillItem = CONFIG.Templates.talents.all[i];
 
-            let PAValue = data.skill[skillItem.name].def;
+            let PAValue = 0;
+            if(data.skill[skillItem.name])
+            PAValue = data.skill[skillItem.name].def;
 
             let wm = weapon.system.weapon["WM-DEF"];
             PAValue += wm;

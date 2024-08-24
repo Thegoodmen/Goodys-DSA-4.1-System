@@ -242,6 +242,7 @@ export async function onSpellRoll(data, event) {
     let checkOptions2 = false;
     let advantage = 0;
     let disadvantage = 0;
+    let nonDiscountDisadvantage = 0;
     let actions = 0;
     let bonusCost = 0;
     let costMod = 0;
@@ -278,6 +279,7 @@ export async function onSpellRoll(data, event) {
         
         advantage = checkOptions.advantage;
         disadvantage = checkOptions.disadvantage;
+        nonDiscountDisadvantage = checkOptions.nonDiscountDisadvantage;
         actions = checkOptions.actions;
         bonusCost = checkOptions.bonusCost;
         costMod = checkOptions.costMod;
@@ -524,7 +526,7 @@ export async function onSpellRoll(data, event) {
     if (item.system.att2 === "CH") chamount++;
     if (item.system.att3 === "CH") chamount++;
 
-    if (item.system.rep === "mag") disadvantage = Math.round(disadvantage / 2);
+    if (item.system.rep === "mag") disadvantage = Math.round(disadvantage - nonDiscountDisadvantage / 2) + nonDiscountDisadvantage;
     if (item.system.rep === "mag") if (doubcast) advantage++;
     if (item.system.vars != undefined) for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) disadvantage += item.system.vars[i].disad;
     if (item.system.rep === "srl") if (item.system.trait1 === "illu" || item.system.trait2 === "illu" || item.system.trait3 === "illu" || item.system.trait4 === "illu") Math.round(disadvantage / 2);
@@ -654,7 +656,7 @@ export async function onSpellRoll(data, event) {
     // Execute Roll
 
     let spellCheck = await Dice.skillCheck(dataset.statname, spellValue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif, optional);
-    spellCheck.message.setFlag('gdsa', 'isCollapsable', true);
+    if (!noChat) spellCheck.message.setFlag('gdsa', 'isCollapsable', true);
 
     // Reset Item
 
@@ -663,18 +665,20 @@ export async function onSpellRoll(data, event) {
     if(!spellCheck.succ) return;
 
     if (item.name.includes(game.i18n.localize("GDSA.spell.faxi")) && !notEnoughAsP) { 
-        console.log("here");
+
         const chatModel = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
         await Dice.doXD20XD6Roll(chatModel, optAnswer.d20, optAnswer.d6);
     }
 
     if (item.name.includes(game.i18n.localize("GDSA.spell.sphaero")) && !notEnoughAsP) { 
+
         optAnswer.templateContext.totalDMG +=  Math.round(spellCheck.value / 2);
         const chatModel = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
         await Dice.doXD20XD6Roll(chatModel, optAnswer.d20, optAnswer.d6);
     }
 
     if (item.name.includes(game.i18n.localize("GDSA.spell.plano")) && !notEnoughAsP) { 
+
         optAnswer.templateContext.totalDMG += spellCheck.value;
         const chatModel = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
         await Dice.doXD20XD6Roll(chatModel, optAnswer.d20, optAnswer.d6);
@@ -805,11 +809,46 @@ export async function onRitualRoll(data, event) {
     let usedVars = [];
     let usedVar = [];
     let notEnoughAsP = false;
+    let helperAdvantage = 0;
+    let helperDisadvantage = 0;
 
     // Preap General
 
     if(item.system.ritTalent === "none" || item.system.ritTalent === "") ui.notifications.warn('Bitte eine Repräsentation im Ritual auswählen!')
 
+    // Tanzen when Zaubertänzer
+
+    if(item.system.ritTalent === "tanz") {
+
+        let rollEvent = {
+            name: "Tanzen",
+            item: await getTalent("Tanzen"),
+            actor: actor,
+            stat: actor.system.skill["Tanzen"],
+            skipMenu: true
+        }
+       
+        let response = await doSkillRoll(rollEvent);
+        if(response.succ) helperAdvantage += parseInt(response.value);
+        else helperDisadvantage += 7;
+    }
+    // Musizieren when Derwisch
+
+    if(item.system.ritTalent === "derw") {
+
+        let rollEvent = {
+            name: "Musizieren",
+            item: await getTalent("Musizieren"),
+            actor: actor,
+            stat: actor.system.skill["Musizieren"],
+            skipMenu: true
+        }
+       
+        let response = await doSkillRoll(rollEvent);
+        if(response.succ) helperAdvantage += parseInt(response.value);
+        else helperDisadvantage += 7;
+    }
+   
     // Generate Dialog for Modifikations
 
     if(options) {
@@ -825,7 +864,7 @@ export async function onRitualRoll(data, event) {
 
     // Set ZfW of Spell
 
-    spellValue = dataset.ritknow;
+    spellValue = parseInt(dataset.ritknow) + helperAdvantage - helperDisadvantage;
     spellName = dataset.statname;
 
     let ritMod =  (item.system.disadv === "" || item.system.disadv === null) ? 0 : item.system.disadv;
@@ -885,7 +924,7 @@ export async function onSchamanRoll(data, event) {
     let disadvantage = 0;
     let spellValue = 0;
     let spellName = "";
-    let usedVars = [];
+    let used = [];
     let usedVar = [];
 
     let helperTal = [];
@@ -930,7 +969,7 @@ export async function onSchamanRoll(data, event) {
 
         advantage = checkOptions.advantage;
         disadvantage = checkOptions.disadvantage;
-        usedVars = checkOptions.used;
+        used = checkOptions.used;
         helperTal = checkOptions.helper;
         modReach = checkOptions.reach;
         modRitDur = checkOptions.ritdur;
@@ -965,7 +1004,7 @@ export async function onSchamanRoll(data, event) {
   
     helperModi = (Math.round(helperAdvantage / numOfHelper) - helperDisadvantage) * -1;
     let helperModString = helperModi > 0 ? "+ " + helperModi : helperModi.toString()[0] + " " + helperModi.toString().substring(1);
-    usedVars.push("Hilfstalent(e) (" + helperModString + ")");
+    if(!isNaN(helperModi)) used.push("Hilfstalent(e) (" + helperModString + ")");
 
     // Calculate Castinduration
 
@@ -1108,7 +1147,7 @@ export async function onSchamanRoll(data, event) {
         wirkDur: wirkDur,
         cost: optAnswer.total,
         usedVar: usedVar,
-        usedVars: usedVars,
+        usedVars: used,
         att1: item.system.att1,
         att2: item.system.att2,
         att3: item.system.att3,
@@ -1116,7 +1155,7 @@ export async function onSchamanRoll(data, event) {
     };
 
     optional.vari = (usedVar.length > 0);
-    optional.varis = (usedVars.length > 0);
+    optional.varis = (used.length > 0);
 
     // Execute Roll
 
@@ -1932,6 +1971,8 @@ export async function onAttackRoll(data, event) {
 
     // Set general Used Indicators
     
+    let currentScene = null;
+    let currentSceneCombat = null;
     let isPartofCombat = false;   //Indicates if Token/Actor is part of Combat
     let userCombatant = null;     //If True, holds the Combatant Instance of the User
     let attacksLeft = 0;          //If True, holds the Numbers of Attacks left this Round of the Combatant
@@ -1956,9 +1997,11 @@ export async function onAttackRoll(data, event) {
     // Check if there is Combat and Set Combatant and Attacks left if Actor is part of Combat
 
     if (game.combat) {
-
-        userCombatant = game.combat.getCombatantByActor(data.actor.id);
-
+        
+        currentScene = game.scenes.current._id;
+        currentSceneCombat = game.combats.contents.filter(function(combat) {return combat._source.scene === currentScene})[0];
+        userCombatant = currentSceneCombat.getCombatantByActor(data.actor.id);
+        
         if(userCombatant) {
 
             isPartofCombat = true;
@@ -1973,11 +2016,9 @@ export async function onAttackRoll(data, event) {
         hasTarget = true;
         targetId = game.users.get(game.userId).targets.ids[0];
 
-        if (isPartofCombat) targetCombatant = game.combat.getCombatantByToken(targetId);
+        if (isPartofCombat) targetCombatant = currentSceneCombat.getCombatantByToken(targetId);
 
-        let sceneId = game.users.get(game.userId).viewedScene;
-
-        targetToken = game.scenes.get(sceneId).collections.tokens.get(targetId);
+        targetToken = game.scenes.get(currentScene).collections.tokens.get(targetId);
         targetActor = game.actors.get(targetToken.actorId);
 
         auto = (targetActor.type === "NonPlayer");
@@ -2136,9 +2177,11 @@ export async function onAttackRoll(data, event) {
     if(answer.result.die1 === 1) PAValue = PAValue / 2;
     PAValue = PAValue - answer.finte;
 
+    let context = { "skill": { "system": { "tale": { "DE": "NPC-Angriff", "BEtype": "0"} }}, "item": { "img": "./icons/skills/melee/shield-block-gray-yellow.webp", "system": { "weapon": { "type": "Standart", "size": "null"}}}};
+
     if(isPartofCombat) {
 
-        if(targetCombatant.flags.gdsa.combatType !== "Enemy") return;
+        if(targetCombatant.flags.gdsa.combatType === "PC") return;
 
         // Get Parries left by Target
 
@@ -2151,10 +2194,10 @@ export async function onAttackRoll(data, event) {
             parriesLeft --;
             targetCombatant.setFlag("gdsa", "parries", parriesLeft);
             
-            answer2 = await Dice.PACheck(PAValue, 0, targetToken);
+            answer2 = await Dice.PACheck(PAValue, 0, targetToken, context);
         }
 
-    } else answer2 = await Dice.PACheck(PAValue, 0, targetToken);
+    } else answer2 = await Dice.PACheck(PAValue, 0, targetToken, context);
     
     // If Parry is sucessfull return;
 
@@ -2167,18 +2210,14 @@ export async function onAttackRoll(data, event) {
     if (answer.result.critt) dmgMulti = dmgMulti * 2;
 
     let dmg = await Dice.DMGRoll(cacheObject.dmgString, actor, dmgMulti);
-
     let sp = (dmg.result - targetActor.system.RS);
+    let newHP = targetToken.actor.system.LeP.value - sp;
 
-    if (sp < 0) return;
-
-    let newHP = targetActor.system.LeP.value - sp;
-
-    GDSA.socket.executeAsGM("adjustRessource", targetActor, newHP, "LeP");
+    GDSA.socket.executeAsGM("adjustRessource", targetToken.actor, newHP, "LeP");
 
     if(isPartofCombat && newHP <= 0) {
 
-        targetToken.toggleActiveEffect( { id: "dead", label: "EFFECT.StatusDead", icon: "icons/svg/skull.svg" }, { overlay: true, active: true });
+        targetToken.actor.toggleStatusEffect( "dead", { overlay: true, active: true });
         targetCombatant.update({ "defeated": true });
     }                                   
 }
@@ -2792,7 +2831,9 @@ export async function getShildPABasis(data, PABasis) {
         let weapon = itemM.system.weapon.type;
         let itemwm = itemM.system.weapon["WM-DEF"];
 
-        let PAValue = data.actor.system.skill[skillItem.name].def;
+        let PAValue = 0;
+        if (data.actor.system.skill[skillItem.name])
+            PAValue = data.actor.system.skill[skillItem.name].def;
 
         PAValue += itemwm;
 
@@ -3446,7 +3487,7 @@ export function onPACountToggel(data, event) {
     
     // Get toggeld Counter and Combatant ID
 
-    let combatId = element.closest(".toggelAT").dataset.cmbtid;
+    let combatId = element.closest(".toggelPA").dataset.cmbtid;
     let combatantId = element.closest(".toggelPA").dataset.id;
     let toggeldCounter = element.closest(".toggelPA").dataset.count;
 
@@ -4584,6 +4625,14 @@ export function getObjectRitContextMenu(data, event) {
     let options = event.shiftKey ? false : true;
 
     if(options) new Browser({},{},"objektRitual", data.actor._id).render(true);
+    else onItemCreate(data, event);
+}
+
+export function getRitContextMenu(data, event) {
+
+    let options = event.shiftKey ? false : true;
+
+    if(options) new Browser({},{},"ritual", data.actor._id).render(true);
     else onItemCreate(data, event);
 }
 
