@@ -340,12 +340,12 @@ export async function GetAchazOptions(spell) {
 
 }
 
-export async function GetMeditationOptions() {
+export async function GetMeditationOptions(wonder) {
 
     // Create Dialog and show to User
 
     const template = "systems/gdsa/templates/chat/dialog/medi-Check-Roll.hbs";
-    const html = await renderTemplate(template, {});
+    const html = await renderTemplate(template, wonder);
 
     return new Promise(resolve => {
 
@@ -1068,7 +1068,7 @@ function _processSpellCheckOptions(form) {
     if(form.powerC != null) if(form.powerC.checked) powerC = true;
 
     if(form.halfcast.value > 0) {disadvantage = disadvantage + (form.halfcast.value * 5); actionHalf = form.halfcast.value; used.push(form.halfcast.value + "x " + game.i18n.localize("GDSA.system.halfDur") + " (+ " + (form.halfcast.value * 5) + ")")};
-    if(form.forced.value > 0) {advantage = advantage + form.forced.value; bonusCost = Math.round((( 2 ** form.forced.value) / 2) / forcedMod); actions = actions + parseInt(form.forced.value); used.push(form.forced.value + "x " + game.i18n.localize("GDSA.system.force") + " (- " + (form.forced.value) + ")")};
+    if(form.forced.value > 0) {advantage = advantage + parseInt(form.forced.value); bonusCost = Math.round((( 2 ** parseInt(form.forced.value)) / 2) / forcedMod); actions = actions + parseInt(form.forced.value); used.push(form.forced.value + "x " + game.i18n.localize("GDSA.system.force") + " (- " + (form.forced.value) + ")")};
     if(form.costMod.value > 0) {disadvantage = disadvantage + (form.costMod.value * 3); actions = actions + parseInt(form.costMod.value); costMod = parseInt(form.costMod.value); used.push(form.costMod.value + "x " + game.i18n.localize("GDSA.system.cost") + " (+ " + (form.costMod.value * 3) + ")")};
     if(form.preach.value > 0) {disadvantage = disadvantage + (form.preach.value * 5); actions = actions + parseInt(form.preach.value); used.push(form.preach.value + "x " + game.i18n.localize("GDSA.system.pRad") + " (+ " + (form.preach.value * 5) + ")")};
     if(form.mreach.value > 0) {disadvantage = disadvantage + (form.mreach.value * 3); actions = actions + parseInt(form.mreach.value); used.push(form.mreach.value + "x " + game.i18n.localize("GDSA.system.mRad") + " (+ " + (form.mreach.value * 3) + ")")};

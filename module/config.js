@@ -681,7 +681,7 @@ GDSA.npcSpecialSkills = {
     "mtra-par2": "Paraphysikalität II",
     "mtra-prä1": "Präsenz I",
     "mtra-prä2": "Präsenz II",
-    "mtra-rass": "Rasserei",
+    "mtra-rass": "Raserei",
     "mtra-reg1": "Regeneration I",
     "mtra-reg2": "Regeneration II",
     "mtra-reg3": "Regeneration III",

@@ -1279,7 +1279,6 @@ export async function onWonderRoll(data, event) {
     let item = actor.items.get(dataset.itemId);
 
     // Create Short Name
-
     item.shortname = item.name.split(" ")[0];
     if(item.name.split(" ").length > 1) item.shortname += " " + item.name.split(" ")[1];
     if(item.shortname.length <= 18 && item.name.split(" ").length > 2 && containsWord(item.shortname, item.name.split(" ")[1])) item.shortname += " " + item.name.split(" ")[2];
@@ -2113,7 +2112,7 @@ export async function onAttackRoll(data, event) {
 
             let threshold = item.system.weapon.TPKK.split("/")[0];
             let steps = item.system.weapon.TPKK.split("/")[1];
-            let kkUser = (system.KK.value + system.KK.temp);
+            let kkUser = (parseInt(system.KK.value) + parseInt(system.KK.temp));
             let x = kkUser - threshold;
 
             if(x > 0) tpBonus += Math.floor((x / steps));
@@ -2175,7 +2174,7 @@ export async function onAttackRoll(data, event) {
     let PAValue = targetToken.actor.system.mainPA;
 
     if(answer.result.die1 === 1) PAValue = PAValue / 2;
-    PAValue = PAValue - answer.finte;
+    PAValue = parseInt(PAValue) - parseInt(answer.finte);
 
     let context = { "skill": { "system": { "tale": { "DE": "NPC-Angriff", "BEtype": "0"} }}, "item": { "img": "./icons/skills/melee/shield-block-gray-yellow.webp", "system": { "weapon": { "type": "Standart", "size": "null"}}}};
 
@@ -2193,9 +2192,9 @@ export async function onAttackRoll(data, event) {
 
             parriesLeft --;
             targetCombatant.setFlag("gdsa", "parries", parriesLeft);
-            
-            answer2 = await Dice.PACheck(PAValue, 0, targetToken, context);
         }
+            
+        answer2 = await Dice.PACheck(PAValue, 0, targetToken, context);
 
     } else answer2 = await Dice.PACheck(PAValue, 0, targetToken, context);
     
@@ -2235,7 +2234,7 @@ async function onMeeleAttack(data, actor, item, ATKValue, Modi, isSpezi, auto, c
     // Get WM from Weapon
     
     let wm = item.system.weapon["WM-ATK"];
-    ATKValue += wm;
+    ATKValue += parseInt(wm);
 
     // Check for Shild and Apply Shild WM
 
@@ -2279,16 +2278,16 @@ async function onMeeleAttack(data, actor, item, ATKValue, Modi, isSpezi, auto, c
         if (cacheObject.skill.system.tale.BEtype === "x") {
 
             let be = (actor.system.gBEArmour * cacheObject.skill.system.tale.BE);
-            Modi -= be;
-            used.push(game.i18n.localize("GDSA.template.BE") + " (+ " + be + ")");
+            Modi -= Math.round((be / 2) - 0.5);
+            used.push(game.i18n.localize("GDSA.template.BE") + " (+ " + Math.round((be / 2) - 0.5) + ")");
 
         } else {
 
             let be = (actor.system.gBEArmour - cacheObject.skill.system.tale.BE);
             if (be > 0) {
 
-                Modi -= be;
-                used.push(game.i18n.localize("GDSA.template.BE") + " (+ " + be + ")");
+                Modi -= Math.round((be / 2) - 0.5);
+                used.push(game.i18n.localize("GDSA.template.BE") + " (+ " + Math.round((be / 2) - 0.5) + ")");
             }
         }
     }
@@ -2588,6 +2587,7 @@ export async function onParryRoll(data, event) {
 
     let defModi = 0;              //Holds TPKK Atk Mali
     let skillItem = {};           //Holds the Item of the Used Skill
+    let used = [];                //Used Modifiers on Roll
 
     let item;                     //Hold the Weapon Iteam of the Parads
     let answer;                   //Hold the Answer Object after the Roll
@@ -2655,6 +2655,26 @@ export async function onParryRoll(data, event) {
     let PAInfo = await Dialog.GetSkillCheckOptions(item);
     if (PAInfo.cancelled) return;
 
+    // BE
+    
+    if (actor.system.gBEArmour > 0 && skillItem.system.tale.BECheck) {
+        if (skillItem.system.tale.BEtype === "x") {
+
+            let be = (actor.system.gBEArmour * skillItem.system.tale.BE);
+            Modi -= Math.round(be / 2);
+            used.push(game.i18n.localize("GDSA.template.BE") + " (+ " + Math.round(be / 2) + ")");
+
+        } else {
+
+            let be = (actor.system.gBEArmour - skillItem.system.tale.BE);
+            if (be > 0) {
+
+                Modi -= Math.round(be / 2);
+                used.push(game.i18n.localize("GDSA.template.BE") + " (+ " + Math.round(be / 2) + ")");
+            }
+        }
+    }
+
     // Calculate Modification
 
     defModi -=  parseInt(PAInfo.disadvantage);
@@ -2673,6 +2693,8 @@ export async function onParryRoll(data, event) {
         item: item,
         skill: skillItem
     };
+
+    cacheObject.used = used;
 
     // Do Parry Roll
 
@@ -2981,7 +3003,7 @@ export async function onDMGRoll(data, event) {
 
         let threshold = item.system.weapon.TPKK.split("/")[0];
         let steps = item.system.weapon.TPKK.split("/")[1];
-        let kkUser = (system.KK.value + system.KK.temp);
+        let kkUser = (parseInt(system.KK.value) + parseInt(system.KK.temp));
         let x = kkUser - threshold;
     
         if(x > 0) tpBonus += Math.floor((x / steps));
@@ -2990,7 +3012,7 @@ export async function onDMGRoll(data, event) {
 
     // Create DMG String
 
-    let dmgString = item.system.weapon.damage + "+" + tpBonus;
+    let dmgString = (item.system.weapon.damage + "+" + tpBonus).toLowerCase().replace("w","d");
     if (itemId === "raufen" || itemId === "ringen") dmgString = "1d6+" + tpBonus;
     if (itemId === "biss") dmgString = actor.system.nwbite + "+" + tpBonus;
     if (itemId === "schwanz") dmgString = actor.system.nwtail + "+" + tpBonus;
@@ -3039,7 +3061,7 @@ export function onNPCDMGRoll(data, event) {
 
     // Get Stat Value
 
-    let value = element.closest(".item").dataset.dmg;
+    let value = element.closest(".item").dataset.dmg.toLowerCase.replace("w","d");
 
     // Execute Roll
     
@@ -3380,27 +3402,26 @@ export async function onReg(data, event) {
     let APBonus = parseInt(regDialog.asp) + NOBonus;
     let KABonus = parseInt(regDialog.kap) + NOBonus;
     let magActive = false;
-    let statValueKL = system.KL.value;
+    let statValueKL = parseInt(system.KL.value) + parseInt(system.KL.temp);
 
     // Check Traits and Mofify Bonus
-
-    let checkFastHeal = data.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.fastHeal")})[0];
-    let checkAstralHeal = data.advantages.filter(function(item) {return item.name == game.i18n.localize("GDSA.advantage.astralHeal")})[0];
+    let checkFastHeal = data.advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.fastHeal"))})[0];
+    let checkAstralHeal = data.advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.astralHeal"))})[0];
     let checkBadReg = data.flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.badReg")})[0];
     let checkAstralBlock = data.flaws.filter(function(item) {return item.name == game.i18n.localize("GDSA.flaws.astralBlock")})[0];
     let checkRegI = data.magicTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.regI")})[0];
     let checkRegII = data.magicTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.regII")})[0];
     let checkRegIII = data.magicTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.regIII")})[0];
-    if(checkFastHeal != null) HPBonus += parseInt(checkFastHeal.system.value);
+    if(checkFastHeal != null) HPBonus += parseInt(checkFastHeal.system.trait.value);
     if(checkBadReg != null) HPBonus -= 1;
-    if(checkAstralHeal != null) APBonus += parseInt(checkAstralHeal.system.value);
+    if(checkAstralHeal != null) APBonus += parseInt(checkAstralHeal.system.trait.value);
     if(checkAstralBlock != null) APBonus -= 1;
     if(checkRegI != null) APBonus += 1;
     if(checkRegII != null) APBonus += 1;
-    if(checkRegIII != null) APBonus = (statValueKL / 5) + 1 + parseInt(regDialog.asp) + NOBonus;
+    if(checkRegIII != null) APBonus = Math.round(statValueKL / 3) + 3 + parseInt(regDialog.asp) + NOBonus;
     if(checkRegIII != null) magActive = true;
     if(system.KaP.max > 0 && system.KaP.max != system.KaP.value) KABonus++; else KABonus = 0; 
-
+    console.log(APBonus);
     // Do Regeneration
 
     if(system.LeP.max != system.LeP.value)
@@ -3412,7 +3433,7 @@ export async function onReg(data, event) {
 
     system.LeP.value += parseInt(regtLeP);
     system.AuP.value = system.AuP.max;
-    system.AsP.value += parseInt(regtAsP);
+    system.AsP.value += parseInt(regtAsP.regtotal);
     system.KaP.value += parseInt(KABonus);
 
     actor.setStatData("LeP", system.LeP.value);
@@ -3420,6 +3441,8 @@ export async function onReg(data, event) {
     actor.setStatData("AsP", system.AsP.value);
     actor.setStatData("KaP", system.KaP.value);
     actor.render();
+
+    if(regtAsP != 0) regtAsP.message.setFlag('gdsa', 'isCollapsable', true);
 }
 
 export async function onMed(data, event) {
@@ -3432,8 +3455,8 @@ export async function onMed(data, event) {
     let system = data.system;
 
     // Generate Dialog
-    
-    let checkOptions = await Dialog.GetMeditationOptions();
+    let item = { config: GDSA};
+    let checkOptions = await Dialog.GetMeditationOptions(item);
     if (checkOptions.cancelled) return;
     let modi = checkOptions.disadvantage * -1;
 

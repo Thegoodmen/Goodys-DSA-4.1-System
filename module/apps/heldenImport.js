@@ -324,7 +324,7 @@ export default class GDSAHeldenImporter extends FormApplication {
             }
         }
         
-        await delay(1000);
+        await delay(2500);
 
         actor.update({ "system.LeP.value": actor.system.LeP.max });
         actor.update({ "system.AuP.value": actor.system.AuP.max });
@@ -341,6 +341,8 @@ export default class GDSAHeldenImporter extends FormApplication {
         if(actor.system.skill.Wurfbeile.value !== null) actor.update({ "system.skill.Wurfbeile.atk": (parseInt(actor.system.skill.Wurfbeile.value) + actor.system.FKBasis.value)});
         if(actor.system.skill.Wurfmesser.value !== null) actor.update({ "system.skill.Wurfmesser.atk": (parseInt(actor.system.skill.Wurfmesser.value) + actor.system.FKBasis.value)});
         if(actor.system.skill.Wurfspeere.value !== null) actor.update({ "system.skill.Wurfspeere.atk": (parseInt(actor.system.skill.Wurfspeere.value) + actor.system.FKBasis.value)});
+    
+        this.render(false);
     }
  
 }

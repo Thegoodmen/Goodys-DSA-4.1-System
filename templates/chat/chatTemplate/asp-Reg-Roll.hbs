@@ -3,18 +3,29 @@
         
         <div class="flawName">{{localize "GDSA.combat.RegAsP"}}</div>
         <div class="dicefiller"></div>
-        {{#unless isMaster}}
+        
+        <div id="collapsable">
             <div class="diceCol">
-                <div class="dices">
-                    <div class="diceD62">{{roll.total}}</div>
-                    <div class="dice">{{roll2.total}}</div>
-                </div>
+                {{#unless isMaster}}
+                    <div class="dices">
+                        <div class="diceD62">{{roll.total}}</div>
+                        <div class="dice">{{roll2.total}}</div>
+                    </div>
+                {{else}}
+                    <div class="dices">
+                        <div class="diefiller"></div>
+                        <div class="dice">{{roll2.total}}</div>
+                    </div>
+                {{/unless}}
             </div>
-        {{/unless}}
 
-        <div class="dicefiller"></div>
+            <div class="dicefiller"></div>
+        </div>
+        
         <div class="dice-formula">
             <div class="rollFlawSuccess">{{regtotal}}{{localize "GDSA.combat.AsPRegOf"}}</div>
         </div>
+
+        <div id="additionalInfo"></div>
     </div>
 </div>

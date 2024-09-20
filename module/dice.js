@@ -468,7 +468,9 @@ export async function doAsPReg(actor, APBonus, isMaster) {
 
     // Add togehter the D6 Regeneration, with the HPBonus and add 1 Additional point if the Attribut Check passed
 
-    let regtotal = parseInt(rollResult.total) + parseInt(APBonus);
+    let regtotal = 0;
+    if (isMaster) regtotal = parseInt(APBonus);
+    else regtotal = parseInt(rollResult.total) + parseInt(APBonus);
     if(rollResult2.total <= actor.system.IN.value) regtotal++;
 
     // Check that the Max Reg Possible is what LeP is actually missing
@@ -489,11 +491,15 @@ export async function doAsPReg(actor, APBonus, isMaster) {
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
     const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
-    await doXD20XD6Roll(chatModel, [rollResult2.total], [rollResult.total]);   
+    let message = "";
+    message = await doXD20XD6Roll(chatModel, [rollResult2.total], [rollResult.total]);   
 
     // Return the Total Amount of Regenerated LeP Amount
 
-    return regtotal;
+    return {
+        regtotal:regtotal,
+        message: message
+    };
 }
 
 export async function doKaPReg(actor, modi) {
@@ -1106,16 +1112,13 @@ async function sendChatMessage(chatData) {
 
         let r = new Roll("1d20", {});
         let m = await r.toMessage(chatData, {rollMode: chatData.rtype})
-        // m.setFlag("core", "canPopout", true);
         return m;
 
     } else {
 
-        let r = new Roll("1d20", {});
-        r.evaluate()
+        let r = await new Roll("1d20").evaluate();
         r.dice[0].results[0].hidden = true;
         let m = await r.toMessage(chatData, {rollMode: chatData.rtype})
-        // m.setFlag("core", "canPopout", true);
         return m;
     }
 
