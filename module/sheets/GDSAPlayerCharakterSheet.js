@@ -449,17 +449,17 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         // Calculate INIBase and Save
 
-        let INIBase = Math.round((( parseInt(sheetData.system.MU.value === null ? 0 : sheetData.system.MU.value) + 
-                                    parseInt(sheetData.system.MU.temp === null ? 0 : sheetData.system.MU.temp) + 
+        let INIBase = Math.round((( parseInt(sheetData.system.MU.value === null ? 0 : parseInt(sheetData.system.MU.value)) + 
+                                    parseInt(sheetData.system.MU.temp === null ? 0 : parseInt(sheetData.system.MU.temp)) + 
                                     parseInt(sheetData.system.MU.baseAnti) + 
-                                    parseInt(sheetData.system.MU.value === null ? 0 : sheetData.system.MU.value) + 
-                                    parseInt(sheetData.system.MU.temp === null ? 0 : sheetData.system.MU.temp) + 
+                                    parseInt(sheetData.system.MU.value === null ? 0 : parseInt(sheetData.system.MU.value)) + 
+                                    parseInt(sheetData.system.MU.temp === null ? 0 : parseInt(sheetData.system.MU.temp)) + 
                                     parseInt(sheetData.system.MU.baseAnti) + 
-                                    parseInt(sheetData.system.IN.value === null ? 0 : sheetData.system.IN.value) + 
-                                    parseInt(sheetData.system.IN.temp === null ? 0 : sheetData.system.IN.temp) + 
+                                    parseInt(sheetData.system.IN.value === null ? 0 : parseInt(sheetData.system.IN.value)) + 
+                                    parseInt(sheetData.system.IN.temp === null ? 0 : parseInt(sheetData.system.IN.temp)) + 
                                     parseInt(sheetData.system.IN.baseAnti) + 
-                                    parseInt(sheetData.system.GE.value === null ? 0 : sheetData.system.GE.value) + 
-                                    parseInt(sheetData.system.GE.temp === null ? 0 : sheetData.system.GE.temp) +
+                                    parseInt(sheetData.system.GE.value === null ? 0 : parseInt(sheetData.system.GE.value)) + 
+                                    parseInt(sheetData.system.GE.temp === null ? 0 : parseInt(sheetData.system.GE.temp)) +
                                     parseInt(sheetData.system.GE.baseAnti)) / 5));
         sheetData.system.INIBasis.value = INIBase + sheetData.system.INIBasis.tempmodi;
         sheetData.system.INIBasis.modi = 0;

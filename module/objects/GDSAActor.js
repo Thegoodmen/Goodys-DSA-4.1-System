@@ -62,14 +62,14 @@ export default class GDSAActor extends Actor {
 
         // Calculate AT, PA and FK Base Values and store them in the Actor
 
-        let MU = parseInt(this.isNull(data.MU.value) ? 0 : data.MU.value) + parseInt(this.isNull(data.MU.temp) ? 0 : data.MU.temp) + parseInt(data.MU.baseAnti);
-        let KL = parseInt(this.isNull(data.KL.value) ? 0 : data.KL.value) + parseInt(this.isNull(data.KL.temp) ? 0 : data.KL.temp) + parseInt(data.KL.baseAnti);
-        let IN = parseInt(this.isNull(data.IN.value) ? 0 : data.IN.value) + parseInt(this.isNull(data.IN.temp) ? 0 : data.IN.temp) + parseInt(data.IN.baseAnti);
-        let CH = parseInt(this.isNull(data.CH.value) ? 0 : data.CH.value) + parseInt(this.isNull(data.CH.temp) ? 0 : data.CH.temp) + parseInt(data.CH.baseAnti);
-        let FF = parseInt(this.isNull(data.FF.value) ? 0 : data.FF.value) + parseInt(this.isNull(data.FF.temp) ? 0 : data.FF.temp) + parseInt(data.FF.baseAnti);
-        let GE = parseInt(this.isNull(data.GE.value) ? 0 : data.GE.value) + parseInt(this.isNull(data.GE.temp) ? 0 : data.GE.temp) + parseInt(data.GE.baseAnti);
-        let KO = parseInt(this.isNull(data.KO.value) ? 0 : data.KO.value) + parseInt(this.isNull(data.KO.temp) ? 0 : data.KO.temp) + parseInt(data.KO.baseAnti);
-        let KK = parseInt(this.isNull(data.KK.value) ? 0 : data.KK.value) + parseInt(this.isNull(data.KK.temp) ? 0 : data.KK.temp) + parseInt(data.KK.baseAnti);
+        let MU = parseInt(this.isNull(data.MU.value) ? 0 : parseInt(data.MU.value)) + parseInt(this.isNull(data.MU.temp) ? 0 : parseInt(data.MU.temp)) + parseInt(data.MU.baseAnti);
+        let KL = parseInt(this.isNull(data.KL.value) ? 0 : parseInt(data.KL.value)) + parseInt(this.isNull(data.KL.temp) ? 0 : parseInt(data.KL.temp)) + parseInt(data.KL.baseAnti);
+        let IN = parseInt(this.isNull(data.IN.value) ? 0 : parseInt(data.IN.value)) + parseInt(this.isNull(data.IN.temp) ? 0 : parseInt(data.IN.temp)) + parseInt(data.IN.baseAnti);
+        let CH = parseInt(this.isNull(data.CH.value) ? 0 : parseInt(data.CH.value)) + parseInt(this.isNull(data.CH.temp) ? 0 : parseInt(data.CH.temp)) + parseInt(data.CH.baseAnti);
+        let FF = parseInt(this.isNull(data.FF.value) ? 0 : parseInt(data.FF.value)) + parseInt(this.isNull(data.FF.temp) ? 0 : parseInt(data.FF.temp)) + parseInt(data.FF.baseAnti);
+        let GE = parseInt(this.isNull(data.GE.value) ? 0 : parseInt(data.GE.value)) + parseInt(this.isNull(data.GE.temp) ? 0 : parseInt(data.GE.temp)) + parseInt(data.GE.baseAnti);
+        let KO = parseInt(this.isNull(data.KO.value) ? 0 : parseInt(data.KO.value)) + parseInt(this.isNull(data.KO.temp) ? 0 : parseInt(data.KO.temp)) + parseInt(data.KO.baseAnti);
+        let KK = parseInt(this.isNull(data.KK.value) ? 0 : parseInt(data.KK.value)) + parseInt(this.isNull(data.KK.temp) ? 0 : parseInt(data.KK.temp)) + parseInt(data.KK.baseAnti);
         
         data.ATBasis.value = Math.round((MU + GE + KK) / 5);
         data.PABasis.value = Math.round((IN + GE + KK) / 5);
