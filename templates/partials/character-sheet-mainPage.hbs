@@ -48,12 +48,12 @@
 	    
 	<div class="footerBox">
 	   	<div class="footer">
-	    	<div class="footerFirst"><a class=" item stat-change" data-stattype="AP" title="edit">{{localize "GDSA.charactersheet.AP"}}</a></div>
-	    	<div class="footerBig" data-edit="system.AP.value" contenteditable>{{system.AP.value}}</div>
+	    	<div class="footerFirst"><a class=" item stat-change" data-stattype="AP" title="{{localize 'GDSA.system.edit'}}">{{localize "GDSA.charactersheet.AP"}}</a></div>
+	    	<div class="footerBig"><input class="statTemp" name="system.AP.value" type="number" value="{{system.AP.value}}" /></div> 
 	    	<div class="footerSmall"><a class=" item test">{{localize "GDSA.charactersheet.spentAP"}}</a></div>
 	    	<div class="footerBig">{{system.AP.spent}}</div>
-	    	<div class="footerSmall"><a class=" item stat-change" data-stattype="APFree" title="edit">{{localize "GDSA.charactersheet.freeAP"}}</a></div>
-	    	<div class="footerBig" data-edit="system.AP.free" contenteditable>{{system.APFree.value}}</div>
+	    	<div class="footerSmall"><a class=" item stat-change" data-stattype="APFree" title="{{localize 'GDSA.system.edit'}}">{{localize "GDSA.charactersheet.freeAP"}}</a></div>
+	    	<div class="footerBig"><input class="statTemp" name="system.APFree.value" type="number" value="{{system.APFree.value}}" /></div>
 	   	</div>
  	</div>
 </section>

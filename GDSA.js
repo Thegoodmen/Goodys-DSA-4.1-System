@@ -16,6 +16,7 @@ import HeldenImporter from "./module/apps/heldenImport.js";
 import * as Migration from "./module/apps/migration.js";
 import * as Template from "./module/apps/templates.js";
 import * as Dice from "./module/dice.js";
+import * as Dialog from "./module/dialog.js";
 import BuffHud from "./module/apps/buff-hud.js";
 
 Hooks.once("init", async () => {
@@ -69,6 +70,8 @@ Hooks.once("ready", async () => {
     Hooks.on("hotbarDrop", (bar, data, slot) => createGDSAMacro(data, slot));
 
     game.gdsa.buffHud = new BuffHud();
+
+    if(game.i18n.lang != "de") Dialog.getLangConfirmation();
 
     if(!game.user.isGM) return;
 
@@ -431,9 +434,10 @@ function registerHandelbarsHelpers() {
         return display;
     });
 
-    Handlebars.registerHelper("combatantAtMax", function(cmbId, Ini) {
+    Handlebars.registerHelper("combatantAtMax", function(cmbId, Ini, cmb) {
 
-        let combatant = game.combats.contents[0].combatants.get(cmbId);
+        let combat = game.combats.get(cmb);
+        let combatant = combat.combatants.get(cmbId);
         let type = combatant.actor.type;
         let system = combatant.actor.system;	
         let INIBase;

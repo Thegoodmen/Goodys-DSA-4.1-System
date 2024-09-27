@@ -639,6 +639,7 @@ GDSA.cbtType = {
 }
 
 GDSA.npcSpecialSkills = {
+    "": "None",
     "cmbt-2atk": "2 Angriffe",
     "cmbt-3atk": "3 Angriffe",
     "cmbt-4atk": "4 Angriffe",
@@ -651,7 +652,7 @@ GDSA.npcSpecialSkills = {
     "manu-gezA": "Geziehlter Angriff",
     "manu-ambu": "Hinterhalt",
     "manu-nied": "Niederwerfen",
-    "manu-flyd": "Sturzfluf",
+    "manu-flyd": "Sturzflug",
     "manu-verb": "Verbeißen",
     "size-bigg": "Großer Gegner",
     "size-huge": "Riesiger Gegner",
@@ -675,8 +676,8 @@ GDSA.npcSpecialSkills = {
     "mtra-krit": "Kritische Konsistenz",
     "mtra-lang": "Langer Arm",
     "mtra-lebr": "Lebensraub",
-    "mtra-sch1": "Schreckgestallt I", 
-    "mtra-sch2": "Schreckgestallt II", 
+    "mtra-sch1": "Schreckgestalt I", 
+    "mtra-sch2": "Schreckgestalt II", 
     "mtra-par1": "Paraphysikalität I",
     "mtra-par2": "Paraphysikalität II",
     "mtra-prä1": "Präsenz I",
