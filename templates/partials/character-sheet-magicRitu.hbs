@@ -11,7 +11,7 @@
                 <td class="skillTableRoll"><a class="item ritual-roll" data-statName="{{name}}" data-item-id="{{_id}}"
                     data-stat_one="{{getDataValue ../system ./system.att1}}" data-stat_two="{{getDataValue ../system ./system.att2}}" 
                     data-stat_three="{{getDataValue ../system ./system.att3}}" data-ritknow="{{getData ../system.skill (concat "rit" system.ritTalent "")}}" 
-                    title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+                    title="{{localize 'GDSA.chat.skill.roll'}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
                 </td>
                 {{else}}
                     <td class="skillTableNameBig">{{name}}
@@ -22,7 +22,7 @@
                 <td class="skillTableRoll"><a class="item scham-roll" data-statName="{{name}}" data-item-id="{{_id}}"
                     data-stat_one="{{getDataValue ../system (getSchamAtt system.skill 1)}}" data-stat_two="{{getDataValue ../system (getSchamAtt system.skill 2)}}" 
                     data-stat_three="{{getDataValue ../system (getSchamAtt system.skill 3)}}" data-ritknow="{{getData ../system.skill (concat "rit" system.skill "")}}" 
-                    title="roll"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+                    title="{{localize 'GDSA.chat.skill.roll'}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
                 </td>
                 {{/if}}
             </tr> 

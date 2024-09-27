@@ -48,7 +48,9 @@
                 </tr>
                 <tr data-item-id="raufen">
                         <td class="tableLbl">{{localize "GDSA.charactersheet.raufSkill"}}</td>
-                        <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}"><i class="fas fa-gavel faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}"  data-tooltip=
+                        "<div class='tooltipInI'>Basis <input class='tooltipNum' value='{{system.ATBasis.value}}' disabled> + Skill <input class='tooltipNum' value='{{system.skill.Raufen.atk}}' disabled> + Spezi <input class='tooltipNum' value='0' disabled> = <input class='tooltipNum' value='{{system.skill.Raufen.atk}}' disabled></div>"
+                        data-tooltip-direction="LEFT"><i class="fas fa-gavel faD20Stat"></i></a></td>
                         <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
                         <td class="tableBnt"><a class="item damage-roll" title="{{localize "GDSA.charactersheet.dmgRoll"}}"><i class="fas fa-tint faD20Stat"></i></a></td>
                 </tr>

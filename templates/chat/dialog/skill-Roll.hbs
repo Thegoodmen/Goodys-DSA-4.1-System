@@ -15,12 +15,12 @@
     </div>
 
     {{#if klerikal}}
-
-        <div class="form-group">
-            <label>{{localize "GDSA.chat.skill.mirakel"}}</label>
-            <input id="inboxCast" type="checkbox" name="mirakel" />
-        </div>
-
+        {{#unless (equals name "Liturgiekenntnis")}}
+            <div class="form-group">
+                <label>{{localize "GDSA.chat.skill.mirakel"}}</label>
+                <input id="inboxCast" type="checkbox" name="mirakel" />
+            </div>
+        {{/unless}}
     {{/if}}
     
     <div class="dialogFiller"></div>

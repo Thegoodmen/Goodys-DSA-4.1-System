@@ -604,6 +604,7 @@ export async function onSpellRoll(data, event) {
     if (item.system.rep === "ach" && minCost > 1)  Math.round(minCost / 3);
     if (item.system.rep !== "elf" && item.system.rep !== "ach" && item.system.rep !== "sch") if (usePowerC && minCost > 1) minCost--;
     if (powerF.length > 0) minCost--;
+    if (minCost <= 0) minCost = 1;
 
     if(minCost > actor.system.AsP.value) notEnoughAsP = true;
 

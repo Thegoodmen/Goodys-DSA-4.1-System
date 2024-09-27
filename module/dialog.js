@@ -893,6 +893,38 @@ export async function getAdvantage(context) {
     });
 }
 
+export async function getLangConfirmation() {
+
+    // Create Dialog and show to User
+
+    const template = "systems/gdsa/templates/apps/getLangConfirmation.hbs";
+    const html = await renderTemplate(template, {});
+
+    return new Promise(resolve => {  
+
+        // Set up Parameters for Dialog
+
+        const data = {
+
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("Okeay"),
+                                callback: html => resolve(game.i18n.setLanguage("de"))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        new Dialog(data, null).render(true);
+    });
+}
+
 export async function editRitualSkills(context) {
 
     // Create Dialog and show to User

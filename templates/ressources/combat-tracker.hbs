@@ -76,7 +76,7 @@
                                 <i class="fas fa-skull"></i>
                             </a>
                         {{/if}}
-                        {{#if this.owner}} {{#if this.hasRolled}} {{#if (combatantAtMax this.id this.initiative)}}
+                        {{#if this.owner}} {{#if this.hasRolled}} {{#if (combatantAtMax this.id this.initiative ../this.combat._id)}}
                             <a class="combat-control orient" data-tooltip="GDSA.combat.Orient" style="margin-left: 6px" data-id="{{this.id}}" data-cmbtid="{{../combat._id}}">
                                 <i class="fas fa-binoculars"></i>
                             </a>

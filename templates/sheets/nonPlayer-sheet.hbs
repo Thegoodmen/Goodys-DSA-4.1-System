@@ -95,7 +95,7 @@
                     {{#each gifts as |gift id|}}
                         <div class="item" data-item-id="{{_id}}" data-FlawValue="{{system.trait.value}}" data-flawName="{{name}}">
                         <a class="flaw-roll"><div class="traitName item-context" data-item-id="{{_id}}">{{name}} {{#if (ne system.trait.value 0)}}{{system.trait.value}}{{/if}}</div></a>
-                        <div class="cmbticon"><a class="item-edit" title="Edit"><i class="fas fa-gear faD20Stat"></i></a></div>
+                        <div class="cmbticon"><a class="item-edit" title="{{localize 'GDSA.system.edit'}}"><i class="fas fa-gear faD20Stat"></i></a></div>
                         <div class="cmbticon"><a class="item-delete" title="Delete"><i class="fas fa-trash-can faD20Stat"></i></a></div></div>
                     {{/each}}
                 </div>
@@ -111,13 +111,13 @@
                     {{#each talents as |talent id|}}
                         <div class="item" data-item-id="{{_id}}" data-value="{{system.tale.taw}}" data-name="{{name}}">
                         <a class="npc-roll"><div class="traitName item-context" data-item-id="{{_id}}">{{name}} {{system.tale.taw}}</div></a>
-                        <div class="cmbticon"><a class="item-edit" title="Edit"><i class="fas fa-gear faD20Stat"></i></a></div>
+                        <div class="cmbticon"><a class="item-edit" title="{{localize 'GDSA.system.edit'}}"><i class="fas fa-gear faD20Stat"></i></a></div>
                         <div class="cmbticon"><a class="item-delete" title="Delete"><i class="fas fa-trash-can faD20Stat"></i></a></div></div>
                     {{/each}}
                     {{#each casts as |talent id|}}
                         <div class="item" data-item-id="{{_id}}" data-value="{{system.zfw}}" data-name="{{name}}">
                         <a class="npc-roll"><div class="traitName item-context" data-item-id="{{_id}}">{{name}} {{system.zfw}}</div></a>
-                        <div class="cmbticon"><a class="item-edit" title="Edit"><i class="fas fa-gear faD20Stat"></i></a></div>
+                        <div class="cmbticon"><a class="item-edit" title="{{localize 'GDSA.system.edit'}}"><i class="fas fa-gear faD20Stat"></i></a></div>
                         <div class="cmbticon"><a class="item-delete" title="Delete"><i class="fas fa-trash-can faD20Stat"></i></a></div></div>
                     {{/each}}
                 </div>
@@ -142,11 +142,11 @@
                     <input class="cmbtInput" name="system.dk" type="text" value="{{system.dk}}" disabled/>
                     <div class="cmbtlbl">{{localize "GDSA.itemsheet.tp"}}</div>
                     <input class="cmbtInput2" name="system.tp" type="text" value="{{system.tp}}" disabled/>
-                    <div class="cmbticon"><a class="npc-at" title="roll"><i class="fas fa-gavel faD20Stat"></i></a></div>
-                    <div class="cmbticon"><a class="npc-pa" title="roll"><i class="fas fa-shield-alt faD20Stat"></i></a></div>
-                    <div class="cmbticon"><a class="npc-dmg" title="roll"><i class="fas fa-tint faD20Stat"></i></a></div>
+                    <div class="cmbticon"><a class="npc-at" title="{{localize 'GDSA.chat.skill.roll'}}"><i class="fas fa-gavel faD20Stat"></i></a></div>
+                    <div class="cmbticon"><a class="npc-pa" title="{{localize 'GDSA.chat.skill.roll'}}"><i class="fas fa-shield-alt faD20Stat"></i></a></div>
+                    <div class="cmbticon"><a class="npc-dmg" title="{{localize 'GDSA.chat.skill.roll'}}"><i class="fas fa-tint faD20Stat"></i></a></div>
                     <div class="cmbtdivider"></div>
-                    <div class="cmbticon"><a class="item-edit" title="Edit"><i class="fas fa-gear faD20Stat"></i></a></div>
+                    <div class="cmbticon"><a class="item-edit" title="{{localize 'GDSA.system.edit'}}"><i class="fas fa-gear faD20Stat"></i></a></div>
                     <div class="cmbticon"><a class="item-delete" title="Delete"><i class="fas fa-trash-can faD20Stat"></i></a></div>
                 </div>
             {{/each}}
