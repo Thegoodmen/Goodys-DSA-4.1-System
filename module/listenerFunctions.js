@@ -2476,11 +2476,22 @@ export async function onNPCAttackRoll(data, event) {
     let attackerparriesLeft = 0;
     let userCombatant;
     let modi = 0;
-    if (game.combats.contents.length > 0) {
-    let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]?._id;
-    userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
-    attacksLeft = userCombatant.getFlag("gdsa", "attacks");
-    attackerparriesLeft = userCombatant.getFlag("gdsa", "parries");}
+
+    if (game.combat) {
+        
+        currentScene = game.scenes.current._id;
+        currentSceneCombat = game.combats.contents.filter(function(combat) {return combat._source.scene === currentScene})[0];
+        let userCombatantId = currentSceneCombat.combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]?._id;
+        userCombatant =  currentSceneCombat.combatants.get(userCombatantId);
+        
+        if(userCombatant) {
+
+            isPartofCombat = true;
+            attacksLeft = userCombatant.getFlag("gdsa", "attacks");
+            attackerparriesLeft = userCombatant.getFlag("gdsa", "parries");
+        }
+    }
+
     if(attacksLeft < 1 && attackerparriesLeft > 0 && game.combats.contents.length > 0) modi = -4;
     if(attacksLeft < 1 && attackerparriesLeft < 1 && game.combats.contents.length > 0) return;
 
