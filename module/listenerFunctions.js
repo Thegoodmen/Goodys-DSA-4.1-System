@@ -3073,7 +3073,7 @@ export function onNPCDMGRoll(data, event) {
 
     // Get Stat Value
 
-    let value = element.closest(".item").dataset.dmg.toLowerCase.replace("w","d");
+    let value = element.closest(".item").dataset.dmg.toLowerCase().replace("w","d");
 
     // Execute Roll
     
