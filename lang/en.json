@@ -153,7 +153,8 @@
             "detail": "Details",
             "effect": "Effekte",
             "npct": "NPC Talent",
-            "npcw": "NPC Angriff"        },
+            "npcw": "NPC Angriff"
+        },
         "info": {
             "itemAdd": "Ein Item wurde dem Charakter hinzugefügt.",
             "itemSpell": "Ein Zauber wurde dem Charakter hinzugefügt.",
