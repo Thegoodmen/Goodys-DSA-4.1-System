@@ -236,7 +236,9 @@
             "gban": "Geister bannen",
             "gbin": "Geister binden",
             "gauf": "Geister aufnehmen",
-            "petr": "Petromantie"
+            "petr": "Petromantie",
+            "elfm": "Elfenlieder (Musizieren)",
+            "elfs": "Elfenlieder (Singen)"
         },
         "magicTraits": {
             "anti": "Antimagie",

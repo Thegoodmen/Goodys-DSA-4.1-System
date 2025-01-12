@@ -39,7 +39,9 @@ GDSA.ritualSkills = {
     gban: "GDSA.ritualSkills.gban",
     gbin: "GDSA.ritualSkills.gbin",
     gauf: "GDSA.ritualSkills.gauf",
-    petr: "GDSA.ritualSkills.petr"
+    petr: "GDSA.ritualSkills.petr",
+    elfs: "GDSA.ritualSkills.elfs",
+    elfm: "GDSA.ritualSkills.elfm"
 }
 
 GDSA.schamSkills = {
