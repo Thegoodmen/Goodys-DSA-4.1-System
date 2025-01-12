@@ -849,7 +849,39 @@ export async function onRitualRoll(data, event) {
         if(response.succ) helperAdvantage += parseInt(response.value);
         else helperDisadvantage += 7;
     }
-   
+
+    // Musizieren when Elf (Musizieren)
+
+    if(item.system.ritTalent === "elfm") {
+
+        let rollEvent = {
+            name: dataset.statname,
+            item: await getTalent("Musizieren"),
+            actor: actor,
+            stat: actor.system.skill["Musizieren"],
+            skipMenu: true
+        }
+
+        let response = await doSkillRoll(rollEvent);
+        return
+    }
+
+    // Singen when Elf (Singen)
+
+    if(item.system.ritTalent === "elfs") {
+
+        let rollEvent = {
+            name: dataset.statname,
+            item: await getTalent("Singen"),
+            actor: actor,
+            stat: actor.system.skill["Singen"],
+            skipMenu: true
+        }
+
+        let response = await doSkillRoll(rollEvent);
+        return
+    }
+
     // Generate Dialog for Modifikations
 
     if(options) {

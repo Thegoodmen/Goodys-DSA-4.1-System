@@ -146,7 +146,7 @@
             "isPosi": "Verbündet",
             "isNega": "Verfeindet",
             "schamaRit": "Schamanen Ritual",
-            "ritual": "Standart Ritual",
+            "ritual": "Standard Ritual",
             "objRit": "Objekt Ritual",
             "pdf": "PDF",
             "prereq": "Vorraussetzung",
@@ -236,7 +236,9 @@
             "gban": "Geister bannen",
             "gbin": "Geister binden",
             "gauf": "Geister aufnehmen",
-            "petr": "Petromantie"
+            "petr": "Petromantie",
+            "elfm": "Elfenlieder (Musizieren)",
+            "elfs": "Elfenlieder (Singen)"
         },
         "magicTraits": {
             "anti": "Antimagie",
