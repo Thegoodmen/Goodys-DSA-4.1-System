@@ -130,6 +130,8 @@ export default class GDSAHeldenImporter extends FormApplication {
 
         const hero = this.heroObject;
 
+        console.log(hero);
+
         if(Object.keys(hero).length === 0) return;
 
         let actor = await GDSAActor.create({
@@ -451,14 +453,16 @@ function generateHeroObject(event, xml) {
             let value = 0;
             let nameAddition = "";
             let newAdv = {};
-            
+
             if (advantages[i].attributes.value !== undefined)
                 if (isNaN(advantages[i].attributes.value.value)) 
                     nameAddition = advantages[i].attributes.value.value;
                 else value = parseInt(advantages[i].attributes.value.value);
 
             if (advaArray.length !== 1)
-                if (value !== 0)
+                if (traitName === "Verbindungen")
+                    newAdv = Object.assign({}, advaArray[0]);
+                else if (value !== 0)
                     newAdv = Object.assign({}, advaArray.filter(function(item) {return item.system.trait.value === value})[0]);
                 else if (nameAddition !== "")
                     newAdv = Object.assign({}, advaArray.filter(function(item) {return item.name.includes(nameAddition)})[0]);
@@ -516,7 +520,7 @@ function generateHeroObject(event, xml) {
                     sfGeneral.push(traitArray[0])
 
                 } else if (traitArray2.length === 1) {
-                
+                    console.log(traitArray2[0]);
                     sfGeneral.push(traitArray2[0])
 
                 } else {
@@ -530,7 +534,7 @@ function generateHeroObject(event, xml) {
             } else {
 
                 let newItem = Object.assign({}, traitArray[0]);
-
+                
                 if (traitName === "Berufsgeheimnis") {
 
                     for (let j = 0; j < spezialSkills[i].getElementsByTagName("auswahl").length; j++) {
@@ -997,7 +1001,9 @@ function generateHeroObject(event, xml) {
                 for (let item of toolItemsArray) {
                     
                     let newitem = Object.assign({}, item);
-
+                    console.log(itemArray[i]);
+                    console.log(itemArray[i].attributes.anzahl.value);
+                    console.log(itemArray[i].attributes);
                     newitem.system.quantity = itemArray[i].attributes.anzahl.value;
 
                     if (itemArray[i].getElementsByTagName("modallgemein")[0] !== undefined) {
@@ -1067,7 +1073,7 @@ function generateHeroObject(event, xml) {
                         }
                     }
                     if (itemArray[i].getElementsByTagName("Wesen")[0] !== undefined) continue;
-
+                    console.log(newitem);
                     items.push(newitem);
                 }
             } else event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 

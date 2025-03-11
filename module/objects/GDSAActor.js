@@ -362,6 +362,13 @@ export default class GDSAActor extends Actor {
         this.update({ "system.SO": object.social });        
     }
 
+    setNote(note) {
+
+        // Methode to update Character Note
+
+        this.update({ "system.note": note});
+    }
+
     setRitSkills(object) {
 
         // Methode to update Character Ritual Skills

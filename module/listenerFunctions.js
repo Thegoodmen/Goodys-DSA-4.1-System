@@ -181,7 +181,7 @@ export async function doSkillRoll(rollEvent) {
     if((usedMHK * 2) > statvalue) usedMHK = (statvalue / 2);
     statvalue += (usedMHK * 2);
     let mhk = usedMHK > 0;
-    if(mhk) { used.push(game.i18n.localize("GDSA.chat.skill.mhk") + " (" + usedMHK  + " " + game.i18n.localize("GDSA.itemsheet.asp") + ")")};
+    if(mhk) { used.push(game.i18n.localize("GDSA.chat.skill.mhk") + " (" + Math.round(usedMHK)  + " " + game.i18n.localize("GDSA.itemsheet.asp") + ")")};
     if(isMirakel) { used.push(game.i18n.localize("GDSA.chat.skill.mirakel") + " (- "+ mirBonus + ")")};
     
     // Prepare Optional Roll Data
@@ -529,7 +529,7 @@ export async function onSpellRoll(data, event) {
     if (item.system.rep === "mag") disadvantage = Math.round(disadvantage - nonDiscountDisadvantage / 2) + nonDiscountDisadvantage;
     if (item.system.rep === "mag") if (doubcast) advantage++;
     if (item.system.vars != undefined) for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) disadvantage += item.system.vars[i].disad;
-    if (item.system.rep === "srl") if (item.system.trait1 === "illu" || item.system.trait2 === "illu" || item.system.trait3 === "illu" || item.system.trait4 === "illu") Math.round(disadvantage / 2);
+    if (item.system.rep === "srl") if (item.system.trait1 === "illu" || item.system.trait2 === "illu" || item.system.trait3 === "illu" || item.system.trait4 === "illu") disadvantage = Math.round(disadvantage - nonDiscountDisadvantage / 2) + nonDiscountDisadvantage;
     
     if (animag.length !== 0 && klamount > 0) disadvantage += (klamount * animag[0].system.value);
     if (schaus.length !== 0 && chamount > 0) disadvantage += (chamount * schaus[0].system.value);
@@ -2479,8 +2479,8 @@ export async function onNPCAttackRoll(data, event) {
 
     if (game.combat) {
         
-        currentScene = game.scenes.current._id;
-        currentSceneCombat = game.combats.contents.filter(function(combat) {return combat._source.scene === currentScene})[0];
+        let currentScene = game.scenes.current._id;
+        let currentSceneCombat = game.combats.contents.filter(function(combat) {return combat._source.scene === currentScene})[0];
         let userCombatantId = currentSceneCombat.combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]?._id;
         userCombatant =  currentSceneCombat.combatants.get(userCombatantId);
         
@@ -3073,7 +3073,7 @@ export function onNPCDMGRoll(data, event) {
 
     // Get Stat Value
 
-    let value = element.closest(".item").dataset.dmg.toLowerCase.replace("w","d");
+    let value = element.closest(".item").dataset.dmg.toLowerCase().replace("w","d");
 
     // Execute Roll
     

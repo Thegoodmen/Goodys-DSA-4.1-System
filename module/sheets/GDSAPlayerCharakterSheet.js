@@ -873,9 +873,11 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
     async openNotes(ev) {
 
-        let newNote = await Dialog.editCharNotes({ "system": { "notes": this.sheet.system.note}});
-
-        this.sheet.system.note = newNote;
+        let sheet = this.sheet;
+        let newNote = await Dialog.editCharNotes({ "system": { "notes": sheet.system.note}});
+        
+        sheet.actor.setNote(newNote);
+        sheet.system.note = newNote;
     }
     
 }

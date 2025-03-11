@@ -438,6 +438,9 @@ function registerHandelbarsHelpers() {
 
         let combat = game.combats.get(cmb);
         let combatant = combat.combatants.get(cmbId);
+
+        if(combatant.actor == null) return false;
+
         let type = combatant.actor.type;
         let system = combatant.actor.system;	
         let INIBase;
