@@ -512,15 +512,17 @@ function generateHeroObject(event, xml) {
                 if (traitName === "Meisterschütze" || traitName === "Scharfschütze" || traitName === "Schnellladen")
                     traitArray2 = traitArray.filter(function(item) {return item.name.includes(spezialSkills[i].getElementsByTagName("talent")[0].attributes.name.value)});
                     
-                if (traitName === "Kulturkunde")
-                    traitArray2 = traitArray.filter(function(item) {return item.name.includes(spezialSkills[i].getElementsByTagName("kultur")[0].attributes.name.value)});
+                if (traitName === "Kulturkunde") {
 
-                if(traitName.slice(-1) === "I") {
+                    for (let j = 0; j < spezialSkills[i].getElementsByTagName("kultur").length; j++)
+                        sfGeneral.push(traitArray.filter(function(item) {return item.name.includes(spezialSkills[i].getElementsByTagName("kultur")[j].attributes.name.value)})[0]);
+
+                } else if(traitName.slice(-1) === "I") {
 
                     sfGeneral.push(traitArray[0])
 
                 } else if (traitArray2.length === 1) {
-                    console.log(traitArray2[0]);
+                    
                     sfGeneral.push(traitArray2[0])
 
                 } else {
@@ -679,8 +681,8 @@ function generateHeroObject(event, xml) {
             let traitArray2 = templates.traits.all.filter(function(item) {return item.name.includes("Talentspezialisierung")});
             let newItem = Object.assign({}, traitArray2[0]);
                 
-            newItem.system.tale.DE = traitName;
-            newItem.name = traitName;
+            newItem.system.tale.DE = spezialSkills[i].attributes.name.value.replace("Fesseln/Entfesseln", "Fesseln / Entfesseln");
+            newItem.name = spezialSkills[i].attributes.name.value.replace("Fesseln/Entfesseln", "Fesseln / Entfesseln");
 
             sfGeneral.push(newItem);     
 
