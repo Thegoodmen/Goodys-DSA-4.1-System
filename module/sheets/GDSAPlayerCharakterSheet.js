@@ -183,6 +183,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".shilds-add").click(LsFunction.getShieldContextMenu.bind(this, sheet));
             html.find(".armour-add").click(LsFunction.getArmourContextMenu.bind(this, sheet));
             html.find(".ritual-add").click(LsFunction.getRitContextMenu.bind(this, sheet));
+            html.find(".item-add").click(LsFunction.getGenItemContextMenu.bind(this, sheet));
             html.find(".objektRitual-add").click(LsFunction.getObjectRitContextMenu.bind(this, sheet));
             html.find(".item-delete").click(LsFunction.onItemDelete.bind(this, sheet));
             html.find(".ritCheck").change(LsFunction.changeActiveStat.bind(this, sheet));
@@ -864,9 +865,10 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
 
         const baseData = super._getHeaderButtons();
 
+        let effecBnt = {"class": "effe-sheet", "icon": "fas fa-star", "label": "Effects", "onclick": ev => this.openEffectList(ev)};
         let notesBnt = {"class": "note-sheet", "icon": "fas fa-sheet-plastic", "label": "Notes", "onclick":  ev => this.openNotes(ev)};
 
-        let response = [notesBnt].concat(baseData);
+        let response = [effecBnt, notesBnt].concat(baseData);
 
         return response;
     }
@@ -878,6 +880,11 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         
         sheet.actor.setNote(newNote);
         sheet.system.note = newNote;
+    }
+
+    async openEffectList(ev) {
+
+        this.sheet.actor.sheet._tabs[0].activate("characterEffects");
     }
     
 }

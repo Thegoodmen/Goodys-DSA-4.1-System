@@ -54,7 +54,7 @@ export default class GDSACompBrowser extends FormApplication {
             template: CONFIG.Templates
         }
 
-        console.log(this.skill);
+        console.log(this.type);
 
         // Keep Selection
         
@@ -281,6 +281,19 @@ export default class GDSACompBrowser extends FormApplication {
                 }
 
                 break;
+
+            case "genItem":
+                    
+            itemArray = await game.packs.get("gdsa.arsenal").getDocuments();
+                
+            for(let item of itemArray) {
+
+                if(this.searchString === null || item.name.toLowerCase().includes(this.searchString.toLowerCase())) 
+                    if(item.type === "Gegenstand" && item.system.type === "item")
+                        sortedArray.push(item)
+            }
+
+            break;
             
             default:
                 break;
@@ -564,6 +577,11 @@ export default class GDSACompBrowser extends FormApplication {
                 ui.notifications.info(game.i18n.localize("GDSA.info.itemAdd"));
                 break;
 
+            case "ritual":
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("gdsa.rituale").get(id)]);
+                ui.notifications.info(game.i18n.localize("GDSA.info.itemAdd"));
+                break;
+
             case "objektRitual":
                 await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("gdsa.rituale").get(id)]);
                 ui.notifications.info(game.i18n.localize("GDSA.info.itemRitua"));        
@@ -572,6 +590,11 @@ export default class GDSACompBrowser extends FormApplication {
             case "wonder":
                 await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("gdsa.liturgien").get(id)]);
                 ui.notifications.info(game.i18n.localize("GDSA.info.itemLitur"));          
+                break;
+
+            case "genItem":
+                await game.actors.get(this.actor).createEmbeddedDocuments("Item", [game.packs.get("gdsa.arsenal").get(id)]);
+                ui.notifications.info(game.i18n.localize("GDSA.info.itemAdd"));
                 break;
         }
     }

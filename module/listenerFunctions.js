@@ -2156,6 +2156,10 @@ export async function onAttackRoll(data, event) {
 
     if(!answer.result.result || !hasTarget || targetActor.type !== "NonPlayer") return;
 
+    // If Target has Auto Combat enable, proceed
+
+    if(!targetToken.actor.system.autoCMB) return;
+
     // If Target is a NPC Actor, let him try to Parry
 
     if(!targetCombatant && isPartofCombat) {
@@ -2172,7 +2176,7 @@ export async function onAttackRoll(data, event) {
         game.combat.rollNPC();
     }
 
-    let PAValue = targetToken.actor.system.mainPA;
+    let PAValue = targetToken.actor.items.get(targetToken.actor.system.autoParry).system.pa;
 
     if(answer.result.die1 === 1) PAValue = PAValue / 2;
     PAValue = parseInt(PAValue) - parseInt(answer.finte);
@@ -2486,7 +2490,6 @@ export async function onNPCAttackRoll(data, event) {
         
         if(userCombatant) {
 
-            isPartofCombat = true;
             attacksLeft = userCombatant.getFlag("gdsa", "attacks");
             attackerparriesLeft = userCombatant.getFlag("gdsa", "parries");
         }
@@ -2673,7 +2676,7 @@ export async function onParryRoll(data, event) {
         if (skillItem.system.tale.BEtype === "x") {
 
             let be = (actor.system.gBEArmour * skillItem.system.tale.BE);
-            Modi -= Math.round(be / 2);
+            defModi -= Math.round(be / 2);
             used.push(game.i18n.localize("GDSA.template.BE") + " (+ " + Math.round(be / 2) + ")");
 
         } else {
@@ -2681,7 +2684,7 @@ export async function onParryRoll(data, event) {
             let be = (actor.system.gBEArmour - skillItem.system.tale.BE);
             if (be > 0) {
 
-                Modi -= Math.round(be / 2);
+                defModi -= Math.round(be / 2);
                 used.push(game.i18n.localize("GDSA.template.BE") + " (+ " + Math.round(be / 2) + ")");
             }
         }
@@ -4668,6 +4671,14 @@ export function getRitContextMenu(data, event) {
     let options = event.shiftKey ? false : true;
 
     if(options) new Browser({},{},"ritual", data.actor._id).render(true);
+    else onItemCreate(data, event);
+}
+
+export function getGenItemContextMenu(data, event) {
+
+    let options = event.shiftKey ? false : true;
+
+    if(options) new Browser({},{},"genItem", data.actor._id).render(true);
     else onItemCreate(data, event);
 }
 

@@ -1689,6 +1689,15 @@
   font-size: 16px;
   color: #212529;
 }
+.GDSA.sheet.characterSheet .effects-control {
+  position: absolute;
+  right: 14px;
+}
+.GDSA.sheet.characterSheet .effect-name {
+  width: 555px;
+  height: 20px;
+  float: left;
+}
 .mediOpt {
   width: 232px;
 }
@@ -1701,6 +1710,15 @@
 .tooltipInI {
   height: 23px;
   width: 350px;
+  background-color: #fefff3;
+  color: black;
+  padding-top: 2px;
+  padding-left: 5px;
+  font-family: 'MasonSerifBold';
+}
+.tooltipCMB {
+  height: 23px;
+  width: 375px;
   background-color: #fefff3;
   color: black;
   padding-top: 2px;
@@ -1923,7 +1941,7 @@
   width: 100px;
   float: left;
   font-size: 14px;
-  margin-left: 20px;
+  margin-left: 5px;
   margin-top: 1px;
   font-weight: bold;
 }
@@ -1961,6 +1979,12 @@
   height: 20px;
   width: 18px;
   float: left;
+}
+.GDSA.sheet.npcSheet .cmbticon2 {
+  height: 20px;
+  width: 18px;
+  float: left;
+  margin-left: 12px;
 }
 .GDSA.sheet.npcSheet .cmbtTrait {
   height: 20px;
@@ -2182,6 +2206,11 @@
   width: 100%;
   font-size: 16px;
   color: #212529;
+}
+.GDSA.sheet.npcSheet .checkboxPAMain {
+  width: 15px;
+  height: 15px;
+  margin: 0px -2px;
 }
 .GDSA.sheet.itemSheet .centered {
   text-align: center;

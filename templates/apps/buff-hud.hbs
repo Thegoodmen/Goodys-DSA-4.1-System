@@ -3,7 +3,7 @@
         {{#each ownEffects as |effect|}}
             {{#unless effect.disabled}}
                 <span class="buffSpan" data-tooltip="{{effect.name}}{{#if effect.description}} - {{effect.description}}{{/if}}" data-tooltip-direction="LEFT">
-                    <div class="testBuff" style="border-color: {{effect.tint.css}}; background-image: url(/{{effect.img}}); background-size: contain;">I</div>
+                    <div class="testBuff" style="border-color: {{effect.tint.css}}; background-image: url({{effect.img}}); background-size: contain;">I</div>
                 </span>
             {{/unless}}
         {{/each}}
@@ -12,7 +12,7 @@
         {{#each selEffects as |effect|}}
             {{#unless effect.disabled}}
                 <span class="buffSpan" data-tooltip="{{effect.name}}{{#if effect.description}} - {{effect.description}}{{/if}}" data-tooltip-direction="LEFT">
-                    <div class="testBuff" style="border-color: {{effect.tint.css}}; background-image: url(/{{effect.img}}); background-size: contain;">{{getNumber effect.name}}</div>
+                    <div class="testBuff" style="border-color: {{effect.tint.css}}; background-image: url({{effect.img}}); background-size: contain;">{{getNumber effect.name}}</div>
                 </span>
             {{/unless}}
         {{/each}}

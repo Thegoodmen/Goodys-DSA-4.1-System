@@ -542,7 +542,8 @@
             "hWeapon": "Geführte Hauptwaffe",
             "fighter": "Kämpfer",
             "true": "Ja",
-            "false": "Nein"
+            "false": "Nein",
+            "autoCMB": "AutoCMB"
         },
         "charactersheet": {
             "system": "Das schwarze Auge",

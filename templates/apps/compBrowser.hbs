@@ -46,7 +46,11 @@
 
         {{#if (equals type "ritual")}}
             
-        {{/if}}    
+        {{/if}}
+
+        {{#if (equals type "genItem")}}
+            
+        {{/if}}  
 
         {{#if (equals type "objektRitual")}}
             <div class="browserMenuEntry">{{localize "GDSA.charactersheet.rit"}}</div>
@@ -165,5 +169,18 @@
                 </div>
             {{/each}}
         {{/if}}
+
+         {{#if (equals type "genItem")}}
+            <div class="headline">{{localize "GDSA.system.generals"}}</div>
+
+            {{#each items as |item id|}}
+                <div class="item itemBrowserBox" data-id="{{_id}}">
+                    <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
+                    <div class="browserName"><b>{{name}}</b><br /><i> > {{localize (concat "GDSA.templates." system.itemType "")}}</i></div>
+                    <div class="browserComplex">{{getRomNum system.grad}}</div>
+                </div>
+            {{/each}}
+        {{/if}}
+
     </div>
 </form>
