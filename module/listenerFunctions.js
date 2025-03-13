@@ -181,7 +181,7 @@ export async function doSkillRoll(rollEvent) {
     if((usedMHK * 2) > statvalue) usedMHK = (statvalue / 2);
     statvalue += (usedMHK * 2);
     let mhk = usedMHK > 0;
-    if(mhk) { used.push(game.i18n.localize("GDSA.chat.skill.mhk") + " (" + usedMHK  + " " + game.i18n.localize("GDSA.itemsheet.asp") + ")")};
+    if(mhk) { used.push(game.i18n.localize("GDSA.chat.skill.mhk") + " (" + Math.round(usedMHK)  + " " + game.i18n.localize("GDSA.itemsheet.asp") + ")")};
     if(isMirakel) { used.push(game.i18n.localize("GDSA.chat.skill.mirakel") + " (- "+ mirBonus + ")")};
     
     // Prepare Optional Roll Data
@@ -529,7 +529,7 @@ export async function onSpellRoll(data, event) {
     if (item.system.rep === "mag") disadvantage = Math.round(disadvantage - nonDiscountDisadvantage / 2) + nonDiscountDisadvantage;
     if (item.system.rep === "mag") if (doubcast) advantage++;
     if (item.system.vars != undefined) for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) disadvantage += item.system.vars[i].disad;
-    if (item.system.rep === "srl") if (item.system.trait1 === "illu" || item.system.trait2 === "illu" || item.system.trait3 === "illu" || item.system.trait4 === "illu") Math.round(disadvantage / 2);
+    if (item.system.rep === "srl") if (item.system.trait1 === "illu" || item.system.trait2 === "illu" || item.system.trait3 === "illu" || item.system.trait4 === "illu") disadvantage = Math.round(disadvantage - nonDiscountDisadvantage / 2) + nonDiscountDisadvantage;
     
     if (animag.length !== 0 && klamount > 0) disadvantage += (klamount * animag[0].system.value);
     if (schaus.length !== 0 && chamount > 0) disadvantage += (chamount * schaus[0].system.value);
@@ -2156,6 +2156,10 @@ export async function onAttackRoll(data, event) {
 
     if(!answer.result.result || !hasTarget || targetActor.type !== "NonPlayer") return;
 
+    // If Target has Auto Combat enable, proceed
+
+    if(!targetToken.actor.system.autoCMB) return;
+
     // If Target is a NPC Actor, let him try to Parry
 
     if(!targetCombatant && isPartofCombat) {
@@ -2172,7 +2176,7 @@ export async function onAttackRoll(data, event) {
         game.combat.rollNPC();
     }
 
-    let PAValue = targetToken.actor.system.mainPA;
+    let PAValue = targetToken.actor.items.get(targetToken.actor.system.autoParry).system.pa;
 
     if(answer.result.die1 === 1) PAValue = PAValue / 2;
     PAValue = parseInt(PAValue) - parseInt(answer.finte);
@@ -2476,11 +2480,21 @@ export async function onNPCAttackRoll(data, event) {
     let attackerparriesLeft = 0;
     let userCombatant;
     let modi = 0;
-    if (game.combats.contents.length > 0) {
-    let userCombatantId = game.combats.contents[0].combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]?._id;
-    userCombatant = game.combats.contents[0].combatants.get(userCombatantId);
-    attacksLeft = userCombatant.getFlag("gdsa", "attacks");
-    attackerparriesLeft = userCombatant.getFlag("gdsa", "parries");}
+
+    if (game.combat) {
+        
+        let currentScene = game.scenes.current._id;
+        let currentSceneCombat = game.combats.contents.filter(function(combat) {return combat._source.scene === currentScene})[0];
+        let userCombatantId = currentSceneCombat.combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]?._id;
+        userCombatant =  currentSceneCombat.combatants.get(userCombatantId);
+        
+        if(userCombatant) {
+
+            attacksLeft = userCombatant.getFlag("gdsa", "attacks");
+            attackerparriesLeft = userCombatant.getFlag("gdsa", "parries");
+        }
+    }
+
     if(attacksLeft < 1 && attackerparriesLeft > 0 && game.combats.contents.length > 0) modi = -4;
     if(attacksLeft < 1 && attackerparriesLeft < 1 && game.combats.contents.length > 0) return;
 
@@ -2662,7 +2676,7 @@ export async function onParryRoll(data, event) {
         if (skillItem.system.tale.BEtype === "x") {
 
             let be = (actor.system.gBEArmour * skillItem.system.tale.BE);
-            Modi -= Math.round(be / 2);
+            defModi -= Math.round(be / 2);
             used.push(game.i18n.localize("GDSA.template.BE") + " (+ " + Math.round(be / 2) + ")");
 
         } else {
@@ -2670,7 +2684,7 @@ export async function onParryRoll(data, event) {
             let be = (actor.system.gBEArmour - skillItem.system.tale.BE);
             if (be > 0) {
 
-                Modi -= Math.round(be / 2);
+                defModi -= Math.round(be / 2);
                 used.push(game.i18n.localize("GDSA.template.BE") + " (+ " + Math.round(be / 2) + ")");
             }
         }
@@ -3062,7 +3076,7 @@ export function onNPCDMGRoll(data, event) {
 
     // Get Stat Value
 
-    let value = element.closest(".item").dataset.dmg.toLowerCase.replace("w","d");
+    let value = element.closest(".item").dataset.dmg.toLowerCase().replace("w","d");
 
     // Execute Roll
     
@@ -4657,6 +4671,14 @@ export function getRitContextMenu(data, event) {
     let options = event.shiftKey ? false : true;
 
     if(options) new Browser({},{},"ritual", data.actor._id).render(true);
+    else onItemCreate(data, event);
+}
+
+export function getGenItemContextMenu(data, event) {
+
+    let options = event.shiftKey ? false : true;
+
+    if(options) new Browser({},{},"genItem", data.actor._id).render(true);
     else onItemCreate(data, event);
 }
 

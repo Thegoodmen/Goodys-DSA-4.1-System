@@ -1,0 +1,106 @@
+<section>
+    <div class="gmBox">
+
+        <div class="charstateTable">
+            <div class="charstateRow">
+                <div class="charstateBnt">
+                    <div class="buffcontrol">
+                        <div class="buffUP"><a class="">⇑</a></div>
+                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
+                        <div class="buffDOWN"><a class="">⇓</a></div>
+                    </div>
+                </div>
+                <div class="charstateBnt">
+                    <div class="buffcontrol">
+                        <div class="buffUP"><a class="">⇑</a></div>
+                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
+                        <div class="buffDOWN"><a class="">⇓</a></div>
+                    </div>
+                </div>
+                <div class="charstateBnt">
+                    <div class="buffcontrol">
+                        <div class="buffUP"><a class="">⇑</a></div>
+                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
+                        <div class="buffDOWN"><a class="">⇓</a></div>
+                    </div>
+                </div>
+                <div class="charstateBnt">
+                    <div class="buffcontrol">
+                        <div class="buffUP"><a class="">⇑</a></div>
+                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
+                        <div class="buffDOWN"><a class="">⇓</a></div>
+                    </div>
+                </div>
+                <div class="charstateBnt">
+                    <div class="buffcontrol">
+                        <div class="buffUP"><a class="">⇑</a></div>
+                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
+                        <div class="buffDOWN"><a class="">⇓</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="charstateRow">
+                <div class="charstateBnt">
+                    <div class="buffcontrol">
+                        <div class="buffUP"><a class="">⇑</a></div>
+                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
+                        <div class="buffDOWN"><a class="">⇓</a></div>
+                    </div>
+                </div>
+                <div class="charstateBnt">
+                    <div class="buffcontrol">
+                        <div class="buffUP"><a class="">⇑</a></div>
+                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
+                        <div class="buffDOWN"><a class="">⇓</a></div>
+                    </div>
+                </div>
+                <div class="charstateBnt">
+                    <div class="buffcontrol">
+                        <div class="buffUP"><a class="">⇑</a></div>
+                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
+                        <div class="buffDOWN"><a class="">⇓</a></div>
+                    </div>
+                </div>
+                <div class="charstateBnt">
+                    <div class="buffcontrol">
+                        <div class="buffUP"><a class="">⇑</a></div>
+                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
+                        <div class="buffDOWN"><a class="">⇓</a></div>
+                    </div>
+                </div>
+                <div class="charstateBnt">
+                    <div class="buffcontrol">
+                        <div class="buffUP"><a class="">⇑</a></div>
+                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
+                        <div class="buffDOWN"><a class="">⇓</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>
+            {{localize "GDSA.templates.effect"}}
+            <a class="effects-control" data-action="create">
+                <i class="fas fa-plus"></i>
+            </a>
+        </h2>
+
+        <ol>
+            {{#each effects as |effect|}}
+                <li class="item effect" data-effect-id="{{effect._id}}">
+                    <div class="item-name effect-name">
+                        <h4>{{effect.name}}</h4>
+                    </div>
+                    <div class="effect-controls">
+                        <a class="effect-control" data-action="edit" title="{{localize 'DND5E.EffectEdit'}}">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a class="effect-control" data-action="delete" title="{{localize 'DND5E.EffectDelete'}}">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </li>
+            {{/each}}
+        </ol>
+    </div>
+</section>

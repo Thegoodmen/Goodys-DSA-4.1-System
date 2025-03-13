@@ -82,6 +82,8 @@
                 <div class="subrow">
                     <div class="statName">{{localize "GDSA.itemsheet.INI"}}</div> 
                     <input class="statInput bigRow" name="system.INI" type="text" value="{{system.INI}}" />
+                    <div class="statName">{{localize "GDSA.itemsheet.autoCMB"}}</div> 
+                    <input class="statInput secondRow" name="system.autoCMB" type="checkbox" {{checked system.autoCMB}} />
                 </div>
             </div>
 
@@ -133,6 +135,7 @@
             <hr class="hrMenu2">
             {{#each weapons as |weapon id|}}
                 <div class="combatline item" data-item-id="{{_id}}" data-at="{{system.at}}" data-pa="{{system.pa}}" data-dmg="{{system.tp}}" data-name="{{name}}">
+                    <div class="cmbticon2"><input class="checkboxPAMain" name="system.autoParry" type="radio" value="{{_id}}" {{checked (equals _id ../system.autoParry)}}></div>
                     <div class="cmbtName">{{name}}</div>
                     <div class="cmbtlbl">{{localize "GDSA.itemsheet.at"}}</div>
                     <input class="cmbtInput" name="system.at" type="number" value="{{system.at}}" disabled/>

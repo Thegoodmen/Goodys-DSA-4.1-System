@@ -1,6 +1,8 @@
 export const _getInitiativeFormula = function() {
 
-	const type = this. actor.type;
+	if(this.actor == null) return 0;
+
+	const type = this.actor.type;
 
 	if(type == "PlayerCharakter") {
 		
