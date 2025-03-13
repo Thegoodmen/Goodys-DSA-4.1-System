@@ -605,6 +605,41 @@ function registerHandelbarsHelpers() {
         return answer;
     });
 
+    Handlebars.registerHelper("rangeTooltip", function(actor, skillname, weapon) {
+        
+        let isSpezi = false;
+        let skillItem = {};
+
+        if (weapon != "") {
+
+            let skillId = weapon.system.weapon.skill;
+            let weaponType = weapon.system.weapon.type;
+            for (let i = 0; i < CONFIG.Templates.talents.all.length; i++) 
+                if (CONFIG.Templates.talents.all[i]._id === skillId) 
+                    skillItem = CONFIG.Templates.talents.all[i];
+
+            let Spezilitation = actor.generalTraits.filter(function(item) {return item.name.includes(weaponType)});
+            isSpezi= (Spezilitation.length > 0) ? true : false;
+        }
+
+        let atBase = actor.system.FKBasis.value;
+        let spezi = isSpezi ? 2 : 0;
+        let full = (skillname != "" ? actor.system.skill[skillname].atk : actor.system.skill[skillItem.name].atk) + spezi;
+        let skill = (full - atBase);
+
+        let answer = "<div class='tooltipCMB2'>Basis <input class='tooltipNum' value='" +
+        atBase +
+        "' disabled> + Skill <input class='tooltipNum' value='" +
+        skill +
+        "' disabled> + Spezi <input class='tooltipNum' value='" +
+        spezi +  
+        "' disabled> = <input class='tooltipNum' value='" +
+        full +
+        "' disabled></div>";
+
+        return answer;
+    });
+
     Handlebars.registerHelper("hasRomNum", function(name) {
 
         if (name.split(" ").includes("I")) return true;

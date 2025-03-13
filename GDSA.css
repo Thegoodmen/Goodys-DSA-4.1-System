@@ -1698,6 +1698,50 @@
   height: 20px;
   float: left;
 }
+.GDSA.sheet.characterSheet .charstateTable {
+  margin: 20px 90px;
+  width: 434px;
+  height: 180px;
+  border: black 2px solid;
+  border-radius: 10px;
+}
+.GDSA.sheet.characterSheet .charstateRow {
+  width: 100%;
+  height: 90px;
+}
+.GDSA.sheet.characterSheet .charstateBnt {
+  float: left;
+  height: 80px;
+  width: 80px;
+  border: black 2px solid;
+  border-radius: 8px;
+  margin: 3px;
+}
+.GDSA.sheet.characterSheet .buffcontrol {
+  float: right;
+  width: 23px;
+  margin-top: 7px;
+}
+.GDSA.sheet.characterSheet .buffUP {
+  font-size: 16px;
+  font-weight: bolder;
+  padding-left: 3px;
+}
+.GDSA.sheet.characterSheet .buffDOWN {
+  font-size: 16px;
+  font-weight: bolder;
+  padding-left: 3px;
+}
+.GDSA.sheet.characterSheet .buffCOUNT {
+  width: 20px;
+  height: 18px;
+  margin: 4px 0px;
+}
+.GDSA.sheet.characterSheet .buffincount {
+  height: 18px;
+  width: 18px;
+  padding: 4px;
+}
 .mediOpt {
   width: 232px;
 }
@@ -1719,6 +1763,15 @@
 .tooltipCMB {
   height: 23px;
   width: 375px;
+  background-color: #fefff3;
+  color: black;
+  padding-top: 2px;
+  padding-left: 5px;
+  font-family: 'MasonSerifBold';
+}
+.tooltipCMB2 {
+  height: 23px;
+  width: 300px;
   background-color: #fefff3;
   color: black;
   padding-top: 2px;
