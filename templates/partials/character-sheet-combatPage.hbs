@@ -48,39 +48,37 @@
                 </tr>
                 <tr data-item-id="raufen">
                         <td class="tableLbl">{{localize "GDSA.charactersheet.raufSkill"}}</td>
-                        <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}"  data-tooltip=
-                        "<div class='tooltipInI'>Basis <input class='tooltipNum' value='{{system.ATBasis.value}}' disabled> + Skill <input class='tooltipNum' value='{{system.skill.Raufen.atk}}' disabled> + Spezi <input class='tooltipNum' value='0' disabled> = <input class='tooltipNum' value='{{system.skill.Raufen.atk}}' disabled></div>"
-                        data-tooltip-direction="LEFT"><i class="fas fa-gavel faD20Stat"></i></a></td>
-                        <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}" data-tooltip="{{aktTooltip this "Raufen" ""}}" data-tooltip-direction="LEFT"><i class="fas fa-gavel faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}" data-tooltip="{{defTooltip this "Raufen" ""}}" data-tooltip-direction="LEFT"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
                         <td class="tableBnt"><a class="item damage-roll" title="{{localize "GDSA.charactersheet.dmgRoll"}}"><i class="fas fa-tint faD20Stat"></i></a></td>
                 </tr>
                 <tr data-item-id="ringen">
                         <td class="tableLbl">{{localize "GDSA.charactersheet.ringSkill"}}</td>
-                        <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}"><i class="fas fa-gavel faD20Stat"></i></a></td>
-                        <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}" data-tooltip="{{aktTooltip this "Ringen" ""}}" data-tooltip-direction="LEFT"><i class="fas fa-gavel faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}" data-tooltip="{{defTooltip this "Ringen" ""}}" data-tooltip-direction="LEFT"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
                         <td class="tableBnt"><a class="item damage-roll" title="{{localize "GDSA.charactersheet.dmgRoll"}}"><i class="fas fa-tint faD20Stat"></i></a></td>
                 </tr>
                 {{#if system.nwbite}}
                     <tr data-item-id="biss">
                             <td class="tableLbl">{{localize "GDSA.advantage.bite"}}</td>
-                            <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}"><i class="fas fa-gavel faD20Stat"></i></a></td>
-                            <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                            <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}" data-tooltip="{{aktTooltip this "Raufen" ""}}" data-tooltip-direction="LEFT"><i class="fas fa-gavel faD20Stat"></i></a></td>
+                            <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}" data-tooltip="{{defTooltip this "Raufe " ""}}" data-tooltip-direction="LEFT"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
                             <td class="tableBnt"><a class="item damage-roll" title="{{localize "GDSA.charactersheet.dmgRoll"}}"><i class="fas fa-tint faD20Stat"></i></a></td>
                     </tr>
                 {{/if}}
                 {{#if system.nwtail}}
                     <tr data-item-id="schwanz">
                             <td class="tableLbl">{{localize "GDSA.advantage.tail"}}</td>
-                            <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}"><i class="fas fa-gavel faD20Stat"></i></a></td>
-                            <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                            <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}" data-tooltip="{{aktTooltip this "Ringen" ""}}" data-tooltip-direction="LEFT"><i class="fas fa-gavel faD20Stat"></i></a></td>
+                            <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}" data-tooltip="{{defTooltip this "Ringen" ""}}" data-tooltip-direction="LEFT"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
                             <td class="tableBnt"><a class="item damage-roll" title="{{localize "GDSA.charactersheet.dmgRoll"}}"><i class="fas fa-tint faD20Stat"></i></a></td>
                     </tr>
                 {{/if}}
                 {{#each equiptMelee as |item id|}}
                     <tr data-item-id="{{_id}}">
                         <td class="tableLbl">{{name}}</td>
-                        <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}"><i class="fas fa-gavel faD20Stat"></i></a></td>
-                        <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}" data-tooltip="{{aktTooltip ../this "" this}}" data-tooltip-direction="LEFT"><i class="fas fa-gavel faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}" data-tooltip="{{defTooltip ../this "" this}}" data-tooltip-direction="LEFT"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
                         <td class="tableBnt"><a class="item damage-roll" title="{{localize "GDSA.charactersheet.dmgRoll"}}"><i class="fas fa-tint faD20Stat"></i></a></td>
                     </tr>
                 {{/each}}
@@ -98,7 +96,7 @@
                     <tr data-item-id="{{_id}}">
                         <td class="tableLbl">{{name}}</td>
                         <td class="tableBnt"></td>
-                        <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}"><i class="fas fa-bullseye faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}" data-tooltip="{{rangeTooltip ../this "" this}}" data-tooltip-direction="LEFT"><i class="fas fa-bullseye faD20Stat"></i></a></td>
                         <td class="tableBnt"><a class="item damage-roll" title="{{localize "GDSA.charactersheet.dmgRoll"}}"><i class="fas fa-tint faD20Stat"></i></a></td>
                     </tr>
                 {{/each}}
