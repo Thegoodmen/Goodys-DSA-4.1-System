@@ -1695,7 +1695,7 @@
 }
 .GDSA.sheet.characterSheet .effect-name {
   width: 555px;
-  height: 20px;
+  height: 15px;
   float: left;
 }
 .GDSA.sheet.characterSheet .charstateTable {
@@ -1719,18 +1719,23 @@
 }
 .GDSA.sheet.characterSheet .buffcontrol {
   float: right;
-  width: 23px;
+  width: 20px;
+  background-color: rgba(0, 0, 5, 0.2);
+  border-radius: 10px;
   margin-top: 7px;
+  margin-right: 2px;
 }
 .GDSA.sheet.characterSheet .buffUP {
   font-size: 16px;
   font-weight: bolder;
-  padding-left: 3px;
+  padding-left: 4px;
+  color: white;
 }
 .GDSA.sheet.characterSheet .buffDOWN {
   font-size: 16px;
   font-weight: bolder;
-  padding-left: 3px;
+  padding-left: 4px;
+  color: white;
 }
 .GDSA.sheet.characterSheet .buffCOUNT {
   width: 20px;
@@ -1740,7 +1745,58 @@
 .GDSA.sheet.characterSheet .buffincount {
   height: 18px;
   width: 18px;
-  padding: 4px;
+  background: rgba(255, 255, 255, 0.45);
+  text-align: center;
+}
+.GDSA.sheet.characterSheet .buffoverloaded {
+  border-color: #656565;
+  background-image: url(/icons/commodities/stone/paver-cobbles-blue.webp);
+  background-size: contain;
+}
+.GDSA.sheet.characterSheet .bufffeared {
+  border-color: #631439;
+  background-image: url(/icons/magic/death/projectile-skull-fire-purple.webp);
+  background-size: contain;
+}
+.GDSA.sheet.characterSheet .buffdarkness {
+  border-color: #2c083d;
+  background-image: url(/icons/magic/unholy/orb-glowing-purple.webp);
+  background-size: contain;
+}
+.GDSA.sheet.characterSheet .buffpoisioned {
+  border-color: #0b6436;
+  background-image: url(/icons/skills/toxins/cauldron-bubbles-overflow-green.webp);
+  background-size: contain;
+}
+.GDSA.sheet.characterSheet .buffentrückt {
+  border-color: #f0d000;
+  background-image: url(/icons/magic/holy/prayer-hands-glowing-yellow.webp);
+  background-size: contain;
+}
+.GDSA.sheet.characterSheet .buffkneeling {
+  border-color: #747474;
+  background-image: url(/icons/magic/movement/chevrons-down-yellow.webp);
+  background-size: contain;
+}
+.GDSA.sheet.characterSheet .buffonground {
+  border-color: #754e0e;
+  background-image: url(/icons/magic/control/silhouette-fall-slip-prone.webp);
+  background-size: contain;
+}
+.GDSA.sheet.characterSheet .buffconcentrated {
+  border-color: #11aac5;
+  background-image: url(/icons/magic/control/silhouette-aura-energy.webp);
+  background-size: contain;
+}
+.GDSA.sheet.characterSheet .buffsick {
+  border-color: #96128d;
+  background-image: url(/icons/skills/wounds/illness-disease-glowing-green.webp);
+  background-size: contain;
+}
+.GDSA.sheet.characterSheet .buffhidden {
+  border-color: #2a2a2a;
+  background-image: url(/icons/magic/unholy/silhouette-robe-evil-glow.webp);
+  background-size: contain;
 }
 .mediOpt {
   width: 232px;
@@ -3238,6 +3294,199 @@
 }
 .GDSA.sheet.itemSheet .effect-name {
   width: 180px;
+}
+.GDSA.sheet.itemSheet .gCoinSym {
+  font-size: 14px;
+  color: goldenrod;
+}
+.GDSA.sheet.itemSheet .sCoinSym {
+  font-size: 14px;
+  color: silver;
+}
+.GDSA.sheet.itemSheet .cCoinSym {
+  font-size: 14px;
+  color: #b87333;
+}
+.GDSA.sheet.itemSheet .iCoinSym {
+  font-size: 14px;
+  color: gray;
+}
+.GDSA.sheet.itemSheet .bookItem {
+  background-color: transparent;
+  background-image: url(/systems/gdsa/assets/BookAsset.png);
+  background-repeat: no-repeat;
+}
+.GDSA.sheet.itemSheet .bookItemSheet {
+  background-color: #0000001a;
+  background-image: none;
+  box-shadow: none;
+}
+.GDSA.sheet.itemSheet .bookSection {
+  padding: 0px;
+  background: none;
+}
+.GDSA.sheet.itemSheet .bookHeader {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 8px 8px 0px 0px;
+}
+.GDSA.sheet.itemSheet .bookItemContainer {
+  width: 100%;
+  height: 630px;
+}
+.GDSA.sheet.itemSheet .bookItemFill1 {
+  width: 100%;
+  height: 55px;
+}
+.GDSA.sheet.itemSheet .bookItemPage1 {
+  float: left;
+  width: 345px;
+  height: 480px;
+  margin-left: 95px;
+}
+.GDSA.sheet.itemSheet .bookItemPage2 {
+  float: left;
+  width: 345px;
+  height: 480px;
+  margin-left: 20px;
+  padding-left: 20px;
+  padding-right: 10px;
+  padding-top: 7px;
+}
+.GDSA.sheet.itemSheet .bookItemName {
+  height: 40px;
+  text-align: center;
+  font-size: 30px;
+  font-family: 'MasonSerifBold';
+  overflow: hidden;
+  padding: 5px;
+  margin-top: 10px;
+}
+.GDSA.sheet.itemSheet .bookItemSubName {
+  height: 30px;
+  text-align: center;
+  font-size: 18px;
+  font-family: 'MasonSerifBold';
+  overflow: hidden;
+}
+.GDSA.sheet.itemSheet .bookItemImgBox {
+  width: 340px;
+  height: 245px;
+  padding: 10px;
+  text-align: center;
+}
+.GDSA.sheet.itemSheet .bookItemImg {
+  max-width: 340px;
+  max-height: 240px;
+  filter: sepia(40%) grayscale(45%) drop-shadow(4px 4px 3px black);
+  border: 0px;
+}
+.GDSA.sheet.itemSheet .bookItemQuote {
+  width: 100%;
+  height: 140px;
+  padding: 22px;
+  text-align: center;
+  font-size: 16px;
+  font-family: 'MasonSerifBold';
+  overflow: hidden;
+}
+.GDSA.sheet.itemSheet .bookItemTable {
+  font-size: 12px;
+  font-family: 'MasonSerifBold';
+}
+.GDSA.sheet.itemSheet .bookItemTableCell {
+  width: 160px;
+}
+.GDSA.sheet.itemSheet .bookItemSpecial {
+  font-size: 12px;
+  font-family: 'MasonSerifBold';
+  margin: 8px 0px;
+  text-align: justify;
+}
+.GDSA.sheet.itemSheet .bookItemRequi {
+  font-size: 12px;
+  font-family: 'MasonSerifBold';
+  margin: 8px 0px;
+  text-align: justify;
+}
+.GDSA.sheet.itemSheet .bookItemInGame {
+  width: 100%;
+  height: 100px;
+  font-size: 12px;
+  font-family: 'MasonSerifBold';
+  margin: 10px 0px;
+}
+.GDSA.sheet.itemSheet .bookItemHeadline {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.GDSA.sheet.itemSheet .bookItemHeadNote {
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+.GDSA.sheet.itemSheet .bookItemCheckbox {
+  width: 14px;
+  height: 14px;
+  margin: 0px 5px 0px 8px;
+  filter: sepia(45%) grayscale(85%);
+}
+.GDSA.sheet.itemSheet .bookItemCheckLine {
+  float: left;
+  width: 100%;
+  height: 16px;
+}
+.GDSA.sheet.itemSheet .bookItemCheckLable {
+  top: -2px;
+  position: relative;
+}
+.GDSA.sheet.itemSheet .bookItemDescription {
+  font-size: 12px;
+  font-family: 'MasonSerifBold';
+  margin: 8px 0px;
+  text-align: justify;
+}
+.GDSA.sheet.itemSheet .bookItemControl {
+  float: left;
+  height: 55px;
+  width: 180px;
+  margin-top: 36px;
+  margin-left: 465px;
+}
+.GDSA.sheet.itemSheet .bookItemControler {
+  float: left;
+  width: 59px;
+  height: 100%;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  padding-top: 12px;
+}
+.GDSA.sheet.itemSheet .bookItemNote {
+  font-size: 12px;
+  font-family: 'MasonSerifBold';
+  padding-top: 16px;
+}
+.GDSA.sheet.itemSheet .effect-control {
+  right: 5px;
+  position: relative;
+  float: right;
+}
+.GDSA.sheet.itemSheet .effect-name2 {
+  width: 355px;
+}
+.bookItemSheet {
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+}
+.itemBookNote {
+  height: 150px;
+  font-size: 12px;
+  font-family: 'MasonSerifBold';
+}
+.itemBookArea {
+  font-size: 12px;
+  font-family: 'MasonSerifBold';
+  height: 60px;
 }
 .spellvariInput {
   margin-left: 44px;

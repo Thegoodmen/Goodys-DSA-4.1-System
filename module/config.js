@@ -387,7 +387,8 @@ GDSA.tempTypes = {
     kult: "GDSA.templates.kult",
     affi: "GDSA.templates.affi",
     npct: "GDSA.templates.npct",
-    npcw: "GDSA.templates.npcw"
+    npcw: "GDSA.templates.npcw",
+    effe: "GDSA.templates.effe"
 }
 
 GDSA.ritTypes = {
@@ -561,7 +562,8 @@ GDSA.itemGenType = {
     ressource: "GDSA.templates.ressource", 
     luxus: "GDSA.templates.luxus", 
     container: "GDSA.templates.container", 
-    vehical: "GDSA.templates.vehical"
+    vehical: "GDSA.templates.vehical",
+    book: "GDSA.templates.book"
 }
 
 GDSA.itemCurrentcyExchange = {

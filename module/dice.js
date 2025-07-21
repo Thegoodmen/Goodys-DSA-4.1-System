@@ -426,6 +426,10 @@ export async function doLePReg(actor, HPBonus) {
     if(lostLeP < regtotal) regtotal = lostLeP;
     if(regtotal < 0) regtotal = 0;
 
+    // Check if Charakter is sick
+
+    if(actor.system.buffs.sick === 1 && regtotal !== 0) regtotal = 0;
+
     // Fill the Context for the Chat HTML to fill
 
     let templateContext = {
@@ -478,6 +482,10 @@ export async function doAsPReg(actor, APBonus, isMaster) {
     let lostAsP = actor.system.AsP.max - actor.system.AsP.value;
     if(lostAsP < regtotal) regtotal = lostAsP;
     if(regtotal < 0) regtotal = 0;
+
+    // Check if Charakter is sick
+
+    if(actor.system.buffs.sick === 1 && regtotal !== 0) regtotal = 1;
 
     // Fill the Context for the Chat HTML to fill
 

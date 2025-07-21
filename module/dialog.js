@@ -860,6 +860,44 @@ export async function editCharRess(context) {
     });
 }
 
+export async function editItemBook(context) {
+
+    // Create Dialog and show to User
+
+    const template = "systems/gdsa/templates/sheets/gegenstand/Gegenstand-item-book-edit.hbs";
+    context.config = CONFIG.GDSA;
+    const html = await renderTemplate(template, context);
+
+    return new Promise(resolve => {   
+
+        // Set up Parameters for Dialog
+
+        const data = {
+
+            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
+            content: html,
+            buttons: {
+                    normal: {
+                                label: game.i18n.format("GDSA.system.save"),
+                                callback: html => resolve(_processItemBook(html))},
+                    cancel: {
+                                label: game.i18n.format("GDSA.chat.skill.cancel"),
+                                callback: html => resolve({cancelled: true})}},
+            default: "normal",
+            closed: () => resolve({cancelled: true})
+        };
+
+        // Generate and Render Dialog
+
+        let options = {
+            width: 500
+        };
+
+        new Dialog(data, null).render(true, options);
+    });
+    
+}
+
 export async function getAdvantage(context) {
 
     // Create Dialog and show to User
@@ -1402,6 +1440,7 @@ function _processGetMoneyInfo(form) {
 }
 
 function _processCharFacts(form) {
+    console.log(form);
 
     return {
 
@@ -1413,6 +1452,28 @@ function _processCharFacts(form) {
         size: form.size.value,
         weight: form.weight.value,
         social: form.social.value
+    }
+}
+
+function _processItemBook(forms) {
+
+    let form = forms[0].querySelector("[class=dialogConfig]");
+
+    return {
+
+        name: form.name.value,
+        value: form.value.value,
+        weight: form.weight.value,
+        storage: form.storage.value,
+        category: form.category.value,
+        quote: form.quote.value,
+        description: form.description.value,
+        prerequisits: form.prerequisits.value,
+        ingame: form.ingame.value,
+        special: form.special.value,
+        type: form.type.value,
+        itemType: form.itemType.value,
+        note: form.note.value
     }
 }
 

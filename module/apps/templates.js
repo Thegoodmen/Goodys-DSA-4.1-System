@@ -437,7 +437,7 @@ async function getEffects() {
 
     templates = templates.filter(function(item) {return item.type == "Template"});
 
-    let talentArray = templates.filter(function(item) {return item.system.type == "affi"});
+    let talentArray = templates.filter(function(item) {return item.system.type == "effe"});
 
     let effects = {
         all: talentArray[0].effects.contents

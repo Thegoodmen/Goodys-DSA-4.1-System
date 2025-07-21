@@ -3,78 +3,19 @@
 
         <div class="charstateTable">
             <div class="charstateRow">
-                <div class="charstateBnt">
-                    <div class="buffcontrol">
-                        <div class="buffUP"><a class="">⇑</a></div>
-                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
-                        <div class="buffDOWN"><a class="">⇓</a></div>
+                {{#each system.buffs as |value effect|}}
+                    <div id="{{effect}}" class="charstateBnt effectmainBNT {{concat "buff" effect ""}}" data-tooltip="{{localize (concat "GDSA.templates." effect "")}}" 
+                        data-tooltip-direction="DOWN" style="{{#if (equals value 0)}}filter: grayscale(75%);{{/if}}">
+                        {{#if (isEqualORGreater @index 5)}}
+                            <div class="buffcontrol">
+                                <div class="buffUP"><a class="effectupBNT">↑</a></div>
+                                <div class="buffCOUNT"><input class="buffincount" type="number" value="{{value}}" name="system.buffs.{{effect}}" disabled></div>
+                                <div class="buffDOWN"><a class="effectdownBNT">↓</a></div>
+                            </div>
+                        {{/if}}
                     </div>
-                </div>
-                <div class="charstateBnt">
-                    <div class="buffcontrol">
-                        <div class="buffUP"><a class="">⇑</a></div>
-                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
-                        <div class="buffDOWN"><a class="">⇓</a></div>
-                    </div>
-                </div>
-                <div class="charstateBnt">
-                    <div class="buffcontrol">
-                        <div class="buffUP"><a class="">⇑</a></div>
-                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
-                        <div class="buffDOWN"><a class="">⇓</a></div>
-                    </div>
-                </div>
-                <div class="charstateBnt">
-                    <div class="buffcontrol">
-                        <div class="buffUP"><a class="">⇑</a></div>
-                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
-                        <div class="buffDOWN"><a class="">⇓</a></div>
-                    </div>
-                </div>
-                <div class="charstateBnt">
-                    <div class="buffcontrol">
-                        <div class="buffUP"><a class="">⇑</a></div>
-                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
-                        <div class="buffDOWN"><a class="">⇓</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="charstateRow">
-                <div class="charstateBnt">
-                    <div class="buffcontrol">
-                        <div class="buffUP"><a class="">⇑</a></div>
-                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
-                        <div class="buffDOWN"><a class="">⇓</a></div>
-                    </div>
-                </div>
-                <div class="charstateBnt">
-                    <div class="buffcontrol">
-                        <div class="buffUP"><a class="">⇑</a></div>
-                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
-                        <div class="buffDOWN"><a class="">⇓</a></div>
-                    </div>
-                </div>
-                <div class="charstateBnt">
-                    <div class="buffcontrol">
-                        <div class="buffUP"><a class="">⇑</a></div>
-                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
-                        <div class="buffDOWN"><a class="">⇓</a></div>
-                    </div>
-                </div>
-                <div class="charstateBnt">
-                    <div class="buffcontrol">
-                        <div class="buffUP"><a class="">⇑</a></div>
-                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
-                        <div class="buffDOWN"><a class="">⇓</a></div>
-                    </div>
-                </div>
-                <div class="charstateBnt">
-                    <div class="buffcontrol">
-                        <div class="buffUP"><a class="">⇑</a></div>
-                        <div class="buffCOUNT"><input class="buffincount" type="number" value="0" disabled></div>
-                        <div class="buffDOWN"><a class="">⇓</a></div>
-                    </div>
-                </div>
+                    {{#if (equals @index 5)}}</div><div class="charstateRow">{{/if}}
+                {{/each}}
             </div>
         </div>
 

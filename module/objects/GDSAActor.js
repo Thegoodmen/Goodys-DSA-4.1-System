@@ -362,6 +362,12 @@ export default class GDSAActor extends Actor {
         this.update({ "system.SO": object.social });        
     }
 
+    updateBuffValue(name, value) {
+
+        let buffpath = "system.buffs." + name;
+        this.update({ [buffpath]: value });
+    }
+
     setNote(note) {
 
         // Methode to update Character Note

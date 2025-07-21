@@ -28,8 +28,8 @@ export default class BuffHud extends Application {
 
             ownEffects: game.user.character?.effects.contents
         }
-
-        if(this.selectedEffects) data.selEffects = this.selectedEffects.document.delta.effects.contents;
+        
+        if(this.selectedEffects) data.selEffects = this.selectedEffects.document.actor.effects.contents;
 
         return data;
     }

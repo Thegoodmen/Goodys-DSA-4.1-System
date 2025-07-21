@@ -640,6 +640,14 @@ function registerHandelbarsHelpers() {
         return answer;
     });
 
+    Handlebars.registerHelper("inGameEach", function(string) { return string.split(";")});
+
+    Handlebars.registerHelper("trim", function(string) { return string.trim()});
+
+    Handlebars.registerHelper("getItemName", function(text, part) { return text.split("-")[part]; });
+
+    Handlebars.registerHelper("checkBookChecker", function(system, index) { return system.system["ingame"+index]});
+
     Handlebars.registerHelper("hasRomNum", function(name) {
 
         if (name.split(" ").includes("I")) return true;

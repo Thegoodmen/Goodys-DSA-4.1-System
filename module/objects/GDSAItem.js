@@ -81,4 +81,23 @@ export default class GDSAItem extends Item {
             options
         });
     }
+
+    setBookItemData(object) {
+
+        // Methode to update Item Data
+
+        this.update({ "name": object.name });
+        this.update({ "system.value": object.value });
+        this.update({ "system.weight": object.weight });
+        this.update({ "system.item.storage": object.storage });
+        this.update({ "system.item.category": object.category });
+        this.update({ "system.item.quote": object.quote });
+        this.update({ "system.item.description": object.description });
+        this.update({ "system.item.prerequisits": object.prerequisits });
+        this.update({ "system.item.ingame": object.ingame });
+        this.update({ "system.item.special": object.special });
+        this.update({ "system.type": object.type});
+        this.update({ "system.itemType": object.itemType});
+        this.update({ "system.item.note": object.note });
+    }
 }

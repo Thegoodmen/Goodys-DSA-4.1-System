@@ -1,0 +1,82 @@
+<form class="dialogConfig" id="usrform">
+    <div class="form-group subMain"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.templates.book"}}<div class="submen"><hr class="subhr" /></div></div>
+    <div class="dialogFiller"></div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.name"}}</label>
+        <input type="text" name="name" value="{{name}}" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.singleValue"}}</label>
+        <input type="number" name="value" value="{{value}}" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.weight"}}</label>
+        <input type="number" name="weight" value="{{weight}}" />
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.typeItem"}}</label>
+        <select class="mediOpt" name="type">{{selectOptions config.itemTypes selected=type blank="" localize=true}}</select>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.itemType"}}</label>
+        <select class="mediOpt" name="itemType">{{selectOptions config.itemGenType selected=itemType blank="" localize=true}}</select>
+    </div>
+
+    <div class="dialogFiller"></div>
+    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.itemMenu"}}<div class="submen"><hr class="subhr" /></div></div>
+    <div class="dialogFiller"></div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.storageT"}}</label>
+        <select class="mediOpt" name="storage">{{selectOptions config.itemStorage selected=storage localize=true}}</select>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.category"}}</label>
+        <input type="text" name="category" value="{{category}}" />
+    </div>
+
+    <div class="dialogFiller"></div>
+    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.templates.detail"}}<div class="submen"><hr class="subhr" /></div></div>
+    <div class="dialogFiller"></div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.description"}}</label>
+        <textarea class="itemBookArea" name="description" form="usrform">{{description}}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.quote"}}</label>
+        <textarea class="itemBookArea" name="quote" form="usrform">{{quote}}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.special"}}</label>
+        <textarea class="itemBookArea" name="special" form="usrform">{{special}}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.prereq"}}</label>
+        <textarea class="itemBookArea" name="prerequisits" form="usrform">{{prerequisits}}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "GDSA.itemsheet.ingame"}}</label>
+        <textarea class="itemBookArea" name="ingame" form="usrform">{{ingame}}</textarea>
+    </div>
+
+    <div class="dialogFiller"></div>
+    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.template.note"}}<div class="submen"><hr class="subhr" /></div></div>
+    <div class="dialogFiller"></div>
+
+    <div class="form-group">
+        <textarea class="itemBookNote" name="note" form="usrform">{{note}}</textarea>
+    </div>
+
+    <div class="dialogFiller"></div>
+</form>

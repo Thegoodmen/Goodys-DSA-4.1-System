@@ -2107,6 +2107,8 @@ export async function onAttackRoll(data, event) {
         
         let ATKValue = actor.system.skill[skillItem.name].atk;
 
+        ATKValue += actor.system.ATBasis.tempmodi;
+
         // Calculate TPKK
 
         if (item.system.weapon.TPKK) {
@@ -2664,6 +2666,8 @@ export async function onParryRoll(data, event) {
         PAValue += item.system.weapon["WM-DEF"];
         if(isSpezi) PAValue++;
     }
+
+    PAValue += actor.system.PABasis.tempmodi;
 
     // Create Parry Dialog
 
@@ -3436,7 +3440,7 @@ export async function onReg(data, event) {
     if(checkRegIII != null) APBonus = Math.round(statValueKL / 3) + 3 + parseInt(regDialog.asp) + NOBonus;
     if(checkRegIII != null) magActive = true;
     if(system.KaP.max > 0 && system.KaP.max != system.KaP.value) KABonus++; else KABonus = 0; 
-    console.log(APBonus);
+
     // Do Regeneration
 
     if(system.LeP.max != system.LeP.value)
@@ -3757,6 +3761,178 @@ export async function editCharRessource(data, event) {
     }
 
     data.actor.render();
+}
+
+export async function editItemBookDetails(data, event) {
+
+    // Set inital Variabels
+
+    let checkOptions = false;
+
+    // Generate Context for the Dialog
+
+    let context = {
+
+        name: data.item.name,
+        value: data.system.value,
+        weight: data.system.weight,
+        storage: data.system.item.storage,
+        category: data.system.item.category,
+        quote: data.system.item.quote,
+        description: data.system.item.description,
+        prerequisits: data.system.item.prerequisits,
+        ingame: data.system.item.ingame,
+        special: data.system.item.special,
+        itemType: data.system.itemType,
+        type: data.system.type,
+        note: data.system.item.note
+    };
+
+    // Create Dialog
+
+    checkOptions = await Dialog.editItemBook(context);
+    if (checkOptions.cancelled) return;
+
+    // Process Dialog and generate Log Entry
+
+    data.item.setBookItemData(checkOptions);
+    data.item.render();
+}
+
+export async function openItemPage(data, page, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let container = element.closest(".bookItemContainer");
+
+    // Get Collabseable DIV Box
+    
+    let page2 = container.querySelector("[id=page2]");
+    let page3 = container.querySelector("[id=page3]");
+
+    // Hide / Show Pages
+
+    switch (page) {
+
+        case 2:
+            page2.style.display = "block";
+            page3.style.display = "none";
+            break;
+    
+        case 3:
+            page3.style.display = "block";
+            page2.style.display = "none";
+            break;
+    }
+}
+
+export async function onEffectToggle(data, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let container = element.closest(".effectmainBNT");
+    let actor = data.actor;
+
+    // Get Effect from DOM
+
+    let idname = container.id;
+    let name = game.i18n.localize("GDSA.templates." + idname)
+    
+    // Get Full Effect from registry
+
+    let effects = CONFIG.Templates.effects.all;
+    let effect = effects.filter(function(item) {return item.name === name})[0]
+    if (effect === null || effect === undefined) return;
+
+    // Enable or Disable Effect on Actor
+
+    let extistingEffect = actor.effects.contents.filter(function(item) {return item.name === name}).map(a => a._id);
+
+    if (extistingEffect.length > 0) {
+        
+        actor.deleteEmbeddedDocuments("ActiveEffect", extistingEffect);
+        actor.updateBuffValue(idname, 0);
+
+    } else {
+        
+        actor.createEmbeddedDocuments("ActiveEffect", [effect]);
+        actor.updateBuffValue(idname, 1);
+    }
+    game.gdsa.buffHud?.render();
+    actor.render();
+}
+
+export async function onEffectUp(data, event) {
+
+    event.stopPropagation();
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let container = element.closest(".effectmainBNT");
+    let actor = data.actor;
+
+    // Get Effect from DOM
+
+    let idname = container.id;
+    let name = game.i18n.localize("GDSA.templates." + idname)
+    
+    // Get Full Effect from registry
+
+    let effects = CONFIG.Templates.effects.all;
+    let effect = effects.filter(function(item) {return item.name === name})[0]
+    if (effect === null || effect === undefined) return;
+
+    let buffvalue = actor.system.buffs[idname];
+    buffvalue++;
+
+    actor.updateBuffValue(idname, buffvalue);
+
+    if (buffvalue === 1) actor.createEmbeddedDocuments("ActiveEffect", [effect]);
+    game.gdsa.buffHud?.render();
+    actor.render();
+}
+
+export async function onEffectDown(data, event) {
+
+    event.stopPropagation();
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let container = element.closest(".effectmainBNT");
+    let actor = data.actor;
+
+    // Get Effect from DOM
+
+    let idname = container.id;
+    let name = game.i18n.localize("GDSA.templates." + idname)
+    
+    // Get Full Effect from registry
+
+    let effects = CONFIG.Templates.effects.all;
+    let effect = effects.filter(function(item) {return item.name === name})[0]
+    if (effect === null || effect === undefined) return;
+
+    let buffvalue = actor.system.buffs[idname];
+    if (buffvalue === 0) return;
+
+    buffvalue--;
+    let extistingEffect = actor.effects.contents.filter(function(item) {return item.name === name}).map(a => a._id);
+
+    actor.updateBuffValue(idname, buffvalue);
+
+    if (buffvalue === 0) actor.deleteEmbeddedDocuments("ActiveEffect", extistingEffect);
+    game.gdsa.buffHud?.render();
+    actor.render();
 }
 
 export async function editRitualSkills(data, event) {

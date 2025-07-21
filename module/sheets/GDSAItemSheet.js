@@ -12,8 +12,16 @@ export default class GDSAItemSheet extends ItemSheet {
         // ##                                                                                             ##
         // #################################################################################################
         // #################################################################################################
-
-        return foundry.utils.mergeObject(super.defaultOptions, {
+        
+        if(true) 
+            return foundry.utils.mergeObject(super.defaultOptions, {
+                "height": 662,
+                "width": 900,
+                "resizable": false,
+                "tabs": [ {navSelector: ".spell-tabs", contentSelector: ".spell-body", initial: "spellDetails"}],
+                "classes": ["GDSA", "sheet", "itemSheet"]
+            });
+        else return foundry.utils.mergeObject(super.defaultOptions, {
 
             width: 466,
             resizable: false,
@@ -28,6 +36,7 @@ export default class GDSAItemSheet extends ItemSheet {
 
         if(itemType === "none" || itemType === "s") itemType = "";
         if(this.item.type === "Template") return `systems/gdsa/templates/sheets/template/${this.item.type}-${itemType}-sheet.hbs`
+        if(this.item.type === "Gegenstand" && itemType === "item" && this.item.system.itemType === "book") return `systems/gdsa/templates/sheets/gegenstand/${this.item.type}-${itemType}-book-sheet.hbs`
         if(this.item.type === "Gegenstand") return `systems/gdsa/templates/sheets/gegenstand/${this.item.type}-${itemType}-sheet.hbs`
         if(this.item.type === "objektRitual") return `systems/gdsa/templates/sheets/ritual/${this.item.type}-${itemType}-sheet.hbs`
         return `systems/gdsa/templates/sheets/items/${this.item.type}-sheet.hbs`
@@ -91,10 +100,20 @@ export default class GDSAItemSheet extends ItemSheet {
             html.find(".deleteSpellVariants").click(LsFunction.deleteSpellVariants.bind(this,sheet));
             html.find(".note-gm-post").click(LsFunction.noteGMPost.bind(this, sheet));
             html.find(".note-all-post").click(LsFunction.noteAllPost.bind(this, sheet));
+            html.find(".editBookItem").click(LsFunction.editItemBookDetails.bind(this, sheet));
+            html.find(".openBookItem").click(LsFunction.openItemPage.bind(this, sheet, 2));
+            html.find(".openBookNote").click(LsFunction.openItemPage.bind(this, sheet, 3));
 
             // Set Listener for Active Effects
 
             html.find(".effect-control").click(this._onEffectControl.bind(this));
+        }
+
+        if(html.get("0").className == "bookItem") {
+
+            html.parent().addClass("bookSection");
+            html.parent().parent().addClass("bookItemSheet");
+            html.parent().parent().children("header").addClass("bookHeader");
         }
 
         super.activateListeners(html);

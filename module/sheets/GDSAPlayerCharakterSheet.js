@@ -162,6 +162,9 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
             html.find(".doMedi").click(LsFunction.onMed.bind(this, sheet));
             html.find(".wp").click(LsFunction.onWoundChange.bind(this, sheet));
             html.find(".wound").click(LsFunction.onWoundChange.bind(this, sheet));
+            html.find(".effectmainBNT").click(LsFunction.onEffectToggle.bind(this, sheet));
+            html.find(".effectupBNT").click(LsFunction.onEffectUp.bind(this, sheet));
+            html.find(".effectdownBNT").click(LsFunction.onEffectDown.bind(this, sheet));
 
             // Set Listener for Item Events
 
