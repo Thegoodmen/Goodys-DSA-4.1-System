@@ -1,8 +1,7 @@
 <section>
     <div class="infoBox">
 		<div class="imgBox">
-			<span class="imgHelper"></span>
-	    	<img class="img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+	    	<img class="img" src="{{actor.img}}" data-edit="img" data-action="editImage" title="{{actor.name}}"/>
 	   	</div>
 	   	<div class="infoDivider"></div>
 		{{> "systems/gdsa/templates/partials/character-sheet-facts.hbs"}}
@@ -14,7 +13,7 @@
 	    <div class="flawBox">
 			<div class="flawhead">{{localize "GDSA.charactersheet.advantage"}}</div>
             <div class="flawbnt"><a class="advantage-create" data-type="adva" title="{{localize "GDSA.charactersheet.addAdvantage"}}"><i class="fas fa-plus plusSym"></i></a></div>
-			<div class="flawhrbox"><hr class="flawhr" /></div>
+			<div class="flawhrbox"><hr class="flawhrMain" /></div>
 	    	<section class="advantages">
 				{{#each advantages as |advantage id|}}
 					{{> "systems/gdsa/templates/partials/character-sheet-advantages.hbs" advantage}}
@@ -27,7 +26,7 @@
 	    <div class="flawBox">
 			<div class="flawhead">{{localize "GDSA.charactersheet.flaw"}}</div>
 			<div class="flawbnt"><a class="disadvantage-create" data-type="flaw" title="{{localize "GDSA.charactersheet.addFlaw"}}"><i class="fas fa-plus plusSym"></i></a></div>
-			<div class="flawhrbox"><hr class="flawhr" /></div>
+			<div class="flawhrbox"><hr class="flawhrMain" /></div>
 	    	<section class="advantages">
 				{{#each flaws as |flaw id|}}
 					{{> "systems/gdsa/templates/partials/character-sheet-advantages.hbs" flaw}}
@@ -37,8 +36,7 @@
 	</div>	
 
 	<div class="filler"></div>
-
-	   <div class="valueBox">
+	   <div class="valueBox3">
 	   	{{> "systems/gdsa/templates/partials/character-sheet-value1.hbs"}}
 	   	<div class="valueDivider"></div>
 	   	{{> "systems/gdsa/templates/partials/character-sheet-value2.hbs"}}
@@ -49,11 +47,11 @@
 	<div class="footerBox">
 	   	<div class="footer">
 	    	<div class="footerFirst"><a class=" item stat-change" data-stattype="AP" title="{{localize 'GDSA.system.edit'}}">{{localize "GDSA.charactersheet.AP"}}</a></div>
-	    	<div class="footerBig"><input class="statTemp" name="system.AP.value" type="number" value="{{system.AP.value}}" /></div> 
+	    	<div class="footerBig">{{system.AP.value}}</div> 
 	    	<div class="footerSmall"><a class=" item test">{{localize "GDSA.charactersheet.spentAP"}}</a></div>
 	    	<div class="footerBig">{{system.AP.spent}}</div>
-	    	<div class="footerSmall"><a class=" item stat-change" data-stattype="APFree" title="{{localize 'GDSA.system.edit'}}">{{localize "GDSA.charactersheet.freeAP"}}</a></div>
-	    	<div class="footerBig"><input class="statTemp" name="system.APFree.value" type="number" value="{{system.APFree.value}}" /></div>
+	    	<div class="footerSmall2"><a class=" item stat-change" data-stattype="APFree" title="{{localize 'GDSA.system.edit'}}">{{localize "GDSA.charactersheet.freeAP"}}</a></div>
+	    	<div class="footerBig">{{system.APFree.value}}</div>
 	   	</div>
  	</div>
 </section>

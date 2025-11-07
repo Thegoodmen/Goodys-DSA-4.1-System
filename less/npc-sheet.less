@@ -1,12 +1,31 @@
 // main: ./GDSA.less
 .GDSA.sheet.npcSheet {
-
+    .window-content {
+        padding: 8px;
+    };
+    .sheetMain {
+        width: 615px;
+        height: 100%;
+        font-family: MasonSerifBold;
+    };
+    .sheetHeader {
+        float: left;
+        width: 615px;
+        height: 115px;
+        display: flex;
+        border: 2px solid #ebd3b7;
+        border-radius: 8px;
+        text-align: center;
+        padding-top: 5px;
+        background-color: #7d7d7d6b;
+    };
     .namelbl {
-        width: 500px;
+        width: 505px;
         height: 50px;
         flex: none;
         margin: 8px 0px;
         font-size: 38px;
+        border-radius: 10px;
     };
     .actorImg {
         width: 96px;
@@ -20,47 +39,73 @@
         flex: none;
     };
     .atInput {
-        width: 28px;
+        width: 27px;
         float: left;
-        flex: none;
         text-align: center;
-        font-size: 18px;
+        font-size: 15px;
         font-weight: bold;
-        margin-right: 8px;
-        margin-left: 2px;
+        padding: 2px;
+        margin-right: 4px;
+        margin-left: 4px;
+        border: 1px solid #ebd3b7;
+        border-radius: 9px;
+        color: white;
     };
     .atlbl {
-        width: 25px;
+        width: 28px;
         float: left;
-        flex: none;
-        font-size: 16px;
-        padding-top: 3px;
-    };
-    .atCorner {
-        margin-right: 4px;
+        font-size: 14px;
+        padding-top: 8px;
+        padding-right: 4px;
+        text-align: right;
     };
     .mainColum {
         width: 615px;
-        height: 220px;
+        height: 230px;
         float: left;
+    };
+    .mainRow {
+        width: 310px;
+        height: 215px;
+        float: left;
+        margin-top: 10px;
+        margin-right: 5px;
+        border: 2px solid #ebd3b7;
+        border-radius: 8px;
+        background-color: #7d7d7d6b;
+        overflow: hidden;
+    };
+    .subhead {
+        height: 20px;
+        width: 100%;
+        font-size: 18px;
+        font-weight: bold;
+        background-color: #3128308f;
+        text-align: center;
+        border-radius: 12px;
     };
     .mainColum2 {
         width: 615px;
-        min-height: 70px;
+        min-height: 55px;
         float: left;
         position: relative;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border: 2px solid #ebd3b7;
+        border-radius: 8px;
+        background-color: #7d7d7d6b;
+        overflow: hidden;
     };
     .mainColum3 {
         width: 615px;
-        min-height: 95px;
+        min-height: 75px;
         float: left;
         position: relative;
-    };
-    .mainRow {
-        width: 305px;
-        height: 220px;
-        float: left;
-        margin-right: 20px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border: 2px solid #ebd3b7;
+        border-radius: 8px;
+        background-color: #7d7d7d6b;
     };
     .mainRow2 {
         width: 305px;
@@ -68,10 +113,16 @@
         float: left;
     };
     .mainRow3 {
-        width: 285px;
+        width: 295px;
         max-height: 110px;
-        float: left; 
+        float: left;
         position: relative;
+        margin-top: 10px;
+        margin-left: 5px;
+        border: 2px solid #ebd3b7;
+        border-radius: 8px;
+        background-color: #7d7d7d6b;
+        overflow: hidden;
     };
     .hrMenu {
         margin-top: 0px;
@@ -83,19 +134,13 @@
         margin-top: 0px;
         margin-left: 0px;
         margin-bottom: 4px;
-        width: 600px;
+        width: 610px;
     };
     .hrMenu3 {
         margin-top: 0px;
         margin-left: 0px;
         margin-bottom: 4px;
-        width: 275px;
-    };
-    .subhead {
-        font-size: 20px;
-        font-weight: bold;
-        margin-top: 8px;
-        margin-left: 10px;
+        width: 290px;
     };
     .subrow {
         height: 20px;
@@ -119,8 +164,23 @@
         height: 20px;
         width: 30px;
         float: left;
-        font-size: 14px;
         text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 2px;
+        border: 1px solid #ebd3b7;
+        border-radius: 9px;
+        color: white;
+    };
+    .statInputCheck {
+        height: 20px;
+        width: 20px;
+        float: left;
+        text-align: center;
+        padding: 0px;
+        border: none;
+        border-radius: unset;
+        margin-left: 29px !important;
     };
     .secondRow {
         margin: 0px 24px;
@@ -170,7 +230,7 @@
     };
     .traitName {
         height: 20px;
-        width: 214px;
+        width: 225px;
         float: left;
         font-size: 14px;
         margin-left: 20px;
@@ -202,28 +262,38 @@
         height: 20px;
         width: 35px;
         float: left;
-        font-size: 14px;
         text-align: center;
-        border-radius: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 2px;
+        border: 1px solid #ebd3b7;
+        border-radius: 9px;
+        color: white;
     };
     .cmbtInput2 {
         height: 20px;
         width: 60px;
         float: left;
-        font-size: 14px;
         text-align: center;
-        margin-right: 10px;
-        border-radius: 10px;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 2px;
+        border: 1px solid #ebd3b7;
+        border-radius: 9px;
+        color: white;
     };
     .cmbtdivider {
         height: 20px;
-        width: 10px;
+        width: 8px;
         float: left;
     };
     .cmbticon {
-        height: 20px;
-        width: 18px;
+        height: 16px;
+        width: 14px;
         float: left;
+        margin: 2px;
+        font-size: 12px;
+        text-align: center;
     };
     .cmbticon2 {
         height: 20px;
@@ -240,23 +310,17 @@
         margin: 3px 5px;
     };
     .itemDesc {
-        width: 590px;
+        width: 611px;
         height: 130px;
-        margin: 5px 12px;
+        margin: -4px 0px;
     };
     .addItemBox {
         width: 20px;
         height: 20px;
         position: absolute;
-        top: 15px;
-        left: 260px;
-    };
-    .addItemBox2 {
-        width: 20px;
-        height: 20px;
-        position: absolute;
-        top: 15px;
-        left: 595px;
+        top: 2px;
+        right: 2px;
+        text-align: center;
     };
     .trait-type {
         background-color: #008f40;
@@ -294,6 +358,11 @@
         background-color: #e61bca;
         color: rgb(0, 0, 0);
     };
+    .checkboxPAMain {
+        width: 15px;
+        height: 15px;
+        margin: 0px -2px;
+    };
     .multi-select {
         display: flex;
         box-sizing: border-box;
@@ -301,13 +370,13 @@
         position: relative;
         width: 100%;
         user-select: none;
+        margin-top: -4px;
     };
     .multi-select .multi-select-header {
-        border: 1px solid #dee2e6;
         padding: 7px 30px 7px 12px;
         overflow: hidden;
         gap: 7px;
-        min-height: 45px;
+        min-height: 50px;
     };
     .multi-select .multi-select-header::after {
         content: "";
@@ -354,12 +423,13 @@
         z-index: 999;
         margin-top: 5px;
         padding: 5px;
-        background: #dfdfdf;
-        border-radius: 5px;
+        background: #898888f5;
+        border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        max-height: 185px;
+        max-height: 163px;
         overflow-y: auto;
         overflow-x: hidden;
+        border: 2px solid #edd4b9;
     };
     .multi-select .multi-select-options::-webkit-scrollbar {
         width: 5px;
@@ -426,6 +496,7 @@
         width: 100%;
         outline: none;
         font-size: 16px;
+        background-color: #312830;
     };
     .multi-select .multi-select-options .multi-select-search::placeholder {
         color: #b2b5b9;
@@ -443,9 +514,7 @@
         font-size: 16px;
         color: #212529;
     };
-    .checkboxPAMain {
-        width: 15px;
-        height: 15px;
-        margin: 0px -2px;
+    .multi-select-hide {
+        display: none !important;
     };
 }

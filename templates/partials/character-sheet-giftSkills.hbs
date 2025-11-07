@@ -1,4 +1,4 @@
-<table style="display: inline-block">
+<table class="skillTable">
 
     {{#each template.talents.gift as |item|}}
         {{#if (ifOR ../system.allSkills (notEmpty (getData ../system/skill item.name) includeZero=true))}}

@@ -3,33 +3,52 @@ import * as LsFunction from "../listenerFunctions.js"
 import MultiSelect from "../apps/multiselect.js"
 import * as Dialog from "../dialog.js";
 
-export default class GDSANonPlayerSheet extends ActorSheet {
+const api = foundry.applications.api;
+const sheets = foundry.applications.sheets;
+
+export default class GDSANonPlayerSheet extends api.HandlebarsApplicationMixin(sheets.ActorSheetV2) {
 
     sheet = {};
 
-    static get defaultOptions() {
-
-        // #################################################################################################
-        // #################################################################################################
-        // ##                                                                                             ##
-        // ##            Returns the General HTML of the Sheet and defines some general Stats             ##
-        // ##                                                                                             ##
-        // #################################################################################################
-        // #################################################################################################
-
-        return foundry.utils.mergeObject(super.defaultOptions, {
-
-            template: "systems/gdsa/templates/sheets/nonPlayer-sheet.hbs",
+    static DEFAULT_OPTIONS = {
+        tag: "form",
+        classes: ["GDSA", "sheet", "npcSheet"],
+        actions: {
+            note: this.openNotes
+        },
+        form: {
+            submitOnChange: true,
+            closeOnSubmit: false
+        },
+        position: {
             width: 632,
-            height: "auto",
-            resizable: false,
-            classes: ["GDSA", "sheet", "npcSheet"]
-        });
+        },
+        window: {
+            controls: [
+                { class: "note-sheet", icon: "fas fa-sheet-plastic", label: "Notes", action: "note" }
+            ]
+        }
     }
 
-    
-    getData() {
+    static PARTS = {
 
+        main: { template: "systems/gdsa/templates/sheets/nonPlayer-sheet.hbs" }
+    }
+
+    get title() {
+
+        return this.actor.name;
+    }
+
+    /** @override */
+    _configureRenderOptions(options) {
+        super._configureRenderOptions(options);
+        options.parts = ["main"];
+    }
+
+    /** @override */
+    async _prepareContext(options) {
+        
         // #################################################################################################
         // #################################################################################################
         // ##                                                                                             ##
@@ -37,46 +56,47 @@ export default class GDSANonPlayerSheet extends ActorSheet {
         // ##                                                                                             ##
         // #################################################################################################
         // #################################################################################################
+        
+        const baseData = await super._prepareContext(options);
 
-        const baseData = super.getData();
-
-        let sheetData = {
-
+        let context = {
+            
             // Set General Values
-
-            owner: this.actor.isOwner,
-            editable: this.isEditable,
-            actor: baseData.actor,
-            system: baseData.actor.system,
-            items: baseData.items,
+            owner: baseData.document.isOwner,
+            editable: baseData.editable,
+            actor: baseData.document,
+            system: baseData.document.system,
+            items: baseData.document.items,
             config: CONFIG.GDSA,
-            isGM: game.user.isGM,
+            isGM: baseData.user.isGM,
+            template: CONFIG.Templates,
 
             // Create for each Item Type its own Array
 
-            gifts: Util.getTemplateItems(baseData, "adva").concat(Util.getTemplateItems(baseData, "flaw")),
-            talents: Util.getTemplateItems(baseData, "npct", false),
-            weapons: Util.getTemplateItems(baseData, "npcw",false),
-            casts: Util.getItems(baseData, "spell", false)
+            gifts: Util.getTemplateItems(baseData.document, "adva").concat(Util.getTemplateItems(baseData.document, "flaw")),
+            talents: Util.getTemplateItems(baseData.document, "npct", false),
+            weapons: Util.getTemplateItems(baseData.document, "npcw",false),
+            casts: Util.getItems(baseData.document, "spell", false)
         };
 
         // Calculate Percent for Ressource Bars in Sheet and if no AsP / KaP grey out
 
-        sheetData.system.pLeP = (100 / sheetData.system.LeP.max) * sheetData.system.LeP.value;
-        sheetData.system.pAuP = (100 / sheetData.system.AuP.max) * sheetData.system.AuP.value;
-        sheetData.system.pAsP = (100 / sheetData.system.AsP.max) * sheetData.system.AsP.value;
-        sheetData.system.pKaP = (100 / sheetData.system.KaP.max) * sheetData.system.KaP.value;
+        context.system.pLeP = (100 / context.system.LeP.max) * context.system.LeP.value;
+        context.system.pAuP = (100 / context.system.AuP.max) * context.system.AuP.value;
+        context.system.pAsP = (100 / context.system.AsP.max) * context.system.AsP.value;
+        context.system.pKaP = (100 / context.system.KaP.max) * context.system.KaP.value;
 
-        if(sheetData.system.AsP.max == 0) sheetData.system.pAsP = 0;
-        if(sheetData.system.KaP.max == 0) sheetData.system.pKaP = 0;
+        if(context.system.AsP.max == 0) context.system.pAsP = 0;
+        if(context.system.KaP.max == 0) context.system.pKaP = 0;
 
-        this.sheet = sheetData;
+        this.sheet = context;
         
-        return sheetData;
+        return context;
     }
 
-    activateListeners(html) {
-
+    /** @override */
+    _onRender(context, options) {
+        
         // #################################################################################################
         // #################################################################################################
         // ##                                                                                             ##
@@ -85,50 +105,43 @@ export default class GDSANonPlayerSheet extends ActorSheet {
         // #################################################################################################
         // #################################################################################################
 
-        let sheet = this.sheet;
-
-        // Set Listener for Basic Rolls
+        super._onRender(context, options);
         
-        html.find(".npc-roll").click(LsFunction.onNPCRoll.bind(this, sheet));
-        html.find(".flaw-roll").click(LsFunction.onFlawRoll.bind(this, sheet));
-        html.find(".npc-at").click(LsFunction.onNPCAttackRoll.bind(this, sheet));
-        html.find(".npc-pa").click(LsFunction.onNPCParryRoll.bind(this, sheet));
-        html.find(".npc-dmg").click(LsFunction.onNPCDMGRoll.bind(this, sheet));
+        if(this.isEditable) {
 
-        // Set Listener for Item Events
+            let sheet = this.sheet;
 
-        if(! this.id.includes("Token")) html.find(".item-create").click(LsFunction.onItemCreate.bind(this, sheet));
-        if(! this.id.includes("Token")) html.find(".template-create").click(LsFunction.onTemplateCreate.bind(this, sheet));
-        if(! this.id.includes("Token")) html.find(".item-edit").click(LsFunction.onItemEdit.bind(this, sheet));
-        if(! this.id.includes("Token")) html.find(".item-delete").click(LsFunction.onItemDelete.bind(this, sheet));
+            // Set Listener for Basic Rolls
 
-        // Set Listener for Context / Right-Click Menu
+            this.element.querySelectorAll(".npc-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onNPCRoll(sheet, e)) });
+            this.element.querySelectorAll(".flaw-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onFlawRoll(sheet, e)) });
+            this.element.querySelectorAll(".npc-at").forEach(action => { action.addEventListener("click", (e) => LsFunction.onNPCAttackRoll(sheet, e)) });
+            this.element.querySelectorAll(".npc-pa").forEach(action => { action.addEventListener("click", (e) => LsFunction.onNPCParryRoll(sheet, e)) });
+            this.element.querySelectorAll(".npc-dmg").forEach(action => { action.addEventListener("click", (e) => LsFunction.onNPCDMGRoll(sheet, e)) });
+        
+            if(! this.id.includes("Token")) { 
 
-        if(! this.id.includes("Token")) new ContextMenu(html, ".item-context", LsFunction.getItemContextMenu());
+                // Set Listener for Item Events
 
+                this.element.querySelectorAll(".item-create").forEach(action => { action.addEventListener("click", (e) => LsFunction.onItemCreate(sheet, e)) });
+                this.element.querySelectorAll(".template-create").forEach(action => { action.addEventListener("click", (e) => LsFunction.onTemplateCreate(sheet, e)) });
+                this.element.querySelectorAll(".item-edit").forEach(action => { action.addEventListener("click", (e) => LsFunction.onItemEdit(sheet, e)) });
+                this.element.querySelectorAll(".item-delete").forEach(action => { action.addEventListener("click", (e) => LsFunction.onItemDelete(sheet, e)) });
 
-        html.find(".data-multi-select").each((i, li) => { new MultiSelect(li) });
+                // Set Listener for Context / Right-Click Menu
+        
+                new foundry.applications.ux.ContextMenu.implementation(this.element, ".item-context", LsFunction.getItemContextMenu(), {jQuery: false});
+            }
 
-        super.activateListeners(html);
+            this.element.querySelectorAll(".data-multi-select").forEach((i, li) => { new MultiSelect(i) });
+        }
     }
 
-    _getHeaderButtons() {
-
-        const baseData = super._getHeaderButtons();
-
-        let notesBnt = {"class": "note-sheet", "icon": "fas fa-sheet-plastic", "label": "Notes", "onclick":  ev => this.openNotes(ev)};
-
-        let response = [notesBnt].concat(baseData);
-
-        return response;
-    }
-
-    async openNotes(ev) {
+    static async openNotes(ev) {
 
         let newNote = await Dialog.editCharNotes({ "system": { "notes": this.sheet.system.note}});
 
+        this.sheet.actor.setNote(newNote);
         this.sheet.system.note = newNote;
     }
-
-
 }

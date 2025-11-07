@@ -1,4 +1,4 @@
-<table style="display: inline-block">
+<table class="skillTable">
     
     {{#each template.talents.meele as |item|}}
         {{#if (ifOR ../system.allSkills (ifOR (notEmpty (getData (getData ../system/skill item.name) "value") includeZero=true) (toBoolean item.system.tale.taletype)))}}

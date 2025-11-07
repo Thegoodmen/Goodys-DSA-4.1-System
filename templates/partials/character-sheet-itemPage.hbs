@@ -1,7 +1,7 @@
 <div class="invFiller"></div>
 <div class="skillHeaderBox">
     <div class="invMenuHelper">
-	    <div class="skillHeaderSkillBox3">
+	    <div class="skillHeaderSkillBox5">
             <div class="headerLable">{{localize "GDSA.charactersheet.gold"}}</div><div class="headerValue">
                 <input class="headerValue moneylable" name="system.money.gold" type="number" value="{{system.money.gold}}" disabled /></div> 
             <div class="headerLable">{{localize "GDSA.charactersheet.silver"}}</div><div class="headerValue">
@@ -11,7 +11,7 @@
             <div class="headerLable">{{localize "GDSA.charactersheet.nikel"}}</div><div class="headerValue">
                 <input class="headerValue moneylable" name="system.money.nickel" type="number" value="{{system.money.nickel}}" disabled /></div>
 	    </div>
-        <div class="invAddBox">
+        <div class="invAddBox" style="margin-top: -1px;">
             <a class="change-money" title="{{localize "GDSA.charactersheet.addMoney"}}"><i class="fas fa-wallet plusSym2"></i></a>
         </div>
     </div>
@@ -29,6 +29,7 @@
                 {{/if}}
                 <div class="collabsCatogary"><a class="toggleHide" data-type="meeleW" title="Show / Hide"><i class="fa-regular fa-list-tree"></i></a></div>
             </div>
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
             {{#if (getData actor.system.generalItemType "meeleW")}}
                 {{#each meleeweapons as |item id|}}
                     <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{getSkillFromTemp system.weapon.skill}}</i>
@@ -41,6 +42,7 @@
                             {{/if}}
                         </div>
                     </div>
+                    {{#unless @last}}<div class="traithrbox3"><hr class="traithr2" /></div>{{/unless}}
                 {{/each}}
             {{/if}}
         </div>
@@ -56,6 +58,7 @@
                 {{/if}}
                 <div class="collabsCatogary"><a class="toggleHide" data-type="rangeW" title="Show / Hide"><i class="fa-regular fa-list-tree"></i></a></div>
             </div>
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
             {{#if (getData actor.system.generalItemType "rangeW")}}
                 {{#each rangeweapons as |item id|}}
                     <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{getSkillFromTemp system.weapon.skill}}</i>
@@ -68,6 +71,7 @@
                             {{/if}}
                         </div>
                     </div>
+                    {{#unless @last}}<div class="traithrbox3"><hr class="traithr2" /></div>{{/unless}}
                 {{/each}}
             {{/if}}
         </div>
@@ -83,6 +87,7 @@
                 {{/if}}
                 <div class="collabsCatogary"><a class="toggleHide" data-type="shield" title="Show / Hide"><i class="fa-regular fa-list-tree"></i></a></div>
             </div>
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
             {{#if (getData actor.system.generalItemType "shield")}}
                 {{#each shields as |item id|}}
                     <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{localize (concat "GDSA.itemsheet." system.weapon.parType "")}}</i>
@@ -95,6 +100,7 @@
                             {{/if}}
                         </div>
                     </div>
+                    {{#unless @last}}<div class="traithrbox3"><hr class="traithr2" /></div>{{/unless}}
                 {{/each}}
             {{/if}}
         </div>
@@ -110,6 +116,7 @@
                 {{/if}}
                 <div class="collabsCatogary"><a class="toggleHide" data-type="armour" title="Show / Hide"><i class="fa-regular fa-list-tree"></i></a></div>
             </div>
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
             {{#if (getData actor.system.generalItemType "armour")}}
                 {{#each armour as |item id|}}
                     <div class="invItem item-context item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{#if system.armour.Z}} {{localize "GDSA.itemsheet.zArmour"}} {{else}} {{localize "GDSA.itemsheet.zoneArmour"}} {{/if}}</i>
@@ -122,6 +129,7 @@
                             {{/if}}
                         </div>
                     </div>
+                    {{#unless @last}}<div class="traithrbox3"><hr class="traithr2" /></div>{{/unless}}
                 {{/each}}
             {{/if}}
         </div>
@@ -136,20 +144,20 @@
                     </a></div>
                 {{/if}}
             </div>
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
             {{#each actor.system.generalItems as |catogary id|}}
                 <div class="invHeader3">{{type}}<div class="collabsCatogary"><a class="toggleHide" data-type="{{type}}" title="Show / Hide"><i class="fa-regular fa-list-tree"></i></a></div></div>
+                <div class="traithrbox4"><hr class="traithrMain2" /></div>
                     {{#if (getData ../actor.system.generalItemType type)}}
                         {{#each item as |item id|}}
                             <div class="invItem3 item-context item {{#if @last}}invItemLast{{/if}}" data-item-id="{{_id}}">{{name}} <br /> > <i>{{getItemtype system.itemType }}</i>
                                 <div class="itemAmountBox Quantity"><input class="itemAmount Quantity" name="system.quantity" value="{{system.quantity}}" type="number" disabled></div>
                                 <div class="itemImgBox allItemIMG"><img class="itemImg" src="{{img}}"></div>
                             </div>
+                            {{#unless @last}}<div class="traithrbox4"><hr class="traithr2" /></div>{{/unless}}
                         {{/each}}
                     {{/if}}
 	        {{/each}}
         </div>
-        
-        <div class="invDivider"></div>
-
     </section>
 </div>

@@ -4,10 +4,10 @@
         <span class="message-metadata messOptionBar" style="flex: none;">
             <time class="message-timestamp">{{timeSince message.timestamp}}</time>
             {{#if canDelete}}
-            <a aria-label="{{localize 'Delete'}}" class="message-delete"><i class="fas fa-trash"></i></a>
+                <a aria-label="{{localize 'Delete'}}" class="message-delete" data-action="deleteMessage"><i class="fas fa-trash"></i></a>
             {{/if}}
             {{#if message.flags.gdsa.isCollapsable}}
-            <a class="bntCollaps" ><i id="collapsImg" class="fas fa-solid fa-chevron-up plusSym"></i></a>
+                <a class="bntCollaps" ><i id="collapsImg" class="fas fa-solid fa-chevron-up plusSym"></i></a>
             {{/if}}
         </span>
 

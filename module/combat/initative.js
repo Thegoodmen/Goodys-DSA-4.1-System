@@ -1,4 +1,4 @@
-export const _getInitiativeFormula = function() {
+export const _getInitiativeFormula = async function() {
 
 	if(this.actor == null) return 0;
 
@@ -6,11 +6,10 @@ export const _getInitiativeFormula = function() {
 
 	if(type == "PlayerCharakter") {
 		
-		const system = this.actor.sheet.getData().system;
-
+		const system = (await this.actor.sheet?._prepareContext()).system;
 		const dice = system.INIDice;
 		const init = system.INIBasis.value;
-
+		
 		return dice + " + " + init;
 	} else return this.actor.system.INI;
 };

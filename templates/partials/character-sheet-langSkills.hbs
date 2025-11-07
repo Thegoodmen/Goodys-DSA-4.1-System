@@ -3,12 +3,12 @@
     <div class="langbnt"></div>
     <hr class="langhr">
     <div class="langtab">
-        <table>
+        <table  class="skillTable">
 
             {{#each template.talents.lang as |item|}}
                 {{#if (ifOR ../system.allSkills (ifOR (notEmpty (getData ../system/skill (concat "lang" item.name "")) includeZero=true) (toBoolean item.system.tale.taletype)))}}
                     <tr class="skillitem" data-item-id="{{_id}}" >
-                        <td class="skillTableNameBig"><a class="item skill-roll item"  title="{{localize 'GDSA.chat.skill.roll'}}">{{skillName item.name ../this}}</a></td>
+                        <td class="skillTableNameBig3"><a class="item skill-roll item"  title="{{localize 'GDSA.chat.skill.roll'}}">{{skillName item.name ../this}}</a></td>
                         <td class="skillTableValue">
                             <input class="skillTemp" name="{{concat "system.skill.lang" item.name ""}}" type="number" data-actor="{{../this.actor._id}}"
                             value="{{getData ../system/skill (concat "lang" item.name "")}}" data-stat="{{item.name}}" data-lbl="{{item.name}}" />
@@ -25,12 +25,12 @@
     <div class="langbnt"></div>
     <hr class="langhr">
     <div class="langtab">
-        <table>
+        <table  class="skillTable">
 
             {{#each template.talents.sign as |item|}}
                 {{#if (ifOR ../system.allSkills (ifOR (notEmpty (getData ../system/skill (concat "sign" item.name "")) includeZero=true) (toBoolean item.system.tale.taletype)))}}
                     <tr class="skillitem" data-item-id="{{_id}}" >
-                        <td class="skillTableNameBig"><a class="item skill-roll item"  title="{{localize 'GDSA.chat.skill.roll'}}">{{skillName item.name ../this}}</a></td>
+                        <td class="skillTableNameBig3"><a class="item skill-roll item"  title="{{localize 'GDSA.chat.skill.roll'}}">{{skillName item.name ../this}}</a></td>
                         <td class="skillTableValue">
                             <input class="skillTemp" name="{{concat "system.skill.sign" item.name ""}}" type="number" data-actor="{{../this.actor._id}}"
                             value="{{getData ../system/skill (concat "sign" item.name "")}}" data-stat="{{item.name}}" data-lbl="{{item.name}}" />

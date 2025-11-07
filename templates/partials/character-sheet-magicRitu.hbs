@@ -1,36 +1,34 @@
-<div class="wonderBox">
-    <table class="castHelperTable">
+<div class="inventory4">
+    <div class="traitDetailsHeader2"></div>
+    <div class="traithrbox3"><hr class="traithrMain2" /></div>
+
+    <div class="traitDetailsBody2">
         {{#each rituals as |item id|}}
-            <tr class="item-context item" data-item-id="{{_id}}">
+            <div class="item item-context traitDetailItem" data-item-id="{{_id}}">
                 {{#if (equals system.type "ritual")}}
-                    <td class="skillTableNameBig">{{name}}
-                        <i>({{system.att1}}/{{system.att2}}/{{system.att3}})</i>
-                        <div class="itemWorn"><a class="openRitual" data-page="{{system.wdzPage}}"><i class="fas fa-book"></i></a></div>
-                    </td>
-                <td class="skillTableValue"><input class="skillTemp" type="number" value="{{getData ../system.skill (concat "rit" system.ritTalent "")}}" disabled/></td>
-                <td class="skillTableRoll"><a class="item ritual-roll" data-statName="{{name}}" data-item-id="{{_id}}"
-                    data-stat_one="{{getDataValue ../system ./system.att1}}" data-stat_two="{{getDataValue ../system ./system.att2}}" 
-                    data-stat_three="{{getDataValue ../system ./system.att3}}" data-ritknow="{{getData ../system.skill (concat "rit" system.ritTalent "")}}" 
-                    title="{{localize 'GDSA.chat.skill.roll'}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
-                </td>
+                    <div class="traitDetailItemName3">{{name}} <i>({{system.att1}}/{{system.att2}}/{{system.att3}})</i></div>
+                    <div class="traitDetailItemConfig2"><a class="openRitual" data-page="{{system.wdzPage}}"><i class="fas fa-book"></i></a></div>
+                    <div class="traitDetailItemConfig3"><input class="skillTemp2" type="number" value="{{getData ../system.skill (concat "rit" system.ritTalent "")}}" disabled/></div>
+                    <div class="traitDetailItemConfig2"><a class="item ritual-roll" title="{{localize 'GDSA.chat.skill.roll'}}" data-statName="{{name}}" data-item-id="{{_id}}"
+                        data-stat_one="{{getDataValue ../system ./system.att1}}" data-stat_two="{{getDataValue ../system ./system.att2}}" 
+                        data-stat_three="{{getDataValue ../system ./system.att3}}" data-ritknow="{{getData ../system.skill (concat "rit" system.ritTalent "")}}">
+                        <i class="fas fa-dice-d20 faD20Stat"></i></a>
+                    </div>
                 {{else}}
-                    <td class="skillTableNameBig">{{name}}
-                        <i>({{getSchamAtt system.skill 1}}/{{getSchamAtt system.skill 2}}/{{getSchamAtt system.skill 3}})</i>
-                        <div class="itemWorn"><a class="openRitual" data-page="{{system.wdzPage}}"><i class="fas fa-book"></i></a></div>
-                    </td>
-                    <td class="skillTableValue"><input class="skillTemp" type="number" value="{{getData ../system.skill (concat "rit" system.skill "")}}" disabled/></td>
-                <td class="skillTableRoll"><a class="item scham-roll" data-statName="{{name}}" data-item-id="{{_id}}"
-                    data-stat_one="{{getDataValue ../system (getSchamAtt system.skill 1)}}" data-stat_two="{{getDataValue ../system (getSchamAtt system.skill 2)}}" 
-                    data-stat_three="{{getDataValue ../system (getSchamAtt system.skill 3)}}" data-ritknow="{{getData ../system.skill (concat "rit" system.skill "")}}" 
-                    title="{{localize 'GDSA.chat.skill.roll'}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
-                </td>
+                    <div class="traitDetailItemName3">{{name}} <i>({{getSchamAtt system.skill 1}}/{{getSchamAtt system.skill 2}}/{{getSchamAtt system.skill 3}})</i></div>
+                    <div class="traitDetailItemConfig2"><a class="openRitual" data-page="{{system.wdzPage}}"><i class="fas fa-book"></i></a></div>
+                    <div class="traitDetailItemConfig3"><input class="skillTemp2" type="number" value="{{getData ../system.skill (concat "rit" system.skill "")}}" disabled/></div>
+                    <div class="traitDetailItemConfig2"><a class="item scham-roll" title="{{localize 'GDSA.chat.skill.roll'}}" data-statName="{{name}}" data-item-id="{{_id}}"
+                        data-stat_one="{{getDataValue ../system (getSchamAtt system.skill 1)}}" data-stat_two="{{getDataValue ../system (getSchamAtt system.skill 2)}}" 
+                        data-stat_three="{{getDataValue ../system (getSchamAtt system.skill 3)}}" data-ritknow="{{getData ../system.skill (concat "rit" system.skill "")}}">
+                        <i class="fas fa-dice-d20 faD20Stat"></i></a>
+                    </div>
                 {{/if}}
-            </tr> 
+            </div>
+            <div class="traithrbox3"><hr class="traithr2" /></div>
 	    {{/each}}
-        <tr>
-            <td class="addCast" colspan="3">
-                <a class="ritual-add" data-type="ritual" title="{{localize "GDSA.charactersheet.addRitual"}}"><div class="spellButtonBox"><b>+</b></div></a>
-            </td>
-        </tr>
-    </table>
+    </div>
+
+    <div class="traithrbox2"><hr class="traithrMain2" /></div>
+    <a class="ritual-add" data-type="ritual" title="{{localize "GDSA.charactersheet.addRitual"}}"><div class="traitDetailsFooter"><b>+</b></div></a>
 </div>

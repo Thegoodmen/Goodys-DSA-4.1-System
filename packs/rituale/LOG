@@ -1,3 +1,14 @@
-2025/07/20-12:14:14.167516 30a618000 Recovering log #407
-2025/07/20-12:14:14.167955 30a618000 Delete type=0 #407
-2025/07/20-12:14:14.168008 30a618000 Delete type=3 #406
+2025/11/06-22:17:24.104 e18 Recovering log #432
+2025/11/06-22:17:24.113 e18 Delete type=0 #432
+2025/11/06-22:17:24.113 e18 Delete type=3 #430
+2025/11/07-22:26:31.742 97a8 Level-0 table #437: started
+2025/11/07-22:26:31.745 97a8 Level-0 table #437: 13120 bytes OK
+2025/11/07-22:26:31.748 97a8 Delete type=0 #435
+2025/11/07-22:26:31.763 97a8 Manual compaction at level-0 from '!folders!Cwi6RFNNGJ3ChhT2' @ 72057594037927935 : 1 .. '!items!zl2hUvFRu5iTQyRs' @ 0 : 0; will stop at '!items!zFJP14bQAIzCfM2B' @ 1519 : 1
+2025/11/07-22:26:31.763 97a8 Compacting 1@0 + 1@1 files
+2025/11/07-22:26:31.768 97a8 Generated table #438@0: 372 keys, 157158 bytes
+2025/11/07-22:26:31.768 97a8 Compacted 1@0 + 1@1 files => 157158 bytes
+2025/11/07-22:26:31.770 97a8 compacted to: files[ 0 1 0 0 0 0 0 ]
+2025/11/07-22:26:31.770 97a8 Delete type=2 #421
+2025/11/07-22:26:31.770 97a8 Delete type=2 #437
+2025/11/07-22:26:31.778 97a8 Manual compaction at level-0 from '!items!zFJP14bQAIzCfM2B' @ 1519 : 1 .. '!items!zl2hUvFRu5iTQyRs' @ 0 : 0; will stop at (end)

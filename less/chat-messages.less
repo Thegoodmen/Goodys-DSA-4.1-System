@@ -1,169 +1,9 @@
 // main: ./GDSA.less
-.GDSA.chat.message {
-    .infoBox {
-        font-size: 15px;
-        padding-top: 8px;
-    };
-    .flawName {
-        min-height: 29px;
-        width: 100%;
-        float: left;
-        background-color: rgba(0,0,0,0.2);
-        font-size: 20px;
-        font-family: MasonSerifBold;
-        src: url('fonts/mason-serif-bold.otf') format('opentype');
-        text-align: center;
-        padding-top: 5px;
-        padding-bottom: 3px;
-    };
-    .spellName {
-        min-height: 29px;
-        width: 100%;
-        float: left;
-        background-color: rgba(0,0,0,0.2);
-        font-size: 20px;
-        font-family: MasonSerifBold;
-        src: url('fonts/mason-serif-bold.otf') format('opentype');
-        text-align: center;
-        padding-top: 4px;
-    };
-    .spellHeader {
-        float: left;
-        height: 80px;
-        width: 100%;
-    };
-    .spellInfo {
-        float: left;
-        height: 80px;
-        width: 187px;
-        padding-top: 10px;
-    };
-    .spellImg {
-        float: left;
-        height: 80px;
-        width: 80px;
-    };
-    .spellFooter {
-        height: 10px;
-        width: 100%;
-        float: left;
-        font-size: 11px;
-        font-style: italic;
-        margin-top: 2px;
+
+.GDSA.chat.message.skill {
+    .collabst {
+        height: 0px;
         overflow: hidden;
-    };
-    .spellTable {
-        float: left;
-        height: 125px;
-        width: 100%;
-        font-size: 12px;
-    };
-    .skillTable {
-        float: left;
-        min-height: 50px;
-        width: 100%;
-        font-size: 12px;
-    };
-    .holyTable {
-        float: left;
-        height: 165px;
-        width: 100%;
-        font-size: 12px;
-    };
-    .bigholy {
-        height: 185px;
-    };
-    .ritTable {
-        float: left;
-        height: 90px;
-        width: 100%;
-        font-size: 12px;
-    };
-    .dicefiller {
-        float: left;
-        height: 6px;
-        width: 100%;
-    };
-    .dicefiller1 {
-        float: left;
-        height: 4px;
-        width: 100%;
-    };
-    .tableFiller {
-        float: left;
-        height: 6px;
-        width: 100%;
-    };
-    .diceCol {
-        float: left;
-        height: 60px;
-        width: 100%;
-    };
-    .diceCol2 {
-        float: left;
-        height: 48px;
-        width: 100%;
-    };
-    .diceCol3 {
-        float: left;
-        min-height: 48px;
-        width: 100%;
-    };
-    .diceCol4 {
-        float: left;
-        height: 52px;
-        width: 100%;
-    };
-    .dices {
-        height: 60px;
-        width: 120px;
-        margin: auto;
-    };
-    .dices2 {
-        height: 60px;
-        width: fit-content;
-        margin: auto;
-    };
-    .dice {
-        background-image: url(templates/img/dice.png);
-        background-size: contain;
-        height: 60px;
-        width: 60px;
-        color: white;
-        text-align: center;
-        padding-top: 23px;
-        float: left;
-    };
-    .diceD6 {
-        background-image: url(templates/img/d6black.svg);
-        background-size: contain;
-        height: 60px;
-        width: 60px;
-        color: white;
-        text-align: center;
-        padding-top: 10px;
-        font-size: 22px;
-        float: left;
-    };
-    .diceD62 {
-        background-image: url(templates/img/d6black.svg);
-        background-size: contain;
-        margin-top: 7px;
-        height: 60px;
-        width: 60px;
-        color: white;
-        text-align: center;
-        padding-top: 10px;
-        font-size: 22px;
-        float: left;
-    };
-    .nodice {
-        height: 60px;
-        width: 60px;
-        color: white;
-        text-align: center;
-        padding-top: 23px;
-        float: left;
     };
     .diefiller {
         width: 30px;
@@ -174,94 +14,256 @@
         float: left;
         width: 100%;
     };
-    .rollFlawSuccess {
-        float: left;
-        background-color: green;
+    .chatheadline {
+        min-height: 29px;
         width: 100%;
-        height: 22px;
-        font-size: 18px;
+        float: left;
+        background-color: #38333a;
+        color: #efe6d8;
+        font-size: 20px;
+        font-family: 'MasonSerifBold';
+        text-align: center;
+        padding-top: 2px;
+        padding-bottom: 3px;
+    };
+    .chatInfoMessage {
+        min-height: 29px;
+        width: 100%;
+        float: left;
+        background-color: #38333a;
+        color: #efe6d8;
+        font-size: 12px;
+        font-family: 'MasonSerifBold';
+        text-align: left;
+        padding-top: 7px;
+        padding-bottom: 3px;
+        padding-left: 18px;
+    };
+    .chathrBox {
+        width: 100%;
+        height: 2px;
+        float: left;
+    };
+    .chathrBold {
+        width: 100%;
+        margin-left: 7px;
+        margin-top: 0px;
+        margin-bottom: 2px;
+    };
+    .chathr {
+        width: 100%;
+        margin-left: 7px;
+        margin-top: 0px;
+        margin-bottom: 2px;
+        background-image: linear-gradient(90deg, transparent 0%, #e7d1b161 50%, transparent 100%);
+    };
+    .infoMainBox {
+        float: left;
+        min-height: 80px;
+        width: 100%;
+    };
+    .infoDiceBox {
+        float: left;
+        height: 80px;
+        width: 195px;
+        padding: 15px 7px;
+    };
+    .infoDiceBox2 {
+        float: left;
+        height: 80px;
+        width: 100%;
+        padding: 10px 84px;
+    };
+    .infoDiceBox3 {
+        float: left;
+        height: 80px;
+        width: 195px;
+        padding: 15px 37px;
+    };
+    .infoDiceBox4 {
+        float: left;
+        height: 80px;
+        width: 100%;
+        padding: 10px 54px;
+    };
+    .infoDiceBox5 {
+        float: left;
+        min-height: 80px;
+        width: 100%;
+        padding: 10px 5px;
+        display: inline-flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    };
+    .infoDices {
+        background-image: url(assets/ui/dice.png);
+        background-size: contain;
+        height: 60px;
+        width: 60px;
+        color: white;
+        text-align: center;
+        padding-top: 23px;
+        float: left;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        filter: drop-shadow(0px 1px 0px #e5cfaf) drop-shadow(0px -1px 0px #e5cfaf) drop-shadow(1px 0px 0px #e5cfaf) drop-shadow(-1px 0px 0px #e5cfaf)
+    };
+    .infoDices2 {
+        background-image: url(assets/ui/d6black.svg);
+        background-size: contain;
+        flex-shrink: 0;
+        margin-top: 7px;
+        margin-bottom: -10px;
+        height: 60px;
+        width: 60px;
+        color: white;
+        text-align: center;
+        padding-top: 10px;
+        font-size: 22px;
+        float: left;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        filter: drop-shadow(0px 1px 0px #e5cfaf) drop-shadow(0px -1px 0px #e5cfaf) drop-shadow(1px 0px 0px #e5cfaf) drop-shadow(-1px 0px 0px #e5cfaf)
+    };
+    .infoMainImg {
+        float: left;
+        height: 80px;
+        width: 80px;
+    };
+    .chatRollImg {
+        border: 2px solid #e9d2b4;
+        border-radius: 10px;
+        margin: 10px;
+        width: calc(100% - 10px);
+    };
+    .chatInfoBox {
+        float: left;
+        min-height: 50px;
+        width: calc(100% - 20px);
+        color: #e8dfd1;
+        font-size: 12px;
+        border: 2px solid #e5cfaf;
+        border-radius: 12px;
+        margin: 10px;
+    };
+    #chatInfoTable tr:nth-child(even){
+        background-color: rgba(255, 255, 255, 0.1);
+    };
+    #chatInfoTable tr:nth-child(odd){
+        background-color: rgba(0, 0, 0, 0.1);
+    };
+    #chatInfoTable td{
+        padding: 8px 15px;
+    };
+    .rollSkillPositiv {
+        float: left;
+        background-color: #05b3057d;
+        width: 100%;
+        min-height: 25px;
+        line-height: 16px;
+        font-size: 15px;
+        padding-top: 4px;
+        padding-bottom: 2px;
         text-align: center;
         color: white;
     };
-    .rollFlawFail {
+    .rollSkillNegativ {
         float: left;
-        background-color: darkred;
+        background-color: #8b00007d;
         width: 100%;
-        height: 22px;
-        font-size: 18px;
+        min-height: 25px;
+        line-height: 16px;
+        font-size: 15px;
+        padding-top: 4px;
+        padding-bottom: 2px;
         text-align: center;
         color: white;
     };
-    .rollFlawInfo {
+    .rollSkillInfo {
         float: left;
-        background-color: #605f57c7;
+        background-color: #d7d7d77d;
         width: 100%;
         height: 22px;
-        font-size: 18px;
+        line-height: 16px;
+        font-size: 15px;
+        padding-top: 4px;
+        padding-bottom: 2px;
         text-align: center;
         color: white;
-    };
-    .rollStatMod {
-        height: 22px;
-        float: left;
-        width: 100%;
-        font-size: 18px;
-        text-align: center;
-        background-color: goldenrod;
     };
     .rollSkillSuccess {
         float: left;
-        background-color: green;
+        background-color: #05b3057d;
         width: 100%;
-        min-height: 25px;
-        font-size: 18px;
+        height: 22px;
+        line-height: 16px;
+        font-size: 15px;
+        padding-top: 4px;
         padding-bottom: 2px;
         text-align: center;
         color: white;
     };
     .rollSkillFail {
         float: left;
-        background-color: darkred;
+        background-color: #8b00007d;
         width: 100%;
-        min-height: 25px;
-        font-size: 18px;
+        height: 22px;
+        line-height: 16px;
+        font-size: 15px;
+        padding-top: 4px;
         padding-bottom: 2px;
         text-align: center;
         color: white;
     };
-    .rollposMod {
-        height: 22px;
+    .rollpositivMod {
+        height: 20px;
         float: left;
         width: 100%;
-        font-size: 18px;
+        font-size: 14px;
         text-align: center;
-        background-color: #cddc39;
+        color: #e5cfaf;
+        padding-top: 1px;
+        background-color: #05b3057d;
     };
-    .rollnegMod {
-        height: 22px;
+    .rollnegativMod {
+        height: 20px;
         float: left;
         width: 100%;
-        font-size: 18px;
+        font-size: 14px;
         text-align: center;
-        background-color: #cd0e00;
+        color: #e5cfaf;
+        padding-top: 1px;
+        background-color: #8b00007d;
     };
-    .rollMediSuccess {
+    .rollgeneralMod {
+        height: 20px;
         float: left;
-        background-color: green;
         width: 100%;
-        height: 23px;
-        font-size: 18px;
+        font-size: 14px;
         text-align: center;
-        color: white;
+        color: #e5cfaf;
+        padding-top: 1px;
+        background-color: #e7a500bd;
     };
-    .rollMediFail {
-        float: left;
-        background-color: darkred;
-        width: 100%;
-        height: 23px;
-        font-size: 18px;
-        text-align: center;
-        color: white;
+    .chatTraits {
+        padding: 3px 15px !important;
+        font-size: 9px;
+    };
+    .lepDrop {
+        color: #cb0f0f;
+        font-size: 10px;
+        margin: 2px;
+        filter: drop-shadow(0px 1px 0px #a90b0b) drop-shadow(0px -1px 0px #a90b0b) drop-shadow(1px 0px 0px #a90b0b) drop-shadow(-1px 0px 0px #a90b0b);
+    };
+    .lepRaise {
+        color: #c7bb18;
+        font-size: 10px;
+        margin: 2px;
+        filter: drop-shadow(0px 1px 0px #c7a10c) drop-shadow(0px -1px 0px #c7a10c) drop-shadow(1px 0px 0px #c7a10c) drop-shadow(-1px 0px 0px #c7a10c)
+    };
+    .aspChance {
+        color: #29aadd;
+        font-size: 10px;
+        margin: 2px;
+        filter: drop-shadow(0px 1px 0px #1024bb) drop-shadow(0px -1px 0px #1024bb) drop-shadow(1px 0px 0px #1024bb) drop-shadow(-1px 0px 0px #1024bb);
     };
     .bntChat3 {
         width: 84px;
@@ -282,10 +284,6 @@
         width: 86px;
         border-radius: 10px;
         padding: 1px 5px;
-    };
-    .collabst {
-        height: 0px;
-        overflow: hidden;
     };
     .switch {
         position: relative;
@@ -330,18 +328,27 @@
     input:checked + .slider:before {
         transform: translateX(27px);
     }
-}
-
-#chat-log {
-    scrollbar-width: thin;
-}
+};
 
 .itemNotesOut {
     height: 500px;
     width: 450px;
-}
+};
 .itemNotesIn {
     height: 490px;
     width: 440px;
-
-}
+};
+.chat-message.message:has(.GDSA.chat.message.skill) {
+    background-color: #0b0a13e6 !important;
+    border: 2px solid #353535;
+    border-radius: 14px;
+    background: none;
+    padding: 0px;
+    overflow: hidden;
+};
+.message-header {
+    background-color: #7d7d7d6b;
+    padding: 1px 11px 0px 10px;
+    font-size: 12px;
+    color: #e6d0b0;
+};

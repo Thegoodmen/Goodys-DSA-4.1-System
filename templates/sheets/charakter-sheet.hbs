@@ -1,4 +1,4 @@
-<form class="{{cssClass}}" autocomplete="off">
+<div id="content" class="{{cssClass}}" autocomplete="off">
     <div class="sheet">
 
 			<div class="menuBar" {{#if system.hideMenu}}style="display: none"{{/if}}>
@@ -9,66 +9,66 @@
 
 		<section class="sheet-body">
 
-			<div class="tab mainPage" data-group="primary" data-tab="mainPage">
+			<div id="mainPage" class="tab mainPage primary" data-group="primary" data-tab="mainPage">
 				{{> "systems/gdsa/templates/partials/character-sheet-mainPage.hbs"}}
 			</div>
 
-			<div class="tab skillPage" data-group="primary" data-tab="skillPage">
+			<div id="skillPage" class="tab skillPage primary" data-group="primary" data-tab="skillPage">
 				{{> "systems/gdsa/templates/partials/character-sheet-skillPage.hbs"}}
 			</div>
 
-			<div class="tab combatePage" data-group="primary" data-tab="combatePage">
+			<div id="combatePage" class="tab combatePage primary" data-group="primary" data-tab="combatePage">
 				{{> "systems/gdsa/templates/partials/character-sheet-combatPage.hbs"}}
 			</div>
 
-			<div class="tab gmPage" data-group="primary" data-tab="gmPage">
+			<div id="gmPage" class="tab gmPage primary" data-group="primary" data-tab="gmPage">
 				{{> "systems/gdsa/templates/partials/character-sheet-gmPage.hbs"}}
 			</div>
 
-			<div class="tab magicPage" data-group="primary" data-tab="magicPage">
+			<div id="magicPage" class="tab magicPage primary" data-group="primary" data-tab="magicPage">
 				{{> "systems/gdsa/templates/partials/character-sheet-magicPage.hbs"}}
 			</div>
 
-			<div class="tab holyPage" data-group="primary" data-tab="holyPage">
+			<div id="holyPage" class="tab holyPage primary" data-group="primary" data-tab="holyPage">
 				{{> "systems/gdsa/templates/partials/character-sheet-holyPage.hbs"}}
 			</div>
 
-			<div class="tab itemPage" data-group="primary" data-tab="itemPage">
+			<div id="itemPage" class="tab itemPage primary" data-group="primary" data-tab="itemPage">
 				{{> "systems/gdsa/templates/partials/character-sheet-itemPage.hbs"}}
 			</div>
 
-			<div class="tab characterEffects" data-group="primary" data-tab="characterEffects">
+			<div id="characterEffects" class="tab characterEffects primary" data-group="primary" data-tab="characterEffects">
 				{{> "systems/gdsa/templates/partials/character-sheet-effectPage.hbs"}}
 			</div>
 
-			<div class="tab traitPage" data-group="primary" data-tab="traitPage">
+			<div id="traitPage" class="tab traitPage primary" data-group="primary" data-tab="traitPage">
 				{{> "systems/gdsa/templates/partials/character-sheet-traitPage.hbs"}}
 			</div>
 
-			<div class="tab traitPage" data-group="primary" data-tab="generaltraitPage">
+			<div id="generaltraitPage" class="tab traitPage primary" data-group="primary" data-tab="generaltraitPage">
 				{{> "systems/gdsa/templates/partials/character-sheet-generaltraitPage.hbs"}}
 			</div>
 
-			<div class="tab traitPage" data-group="primary" data-tab="combattraitPage">
+			<div id="combattraitPage" class="tab traitPage primary" data-group="primary" data-tab="combattraitPage">
 				{{> "systems/gdsa/templates/partials/character-sheet-combattraitPage.hbs"}}
 			</div>
 
-			<div class="tab traitPage" data-group="primary" data-tab="magictraitPage">
+			<div id="magictraitPage" class="tab traitPage primary" data-group="primary" data-tab="magictraitPage">
 				{{> "systems/gdsa/templates/partials/character-sheet-magictraitPage.hbs"}}
 			</div>
 
-			<div class="tab traitPage" data-group="primary" data-tab="objecttraitPage">
+			<div id="objecttraitPage" class="tab traitPage primary" data-group="primary" data-tab="objecttraitPage">
 				{{> "systems/gdsa/templates/partials/character-sheet-objecttraitPage.hbs"}}
 			</div>
 
-			<div class="tab traitPage" data-group="primary" data-tab="holytraitPage">
+			<div id="holytraitPage" class="tab traitPage primary" data-group="primary" data-tab="holytraitPage">
 				{{> "systems/gdsa/templates/partials/character-sheet-holytraitPage.hbs"}}
 			</div>
 
-			<div class="tab traitPage" data-group="primary" data-tab="characterView">
-				{{> "systems/gdsa/templates/sheets/charakter-view.hbs"}}
+			<div id="characterView" class="tab traitPage primary" data-group="primary" data-tab="characterView">
+				{{> "systems/gdsa/templates/partials/charakter-sheet-view.hbs"}}
 			</div>
 			
 		</section>
     </div>
-</form>
+</div>

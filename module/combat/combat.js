@@ -11,12 +11,13 @@ export default class GDSACombat extends Combat {
 
         if (CONFIG.INIT) return iniDifference;
 
-        const aBaseData = a.actor?.sheet?.getData();
+        const aBaseData = a.actor?._sheet?._prepareContext();
         if(!aBaseData) return a.tokenId - b.tokenId;
-        const bBaseData = b.actor?.sheet?.getData();
+        const bBaseData = b.actor?._sheet?._prepareContext();
         if(!bBaseData) return a.tokenId - b.tokenId;
-        const InIBaseA = (aBaseData.actor.type == "PlayerCharakter") ? aBaseData.system.INIBasis.value : aBaseData.system.INI.split(" + ")[1];
-        const InIBaseB = (bBaseData.actor.type == "PlayerCharakter") ? bBaseData.system.INIBasis.value : bBaseData.system.INI.split(" + ")[1];
+
+        const InIBaseA = (aBaseData.actor?.type == "PlayerCharakter") ? aBaseData.system.INIBasis.value : aBaseData.system?.INI.split(" + ")[1];
+        const InIBaseB = (bBaseData.actor?.type == "PlayerCharakter") ? bBaseData.system.INIBasis.value : bBaseData.system?.INI.split(" + ")[1];
         
         let baseDifference = InIBaseB - InIBaseA;
         if(baseDifference != 0)
@@ -45,7 +46,7 @@ export default class GDSACombat extends Combat {
     
             const combatant = this.combatants.get(id);
             if ( !combatant?.isOwner ) continue;
-
+            if(formula === null) formula = await combatant._getInitiativeFormula();
             const roll = combatant.getInitiativeRoll(formula);
             await roll.evaluate();
             updates.push({_id: id, initiative: roll.total});   
@@ -59,7 +60,7 @@ export default class GDSACombat extends Combat {
             let chatData2 = {
                 user: game.user.id,
                 speaker: ChatMessage.getSpeaker(combatant.actor),
-                content: await renderTemplate(template, templateContext)
+                content: await foundry.applications.handlebars.renderTemplate(template, templateContext)
             };
           
             if (!game.modules.get("dice-so-nice")?.active) chatData2.sound = CONFIG.sounds.dice;

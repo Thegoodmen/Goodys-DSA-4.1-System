@@ -1,0 +1,91 @@
+<ol class="combat-tracker plain">
+    {{#each turns}}
+    <li class="combatant {{ css }}" data-combatant-id="{{ id }}" data-action="activateCombatant">
+        {{!-- TODO: Targets --}}
+
+        {{!-- Image --}}
+        <img class="token-image" src="{{ img }}" alt="{{ name }}" loading="lazy">
+
+        {{!-- Name & Controls --}}
+        <div class="token-name">
+            <strong class="name">{{ name }}</strong>
+            <div class="combatant-controls">
+                {{#if @root.user.isGM}}
+                <button type="button" class="inline-control combatant-control icon fa-solid fa-eye-slash {{#if hidden}}active{{/if}}"
+                        data-action="toggleHidden" data-tooltip aria-label="{{ localize "COMBAT.ToggleVis" }}"></button>
+                <button type="button" class="inline-control combatant-control icon fa-solid fa-skull {{#if isDefeated}}active{{/if}}"
+                        data-action="toggleDefeated" data-tooltip
+                        aria-label="{{ localize "COMBAT.ToggleDead" }}"></button>
+                {{/if}}
+                {{#if canPing}}
+                <button type="button" class="inline-control combatant-control icon fa-solid fa-bullseye-arrow"
+                        data-action="pingCombatant" data-tooltip
+                        aria-label="{{ localize "COMBAT.PingCombatant" }}"></button>
+                {{/if}}
+                {{#unless @root.user.isGM}}
+                <button type="button" class="inline-control combatant-control icon fa-solid fa-arrows-to-eye"
+                        data-action="panToCombatant" data-tooltip
+                        aria-label="{{ localize "COMBAT.PanToCombatant" }}"></button>
+                {{/unless}}
+                {{#if (AND isOwner initiative)}} {{#if (combatantAtMax this.id this.initiative ../this.combat._id)}}
+                <button type="button" class="inline-control combatant-control icon fa-solid fa-binoculars orient"
+                        data-id="{{this.id}}" data-cmbtid="{{../combat._id}}" data-tooltip
+                        aria-label="{{ localize "GDSA.combat.Orient" }}"></button>
+                {{/if}}{{/if}}
+                {{!-- TODO: Target Control --}}
+                <div class="token-effects" data-tooltip-html="{{ effects.tooltip }}">
+                    {{#each effects.icons}}
+                    <img class="token-effect" src="{{ img }}" alt="{{ name }}">
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+        {{!-- Resource --}}
+        <div class="token-resource">
+            <div class="cbt-stats">
+                {{#if (isGreater (getFlagFromCTracker ../this id "attacksMax") 3)}}<i class="fa-duotone fa-swords toggelAT
+                    {{#if (isGreater (getFlagFromCTracker ../this id "attacks") 3)}}cbt-activ{{/if}}" data-count="4" data-id="{{this.id}}" data-cmbtid="{{../combat._id}}"></i>{{/if}}
+                {{#if (isGreater (getFlagFromCTracker ../this id "attacksMax") 2)}}<i class="fa-duotone fa-swords toggelAT
+                    {{#if (isGreater (getFlagFromCTracker ../this id "attacks") 2)}}cbt-activ{{/if}}" data-count="3" data-id="{{this.id}}" data-cmbtid="{{../combat._id}}"></i>{{/if}}
+                {{#if (isGreater (getFlagFromCTracker ../this id "attacksMax") 1)}}<i class="fa-duotone fa-swords toggelAT
+                    {{#if (isGreater (getFlagFromCTracker ../this id "attacks") 1)}}cbt-activ{{/if}}" data-count="2" data-id="{{this.id}}" data-cmbtid="{{../combat._id}}"></i>{{/if}}
+                {{#if (isGreater (getFlagFromCTracker ../this id "attacksMax") 0)}}<i class="fa-duotone fa-swords toggelAT
+                    {{#if (isGreater (getFlagFromCTracker ../this id "attacks") 0)}}cbt-activ{{/if}}" data-count="1" data-id="{{this.id}}" data-cmbtid="{{../combat._id}}"></i>{{/if}}
+                <br />
+                {{#if (isGreater (getFlagFromCTracker ../this id "parriesMax") 3)}}<i class="fa-duotone fa-shield toggelPA
+                    {{#if (isGreater (getFlagFromCTracker ../this id "parries") 3)}}cbt-activ{{/if}}" data-count="4" data-id="{{this.id}}" data-cmbtid="{{../combat._id}}"></i>{{/if}}
+                {{#if (isGreater (getFlagFromCTracker ../this id "parriesMax") 2)}}<i class="fa-duotone fa-shield toggelPA
+                    {{#if (isGreater (getFlagFromCTracker ../this id "parries") 2)}}cbt-activ{{/if}}" data-count="3" data-id="{{this.id}}" data-cmbtid="{{../combat._id}}"></i>{{/if}}
+                {{#if (isGreater (getFlagFromCTracker ../this id "parriesMax") 1)}}<i class="fa-duotone fa-shield toggelPA
+                    {{#if (isGreater (getFlagFromCTracker ../this id "parries") 1)}}cbt-activ{{/if}}" data-count="2" data-id="{{this.id}}" data-cmbtid="{{../combat._id}}"></i>{{/if}}
+                {{#if (isGreater (getFlagFromCTracker ../this id "parriesMax") 0)}}<i class="fa-duotone fa-shield toggelPA
+                    {{#if (isGreater (getFlagFromCTracker ../this id "parries") 0)}}cbt-activ{{/if}}" data-count="1" data-id="{{this.id}}" data-cmbtid="{{../combat._id}}"></i>{{/if}}
+            </div>
+        </div>
+
+        {{!-- Initiative --}}
+        <div class="token-initiative">
+            {{#if initiative includeZero=true}}
+
+            {{!-- Decimal Initiative --}}
+            {{#if @root.hasDecimals}}
+            <span>{{ initiative }}</span>
+
+            {{!-- Simple Initiative --}}
+            {{else}}
+            <input type="text" inputmode="numeric" pattern="^[+=\-]?\d*" value="{{ initiative }}"
+                   aria-label="{{ localize "COMBAT.InitiativeScore" }}" {{#unless @root.user.isGM}}readonly{{/unless}}>
+
+            {{/if}}
+
+            {{!-- Roll Initiative --}}
+            {{else if isOwner}}
+            <button type="button" class="combatant-control roll" data-action="rollInitiative" data-tooltip
+                    aria-label="{{ localize "COMBAT.InitiativeRoll" }}"
+                    style="--initiative-icon: url('{{ @root.initiativeIcon.icon }}'); --initiative-icon-hover: url('{{ @root.initiativeIcon.hover }}');"></button>
+            {{/if}}
+        </div>
+    </li>
+    {{/each}}
+</ol>

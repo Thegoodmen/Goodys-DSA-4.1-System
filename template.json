@@ -362,6 +362,16 @@
                 "lLeg": 0,
                 "all": 0
             },
+            "swp": {
+                "head": 0,
+                "chest": 0,
+                "rArm": 0,
+                "lArm": 0,
+                "tummy": 0,
+                "rLeg": 0,
+                "lLeg": 0,
+                "all": 0
+            },
             "mirikal": {
                 "template": "Pra",
                 "custom": false,

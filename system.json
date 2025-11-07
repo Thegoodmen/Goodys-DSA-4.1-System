@@ -11,9 +11,9 @@
     ],
     "version": "1.1.0",
     "compatibility": {
-        "minimum": 12,
-        "verified": "12.328",
-        "maximum": 12
+        "minimum": 13,
+        "verified": "13.342",
+        "maximum": 13
     },
     "esmodules": [
         "GDSA.js"
@@ -21,9 +21,7 @@
     "styles": [
         "GDSA.css"
     ],
-    "scripts": [
-        "scripts/browser.js"
-    ],
+    "scripts": [],
     "packs": [
         {
             "name": "spells",
@@ -76,11 +74,6 @@
             "lang": "de",
             "name": "Deutsch",
             "path": "lang/de.json"
-        },
-        {
-            "lang": "en",
-            "name": "English",
-            "path": "lang/en.json"
         }
     ],
     "relationships": {
@@ -89,7 +82,7 @@
             "type": "module",
             "manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/develop/module.json",
             "compatibility": {
-                "verified": "1.0.12"
+                "verified": "1.1.3"
             }
         }]
     },

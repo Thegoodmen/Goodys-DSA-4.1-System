@@ -1,4 +1,4 @@
-<form class="settings" autocomplete="off">
+<div class="settings" autocomplete="off">
     <div class="browserMenu">
 
         <div class="browserMenuEntry">{{localize "GDSA.system.search"}}</div>
@@ -6,42 +6,42 @@
 
         {{#if (equals type "spell")}}
             <div class="browserMenuEntry">{{localize "GDSA.itemsheet.trait"}}</div>
-            <select class="browserMenuInput" name="trait">{{selectOptions config.magicTraits selected=trait blank="" localize=true}}</select>  
+            <select id="trait" class="browserMenuInput" name="trait">{{selectOptions config.magicTraits selected=trait blank="" localize=true}}</select>  
             <div class="browserMenuEntry">{{localize "GDSA.trait.reps"}}</div>
-            <select class="browserMenuInput" name="rep">{{selectOptions config.magicReps selected=rep blank="" localize=true}}</select>  
+            <select id="rep" class="browserMenuInput" name="rep">{{selectOptions config.magicReps selected=rep blank="" localize=true}}</select>  
             <div class="browserMenuEntry">{{localize "GDSA.system.verbr"}}</div>
-            <input id="menuVer" class="browserInput" name="V0" type="checkbox" {{checked v0}}/><div class="spellVMenu">0</div>
-            <input id="menuVer" class="browserInput" name="V1" type="checkbox" {{checked v1}}/><div class="spellVMenu">1</div>
-            <input id="menuVer" class="browserInput" name="V2" type="checkbox" {{checked v2}}/><div class="spellVMenu">2</div>
-            <input id="menuVer" class="browserInput" name="V3" type="checkbox" {{checked v3}}/><div class="spellVMenu">3</div>
+            <input id="v0" class="browserInput menuVer" name="V0" type="checkbox" {{checked v0}}/><div class="spellVMenu">0</div>
+            <input id="v1" class="browserInput menuVer" name="V1" type="checkbox" {{checked v1}}/><div class="spellVMenu">1</div>
+            <input id="v2" class="browserInput menuVer" name="V2" type="checkbox" {{checked v2}}/><div class="spellVMenu">2</div>
+            <input id="v3" class="browserInput menuVer" name="V3" type="checkbox" {{checked v3}}/><div class="spellVMenu">3</div>
             <div class="spellVSpacer"></div>
-            <input id="menuVer" class="browserInput" name="V4" type="checkbox" {{checked v4}}/><div class="spellVMenu">4</div>
-            <input id="menuVer" class="browserInput" name="V5" type="checkbox" {{checked v5}}/><div class="spellVMenu">5</div>
-            <input id="menuVer" class="browserInput" name="V6" type="checkbox" {{checked v6}}/><div class="spellVMenu">6</div>
+            <input id="v4" class="browserInput menuVer" name="V4" type="checkbox" {{checked v4}}/><div class="spellVMenu">4</div>
+            <input id="v5" class="browserInput menuVer" name="V5" type="checkbox" {{checked v5}}/><div class="spellVMenu">5</div>
+            <input id="v6" class="browserInput menuVer" name="V6" type="checkbox" {{checked v6}}/><div class="spellVMenu">6</div>
             <div class="browserMenuEntry">{{localize "GDSA.charactersheet.komplex"}}</div><div class="spellVSpacer"></div>
-            <input id="menuVer" class="browserInput" name="KA" type="checkbox" {{checked kA}}/><div class="spellVMenu">A</div>
-            <input id="menuVer" class="browserInput" name="KB" type="checkbox" {{checked kB}}/><div class="spellVMenu">B</div>
-            <input id="menuVer" class="browserInput" name="KC" type="checkbox" {{checked kC}}/><div class="spellVMenu">C</div>
+            <input id="kA" class="browserInput menuVer" name="KA" type="checkbox" {{checked kA}}/><div class="spellVMenu">A</div>
+            <input id="kB" class="browserInput menuVer" name="KB" type="checkbox" {{checked kB}}/><div class="spellVMenu">B</div>
+            <input id="kC" class="browserInput menuVer" name="KC" type="checkbox" {{checked kC}}/><div class="spellVMenu">C</div>
             <div class="spellVSpacer"></div><div class="spellVSpacer"></div>
-            <input id="menuVer" class="browserInput" name="KD" type="checkbox" {{checked kD}}/><div class="spellVMenu">D</div>
-            <input id="menuVer" class="browserInput" name="KE" type="checkbox" {{checked kE}}/><div class="spellVMenu">E</div>
-            <input id="menuVer" class="browserInput" name="KF" type="checkbox" {{checked kF}}/><div class="spellVMenu">F</div>
+            <input id="kD" class="browserInput menuVer" name="KD" type="checkbox" {{checked kD}}/><div class="spellVMenu">D</div>
+            <input id="kE" class="browserInput menuVer" name="KE" type="checkbox" {{checked kE}}/><div class="spellVMenu">E</div>
+            <input id="kF" class="browserInput menuVer" name="KF" type="checkbox" {{checked kF}}/><div class="spellVMenu">F</div>
         {{/if}}
 
 
         {{#if (equals type "melee-weapons")}}
             <div class="browserMenuEntry">{{localize "GDSA.charactersheet.talent"}}</div>
-            <select class="browserMenuInput" name="skill">{{selectOptions template.talents.meele selected=skill blank="" valueAttr="id" labelAttr="name" localize=true}}</select>
+            <select id="skill" class="browserMenuInput" name="skill">{{selectOptions template.talents.meele selected=skill blank="" valueAttr="id" labelAttr="name" localize=true}}</select>
         {{/if}}
 
         {{#if (equals type "range-weapons")}}
             <div class="browserMenuEntry">{{localize "GDSA.charactersheet.talent"}}</div>
-            <select class="browserMenuInput" name="skill">{{selectOptions template.talents.range selected=skill blank="" valueAttr="id" labelAttr="name" localize=true}}</select>
+            <select id="skill" class="browserMenuInput" name="skill">{{selectOptions template.talents.range selected=skill blank="" valueAttr="id" labelAttr="name" localize=true}}</select>
         {{/if}}
 
         {{#if (equals type "armour")}}
             <div class="browserMenuEntry">{{localize "GDSA.charactersheet.armour"}}</div>
-            <select class="browserMenuInput" name="aPlace">{{selectOptions config.amourPlace selected=aPlace blank="" localize=true}}</select>
+            <select id="place" class="browserMenuInput" name="aPlace">{{selectOptions config.amourPlace selected=aPlace blank="" localize=true}}</select>
         {{/if}}
 
         {{#if (equals type "ritual")}}
@@ -54,129 +54,129 @@
 
         {{#if (equals type "objektRitual")}}
             <div class="browserMenuEntry">{{localize "GDSA.charactersheet.rit"}}</div>
-            <select class="browserMenuInput" name="rittSkill">{{selectOptions config.ritualSkills selected=rittSkill blank="" localize=true}}</select>
+            <select id="skill" class="browserMenuInput" name="rittSkill">{{selectOptions config.ritualSkills selected=rittSkill blank="" localize=true}}</select>
         {{/if}}     
 
         {{#if (equals type "wonder")}}
             <div class="browserMenuEntry">{{localize "GDSA.system.verbr"}}</div>
-            <select class="browserMenuInput" name="rep">{{selectOptions config.holyReps selected=rep blank="" localize=true}}</select>
+            <select id="rep" class="browserMenuInput" name="rep">{{selectOptions config.holyReps selected=rep blank="" localize=true}}</select>
             <div class="browserMenuEntry">{{localize "GDSA.system.litGrad"}}</div>
             <div class="spellVSpacer"></div>
-            <input id="menuVer" class="browserInput" name="KA" type="checkbox" {{checked kA}}/><div class="spellVMenu">I</div>
-            <input id="menuVer" class="browserInput" name="KB" type="checkbox" {{checked kB}}/><div class="spellVMenu">II</div>
-            <input id="menuVer" class="browserInput" name="KC" type="checkbox" {{checked kC}}/><div class="spellVMenu">III</div>
+            <input id="kA" class="browserInput menuVer" name="KA" type="checkbox" {{checked kA}}/><div class="spellVMenu">I</div>
+            <input id="kB" class="browserInput menuVer" name="KB" type="checkbox" {{checked kB}}/><div class="spellVMenu">II</div>
+            <input id="kC" class="browserInput menuVer" name="KC" type="checkbox" {{checked kC}}/><div class="spellVMenu">III</div>
             <div class="spellVSpacer"></div><div class="spellVSpacer"></div>
-            <input id="menuVer" class="browserInput" name="KD" type="checkbox" {{checked kD}}/><div class="spellVMenu">IV</div>
-            <input id="menuVer" class="browserInput" name="KE" type="checkbox" {{checked kE}}/><div class="spellVMenu">V</div>
-            <input id="menuVer" class="browserInput" name="KF" type="checkbox" {{checked kF}}/><div class="spellVMenu">VI</div>
+            <input id="kD" class="browserInput menuVer" name="KD" type="checkbox" {{checked kD}}/><div class="spellVMenu">IV</div>
+            <input id="kE" class="browserInput menuVer" name="KE" type="checkbox" {{checked kE}}/><div class="spellVMenu">V</div>
+            <input id="kF" class="browserInput menuVer" name="KF" type="checkbox" {{checked kF}}/><div class="spellVMenu">VI</div>
         {{/if}}    
 
     </div>
     <div class="browserContent">
 
         {{#if (equals type "spell")}}
-            <div class="headline">{{localize "GDSA.charactersheet.cast"}}</div>
+            <div class="headline">{{localize "GDSA.charactersheet.cast"}}</div><div class="browserhrbox"><hr class="browserhr" /></div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
-                    <div class="browserName"><b>{{name}}</b> ({{system.att1}}/{{system.att2}}/{{system.att3}})<br /><i> > {{getTraits system}}</i></div>
+                    <div class="browserName"><b>{{name}}</b> ({{system.att1}}/{{system.att2}}/{{system.att3}})<br /><i> > {{getTraits system}}</i><div class="browserhrbox"><hr class="browserhr" /></div></div>
                     <div class="browserComplex">{{system.komp}}</div>
                 </div>
             {{/each}}
         {{/if}}
 
         {{#if (equals type "melee-weapons")}}
-            <div class="headline">{{localize "GDSA.system.createMeele"}}</div>
+            <div class="headline">{{localize "GDSA.system.createMeele"}}</div><div class="browserhrbox"><hr class="browserhr" /></div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
-                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{getSkillFromTemp system.weapon.skill}}</i></div>
+                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{getSkillFromTemp system.weapon.skill}}</i><div class="browserhrbox"><hr class="browserhr" /></div></div>
                     <div class="browserComplex1"></div>
                 </div>
             {{/each}}
         {{/if}}
 
         {{#if (equals type "range-weapons")}}
-            <div class="headline">{{localize "GDSA.system.createRange"}}</div>
+            <div class="headline">{{localize "GDSA.system.createRange"}}</div><div class="browserhrbox"><hr class="browserhr" /></div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
-                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{getSkillFromTemp system.weapon.skill}}</i></div>
+                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{getSkillFromTemp system.weapon.skill}}</i><div class="browserhrbox"><hr class="browserhr" /></div></div>
                     <div class="browserComplex1"></div>
                 </div>
             {{/each}}
         {{/if}}
 
         {{#if (equals type "shields")}}
-            <div class="headline">{{localize "GDSA.itemsheet.shild"}} / {{localize "GDSA.itemsheet.parryWeapons"}}</div>
+            <div class="headline">{{localize "GDSA.itemsheet.shild"}} / {{localize "GDSA.itemsheet.parryWeapons"}}</div><div class="browserhrbox"><hr class="browserhr" /></div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
-                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{localize (concat "GDSA.itemsheet." system.weapon.parType "")}}</i></div>
+                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{localize (concat "GDSA.itemsheet." system.weapon.parType "")}}</i><div class="browserhrbox"><hr class="browserhr" /></div></div>
                     <div class="browserComplex1"></div>
                 </div>
             {{/each}}
         {{/if}}
 
         {{#if (equals type "armour")}}
-            <div class="headline">{{localize "GDSA.charactersheet.armour"}}</div>
+            <div class="headline">{{localize "GDSA.charactersheet.armour"}}</div><div class="browserhrbox"><hr class="browserhr" /></div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
-                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{#if system.armour.Z}} {{localize "GDSA.itemsheet.zArmour"}} {{else}} {{localize "GDSA.itemsheet.zoneArmour"}} {{/if}}</i></div>
+                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{#if system.armour.Z}} {{localize "GDSA.itemsheet.zArmour"}} {{else}} {{localize "GDSA.itemsheet.zoneArmour"}} {{/if}}</i><div class="browserhrbox"><hr class="browserhr" /></div></div>
                     <div class="browserComplex1"></div>
                 </div>
             {{/each}}
         {{/if}}
 
         {{#if (equals type "ritual")}}
-            <div class="headline">{{localize "GDSA.system.ritual"}}</div>
+            <div class="headline">{{localize "GDSA.system.ritual"}}</div><div class="browserhrbox"><hr class="browserhr" /></div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
-                    <div class="browserName"><b>{{name}}</b> <br /><i> > Ritualmagie</i></div>
+                    <div class="browserName"><b>{{name}}</b> <br /><i> > Ritualmagie</i><div class="browserhrbox"><hr class="browserhr" /></div></div>
                     <div class="browserComplex">V{{system.vRit}}</div>
                 </div>
             {{/each}}
         {{/if}}
 
         {{#if (equals type "objektRitual")}}
-            <div class="headline">{{localize "GDSA.system.objectRounded"}}</div>
+            <div class="headline">{{localize "GDSA.system.objectRounded"}}</div><div class="browserhrbox"><hr class="browserhr" /></div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
-                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{localize (concat "GDSA.ritualSkills." system.creatTalent "")}}</i></div>
+                    <div class="browserName"><b>{{name}}</b> <br /><i> > {{localize (concat "GDSA.ritualSkills." system.creatTalent "")}}</i><div class="browserhrbox"><hr class="browserhr" /></div></div>
                     <div class="browserComplex">V{{system.vRit}}</div>
                 </div>
             {{/each}}
         {{/if}}
 
         {{#if (equals type "wonder")}}
-            <div class="headline">{{localize "GDSA.system.liturgy"}}</div>
+            <div class="headline">{{localize "GDSA.system.liturgy"}}</div><div class="browserhrbox"><hr class="browserhr" /></div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
-                    <div class="browserName"><b>{{name}}</b><br /><i> > {{localize (concat "GDSA.wonder." system.ritduaration "")}}</i></div>
+                    <div class="browserName"><b>{{name}}</b><br /><i> > {{localize (concat "GDSA.wonder." system.ritduaration "")}}</i><div class="browserhrbox"><hr class="browserhr" /></div></div>
                     <div class="browserComplex">{{getRomNum system.grad}}</div>
                 </div>
             {{/each}}
         {{/if}}
 
          {{#if (equals type "genItem")}}
-            <div class="headline">{{localize "GDSA.system.generals"}}</div>
+            <div class="headline">{{localize "GDSA.system.generals"}}</div><div class="browserhrbox"><hr class="browserhr" /></div>
 
             {{#each items as |item id|}}
                 <div class="item itemBrowserBox" data-id="{{_id}}">
                     <div class="browserImgBox"><img class="browserImg" name="{{name}}" src="{{img}}" /></div>
-                    <div class="browserName"><b>{{name}}</b><br /><i> > {{localize (concat "GDSA.templates." system.itemType "")}}</i></div>
+                    <div class="browserName"><b>{{name}}</b><br /><i> > {{localize (concat "GDSA.templates." system.itemType "")}}</i><div class="browserhrbox"><hr class="browserhr" /></div></div>
                     <div class="browserComplex">{{getRomNum system.grad}}</div>
                 </div>
             {{/each}}

@@ -53,7 +53,7 @@ export default class MultiSelect {
         let optionsHTML = '';
         for (let i = 0; i < this.data.length; i++) {
             optionsHTML += `
-                <div class="multi-select-option${this.selectedValues.includes(this.data[i].value) ? ' multi-select-selected' : ''}" data-value="${this.data[i].value}">
+                <div class="multi-select-option${this.selectedValues.includes(this.data[i].value) ? ' multi-select-selected' : ''} ${this.data[i].value.includes('none') ? ' multi-select-hide' : ''}" data-value="${this.data[i].value}">
                     <span class="multi-select-option-radio"></span>
                     <span class="multi-select-option-text">${this.data[i].html ? this.data[i].html : this.data[i].text}</span>
                 </div>
@@ -261,6 +261,7 @@ export default class MultiSelect {
         if(value.includes("immu")) return "trait-sizes";
         if(value.includes("resi")) return "trait-resis";
         if(value.includes("verw")) return "trait-verwe";
+        if(value.includes("none")) return "multi-select-hide";
         
     }
 

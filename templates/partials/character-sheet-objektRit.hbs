@@ -1,39 +1,23 @@
-<div style="overflow-y: scroll; height: 600px;">
-    <table style="display: inline-block">
-
-        <tr class="item-context item">
-                <td class="ritTableCheck ritTableHead">Aktiv?</td>
-                <td class="ritMid ritTableHead">Name</td>
-                <td class="ritTableRoll ritTableHead">Erschaffung</td>
-                <td class="ritTableRoll ritTableHead">Aktivierung</td>
-        </tr>
-
-        {{#each objRituals as |item id|}}
-            <tr class="item-context item" data-item-id="{{_id}}">
-                <td class="ritTableCheck">
-                    <input class="ritBox ritCheck" name="system.isActiv" type="checkbox" {{checked system.isActiv}} />
-                </td>
-                <td class="ritMid">{{name}} 
-                    <div class="itemWorn"><a class="ritwdz openRitual" data-page="{{system.wdzPage}}"><i class="fas fa-book"></i></a></div>
-                </td>
-                <td class="skillTableRoll">
-                    {{#unless system.isActiv}}
-                        <a class="ritCrea-roll" title="{{localize 'GDSA.chat.skill.roll'}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
-                    {{/unless}}
-                </td>
-                <td class="skillTableRoll">
-                    {{#unless (equals system.activAtt1 "none")}}
-                        <a class="ritAkti-roll" title="{{localize 'GDSA.chat.skill.roll'}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
-                    {{/unless}}
-                </td>
-            </tr>
-	    {{/each}}
-
-        <tr>
-            <td class="addCast" colspan="4">
-                <a class="objektRitual-add" data-type="objektRitual" title="{{localize "GDSA.charactersheet.addSpell"}}"><div class="spellButtonBox"><b>+</b></div></a>
-            </td>
-        </tr>
-
-    </table>
+<div class="inventory4">
+    <div class="traitDetailsHeader">
+        <div class="traitHeaderSmall"><b>{{localize "GDSA.itemsheet.isActiv"}}</b></div>
+        <div class="traitHeaderBig2"><b>{{localize "GDSA.charactersheet.name"}}</b></div>
+        <div class="traitHeaderSmall2"><b>{{localize "GDSA.itemsheet.creation"}}</b></div>
+        <div class="traitHeaderSmall2"><b>{{localize "GDSA.itemsheet.activation"}}</b></div>
+    </div>
+    <div class="traithrbox3"><hr class="traithrMain2" /></div>
+    <div class="traitDetailsBody">
+        {{#each objRituals as |Trait id|}}
+            <div class="item item-context traitDetailItem" data-item-id="{{_id}}">
+                <div class="traitDetailItemConfig4"><input class="ritBox ritCheck" name="system.isActiv" type="checkbox" {{checked system.isActiv}} /></div>
+                <div class="traitDetailItemName4">{{name}}</div>
+                <div class="traitDetailItemConfig2"><a class="openRitual" data-page="{{system.wdzPage}}"><i class="fas fa-book"></i></a></div>
+                <div class="traitDetailItemConfig5">{{#unless system.isActiv}}<a class="ritCrea-roll" title="{{localize 'GDSA.chat.skill.roll'}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>{{/unless}}</div>
+                <div class="traitDetailItemConfig6">{{#unless (equals system.activAtt1 "")}}<a class="ritAkti-roll" title="{{localize 'GDSA.chat.skill.roll'}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>{{/unless}}</div>
+            </div>
+            <div class="traithrbox3"><hr class="traithr2" /></div>
+        {{/each}}
+    </div>
+    <div class="traithrbox2"><hr class="traithrMain2" /></div>
+    <a class="objektRitual-add" data-type="objektRitual" title="{{localize "GDSA.charactersheet.addSpell"}}"><div class="traitDetailsFooter"><b>+</b></div></a>
 </div>

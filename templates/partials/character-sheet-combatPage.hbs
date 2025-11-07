@@ -1,4 +1,4 @@
-<div class="skillHeaderBox2">
+<div class="skillHeaderBox3">
 	<div class="skillHeaderSkillBox2">
         <div class="headerLable2">{{localize "GDSA.charactersheet.ATBasis"}}</div><div class="headerValue2">{{system.ATBasis.value}}</div> 
         <div class="headerLable2">{{localize "GDSA.charactersheet.PABasis"}}</div><div class="headerValue2">{{system.PABasis.value}}</div>
@@ -21,7 +21,7 @@
     </div>
 </div>
 	
-<div class="skillsBox">
+<div class="skillsBox2">
 
     <div class="combatFiller1"></div>
 
@@ -130,11 +130,11 @@
                 <div class="flawbnt"><a class="changeTab item" data-destination="generaltraitPage" data-origin="combatePage" data-optional="general">
                     <i class="fas fa-book plusSym"></i>
                 </a></div>
-                <div class="traithrbox"><hr class="flawhr" /></div>
+                <div class="traithrbox"><hr class="traithrMain" /></div>
                 <section class="traits">
                     {{#each generalTraits as |Trait id|}}
                         <div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
-                            <div class="trait">{{name}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</div><hr class="flawhr" />
+                            <div class="trait">{{name}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</div><hr class="traithr" />
                         </div>
                     {{/each}}
                 </section>
@@ -144,11 +144,11 @@
                 <div class="flawbnt"><a class="changeTab item" data-destination="combattraitPage" data-origin="combatePage" data-optional="combat">
                     <i class="fas fa-book plusSym"></i>
                 </a></div>
-                <div class="traithrbox"><hr class="flawhr" /></div>
+                <div class="traithrbox"><hr class="traithrMain" /></div>
                 <section class="traits">
                     {{#each combatTraits as |Trait id|}}
                         <div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
-                            <div class="trait">{{name}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</div><hr class="flawhr" />
+                            <div class="trait">{{name}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</div><hr class="traithr" />
                         </div>
                     {{/each}}
                 </section>
@@ -161,11 +161,11 @@
                 <div class="flawbnt"><a class="changeTab item" data-destination="generaltraitPage" data-origin="combatePage" data-optional="general">
                     <i class="fas fa-book plusSym"></i>
                 </a></div>
-                <div class="traithrbox"><hr class="flawhr" /></div>
+                <div class="traithrbox"><hr class="traithrMain" /></div>
                 <section class="traits2">
                     {{#each generalTraits as |Trait id|}}
                         <div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
-                            <div class="trait">{{name}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</div><hr class="flawhr" />
+                            <div class="trait">{{name}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</div><hr class="traithr" />
                         </div>
                     {{/each}}
                 </section>
@@ -180,11 +180,11 @@
             <div class="flawbnt"><a class="changeTab item" data-destination="generaltraitPage" data-origin="combatePage" data-optional="general">
                 <i class="fas fa-book plusSym"></i>
             </a></div>
-            <div class="traithrbox"><hr class="flawhr" /></div>
+            <div class="traithrbox"><hr class="traithrMain" /></div>
             <section class="traits2">
                 {{#each generalTraits as |Trait id|}}
                     <div class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
-                        <div class="trait">{{name}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</div><hr class="flawhr" />
+                        <div class="trait">{{name}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</div><hr class="traithr" />
                     </div>
                 {{/each}}
             </section>

@@ -7,11 +7,11 @@
 
     <div class="form-group">
         <label>{{localize "GDSA.chat.skill.advantage"}}</label>
-        <input type="number" name="advan" value="0" />
+        <input class="mediOpt" type="number" name="advan" value="0" />
     </div>
     <div class="form-group">
         <label>{{localize "GDSA.chat.skill.disadvantage"}}</label>
-        <input type="number" name="disad" value="0" />
+        <input class="mediOpt" type="number" name="disad" value="0" />
     </div>
     
     <div class="dialogFiller"></div>
@@ -28,7 +28,7 @@
         {{else}}
             <label>{{localize "GDSA.chat.skill.wucht"}}</label>
         {{/if}}
-        <input type="number" name="wucht" value="0" />
+        <input class="mediOpt" type="number" name="wucht" value="0" />
     </div>
     <div class="form-group">
         {{#if (equals system.weapon.type "Faust")}}
@@ -36,34 +36,34 @@
         {{else}}
             <label>{{localize "GDSA.chat.skill.finte"}}</label>
         {{/if}}
-        <input type="number" name="finte" value="0" />
+        <input class="mediOpt" type="number" name="finte" value="0" />
     </div>
-    <div class="form-group">
-        {{#if (equals system.weapon.type "Faust")}}
-        {{else}}
+    {{#if (equals system.weapon.type "Faust")}}
+    {{else}}
+        <div class="form-group">
             <label>{{localize "GDSA.chat.skill.sturm"}}</label>
-            <input type="checkbox" name="sturm" value="false" />
-        {{/if}}
-    </div>
-    <div class="form-group">
-        {{#if (equals system.weapon.type "Faust")}}
-        {{else}}
+            <input class="mediOpt" type="checkbox" name="sturm" value="false" />
+        </div>
+    {{/if}}
+    {{#if (equals system.weapon.type "Faust")}}
+    {{else}}
+        <div class="form-group">
             <label>{{localize "GDSA.chat.skill.hamme"}}</label>
-            <input type="checkbox" name="hamme" value="false" />
-        {{/if}}
-    </div>
-    <div class="form-group">
-        {{#if anatomy}}
+            <input class="mediOpt" type="checkbox" name="hamme" value="false" />
+        </div>
+    {{/if}}
+    {{#if anatomy}}
+        <div class="form-group">
             <label>{{localize "GDSA.chat.skill.anatomy"}}</label>
-            <input type="checkbox" name="anatomy" value="false" />
-        {{/if}}
-    </div>
-    <div class="form-group">
-        {{#if butcher}}
+            <input class="mediOpt" type="checkbox" name="anatomy" value="false" />
+        </div>
+    {{/if}}
+    {{#if butcher}}
+        <div class="form-group">
             <label>{{localize "GDSA.chat.skill.butcher"}}</label>
-            <input type="checkbox" name="butcher" value="false" />
-        {{/if}}
-    </div>
+            <input class="mediOpt" type="checkbox" name="butcher" value="false" />
+        </div>
+    {{/if}}
     
     <div class="dialogFiller"></div>
 

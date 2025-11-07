@@ -1,54 +1,68 @@
-import { GDSA } from "../config.js";
 import * as Util from "../../Util.js";
 import GDSAActor from "../objects/GDSAActor.js";
 
-export default class GDSAHeldenImporter extends FormApplication {
+const api = foundry.applications.api;
 
+export default class GDSAHeldenImporter extends api.HandlebarsApplicationMixin(api.ApplicationV2) {
+    
     constructor(options={}) {
         
         super(options);
         this.heroObject = {};
     }
 
-
-    static get defaultOptions() {
-
-        return foundry.utils.mergeObject(super.defaultOptions, {
-            classes: ["GDSA", "gmscreen"],
-            template: "systems/gdsa/templates/apps/heldenimport.hbs",
-            width: 800,
-            height: 700,
-            title: "Heldentool Importer"
-        });
+    static DEFAULT_OPTIONS = {
+        tag: "form",
+        classes: ["GDSA", "heldenimporter"],
+        actions: {},
+        form: {
+            submitOnChange: true,
+            closeOnSubmit: false
+        },
+        position: {
+            width: 800
+        }
     }
 
+    static PARTS = {
+
+        main: { template: "systems/gdsa/templates/apps/heldenimport.hbs" }
+    }
+
+    get title() {
+
+        return "Heldentool Importer";
+    }
+
+    /** @override */
+    _configureRenderOptions(options) {
+
+        super._configureRenderOptions(options);
+        options.parts = ["main"];
+    }
+
+    /** @override */
+    _onRender(context, options) {
+
+        super._onRender(context, options);
+        this.element.querySelector("#Heldenimport").addEventListener("change", (e) => this.loadHero(e));
+        this.element.querySelector("#bnt1").addEventListener("click", (e) => this.createHero(e));
+    }
+
+    /** Custom Functions */
     static Initialize(html) {
         
         html.find('#gdsa-options').append($(
             `<button data-action="heldentool-importer">
-                <i class="fas fa-duotone fa-arrow-up-from-bracket"></i> Import Heldentool XML
+                <i class="fas fa-duotone fa-arrow-up-from-bracket"></i>
+                Import Heldentool XML
             </button>`));
 
         html.find('button[data-action="heldentool-importer"').on("click", _ => new GDSAHeldenImporter().render(true));
     }
 
-    getData() {
-
-        const data = super.getData();
-
-        return data;
-    }
-
-    activateListeners(html) {
-
-        html.find("#Heldenimport").change(this.loadHero.bind(this));
-        html.find("#bnt1").click(this.createHero.bind(this));
-
-        super.activateListeners(html);
-    }
-
     async loadHero(event) {
-
+        
         event.preventDefault();
 
         // Get Element
@@ -65,7 +79,7 @@ export default class GDSAHeldenImporter extends FormApplication {
         files.push(element.closest("form").querySelector("[id=Heldenimport]").files[0]);
 
         // Read File and execute
-
+        
         const filePromises = files.map((file) => {
               
             // Return a promise per file
@@ -84,7 +98,6 @@ export default class GDSAHeldenImporter extends FormApplication {
             
                         let parser = new DOMParser();
                         let xmlDoc = parser.parseFromString(xmlHeld,"text/xml");
-
                         const response = generateHeroObject(event, xmlDoc.getElementsByTagName("held")[0]);
 
                         // Resolve the promise with the response value
@@ -118,7 +131,7 @@ export default class GDSAHeldenImporter extends FormApplication {
         // Update HTML Boxes
 
         const template = "systems/gdsa/templates/apps/heldenimportMaske.hbs";
-        const html = await renderTemplate(template, hero);
+        const html = await foundry.applications.handlebars.renderTemplate(template, hero);
 
         element.closest("form").querySelector("[id=overview1]").innerHTML = html;
         
@@ -130,14 +143,12 @@ export default class GDSAHeldenImporter extends FormApplication {
 
         const hero = this.heroObject;
 
-        console.log(hero);
-
         if(Object.keys(hero).length === 0) return;
 
         let actor = await GDSAActor.create({
             name: "New Test Actor",
             type: "PlayerCharakter",
-            img: "systems/gdsa/templates/img/logo.webp"
+            img: "systems/gdsa/assets/ui/logo.webp"
         });
 
 
@@ -344,7 +355,8 @@ export default class GDSAHeldenImporter extends FormApplication {
         if(actor.system.skill.Wurfmesser.value !== null) actor.update({ "system.skill.Wurfmesser.atk": (parseInt(actor.system.skill.Wurfmesser.value) + actor.system.FKBasis.value)});
         if(actor.system.skill.Wurfspeere.value !== null) actor.update({ "system.skill.Wurfspeere.atk": (parseInt(actor.system.skill.Wurfspeere.value) + actor.system.FKBasis.value)});
     
-        this.render(false);
+        this.close();
+        actor.sheet.render(true);
     }
  
 }
@@ -361,7 +373,6 @@ function removeEleValue(value, index, arr) {
 }
 
 function generateHeroObject(event, xml) {
-
     let advantage = [];
     let disadvantage = [];
     let sfGeneral = [];
@@ -406,11 +417,11 @@ function generateHeroObject(event, xml) {
 
             if (flawArray.length !== 1)
                 if (value !== 0)
-                    newFlaw = Object.assign({}, flawArray.filter(function(item) {return item.system.trait.value === value})[0]);
+                    newFlaw = structuredClone(flawArray.filter(function(item) {return item.system.trait.value === value})[0]);
                 else if (nameAddition !== "")
-                    newFlaw = Object.assign({}, flawArray.filter(function(item) {return item.name.includes(nameAddition)})[0]);
-                else newFlaw = Object.assign({}, flawArray[0]);
-            else newFlaw = Object.assign({}, flawArray[0]);
+                    newFlaw = structuredClone(flawArray.filter(function(item) {return item.name.includes(nameAddition)})[0]);
+                else newFlaw = structuredClone(flawArray[0]);
+            else newFlaw = structuredClone(flawArray[0]);
 
             if(advantages[i].children.length === 2) {
 
@@ -453,7 +464,7 @@ function generateHeroObject(event, xml) {
             let value = 0;
             let nameAddition = "";
             let newAdv = {};
-
+            
             if (advantages[i].attributes.value !== undefined)
                 if (isNaN(advantages[i].attributes.value.value)) 
                     nameAddition = advantages[i].attributes.value.value;
@@ -461,17 +472,17 @@ function generateHeroObject(event, xml) {
 
             if (advaArray.length !== 1)
                 if (traitName === "Verbindungen")
-                    newAdv = Object.assign({}, advaArray[0]);
+                    newAdv = structuredClone(advaArray[0]);
                 else if (value !== 0)
-                    newAdv = Object.assign({}, advaArray.filter(function(item) {return item.system.trait.value === value})[0]);
+                    newAdv = structuredClone(advaArray.filter(function(item) {return item.system.trait.value === value})[0]);
                 else if (nameAddition !== "")
-                    newAdv = Object.assign({}, advaArray.filter(function(item) {return item.name.includes(nameAddition)})[0]);
-                else newAdv = Object.assign({}, advaArray[0]);
-            else newAdv = Object.assign({}, advaArray[0]);
+                    newAdv = structuredClone(advaArray.filter(function(item) {return item.name.includes(nameAddition)})[0]);
+                else newAdv = structuredClone(advaArray[0]);
+            else newAdv = structuredClone(advaArray[0]);
 
-            if (traitName === "Meisterhandwerk" || traitName === "Immunität gegen Gift" || traitName === "Immunität gegen Krankheiten" || traitName === "Resistenz gegen Gift") {
+            if (traitName === "Meisterhandwerk" || traitName === "Immunität gegen Gift" || traitName === "Immunität gegen Krankheiten" || traitName === "Resistenz gegen Gift" || traitName === "Begabung für [Zauber]" || traitName === "Begabung für [Talent]" || traitName === "Begabung für [Ritual]") {
 
-                newAdv = Object.assign({}, advaArray[0]);
+                newAdv = structuredClone(advaArray[0]);
                 newAdv.name  += " (" + nameAddition + ")";
                 newAdv.system.tale.DE += " (" + nameAddition + ")";
                 newAdv.system.tale.EN += " (" + nameAddition + ")";
@@ -481,17 +492,17 @@ function generateHeroObject(event, xml) {
                 newAdv.name  += " [" + nameAddition + "]";
 
             if (traitName === "Beseelte Knochenkeule")
-                newAdv = Object.assign({}, advaArray[0]);
+                newAdv = structuredClone(advaArray[0]);
 
             if (value !== 0 && advaArray.length === 1) newAdv.system.trait.value = value;
             if (nameAddition !== "" && advaArray.length === 1) newAdv.system.tale.DE += " (" + nameAddition + ")";
             if (nameAddition !== "" && advaArray.length === 1) newAdv.system.tale.EN += " (" + nameAddition + ")";
 
             if(!newAdv) console.log(traitName);
-
+            
             advantage.push(newAdv);
 
-        } else event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+        } else event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                 "<div class='importError'>Der folgende Vor-/Nachteil wurde nicht gefunden: <br /><b>" + advantages[i].attributes.name.value.trim() + "</b><br /> Nach dem Import muss jener manuell hinzugefügt werden!</div>";
     }
 
@@ -511,11 +522,18 @@ function generateHeroObject(event, xml) {
 
                 if (traitName === "Meisterschütze" || traitName === "Scharfschütze" || traitName === "Schnellladen")
                     traitArray2 = traitArray.filter(function(item) {return item.name.includes(spezialSkills[i].getElementsByTagName("talent")[0].attributes.name.value)});
-                    
+
                 if (traitName === "Kulturkunde") {
 
                     for (let j = 0; j < spezialSkills[i].getElementsByTagName("kultur").length; j++)
                         sfGeneral.push(traitArray.filter(function(item) {return item.name.includes(spezialSkills[i].getElementsByTagName("kultur")[j].attributes.name.value)})[0]);
+
+                } else if(traitName === "Rüstungsgewöhnung I") {
+
+                    let newSF = structuredClone(traitArray[0]);
+                    newSF.system.tale.DE = "Rüstungsgewöhnung I (" + spezialSkills[i].getElementsByTagName("gegenstand")[0].attributes.name.value + ")";
+                    newSF.name = "Rüstungsgewöhnung I (" + spezialSkills[i].getElementsByTagName("gegenstand")[0].attributes.name.value + ")";
+                    sfGeneral.push(newSF)
 
                 } else if(traitName.slice(-1) === "I") {
 
@@ -527,7 +545,7 @@ function generateHeroObject(event, xml) {
 
                 } else {
 
-                    event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                    event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                     "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                     + traitName.trim() 
                     + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -535,8 +553,8 @@ function generateHeroObject(event, xml) {
 
             } else {
 
-                let newItem = Object.assign({}, traitArray[0]);
-                
+                let newItem = structuredClone(traitArray[0]);
+
                 if (traitName === "Berufsgeheimnis") {
 
                     for (let j = 0; j < spezialSkills[i].getElementsByTagName("auswahl").length; j++) {
@@ -601,7 +619,7 @@ function generateHeroObject(event, xml) {
                 
                             } else {
 
-                                event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                                 "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                                 + traitName.trim() 
                                 + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -634,7 +652,7 @@ function generateHeroObject(event, xml) {
                         
                                     } else {
         
-                                        event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                                        event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                                         "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                                         + traitName.trim() 
                                         + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -642,7 +660,7 @@ function generateHeroObject(event, xml) {
         
                                 } else { 
 
-                                event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                                 "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                                 + traitName.trim() 
                                 + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -652,7 +670,7 @@ function generateHeroObject(event, xml) {
                         }
                     } else {
 
-                        event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                        event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                         "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                         + traitName.trim() 
                         + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -668,7 +686,7 @@ function generateHeroObject(event, xml) {
 
                 } else {
        
-                    event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                    event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                     "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                     + traitName.trim() 
                     + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -679,7 +697,7 @@ function generateHeroObject(event, xml) {
         } else if (traitName.includes("Talentspezialisierung")) {
 
             let traitArray2 = templates.traits.all.filter(function(item) {return item.name.includes("Talentspezialisierung")});
-            let newItem = Object.assign({}, traitArray2[0]);
+            let newItem = structuredClone(traitArray2[0]);
                 
             newItem.system.tale.DE = spezialSkills[i].attributes.name.value.replace("Fesseln/Entfesseln", "Fesseln / Entfesseln");
             newItem.name = spezialSkills[i].attributes.name.value.replace("Fesseln/Entfesseln", "Fesseln / Entfesseln");
@@ -696,7 +714,7 @@ function generateHeroObject(event, xml) {
 
             } else {
 
-                event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                     "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                     + traitName.trim() 
                     + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -712,7 +730,7 @@ function generateHeroObject(event, xml) {
 
             } else {
 
-                event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                     "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                     + traitName.trim() 
                     + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -728,7 +746,7 @@ function generateHeroObject(event, xml) {
 
             } else {
 
-                event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                     "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                     + traitName.trim() 
                     + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -754,7 +772,7 @@ function generateHeroObject(event, xml) {
 
                 } else {
 
-                    event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                    event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                         "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                         + traitName.trim() 
                         + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -762,7 +780,7 @@ function generateHeroObject(event, xml) {
 
             } else {
 
-                event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                     "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                     + traitName.trim() 
                     + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -781,7 +799,7 @@ function generateHeroObject(event, xml) {
 
             } else {
 
-                event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                     "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                     + traitName.trim() 
                     + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -808,7 +826,7 @@ function generateHeroObject(event, xml) {
 
                 } else {
 
-                    event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                    event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                         "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                         + traitName.trim() 
                         + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -816,7 +834,7 @@ function generateHeroObject(event, xml) {
 
             } else {
 
-                event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                     "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                     + traitName.trim() 
                     + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -832,16 +850,36 @@ function generateHeroObject(event, xml) {
 
             } else if (ritualArray.length > 1) {
 
+                
+                let ritualArray2 = [];
+
+                if (traitName === "Kugelzauber: Bindung") {
+                    
+                    ritualArray2 = templates.ritual.gild.filter(function(item) {return item.name === "Bindung der Kugel"});
+                    if (ritualArray2.length === 1) { objectRit.push(ritualArray2[0]); }
+                    else {
+
+                        event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
+                        "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
+                        + traitName.trim() 
+                        + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
+
+                    }
+                
+                } else {
+
                 let newItem = ritualArray[0];
 
                 newItem.creatTalent = "";
                 newItem.ritualSkills = "";
 
                 objectRit.push(newItem);
+                
+                }
 
             } else {
 
-                event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                     "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                     + traitName.trim() 
                     + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -866,7 +904,7 @@ function generateHeroObject(event, xml) {
 
             } else {
 
-                event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                     "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                     + traitName.trim() 
                     + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -891,7 +929,7 @@ function generateHeroObject(event, xml) {
 
             } else {
 
-                event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                     "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                     + traitName.trim() 
                     + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -916,43 +954,190 @@ function generateHeroObject(event, xml) {
 
             } else {
 
-                event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                     "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                     + traitName.trim() 
                     + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
             }
 
         } else if (traitName.includes("Hexenfluch")) {
-            // Will follow with Rituals
+            
+            let ritualArray = templates.ritual.all.filter(function(item) {return item.name.includes(traitName.split(":")[1].trim())});
+
+            if (ritualArray.length === 1) {
+
+                sfRit.push(ritualArray[0]);
+
+            } else if (ritualArray.length > 1) {
+
+                let hexRit = ritualArray.filter(function(item) {return item.name === traitName.split(":")[1].trim()})[0];
+                if (hexRit) sfRit.push(hexRit);
+
+            } else {
+                
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
+                    "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
+                    + traitName.trim() 
+                    + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
+            }
+
         } else if (traitName.includes("Hexenritual")) {
-            // Will follow with Rituals
+            
+            let ritualArray = templates.traits.all.filter(function(item) {return item.name.includes(traitName.split(":")[1].trim())});
+
+            if (ritualArray.length === 1) {
+
+                sfRit.push(ritualArray[0]);
+
+            } else if (ritualArray.length > 1) {
+
+                let hexRit = ritualArray.filter(function(item) {return item.name === traitName.split(":")[1].trim()})[0];
+                if (hexRit) sfRit.push(hexRit);
+
+            } else {
+                
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
+                    "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
+                    + traitName.trim() 
+                    + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
+            }
+
         } else if (traitName.includes("Kristallomantisches Ritual")) {
-            // Will follow with Rituals
+            
+            let ritualArray = templates.ritual.all.filter(function(item) {return item.name.includes(traitName.split(":")[1].trim())});
+
+            if (ritualArray.length === 1) {
+
+                sfRit.push(ritualArray[0]);
+
+            } else {
+
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
+                    "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
+                    + traitName.trim() 
+                    + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
+            }
+
         } else if (traitName.includes("Trommelzauber")) {
+            
+            let ritualArray = templates.ritual.all.filter(function(item) {return item.name.includes(traitName.split(":")[1].trim())});
+
+            if (ritualArray.length === 1) {
+
+                sfRit.push(ritualArray[0]);
+
+            } else {
+
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
+                    "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
+                    + traitName.trim() 
+                    + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
+            }
+
+        } else if (traitName.includes("Zaubertanz")) {
+            
+            let ritualArray = templates.ritual.all.filter(function(item) {return item.name.includes(traitName.split(":")[1].split("(")[0].trim())});
+
+            if (ritualArray.length === 1) {
+
+                sfRit.push(ritualArray[0]);
+
+            } else if (ritualArray.length > 1) {
+
+                let tanzRit = ritualArray.filter(function(item) {return item.name.includes(traitName.split(":")[1].split("(")[0].trim())})[0];
+                if (tanzRit) sfRit.push(tanzRit);
+
+            } else {
+
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
+                    "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
+                    + traitName.trim() 
+                    + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
+            }
+
+        } else if (traitName.includes("Zibilja-Ritual")) {
+            
+            let ritualArray = templates.ritual.all.filter(function(item) {return item.name.includes(traitName.split(":")[1].trim())});
+
+            if (ritualArray.length === 1) {
+
+                sfRit.push(ritualArray[0]);
+
+            } else {
+
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
+                    "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
+                    + traitName.trim() 
+                    + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
+            }
+
+        } else if (traitName.includes("Druidisches Herrschaftsritual")) {
+            
+            let ritualArray = templates.ritual.all.filter(function(item) {return item.name.includes(traitName.split(":")[1].trim())});
+
+            if (ritualArray.length === 1) {
+
+                sfRit.push(ritualArray[0]);
+
+            } else {
+
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
+                    "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
+                    + traitName.trim() 
+                    + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
+            }
+
+        } else if (traitName.includes("Die Gestalt aus Rauch")) {
+            
+            let ritualArray = templates.ritual.all.filter(function(item) {return item.name.includes(traitName.trim())});
+
+            if (ritualArray.length === 1) {
+
+                sfRit.push(ritualArray[0]);
+
+            } else {
+
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
+                    "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
+                    + traitName.trim() 
+                    + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
+            }
+
+        } else if (traitName.includes("Kristallkraft bündeln")) {
+            
+            let ritualArray = templates.ritual.all.filter(function(item) {return item.name.includes(traitName.trim())});
+
+            if (ritualArray.length === 1) {
+
+                sfRit.push(ritualArray[0]);
+
+            } else {
+
+                event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
+                    "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
+                    + traitName.trim() 
+                    + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
+            }
+
+        } else if (traitName.includes("Zauberspezialisierung")) {
+
+            let traitArray2 = templates.traits.all.filter(function(item) {return item.name.includes("Zauberspezialisierung")});
+            let newItem = structuredClone(traitArray2[0]);
+                
+            newItem.system.tale.DE = spezialSkills[i].attributes.name.value;
+            newItem.name = spezialSkills[i].attributes.name.value;
+
+            sfGeneral.push(newItem); 
+
+        } else if (traitName.includes("Elfenlied")) {
             // Will follow with Rituals
         } else if (traitName.includes("Zauberzeichen")) {
             // Will follow with Rituals
-        } else if (traitName.includes("Melodie")) {
-            // Will follow with Rituals
         } else if (traitName.includes("Runen")) {
             // Will follow with Rituals
-        } else if (traitName.includes("Seher")) {
-            // Will follow with Rituals
-        } else if (traitName.includes("Zauberinstrument")) {
-            // Will follow with Rituals
-        } else if (traitName.includes("Zaubertanz")) {
-            // Will follow with Rituals
-        } else if (traitName.includes("Zibilja-Ritual")) {
-            // Will follow with Rituals
-        } else if (traitName.includes("Druidisches Herrschaftsritual")) {
-            // Will follow with Rituals
-        } else if (traitName.includes("Die Gestalt aus Rauch")) {
-            // Will follow with Rituals
-        } else if (traitName.includes("Kristallkraft bündeln")) {
-            // Will follow with Rituals
         } else {
-
-            event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+        
+            event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                 "<div class='importError'>Die folgende Sonderfertigkeit wurde nicht gefunden: <br /><b>" 
                 + traitName.trim() 
                 + "</b><br /> Nach dem Import muss jene manuell hinzugefügt werden!</div>";
@@ -1002,17 +1187,15 @@ function generateHeroObject(event, xml) {
             if (toolItemsArray.length === 1 || toolItemsArray.length === 2 && toolItemsArray[0].system.type !== toolItemsArray[1].system.type) {
                 for (let item of toolItemsArray) {
                     
-                    let newitem = Object.assign({}, item);
-                    console.log(itemArray[i]);
-                    console.log(itemArray[i].attributes.anzahl.value);
-                    console.log(itemArray[i].attributes);
+                    let newitem = structuredClone(item);
                     newitem.system.quantity = itemArray[i].attributes.anzahl.value;
-
+                    
                     if (itemArray[i].getElementsByTagName("modallgemein")[0] !== undefined) {
-            
+                        
                         newitem.name = itemArray[i].getElementsByTagName("modallgemein")[0].getElementsByTagName("name")[0].attributes.value.value;
                         newitem.system.weight = itemArray[i].getElementsByTagName("modallgemein")[0].getElementsByTagName("gewicht")[0].attributes.value.value;
                         newitem.system.value = itemArray[i].getElementsByTagName("modallgemein")[0].getElementsByTagName("preis")[0].attributes.value.value;
+                        newitem.system.quantity = parseInt(itemArray[i].attributes.anzahl.value);
                     }
                     if (itemArray[i].getElementsByTagName("Rüstung")[0] !== undefined) {
             
@@ -1075,12 +1258,11 @@ function generateHeroObject(event, xml) {
                         }
                     }
                     if (itemArray[i].getElementsByTagName("Wesen")[0] !== undefined) continue;
-                    console.log(newitem);
                     items.push(newitem);
                 }
-            } else event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+            } else event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
                 "<div class='importError'>Der folgende Gegenstand konnte nicht zugewiesen werden: <br /><b>" + orignalName + "</b><br /> Nach dem Import muss jener manuell hinzugefügt werden!</div>";
-        } else event.currentTarget.closest("form").querySelector("[id=overview2]").innerHTML += 
+        } else event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 
             "<div class='importError'>Der folgende Gegenstand wurde nicht gefunden: <br /><b>" + orignalName + "</b><br /> Nach dem Import muss jener manuell hinzugefügt werden!</div>"; 
     }
 

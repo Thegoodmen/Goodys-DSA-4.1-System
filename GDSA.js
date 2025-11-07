@@ -13,7 +13,6 @@ import * as LsFunction from "./module/listenerFunctions.js";
 import MemoryCache from "./module/memory-cache.js";
 import GMScreen from "./module/apps/gmScreen.js";
 import HeldenImporter from "./module/apps/heldenImport.js";
-import * as Migration from "./module/apps/migration.js";
 import * as Template from "./module/apps/templates.js";
 import * as Dice from "./module/dice.js";
 import * as Dialog from "./module/dialog.js";
@@ -48,14 +47,16 @@ Hooks.once("init", async () => {
     };
     CONFIG.defaultFontFamily = "MasonSerifBold";
 
-    Items.unregisterSheet("core", ItemSheet);
-    Items.registerSheet("GDSA", GDSAItemSheet, { makeDefault: true });
+    const DocumentSheetConfig = foundry.applications.apps.DocumentSheetConfig;
 
-    Actors.unregisterSheet("core", ActorSheet);
-    Actors.registerSheet("GDSA", GDSAPlayerCharakterSheet, { makeDefault: true, types: ["PlayerCharakter"] });
-    Actors.registerSheet("GDSA", GDSAMerchantSheet, { types: ["LootActor"]});
-    Actors.registerSheet("GDSA", GDSALootActorSheet, { types: ["LootActor"]});
-    Actors.registerSheet("GDSA", GDSANonPlayerSheet, { types: ["NonPlayer"]});
+    DocumentSheetConfig.unregisterSheet(Item, "core", foundry.appv1.sheets.ItemSheet);
+    DocumentSheetConfig.registerSheet(Item, "gdsa", GDSAItemSheet, { makeDefault: true, label: "GDSA.SheetClassItem"});
+
+    DocumentSheetConfig.unregisterSheet(Actor, "core", foundry.appv1.sheets.ActorSheet);
+    DocumentSheetConfig.registerSheet(Actor, "gdsa", GDSAPlayerCharakterSheet, { types: ["PlayerCharakter"], label: "GDSA.SheetClassCharacter"});
+    DocumentSheetConfig.registerSheet(Actor, "gdsa", GDSAMerchantSheet, { types: ["LootActor"], label: "GDSA.SheetClassMerchant"});
+    DocumentSheetConfig.registerSheet(Actor, "gdsa", GDSALootActorSheet, { types: ["LootActor"], makeDefault: true, label: "GDSA.SheetClassLoot"});
+    DocumentSheetConfig.registerSheet(Actor, "gdsa", GDSANonPlayerSheet, { types: ["NonPlayer"], label: "GDSA.SheetClassNPC"});
   
     registerSystemSettings();
     preloadHandlebarsTemplates();
@@ -79,38 +80,33 @@ Hooks.once("ready", async () => {
     const NEEDS_MIGRATION_VERSION = "1.0.0";
 
     let needsMigration = !currentVersion || foundry.utils.isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion);
-
-    needsMigration = false;
-
-    if (needsMigration) Migration.migrationV1();
 });
 
-Hooks.once("renderChatMessage", () => {
+Hooks.once("renderChatMessageHTML", (message) => {
 
     $(document).on('click', '.bntChatParry', function (event) { LsFunction.ownedCharParry(event) });
     $(document).on('click', '.bntChatDogde', function (event) { LsFunction.ownedCharDogde(event) });
     $(document).on('click', '.bntChatDamage', function (event) { LsFunction.executeDMGRoll(event) });
     $(document).on('click', '.bntChatDMG', function (event) { LsFunction.executeHealthLoss(event) });
     $(document).on('click', '.bntCollaps', function (event) { LsFunction.chatCollaps(event)});
-
 });
 
-Hooks.on("renderChatMessage", (message) => {
+Hooks.on("renderChatMessageHTML", (message, html, options) => {
 
     LsFunction.updateChatMessagesAfterCreation(message);
+    LsFunction.primeChatCollaps(message, html, options);
 
 });
 
-Hooks.on("renderSettings", (app, html) => {
+Hooks.on("renderSettings", (app, plain) => {
 
-    html.find('#settings-game').after($(`<h2>GDSA Einstellungen</h2><div id="gdsa-options"></div>`));
+    const html = $(plain);
+    html.find('.settings').after($(`<section id="gdsa-options" class="gdsaSettings flexcol"><h4 class="divider">Ruleset Settings</h4></section>`));
 
     GMScreen.Initialize(html);
-
     HeldenImporter.Initialize(html);
 });
   
-
 Hooks.once("socketlib.ready", () => {
 
     GDSA.socket = socketlib.registerSystem("gdsa");
@@ -120,8 +116,8 @@ Hooks.once("socketlib.ready", () => {
 
 Hooks.on("updateActorDelta", (ActorDelta, data, time, userId) => {
 
-    if(data.system.LeP && ActorDelta.type === "PlayerCharakter") LsFunction.onActorLePChange(ActorDelta.parent)
-    if(data.system.AuP && ActorDelta.type === "PlayerCharakter") LsFunction.onActorAuPChange(ActorDelta.parent)
+    if(data.system?.LeP && ActorDelta.type === "PlayerCharakter") LsFunction.onActorLePChange(ActorDelta.parent)
+    if(data.system?.AuP && ActorDelta.type === "PlayerCharakter") LsFunction.onActorAuPChange(ActorDelta.parent)
 
     game.gdsa.buffHud.render();
 
@@ -144,6 +140,15 @@ Hooks.on("controlToken", (token, isSelected) => {
 });
 
 function registerSystemSettings() {
+
+    game.settings.register("gdsa", "defaultCollapsChat", {
+        name: "Nachrichten standartmäßig geschlossen?",
+        hint: "Shows all Chat Messages in there closed Option as Default.",
+        scope: "client",
+        config: true,
+        requiresReload: false,
+        type: Boolean
+    });
 
     game.settings.register("gdsa", "systemMigrationVersion", {
         config: false,
@@ -199,10 +204,10 @@ function preloadHandlebarsTemplates() {
         "systems/gdsa/templates/partials/character-sheet-holyGeneral.hbs",
         "systems/gdsa/templates/partials/character-sheet-holyWonder.hbs",
         "systems/gdsa/templates/partials/character-sheet-effectPage.hbs",
-        "systems/gdsa/templates/sheets/charakter-view.hbs"
+        "systems/gdsa/templates/partials/charakter-sheet-view.hbs"
     ];
     
-    return loadTemplates(templatePaths);
+    return  foundry.applications.handlebars.loadTemplates(templatePaths);
 };
 
 function registerHandelbarsHelpers() {
@@ -222,6 +227,12 @@ function registerHandelbarsHelpers() {
     Handlebars.registerHelper("getDataValue", function(object1, value1) { return object1[value1]?.value;});
 
     Handlebars.registerHelper("ifOR", function(conditional1, conditional2, options) { return (conditional1 || conditional2)});
+
+    Handlebars.registerHelper("AND", function(conditional1, conditional2) { return ((conditional1 && conditional2))});
+
+    Handlebars.registerHelper("NAND", function(conditional1, conditional2) { return (!(conditional1 && conditional2))});
+
+    Handlebars.registerHelper("NOR", function(conditional1, conditional2) { return (!(conditional1 || conditional2))});
 
     Handlebars.registerHelper("addSpez", function(value) { return parseInt(value) + 2;});
 
@@ -293,6 +304,21 @@ function registerHandelbarsHelpers() {
 
         if(isPres.length > 0) return isPres;
         return null;
+    });
+
+    Handlebars.registerHelper("showSpellSpez", function(spell, actor) {
+
+        let spezList = actor.system.SpellSpez;
+        let arrayofSpez = spezList.filter(function(item) {return item.spellname.includes(spell.name)});
+        let response = "[ ";
+
+        if(arrayofSpez.length > 0)
+            for (let index = 0; index < arrayofSpez.length; index++)
+                response += arrayofSpez[index].spezi + " ";
+
+        response += "]";
+
+        if (response !== "[ ]") return response;
     });
 
     Handlebars.registerHelper("isUsableVari", function(vari, spellRep) {
@@ -405,9 +431,9 @@ function registerHandelbarsHelpers() {
 
         let traits = game.i18n.localize("GDSA.magicTraits." + system.trait1);
 
-        if(system.trait2 != "none") traits += " / " + game.i18n.localize("GDSA.magicTraits." + system.trait2);
-        if(system.trait3 != "none") traits += " / " + game.i18n.localize("GDSA.magicTraits." + system.trait3);
-        if(system.trait4 != "none") traits += " / " + game.i18n.localize("GDSA.magicTraits." + system.trait4);
+        if(system.trait2 != "none" && system.trait2 != "") traits += " / " + game.i18n.localize("GDSA.magicTraits." + system.trait2);
+        if(system.trait3 != "none" && system.trait3 != "") traits += " / " + game.i18n.localize("GDSA.magicTraits." + system.trait3);
+        if(system.trait4 != "none" && system.trait4 != "") traits += " / " + game.i18n.localize("GDSA.magicTraits." + system.trait4);
 
         return traits
     });
@@ -489,7 +515,7 @@ function registerHandelbarsHelpers() {
         if (formel.includes("/2")) sum = Math.round(parseFloat(tap) / 2)
         else sum = parseInt(tap);
 
-        if (formel.includes("+")) sum += parseInt(trim(formel.split("+")[1]))
+        if (formel.includes("+")) sum += parseInt(formel.split("+")[1].trim())
         return sum + " Punkte ( LkP*" + formel + " )";
 
     });
@@ -795,7 +821,7 @@ function registerHandelbarsHelpers() {
                 case "spell":
 
                     let spell = char.spells.filter(function(item) {return item.name.toLowerCase() === attr.toLowerCase()})[0];
-                    if (!(spell.system.zfw >= level)) sleeping = true;
+                    if (!(spell?.system.zfw >= level)) sleeping = true;
                     break;
 
                 case "trait":
@@ -918,8 +944,6 @@ function calculateMetaSkill(item, data, template) {
 
 async function createGDSAMacro(data, slot) {
 
-    console.log(data);
-
     if (data.type === "skill") {
 
         // Create the macro command
@@ -973,7 +997,7 @@ async function createGDSAMacro(data, slot) {
 async function rollStatMacro(itemData) {
 
     let actor = game.actors.get(itemData.actorId);
-    let system = (await actor.sheet.getData()).system;
+    let system = (await actor.sheet._prepareContext()).system;
 
     // Get Stat from HTML
 
@@ -1005,11 +1029,11 @@ async function rollStatMacro(itemData) {
 async function rollSkillMacro(itemData) {
 
     // Calculate Skill Value 
-
+    
     let actor = game.actors.get(itemData.actorId);
     let item = await Template.getTalent(itemData.item);
     let skillValue = actor.system.skill[item.name];
-    let templates = await Template.templateData();
+    let templates = CONFIG.Templates;
     if (itemData.isSpez) skillValue += 2;
     if (itemData.isMeta) skillValue = calculateMetaSkill(item, actor.system.skill, templates);
 

@@ -1,22 +1,24 @@
-<div class="wonderBox">
-    <table class="castHelperTable">
+<div class="inventory4">
+    <div class="traitDetailsHeader2"></div>
+    <div class="traithrbox3"><hr class="traithrMain2" /></div>
+
+    <div class="traitDetailsBody2">
         {{#each spells as |item id|}}
-            <tr class="item-context item" data-item-id="{{_id}}">
-                <td class="skillTableNameBig">{{name}} 
-                    <i>({{system.att1}}/{{system.att2}}/{{system.att3}})</i>
-                    <div class="itemWorn"><a class="openSpell" data-page="{{system.lcdPage}}"><i class="fas fa-book"></i></a></div>
-                </td>
-                <td class="skillTableValue"><input class="skillTemp castChange" name="system.zfw" type="number" value="{{system.zfw}}"/></td>
-                <td class="skillTableRoll"><a class="item spell-roll" data-statName="{{name}}" data-item-id="{{_id}}"
+            <div class="item item-context traitDetailItem" data-item-id="{{_id}}">
+                <div class="traitDetailItemName3">{{name}} <i>({{system.att1}}/{{system.att2}}/{{system.att3}}) <span class="spellSpez">{{showSpellSpez this ../this}}</span></i></div>
+                <div class="traitDetailItemConfig2"><a class="openSpell" data-page="{{system.lcdPage}}"><i class="fas fa-book"></i></a></div>
+                <div class="traitDetailItemConfig3"><input class="skillTemp2 castChange" name="system.zfw" type="number" value="{{system.zfw}}"/></div>
+
+                <div class="traitDetailItemConfig2"><a class="item spell-roll" title="{{localize 'GDSA.chat.skill.roll'}}" data-statName="{{name}}" data-item-id="{{_id}}"
                     data-stat_one="{{getDataValue ../system ./system.att1}}" data-stat_two="{{getDataValue ../system ./system.att2}}" 
-                    data-stat_three="{{getDataValue ../system ./system.att3}}" data-bemod="0" title="{{localize 'GDSA.chat.skill.roll'}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
-                </td>
-            </tr>
+                    data-stat_three="{{getDataValue ../system ./system.att3}}"  data-bemod="0">
+                    <i class="fas fa-dice-d20 faD20Stat"></i></a>
+                </div>
+            </div>
+            <div class="traithrbox3"><hr class="traithr2" /></div>
 	    {{/each}}
-        <tr>
-            <td class="addCast" colspan="3">
-                <a class="spell-add" data-type="spell" title="{{localize "GDSA.charactersheet.addSpell"}}"><div class="spellButtonBox"><b>+</b></div></a>
-            </td>
-        </tr>
-    </table>
+    </div>
+
+    <div class="traithrbox2"><hr class="traithrMain2" /></div>
+    <a class="spell-add" data-type="spell" title="{{localize "GDSA.charactersheet.addSpell"}}"><div class="traitDetailsFooter"><b>+</b></div></a>
 </div>

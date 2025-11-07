@@ -1,30 +1,49 @@
 import * as Util from "../../Util.js";
 import * as LsFunction from "../listenerFunctions.js"
 
-export default class GDSALootActorSheet extends ActorSheet { 
+const api = foundry.applications.api;
+const sheets = foundry.applications.sheets;
 
-    static get defaultOptions() {
+export default class GDSALootActorSheet extends api.HandlebarsApplicationMixin(sheets.ActorSheetV2) {
+    
+    sheet = {};
 
-        // #################################################################################################
-        // #################################################################################################
-        // ##                                                                                             ##
-        // ##            Returns the General HTML of the Sheet and defines some general Stats             ##
-        // ##                                                                                             ##
-        // #################################################################################################
-        // #################################################################################################
-
-        return foundry.utils.mergeObject(super.defaultOptions, {
-
-            template: "systems/gdsa/templates/sheets/lootActor-sheet.hbs",
+    static DEFAULT_OPTIONS = {
+        tag: "form",
+        classes: ["GDSA", "sheet", "characterSheet"],
+        actions: {},
+        form: {
+            submitOnChange: true,
+            closeOnSubmit: false
+        },
+        position: {
             width: 632,
-            height: 625,
-            resizable: false,
-            classes: ["GDSA", "sheet", "characterSheet"]
-        });
+            height: 625
+        },
+        window: {
+            controls: []
+        }
     }
 
-    getData() {
+    static PARTS = {
 
+        main: { template: "systems/gdsa/templates/sheets/lootActor-sheet.hbs" }
+    }
+
+    get title() {
+
+        return this.actor.name;
+    }
+
+    /** @override */
+    _configureRenderOptions(options) {
+        super._configureRenderOptions(options);
+        options.parts = ["main"];
+    }
+
+    /** @override */
+    async _prepareContext(options) {
+        
         // #################################################################################################
         // #################################################################################################
         // ##                                                                                             ##
@@ -32,35 +51,38 @@ export default class GDSALootActorSheet extends ActorSheet {
         // ##                                                                                             ##
         // #################################################################################################
         // #################################################################################################
+        
+        const baseData = await super._prepareContext(options);
 
-        const baseData = super.getData();
-
-        let sheetData = {
-
+        let context = {
+            
             // Set General Values
-
-            owner: this.actor.isOwner,
-            editable: this.isEditable,
-            actor: baseData.actor,
-            system: baseData.actor.system,
-            items: baseData.items,
+            owner: baseData.document.isOwner,
+            editable: baseData.editable,
+            actor: baseData.document,
+            system: baseData.document.system,
+            items: baseData.document.items,
             config: CONFIG.GDSA,
-            isGM: game.user.isGM,
+            isGM: baseData.user.isGM,
+            template: CONFIG.Templates,
 
             // Create for each Item Type its own Array
 
-            generals: Util.getItems(baseData, "generals", false),
-            meleeweapons: Util.getItems(baseData, "melee-weapons", false),
-            rangeweapons: Util.getItems(baseData, "range-weapons", false),
-            shields: Util.getItems(baseData, "shields", false),
-            armour: Util.getItems(baseData, "armour", false)
+            generals: Util.getItems(baseData.document, "generals", false),
+            meleeweapons: Util.getItems(baseData.document, "melee-weapons", false),
+            rangeweapons: Util.getItems(baseData.document, "range-weapons", false),
+            shields: Util.getItems(baseData.document, "shields", false),
+            armour: Util.getItems(baseData.document, "armour", false)
         };
 
-        return sheetData;
+        this.sheet = context;
+        
+        return context;
     }
-
-    activateListeners(html) {
-
+    
+    /** @override */
+    _onRender(context, options) {
+        
         // #################################################################################################
         // #################################################################################################
         // ##                                                                                             ##
@@ -69,14 +91,16 @@ export default class GDSALootActorSheet extends ActorSheet {
         // #################################################################################################
         // #################################################################################################
 
-
+        super._onRender(context, options);
+        
         if(this.isEditable) {
 
-            // Set Listener for Context / Right-Click Menu
-
-            new ContextMenu(html, ".item-context", LsFunction.getItemContextMenu());
+            let sheet = this.sheet;
+        
+            if(! this.id.includes("Token")) { 
+        
+                new foundry.applications.ux.ContextMenu.implementation(this.element, ".item-context", LsFunction.getItemContextMenu(), {jQuery: false});
+            }
         }
-
-        super.activateListeners(html);
     }
 }

@@ -1154,6 +1154,25 @@
     .effect-name2 {
         width: 355px;
     };
+    .browserImgBox3 {
+        width: 58px;
+        height: 58px;
+        float: left;
+        margin-top: 24px;
+        margin-right: 6px;
+        margin-left: 10px;
+    };
+    .browserImgBox4 {
+        width: 50px;
+        height: 80px;
+        float: left;
+        margin-top: 24px;
+        margin-right: 15px;
+        margin-left: 10px;
+    };
+    .browserImg {
+        border: 0px;
+    };
 }
 
 .bookItemSheet {
@@ -1185,141 +1204,8 @@
 .displayMod {
     display: contents;
 };
-.browserMenu {
-    width: 200px;
-    height: 450px;
-    float: left;
-    border-right-style: groove;
-};
-.browserContent {
-    width: 580px;
-    height: 450px;
-    float: left;
-    overflow-x: hidden;
-};
-.headline {
-    width: 565px;
-    height: 30px;
-    float: left;
-    background-color: rgba(0,0,0,0.08);
-    border-style: groove;
-    margin: 7px;
-    padding-top: 3px;
-    padding-left: 20px;
-    font-size: 15px;
-    font-weight: bold;
-};
-.itemBrowserBox {
-    width: 575px;
-    height: 36px;
-    float: left;
-    position: relative;
-    padding-left: 9px;
-};
-.browserImgBox {
-    width: 35px;
-    height: 35px;
-    float: left;
-};
-.browserImgBox2 {
-    width: 35px;
-    height: 35px;
-    float: left;
-    margin-top: 31px;
-    margin-right: 5px;
-};
-.browserImgBox3 {
-    width: 58px;
-    height: 58px;
-    float: left;
-    margin-top: 24px;
-    margin-right: 6px;
-    margin-left: 10px;
-};
-.browserImgBox4 {
-    width: 50px;
-    height: 80px;
-    float: left;
-    margin-top: 24px;
-    margin-right: 15px;
-    margin-left: 10px;
-};
-.browserImg {
-    border: 0px;
-};
-.browserName {
-    width: 526px;
-    height: 36px;
-    float: left;
-    border-bottom: groove;
-    font-size: 14px;
-    padding-left: 10px;
-};
-.browserComplex {
-    width: 20px;
-    height: 25px;
-    top: 5px;
-    right: 14px;
-    border-left: groove;
-    padding-left: 4px;
-    font-size: 19px;
-    position: absolute;
-};
-.browserComplex1 {
-    width: 20px;
-    height: 25px;
-    top: 5px;
-    right: 14px;
-    padding-left: 4px;
-    font-size: 19px;
-    position: absolute;
-};
-.browserMenuEntry {
-    width: 185px;
-    height: 30px;
-    margin-left: 5px;
-    margin-top: 6px;
-    border-style: groove;
-    float: left;
-    background-color: rgba(0,0,0,0.08);
-    padding-top: 4px;
-    padding-left: 20px;
-    font-size: 13px;
-    font-weight: bold;
-};
-.browserMenuInput {
-    width: 184px;
-    margin-left: 5px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-};
-#menuSearch {
-    width: 184px;
-    margin-left: 5px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-};
-#menuVer {
-    width: 12px;
-    margin-top: 7px;
-    margin-left: 11px;
-    margin-right: 7px;
-    float: left;
-};
-.spellVMenu {
-    height: 30px;
-    width: 16px;
-    float: left;
-    padding-top: 9px;
-    padding-left: 5px;
-};
-.spellVSpacer {
-    height: 30px;
-    width: 22px;
-    float: left;
-    padding-top: 9px;
-    padding-left: 5px;
-};
+
+
 .spellModiBox {
     width: 128px;
     float: left;
@@ -1338,8 +1224,10 @@
     border: none;
     border-top: 1px solid #605f54;
     border-bottom: 1px solid #b5b5a1;
+    margin: 0px;
 };
 .submen {
+    flex: 3;
     margin-left: 5px;
     margin-right: 5px;
 };
@@ -1354,68 +1242,13 @@
     width: 100%;
     height: 10px;
 };
-.heldenImportHelper1 {
-    display: block;
-};
-.heldenImportHelper2 {
-    height: 30px;
-    font-size: 15px;
-    font-weight: bold;
-    padding-left: 30px;
-};
-.heldenImportHelper3 {
-    padding-left: 65px;
-};
-.heldenImportHelper4 {
-    width: 185px;
-    font-weight: bold;
-};
-.heldenImportHelper5 {
-    text-align: center;
-};
-.heldenImportHelper6 {
-    height: 435px;
-    width: 100%;
-};
-.heldenImportHelper7 {
-    height: 99%;
-    width: 48%;
-    margin: 7px;
-    float: left;
-    padding-left: 20px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: auto;
-};
-.importName {
-    font-size: 25px;
-    font-weight: bold;
-    overflow: hidden;
-    height: 32px;
-};
-.importStat1 {
-    float: left;
-    width: 140px;
-    font-weight: bold;
-};
-.importStat2 {
-    float: left;
-    width: 210px;
-    height: 17px;
-    overflow: hidden;
-};
-.importBox {
-    height: 50px;
-};
-.importError {
-    border: 2px black solid;
-    padding-left: 4px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    font-size: 13px;
-    background-color: #8d0e0e4f;
-    margin-bottom: 6px;
-    text-align: center;
+.form-group.subMain {
+    clear: both;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 3px 0;
+    align-items: center;
 };
 .disabeldtext {
     color: gray;
@@ -1454,7 +1287,7 @@
     overflow-x: hidden;
 };
 .messOptionBar {
-    width: 90px;
+    width: 110px;
     flex: none;
 };
 .infoBox1 {
@@ -1478,4 +1311,7 @@
     --color-hover-bg: #f0f0e0;
     --menu-height: 26px;
     --menu-background: rgba(0, 0, 0, 0.1);
+};
+.dialog-content.standard-form {
+    gap: 5px;
 };

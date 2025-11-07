@@ -1,78 +1,11 @@
 // main: ./GDSA.less
-// .GDSA.sidebar.cbt { 
-
-    .cbt-Box {
-        height: 40px;
-        width: 296px;
-        background-color: green;
-        border-radius: 20px;
-        line-height: normal;
-        margin: 2px;
-    };
-    .cbt-imgBorder {
-        height: 40px;
-        width: 40px;
-        float: left;
-        border-radius: 20px;
-        margin-left: 2px;
-    };
     .directory .directory-item img {
-        height: 40px;
+        object-fit: cover;
+        /*height: 40px;
         width: 40px;
         border-radius: 20px;
         padding: 1px;
-        object-fit: cover;
-        object-position: 50% 0;
-    };
-    .cbt-middle {
-        height: 40px;
-        width: 155px;
-        float: left;
-    };
-    .cbt-left {
-        height: 40px;
-        width: 28px;
-        float: left;
-    }
-    .cbt-Name {
-        height: 18px;
-        width: 148px;
-        float: left;
-        font-size: 13px;
-        text-shadow: 1px 1px 4px var(--color-shadow-dark);
-        padding-left: 5px;
-        padding-top: 2px;
-        overflow-y: hidden;
-        overflow-x: hidden;
-    };
-    .cbt-bnt {
-        height: 20px;
-        width: 150px;
-        float: left;
-        font-size: 12px;
-        padding-top: 2px;
-        padding-left: 8px;
-    };
-    .cbt-ini {
-        height: 34px;
-        width: 28px;
-        float: left;
-        background-color: white;
-        color: black;
-        border-radius: 0px 17px 17px 0px;
-        margin-top: 3px;
-        padding-top: 8px;
-        padding-left: 5px;
-        font-weight: bold;
-    };
-    .cbt-ini-bnt {
-        height: 32px;
-        width: 32px;
-        margin-top: 4px;
-        margin-left: -4px;
-        background: url(../gdsa/templates/img/d20.svg) no-repeat 50% 50%;
-        background-size: 32px;
-        display: block;
+        object-position: 50% 0;*/
     };
     .cbt-stats {
         height: 40px;
@@ -84,20 +17,24 @@
         padding-right: 6px;
         color:darkslategrey;
     };
-    .cbt-radius {
-        border-radius: 15px;
-    };
     .cbt-activ {
         color: white;
     };
     #hud {
-        font-size: 16px;
-        font-family: MasonSerifBold;        
-        src: url('fonts/mason-serif-bold.otf') format('opentype');
+        font-family: MasonSerifBold;
     };
     #token-hud .col {
-        height: calc(100% + 67px);
-        top: -33px;
+        height: calc(100% + 66px);
+        top: -25px;
+        gap: 0px;
+    };
+    #token-hud .col.left {
+        height: 100% !important;
+        top: 0px !important;
+    };
+    #token-hud .col.right {
+        height: 100% !important;
+        top: 0px !important;
     };
     .placeable-hud .control-icon  {
         width: 25px;
@@ -111,44 +48,44 @@
         box-shadow: 0 0 15px var(--color-shadow-dark);
         border: 2px solid #333;
         pointer-events: all;
-        padding: 3px 0px 0px 2px;
+        padding: 0px 0px 0px 4px;
     };
+    .control-icon:has(.fa-person-walking) {
+        display: none;
+    };
+    .placeable-hud .elevation {
+        display: none;
+    }
     .placeable-hud .control-icon img {
         display: block;
         margin: 0px;
-        padding: 0px 0px 0px 1px;
         border: none;
         opacity: 0.7;
         height: 20px;
         width: 19px;
     };
+    .placeable-hud .control-icon i {
+        display: block;
+        margin: 0px;
+        border: none;
+        opacity: 0.7;
+        font-size: 16px;
+    };
     #token-hud .col.right {
-        justify-content: center;
-        right: -70px;
-        width: 100px;
+        right: -40px;
     };    
     #token-hud .col.left {
-        justify-content: center;
-        left: -70px;
-        width: 97px;
+        left: -55px;
     };
     .placeable-hud .col.left .control-icon  {
         border-radius: 20px 0px 0px 20px;
     };
     .placeable-hud .col.right .control-icon  {
         border-radius: 0px 20px 20px 0px;
+        padding: 0px 2px 0px 0px;
     };
     .placeable-hud .control-icon.active {
         border: 2px solid  #af0a0a;
-    };
-    #token-hud .attribute.elevation {
-        position: relative;
-        width: 31px;
-        height: 32px;
-        flex: none;
-        border: 2px solid #333;
-        margin: 1px;
-        border-radius: 20px 0px 0px 20px;
     };
     .placeable-hud input[type="text"] {
         width: 27px;
@@ -178,7 +115,6 @@
         border-radius: 20px 20px 6px 6px;
         font-size: 11px;
         padding-top: 2px;
-        margin-top: 13px;
     };
     #token-hud .attribute.bar1 input {
         border: 1px solid #7cd000;
@@ -187,12 +123,11 @@
         border-radius: 6px 6px 20px 20px;
         font-size: 11px;
         padding-top: 2px;
-        margin-top: 11px;
     };
     .buff-hud {
         position: fixed;
-        right: 320px;
-        top: 25px;
+        left: 105px;
+        top: 60px;
         padding: 0px;
         min-height: 180px;
         max-width: 260px;
@@ -200,16 +135,16 @@
         background: none;
         border: none;
         box-shadow: none;
-    }
+    };
     .buffSpan {
         float: right;
-    }
+    };
     .buffLine {
         float: right;
         width: 260px;
         height: 135px;
         display: block;
-    }
+    };
     .testBuff {
         background: black;
         width: 40px;
@@ -224,4 +159,9 @@
         padding-top: 13px;
         padding-right: 4px;
         -webkit-text-stroke: 1px black;
-    }
+    };
+    .GDSA.buffHUD {
+        position: fixed;
+        transform: none !important;
+        pointer-events: none;
+    };

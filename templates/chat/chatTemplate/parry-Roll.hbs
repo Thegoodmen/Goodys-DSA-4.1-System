@@ -1,113 +1,114 @@
-<div class="GDSA chat message">
-    <div class="flawBox {{#if modPresent}}statModBoxAdd{{/if}}">
-        
-        <div class="flawName">{{localize "GDSA.chat.dialog.parry"}} ({{PAValue}})</div>
-        <div class="dicefiller"></div>
+<div class="GDSA chat message skill">
 
-        <div id="collapsable">
-            <div class="spellHeader">
-                <div class="spellInfo">
-                    <div class="dices2">
-                        <div class="dice">{{roll.total}}</div>
-                        {{#if confirm}}<div class="dice">{{roll2.total}}</div>{{/if}}
-                    </div>
-                </div>
-                <div class="spellImg">
-                    <img class="browserImg" name="{{statName}}" data-edit="img" src="{{additional.item.img}}" />
-                </div>
+    <div class="chathrBox"><hr class="chathr" /></div>
+    <div class="chatheadline">{{localize "GDSA.chat.dialog.parry"}} ({{PAValue}})</div>
+    <div class="chathrBox"><hr class="chathrBold" /></div>
+
+    <div id="collapsable">
+        <div class="infoMainBox">
+            <div class="infoDiceBox3">
+                {{#unless confirm}}<div class="diefiller"></div>{{/unless}}
+                <div class="infoDices">{{roll.total}}</div>
+                {{#if confirm}}<div class="infoDices">{{roll2.total}}</div>{{/if}}
             </div>
+            <div class="infoMainImg">
+                <img class="chatRollImg" name="{{statName}}" data-edit="img" src="{{additional.item.img}}" />
+            </div>
+        </div>
 
-            <div class="skillTable">
-
-                <table >
-                    <tbody>
+        <div class="chatInfoBox">
+            <table id="chatInfoTable" style="margin: 0px;">
+                <tbody>
+                    <tr>
+                        <td><b>{{localize "GDSA.itemsheet.weapon"}}:</b></td>
+                        <td>{{additional.item.system.weapon.type}} </td>
+                    </tr>
+                    {{#if additional.skill}}
                         <tr>
-                            <td><b>{{localize "GDSA.itemsheet.type"}}:</b></td>
-                            <td>{{additional.item.system.weapon.type}} </td>
+                            <td><b>{{localize "GDSA.itemsheet.skill"}}:</b></td>
+                            <td>{{getLocName additional.skill}}</td>
                         </tr>
+                    {{/if}}
+                    {{#if (equals additional.item.system.type "melee")}}
+                        <tr>
+                            <td><b>{{localize "GDSA.itemsheet.DiKl"}}:</b></td>
+                            <td>{{additional.item.system.weapon.DK}}</td>
+                        </tr>
+                    {{/if}}
+                    {{#if (equals additional.item.system.type "range")}}
+                        <tr>
+                            <td><b>{{localize "GDSA.itemsheet.range"}}:</b></td>
+                            <td>{{localize "GDSA.chat.rangeOpt.till"}} {{additional.item.system.weapon.range5}}m</td>
+                        </tr>
+                    {{/if}}
+                    {{#if (equals additional.item.system.type "shild")}}
+                        <tr>
+                            <td><b>{{localize "GDSA.itemsheet.shildType"}}:</b></td>
+                            <td>{{localize (concat "GDSA.itemsheet." additional.item.system.weapon.parType "")}}</td>
+                        </tr>
+                    {{/if}}
+                    {{#unless (equals additional.item.system.type "shild")}}
                         {{#if additional.skill}}
                             <tr>
-                                <td><b>{{localize "GDSA.itemsheet.skill"}}:</b></td>
-                                <td>{{getLocName additional.skill}}</td>
+                                <td><b>{{localize "GDSA.charactersheet.sBE"}}:</b></td>
+                                <td>{{concat "BE " additional.skill.system.tale.BEtype " "}}{{additional.skill.system.tale.BE}}</td>
                             </tr>
                         {{/if}}
-                        {{#if (equals additional.item.system.type "melee")}}
-                            <tr>
-                                <td><b>{{localize "GDSA.itemsheet.DiKl"}}:</b></td>
-                                <td>{{additional.item.system.weapon.DK}}</td>
-                            </tr>
-                        {{/if}}
-                        {{#if (equals additional.item.system.type "range")}}
-                            <tr>
-                                <td><b>{{localize "GDSA.itemsheet.range"}}:</b></td>
-                                <td>{{localize "GDSA.chat.rangeOpt.till"}} {{additional.item.system.weapon.range5}}m</td>
-                            </tr>
-                        {{/if}}
-                        {{#if (equals additional.item.system.type "shild")}}
-                            <tr>
-                                <td><b>{{localize "GDSA.itemsheet.shildType"}}:</b></td>
-                                <td>{{localize (concat "GDSA.itemsheet." additional.item.system.weapon.parType "")}}</td>
-                            </tr>
-                        {{/if}}
-                        {{#unless (equals additional.item.system.type "shild")}}
-                            {{#if additional.skill}}
-                                <tr>
-                                    <td><b>{{localize "GDSA.charactersheet.sBE"}}:</b></td>
-                                    <td>{{concat "BE " additional.skill.system.tale.BEtype " "}}{{additional.skill.system.tale.BE}}</td>
-                                </tr>
-                            {{/if}}
-                        {{/unless}}
-                        {{#unless (ifOR (equals additional.item.system.weapon.size "null") (equals additional.item.system.weapon.size "undefined"))}}
-                            <tr>
-                                <td><b>{{localize "GDSA.itemsheet.heigt"}}:</b></td>
-                                <td>{{localize (concat "GDSA.itemsheet." additional.item.system.weapon.size "")}}</td>
-                            </tr>
-                        {{/unless}}
-                        {{#if (equals additional.item.system.type "shild")}}
-                            <tr>
-                                <td><b>{{localize "GDSA.itemsheet.hWeapon"}}:</b></td>
-                                <td>{{additional.hWeapon.name}}</td>
-                            </tr>
-                        {{/if}}
-                    </tbody>
-                </table>
-            </div>
-            
-            {{#if modPresent}}
-                {{#if isAdv}}
-                <div class="rollposMod">{{localize "GDSA.chat.skill.advantageOf"}} {{adv}}</div>
-                <div class="dicefiller"></div>
-                {{/if}}
-                {{#if isDis}}
-                <div class="rollnegMod">{{localize "GDSA.chat.skill.disadvantageOf"}} {{dis}}</div>
-                <div class="dicefiller"></div>
-                {{/if}}
-            {{/if}}
-
-        </div>
-        
-        <div class="dice-formula">
-                {{#if result}}
-                    {{#if critt}}
-                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.critt"}}</div>
-                    {{else}}
-                        <div class="rollFlawSuccess">{{localize "GDSA.chat.stat.success"}}</div>
+                    {{/unless}}
+                    {{#unless (ifOR (equals additional.item.system.weapon.size "null") (equals additional.item.system.weapon.size "undefined"))}}
+                        <tr>
+                            <td><b>{{localize "GDSA.itemsheet.heigt"}}:</b></td>
+                            <td>{{localize (concat "GDSA.itemsheet." additional.item.system.weapon.size "")}}</td>
+                        </tr>
+                    {{/unless}}
+                    {{#if (equals additional.item.system.type "shild")}}
+                        <tr>
+                            <td><b>{{localize "GDSA.itemsheet.hWeapon"}}:</b></td>
+                            <td>{{additional.hWeapon.name}}</td>
+                        </tr>
                     {{/if}}
-                {{else}}               
-                    {{#if goof}}
-                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.goof"}}</div>
-                    {{else}}
-                        <div class="rollFlawFail">{{localize "GDSA.chat.stat.fail"}}</div>
-                    {{/if}}
-                {{/if}}
+                </tbody>
+            </table>
         </div>
-
-        {{#if goof}}
-            <div class="dicefiller"></div>
-            <div class="rollFlawInfo">{{goofed}}</div>
-        {{/if}}
-
-        <div id="additionalInfo"></div>
-        
+    
+        <div class="chathrBox"><hr class="chathrBold" /></div>
     </div>
+    
+    {{#if modPresent}}
+        {{#if isAdv}}
+            <div class="rollpositivMod">{{localize "GDSA.chat.skill.advantageOf"}} {{adv}}</div>
+            <div class="chathrBox"><hr class="chathrBold" /></div>
+        {{/if}}
+        {{#if isDis}}
+            <div class="rollnegativMod">{{localize "GDSA.chat.skill.disadvantageOf"}} {{dis}}</div>
+            <div class="chathrBox"><hr class="chathrBold" /></div>
+        {{/if}}
+    {{/if}}
+    
+    <div class="dice-formula">
+        {{#if (NOR critt goof)}}
+            {{#if result}}
+                <div class="rollSkillPositiv">{{localize "GDSA.chat.stat.success"}}</div>
+            {{else}}
+                <div class="rollSkillNegativ">{{localize "GDSA.chat.stat.fail"}}</div>
+            {{/if}}
+        {{else}}
+            {{#if critt}}
+                <div class="rollSkillSuccess">{{localize "GDSA.chat.stat.critt"}}</div>
+            {{else}}
+                <div class="rollSkillFail">{{localize "GDSA.chat.stat.goof"}}</div>
+            {{/if}}
+        {{/if}}
+    </div>
+    <span id="additionalInfo">
+        {{#if goof}}
+            <div class="chathrBox"><hr class="chathr" /></div>
+            <div class="rollSkillNegativ">{{goofed}}</div>
+        {{/if}}
+    </span>
 </div>
+    
+
+
+
+        

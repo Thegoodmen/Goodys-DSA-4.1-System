@@ -1,19 +1,18 @@
-<div class="wonderBox">
-    <table>
+<div class="inventory4">
+    <div class="traitDetailsHeader2"></div>
+    <div class="traithrbox3"><hr class="traithrMain2" /></div>
+
+    <div class="traitDetailsBody2">
         {{#each wonders as |item id|}}
-            <tr class="item-context item" data-item-id="{{_id}}">
-                <td class="skillTableNameBig2">{{name}} <i>[{{localize "GDSA.chat.medi.grad"}} {{system.grad}}]</i>
-                    <div class="itemWorn"><a class="openWonder" data-page="{{system.lltPage}}"><i class="fas fa-book"></i></a></div>
-                </td>
-                <td class="skillTableRoll"><a class="wonder-roll" title="{{localize 'GDSA.chat.skill.roll'}}">
-                    <i class="fas fa-dice-d20 faD20Stat"></i></a>
-                </td>
-            </tr>
+            <div class="item item-context traitDetailItem" data-item-id="{{_id}}">
+                <div class="traitDetailItemName2">{{name}} <i>[{{localize "GDSA.chat.medi.grad"}} {{system.grad}}]</i></div>
+                <div class="traitDetailItemConfig2"><a class="openWonder" data-page="{{system.lltPage}}"><i class="fas fa-book"></i></a></div>
+                <div class="traitDetailItemConfig2"><a class="wonder-roll" title="{{localize 'GDSA.chat.skill.roll'}}"><i class="fas fa-dice-d20 faD20Stat"></i></a></div>
+            </div>
+            <div class="traithrbox3"><hr class="traithr2" /></div>
 	    {{/each}}
-        <tr>
-            <td class="addWonder" colspan="3">
-                <a class="wonder-add" data-type="wonder" title="{{localize "GDSA.charactersheet.addWonder"}}"><div class="spellButtonBox"><b>+</b></div></a>
-            </td>
-        </tr>
-    </table>
+    </div>
+
+    <div class="traithrbox2"><hr class="traithrMain2" /></div>
+    <a class="wonder-add" data-type="wonder" title="{{localize "GDSA.charactersheet.addWonder"}}"><div class="traitDetailsFooter"><b>+</b></div></a>
 </div>

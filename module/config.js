@@ -641,7 +641,6 @@ GDSA.cbtType = {
 }
 
 GDSA.npcSpecialSkills = {
-    "": "None",
     "cmbt-2atk": "2 Angriffe",
     "cmbt-3atk": "3 Angriffe",
     "cmbt-4atk": "4 Angriffe",

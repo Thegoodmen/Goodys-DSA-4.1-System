@@ -1,47 +1,58 @@
 import * as Util from "../../Util.js";
 import * as LsFunction from "../listenerFunctions.js"
 import * as Dialog from "../dialog.js";
-import MultiSelect from "../apps/multiselect.js"
 
-export default class GDSAPlayerCharakterSheet extends ActorSheet {
+const api = foundry.applications.api;
+const sheets = foundry.applications.sheets;
+
+export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationMixin(sheets.ActorSheetV2) {
 
     sheet = {};
 
-    static get defaultOptions() {
-
-        // #################################################################################################
-        // #################################################################################################
-        // ##                                                                                             ##
-        // ##            Returns the General HTML of the Sheet and defines some general Stats             ##
-        // ##                                                                                             ##
-        // #################################################################################################
-        // #################################################################################################
-
-        return foundry.utils.mergeObject(super.defaultOptions, {
-
-            //template: "systems/gdsa/templates/sheets/charakter-sheet.hbs",
-            width: 632,
-            height: 825,
-            resizable: false,
-            tabs: [ {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "mainPage"},
-                    {navSelector: ".skill-tabs", contentSelector: ".skill-body", initial: "combatSkills"},
-                    {navSelector: ".magic-tabs", contentSelector: ".magic-body", initial: "mgeneral"},
-                    {navSelector: ".holy-tabs", contentSelector: ".holy-body", initial: "hgeneral"}],
-            classes: ["GDSA", "sheet", "characterSheet"]
-        });
+    static DEFAULT_OPTIONS = {
+        tag: "form",
+        classes: ["GDSA", "sheet", "characterSheet"],
+        actions: {
+            note: this.openNotes,
+            effect: this.openEffectList
+        },
+        form: {
+            submitOnChange: true,
+            closeOnSubmit: false
+        },
+        position: {
+            width: 640,
+            height: 835
+        },
+        window: {
+            controls: [
+                { class: "effe-sheet", icon: "fas fa-star", label: "Effects", action: "effect" },
+                { class: "note-sheet", icon: "fas fa-sheet-plastic", label: "Notes", action: "note" }
+            ]
+        }
     }
 
-    get template() {
+    static PARTS = {
 
-        if(this.object.permission === 1) return "systems/gdsa/templates/sheets/charakter-view.hbs";
-        if(this.object.permission === 2) return "systems/gdsa/templates/sheets/charakter-sheet.hbs";
-        if(this.object.permission === 3) return "systems/gdsa/templates/sheets/charakter-sheet.hbs";
-
-        return "systems/gdsa/templates/sheets/charakter-sheet.hbs"
+        osheet: { template: "systems/gdsa/templates/sheets/charakter-sheet.hbs" },
+        view: { template: "systems/gdsa/templates/partials/charakter-sheet-view.hbs" }
     }
 
-    getData() {
+    get title() {
 
+        return this.actor.name;
+    }
+
+    /** @override */
+    _configureRenderOptions(options) {
+        super._configureRenderOptions(options);
+        if(this.options.document.permission === 1) options.parts = ["view"]
+        else options.parts = ["osheet"];
+    }
+    
+    /** @override */
+    async _prepareContext(options) {
+        
         // #################################################################################################
         // #################################################################################################
         // ##                                                                                             ##
@@ -49,65 +60,65 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         // ##                                                                                             ##
         // #################################################################################################
         // #################################################################################################
+        
+        const baseData = await super._prepareContext(options);
 
-        const baseData = super.getData();
-
-        let sheetData = {
-
+        let context = {
+            
             // Set General Values
-
-            owner: this.actor.isOwner,
-            editable: this.isEditable,
-            actor: baseData.actor,
-            system: baseData.actor.system,
-            items: baseData.items,
+            owner: baseData.document.isOwner,
+            editable: baseData.editable,
+            actor: baseData.document,
+            system: baseData.document.system,
+            items: baseData.document.items,
             config: CONFIG.GDSA,
-            isGM: game.user.isGM,
+            isGM: baseData.user.isGM,
             template: CONFIG.Templates,
-            effects: baseData.effects,
-
+            effects: baseData.document.effects,
+            
             // Create for each Item Type its own Array
-
-            advantages: Util.getTemplateItems(baseData, "adva"),
-            flaws: Util.getTemplateItems(baseData, "flaw"),           
-            generalTraits: Util.getTemplateSF(baseData, "general", false),
-            combatTraits: Util.getTemplateSF(baseData, "combat", false),
-            magicTraits: Util.getTemplateSF(baseData, "magic", false),
-            holyTraits: Util.getTemplateSF(baseData, "holy", false),
-            ritualSkills: Util.getItems(baseData, "ritualSkill", false),
-            spells: Util.getItems(baseData, "spell", false),
-            rituals: (Util.getRitual(baseData,"ritual")).concat(Util.getRitual(baseData, "schama")),
-            objRituals:  Util.getRitual(baseData,"objrit"),
-            wonders: Util.getItems(baseData, "wonder", false),
-            generals: Util.getItem(baseData, "item", false),
-            meleeweapons: Util.getItem(baseData, "melee", false),
-            equiptMelee: Util.getItem(baseData, "melee", true),
-            rangeweapons: Util.getItem(baseData, "range", false),
-            equiptRange: Util.getItem(baseData, "range", true),
-            shields: Util.getItem(baseData, "shild", false),
-            equiptShield: Util.getItem(baseData, "shild", true),
-            armour: Util.getItem(baseData, "armour", false),
-            equiptArmour: Util.getItem(baseData, "armour", true),
-            affilPart: Util.getTemplateAffi(baseData, "part"),
-            affilPosi: Util.getTemplateAffi(baseData, "posi"),
-            affilNega: Util.getTemplateAffi(baseData, "nega")
+            
+            advantages: Util.getTemplateItems(baseData.document, "adva"),
+            flaws: Util.getTemplateItems(baseData.document, "flaw"),           
+            generalTraits: Util.getTemplateSF(baseData.document, "general", false),
+            combatTraits: Util.getTemplateSF(baseData.document, "combat", false),
+            magicTraits: Util.getTemplateSF(baseData.document, "magic", false),
+            holyTraits: Util.getTemplateSF(baseData.document, "holy", false),
+            ritualSkills: Util.getItems(baseData.document, "ritualSkill", false),
+            spells: Util.getItems(baseData.document, "spell", false),
+            rituals: (Util.getRitual(baseData.document,"ritual")).concat(Util.getRitual(baseData.document, "schama")),
+            objRituals:  Util.getRitual(baseData.document,"objrit"),
+            wonders: Util.getItems(baseData.document, "wonder", false),
+            generals: Util.getItem(baseData.document, "item", false),
+            meleeweapons: Util.getItem(baseData.document, "melee", false),
+            equiptMelee: Util.getItem(baseData.document, "melee", true),
+            rangeweapons: Util.getItem(baseData.document, "range", false),
+            equiptRange: Util.getItem(baseData.document, "range", true),
+            shields: Util.getItem(baseData.document, "shild", false),
+            equiptShield: Util.getItem(baseData.document, "shild", true),
+            armour: Util.getItem(baseData.document, "armour", false),
+            equiptArmour: Util.getItem(baseData.document, "armour", true),
+            affilPart: Util.getTemplateAffi(baseData.document, "part"),
+            affilPosi: Util.getTemplateAffi(baseData.document, "posi"),
+            affilNega: Util.getTemplateAffi(baseData.document, "nega")
         };
-
+        
         // Create one Array with everything that is part of the Inventory
-
-        sheetData.inventar = sheetData.meleeweapons.concat(sheetData.rangeweapons, sheetData.shields, sheetData.armour, sheetData.generals);
-
+        
+        context.inventar = context.meleeweapons.concat(context.rangeweapons, context.shields, context.armour, context.generals);
+        
         // Calculate some values dependent on Items
-
-        sheetData = this.calculateValues(sheetData);
-
-        this.sheet = sheetData;
-
-        return sheetData;
+        
+        context = this.calculateValues(context);
+        
+        this.sheet = context;
+        
+        return context;
     }
-
-    async activateListeners(html) {
-
+    
+    /** @override */
+    _onRender(context, options) {
+        
         // #################################################################################################
         // #################################################################################################
         // ##                                                                                             ##
@@ -116,130 +127,222 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         // #################################################################################################
         // #################################################################################################
 
+        super._onRender(context, options);
+        
+        new foundry.applications.ux.Tabs({navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "mainPage"}).bind(this.element);
+        new foundry.applications.ux.Tabs({navSelector: ".skill-tabs", contentSelector: ".skill-body", initial: "combatSkills"}).bind(this.element);
+        new foundry.applications.ux.Tabs({navSelector: ".magic-tabs", contentSelector: ".magic-body", initial: "mgeneral"}).bind(this.element);
+        new foundry.applications.ux.Tabs({navSelector: ".holy-tabs", contentSelector: ".holy-body", initial: "hgeneral"}).bind(this.element);
+        
         if(this.isEditable) {
 
             let sheet = this.sheet;
 
             // Set Listener for Char Edits
 
-            html.find(".editFacts").click(LsFunction.editCharFacts.bind(this, sheet));
-            html.find(".stat-change").click(LsFunction.editCharStats.bind(this, sheet));
-            html.find(".ress-change").click(LsFunction.editCharRessource.bind(this, sheet));
-            html.find(".edit-ritSkill").click(LsFunction.editRitualSkills.bind(this, sheet));
+            this.element.querySelectorAll(".editFacts").forEach(action => { action.addEventListener("click", (e) => LsFunction.editCharFacts(sheet, e)) });
+            this.element.querySelectorAll(".stat-change").forEach(action => { action.addEventListener("click", (e) => LsFunction.editCharStats(sheet, e)) });
+            this.element.querySelectorAll(".ress-change").forEach(action => { action.addEventListener("click", (e) => LsFunction.editCharRessource(sheet, e)) });
+            this.element.querySelectorAll(".edit-ritSkill").forEach(action => { action.addEventListener("click",(e) => LsFunction.editRitualSkills(sheet, e)) });
 
             // Set Listener for Basic Rolls
             
-            html.find(".skill-roll").click(LsFunction.onSkillRoll.bind(this, sheet));
-            html.find(".stat-roll").click(LsFunction.onStatRoll.bind(this, sheet));
-            html.find(".flaw-roll").click(LsFunction.onFlawRoll.bind(this, sheet));
-            html.find(".attack-roll").click(LsFunction.onAttackRoll.bind(this, sheet));
-            html.find(".parry-roll").click(LsFunction.onParryRoll.bind(this, sheet));
-            html.find(".shield-roll").click(LsFunction.onShildRoll.bind(this, sheet));
-            html.find(".dogde-roll").click(LsFunction.onDogdeRoll.bind(this, sheet));
-            html.find(".zone-roll").click(LsFunction.onZoneRoll.bind(this, sheet));
-            html.find(".damage-roll").click(LsFunction.onDMGRoll.bind(this, sheet));
-            html.find(".mirRoll").click(LsFunction.onMirikalRoll.bind(this, sheet));
-            html.find(".wonder-roll").click(LsFunction.onWonderRoll.bind(this, sheet));
-            html.find(".spell-roll").click(LsFunction.onSpellRoll.bind(this, sheet));
-            html.find(".ritual-roll").click(LsFunction.onRitualRoll.bind(this, sheet));
-            html.find(".scham-roll").click(LsFunction.onSchamanRoll.bind(this, sheet));
-            html.find(".ritCrea-roll").click(LsFunction.onRitualCreation.bind(this, sheet));
-            html.find(".ritAkti-roll").click(LsFunction.onRitualActivation.bind(this, sheet));
-            html.find(".m-fail-roll").click(LsFunction.onCritMisMeeleRoll.bind(this, sheet));
-            html.find(".r-fail-roll").click(LsFunction.onCritMisRangeRoll.bind(this, sheet));
+            this.element.querySelectorAll(".skill-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onSkillRoll(sheet, e)) });
+            this.element.querySelectorAll(".litSkill-roll").forEach(action => { action.addEventListener("click",(e) => LsFunction.onLitRoll(sheet, e))});
+            this.element.querySelectorAll(".stat-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onStatRoll(sheet, e)) });
+            this.element.querySelectorAll(".flaw-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onFlawRoll(sheet, e)) });
+            this.element.querySelectorAll(".attack-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onAttackRoll(sheet, e)) });
+            this.element.querySelectorAll(".parry-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onParryRoll(sheet, e)) });
+            this.element.querySelectorAll(".shield-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onShildRoll(sheet, e)) });
+            this.element.querySelectorAll(".dogde-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onDogdeRoll(sheet, e)) });
+            this.element.querySelectorAll(".zone-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onZoneRoll(sheet, e)) });
+            this.element.querySelectorAll(".damage-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onDMGRoll(sheet, e)) });
+            this.element.querySelectorAll(".mirRoll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onMirikalRoll(sheet, e)) });
+            this.element.querySelectorAll(".wonder-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onWonderRoll(sheet, e)) });
+            this.element.querySelectorAll(".spell-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onSpellRoll(sheet, e)) });
+            this.element.querySelectorAll(".ritual-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onRitualRoll(sheet, e)) });
+            this.element.querySelectorAll(".scham-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onSchamanRoll(sheet, e)) });
+            this.element.querySelectorAll(".ritCrea-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onRitualCreation(sheet, e)) });
+            this.element.querySelectorAll(".ritAkti-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onRitualActivation(sheet, e)) });
+            this.element.querySelectorAll(".m-fail-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onCritMisMeeleRoll(sheet, e)) });
+            this.element.querySelectorAll(".r-fail-roll").forEach(action => { action.addEventListener("click", (e) => LsFunction.onCritMisRangeRoll(sheet, e)) });
 
             // Set Listener for Stat Changes
 
-            html.find(".getHeal").click(LsFunction.onStatGain.bind(this, sheet, "LeP"));
-            html.find(".getAsP").click(LsFunction.onStatGain.bind(this, sheet, "AsP"));
-            html.find(".getKaP").click(LsFunction.onStatGain.bind(this, sheet, "KaP"));
-            html.find(".getDMG").click(LsFunction.onStatLoss.bind(this, sheet, "LeP"));
-            html.find(".lossAsP").click(LsFunction.onStatLoss.bind(this, sheet, "AsP"));
-            html.find(".lossKaP").click(LsFunction.onStatLoss.bind(this, sheet, "KaP"));
-            html.find(".stat-plus").click(LsFunction.onAddStat.bind(this, sheet));
-            html.find(".stat-minus").click(LsFunction.onSubStat.bind(this, sheet));
-            html.find(".doReg").click(LsFunction.onReg.bind(this, sheet));
-            html.find(".doMedi").click(LsFunction.onMed.bind(this, sheet));
-            html.find(".wp").click(LsFunction.onWoundChange.bind(this, sheet));
-            html.find(".wound").click(LsFunction.onWoundChange.bind(this, sheet));
-            html.find(".effectmainBNT").click(LsFunction.onEffectToggle.bind(this, sheet));
-            html.find(".effectupBNT").click(LsFunction.onEffectUp.bind(this, sheet));
-            html.find(".effectdownBNT").click(LsFunction.onEffectDown.bind(this, sheet));
+            this.element.querySelectorAll(".getHeal").forEach(action => { action.addEventListener("click", (e) => LsFunction.onStatGain(sheet, "LeP", e)) });
+            this.element.querySelectorAll(".getAsP").forEach(action => { action.addEventListener("click", (e) => LsFunction.onStatGain(sheet, "AsP", e)) });
+            this.element.querySelectorAll(".getKaP").forEach(action => { action.addEventListener("click", (e) => LsFunction.onStatGain(sheet, "KaP", e)) });
+            this.element.querySelectorAll(".getDMG").forEach(action => { action.addEventListener("click", (e) => LsFunction.onStatLoss(sheet, "LeP", e)) });
+            this.element.querySelectorAll(".lossAsP").forEach(action => { action.addEventListener("click", (e) => LsFunction.onStatLoss(sheet, "AsP", e)) });
+            this.element.querySelectorAll(".lossKaP").forEach(action => { action.addEventListener("click", (e) => LsFunction.onStatLoss(sheet, "KaP", e)) });
+            this.element.querySelectorAll(".stat-plus").forEach(action => { action.addEventListener("click", (e) => LsFunction.onAddStat(sheet, e)) });
+            this.element.querySelectorAll(".stat-minus").forEach(action => { action.addEventListener("click", (e) => LsFunction.onSubStat(sheet, e)) });
+            this.element.querySelectorAll(".doReg").forEach(action => { action.addEventListener("click", (e) => LsFunction.onReg(sheet, e)) });
+            this.element.querySelectorAll(".doMedi").forEach(action => { action.addEventListener("click", (e) => LsFunction.onMed(sheet, e)) });
+            this.element.querySelectorAll(".wound").forEach(action => { action.addEventListener("click", (e) => LsFunction.onWoundChange(sheet, e)) });
+            this.element.querySelectorAll(".wound").forEach(action => { action.addEventListener("contextmenu", (e) => LsFunction.onWoundChange(sheet, e)) });
+            this.element.querySelectorAll(".effectmainBNT").forEach(action => { action.addEventListener("click", (e) => LsFunction.onEffectToggle(sheet, e)) });
+            this.element.querySelectorAll(".effectupBNT").forEach(action => { action.addEventListener("click", (e) => LsFunction.onEffectUp(sheet, e)) });
+            this.element.querySelectorAll(".effectdownBNT").forEach(action => { action.addEventListener("click", (e) => LsFunction.onEffectDown(sheet, e)) });
 
             // Set Listener for Item Events
 
-            if(! this.id.includes("Token")) html.find(".item-create").click(LsFunction.onItemCreate.bind(this, sheet));
-            if(! this.id.includes("Token")) html.find(".template-create").click(LsFunction.onTemplateCreate.bind(this, sheet));
-            html.find(".item-edit").click(LsFunction.onItemEdit.bind(this, sheet));
-            html.find(".advantage-create").click(LsFunction.addAdvantage.bind(this, sheet));
-            html.find(".disadvantage-create").click(LsFunction.addDisadvantage.bind(this, sheet));
-            html.find(".item-apply").click(LsFunction.onItemEquip.bind(this, sheet));
-            html.find(".item-remove").click(LsFunction.onItemRemove.bind(this, sheet));
-            if(! this.id.includes("Token")) html.find(".invItem").click(LsFunction.onItemOpen.bind(this, sheet));
-            if(! this.id.includes("Token")) html.find(".invItem3").click(LsFunction.onItemOpen.bind(this, sheet));
-            if(! this.id.includes("Token")) html.find(".change-money").click(LsFunction.onMoneyChange.bind(this, sheet));
-            html.find(".toggleHide").click(LsFunction.onHideToggle.bind(this, sheet));
-            html.find(".spell-add").click(LsFunction.getSpellContextMenu.bind(this, sheet));
-            html.find(".wonder-add").click(LsFunction.getWonderContextMenu.bind(this, sheet));
-            html.find(".meleeW-add").click(LsFunction.getMeleeWContextMenu.bind(this, sheet));
-            html.find(".rangeW-add").click(LsFunction.getRangeWContextMenu.bind(this, sheet));
-            html.find(".shilds-add").click(LsFunction.getShieldContextMenu.bind(this, sheet));
-            html.find(".armour-add").click(LsFunction.getArmourContextMenu.bind(this, sheet));
-            html.find(".ritual-add").click(LsFunction.getRitContextMenu.bind(this, sheet));
-            html.find(".item-add").click(LsFunction.getGenItemContextMenu.bind(this, sheet));
-            html.find(".objektRitual-add").click(LsFunction.getObjectRitContextMenu.bind(this, sheet));
-            html.find(".item-delete").click(LsFunction.onItemDelete.bind(this, sheet));
-            html.find(".ritCheck").change(LsFunction.changeActiveStat.bind(this, sheet));
-            html.find(".castChange").change(LsFunction.changeCastZfW.bind(this, sheet));
-            html.find(".test").click(LsFunction.testFunc.bind(this, sheet));
+            this.element.querySelectorAll(".item-edit").forEach(action => { action.addEventListener("click", (e) => LsFunction.onItemEdit(sheet, e)) });
+            this.element.querySelectorAll(".advantage-create").forEach(action => { action.addEventListener("click", (e) => LsFunction.addAdvantage(sheet, e)) });
+            this.element.querySelectorAll(".disadvantage-create").forEach(action => { action.addEventListener("click", (e) => LsFunction.addDisadvantage(sheet, e)) });
+            this.element.querySelectorAll(".item-apply").forEach(action => { action.addEventListener("click", (e) => LsFunction.onItemEquip(sheet, e)) });
+            this.element.querySelectorAll(".item-remove").forEach(action => { action.addEventListener("click", (e) => LsFunction.onItemRemove(sheet, e)) });
+            this.element.querySelectorAll(".toggleHide").forEach(action => { action.addEventListener("click", (e) => LsFunction.onHideToggle(sheet, e)) });
+            this.element.querySelectorAll(".spell-add").forEach(action => { action.addEventListener("click", (e) => LsFunction.getSpellContextMenu(sheet, e)) });
+            this.element.querySelectorAll(".wonder-add").forEach(action => { action.addEventListener("click", (e) => LsFunction.getWonderContextMenu(sheet, e)) });
+            this.element.querySelectorAll(".meleeW-add").forEach(action => { action.addEventListener("click", (e) => LsFunction.getMeleeWContextMenu(sheet, e)) });
+            this.element.querySelectorAll(".rangeW-add").forEach(action => { action.addEventListener("click", (e) => LsFunction.getRangeWContextMenu(sheet, e)) });
+            this.element.querySelectorAll(".shilds-add").forEach(action => { action.addEventListener("click", (e) => LsFunction.getShieldContextMenu(sheet, e)) });
+            this.element.querySelectorAll(".armour-add").forEach(action => { action.addEventListener("click", (e) => LsFunction.getArmourContextMenu(sheet, e)) });
+            this.element.querySelectorAll(".ritual-add").forEach(action => { action.addEventListener("click", (e) => LsFunction.getRitContextMenu(sheet, e)) });
+            this.element.querySelectorAll(".item-add").forEach(action => { action.addEventListener("click", (e) => LsFunction.getGenItemContextMenu(sheet, e)) });
+            this.element.querySelectorAll(".objektRitual-add").forEach(action => { action.addEventListener("click", (e) => LsFunction.getObjectRitContextMenu(sheet, e)) });
+            this.element.querySelectorAll(".item-delete").forEach(action => { action.addEventListener("click", (e) => LsFunction.onItemDelete(sheet, e)) });
 
+            this.element.querySelectorAll(".ritCheck").forEach(action => { action.addEventListener("change", (e) => LsFunction.changeActiveStat(sheet, e)) });
+            this.element.querySelectorAll(".castChange").forEach(action => { action.addEventListener("change", (e) => LsFunction.changeCastZfW(sheet, e)) });
+
+            if(! this.id.includes("Token")) {
+
+                this.element.querySelectorAll(".item-create").forEach(action => { action.addEventListener("click", (e) => LsFunction.onItemCreate(sheet, e)) });
+                this.element.querySelectorAll(".template-create").forEach(action => { action.addEventListener("click", (e) => LsFunction.onTemplateCreate(sheet, e)) });
+                this.element.querySelectorAll(".invItem").forEach(action => { action.addEventListener("click", (e) => LsFunction.onItemOpen(sheet, e)) });
+                this.element.querySelectorAll(".invItem3").forEach(action => { action.addEventListener("click", (e) => LsFunction.onItemOpen(sheet, e)) });
+                this.element.querySelectorAll(".change-money").forEach(action => { action.addEventListener("click", (e) => LsFunction.onMoneyChange(sheet, e)) });
+            
+                // Set Listener for Context / Right-Click Menu
+
+                new foundry.applications.ux.ContextMenu.implementation(this.element, ".item-context", LsFunction.getItemContextMenu(), {jQuery: false});
+            }
+            
             // Set Listener for PDFoundry
-
-            html.find(".openSpell").click(LsFunction.openPDF.bind(this, "Spell"));
-            html.find(".openRitual").click(LsFunction.openPDF.bind(this, "Ritual"));
-            html.find(".openWonder").click(LsFunction.openPDF.bind(this, "Wonder"));
-
+        
+            this.element.querySelectorAll(".openSpell").forEach(action => { action.addEventListener("click", (e) => LsFunction.openPDF.bind("Spell", e)) });
+            this.element.querySelectorAll(".openRitual").forEach(action => { action.addEventListener("click", (e) => LsFunction.openPDF.bind("Ritual", e)) });
+            this.element.querySelectorAll(".openWonder").forEach(action => { action.addEventListener("click", (e) => LsFunction.openPDF.bind("Wonder", e)) });
+        
             // Set Listeners for Navigation
-
-            html.find(".changeTab").click(LsFunction.changeTab.bind(this, sheet));
-            html.find(".showSkills").click(LsFunction.showAllSkills.bind(this, sheet));
-
-            // Set Listener for Context / Right-Click Menu
-
-            if(! this.id.includes("Token")) new ContextMenu(html, ".item-context", LsFunction.getItemContextMenu());
-
+        
+            this.element.querySelectorAll(".changeTab").forEach(action => { action.addEventListener("click", (e) => LsFunction.changeTab(sheet, e)) });
+            this.element.querySelectorAll(".showSkills").forEach(action => { action.addEventListener("click", (e) => LsFunction.showAllSkills(sheet, e)) });
+            this.element.querySelectorAll(".menuSubItem").forEach(action => { action.addEventListener("click", (e) => LsFunction.changeSubTab(sheet, e)) });
+        
             // Set Listener on Mirakel Template Change
+        
+            this.element.querySelectorAll(".applyMirTemp").forEach(action => { action.addEventListener("click", (e) => LsFunction.applyMirTemp(sheet, e)) });
+            
+            // Set Listener for Active Effects
 
-            html.find(".applyMirTemp").click(LsFunction.applyMirTemp.bind(this, sheet));
-
+            this.element.querySelectorAll(".effect-control").forEach(action => { action.addEventListener("click",  (e) => this._onEffectControl(e)) });
+        
             // Set Listener for Skill Macrobar Support 
-
+        
             let handler = ev => this._onDragStart(ev);
 
             // Find all items on the character sheet.
-            html.find(".skillitem").each((i, li) => {
+            this.element.querySelectorAll(".skillitem").forEach(action => {
 
                 // Add draggable attribute and dragstart listener.
-                li.setAttribute("draggable", true);
-                li.addEventListener("dragstart", handler, false);
+                action.setAttribute("draggable", true);
+                action.addEventListener("dragstart", handler, false);
             });
 
-            html.find(".statitem").each((i, li) => {
+            this.element.querySelectorAll(".statitem").forEach(action => {
 
                 // Add draggable attribute and dragstart listener.
-                li.setAttribute("draggable", true);
-                li.addEventListener("dragstart", handler, false);
+                action.setAttribute("draggable", true);
+                action.addEventListener("dragstart", handler, false);
             });
+        };
 
-            // Set Listener for Active Effects
+        let mainTabs = this.actor.getFlag('gdsa', 'primaryTabSelection');
+        
+        if(mainTabs != null) {
 
-            html.find(".effect-control").click(this._onEffectControl.bind(this));
-            html.find(".data-multi-select").each((i, li) => { new MultiSelect(li) });
+            let tabs = this.element.closest("form").querySelector(".sheet-body");
+            let activeTab = tabs.querySelector(".tab.primary.active");
+            let destinationTab = tabs.querySelector("#"+mainTabs);
+            
+            activeTab.classList.remove("active");
+            destinationTab.classList.add("active")
+            
+            let nav = this.element.closest("form").querySelector(".sheet-tabs");
+            let activeNav = nav.querySelectorAll(".item.menuMainItem.active");
+            let destinationNav = nav.querySelectorAll("#"+mainTabs);
+
+            let sheet =  this.element.closest("form").querySelector(".sheet");
+            let sheetMenu = sheet.querySelector(".menuBar");
+            if(mainTabs === "characterView") sheetMenu.style.display = "none";
+            if(mainTabs === "mainPage") sheetMenu.style.display = "block";
+            
+            activeNav.forEach(navElement => { navElement.classList.remove("active") });
+            destinationNav.forEach(navElement => { navElement.classList.add("active") });
         }
 
-        super.activateListeners(html);
+        let skillTabs = this.actor.getFlag('gdsa', 'skillTabSelection');
+        
+        if(skillTabs != null) {
+
+            let tabs = this.element.closest("form").querySelector(".skill-body");
+            let activeTab = tabs.querySelector(".tab.skillsBox.active");
+            let destinationTab = tabs.querySelector("#"+skillTabs);
+            
+            activeTab.classList.remove("active");
+            destinationTab.classList.add("active")
+            
+            let nav = this.element.closest("form").querySelector(".skill-tabs");
+            let activeNav = nav.querySelectorAll(".item.menuSubItem.active");
+            let destinationNav = nav.querySelectorAll("#"+skillTabs);
+            
+            activeNav.forEach(navElement => { navElement.classList.remove("active") });
+            destinationNav.forEach(navElement => { navElement.classList.add("active") });
+        }
+
+        let magicTabs = this.actor.getFlag('gdsa', 'magicTabSelection');
+        
+        if(magicTabs != null) {
+
+            let tabs = this.element.closest("form").querySelector(".magic-body");
+            let activeTab = tabs.querySelector(".tab.magicBox.active");
+            let destinationTab = tabs.querySelector("#"+magicTabs);
+            
+            activeTab.classList.remove("active");
+            destinationTab.classList.add("active")
+            
+            let nav = this.element.closest("form").querySelector(".magic-tabs");
+            let activeNav = nav.querySelectorAll(".item.menuSubItem.active");
+            let destinationNav = nav.querySelectorAll("#"+magicTabs);
+            
+            activeNav.forEach(navElement => { navElement.classList.remove("active") });
+            destinationNav.forEach(navElement => { navElement.classList.add("active") });
+        }
+
+        let holyTabs = this.actor.getFlag('gdsa', 'holyTabSelection');
+        
+        if(holyTabs != null) {
+
+            let tabs = this.element.closest("form").querySelector(".holy-body");
+            let activeTab = tabs.querySelector(".tab.magicBox.active");
+            let destinationTab = tabs.querySelector("#"+holyTabs);
+            
+            activeTab.classList.remove("active");
+            destinationTab.classList.add("active")
+            
+            let nav = this.element.closest("form").querySelector(".holy-tabs");
+            let activeNav = nav.querySelectorAll(".item.menuSubItem.active");
+            let destinationNav = nav.querySelectorAll("#"+holyTabs);
+            
+            activeNav.forEach(navElement => { navElement.classList.remove("active") });
+            destinationNav.forEach(navElement => { navElement.classList.add("active") });
+        }
     }
 
+    /** @override */
     _onSortItem(event, itemData) {
 
         // #################################################################################################
@@ -251,7 +354,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         // #################################################################################################
 
         const source = this.actor.items.get(itemData._id);
-
+        console.log("here");
         switch(source.type) {
 
             case "generals":
@@ -287,6 +390,84 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
                 return super._onSortItem(event, itemData);
         }
     }
+    
+    /** @override */
+    _onDragStart(event) {
+
+        if(event.srcElement.className != "skillitem" && event.srcElement.className != "statitem") super._onDragStart(event);
+
+        else if(event.srcElement.className === "skillitem") {
+
+            // Get Element and Skill Infos
+
+            let element = event.currentTarget;
+            let message = element.closest(".skillitem");
+            let isSpez = (message.querySelector("[class=skillTemp]").name === "spezi");
+            let isMeta = (message.querySelector("[class=skillTemp]").name === "meta");
+            
+            // Prepare DragData
+
+            const dragData = {
+                type: "skill",
+                name: message.querySelector("[class=skillTemp]").dataset.lbl,
+                item: message.querySelector("[class=skillTemp]").dataset.stat,
+                actorId: message.querySelector("[class=skillTemp]").dataset.actor,
+                isSpez: isSpez,
+                isMeta: isMeta
+            };
+    
+            // Set data transfer
+    
+            event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+
+        } else if(event.srcElement.className === "statitem") {
+
+            // Get Element and Skill Infos
+
+            let element = event.currentTarget;
+            let message = element.closest(".statitem");
+            
+            // Prepare DragData
+
+            const dragData = {
+                type: "stat",
+                actorId: message.dataset.actor,
+                stat: message.dataset.stattype
+            };
+    
+            // Set data transfer
+    
+            event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+        } 
+    }
+        
+    /** @override */
+    _onEffectControl(event) {
+
+        event.preventDefault();
+
+        const owner = this.actor;
+        const a = event.currentTarget;
+        const li = a.closest("li");
+        const effect = li?.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null;
+
+        switch (a.dataset.action) {
+
+            case "create":
+                return owner.createEmbeddedDocuments("ActiveEffect", [{
+                label: "New Effect",
+                icon: "icons/svg/aura.svg",
+                origin: owner.uuid,
+                disabled: true
+                }]);
+
+            case "edit":
+                return effect.sheet.render(true);
+
+            case "delete":
+                return effect.delete();
+        }
+    }
 
     calculateValues(sheetData) {
 
@@ -315,9 +496,9 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         if(mag1 || mag2 || mag3 || mag4 || mag5) sheetData.system.magical = true;
         if(klr1 || klr2 || klr3) sheetData.system.klerikal = true;
 
-        sheetData.system.ATBasis.value = sheetData.system.ATBasis.value + sheetData.system.ATBasis.tempmodi;
-        sheetData.system.PABasis.value = sheetData.system.PABasis.value + sheetData.system.PABasis.tempmodi;
-        sheetData.system.FKBasis.value = sheetData.system.FKBasis.value + sheetData.system.FKBasis.tempmodi;
+        sheetData.system.ATBasis.value = sheetData.system.ATBasis.base + sheetData.system.ATBasis.tempmodi;
+        sheetData.system.PABasis.value = sheetData.system.PABasis.base + sheetData.system.PABasis.tempmodi;
+        sheetData.system.FKBasis.value = sheetData.system.FKBasis.base + sheetData.system.FKBasis.tempmodi;
         
         // Calculate Armour Ratings
 
@@ -420,8 +601,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         sheetData.system.nwtail = false;
         sheetData.system.nwbite = false;
 
-        if ( nWTail.length > 0 ) sheetData.system.nwtail = (nWTail[0].name.split("("))[1].trim().slice(0,-1).replace("w", "d");
-        if ( nWBite.length > 0 ) sheetData.system.nwbite = (nWBite[0].name.split("("))[1].trim().slice(0,-1).replace("w", "d");
+        if ( nWTail.length > 0 ) sheetData.system.nwtail = (nWTail[0].name.split("("))[1].trim().slice(0,-2).toLowerCase().replace("w", "d");
+        if ( nWBite.length > 0 ) sheetData.system.nwbite = (nWBite[0].name.split("("))[1].trim().slice(0,-2).toLowerCase().replace("w", "d");
 
         // Geschwindigkeit
 
@@ -508,7 +689,7 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         let checkDogde1 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.dogde1")})[0];
         let checkDogde2 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.dogde2")})[0];
         let checkDogde3 = sheetData.combatTraits.filter(function(item) {return item.name === game.i18n.localize("GDSA.trait.dogde3")})[0];
-
+        
         sheetData.system.Dogde = parseInt(sheetData.system.PABasis.value);
         if(checkUnsporty) sheetData.system.Dogde -= 1;
         if(checkDogde1) sheetData.system.Dogde += 3;
@@ -788,96 +969,8 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         return sheetData;
     }
 
-    _onDragStart(event) {
-
-        if(event.srcElement.className != "skillitem" && event.srcElement.className != "statitem") super._onDragStart(event);
-
-        else if(event.srcElement.className === "skillitem") {
-
-            // Get Element and Skill Infos
-
-            let element = event.currentTarget;
-            let message = element.closest(".skillitem");
-            let isSpez = (message.querySelector("[class=skillTemp]").name === "spezi");
-            let isMeta = (message.querySelector("[class=skillTemp]").name === "meta");
-            
-            // Prepare DragData
-
-            const dragData = {
-                type: "skill",
-                name: message.querySelector("[class=skillTemp]").dataset.lbl,
-                item: message.querySelector("[class=skillTemp]").dataset.stat,
-                actorId: message.querySelector("[class=skillTemp]").dataset.actor,
-                isSpez: isSpez,
-                isMeta: isMeta
-            };
-    
-            // Set data transfer
-    
-            event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
-
-        } else if(event.srcElement.className === "statitem") {
-
-            // Get Element and Skill Infos
-
-            let element = event.currentTarget;
-            let message = element.closest(".statitem");
-            
-            // Prepare DragData
-
-            const dragData = {
-                type: "stat",
-                actorId: message.dataset.actor,
-                stat: message.dataset.stattype
-            };
-    
-            // Set data transfer
-    
-            event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
-        } 
-    }
-    
-    _onEffectControl(event) {
-
-        event.preventDefault();
-
-        const owner = this.actor;
-        const a = event.currentTarget;
-        const li = a.closest("li");
-        const effect = li?.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null;
-
-        switch (a.dataset.action) {
-
-            case "create":
-                return owner.createEmbeddedDocuments("ActiveEffect", [{
-                label: "New Effect",
-                icon: "icons/svg/aura.svg",
-                origin: owner.uuid,
-                disabled: true
-                }]);
-
-            case "edit":
-                return effect.sheet.render(true);
-
-            case "delete":
-                return effect.delete();
-        }
-    }
-
-    _getHeaderButtons() {
-
-        const baseData = super._getHeaderButtons();
-
-        let effecBnt = {"class": "effe-sheet", "icon": "fas fa-star", "label": "Effects", "onclick": ev => this.openEffectList(ev)};
-        let notesBnt = {"class": "note-sheet", "icon": "fas fa-sheet-plastic", "label": "Notes", "onclick":  ev => this.openNotes(ev)};
-
-        let response = [effecBnt, notesBnt].concat(baseData);
-
-        return response;
-    }
-
-    async openNotes(ev) {
-
+    static async openNotes(ev) {
+        
         let sheet = this.sheet;
         let newNote = await Dialog.editCharNotes({ "system": { "notes": sheet.system.note}});
         
@@ -885,9 +978,22 @@ export default class GDSAPlayerCharakterSheet extends ActorSheet {
         sheet.system.note = newNote;
     }
 
-    async openEffectList(ev) {
+    static async openEffectList(event) {
 
-        this.sheet.actor.sheet._tabs[0].activate("characterEffects");
+        let tabs = event.srcElement.closest("form").querySelector(".sheet-body");
+        let activeTab = tabs.querySelector(".tab.primary.active");
+        let destinationTab = tabs.querySelector("#characterEffects");
+        
+        activeTab.classList.remove("active");
+        destinationTab.classList.add("active")
+        
+        let nav = event.srcElement.closest("form").querySelector(".sheet-tabs");
+        let activeNav = nav.querySelectorAll(".item.menuMainItem.active");
+        let destinationNav = nav.querySelectorAll("#characterEffects");
+        
+        activeNav.forEach(navElement => { navElement.classList.remove("active") });
+        destinationNav.forEach(navElement => { navElement.classList.add("active") });
+        this.actor.setFlag('gdsa', 'primaryTabSelection', "characterEffects");
     }
     
 }

@@ -1,19 +1,17 @@
 <form class="dialogConfig">
     <div class="form-group subMain"><div class="submen"><hr class="subhr" /></div>{{name}}<div class="submen"><hr class="subhr" /></div></div>
-    <div class="dialogFiller"></div>
 
     <div class="form-group">
         <label>{{localize "GDSA.chat.skill.advantage"}}</label>
-        <input type="number" name="advantage" value="0" />
+        <input class="mediOpt" type="number" name="advantage" value="0" />
     </div>
     <div class="form-group">
         <label>{{localize "GDSA.chat.skill.disadvantage"}}</label>
-        <input type="number" name="disadvantage" value="0" />
+        <input class="mediOpt" type="number" name="disadvantage" value="0" />
     </div>
 
     <div class="dialogFiller"></div>
     <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.chat.skill.modi"}}<div class="submen"><hr class="subhr" /></div></div>
-    <div class="dialogFiller"></div>
 
     <div class="form-group">
         <label>{{localize "GDSA.chat.medi.ritDura"}} {{localize "GDSA.chat.medi.decre"}}</label>
@@ -37,8 +35,6 @@
     
     <div class="dialogFiller"></div>
     <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.chat.skill.acca"}}<div class="submen"><hr class="subhr" /></div></div>
-    <div class="dialogFiller"></div>
-
 
     <div class="form-group">
         <label>{{localize "GDSA.chat.medi.place"}}</label>
@@ -82,7 +78,6 @@
     
     <div class="dialogFiller"></div>
     <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.ritual.helper"}}<div class="submen"><hr class="subhr" /></div></div>
-    <div class="dialogFiller"></div>
 
     <input id="inboxCast" type="hidden" name="helper" value="{{getData config.schamHelper schamType}}" />
     {{#each (getData config.schamHelper schamType)}}
@@ -92,9 +87,4 @@
             <input id="inboxCast" type="hidden" name="helptype{{@index}}" value="{{this}}" />
         </div>
     {{/each}}
-
-    <div class="dialogFiller"></div>
-    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div><div class="submen"><hr class="subhr" /></div></div>
-    <div class="dialogFiller"></div>
-    
 </form>

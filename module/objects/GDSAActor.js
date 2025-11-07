@@ -3,12 +3,10 @@ import * as LSFunction from "../listenerFunctions.js"
 
 export default class GDSAActor extends Actor {
 
-
-
     prepareData() {
 
         // If later something needs to be added preprocessing Data for the Actor
-
+        
         super.prepareData();
     }
 
@@ -74,6 +72,9 @@ export default class GDSAActor extends Actor {
         data.ATBasis.value = Math.round((MU + GE + KK) / 5);
         data.PABasis.value = Math.round((IN + GE + KK) / 5);
         data.FKBasis.value = Math.round((IN + FF + KK) / 5);
+        data.ATBasis.base = Math.round((MU + GE + KK) / 5);
+        data.PABasis.base = Math.round((IN + GE + KK) / 5);
+        data.FKBasis.base = Math.round((IN + FF + KK) / 5);
 
 
         // Calculates the LeP, AuP, AsP, KaP and MR maximums Values
@@ -406,7 +407,7 @@ export default class GDSAActor extends Actor {
         this.update({ "system.log": log});
     }
 
-    setWound(zone, wound) {
+    setWound(zone, wound, suswound) {
 
         // Methode to update Wound Count directly
 
@@ -414,33 +415,41 @@ export default class GDSAActor extends Actor {
             case "head":
             case "Kopf":
                 this.update({ "system.wp.head": wound});
+                this.update({ "system.swp.head": suswound});
                 break;
             case "chest":
             case "Brust / Rücken":
                 this.update({ "system.wp.chest": wound});
+                this.update({ "system.swp.chest": suswound});
                 break;
             case "tummy":
             case "Bauch":
                 this.update({ "system.wp.tummy": wound});
+                this.update({ "system.swp.tummy": suswound});
                 break;
             case "lArm":
             case "Linker Arm":
                 this.update({ "system.wp.lArm": wound});
+                this.update({ "system.swp.lArm": suswound});
                 break;
             case "rArm":
             case "Rechter Arm":
                 this.update({ "system.wp.rArm": wound});
+                this.update({ "system.swp.rArm": suswound});
                 break;
             case "lLeg":
             case "Linkes Bein":
                 this.update({ "system.wp.lLeg": wound});
+                this.update({ "system.swp.lLeg": suswound});
                 break;
             case "rLeg":
             case "Rechtes Bein":
                 this.update({ "system.wp.rLeg": wound});
+                this.update({ "system.swp.rLeg": suswound});
                 break;    
             default:
                 this.update({ "system.wp.all": wound});
+                this.update({ "system.swp.all": suswound});
                 break;
         }
     }
