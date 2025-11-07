@@ -1,0 +1,12 @@
+<form class="dialogConfig">
+    <div class="adText">{{localize "GDSA.system.selectTemplate"}}:</div>
+    <div class="adBox">
+        <select id="select" class="adSelector" name="advantages" size="10">
+            <option value="new">{{localize "GDSA.system.newEntry"}}</option>
+            <option value="new"></option>
+            {{#each template.all as |name type|}}
+                <option value="{{_id}}">{{getLocName this}}</option>
+            {{/each}}
+        </select>
+    </div>
+</form>

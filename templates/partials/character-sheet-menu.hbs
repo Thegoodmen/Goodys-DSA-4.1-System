@@ -1,134 +1,84 @@
 <section>
 	<nav class="sheet-tabs tabs nav" data-group="primary">
-		<div class="menuItemBox">
 
-			<a class="item menuMainItem" data-tab="traitPage"></a>
-			<a class="item menuMainItem" data-tab="generaltraitPage"></a>
-			<a class="item menuMainItem" data-tab="combattraitPage"></a>
-			<a class="item menuMainItem" data-tab="magictraitPage"></a>
-			<a class="item menuMainItem" data-tab="holytraitPage"></a>
-			<a class="item menuMainItem" data-tab="objecttraitPage"></a>
-			<a class="item menuMainItem" data-tab="characterView"></a>
-			<a class="item menuMainItem" data-tab="characterEffects"></a>
+		<div class="menuRow1">
+			<img class="logoImg" src="systems/gdsa/assets/ui/logo.webp">
+		</div>
 
-			<div class="menuItemBoxHelper"></div><br />
-			
-			<a class="item menuMainItem" data-tab="mainPage">
-				<div class="menuItem">
-					<div class="menuItemHelper"></div><br />
-					{{localize "GDSA.charactersheet.charMenu"}}
-	    		</div>
-			</a>
+		<div class="menuRow2">
 
-			<a class="item menuMainItem" data-tab="skillPage">
-	    		<div class="menuItem">
-	   				<div class="menuItemHelper"></div><br />
-					{{localize "GDSA.charactersheet.skillMenu"}}
-  				</div>
-			</a>
+			<a id="traitPage" class="item menuMainItem" data-tab="traitPage"></a>
+			<a id="generaltraitPage" class="item menuMainItem" data-tab="generaltraitPage"></a>
+			<a id="combattraitPage" class="item menuMainItem" data-tab="combattraitPage"></a>
+			<a id="magictraitPage" class="item menuMainItem" data-tab="magictraitPage"></a>
+			<a id="holytraitPage" class="item menuMainItem" data-tab="holytraitPage"></a>
+			<a id="objecttraitPage" class="item menuMainItem" data-tab="objecttraitPage"></a>
+			<a id="characterView" class="item menuMainItem" data-tab="characterView"></a>
+			<a id="characterEffects" class="item menuMainItem" data-tab="characterEffects"></a>
 
-			<a class="item menuMainItem" data-tab="combatePage">
-	    		<div class="menuItem">
-		    		<div class="menuItemHelper"></div><br />
-					{{localize "GDSA.charactersheet.combatMenu"}}
-	    		</div>
-			</a>
-    	</div>
-
-		{{#if isGM}}<a class="item menuMainItem" data-tab="gmPage">{{/if}}
-
-    		<div class="menuDivider menuMainItem">
-	    		<div class="menuDividerHelper"><img class="logoImg" src="systems/gdsa/templates/img/logo.webp"></div><br />
-				<!--  -->
-	    		<b>{{localize "GDSA.charactersheet.system"}}</b>
-    		</div>
-
-		{{#if isGM}}</a>{{/if}}
-
-    	<div class="menuItemBox">
-
-	    	<div class="menuItemBoxHelper"></div><br />
-
-		{{#if system.magical}}
-
-			{{#if system.klerikal}}
-
-				<a class="item menuMainItem" data-tab="magicPage">
-					<div class="menuItem">
-						<div class="menuItemHelper"></div><br />
-						{{localize "GDSA.charactersheet.magicMenu"}}
+			<div class="menuCell">
+				<a id="mainPage" class="item menuMainItem changeTab" data-tab="mainPage" data-destination="mainPage" data-origin="">
+					<div class="menuItem" style="width: 90px;">
+						{{localize "GDSA.charactersheet.charMenu"}}
 					</div>
 				</a>
 
-				<a class="item menuMainItem" data-tab="holyPage">
-					<div class="menuItem">
-						<div class="menuItemHelper"></div><br />
-						{{localize "GDSA.charactersheet.holyMenu"}}
+				<a id="skillPage" class="item menuMainItem changeTab" data-tab="skillPage" data-destination="skillPage" data-origin="">
+					<div class="menuItem" style="width: 74px;">
+						{{localize "GDSA.charactersheet.skillMenu"}}
 					</div>
 				</a>
 
-			{{else}}
-
-				<a class="item menuMainItem" data-tab="combattraitPage">
-					<div class="menuItem">
-						<div class="menuItemHelper"></div><br />
-						{{localize "GDSA.charactersheet.cmbtMenu"}}
+				<a id="combatePage" class="item menuMainItem changeTab" data-tab="combatePage" data-destination="combatePage" data-origin="">
+					<div class="menuItem" style="width: 64px;">
+						{{localize "GDSA.charactersheet.combatMenu"}}
 					</div>
 				</a>
+			</div>
 
-				<a class="item menuMainItem" data-tab="magicPage">
-					<div class="menuItem">
-						<div class="menuItemHelper"></div><br />
-						{{localize "GDSA.charactersheet.magicMenu"}}
+			<div class="menuCellMiddle">
+				{{#if isGM}}<a id="gmPage" class="item menuMainItem changeTab" data-tab="gmPage" data-destination="gmPage" data-origin="">{{/if}}
+					<div class="menuDivider menuMainItem">
+						<b>{{localize "GDSA.charactersheet.system"}}</b>
+					</div>
+				{{#if isGM}}</a>{{/if}}
+			</div>
+
+			<div class="menuCell">
+				{{#if (NOR system.magical system.klerikal)}}
+					<a id="generaltraitPage" class="item menuMainItem changeTab" data-tab="generaltraitPage" data-destination="generaltraitPage" data-origin="">
+						<div class="menuItem" style="width: 78px;">
+							{{localize "GDSA.charactersheet.alSFMenu"}}
+						</div>
+					</a>
+				{{/if}}
+				{{#if (NAND system.magical system.klerikal)}}
+					<a id="combattraitPage" class="item menuMainItem changeTab" data-tab="combattraitPage" data-destination="combattraitPage" data-origin="">
+						<div class="menuItem" style="width: 78px;">
+							{{localize "GDSA.charactersheet.cmbtMenu"}}
+						</div>
+					</a>
+				{{/if}}
+				{{#if system.magical}}
+					<a id="magicPage" class="item menuMainItem changeTab" data-tab="magicPage" data-destination="magicPage" data-origin="">
+						<div class="menuItem" style="width: 75px;">
+							{{localize "GDSA.charactersheet.magicMenu"}}
+						</div>
+					</a>
+				{{/if}}
+				{{#if system.klerikal}}
+					<a id="holyPage" class="item menuMainItem changeTab" data-tab="holyPage" data-destination="holyPage" data-origin="">
+						<div class="menuItem" style="width: 75px;">
+							{{localize "GDSA.charactersheet.holyMenu"}}
+						</div>
+					</a>
+				{{/if}}
+				<a id="itemPage" class="item menuMainItem changeTab" data-tab="itemPage" data-destination="itemPage" data-origin="">
+					<div class="menuItem" style="width: 75px;">
+						{{localize "GDSA.charactersheet.itemMenu"}}
 					</div>
 				</a>
-
-			{{/if}}
-
-		{{else}}
-
-			{{#if system.klerikal}}
-
-				<a class="item menuMainItem" data-tab="combattraitPage">
-					<div class="menuItem">
-						<div class="menuItemHelper"></div><br />
-						{{localize "GDSA.charactersheet.cmbtMenu"}}
-					</div>
-				</a>
-
-				<a class="item menuMainItem" data-tab="holyPage">
-					<div class="menuItem">
-						<div class="menuItemHelper"></div><br />
-						{{localize "GDSA.charactersheet.holyMenu"}}
-					</div>
-				</a>
-
-			{{else}}
-
-				<a class="item menuMainItem" data-tab="generaltraitPage">
-					<div class="menuItem">
-						<div class="menuItemHelper"></div><br />
-						{{localize "GDSA.charactersheet.alSFMenu"}}
-					</div>
-				</a>
-
-				<a class="item menuMainItem" data-tab="combattraitPage">
-					<div class="menuItem">
-						<div class="menuItemHelper"></div><br />
-						{{localize "GDSA.charactersheet.cmbtMenu"}}
-					</div>
-				</a>
-
-			{{/if}}
-
-		{{/if}}
-
-			<a class="item menuMainItem" data-tab="itemPage">
-	    		<div class="menuItem">
-		    		<div class="menuItemHelper"></div><br />
-					{{localize "GDSA.charactersheet.itemMenu"}}
-	    		</div>
-			</a>
-    	</div>
+			</div>
+		</div>
 	</nav>
 </section>

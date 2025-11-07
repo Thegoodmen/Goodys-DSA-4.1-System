@@ -1,9 +1,9 @@
 <div class="skillMenuBox">
 	<nav class="magic-tabs tabs nav" data-group="magic">
-		<a class="item" data-tab="mgeneral"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.mgeneral"}}</div></a>
-		<a class="item" data-tab="cast"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.cast"}}</div></a>
-		<a class="item" data-tab="ritual"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.ritual"}}</div></a>
-		<a class="item" data-tab="madditional"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.mobjekt"}}</div></a>
+		<a id="mgeneral" class="item menuSubItem" data-tab="mgeneral"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.mgeneral"}}</div></a>
+		<a id="cast" class="item menuSubItem" data-tab="cast"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.cast"}}</div></a>
+		<a id="ritual" class="item menuSubItem" data-tab="ritual"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.ritual"}}</div></a>
+		<a id="madditional" class="item menuSubItem" data-tab="madditional"><div class="skillMenu" style="width: 100px;">{{localize "GDSA.charactersheet.mobjekt"}}</div></a>
 	</nav>
 </div>
 
@@ -16,16 +16,16 @@
 
 <div class="magicBox">
 	<section class="magic-body">
-		<div class="magicBox tab mgeneral" data-group="magic" data-tab="mgeneral">
+		<div id="mgeneral" class="magicBox tab mgeneral" data-group="magic" data-tab="mgeneral">
             {{> "systems/gdsa/templates/partials/character-sheet-magicGeneral.hbs"}}						
 		</div>
-		<div class="magicBox tab cast" data-group="magic" data-tab="cast">
+		<div id="cast" class="magicBox tab cast" data-group="magic" data-tab="cast">
             {{> "systems/gdsa/templates/partials/character-sheet-magicCast.hbs"}}
 		</div>
-		<div class="magicBox tab ritual" data-group="magic" data-tab="ritual">
+		<div id="ritual" class="magicBox tab ritual" data-group="magic" data-tab="ritual">
 			{{> "systems/gdsa/templates/partials/character-sheet-magicRitu.hbs"}}
 		</div>
-		<div class="magicBox tab madditional" data-group="magic" data-tab="madditional">
+		<div id="madditional" class="magicBox tab madditional" data-group="magic" data-tab="madditional">
 			{{> "systems/gdsa/templates/partials/character-sheet-objektRit.hbs"}}
 		</div>
 	</section>

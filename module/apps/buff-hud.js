@@ -1,4 +1,6 @@
-export default class BuffHud extends Application {
+const api = foundry.applications.hud;
+
+export default class BuffHud extends api.HeadsUpDisplayContainer {
 
     constructor(options) {
 
@@ -8,42 +10,46 @@ export default class BuffHud extends Application {
 
         this.viewed = null;
         this.render(true);
-
     }
 
-    static get defaultOptions() {
-
-        const options = super.defaultOptions;
-        options.id = "buff-hud";
-        options.template = "systems/gdsa/templates/apps/buff-hud.hbs";
-        options.popOut = false;
-
-        return options;
-
+    static DEFAULT_OPTIONS = {
+        id: "buff-hud",
+        classes: ["GDSA", "buffHUD"],
+        actions: {},
+        position: {
+            width: 0,
+            height: 0,
+            zIndex: 200 
+        }
     }
 
-    async getData(options) {
+    /** @override */
+    async _renderHTML(_context, _options) {
+
+        const template = "systems/gdsa/templates/apps/buff-hud.hbs";
+        const html = await foundry.applications.handlebars.renderTemplate(template, this._prepareContext(_options));
         
-        let data = {
+        return html;
+    }
 
+    /** @override */
+    async _prepareContext(options) {
+
+        const baseData = await super._prepareContext();
+
+        let context = {
+            
             ownEffects: game.user.character?.effects.contents
         }
 
-        if(this.selectedEffects) data.selEffects = this.selectedEffects.document.delta.effects.contents;
+        if(this.selectedEffects) context.selEffects = this.selectedEffects.document.actor.effects.contents;
 
-        return data;
+        return context;
     }
 
-    activateListeners(html) {
-
-        super.activateListeners(html);
-
-    }
-
+    /** Custom Functions */
     setSelectedEffects(effects) {
 
         this.selectedEffects = effects;
-
-    }
-  
+    }  
 }

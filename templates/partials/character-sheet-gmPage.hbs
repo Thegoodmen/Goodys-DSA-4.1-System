@@ -1,29 +1,37 @@
 <section>
     <div class="gmBox">
-        <table>
-            <tr>
-                <td class="gmTableHelper">{{localize "GDSA.charactersheet.InvEdit"}}</td>
-                <td><input name="system.editInv" type="checkbox"  {{checked system.editInv}} /></td>
-            </tr>
-        </table>
-
-        <table class="CharLog">
-            <tr>
-                <td class="gmTableHelper2">{{localize "GDSA.system.users"}}</td>
-                <td class="gmTableHelper2">{{localize "GDSA.system.actions"}}</td>
-                <td class="gmTableHelper2">{{localize "GDSA.system.date"}}</td>
-                <td class="gmTableHelper2">{{localize "GDSA.system.time"}}</td>
-                <td class="gmTableHelper2">{{localize "GDSA.system.element"}}</td>
-            </tr>
-            {{#each system.log}}
-                <tr>
-                    <td class="gmTableHelper2"><usr title="{{userId}}">{{userName}}</usr></td>
-                    <td class="gmTableHelper2">{{action}}</td>
-                    <td class="gmTableHelper2">{{date}}</td>
-                    <td class="gmTableHelper2">{{time}}</td>
-                    <td class="gmTableHelper2"><ele title="{{elementType}}">{{elementName}}</ele></td>
-                </tr>
-            {{/each}}
-        </table>
+        <div class="invFiller4"></div>
+        <div class="skillHeaderBox">
+            <div class="invMenuHelper">
+                <div class="skillHeaderSkillBox4">
+                    {{localize "GDSA.charactersheet.InvEdit"}}
+                </div>
+                <div class="invAddBox" style="margin-top: -2px;">
+                    <input name="system.editInv" type="checkbox"  {{checked system.editInv}} />
+                </div>
+            </div>
+        </div>
+        <div class="inventory5">
+            <div class="gmLogBox">
+                <table class="CharLog" style="margin: 0px;">
+                    <tr>
+                        <td class="gmTableHelper7">{{localize "GDSA.system.users"}}</td>
+                        <td class="gmTableHelper7">{{localize "GDSA.system.actions"}}</td>
+                        <td class="gmTableHelper7">{{localize "GDSA.system.date"}}</td>
+                        <td class="gmTableHelper7">{{localize "GDSA.system.time"}}</td>
+                        <td class="gmTableHelper7">{{localize "GDSA.system.element"}}</td>
+                    </tr>
+                    {{#each system.log}}
+                        <tr>
+                            <td class="gmTableHelper2"><usr title="{{userId}}">{{userName}}</usr></td>
+                            <td class="gmTableHelper2">{{action}}</td>
+                            <td class="gmTableHelper2">{{date}}</td>
+                            <td class="gmTableHelper2">{{time}}</td>
+                            <td class="gmTableHelper2"><ele title="{{elementType}}">{{elementName}}</ele></td>
+                        </tr>
+                    {{/each}}
+                </table>
+            </div>
+        </div>
     </div>
 </section>

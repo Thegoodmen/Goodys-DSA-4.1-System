@@ -1,4 +1,18 @@
 {
+    "SIDEBAR.ACTIONS.CREATE": {
+        "Folder": "Erstelle Ordner",
+        "Scene[object Object]": "Erstelle Scene",
+        "Actor[object Object]": "Erstelle Actor",
+        "Item[object Object]": "Erstelle Gegenstand",
+        "JournalEntry[object Object]": "Erstelle Eintrag",
+        "RollTable[object Object]": "Erstelle RollTable",
+        "Cards[object Object]": "Erstelle Karten",
+        "Macro[object Object]": "Erstelle Macro",
+        "Playlist[object Object]": "Erstelle Playlist",
+        "Compendium": "Erstelle Kompendium"
+    },
+    "COMBAT.Create": "Erstelle Kampf",
+    
     "GDSA": {
         "system": {
             "edit": "Editieren",
@@ -11,7 +25,7 @@
             "generals": "Allgemeines Item",
             "melee-weapons": "Nahkampfwaffe",
             "range-weapons": "Fernkampfwaffe",
-            "compImport": "Aus Compendium importieren",
+            "compImport": "Aus Kompendium importieren",
             "newSpell": "Neuen Zauber hinzufügen",
             "magicTrait": "Merkmal",
             "vari": "Variante",
@@ -96,6 +110,8 @@
             "addiFow": "Zusätzliche Gegner",
             "dodge": "Ausweichen",
             "sf": "Sonderfertigkeit",
+            "sfs": "Sonderfertigkeiten",
+            "effe": "Effekte",
             "sfGeneral": "Allgemeine SF",
             "sfCombat": "Kampf SF",
             "sfMagic": "Magische SF",
@@ -138,6 +154,7 @@
             "container": "Behälter",
             "vehical": "Fahrzeug",
             "gem": "Edelstein",
+            "book": "Lehrbuch",
             "item": "Gegenstand",
             "fontC": "Schriftfarbe",
             "backC": "Hintergrund",
@@ -153,7 +170,17 @@
             "detail": "Details",
             "effect": "Effekte",
             "npct": "NPC Talent",
-            "npcw": "NPC Angriff"
+            "npcw": "NPC Angriff",
+            "kneeling": "Kniend",
+            "onground": "Liegend / Am Boden",
+            "concentrated": "Konzentriert",
+            "sick": "Krank",
+            "hidden": "Verborgen",
+            "overloaded": "Überladen",
+            "feared": "Schreckgestallt",
+            "darkness": "Dunkelheit",
+            "poisioned": "Vergiftet",
+            "entrückt": "Entrückt"
         },
         "info": {
             "itemAdd": "Ein Item wurde dem Charakter hinzugefügt.",
@@ -455,6 +482,8 @@
             "improvised": "Improvisiert",
             "twohanded": "Zweihändig",
             "description": "Beschreibung",
+            "quote": "Zitat",
+            "special": "Besonderheit",
             "loadtime": "Ladezeit",
             "range": "Reichweite",
             "tpPlus": "TP-Bonus",
@@ -506,8 +535,10 @@
             "verb": "Verb.",
             "activ": "Aktiv",
             "prereq": "Vorraussetzung",
+            "ingame": "Im Spiel",
             "creation": "Erschaffung",
             "activation": "Aktivierung",
+            "isActiv": "Aktiv?",
             "pcost": "Permanente Kosten",
             "pcosts": "Perm. Kosten",
             "zduration": "Zauberdauer",
@@ -523,6 +554,7 @@
             "category": "Item-Kategorie",
             "storageT": "Lagerungsort",
             "storageBag": "Tasche / Am Körper",
+            "storagebag": "Tasche / Am Körper",
             "storageCarriage": "Satteltasche / Reisezug",
             "storageAway": "Zuhause / Weit Entfernt",
             "fullArmour": "Gesamt Rüstungsschutz",
@@ -543,7 +575,9 @@
             "fighter": "Kämpfer",
             "true": "Ja",
             "false": "Nein",
-            "autoCMB": "AutoCMB"
+            "autoCMB": "AutoCMB",
+            "weapon": "Waffe",
+            "undefined": ""
         },
         "charactersheet": {
             "system": "Das schwarze Auge",
@@ -839,6 +873,7 @@
             "shields": "Schilde",
             "armour": "Rüstung",
             "generals": "Allgemeine Gegenstände",
+            "items": "Gegenstände",
             "InvEdit": "Darf Inventar hinzufügen ?",
             "AllSkills": "Alle Skills angezeigt ?",
             "mgeneral": "Allgemein",
@@ -996,7 +1031,8 @@
                 "meeleGoof": "Nahkampfpatzer",
                 "rangeGoof": "Fernkampfpatzer",
                 "hitZone": "Trefferzone",
-                "hasOri": "hat sich orientiert. Die neue INI beträgt "
+                "hasOri1": "hat sich orientiert.",
+                "hasOri2": "Die neue INI beträgt "
             },
             "rangeOpt": {
                 "noWind": "Kein Wind",

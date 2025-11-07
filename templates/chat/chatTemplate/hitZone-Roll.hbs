@@ -1,23 +1,18 @@
-<div class="GDSA chat message">
-    <div class="flawBox {{#if modPresent}}statModBoxAdd{{/if}}">
-        
-        <div class="flawName">{{localize "GDSA.chat.dialog.hitZone"}}</div>
-        <div class="dicefiller"></div>
+<div class="GDSA chat message skill">
+    <div class="chathrBox"><hr class="chathr" /></div>
+    <div class="chatheadline">{{localize "GDSA.chat.dialog.hitZone"}}</div>
+    <div class="chathrBox"><hr class="chathrBold" /></div>
 
-        <div id="collapsable">
-
-            <div class="diceCol1">
-                <div class="dices">
-                    <div class="diefiller"></div>
-                    <div class="dice">{{roll1}}</div>
-                </div>
+    <div id="collapsable">
+        <div class="infoMainBox">
+            <div class="infoDiceBox2">
+                <div class="diefiller"></div>
+                <div class="infoDices">{{roll1}}</div>
             </div>
-
-            <div class="dicefiller"></div>
-
-        </div>   
-                    
-        <div class="rollFlawInfo">{{goofed}}<span id="additionalInfo"></span></div>
-
+        </div>
     </div>
+    
+    <div class="dice-formula">
+        <div class="rollSkillInfo">{{goofed}}<span id="additionalInfo"></span></div>
+    </div>  
 </div>

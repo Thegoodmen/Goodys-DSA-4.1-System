@@ -1,57 +1,75 @@
 <section>
     <div class="valueBox2">
-    	<div class="bigValueBox"></div><div class="smallValueBox valueHead">{{localize "GDSA.charactersheet.maxLabel"}}</div>
+    	<div class="bigValueBox valueHead"></div><div class="smallValueBox valueHead">{{localize "GDSA.charactersheet.maxLabel"}}</div>
  		<div class="smallValueBox valueHead">{{localize "GDSA.charactersheet.valueLabel"}}</div>
 		<div class="smallValueBox valueHead">{{localize "GDSA.charactersheet.modLabel"}}</div>
-		<div class="smallValueBox"></div><div class="smallValueBox"></div><br />
+		<div class="smallValueBox valueHead"></div><div class="smallValueBox valueHead"></div>
+
+		<hr class="flawhrMain3">
 
 		<div class="bigValueBox"><a class=" item ress-change" data-stattype="LeP" title="{{localize 'GDSA.system.edit'}}">{{localize "GDSA.charactersheet.LeP"}}</a></div><div class="smallValueBox">{{system.LeP.max}}</div>
-    	<div class="smallValueBox"><input class="statTemp editableValue" name="system.LeP.value" type="number" value="{{system.LeP.value}}"/></div>
+    	<div class="smallValueBox"><input class="statTemp" name="system.LeP.value" type="number" value="{{system.LeP.value}}"/></div>
 		<div class="smallValueBox"></div>
   		<div class="smallValueBox"><a class="item stat-plus" data-stattype="LeP" title="add LeP"><i class="fas fa-plus inTableSym"></i></a></div>
-	    <div class="smallValueBox"><a class="item stat-minus" data-stattype="LeP" title="remove LeP"><i class="fas fa-minus inTableSym"></i></a></div><br />
+	    <div class="smallValueBox" style="text-align: left;"><a class="item stat-minus" data-stattype="LeP" title="remove LeP"><i class="fas fa-minus inTableSym"></i></a></div>
+
+		<hr class="flawhr1">
 
 		<div class="bigValueBox"><a class=" item ress-change" data-stattype="AuP" title="{{localize 'GDSA.system.edit'}}">{{localize "GDSA.charactersheet.AuP"}}</a></div><div class="smallValueBox">{{system.AuP.max}}</div>
-    	<div class="smallValueBox"><input class="statTemp editableValue" name="system.AuP.value" type="number" value="{{system.AuP.value}}"/></div>
+    	<div class="smallValueBox"><input class="statTemp" name="system.AuP.value" type="number" value="{{system.AuP.value}}"/></div>
 		<div class="smallValueBox"></div>
   		<div class="smallValueBox"><a class="item stat-plus" data-stattype="AuP" title="add AuP"><i class="fas fa-plus inTableSym"></i></a></div>
-	    <div class="smallValueBox"><a class="item stat-minus" data-stattype="AuP" title="remove AuP"><i class="fas fa-minus inTableSym"></i></a></div><br />
+	    <div class="smallValueBox" style="text-align: left;"><a class="item stat-minus" data-stattype="AuP" title="remove AuP"><i class="fas fa-minus inTableSym"></i></a></div>
+
+		<hr class="flawhr1">
 		
 		<div class="bigValueBox"><a class=" item ress-change" data-stattype="AsP" title="{{localize 'GDSA.system.edit'}}">{{localize "GDSA.charactersheet.AsP"}}</a></div><div class="smallValueBox">{{system.AsP.max}}</div>
-    	<div class="smallValueBox"><input class="statTemp editableValue" name="system.AsP.value" type="number" value="{{system.AsP.value}}"/></div>
+    	<div class="smallValueBox"><input class="statTemp" name="system.AsP.value" type="number" value="{{system.AsP.value}}"/></div>
 		<div class="smallValueBox"></div>
   		<div class="smallValueBox"><a class="item stat-plus" data-stattype="AsP" title="add AsP"><i class="fas fa-plus inTableSym"></i></a></div>
-	    <div class="smallValueBox"><a class="item stat-minus" data-stattype="AsP" title="remove AsP"><i class="fas fa-minus inTableSym"></i></a></div><br />
+	    <div class="smallValueBox" style="text-align: left;"><a class="item stat-minus" data-stattype="AsP" title="remove AsP"><i class="fas fa-minus inTableSym"></i></a></div>
+
+		<hr class="flawhr1">
 		
 		<div class="bigValueBox"><a class=" item ress-change" data-stattype="KaP" title="{{localize 'GDSA.system.edit'}}">{{localize "GDSA.charactersheet.KaP"}}</a></div><div class="smallValueBox">{{system.KaP.max}}</div>
-    	<div class="smallValueBox"><input class="statTemp editableValue" name="system.KaP.value" type="number" value="{{system.KaP.value}}"/></div>
+    	<div class="smallValueBox"><input class="statTemp" name="system.KaP.value" type="number" value="{{system.KaP.value}}"/></div>
 		<div class="smallValueBox"></div>
   		<div class="smallValueBox"><a class="item stat-plus" data-stattype="KaP" title="add KaP"><i class="fas fa-plus inTableSym"></i></a></div>
-	    <div class="smallValueBox"><a class="item stat-minus" data-stattype="KaP" title="remove KaP"><i class="fas fa-minus inTableSym"></i></a></div><br />
+	    <div class="smallValueBox" style="text-align: left;"><a class="item stat-minus" data-stattype="KaP" title="remove KaP"><i class="fas fa-minus inTableSym"></i></a></div>
+
+		<hr class="flawhr1">
 
 		<div class="statitem" data-actor="{{actor._id}}" data-stattype="MR">
 		<div class="bigValueBox"><a class=" item ress-change" data-stattype="MR" title="{{localize 'GDSA.system.edit'}}">{{localize "GDSA.charactersheet.MR"}}</a></div><div class="smallValueBox"></div>
 		<div class="smallValueBox"><a class="item stat-roll" data-stattype="MR" title="{{localize 'GDSA.chat.skill.roll'}}">{{system.MR.value}}</a></div>
-		<div class="smallValueBox"><input class="statTemp editableValue" name="system.MR.tempmodi" type="number" value="{{system.MR.tempmodi}}"/></div>
-		<div class="smallValueBox"></div><div class="smallValueBox"></div><br />
+		<div class="smallValueBox"><input class="statTemp" name="system.MR.tempmodi" type="number" value="{{system.MR.tempmodi}}"/></div>
+		<div class="smallValueBox"></div><div class="smallValueBox"></div>
 		</div>
+
+		<hr class="flawhr1">
 
 		<div class="bigValueBox">{{localize "GDSA.charactersheet.INIBasis"}}</div><div class="smallValueBox"></div>
 		<div class="smallValueBox" data-tooltip=
         "<div class='tooltipInI'> InI Basis <input class='tooltipNum' value='{{system.iniBaseValue}}' disabled> - BE <input class='tooltipNum' value='{{system.gBEArmour}}' disabled> + Waffenmod <input class='tooltipNum' value='{{system.equipINI}}' disabled> = <input class='tooltipNum' value='{{system.INIBasis.value}}' disabled></div>"
         data-tooltip-direction="LEFT">{{system.INIBasis.value}}</div>
-		<div class="smallValueBox"><input class="statTemp editableValue" name="system.INIBasis.tempmodi" type="number" value="{{system.INIBasis.tempmodi}}"/></div>
-		<div class="smallValueBox"></div><div class="smallValueBox"></div><br />
+		<div class="smallValueBox"><input class="statTemp" name="system.INIBasis.tempmodi" type="number" value="{{system.INIBasis.tempmodi}}"/></div>
+		<div class="smallValueBox"></div><div class="smallValueBox"></div>
+
+		<hr class="flawhr1">
 
 		<div class="bigValueBox">{{localize "GDSA.charactersheet.ATBasis"}}</div><div class="smallValueBox"></div>
 		<div class="smallValueBox">{{system.ATBasis.value}}</div>
 		<div class="smallValueBox"></div>
-		<div class="smallValueBox"></div><div class="smallValueBox"></div><br />
+		<div class="smallValueBox"></div><div class="smallValueBox"></div>
+
+		<hr class="flawhr1">
 
 		<div class="bigValueBox">{{localize "GDSA.charactersheet.PABasis"}}</div><div class="smallValueBox"></div>
 		<div class="smallValueBox">{{system.PABasis.value}}</div>
 		<div class="smallValueBox"></div>
-		<div class="smallValueBox"></div><div class="smallValueBox"></div><br />
+		<div class="smallValueBox"></div><div class="smallValueBox"></div>
+
+		<hr class="flawhr1">
 
 		<div class="bigValueBox">{{localize "GDSA.charactersheet.FKBasis"}}</div><div class="smallValueBox"></div>
 		<div class="smallValueBox">{{system.FKBasis.value}}</div>

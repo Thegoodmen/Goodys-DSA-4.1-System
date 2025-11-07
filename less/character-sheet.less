@@ -1,5 +1,8 @@
 // main: ./GDSA.less
 .GDSA.sheet.characterSheet {
+    .window-content {
+        padding: 8px;
+    };
     .nameLable {
         height: 64px;
     };
@@ -18,6 +21,7 @@
     .logoImg{
         height: 46px;
         border: 0px;
+        margin: auto;
     };
     .editableValue{
         background-color: rgba(255,255,255,0.45);
@@ -59,8 +63,14 @@
         color: gray;
     };
     .inTableSym{
-        font-size: 12px;
-        padding-top: 3px;
+        height: 16px;
+        width: 16px;
+        border: 2px solid #edd4b9;
+        border-radius: 8px;
+        background-color: #3a333a;
+        padding: 1px;
+        font-size: 11px;
+        margin-top: -1px;
     };
     .faD20Stat{
         float: none;
@@ -68,49 +78,79 @@
     .nav{
         display: contents;
     };
+    .menuRow1 {
+        width: 100%;
+        height: 29px;
+        float: left;
+    };
+    .menuRow2 {
+        width: 100%;
+        height: 25px;
+        float: left;
+        flex-flow: row;
+        display: flex;
+    };
+    .menuCell {
+        width: 612px;
+        height: 25px;
+        float: left;
+        flex-flow: row;
+        gap: 4px;
+        display: flex;
+    };
+    .menuCellMiddle {
+        width: 144px;
+        height: 25px;
+        float: left;
+        flex-direction: column;
+        display: flex;
+    };
     .menuBar{
         width: 616px;
         height: 60px;        
-        border: 2px solid black;
     };
     .menuDivider{
         width: 144px;
         height: 60px;
         float: left;
         text-align: center;
-    };
-    .menuDividerHelper{
-        width: 100%;
-        height: 38px;
-        float: left;
+        font-size: 16px;
+        line-height: 15px;
+        padding-top: 13px !important;
     };
     .menuMainItem{
         float: left;
         padding: 0px 0px;
     };
+    .menuMainItem.active > .menuItem{
+        background-color: #efeeed;
+        color: black;
+        outline-color: #bfa30c;
+        border-color: #c9c9c9;
+        pointer-events: none;
+    };
+    .menuMainItem.active {
+        pointer-events: none;
+    };
     .menuItem{
-        width: 78px;
-        height: 40px;    
-        border: 2px transparent;
+        height: 34px;
+        border: 2px solid;
+        border-radius: 15px;
+        outline: 1px white solid;
+        outline-offset: -6px;
         float: left;
         text-align: center;
+        display: flex;
+        flex-flow: column-reverse;
+        font-size: 12px;
+        line-height: 30px;
     };
     .item:hover > .menuItem{
         background: rgba(0 0 0 / 3%);
     };
-    .menuItemHelper{
-        width: 100%;
-        height: 10px;
-        float: left;
-    };
     .menuItemBox{
         width: 234px;
         height: 60px;
-        float: left;
-    };
-    .menuItemBoxHelper{
-        width: 100%;
-        height: 20px;
         float: left;
     };
     .filler{
@@ -132,44 +172,36 @@
     };
     .imgBox{
         width: 177px;
-        height: 221px;
-        border: 2px solid black;
+        height: 225px;
         float: left;
-        text-align: center;
-        display: block;
+        display: grid;
         justify-content: center;
-        white-space: nowrap;
     };
     .img{
-        max-height: 100%;
-        max-width: 99%;
-        background: #787d81;
+        max-height: 225px;
+        max-width: 177px;
         vertical-align: middle;
-        margin-left: -2px
-    };
-    .imgHelper{
-        display: inline-block;
-        height: 100%;
-        vertical-align: middle;
-    };
-    .castHelperTable{
-        width: 616px;
-        display: inline-block;
-        vertical-align: middle;
+        border: 2px solid #e9d2b4;
+        border-radius: 12px;
+        object-fit: fill;
+        margin: auto;
     };
     .factBox{
-        width: 429px;
-        height: 221px;
-        border: 2px solid black;
+        width: 428px;
+        height: 225px;
+        border: 2px solid #ebd3b7;
+        border-radius: 8px;
         float: left;
         text-align: center;
         padding-top: 5px;
+        background-color: #7d7d7d6b;
     };
     .factType{
         width: 132px;
         float: left;
         text-align: left;
         padding-left: 18px;
+        color: #000000;
     };
     .factValue{
         width: 290px;
@@ -188,35 +220,40 @@
         margin-bottom: 3px;
     };
     .flawhead{
-        width: 275px;
+        width: 270px;
         height: 20px;
         text-align: center;
-        font-size: 20px;
+        font-size: 18px;
         float: left;
+        background-color: #3128308f;
+        padding-left: 26px;
     };
     .characterBNT{
         width: 15px;
         height: 15px;
         position: absolute;
-        top: 146px;
-        right: 12px;
+        top: 95px;
+        right: 21px;
     };
     .characterBNT2{
-        width: 15px;
-        height: 15px;
+        width: 14px;
+        height: 14px;
         position: absolute;
-        top: 125px;
-        right: 12px;
+        top: 120px;
+        right: 21px;
+        font-size: 13px
     };
     .CharLog{
         font-size: 12px;
     };
     .flawbnt{
-        width: 20px;
+        width: 29px;
         height: 20px;
         text-align: center;
-        font-size: 20px;
+        font-size: 19px;
         float: left;
+        background-color: #3128308f;
+        color: black;
     };
     .flaw{
         width: 240px;
@@ -226,8 +263,72 @@
         font-size: 11px;
         white-space: nowrap;
     };
+    .traithr{
+        width: 538px;
+        margin-left: 7px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        background-image: linear-gradient(90deg, 
+            transparent 0%, 
+            #e7d1b161 50%, 
+            transparent 100%);
+    };
+    .traithr2{
+        width: 540px;
+        margin-left: 7px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        background-image: linear-gradient(90deg, 
+            transparent 0%, 
+            #e7d1b161 50%, 
+            transparent 100%);
+    };
     .flawhr{
-        width: 285px;
+        width: 280px;
+        margin-left: 7px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        background-image: linear-gradient(90deg, 
+            transparent 0%, 
+            #e7d1b161 50%, 
+            transparent 100%);
+    };
+    .flawhr1{
+        width: 330px;
+        margin-left: 7px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        background-image: linear-gradient(90deg, 
+            transparent 0%, 
+            #e7d1b161 50%, 
+            transparent 100%);
+    };
+    .traithrMain{
+        width: 550px;
+        margin-left: 7px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    };
+    .traithrMain2{
+        width: 560px;
+        margin-left: 7px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    };
+    .flawhrMain{
+        width: 280px;
+        margin-left: 7px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    };
+    .flawhrMain2{
+        width: 250px;
+        margin-left: 7px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    };
+    .flawhrMain3{
+        width: 330px;
         margin-left: 7px;
         margin-top: 2px;
         margin-bottom: 2px;
@@ -238,10 +339,13 @@
     };
     .flawBox{
         width: 303px;
-        height: 196px;
-        border: 2px solid black;
+        height: 200px;
         float: left;
         text-align: center;
+        border: 2px solid #ebd3b7;
+        border-radius: 8px;
+        background-color: #7d7d7d6b;
+        overflow: hidden
     };
     .flawDivider{
         width: 10px;
@@ -256,9 +360,10 @@
     };
     .advantages{
         float: left;
-        overflow-y: scroll;
+        overflow-y: auto;
         height: 165px;
-        scrollbar-width: none;
+        scrollbar-width: thin;
+        scrollbar-color: #edd4b98a #434146;
     };
     .valueBox{
         width: 616px;
@@ -266,37 +371,51 @@
     };
     .valueBox1{
         width: 262px;
-        height: 200px;
-        border: 1px solid black;
+        height: 212px;
         float: left;
         text-align: center;
+        background-color: #7d7d7d6b;
+        border: 2px solid #ebd3b7;
+        border-radius: 10px;
+        overflow: hidden
     };
     .valueBox2{
         width: 342px;
-        height: 200px;
-        border: 1px solid black;
+        height: 212px;
         float: left;
         text-align: center;
+        background-color: #7d7d7d6b;
+        border: 2px solid #ebd3b7;
+        border-radius: 10px;
+        overflow: hidden
+    };
+    .valueBox3{
+        width: 616px;
+        height: 212px;
     };
     .smallValueBox{
         width: 40px;
-        height: 20px;
+        height: 15px;
         float: left;
         text-align: center;
-        border: 1px solid black;
         padding-top: 1px;
+        font-size: 12px;
     };
     .bigValueBox{
-        width: 140px;
-        height: 20px;
+        width: 138px;
+        height: 17px;
         float: left;
         text-align: left;
-        border: 1px solid black;
         padding-left: 12px;
+        font-size: 12px
     };
     .valueHead{
-        font-size: 0.7rem;
-        padding-top: 2px;
+        font-size: 10px;
+        padding-top: 4px;
+        background-color: #39333a;
+        color: #6d6d6d;
+        border-right: none;
+        border-left: none;
     };
     .valueDivider{
         width: 12px;
@@ -304,55 +423,74 @@
         float: left;
         text-align: center;
     };
+    .statitem {
+        height: 15px;
+    };
     .footer{
         width: 616px;
         height: 20px;
-        border: 2px solid black;
         float: left;
         text-align: center;
+        background-color: #7d7d7d6b;
+        border: 2px solid #ebd3b7;
+        border-radius: 4px;
     };
     .footerBox{
         width: 616px;
         height: 20px;
     };
     .footerSmall{
-        width: 110px;
+        width: 120px;
         height: 20px;
         float: left;
-        text-align: center;  
+        text-align: right;
+        font-size: 12px; 
+    };
+    .footerSmall2{
+        width: 85px;
+        height: 20px;
+        float: left;
+        text-align: right;
+        font-size: 12px; 
     };
     .footerBig{
         width: 70px;
         height: 14px;
         float: left;
-        text-align: center;
+        text-align: left;
         font-size: 12px;
         margin-top: 1px;
         font-weight: bold;
+        padding-left: 14px;
     };
     .footerFirst{
         width: 165px;
         height: 20px;
         float: left;
         text-align: left;
-        padding-left: 40px;  
+        padding-left: 48px;
+        font-size: 12px;
+        margin-left: 8px;
     };
     .gmBox{
         float: left;
         height: 686px;
         width: 99%;
     };
-    .gmTableHelper{
-        width: 240px;
-    };
-    .gmInput{
-        width: 395px;
-    };
     .statTemp{
         border: 0px;
         padding: 0px;
         height: 100%;
         width: 100%;
+        text-align: center;
+    };
+    .statTemp2{
+        height: 100%;
+        width: 100%;
+        padding: 0px;
+        padding-left: 6px;
+        margin-bottom: 3px;
+        border: 0px;
     };
     .SkillFiller{
         width: 620px;
@@ -360,14 +498,16 @@
     };
     .skillMenu{
         height: 23px;
-        border: 1px solid black;
-        display: inline-block;
+        display: inline-grid;
         text-align: center;
-        padding-top: 2px;
+        border: 2px solid #e9d2b4;
+        border-radius: 10px;
+        line-height: 18px;
+        font-size: 13px;
     };
     .skillMenuBox{
         width: 620px;
-        height: 28px;
+        height: 40px;
         text-align: center;
     };
     .skillMenuBox2{
@@ -376,70 +516,93 @@
         text-align: center;
     };
     .skillsBox{
-        width: 620px;
+        width: 629px;
         height: 607px;
         text-align: center;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #ebd3b7de #17151d30;
+        scrollbar-gutter: stable;
+    };
+    .skillsBox2{
+        width: 629px;
+        height: 625px;
+        text-align: center;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #ebd3b7de #17151d30;
+        scrollbar-gutter: stable;
     };
     .magicBox{
         width: 625px;
         height: 607px;
         text-align: center;
     };
+    .skillTable{
+        display: inline-block;
+        width: 610px;
+        margin: 0px;
+        border: 2px solid #e9d2b4;
+        border-radius: 10px;
+        margin-top: 8px;
+        margin-left: 1px;
+    };
     .skillTableNameCombat{
         width: 394px;
         text-align: left;
-        border: 1px solid black;
         padding-left: 10px;
     };
     .skillTableName{
         width: 449px;
         text-align: left;
-        border: 1px solid black;
         padding-left: 10px;
     };
     .skillTableNameBig{
         width: 514px;
         text-align: left;
-        border: 1px solid black;
         padding-left: 10px;
         position: relative;
     };
-    .skillTableNameBig2{
-        width: 563px;
+    .skillTableNameBig3{
+        width: 555px;
         text-align: left;
-        border: 1px solid black;
         padding-left: 10px;
         position: relative;
     };
     .skillTableBE{
         width: 65px;
         text-align: center;
-        border: 1px solid black;
         padding: 0px;
     };
     .skillTableValue{
         width: 50px;
         text-align: center;
-        border: 1px solid black;
         padding: 0px;
     };
     .skillTableFiller{
         width: 5px;
         text-align: center;
-        border: 1px solid black;
         padding: 0px;
     };
     .skillTableRoll{
         width: 50px;
         text-align: center;
-        border: 1px solid black;
     };
     .skillTemp{
         border: 0px;
         padding: 0px;
         width: 100%;
         height: 24px;
-        background-color: rgba(255,255,255,0.45);
+        background-color: #312830;
+        text-align: center;
+    };
+    .skillTemp2{
+        border: 0px;
+        padding: 0px;
+        width: 100%;
+        height: 18px;
+        background-color: #312830;
+        text-align: center;
     };
     .wonderBox{
         overflow-y: scroll; 
@@ -449,11 +612,11 @@
     };
     .langbox{
         width: 100%;
-        height: 310px;
+        height: 300px;
     };
     .langtext{
         float: left;
-        width: 570px;
+        width: 565px;
         text-align: left;
         padding-left: 10px;
         padding-top: 9px;
@@ -468,34 +631,74 @@
     .langhr{
         float: left;
         height: 2px;
-        width: 100%;
-        margin-bottom: 0px;
+        width: 98%;
+        margin-bottom: 2px;
+        margin-top: 2px
     };
     .langtab{       
-        height: 255px;
-        width: 620px;
+        height: 250px;
+        width: 628px;
         float: left;
-        overflow-x: scroll;
-        scrollbar-width: none;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: #ebd3b7de #17151d30;
+        scrollbar-gutter: stable;
+    };
+    .lootActorHeader {
+        float: left;
+        width: calc(100% - 45px);
+        height: 80px;
+        display: flex;
+        border: 2px solid #ebd3b7;
+        border-radius: 8px;
+        text-align: center;
+        padding-top: 5px;
+        background-color: #7d7d7d6b;
+        margin: 0px 21px;
+        };
+    .lootActorMoney {
+        width: calc(100% - 45px);
+        height: 32px;
+        float: left;
+        margin: 10px 21px;
+        padding: 6px 36px;
+        background-color: #7d7d7d6b;
+        border: 2px solid #ebd3b7;
+        border-radius: 13px;
+        text-align: center;
+    };
+    .lootActorName {
+        width: 100%;
+        margin: 10px 20px;
+    };
+    .lootActorNameInput {
+        height: 50px;
+        font-size: 24px;
     };
     .skillHeaderBox{
         width: 620px;
-        height: 40px;
+        height: 45px;
         text-align: center;
         position: relative;
     };
-    .skillFiller2{
-        width: 100%;
-        height: 5px;
-    }
     .skillHeaderBox2{
+        width: 620px;
+        height: 55px;
+        text-align: center;
+        position: relative;
+    };
+    .skillHeaderBox3{
         width: 620px;
         height: 30px;
         text-align: center;
     };
+    .skillFiller2{
+        width: 100%;
+        height: 5px;
+    };
     .skillHeaderSkillBox{
         width: 392px;
-        height: 40px;
+        height: 56px;
         display: inline-block;
         margin: auto;
     };
@@ -503,16 +706,36 @@
         width: 500px;
         height: 22px;
         margin: auto;
-        border: 2px solid black;
         display: inline-block;
         margin: auto;
+        border: 2px solid #e7d1b1;
+        border-radius: 5px;
+        color: #e6d0b0;
+        background-color: #7d7d7d6b;
     };
     .skillHeaderSkillBox3{
         width: 500px;
         height: 22px;
         margin: auto;
-        border: 2px solid black;
         float: left;
+        padding-top: 2px;
+        padding-left: 70px;
+    };
+    .skillHeaderSkillBox4{
+        width: 210px;
+        height: 22px;
+        margin: auto;
+        float: left;
+        padding-top: 2px;
+        padding-left: 20px;
+    };
+    .skillHeaderSkillBox5{
+        width: 500px;
+        height: 22px;
+        margin: auto;
+        float: left;
+        padding-top: 2px;
+        padding-left: 7px;
     };
     .skillHeaderFiller{
         width: 4px;
@@ -521,28 +744,42 @@
     };
     .skillHeaderStat{
         width: 40px;
-        height: 38px;
-        border: 1px solid black;
+        height: 56px;
         float: left;
         text-align: center;
+        border: 2px solid #edd4b9;
+        border-radius: 20px;
+        padding-top: 10px;
+        background-color: #7d7d7d6b;;
+    };
+    .gmTableHelper2 {
+        padding: 5px 5px;
+    };
+    .gmTableHelper7 {
+        padding: 10px 7px;
     };
     .woundChart{
         float: left;
         height: 375px;
         width: 190px;
-        background-image: url("templates/img/shape.png");
+        background-image: url("assets/ui/shape.png");
         background-size: cover;
-        border: 2px solid black;
         background-position-x: -43px;
         background-repeat: no-repeat;
-        background-color: rgba(0,0,0,0.25);
+        border: 2px solid #e7d1b1;
+        border-radius: 20px;
+        background-color: #7d7d7d6b;
     };
     .RSBox{
         float: left;
         height: 25px;
         width: 25px;
-        background-color: lightgrey;
-        padding-top: 4px;
+        border: 2px solid #e7d1b1;
+        border-radius: 15px;
+        overflow: hidden;
+        background-color: #312830;
+        color: #e7d1b1;
+        padding-top: 2px;
     };
     .RSHelper1{
         float: left;
@@ -651,6 +888,9 @@
     .wpTaken{
         color: darkred;
     };
+    .wpSustained{
+        color: darkgreen !important;
+    };
     .headerLable{
         float: left;
         height: 18px;
@@ -671,6 +911,7 @@
         float: left;
         height: 18px;
         width: 23px;
+        color: white;
     };
     .lepbar{
         position: relative;
@@ -680,12 +921,13 @@
         border-radius: 5px;
         overflow: hidden;
         display: inline-block;
+        border: 2px solid #e7d1b1;
     };      
     .lepbar_fill{
         width: 0%;
         height: 100%;
-        background: #009579;
         transition: all 0.2s;
+        background: repeating-linear-gradient(-45deg, #19a91d, #20cb15 10px, #0db15f 10px, #009542 20px);
     };
     .lepbar_text{
         position: absolute;
@@ -694,6 +936,7 @@
         transform: translateY(-50%);
         font: bold 14px "Quicksand", sans-serif;
         color: #ffffff;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     };
     .aspbar{
         position: relative;
@@ -703,11 +946,12 @@
         border-radius: 5px;
         overflow: hidden;
         display: inline-block;
+        border: 2px solid #e7d1b1;
     };      
     .aspbar_fill{
         width: 0%;
         height: 100%;
-        background: #004195;
+        background: repeating-linear-gradient(-45deg, #23819d, #5ea8e7 10px, #1f5381 10px, #1f92d5 20px);
         transition: all 0.2s;
     };
     .aspbar_text{
@@ -717,11 +961,12 @@
         transform: translateY(-50%);
         font: bold 14px "Quicksand", sans-serif;
         color: #ffffff;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     };      
     .kapbar_fill{
         width: 0%;
         height: 100%;
-        background: #e5be00;
+            background: repeating-linear-gradient(-45deg, #cbbe20, #e5df19 10px, #c5a115 10px, #e1d221 20px);
         transition: all 0.2s;
     };
     .combatWindow{     
@@ -729,13 +974,15 @@
         height: 375px;
         float: left;
         margin-left: 10px;
-        border: 2px solid;
         margin-bottom: 12px;
-        padding: 6px 10px;
+        padding: 6px 0px;
+        border: 2px solid #e7d1b1;
+        border-radius: 10px;
+        background-color: #7d7d7d6b;
     };
     .combatFiller1{
         height: 375px;
-        width: 25px;
+        width: 30px;
         float: left;
     };
     .combatBntBar{
@@ -744,34 +991,44 @@
         display: inline-block;
     };
     #doDMG{
-        background: linear-gradient(to bottom, #e12525 5%, #8f0707 100%);
-        box-shadow: inset 0px 1px 0px 0px #b11818;
-        color: #140d0d;
+        box-shadow: inset 0px 1px 0px 0px #b9aa95;
+        color: #e2ccad;
         text-shadow: 0px 1px 0px #7a7a7a;
+        background: linear-gradient(to bottom, #433a69 5%, #2c2b2f 100%);
+        //outline: 1px solid #e4e4e5;
+        outline-offset: -4px
     };
     #doReg{
-        background: linear-gradient(to bottom, #faff26 5%, #c37808 100%);
-        box-shadow: inset 0px 1px 0px 0px #dae914;
-        color: #140d0d;
+        box-shadow: inset 0px 1px 0px 0px #b9aa95;
+        color: #e2ccad;
         text-shadow: 0px 1px 0px #7a7a7a;
+        background: linear-gradient(to bottom, #433a69 5%, #2c2b2f 100%);
+        //outline: 1px solid #e4e4e5;
+        outline-offset: -4px
     };
     #doHeal{
-        background: linear-gradient(to bottom, #4be31c 5%, #109707 100%);
-        box-shadow: inset 0px 1px 0px 0px #17fd0a;
-        color: #140d0d;
+        box-shadow: inset 0px 1px 0px 0px #b9aa95;
+        color: #e2ccad;
         text-shadow: 0px 1px 0px #7a7a7a;
+        background: linear-gradient(to bottom, #433a69 5%, #2c2b2f 100%);
+        //outline: 1px solid #e4e4e5;
+        outline-offset: -4px
     };
     #doDogde{
-        background: linear-gradient(to bottom, #c36f04 5%, #975007 100%);
-        box-shadow: inset 0px 1px 0px 0px #e16a23;
-        color: #140d0d;
+        box-shadow: inset 0px 1px 0px 0px #b9aa95;
+        color: #e2ccad;
         text-shadow: 0px 1px 0px #7a7a7a;
+        background: linear-gradient(to bottom, #433a69 5%, #2c2b2f 100%);
+        //outline: 1px solid #e4e4e5;
+        outline-offset: -4px
     };
     #doZone{
-        background: linear-gradient(to bottom, #14d2ff 5%, #0949bd 100%);
-        box-shadow: inset 0px 1px 0px 0px #2beef9;
-        color: #140d0d;
+        box-shadow: inset 0px 1px 0px 0px #b9aa95;
+        color: #e2ccad;
         text-shadow: 0px 1px 0px #7a7a7a;
+        background: linear-gradient(to bottom, #433a69 5%, #2c2b2f 100%);
+        //outline: 1px solid #e4e4e5;
+        outline-offset: -4px
     };
     .gmTableHelper3{
         width: 450px;
@@ -787,13 +1044,25 @@
     };  
     .tableBnt{
         width: 30px;
+        padding-top: 2px;
+        padding-bottom: 2px;
     };
     .tableLbl{
+        height: 30px;
+        max-width: 215px;
         text-align: left;
         padding-left: 13px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 12px;
     };
     .combatTable{
-        width: 335px;
+        width: 355px;
+        margin: 3px 0px;
+        background-color: #000000b0;
     };
     .combatTableBox1{
         width: 336px;
@@ -810,71 +1079,242 @@
         min-height: 50px;
         float: left;
     };
-    .iniBar{
-        width: 130px;
-        text-align: left;
-        float: left;
-        padding-bottom: 10px;
-    };
-    .iniValue{
-        width: 35px;
-        text-align: left;
-        float: left;
-    };
-    .iniDice{
-        width: 110px;
-        text-align: left;
-        float: left;
-    };
-    .iniRoll{
-        width: 70px;
-        float: left;
-    };
     .sonderfBox{
         width: 562px;
-        height: 100px;
+        height: 108px;
         float: left;
-        border: 2px solid black;
-        margin: 5px 24px;
+        margin: 5px 30px;
+        border: 2px solid #e7d1b1;
+        border-radius: 12px;
+        background-color: #7d7d7d6b;
+        overflow: hidden;
     };
     .sonderfBox2{
         width: 562px;
-        height: 210px;
+        height: 228px;
         float: left;
-        border: 2px solid black;
-        margin: 5px 24px;
+        margin: 5px 30px;
+        border: 2px solid #e7d1b1;
+        border-radius: 12px;
+        background-color: #7d7d7d6b;
+        overflow: hidden;
+    };
+    .traitDetailsHeader{
+        width: 565px;
+        height: 30px;
+        background-color: #383138;
+        color: #e9d2b4;
+    };
+    .traitDetailsHeader2{
+        width: 565px;
+        height: 10px;
+        background-color: #383138;
+        color: #e9d2b4;
+    };
+    .traitHeaderBig{
+        width: 410px;
+        height: 30px;
+        float: left;
+        padding-top: 10px;
+        padding-left: 25px;
+    };
+    .traitHeaderBig2{
+        width: 300px;
+        height: 30px;
+        float: left;
+        text-align: left;
+        padding-top: 10px;
+        padding-left: 10px;
+    };
+    .traitHeaderSmall{
+        width: 70px;
+        height: 30px;
+        float: left;
+        padding-top: 10px;
+        text-align: center;
+    };
+    .traitHeaderSmall2{
+        width: 95px;
+        height: 30px;
+        float: left;
+        padding-top: 10px;
+        text-align: center;
+    };
+    .traitDetailsBody {
+        width: 100%;
+        height: 540px;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: #edd4b9a6 #434146;
+        scrollbar-gutter: stable;
+    };
+    .traitDetailsBody2 {
+        width: 100%;
+        height: 560px;
+        overflow-y: scroll;
+        text-align: left;
+        scrollbar-width: thin;
+        scrollbar-color: #edd4b9a6 #434146;
+        scrollbar-gutter: stable;
+    };
+    .traitDetailItem{
+        width: 550px;
+        height: 20px;
+    };
+    .traitDetailItemName{
+        width: 410px;
+        height: 20px;
+        float: left;
+        font-size: 13px;
+        padding-top: 2px;
+        padding-left: 25px;
+        text-wrap-mode: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    };
+    .traitDetailItemName2{
+        width: 490px;
+        height: 20px;
+        float: left;
+        font-size: 13px;
+        padding-top: 2px;
+        padding-left: 25px;
+        text-wrap-mode: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    };
+    .traitDetailItemName3{
+        width: 455px;
+        height: 20px;
+        float: left;
+        font-size: 13px;
+        padding-top: 2px;
+        padding-left: 25px;
+        text-wrap-mode: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    };
+    .traitDetailItemName4{
+        width: 300px;
+        height: 20px;
+        float: left;
+        font-size: 13px;
+        padding-top: 2px;
+        padding-left: 30px;
+        text-align: left;
+        text-wrap-mode: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    };
+    .traitDetailItemConfig{
+        width: 70px;
+        height: 20px;
+        float: left;
+        font-size: 14px;
+        text-align: center;
+        padding-top: 1px;
+    };
+    .traitDetailItemConfig2{
+        width: 30px;
+        height: 20px;
+        float: left;
+        font-size: 14px;
+        text-align: center;
+        padding-top: 1px;
+    };
+    .traitDetailItemConfig3{
+        width: 30px;
+        height: 20px;
+        float: left;
+        font-size: 14px;
+        text-align: center;
+        padding-top: 1px;
+        margin: 0px 2px;
+        border: 1px solid #ebd3b7;
+        border-radius: 6px;
+        overflow: hidden;
+    };
+    .traitDetailItemConfig4{
+        width: 30px;
+        height: 20px;
+        float: left;
+        font-size: 14px;
+        text-align: center;
+        padding-top: 1px;
+        margin-left: 20px;
+        margin-top: -1px;
+    };
+    .traitDetailItemConfig5{
+        width: 80px;
+        height: 20px;
+        float: left;
+        font-size: 14px;
+        text-align: center;
+        padding-top: 1px;
+    };
+    .traitDetailItemConfig6{
+        width: 90px;
+        height: 20px;
+        float: left;
+        font-size: 14px;
+        text-align: center;
+        padding-top: 1px;
+        padding-left: 15px;
+    };
+    .traitDetailsFooter{
+        width: 565px;
+        height: 30px;
+        background-color: #383138;
+        color: #e9d2b4;
+        text-align: center;
+        padding-top: 8px;
     };
     .traithead{
-        width: 535px;
-        height: 23px;
+        width: 528px;
+        height: 20px;
         text-align: center;
-        font-size: 20px;
+        font-size: 18px;
         float: left;
+        padding-left: 23px;
+        background-color: #39333a;
     };
     .traithrbox{
         width: 558px;
         float: left;
     };
+    .traithrbox2{
+        width: 565px;
+        float: left;
+    };
+    .traithrbox3{
+        width: 550px;
+        float: left;
+    };
+    .traithrbox4{
+        width: 530px;
+        float: left;
+        margin-left: 20px;
+    };
     .traits{
         float: left;
         overflow-y: scroll;
-        height: 68px;
-        scrollbar-width: none;
+        height: 80px;
+        width: 557px;
+        scrollbar-width: thin;
+        scrollbar-color: #edd4b98a #434146;
+        scrollbar-gutter: stable;
     };
     .traits2{
         float: left;
         overflow-y: scroll;
-        height: 180px;
-        scrollbar-width: none;
-    };
-    .magtraits{
-        float: left;
-        overflow-y: scroll;
-        height: 140px;
-        scrollbar-width: none;
+        height: 194px;
+        width: 557px;
+        scrollbar-width: thin;
+        scrollbar-color: #edd4b98a #434146;
+        scrollbar-gutter: stable;
     };
     .trait{
-        width: 552px;
+        width: 545px;
         height: 14px;
         text-align: left;
         padding-left: 10px;
@@ -895,18 +1335,38 @@
         border-top-width: 2px;
         margin-top: 2px;
     }; 
-    .inventory{
+    .invFiller4{
         width: 100%;
-        height: 640px;        
-        padding-left: 20px;
+        height: 30px;
+    };
+    .inventory{
+        width: calc(100% - 40px);
+        height: 610px;
+        margin: 0px 21px;
+        padding: 4px 0px;
+        background-color: #7d7d7d6b;
+        border: 2px solid #ebd3b7;
+        border-radius: 13px;
+        overflow: hidden;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: #ebd3b791 #17151d30;
+        scrollbar-gutter: stable;
     };  
     .inventory2{
-        width: 100%;
-        height: 445px;        
-        padding-left: 20px;
+        width: calc(100% - 45px);
+        height: 435px;
         float: left;
+        margin: 0px 21px;
+        padding: 4px 0px;
+        background-color: #7d7d7d6b;
+        border: 2px solid #ebd3b7;
+        border-radius: 13px;
+        overflow: hidden;
         overflow-y: scroll;
-        scrollbar-width: none;
+        scrollbar-width: thin;
+        scrollbar-color: #ebd3b791 #17151d30;
+        scrollbar-gutter: stable;
     };    
     .inventory3{
         width: 70%;
@@ -920,21 +1380,46 @@
         scrollbar-width: none;
     };  
     .inventory4{
+        width: calc(100% - 50px);
+        height: 608px;
+        padding-left: 2px;
+        padding-right: 2px;
+        border: 2px solid #e9d2b4;
+        background-color: #7d7d7d6b;
+        border-radius: 18px;
+        margin: 0px 25px;
+        overflow: hidden;
+    };
+    .inventory5{
+        width: calc(100% - 44px);
+        height: 608px;
+        padding-left: 2px;
+        padding-right: 2px;
+        border: 2px solid #e9d2b4;
+        background-color: #7d7d7d6b;
+        border-radius: 18px;
+        margin: 0px 25px;
+        overflow: hidden;
+    };
+    .gmLogBox {
+        height: 100%;
         width: 100%;
-        height: 640px;        
-        padding-left: 20px;
-        padding-right: 20px;
-    }; 
+        float: left;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: #edd4b98a #434146;
+        scrollbar-gutter: stable;
+    };
     .invHeader{
         height: 30px;
-        width: 580px;
-        border: 1px solid black;
+        width: 565px;
         border-bottom-width: 2px;
         position: relative;
         font-size: 16px;
         padding-top: 4px;
         padding-left: 34px;
-        background-color: rgba(0,0,0,0.07);
+        background-color: rgb(57 51 58);
+        color: #e6d0b2;
     };  
     .invHeader2{
         height: 30px;
@@ -946,31 +1431,41 @@
         padding-top: 4px;
         padding-left: 16px;
         background-color: rgba(0,0,0,0.07);
-    }; 
+    };
+    .invHeader3{
+        position: relative;
+        border-bottom-width: 2px;
+        background-color: #39333a;
+        color: #e6d0b2;
+        height: 25px;
+        width: 560px;
+        font-size: 14px;
+        padding-top: 3px;
+        padding-left: 31px;
+        margin-left: 20px;
+    };
     .invHeader4{
         height: 30px;
         width: 580px;
-        border: 1px solid black;
         border-bottom-width: 2px;
-        border-left-width: 2px;
         position: relative;
         font-size: 16px;
         padding-top: 4px;
-        padding-left: 16px;
-        background-color: rgba(0, 0, 0, 0.07);
+        padding-left: 34px;
+        background-color: #39333a;
+        color: #e6d0b2;
     };  
     .merchantInfo {
         width: 170px;
         height: 485px;
         float: left;
     };
-    .invItem{        
-        border: 1px solid black;
+    .invItem{
         border-top-width: 0px;
         padding-left: 40px;
         height: 41px;
         padding-top: 1px;
-        width: 580px;
+        width: 565px;
         position: relative;
     };
     .invItem2{        
@@ -983,18 +1478,21 @@
         position: relative;
     };
     .invItem3{        
-        border: 1px solid black;
         border-top-width: 0px;
         border-left-width: 2px;
         padding-left: 75px;
         height: 41px;
         padding-top: 1px;
-        width: 560px;
+        width: 545px;
         position: relative;
         margin-left: 20px;
+        text-overflow: ellipsis;
+        text-wrap-mode: nowrap;
+        overflow: hidden;
+        padding-right: 15px;
     };
     .invDivider{
-        height: 10px;
+        height: 20px;
         width: 580px;
     };
     .invAddBox{
@@ -1004,9 +1502,14 @@
         float: left;
     };
     .invMenuHelper{
-        height: 22px;
-        width: 550px;
+        height: 30px;
+        width: 570px;
         display: inline-block;
+        border: 2px solid #e9d2b4;
+        background-color: #7d7d7d6b;
+        border-radius: 6px;
+        font-size: 13px;
+        padding-top: 3px;
     };
     .invMenuHelper2{
         height: 22px;
@@ -1033,14 +1536,15 @@
         left: 35px;
     };
     .itemAmountBox {
-        height: 22px;
-        width: 20px;
+        height: 18px;
+        width: 25px;
         position: absolute;
         left: 10px;
         top: 8px;
-        background: rgba(255,255,255,0.5);
         text-align: center;
         padding-top: 3px;
+        color: #edd4b9;
+        font-size: 14px;
     };
     .changeAmount {
         position: absolute;
@@ -1053,14 +1557,18 @@
         position: absolute;
         left: 0px;
         top: -2px;
+        height: 26px;
+        border-radius: 7px;
+        background-color: #1e161e;
+        padding: 0px 1px;
+        text-align: center;
     };
     .itemImg{
         width: 30px;
         height: 30px;
     };
     .invtableborder{
-        width: 580px;
-        border: 1px solid black;
+        width: 565px;
     };
     .invtableborder2{
         width: 410px;
@@ -1068,17 +1576,17 @@
     };
     .invtableborder3{
         width: 580px;
-        border: 1px solid black;
         border-left-width: 0px;
         border-right-width: 2px;
         border-bottom-width: 0px;
+        box-shadow: inset 20px 0px 0 0 #3c3b3f;
     };
     .addItemBox{
         width: 20px;
         height: 20px;
         position: absolute;
-        top: 2px;
-        left: 546px;
+        top: 4px;
+        left: 530px;
     };
     .addItemBox2{
         width: 20px;
@@ -1097,23 +1605,28 @@
     };
     .itemWorn{
         position: absolute;
-        top: 3px;
-        right: 3px;
+        top: 14px;
+        right: 5px;
     };
     .moneylable{
         font-size: 12px;
-        border: 0px;
+        border: 1px solid #ffffff;
+        border-radius: 9px;
+        background-color: #312830;
+        color: #e4cdb0;
+        text-align: center;
+        margin-top: -1px;
     };
     .myButton {
         box-shadow:inset 0px 1px 0px 0px #ffffff;
         background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
         background-color:#ededed;
-        border-radius:6px;
-        border:1px solid #dcdcdc;
+        border-radius:12px;
+        border:1px solid #e7d1b1;;
         display:inline-block;
         cursor:pointer;
         color:#777777;
-        font-size:15px;
+        font-size:14px;
         font-weight:bold;
         padding:2px 12px;
         text-decoration:none;
@@ -1127,88 +1640,20 @@
         position:relative;
         top:1px;
     };
-    .addCast {
-        width: 514px;
-        text-align: center;
-        border: 1px solid black;
-    };
-    .addWonder {
-        width: 514px;
-        text-align: center;
-        border: 1px solid black;
-    };    
-    .spellButtonBox {
-        width: 610px;
-        text-align: center;
-    };
-    .skill-rit {
-        width: 400px;
-        overflow-y: scroll;
-        display: inline-block;
-        height: 196px;
-        scrollbar-width: none;
-    };
-    .magicTraitBox {
-        width: 562px;
-        height: 170px;
-        float: left;
-        border: 2px solid black;
-        margin: 18px 24px 0px 24px;
-    };
+    .specialBnt {
+        box-shadow: inset 0px 1px 0px 0px #b9aa95;
+        color: #e2ccad;
+        text-shadow: 0px 1px 0px #7a7a7a;
+        background: linear-gradient(to bottom, #433a69 5%, #2c2b2f 100%);
+        outline-offset: -4px;
+    };  
     .ritHelper {
         float: right;
         margin-right: 7px;
     };
-    .ritHelper10 {
-        width: 450px;
-    };
-    .ritHelper11 {
-        width: 80px;
-        margin-right: 10px;
-    };
-    .ritHelper12 {
-        float: left;
-        width: 35px;
-        height: 15px;
-    };
-    .ritHelper13 {
-        margin-right: 20px;
-    };
     .ritBox {
         height: 15px;
         margin: 1px 0px 0px 0px;
-    };
-    .ritMid {
-        width: 370px;
-        text-align: left;
-        border: 1px solid black;
-        padding-left: 10px;
-        position: relative;
-    };
-    .ritTableCheck {
-        width: 54px;
-        text-align: center;
-        border: 1px solid black;
-        font-size: 12px;
-        height: 28px;
-    };
-    .ritTableHead {
-        font-size: 12px;
-    };
-    .ritwdz {
-        position: absolute;
-        top: 2px;
-        right: 5px;
-    };
-    .ritTableRoll {
-        width: 82px;
-        text-align: center;
-        border: 1px solid black;
-    }
-    .addRitKenn {
-        width: 360px;
-        float: left;
-        text-align: center;
     };
     .merchantDisc {
         width: 175px;
@@ -1272,15 +1717,101 @@
     };
     .holyTraitBox {
         width: 562px;
-        height: 340px;
+        height: 324px;
         float: left;
-        border: 2px solid black;
-        margin: 20px 24px 0px 24px;
+        border: 2px solid #e9d2b4;
+        border-radius: 20px;
+        margin: 30px 30px 0px 30px;
+        overflow: hidden;
+        background-color: #7d7d7d6b;
     };
     .skill-lit {
         width: 400px;
+        height: 65px;
         display: inline-block;
-        height: 45px;
+        border: 2px solid #ebd3b7;
+        border-radius: 16px;
+        padding-top: 6px;
+        background-color: #7d7d7d6b;
+        margin-bottom: 20px;
+    };
+    .skill-mag {
+        width: 400px;
+        height: 250px;
+        display: inline-block;
+        border: 2px solid #ebd3b7;
+        border-radius: 16px;
+        padding-top: 6px;
+        background-color: #7d7d7d6b;
+    };
+    .wonderskillLbl {
+        width: 245px;
+        height: 25px;
+        float: left;
+        font-size: 15px;
+        color: #e4cdb0;
+        padding-top: 2px;
+        padding-left: 105px;
+    };
+    .magicskillLbl {
+        width: 245px;
+        height: 25px;
+        float: left;
+        font-size: 15px;
+        color: #e4cdb0;
+        padding-top: 2px;
+        padding-left: 135px;
+    };
+    .magAddRit {
+        float: left;
+        height: 20px;
+        width: 20px;
+        margin: 2px 0px 0px 125px;
+    };
+    .magRitFiller {
+        float: left;
+        width: 100%;
+        height: 5px;
+    };
+    .magRitLbl {
+        float: left;
+        height: 18px;
+        width: 160px;
+        margin-left: 80px;
+        text-align: left;
+        margin-right: 38px;
+        margin-bottom: 5px;
+    };
+    .magRitValue {
+        float: left;
+        height: 20px;
+        width: 35px;
+        border: 2px solid #dcc7ac;
+        border-radius: 16px;
+        overflow: hidden;
+        margin-top: -1px;
+    };
+    .magRitSkillOverview {
+        float: left;
+        width: 100%;
+        height: 170px;
+        padding-top: 5px;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: #edd4b98a #434146;
+        scrollbar-gutter: stable;
+    };
+    .wonderskillValue {
+        width: 50px;
+        height: 25px;
+        float: left;
+    };
+    .wonderskillInput {
+        height: 20px;
+        width: 35px;
+        margin-top: 1px;
+        border: 1px solid #e7d1b3;
+        border-radius: 10px;
     };
     .god-outer {
         width: 400px;
@@ -1288,38 +1819,30 @@
         height: 160px;
     };
     .god-inner {
-        width: 400px;
         height: 175px;
-        background-image: url(templates/img/Zwölfgötter.png);
+        background-image: url(assets/ui/Zwölfgötter.png);
         background-size: contain;
-        background-position-x: 110px;
         background-repeat: no-repeat;
+        width: 175px;
+        margin-left: 115px;
+        background-color: #434146;
+        border: 2px solid #e9d2b4;
+        border-radius: 104px;
+        outline: 6px solid #e9d2b4;
+        outline-offset: -6px
     };
     .holytraits {
         float: left;
+        overflow-x: hidden;
         overflow-y: scroll;
-        height: 308px;
-        scrollbar-width: none;
-    };
-    .allItem {
-        padding-left: 75px;
+        height: 295px;
+        scrollbar-width: thin;
+        scrollbar-color: #ebd3b791 #17151d30;
+        scrollbar-gutter: stable;
+        width: calc(100% - 1px);
     };
     .allItemIMG {
         left: 39px;
-    };
-    .invHeader3 {
-        height: 25px;
-        width: 560px;
-        border: 1px solid black;
-        border-bottom-width: 2px;
-        border-top-width: 0px;
-        border-left-width: 2px;
-        position: relative;
-        font-size: 14px;
-        padding-top: 3px;
-        padding-left: 31px;
-        background-color: rgba(0, 0, 0, 0.09);
-        margin-left: 20px;
     };
     .invItemLast {
         border-bottom-width: 2px;
@@ -1330,14 +1853,45 @@
         position: absolute;
         top: 4px;
         left: 12px;
+        color: #e6d0b2;
+    };
+    .menuLine {
+        border: 2px solid #e8d0b5;
+        border-radius: 12px;
+        width: 400px;
+        margin: auto;
+        background-color: #7d7d7d6b;
+    };
+    .holyMirikalList {
+        height: 550px;
+        background-color: #7d7d7d6b;
+        border: 2px solid #ead1b7;
+        border-radius: 15px;
+        margin: 10px 25px 0px 25px;
+        padding: 2px;
+        overflow: hidden;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: #ebd3b791 #17151d30;
+        scrollbar-gutter: stable;
+    };
+    .subSub2 {
+        float: left;
+        background-color: #383138;
+        color: #e9d2b4;
+        font-size: 16px;
     };
     .SelHelper1 {
         width: 120px;
+        height: 24px;
         margin-left: 16px;
-        margin-right: 5px;
+        margin-right: 10px;
+        margin-top: 4px;
+        margin-bottom: 4px;
     };
     .SelHelper2 {
         width: 140px;
+        height: 25px;
         margin-left: 16px;
     };
     .mirSkillBox {
@@ -1350,10 +1904,10 @@
     };
     .mirSkillName {
         float: left;
-        height: 10px;
-        width: 350px;
+        height: 20px;
+        width: 320px;
         margin-top: 4px;
-        padding-left: 25px;
+        padding-left: 5px;
         text-align: left;
     };
     .mirSkillSelc {
@@ -1364,8 +1918,8 @@
     };
     .mirRoll {
         position: absolute;
-        right: 50px;
-        top: 6px;
+        right: 12px;
+        top: 4px;
     };
     .skillFiller {
         width: 100%;
@@ -1375,7 +1929,7 @@
     .skillhide {
         position: absolute;
         right: 80px;
-        top: 9px;
+        top: 18px;
         float: left;
         height: 20px;
         width: 30px;
@@ -1413,7 +1967,7 @@
     .charBanner {
         width: 232px;
         height: 750px;
-        background-image: url(templates/img/banner.png);
+        background-image: url(assets/ui/banner.png);
         background-size: contain;
         background-repeat: no-repeat;
         background-position-x: -30px;
@@ -1450,7 +2004,7 @@
         width: 170px;
         height: 215px;
         border: 10px solid transparent;
-        border-image: url(templates/img/border.png) 20% round;
+        border-image: url(assets/ui/border.png) 20% round;
         text-align: center;
         display: block;
         justify-content: center;
@@ -1532,171 +2086,30 @@
         top: 0px;
         display: none;
     };
-
-    .multi-select {
-        display: flex;
-        box-sizing: border-box;
-        flex-direction: column;
-        position: relative;
-        width: 100%;
-        user-select: none;
-    };
-    .multi-select .multi-select-header {
-        border: 1px solid #dee2e6;
-        padding: 7px 30px 7px 12px;
-        overflow: hidden;
-        gap: 7px;
-        min-height: 45px;
-    };
-    .multi-select .multi-select-header::after {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 50%;
-        right: 15px;
-        transform: translateY(-50%);
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23949ba3' viewBox='0 0 16 16'%3E%3Cpath d='M8 13.1l-8-8 2.1-2.2 5.9 5.9 5.9-5.9 2.1 2.2z'/%3E%3C/svg%3E");
-        height: 12px;
-        width: 12px;
-    };
-    .multi-select .multi-select-header.multi-select-header-active {
-        border-color: #c1c9d0;
-    };
-    .multi-select .multi-select-header.multi-select-header-active::after {
-        transform: translateY(-50%) rotate(180deg);
-    };
-    .multi-select .multi-select-header.multi-select-header-active + .multi-select-options {
-        display: flex;
-    };
-    .multi-select .multi-select-header .multi-select-header-placeholder {
-        color: #65727e;
-    };
-    .multi-select .multi-select-header .multi-select-header-option {
-        display: inline-flex;
-        align-items: center;
-        font-size: 14px;
-        padding: 3px 8px;
-        border-radius: 5px;
-    };
-    .multi-select .multi-select-header .multi-select-header-max {
-        font-size: 14px;
-        color: #65727e;
-    };
-    .multi-select .multi-select-options {
-        display: none;
-        box-sizing: border-box;
-        flex-flow: wrap;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        z-index: 999;
-        margin-top: 5px;
-        padding: 5px;
-        background: #dfdfdf;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        max-height: 185px;
-        overflow-y: auto;
-        overflow-x: hidden;
-    };
-    .multi-select .multi-select-options::-webkit-scrollbar {
-        width: 5px;
-    };
-    .multi-select .multi-select-options::-webkit-scrollbar-track {
-        background: #f0f1f3;
-    };
-    .multi-select .multi-select-options::-webkit-scrollbar-thumb {
-        background: #cdcfd1;
-    };
-    .multi-select .multi-select-options::-webkit-scrollbar-thumb:hover {
-        background: #b2b6b9;
-    };
-    .multi-select .multi-select-options .multi-select-option, .multi-select .multi-select-options .multi-select-all {
-        padding: 4px 12px;
-        height: 24px;
-    };
-    .multi-select .multi-select-options .multi-select-option .multi-select-option-radio, .multi-select .multi-select-options .multi-select-all .multi-select-option-radio {
-        margin-right: 14px;
-        height: 16px;
-        width: 16px;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
-    };
-    .multi-select .multi-select-options .multi-select-option .multi-select-option-text, .multi-select .multi-select-options .multi-select-all .multi-select-option-text {
-        box-sizing: border-box;
-        flex: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        color: inherit;
-        font-size: 12px;
-        line-height: 14px;
-    };
-    .multi-select .multi-select-options .multi-select-option.multi-select-selected .multi-select-option-radio, .multi-select .multi-select-options .multi-select-all.multi-select-selected .multi-select-option-radio {
-        border-color: #40c979;
-        background-color: #40c979;
-    };
-    .multi-select .multi-select-options .multi-select-option.multi-select-selected .multi-select-option-radio::after, .multi-select .multi-select-options .multi-select-all.multi-select-selected .multi-select-option-radio::after {
-        content: "";
-        display: block;
-        width: 3px;
-        height: 7px;
-        margin: 0.12em 0 0 0.27em;
-        border: solid #fff;
-        border-width: 0 0.15em 0.15em 0;
-        transform: rotate(45deg);
-    };
-    .multi-select .multi-select-options .multi-select-option.multi-select-selected .multi-select-option-text, .multi-select .multi-select-options .multi-select-all.multi-select-selected .multi-select-option-text {
-        color: #40c979;
-    };
-    .multi-select .multi-select-options .multi-select-option:hover, .multi-select .multi-select-options .multi-select-option:active, .multi-select .multi-select-options .multi-select-all:hover, .multi-select .multi-select-options .multi-select-all:active {
-        background-color: #f3f4f7;
-    };
-    .multi-select .multi-select-options .multi-select-all {
-        border-bottom: 1px solid #f1f3f5;
-        border-radius: 0;
-    };
-    .multi-select .multi-select-options .multi-select-search {
-        padding: 7px 10px;
-        border: 1px solid #dee2e6;
-        border-radius: 5px;
-        margin: 10px 10px 5px 10px;
-        width: 100%;
-        outline: none;
-        font-size: 16px;
-    };
-    .multi-select .multi-select-options .multi-select-search::placeholder {
-        color: #b2b5b9;
-    };
-    .multi-select .multi-select-header, .multi-select .multi-select-option, .multi-select .multi-select-all {
-        display: flex;
-        flex-wrap: wrap;
-        box-sizing: border-box;
-        align-items: center;
-        border-radius: 5px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        font-size: 16px;
-        color: #212529;
-    };
     .effects-control {
         position: absolute;
-        right: 14px; 
+        top: 3px;
+        right: 10px;
     };
     .effect-name {
-        width: 555px;
+        width: 460px;
         height: 20px;
         float: left;
+        font-size: 16px;
+        color: white;
+    };
+    .effectList {
+        margin: 5px;
+        padding-left: 30px;
     };
     .charstateTable {
         margin: 20px 90px;
-        width: 434px;
-        height: 180px;
-        border: black 2px solid;
+        width: 442px;
+        height: 188px;
+        border: #e9d2b4 2px solid;
         border-radius: 10px;
+        padding: 4px;
+        background-color: #7d7d7d6b;
     };
     .charstateRow {
         width: 100%;
@@ -1712,18 +2125,24 @@
     };
     .buffcontrol {
         float: right;
-        width: 23px;
+        width: 20px;
+        border-radius: 10px;
         margin-top: 7px;
+        margin-right: 2px;
     };
     .buffUP {
-        font-size: 16px;
+        font-size: 17px;
         font-weight: bolder;
-        padding-left: 3px;
+        padding-left: 5px;
+        color: white;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     };
     .buffDOWN {
-        font-size: 16px;
+        font-size: 17px;
         font-weight: bolder;
-        padding-left: 3px;
+        padding-left: 5px;
+        color: white;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     };
     .buffCOUNT {
         width: 20px;
@@ -1733,12 +2152,94 @@
     .buffincount {
         height: 18px;
         width: 18px;
-        padding: 4px;
+        background: #322830;
+        font-size: 12px;
+        color: #e9d2b4;
+        border: 1px solid #e9d2b4;
+        border-radius: 9px;
+        padding: 0px;
+        text-align: center;
+    };
+    .buffoverloaded {
+        border-color: #656565;
+        background-image: url(/icons/commodities/stone/paver-cobbles-blue.webp);
+        background-size: contain;
+    };
+    .bufffeared {
+        border-color: #631439;
+        background-image: url(/icons/magic/death/projectile-skull-fire-purple.webp);
+        background-size: contain;
+    };
+    .buffdarkness {
+        border-color: #2c083d;
+        background-image: url(/icons/magic/unholy/orb-glowing-purple.webp);
+        background-size: contain;
+    };
+    .buffpoisioned {
+        border-color: #0b6436;
+        background-image: url(/icons/skills/toxins/cauldron-bubbles-overflow-green.webp);
+        background-size: contain;
+    };
+    .buffentrückt {
+        border-color: #f0d000;
+        background-image: url(/icons/magic/holy/prayer-hands-glowing-yellow.webp);
+        background-size: contain;
+    };
+    .buffkneeling {
+        border-color: #747474;
+        background-image: url(/icons/magic/movement/chevrons-down-yellow.webp);
+        background-size: contain;
+    };
+    .buffonground {
+        border-color: #754e0e;
+        background-image: url(/icons/magic/control/silhouette-fall-slip-prone.webp);
+        background-size: contain;
+    };
+    .buffconcentrated {
+        border-color: #11aac5;
+        background-image: url(/icons/magic/control/silhouette-aura-energy.webp);
+        background-size: contain;
+    };
+    .buffsick {
+        border-color: #96128d;
+        background-image: url(/icons/skills/wounds/illness-disease-glowing-green.webp);
+        background-size: contain;
+    };
+    .buffhidden {
+        border-color: #2a2a2a;
+        background-image: url(/icons/magic/unholy/silhouette-robe-evil-glow.webp);
+        background-size: contain;
+    };
+    .chareffectBox {
+        width: 555px;
+        height: 450px;
+        background-color: #7d7d7d6b;
+        color: #e9d2b4;
+        border: 2px solid #e9d2b4;
+        border-radius: 18px;
+        margin-left: 30px;
+        overflow: hidden;
+        position: relative
+    };
+    .chareffectTitel {
+        height: 30px;
+        background: #3a333a;
+        font-size: 24px;
+        text-align: center;
+    };
+    .spellSpez {
+        font-weight: normal;
+        font-size: 10px;
+        font-family: 'Signika';
     };
 };
 
 .mediOpt {
-    width: 232px;
+    height: 25px;
+    max-width: 180px;
+};
+.dialog-content > .form-group {
+    height: 25px;
 };
 .itemCreOpt {
     width: 205px;
@@ -1783,7 +2284,6 @@
     padding: 0px;
     background-color: #f1e7ca;
 };
-
 #tooltip, .locked-tooltip {
     position: absolute;
     width: max-content;
@@ -1803,4 +2303,4 @@
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s 500ms, opacity 500ms;
-}
+};

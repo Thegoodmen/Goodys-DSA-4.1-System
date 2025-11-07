@@ -2,7 +2,7 @@
 <div class="skillHeaderBox">
     <div class="invMenuHelper">
 	    <div class="skillHeaderSkillBox3">
-                {{localize "GDSA.charactersheet.magicTrait"}}
+            {{localize "GDSA.charactersheet.magicTrait"}}
 	    </div>
         <div class="invAddBox">
             <a class="changeTab item" data-destination="magicPage" data-origin="" data-optional="" title="{{localize "GDSA.charactersheet.back"}}">
@@ -11,26 +11,23 @@
         </div>
     </div>
 </div>
-
 <div class="inventory4">
-    <table class="CharLog">
-            <tr class="gmTableHelper6">
-                <td class="gmTableHelper2"><b>{{localize "GDSA.charactersheet.name"}}</b></td>
-                <td class="gmTableHelper2"><b>{{localize "GDSA.charactersheet.edit"}}</b></td>
-                <td class="gmTableHelper2"><b>{{localize "GDSA.charactersheet.del"}}</b></td>
-            </tr>
-            {{#each magicTraits as |Trait id|}}
-                <tr class="item" data-type="{{system.type}}" data-item-id="{{_id}}">
-                    <td class="gmTableHelper3">{{getLocName this}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</td>
-                    <td class="gmTableHelper4"><a class="item-edit"><i class="fas fa-gear"></a></i></td>
-                    <td class="gmTableHelper5"><a class="item-delete"><i class="fas fa-trash-can"></a></i></td>
-                </tr>
-            {{/each}}
-            
-            <tr>
-                <td class="addCast" colspan="3">
-                    <a class="template-create" data-type="trai" data-sf="magic" title="{{localize "GDSA.charactersheet.newmagicTrait"}}"><b>+</b></a>
-                </td>
-            </tr>
-    </table>
+    <div class="traitDetailsHeader">
+        <div class="traitHeaderBig"><b>{{localize "GDSA.charactersheet.name"}}</b></div>
+        <div class="traitHeaderSmall"><b>{{localize "GDSA.charactersheet.edit"}}</b></div>
+        <div class="traitHeaderSmall"><b>{{localize "GDSA.charactersheet.del"}}</b></div>
+    </div>
+    <div class="traithrbox3"><hr class="traithrMain2" /></div>
+    <div class="traitDetailsBody">
+        {{#each magicTraits as |Trait id|}}
+            <div class="item traitDetailItem" data-type="{{system.type}}" data-item-id="{{_id}}">
+                <div class="traitDetailItemName">{{name}} {{#if (isSleeping this ../this)}}<i>({{localize "GDSA.system.sleeping"}})</i>{{/if}}</div>
+                <div class="traitDetailItemConfig"><a class="item-edit"><i class="fas fa-gear"></i></a></div>
+                <div class="traitDetailItemConfig"><a class="item-delete"><i class="fas fa-trash-can"></i></a></div>
+            </div>
+            <div class="traithrbox3"><hr class="traithr2" /></div>
+        {{/each}}
+    </div>
+    <div class="traithrbox2"><hr class="traithrMain2" /></div>
+    <a class="template-create" data-type="trai" data-sf="magic" title="{{localize "GDSA.charactersheet.newmagicTrait"}}"><div class="traitDetailsFooter"><b>+</b></div></a>
 </div>

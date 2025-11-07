@@ -1,40 +1,39 @@
-<div class="GDSA chat message">
+<div class="GDSA chat message skill">
+
     <div class="iniBox" data-dmgValue="{{totalDMG}}" data-chatid="{{chatId}}" data-zone="{{zone}}">
-        
-        <div class="flawName">{{localize "GDSA.combat.DMG"}}</div>
-        <div class="dicefiller"></div>
+        <div class="chathrBox"><hr class="chathr" /></div>
+        <div class="chatheadline">{{localize "GDSA.combat.DMG"}}</div>
+        <div class="chathrBox"><hr class="chathrBold" /></div>
+
         <div id="collapsable">
-            <div class="diceCol3">
-                <div class="dices2">
+            <div class="infoMainBox">
+                <div class="infoDiceBox5">
                     {{#each roll.dice.[0].values}}
-                        <div class="diceD6">{{this}}</div> 
+                        <div class="infoDices2">{{this}}</div> 
                     {{/each}}
                 </div>
             </div>
         </div>
-
+    
         <div class="dice-formula">
-            <div class="rollFlawSuccess">{{totalDMG}} {{localize "GDSA.combat.DMGOf"}}</div>
+            <div class="rollSkillSuccess">{{totalDMG}} {{localize "GDSA.combat.DMGOf"}}</div>
         </div>
-        
-        {{#unless hasNoZone}}
-            <div class="dicefiller"></div>
-            <div class="dice-formula">
-                <div class="rollFlawSuccess">{{zone}}</div>
-            </div>
-        {{/unless}}
 
-        <div class="dicefiller"></div>
-        <div id="additionalInfo">
-            <label class="switch">
-                <input class="armourCheck" type="checkbox" checked>
-                <span class="slider"></span>
-            </label>
-            <button class="item bntChat4 bntChatDMG" data-dmgModi="0.5">1/2</button>
-            <button class="item bntChat4 bntChatDMG" data-dmgModi="1">1</button>
-            <button class="item bntChat4 bntChatDMG" data-dmgModi="1.5">1.5</button>
-            <button class="item bntChat4 bntChatDMG" data-dmgModi="2">2</button>
-            <button class="item bntChat5 bntChatDMG" data-dmgModi="-1">Heal</button>
-        </div>
+        <span id="additionalInfo">
+            {{#unless hasNoZone}}
+                <div class="chathrBox"><hr class="chathr" /></div>
+                <div class="rollSkillInfo">{{zone}}</div>
+            {{/unless}}
+        </span>
+
+        {{!-- <label class="switch"> --}}
+            {{!-- <input class="armourCheck" type="checkbox" checked> --}}
+            {{!-- <span class="slider"></span> --}}
+        {{!-- </label> --}}
+        {{!-- <button class="item bntChat4 bntChatDMG" data-dmgModi="0.5">1/2</button> --}}
+        {{!-- <button class="item bntChat4 bntChatDMG" data-dmgModi="1">1</button> --}}
+        {{!-- <button class="item bntChat4 bntChatDMG" data-dmgModi="1.5">1.5</button> --}}
+        {{!-- <button class="item bntChat4 bntChatDMG" data-dmgModi="2">2</button> --}}
+        {{!-- <button class="item bntChat5 bntChatDMG" data-dmgModi="-1">Heal</button> --}}
     </div>
 </div>

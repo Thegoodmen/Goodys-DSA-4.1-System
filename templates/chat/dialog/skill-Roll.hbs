@@ -3,43 +3,35 @@
         <div class="submen"><hr class="subhr" /></div>{{name}}<div class="submen"><hr class="subhr" /></div>
     </div>
 
-    <div class="dialogFiller"></div>
-
     <div class="form-group">
         <label>{{localize "GDSA.chat.skill.advantage"}}</label>
-        <input type="number" name="advantage" value="0" />
+        <input class="mediOpt" type="number" name="advantage" value="0" />
     </div>
     <div class="form-group">
         <label>{{localize "GDSA.chat.skill.disadvantage"}}</label>
-        <input type="number" name="disadvantage" value="0" />
+        <input class="mediOpt" type="number" name="disadvantage" value="0" />
     </div>
 
     {{#if klerikal}}
         {{#unless (equals name "Liturgiekenntnis")}}
             <div class="form-group">
                 <label>{{localize "GDSA.chat.skill.mirakel"}}</label>
-                <input id="inboxCast" type="checkbox" name="mirakel" />
+                <input class="mediOpt" id="inboxCast" type="checkbox" name="mirakel" />
             </div>
         {{/unless}}
     {{/if}}
-    
-    <div class="dialogFiller"></div>
 
     {{#if system.tale.BECheck}}
 
         <div class="form-group subSub">
             <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.chat.skill.modi"}}<div class="submen"><hr class="subhr" /></div>
         </div>
-
-        <div class="dialogFiller"></div>
         
         <div class="form-group">
             <label>{{localize "GDSA.template.BE"}}</label>
             <input id="inboxCast" type="checkbox" name="be" checked />
             <input id="inboxCast" type="text" name="beValue" value="{{beDis}}" hidden />
         </div>
-        
-        <div class="dialogFiller"></div>
 
     {{/if}}
 
@@ -48,15 +40,11 @@
         <div class="form-group subSub">
             <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.chat.skill.boni"}}<div class="submen"><hr class="subhr" /></div>
         </div>
-
-        <div class="dialogFiller"></div>
         
         <div class="form-group">
             <label>{{localize "GDSA.chat.skill.mhk"}}</label>
-            <input id="inputCast" type="number" name="mhk" min="0" max="{{MHKMx}}" value="0" /> {{localize "GDSA.itemsheet.asp"}}
+            <input class="mediOpt" id="inputCast" type="number" name="mhk" min="0" max="{{MHKMx}}" value="0" /> {{localize "GDSA.itemsheet.asp"}}
         </div>
-        
-        <div class="dialogFiller"></div>
 
     {{/if}}
 
@@ -66,8 +54,6 @@
             <div class="form-group subSub">
                 <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.chat.skill.boni"}}<div class="submen"><hr class="subhr" /></div>
             </div>
-
-            <div class="dialogFiller"></div>
         {{/unless}}
         
         <div class="form-group">
@@ -77,22 +63,18 @@
 
         <div class="form-group">
             <label>{{localize "GDSA.chat.skill.advantage"}}</label>
-            <input type="number" name="talSadvantage" value="0" />
+            <input class="mediOpt" type="number" name="talSadvantage" value="0" />
         </div>
         
         <div class="form-group">
             <label>{{localize "GDSA.chat.skill.disadvantage"}}</label>
-            <input type="number" name="talSdisadvantage" value="0" />
+            <input class="mediOpt" type="number" name="talSdisadvantage" value="0" />
         </div>
-        
-        <div class="dialogFiller"></div>
 
     {{/if}}
 
     <div class="form-group subSub">
         <div class="submen"><hr class="subhr" /></div><div class="submen"><hr class="subhr" /></div>
     </div>
-
-    <div class="dialogFiller"></div>
     
 </form>

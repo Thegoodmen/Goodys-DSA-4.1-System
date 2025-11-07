@@ -362,10 +362,32 @@
                 "lLeg": 0,
                 "all": 0
             },
+            "swp": {
+                "head": 0,
+                "chest": 0,
+                "rArm": 0,
+                "lArm": 0,
+                "tummy": 0,
+                "rLeg": 0,
+                "lLeg": 0,
+                "all": 0
+            },
             "mirikal": {
                 "template": "Pra",
                 "custom": false,
                 "cus": {}
+            },
+            "buffs": {
+                "kneeling": 0,
+                "onground": 0,
+                "concentrated": 0,
+                "sick": 0,
+                "hidden": 0,
+                "overloaded": 0,
+                "feared": 0,
+                "darkness": 0,
+                "poisioned": 0,
+                "entrückt": 0
             },
             "log": []
         }

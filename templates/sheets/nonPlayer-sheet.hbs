@@ -1,11 +1,10 @@
-<form class="{{cssClass}}" autocomplete="off">
-    <div class="sheet2">
-
-        <header class="sheet-header">
-            <img class="actorImg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+<div id="content" class="{{cssClass}}" autocomplete="off">
+    <div class="sheetMain">
+        <div class="sheetHeader">
+            <img class="actorImg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" data-action="editImage" />
             <div class="headBox">
                 <input class="namelbl" name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'Name'}}" />
-                <a class="npc-roll item" data-value="{{system.MU}}" data-name="{{localize "GDSA.charactersheet.MU"}}"><div class="atlbl atCorner">{{localize "GDSA.charactersheet.sMU"}}</div></a>
+                <a class="npc-roll item" data-value="{{system.MU}}" data-name="{{localize "GDSA.charactersheet.MU"}}"><div class="atlbl">{{localize "GDSA.charactersheet.sMU"}}</div></a>
                     <input class="atInput" name="system.MU" type="number" value="{{system.MU}}" />
                 <a class="npc-roll item" data-value="{{system.KL}}" data-name="{{localize "GDSA.charactersheet.KL"}}"><div class="atlbl">{{localize "GDSA.charactersheet.sKL"}}</div></a>
                     <input class="atInput" name="system.KL" type="number" value="{{system.KL}}" />
@@ -20,9 +19,9 @@
                 <a class="npc-roll item" data-value="{{system.KO}}" data-name="{{localize "GDSA.charactersheet.KO"}}"><div class="atlbl">{{localize "GDSA.charactersheet.sKO"}}</div></a>
                     <input class="atInput" name="system.KO" type="number" value="{{system.KO}}" />
                 <a class="npc-roll item" data-value="{{system.KK}}" data-name="{{localize "GDSA.charactersheet.KK"}}"><div class="atlbl">{{localize "GDSA.charactersheet.sKK"}}</div></a>
-                    <input class="atInput atCorner" name="system.KK" type="number" value="{{system.KK}}" />
+                    <input class="atInput" name="system.KK" type="number" value="{{system.KK}}" />
             </div>
-        </header>
+        </div>
 
         <div class="mainColum">
             <div class="mainRow">
@@ -83,7 +82,7 @@
                     <div class="statName">{{localize "GDSA.itemsheet.INI"}}</div> 
                     <input class="statInput bigRow" name="system.INI" type="text" value="{{system.INI}}" />
                     <div class="statName">{{localize "GDSA.itemsheet.autoCMB"}}</div> 
-                    <input class="statInput secondRow" name="system.autoCMB" type="checkbox" {{checked system.autoCMB}} />
+                    <input class="statInputCheck secondRow" name="system.autoCMB" type="checkbox" {{checked system.autoCMB}} />
                 </div>
             </div>
 
@@ -129,7 +128,7 @@
         
         <div class="mainColum2">
             <div class="subhead">{{localize "GDSA.charactersheet.cmbt"}}</div>
-            <div class="addItemBox2"><a class="template-create" data-type="npcw" title="{{localize "GDSA.charactersheet.addItem"}}">
+            <div class="addItemBox"><a class="template-create" data-type="npcw" title="{{localize "GDSA.charactersheet.addItem"}}">
                 <i class="fas fa-plus plusSym2"></i>
             </a></div>
             <hr class="hrMenu2">
@@ -159,6 +158,7 @@
             <div class="subhead">{{localize "GDSA.charactersheet.spcmbt"}}</div>
             <hr class="hrMenu2">
             <select id="spezi" class="data-multi-select" name="spezi" data-placeholder="Select" data-select-all="false">
+                <option value="none" selected>none</option>
                 {{selectOptions config.npcSpecialSkills selected=system.spezi}}
             </select>
         </div>
@@ -171,4 +171,4 @@
         </div>
 
     </div>
-</form>
+</div>

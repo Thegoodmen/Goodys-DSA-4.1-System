@@ -1,0 +1,51 @@
+<form class="{{cssClass}}bookItem" autocomplete="off">
+
+    <div class="bookItemContainer">
+        <div class="bookItemFill1"></div>
+
+        <div class="bookItemPage1">
+            <div class="bookItemName">{{getItemName item.name 0}}</div>
+            <div class="bookItemSubName">{{getItemName item.name 1}}</div>
+
+            <div class="bookItemImgBox"><img class="bookItemImg" data-edit="img" src="{{item.img}}" /></div>
+
+            <div class="bookItemQuote">{{system.item.quote}}</div>
+        </div>
+
+        <div id="page2" class="bookItemPage2" style="display: block;">
+            <div class="bookItemDescription">{{system.item.description}}</div>
+
+            {{#if system.item.prerequisits}}<div class="bookItemRequi"><div class="bookItemHeadline">{{localize "GDSA.itemsheet.prereq"}}:</div>{{system.item.prerequisits}}</div>{{/if}}
+            
+            <div class="bookItemInGame"><div class="bookItemHeadline">{{localize "GDSA.itemsheet.ingame"}}:</div>
+            {{#each (inGameEach system.item.ingame)}}
+                <div class="bookItemCheckLine"><input class="bookItemCheckbox" type="checkbox" name="system.ingame{{@index}}" {{checked (checkBookChecker ../this @index)}} ><label class="bookItemCheckLable">{{trim this}}</label></div>
+            {{/each}}
+            </div>
+
+            {{#if system.item.special}}<div class="bookItemSpecial"><div class="bookItemHeadline">{{localize "GDSA.itemsheet.special"}}:</div>{{system.item.special}}</div>{{/if}}
+            
+            <div class="bookItemTable">
+                <table><tbody>
+                    <tr><td class="bookItemTableCell">{{localize "GDSA.itemsheet.weight"}}</td><td>{{system.weight}} {{localize "GDSA.itemsheet.stone"}}</td></tr>
+                    <tr><td>{{localize "GDSA.itemsheet.singleValue"}}</td><td>{{#if (hasGold system.value)}}{{getGold system.value}} <i class="fas fa-coins gCoinSym"></i>{{/if}} {{#if (hasSilver system.value)}}{{getSilver system.value}} <i class="fas fa-coins sCoinSym"></i>{{/if}} {{#if (hasCopper system.value)}}{{getCopper system.value}} <i class="fas fa-coins cCoinSym"></i>{{/if}} {{#if (hasNickel system.value)}}{{getNickel system.value}} <i class="fas fa-coins iCoinSym"></i>{{/if}}</td></tr>
+                    <tr><td>{{localize "GDSA.itemsheet.storageT"}}</td><td>{{localize (concat "GDSA.itemsheet.storage" system.item.storage "")}}</td></tr>
+                    <tr><td>{{localize "GDSA.itemsheet.category"}}</td><td>{{system.item.category}}</td></tr>
+                </tbody></table>
+            </div>
+        </div>
+
+        <div id="page3" class="bookItemPage2" style="display: none;">
+
+            <div class="bookItemNote"><div class="bookItemHeadNote">{{localize "GDSA.template.note"}}:</div>{{system.item.note}}</div>
+
+        </div>
+
+        <div class="bookItemControl">
+            <div class="bookItemControler"><a class="openBookItem"><i class="fa-solid fa-magnifying-glass"></i></a></div>
+            <div class="bookItemControler"><a class="openBookNote"><i class="fa-solid fa-book-open-cover"></i></a></div>
+            <div class="bookItemControler"><a class="editBookItem"><i class="fa-solid fa-gear"></i></a></div>
+        </div>
+    </div>
+
+</form>

@@ -1,31 +1,25 @@
-<div class="GDSA chat message">
-    <div class="iniBox">
-        
-        <div class="flawName">{{localize "GDSA.combat.RegAsP"}}</div>
-        <div class="dicefiller"></div>
-        
-        <div id="collapsable">
-            <div class="diceCol">
+<div class="GDSA chat message skill">
+
+    <div class="chathrBox"><hr class="chathr" /></div>
+    <div class="chatheadline">{{localize "GDSA.combat.RegAsP"}}</div>
+    <div class="chathrBox"><hr class="chathrBold" /></div>
+
+    <div id="collapsable">
+        <div class="infoMainBox">
+            <div class="infoDiceBox2">
                 {{#unless isMaster}}
-                    <div class="dices">
-                        <div class="diceD62">{{roll.total}}</div>
-                        <div class="dice">{{roll2.total}}</div>
-                    </div>
+                    <div class="infoDices2">{{roll.total}}</div>
+                    <div class="infoDices">{{roll2.total}}</div>
                 {{else}}
-                    <div class="dices">
-                        <div class="diefiller"></div>
-                        <div class="dice">{{roll2.total}}</div>
-                    </div>
+                    <div class="diefiller"></div>
+                    <div class="infoDices">{{roll2.total}}</div>
                 {{/unless}}
             </div>
-
-            <div class="dicefiller"></div>
         </div>
-        
-        <div class="dice-formula">
-            <div class="rollFlawSuccess">{{regtotal}}{{localize "GDSA.combat.AsPRegOf"}}</div>
-        </div>
-
-        <div id="additionalInfo"></div>
+        <div class="chathrBox"><hr class="chathrBold" /></div>
     </div>
+    
+    <div class="dice-formula">
+        <div class="rollSkillSuccess">{{regtotal}}{{localize "GDSA.combat.AsPRegOf"}}<span id="additionalInfo"></span></div>
+    </div>  
 </div>

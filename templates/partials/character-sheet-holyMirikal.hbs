@@ -2,161 +2,194 @@
     <div class="menuLine">
         {{localize "GDSA.charactersheet.holyTemp"}}
         <select class="SelHelper1 changeMirTemp" name="system.mirTemp">{{selectOptions template.cults.all selected=system.mirTemp valueAttr="id" labelAttr="name"}}</select>
-        <a class="myButton applyMirTemp">{{localize "GDSA.charactersheet.load"}}</a> 
+        <a class="myButton applyMirTemp specialBnt">{{localize "GDSA.charactersheet.load"}}</a> 
     </div>
 
-    <div class="skillFiller"></div>
-    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.attributes"}}<div class="submen"><hr class="subhr" /></div></div>
-    <div class="skillFiller"></div>
+    <div class="holyMirikalList">
+        <div class="form-group subSub2">
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
+            {{localize "GDSA.charactersheet.attributes"}}
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
+        </div>
+        <div class="skillFiller"></div>
+        {{#each config.attributes as |name type|}}
+            <div class="mirSkillBox">
+                <div class="mirSkillName">{{localize (concat "GDSA.charactersheet." name "")}}</div>
+                <div class="mirSkillSelc">
+                    <select class="SelHelper2" name="system.mirikal.cus.{{localize (concat "GDSA.charactersheet." name "")}}">
+                        {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus (localize (concat "GDSA.charactersheet." name ""))) blank="" localize=true}}
+                    </select>
+                </div>
+                <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{localize (concat "GDSA.charactersheet." name "")}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+            </div>
+        {{/each}}
 
-    {{#each config.attributes as |name type|}}
         <div class="mirSkillBox">
-            <div class="mirSkillName">{{localize (concat "GDSA.charactersheet." name "")}}</div>
+            <div class="mirSkillName">{{localize "GDSA.charactersheet.MR"}}</div>
             <div class="mirSkillSelc">
-                <select class="SelHelper2" name="system.mirikal.cus.{{localize (concat "GDSA.charactersheet." name "")}}">
-                    {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus (localize (concat "GDSA.charactersheet." name ""))) blank="" localize=true}}
+                <select class="SelHelper2" name="system.mirikal.cus.{{localize "GDSA.charactersheet.MR"}}">
+                    {{selectOptions config.mirDis selected=(getData system/mirikal/cus (localize "GDSA.charactersheet.MR")) blank="" localize=true}}
                 </select>
             </div>
-            <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{localize (concat "GDSA.charactersheet." name "")}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+            <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{localize "GDSA.charactersheet.MR"}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
         </div>
-    {{/each}}
 
-    <div class="mirSkillBox">
-        <div class="mirSkillName">{{localize "GDSA.charactersheet.MR"}}</div>
-        <div class="mirSkillSelc">
-            <select class="SelHelper2" name="system.mirikal.cus.{{localize "GDSA.charactersheet.MR"}}">
-                {{selectOptions config.mirDis selected=(getData system/mirikal/cus (localize "GDSA.charactersheet.MR")) blank="" localize=true}}
-            </select>
-        </div>
-        <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{localize "GDSA.charactersheet.MR"}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
-    </div>
-
-    <div class="mirSkillBox">
-        <div class="mirSkillName">{{localize "GDSA.charactersheet.dogde"}}</div>
-        <div class="mirSkillSelc">
-            <select class="SelHelper2" name="system.mirikal.cus.{{localize "GDSA.charactersheet.dogde"}}">
-                {{selectOptions config.mirDis selected=(getData system/mirikal/cus (localize "GDSA.charactersheet.dogde")) blank="" localize=true}}
-            </select>
-        </div>
-        <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{localize "GDSA.charactersheet.MR"}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
-    </div>
-
-    <div class="skillFiller"></div>
-    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.meeleSkills"}}<div class="submen"><hr class="subhr" /></div></div>
-    <div class="skillFiller"></div>
-
-    {{#each template.talents.meele as |item|}}
         <div class="mirSkillBox">
-            <div class="mirSkillName">{{skillName item.name ../this}}</div>
-            <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
-                {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
-            </select></div>
-            <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+            <div class="mirSkillName">{{localize "GDSA.charactersheet.dogde"}}</div>
+            <div class="mirSkillSelc">
+                <select class="SelHelper2" name="system.mirikal.cus.{{localize "GDSA.charactersheet.dogde"}}">
+                    {{selectOptions config.mirDis selected=(getData system/mirikal/cus (localize "GDSA.charactersheet.dogde")) blank="" localize=true}}
+                </select>
+            </div>
+            <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{localize "GDSA.charactersheet.MR"}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
         </div>
-    {{/each}}
 
-    <div class="skillFiller"></div>
-    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.rangeSkills"}}<div class="submen"><hr class="subhr" /></div></div>
-    <div class="skillFiller"></div>
-
-    {{#each template.talents.range as |item|}}
-        <div class="mirSkillBox">
-            <div class="mirSkillName">{{skillName item.name ../this}}</div>
-            <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
-                {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
-            </select></div>
-            <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+        <div class="skillFiller"></div>
+        <div class="form-group subSub2">
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
+            {{localize "GDSA.charactersheet.meeleSkills"}}
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
         </div>
-    {{/each}}
+        <div class="skillFiller"></div>
 
-    <div class="skillFiller"></div>
-    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.bodySkills"}}<div class="submen"><hr class="subhr" /></div></div>
-    <div class="skillFiller"></div>
+        {{#each template.talents.meele as |item|}}
+            <div class="mirSkillBox">
+                <div class="mirSkillName">{{skillName item.name ../this}}</div>
+                <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
+                    {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
+                </select></div>
+                <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+            </div>
+        {{/each}}
 
-    {{#each template.talents.body as |item|}}
-        <div class="mirSkillBox">
-            <div class="mirSkillName">{{skillName item.name ../this}}</div>
-            <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
-                {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
-            </select></div>
-            <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+        <div class="skillFiller"></div>
+        <div class="form-group subSub2">
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
+            {{localize "GDSA.charactersheet.rangeSkills"}}
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
         </div>
-    {{/each}}
+        <div class="skillFiller"></div>
 
-    <div class="skillFiller"></div>
-    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.socialSkills"}}<div class="submen"><hr class="subhr" /></div></div>
-    <div class="skillFiller"></div>
+        {{#each template.talents.range as |item|}}
+            <div class="mirSkillBox">
+                <div class="mirSkillName">{{skillName item.name ../this}}</div>
+                <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
+                    {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
+                </select></div>
+                <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+            </div>
+        {{/each}}
 
-    {{#each template.talents.social as |item|}}
-        <div class="mirSkillBox">
-            <div class="mirSkillName">{{skillName item.name ../this}}</div>
-            <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
-                {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
-            </select></div>
-            <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+        <div class="skillFiller"></div>
+        <div class="form-group subSub2">
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
+            {{localize "GDSA.charactersheet.bodySkills"}}
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
         </div>
-    {{/each}}
+        <div class="skillFiller"></div>
 
-    <div class="skillFiller"></div>
-    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.natureSkills"}}<div class="submen"><hr class="subhr" /></div></div>
-    <div class="skillFiller"></div>
+        {{#each template.talents.body as |item|}}
+            <div class="mirSkillBox">
+                <div class="mirSkillName">{{skillName item.name ../this}}</div>
+                <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
+                    {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
+                </select></div>
+                <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+            </div>
+        {{/each}}
 
-    {{#each template.talents.nature as |item|}}
-        <div class="mirSkillBox">
-            <div class="mirSkillName">{{skillName item.name ../this}}</div>
-            <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
-                {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
-            </select></div>
-            <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+        <div class="skillFiller"></div>
+        <div class="form-group subSub2">
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
+            {{localize "GDSA.charactersheet.socialSkills"}}
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
         </div>
-    {{/each}}
+        <div class="skillFiller"></div>
 
-    <div class="skillFiller"></div>
-    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.knowledgeSkills"}}<div class="submen"><hr class="subhr" /></div></div>
-    <div class="skillFiller"></div>
+        {{#each template.talents.social as |item|}}
+            <div class="mirSkillBox">
+                <div class="mirSkillName">{{skillName item.name ../this}}</div>
+                <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
+                    {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
+                </select></div>
+                <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+            </div>
+        {{/each}}
 
-    {{#each template.talents.knowledge as |item|}}
-        <div class="mirSkillBox">
-            <div class="mirSkillName">{{skillName item.name ../this}}</div>
-            <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
-                {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
-            </select></div>
-            <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+        <div class="skillFiller"></div>
+        <div class="form-group subSub2">
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
+            {{localize "GDSA.charactersheet.natureSkills"}}
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
         </div>
-    {{/each}}
+        <div class="skillFiller"></div>
 
-    <div class="skillFiller"></div>
-    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.craftSkills"}}<div class="submen"><hr class="subhr" /></div></div>
-    <div class="skillFiller"></div>
+        {{#each template.talents.nature as |item|}}
+            <div class="mirSkillBox">
+                <div class="mirSkillName">{{skillName item.name ../this}}</div>
+                <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
+                    {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
+                </select></div>
+                <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+            </div>
+        {{/each}}
 
-    {{#each template.talents.craft as |item|}}
-        <div class="mirSkillBox">
-            <div class="mirSkillName">{{skillName item.name ../this}}</div>
-            <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
-                {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
-            </select></div>
-            <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+        <div class="skillFiller"></div>
+        <div class="form-group subSub2">
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
+            {{localize "GDSA.charactersheet.knowledgeSkills"}}
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
         </div>
-    {{/each}}
+        <div class="skillFiller"></div>
 
-    <div class="skillFiller"></div>
-    <div class="form-group subSub"><div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.giftSkills"}}<div class="submen"><hr class="subhr" /></div></div>
-    <div class="skillFiller"></div>
+        {{#each template.talents.knowledge as |item|}}
+            <div class="mirSkillBox">
+                <div class="mirSkillName">{{skillName item.name ../this}}</div>
+                <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
+                    {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
+                </select></div>
+                <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+            </div>
+        {{/each}}
 
-    {{#each template.talents.gift as |item|}}
-        {{#unless (contains item.name "[")}}
-            {{#unless (equals item.name "Liturgiekenntnis")}}
-                <div class="mirSkillBox">
-                    <div class="mirSkillName">{{skillName item.name ../this}}</div>
-                    <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
-                        {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
-                    </select></div>
-                    <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
-                </div>
+        <div class="skillFiller"></div>
+        <div class="form-group subSub2">
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
+            {{localize "GDSA.charactersheet.craftSkills"}}
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
+        </div>
+        <div class="skillFiller"></div>
+
+        {{#each template.talents.craft as |item|}}
+            <div class="mirSkillBox">
+                <div class="mirSkillName">{{skillName item.name ../this}}</div>
+                <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
+                    {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
+                </select></div>
+                <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+            </div>
+        {{/each}}
+
+        <div class="skillFiller"></div>
+        <div class="form-group subSub2">
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
+            {{localize "GDSA.charactersheet.giftSkills"}}
+            <div class="traithrbox3"><hr class="traithrMain2" /></div>
+        </div>
+        <div class="skillFiller"></div>
+
+        {{#each template.talents.gift as |item|}}
+            {{#unless (contains item.name "[")}}
+                {{#unless (equals item.name "Liturgiekenntnis")}}
+                    <div class="mirSkillBox">
+                        <div class="mirSkillName">{{skillName item.name ../this}}</div>
+                        <div class="mirSkillSelc"><select class="SelHelper2" name="system.mirikal.cus.{{item.name}}">
+                            {{selectOptions ../config.mirDis selected=(getData ../system/mirikal/cus item.name) blank="" localize=true}}
+                        </select></div>
+                        <a class="item mirRoll" title="{{localize 'GDSA.chat.skill.roll'}}" data-name="{{skillName item.name ../this}}"><i class="fas fa-dice-d20 faD20Stat"></i></a>
+                    </div>
+                {{/unless}}
             {{/unless}}
-        {{/unless}}
-    {{/each}}
-
-    <div class="skillFiller"></div>
-
+        {{/each}}
+    </div>
 </div>

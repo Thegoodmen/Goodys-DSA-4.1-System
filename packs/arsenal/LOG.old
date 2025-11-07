@@ -1,7 +1,5 @@
-2025/03/12-21:03:13.413560 30e81b000 Recovering log #377
-2025/03/12-21:03:13.413983 30e81b000 Delete type=0 #377
-2025/03/12-21:03:13.414018 30e81b000 Delete type=3 #375
-2025/03/12-22:27:52.117604 30870f000 Level-0 table #382: started
-2025/03/12-22:27:52.117677 30870f000 Level-0 table #382: 0 bytes OK
-2025/03/12-22:27:52.117778 30870f000 Delete type=0 #380
-2025/03/12-22:27:52.117878 30870f000 Manual compaction at level-0 from '!folders!3n6vE3SVgWcRWg4g' @ 72057594037927935 : 1 .. '!items!zshVMCvVjSbJrpMu' @ 0 : 0; will stop at (end)
+2025/11/07-22:35:06.578 a034 Log #434: 0 ops saved to Table #435 OK
+2025/11/07-22:35:06.578 a034 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\arsenal/000434.log: OK
+2025/11/07-22:35:06.578 a034 Table #415: 1013 entries OK
+2025/11/07-22:35:06.581 a034 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\arsenal/MANIFEST-000432: OK
+2025/11/07-22:35:06.584 a034 **** Repaired leveldb C:\FoundryVTT\Data\systems\gdsa\packs\arsenal; recovered 1 files; 279208 bytes. Some data may have been lost. ****

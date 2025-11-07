@@ -1,10 +1,11 @@
-<div class="GDSA chat message">
-    <div class="infoBox">
+<div class="GDSA chat message skill">
+    <div class="chathrBox"><hr class="chathr" /></div>
+    <div class="chatInfoMessage">
         {{#if dmg}}
-            {{actor.name}} {{localize "GDSA.chat.dialog.has"}} <i class="fas fa-tint faD20Stat"></i> {{value}} {{localize "GDSA.chat.dialog.spentLeP"}}
+            {{actor.name}} {{localize "GDSA.chat.dialog.has"}} <i class="fas fa-tint faD20Stat lepDrop"></i> {{value}} {{localize "GDSA.chat.dialog.spentLeP"}}
         {{/if}}
         {{#if heal}}
-            {{actor.name}} {{localize "GDSA.chat.dialog.got"}} <i class="fas fa-cross faD20Stat"></i> {{value}}  {{localize "GDSA.chat.dialog.gotLeP"}}
+            {{actor.name}} {{localize "GDSA.chat.dialog.got"}} <i class="fas fa-cross faD20Stat lepRaise"></i> {{value}} {{localize "GDSA.chat.dialog.gotLeP"}}
         {{/if}}
     </div>
 </div>

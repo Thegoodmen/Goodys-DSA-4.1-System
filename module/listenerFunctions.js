@@ -4,7 +4,6 @@ import * as Dialog from "./dialog.js";
 import Browser from "../module/apps/compBrowser.js"
 import { GDSA } from "./config.js";
 import {getTalent, templateData} from "../module/apps/templates.js";
-import GDSAItem from "./objects/GDSAItem.js";
 
 export async function onSkillRoll(data, event) {
 
@@ -27,6 +26,25 @@ export async function onSkillRoll(data, event) {
         item: await getTalent(statname),
         actor: actor,
         stat: htmlElement.value,
+        skipMenu: !event.shiftKey,
+        data: data,
+        event: event
+    }
+
+    doSkillRoll(rollEvent);
+}
+
+export async function onLitRoll(data, event) {
+
+    event.preventDefault()
+
+    // Create Objekt for SkillRoll
+
+    let rollEvent = {
+        name: game.i18n.localize("GDSA.charactersheet.wonderskill"),
+        item: await getTalent("Liturgiekenntnis"),
+        actor: data.actor,
+        stat: data.actor.system.skill.liturgy,
         skipMenu: !event.shiftKey,
         data: data,
         event: event
@@ -90,8 +108,8 @@ export async function doSkillRoll(rollEvent) {
     let isMirakel = false;
     let mirBonus = 0;
 
-    let actor = await rollEvent.actor.sheet.getData();
-    skillTemplate.isMHK = actor.system.mhkList.filter(function(item) {return item.talentname.includes(rollEvent.item.name)}).length > 0;
+    let actor = await rollEvent.actor.sheet._prepareContext();
+    skillTemplate.isMHK = actor.system.mhkList.filter(function(item) {return item.talentname.replace(/ /g,'').includes(rollEvent.item.name.replace(/ /g,''))}).length > 0;
     skillTemplate.MHKMx = Math.round( statvalue / 2 );
     skillTemplate.beDis = beDisadvantage;
     skillTemplate.klerikal = system.klerikal;
@@ -100,7 +118,6 @@ export async function doSkillRoll(rollEvent) {
     if(rollEvent.skipMenu) {
 
         checkOptions = await Dialog.GetSkillCheckOptions(skillTemplate);
-            
         advantage = checkOptions.advantage;
         disadvantage = checkOptions.disadvantage;
         useBe = checkOptions.be;
@@ -164,8 +181,6 @@ export async function doSkillRoll(rollEvent) {
     if (mirakel) {
 
         let mirakelResponse = await onMirikalRoll(rollEvent.data, rollEvent.event, rollEvent.item.name)
-
-        console.log(mirakelResponse);
 
         if (mirakelResponse.succ) {
 
@@ -531,9 +546,9 @@ export async function onSpellRoll(data, event) {
     if (item.system.vars != undefined) for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) disadvantage += item.system.vars[i].disad;
     if (item.system.rep === "srl") if (item.system.trait1 === "illu" || item.system.trait2 === "illu" || item.system.trait3 === "illu" || item.system.trait4 === "illu") disadvantage = Math.round(disadvantage - nonDiscountDisadvantage / 2) + nonDiscountDisadvantage;
     
-    if (animag.length !== 0 && klamount > 0) disadvantage += (klamount * animag[0].system.value);
-    if (schaus.length !== 0 && chamount > 0) disadvantage += (chamount * schaus[0].system.value);
-    if (zoezau.length !== 0 && muamount > 0) disadvantage += (muamount * zoezau[0].system.value);
+    if (animag.length !== 0 && klamount > 0) disadvantage += (klamount * animag[0].system.trait.value);
+    if (schaus.length !== 0 && chamount > 0) disadvantage += (chamount * schaus[0].system.trait.value);
+    if (zoezau.length !== 0 && muamount > 0) disadvantage += (muamount * zoezau[0].system.trait.value);
 
     if (item.name.includes(game.i18n.localize("GDSA.spell.faxi"))) {
 
@@ -595,6 +610,7 @@ export async function onSpellRoll(data, event) {
     if (item.system.vars != undefined) for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) if (item.system.vars[i].cost != "") minCost = item.system.vars[i].cost;
  
     minCost = minCost.toLowerCase().replace("w", "d")
+    minCost = minCost.replace("zfp", "0");
     if(minCost.includes("d")) minCost = (await Dice.DMGRollWitoutChat(minCost, actor, 1, true)).total;
 
     minCost = parseInt(minCost);
@@ -633,9 +649,9 @@ export async function onSpellRoll(data, event) {
 
     // Generate Optional Objekt
 
-    if (animag.length !== 0 && klamount > 0) usedVars.push(klamount + "x " + game.i18n.localize("GDSA.advantage.animag") + " " + animag[0].system.value + " (+ " + (klamount * animag[0].system.value) + ")");
-    if (schaus.length !== 0 && chamount > 0) usedVars.push(chamount + "x " + game.i18n.localize("GDSA.advantage.schaus") + " " + schaus[0].system.value + " (+ " + (chamount * schaus[0].system.value) + ")");
-    if (zoezau.length !== 0 && muamount > 0) usedVars.push(muamount + "x " + game.i18n.localize("GDSA.advantage.zoezau") + " " + zoezau[0].system.value + " (+ " + (muamount * zoezau[0].system.value) + ")");
+    if (animag.length !== 0 && klamount > 0) usedVars.push(klamount + "x " + game.i18n.localize("GDSA.advantage.animag") + " " + animag[0].system.trait.value + " (+ " + (klamount * animag[0].system.trait.value) + ")");
+    if (schaus.length !== 0 && chamount > 0) usedVars.push(chamount + "x " + game.i18n.localize("GDSA.advantage.schaus") + " " + schaus[0].system.trait.value + " (+ " + (chamount * schaus[0].system.trait.value) + ")");
+    if (zoezau.length !== 0 && muamount > 0) usedVars.push(muamount + "x " + game.i18n.localize("GDSA.advantage.zoezau") + " " + zoezau[0].system.trait.value + " (+ " + (muamount * zoezau[0].system.trait.value) + ")");
 
     let optional = {
         template: "systems/gdsa/templates/chat/chatTemplate/spell-Cast-Roll.hbs",
@@ -667,21 +683,21 @@ export async function onSpellRoll(data, event) {
 
     if (item.name.includes(game.i18n.localize("GDSA.spell.faxi")) && !notEnoughAsP) { 
 
-        const chatModel = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
+        const chatModel = Dice.chatData(actor, await foundry.applications.handlebars.renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
         await Dice.doXD20XD6Roll(chatModel, optAnswer.d20, optAnswer.d6);
     }
 
     if (item.name.includes(game.i18n.localize("GDSA.spell.sphaero")) && !notEnoughAsP) { 
 
         optAnswer.templateContext.totalDMG +=  Math.round(spellCheck.value / 2);
-        const chatModel = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
+        const chatModel = Dice.chatData(actor, await foundry.applications.handlebars.renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
         await Dice.doXD20XD6Roll(chatModel, optAnswer.d20, optAnswer.d6);
     }
 
     if (item.name.includes(game.i18n.localize("GDSA.spell.plano")) && !notEnoughAsP) { 
 
         optAnswer.templateContext.totalDMG += spellCheck.value;
-        const chatModel = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
+        const chatModel = Dice.chatData(actor, await foundry.applications.handlebars.renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
         await Dice.doXD20XD6Roll(chatModel, optAnswer.d20, optAnswer.d6);
     }
 
@@ -714,10 +730,10 @@ export async function onSpellRoll(data, event) {
             optAnswer = await Dice.DMGRollWitoutChat(temp + "d6", actor, 1, true);
         };
 
-        const chatModel1 = Dice.chatData(actor, await renderTemplate(spellCheck.templatePath, spellCheck.templateContext));
+        const chatModel1 = Dice.chatData(actor, await foundry.applications.handlebars.renderTemplate(spellCheck.templatePath, spellCheck.templateContext));
         await Dice.doXD20XD6Roll(chatModel1, spellCheck.dices, []);
 
-        const chatModel2 = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
+        const chatModel2 = Dice.chatData(actor, await foundry.applications.handlebars.renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
         await Dice.doXD20XD6Roll(chatModel2, optAnswer.d20, optAnswer.d6);
     }
 
@@ -753,12 +769,12 @@ export async function onSpellRoll(data, event) {
         };
 
 
-        const chatModel1 = Dice.chatData(actor, await renderTemplate(spellCheck.templatePath, spellCheck.templateContext));
+        const chatModel1 = Dice.chatData(actor, await foundry.applications.handlebars.renderTemplate(spellCheck.templatePath, spellCheck.templateContext));
         await Dice.doXD20XD6Roll(chatModel1, spellCheck.dices, []);
 
         if(spellCheck.templateContext.notEnoughAsP) return;
 
-        const chatModel2 = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
+        const chatModel2 = Dice.chatData(actor, await foundry.applications.handlebars.renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
         await Dice.doXD20XD6Roll(chatModel2, optAnswer.d20, optAnswer.d6);
     }
 
@@ -768,14 +784,14 @@ export async function onSpellRoll(data, event) {
         if (mod.length > 0) if (!variants[mod[0].id]) {
     
             optAnswer = await Dice.DMGRollWitoutChat("1d20+5", actor, 1, true);
-            const chatModel = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
+            const chatModel = Dice.chatData(actor, await foundry.applications.handlebars.renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
             await Dice.doXD20XD6Roll(chatModel, optAnswer.d20, optAnswer.d6);
 
             let mod = item.system.vars.filter(function(item) {return item.name == game.i18n.localize("GDSA.spell.kulmiMod1")});
             if (mod.length > 0) if (variants[mod[0].id]) {
 
                 optAnswer = await Dice.DMGRollWitoutChat("1d20+5", actor, 1, true);
-                const chatModel = Dice.chatData(actor, await renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
+                const chatModel = Dice.chatData(actor, await foundry.applications.handlebars.renderTemplate(optAnswer.templatePath, optAnswer.templateContext));
                 await Dice.doXD20XD6Roll(chatModel, optAnswer.d20, optAnswer.d6);
             };
         };
@@ -918,7 +934,7 @@ export async function onSchamanRoll(data, event) {
     let item = actor.items.get(dataset.itemId);
 
     // Check if Shift is presst for Skip Dialog
-
+    
     let options = event.shiftKey ? false : true;
     let checkOptions = false;
     let advantage = 0;
@@ -1005,7 +1021,8 @@ export async function onSchamanRoll(data, event) {
   
     helperModi = (Math.round(helperAdvantage / numOfHelper) - helperDisadvantage) * -1;
     let helperModString = helperModi > 0 ? "+ " + helperModi : helperModi.toString()[0] + " " + helperModi.toString().substring(1);
-    if(!isNaN(helperModi)) used.push("Hilfstalent(e) (" + helperModString + ")");
+    if(!isNaN(helperModi)) used.push("Hilfstalent(e) (" + helperModString + ")") 
+        else helperModi = 0;
 
     // Calculate Castinduration
 
@@ -1125,7 +1142,12 @@ export async function onSchamanRoll(data, event) {
     spellName = dataset.statname;
 
     let modif = parseInt(advantage) - parseInt(disadvantage) - parseInt(helperModi) + parseInt(keuleAdv) - parseInt(gradDis);
-
+console.log(modif);
+console.log(advantage);
+console.log(disadvantage);
+console.log(helperModi);
+console.log(keuleAdv);
+console.log(gradDis);
     // Calculate min. Cost
 
     let minCost =  item.system.aspCost === "" ? 0 : item.system.aspCost;
@@ -1133,7 +1155,6 @@ export async function onSchamanRoll(data, event) {
     
     if(minCost > actor.system.AsP.value) notEnoughAsP = true;
 
-    console.log(action);
     if (action === "action") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (" + acount + " Aktionen)";
     if (action === "rounds") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (Eine Spielrunde)";
     if (action === "halfho") action =  game.i18n.localize("GDSA.wonder." + item.system.ritduaration) + " (Eine halbe Stunde)";
@@ -1159,7 +1180,7 @@ export async function onSchamanRoll(data, event) {
     optional.varis = (used.length > 0);
 
     // Execute Roll
-
+    console.log(modif);
     let spellCheck = await Dice.skillCheck(dataset.statname, spellValue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif, optional);
     spellCheck.message.setFlag('gdsa', 'isCollapsable', true);
 }
@@ -1170,13 +1191,8 @@ export async function onMirikalRoll(data, event, statname = "") {
 
     // Get Element and Actor
 
-    let element = event.currentTarget;
     let actor = data.actor;
     let system = data.system;
-
-    // Get Dataset from HTML
-
-    let dataset = element.closest(".item").dataset;
 
     // Get Skill Value from the Actor
     
@@ -1191,8 +1207,6 @@ export async function onMirikalRoll(data, event, statname = "") {
     // Get Name of Skill
 
     let skill = statname;
-
-    if(skill === "") skill = dataset.name;
 
     let skillname = "Mirakel: " + skill;
 
@@ -1602,15 +1616,15 @@ export async function onRitualCreation(data, event) {
     let dataset = element.closest(".item").dataset;
 
     // Get Item
-
+    console.log(dataset.itemId);
     let item = actor.items.get(dataset.itemId);
-
+    console.log(actor);
     // Get Skill Value from the HTML
     
     let skill = item.system.creatTalent;
-    let statvalue = actor.sheet.getData().system.skill["rit" + skill];
-    if (!statvalue < 0) return;
 
+    let statvalue = (await actor.sheet._prepareContext()).system.skill["rit" + skill];
+    if (!statvalue < 0) return;
     // Check if Shift is presst for Skip Dialog
 
     let options = event.shiftKey ? false : true;
@@ -1620,7 +1634,7 @@ export async function onRitualCreation(data, event) {
 
     if(options) {
 
-        checkOptions = await Dialog.GetSkillCheckOptions();
+        checkOptions = await Dialog.GetSkillCheckOptions({});
             
         advantage = checkOptions.advantage;
         disadvantage = checkOptions.disadvantage;
@@ -1633,9 +1647,9 @@ export async function onRitualCreation(data, event) {
     let modif = (parseInt(advantage) - parseInt(disadvantage)) - item.system.creatDisAd;
 
     // Calculate Cost
-
-    let minCost =  item.system.creatCost;
- 
+    console.log(item);
+    let minCost = item.system.creatCost != null ? item.system.creatCost : 0;
+    console.log(minCost);
     minCost = minCost.toString().toLowerCase().replace("w", "d")
     if(minCost.includes("d")) minCost = (await Dice.DMGRollWitoutChat(minCost, actor, 1, true)).total;
 
@@ -1644,9 +1658,9 @@ export async function onRitualCreation(data, event) {
     // Prepare Optinals
     
     let statname = item.name;
-    let dieOne = actor.system[item.system.activAtt1].value + actor.system[item.system.activAtt1].temp;
-    let dieTwo = actor.system[item.system.activAtt2].value + actor.system[item.system.activAtt1].temp;
-    let dieThr = actor.system[item.system.activAtt3].value + actor.system[item.system.activAtt1].temp;
+    let dieOne = actor.system[item.system.creatAtt1].value + actor.system[item.system.creatAtt1].temp;
+    let dieTwo = actor.system[item.system.creatAtt2].value + actor.system[item.system.creatAtt2].temp;
+    let dieThr = actor.system[item.system.creatAtt3].value + actor.system[item.system.creatAtt3].temp;
 
     let optional = {
         template: "systems/gdsa/templates/chat/chatTemplate/objrit-Roll.hbs",
@@ -1684,7 +1698,7 @@ export async function onRitualActivation(data, event) {
     // Get Skill Value from the HTML
     
     let skill = item.system.activTalent;
-    let statvalue = actor.sheet.getData().system.skill["rit" + skill];
+    let statvalue = (await actor.sheet._prepareContext()).system.skill["rit" + skill];
     if (!statvalue < 0) return;
 
     // Check if Shift is presst for Skip Dialog
@@ -1696,7 +1710,7 @@ export async function onRitualActivation(data, event) {
 
     if(options) {
 
-        checkOptions = await Dialog.GetSkillCheckOptions();
+        checkOptions = await Dialog.GetSkillCheckOptions({});
             
         advantage = checkOptions.advantage;
         disadvantage = checkOptions.disadvantage;
@@ -1721,8 +1735,8 @@ export async function onRitualActivation(data, event) {
     
     let statname = item.name;
     let dieOne = actor.system[item.system.activAtt1].value + actor.system[item.system.activAtt1].temp;
-    let dieTwo = actor.system[item.system.activAtt2].value + actor.system[item.system.activAtt1].temp;
-    let dieThr = actor.system[item.system.activAtt3].value + actor.system[item.system.activAtt1].temp;
+    let dieTwo = actor.system[item.system.activAtt2].value + actor.system[item.system.activAtt2].temp;
+    let dieThr = actor.system[item.system.activAtt3].value + actor.system[item.system.activAtt3].temp;
 
     let optional = {
         template: "systems/gdsa/templates/chat/chatTemplate/objrit-Roll.hbs",
@@ -1887,7 +1901,7 @@ export async function onStatRoll(data, event) {
     response.message.setFlag('gdsa', 'isCollapsable', true);
 }
 
-export function onNPCRoll(data, event) {
+export async function onNPCRoll(data, event) {
 
     event.preventDefault();
 
@@ -1907,7 +1921,8 @@ export function onNPCRoll(data, event) {
 
     // Execute Roll
     
-    Dice.statCheck(statname, value, 0, actor);
+    let answer = await Dice.statCheck(statname, value, 0, actor);
+    answer.message.setFlag('gdsa', 'isCollapsable', true);
 }
 
 export async function onCritMisMeeleRoll(data, event) {
@@ -1999,7 +2014,7 @@ export async function onAttackRoll(data, event) {
     if (game.combat) {
         
         currentScene = game.scenes.current._id;
-        currentSceneCombat = game.combats.contents.filter(function(combat) {return combat._source.scene === currentScene})[0];
+        currentSceneCombat = game.combats.contents.filter(function(combat) {return combat.active})[0];
         userCombatant = currentSceneCombat.getCombatantByActor(data.actor.id);
         
         if(userCombatant) {
@@ -2107,6 +2122,8 @@ export async function onAttackRoll(data, event) {
         
         let ATKValue = actor.system.skill[skillItem.name].atk;
 
+        ATKValue += actor.system.ATBasis.tempmodi;
+
         // Calculate TPKK
 
         if (item.system.weapon.TPKK) {
@@ -2159,6 +2176,7 @@ export async function onAttackRoll(data, event) {
     // If Target has Auto Combat enable, proceed
 
     if(!targetToken.actor.system.autoCMB) return;
+    if(!targetToken.actor.system.autoParry) return;
 
     // If Target is a NPC Actor, let him try to Parry
 
@@ -2202,6 +2220,8 @@ export async function onAttackRoll(data, event) {
         answer2 = await Dice.PACheck(PAValue, 0, targetToken, context);
 
     } else answer2 = await Dice.PACheck(PAValue, 0, targetToken, context);
+
+    answer2.message.setFlag('gdsa', 'isCollapsable', true);
     
     // If Parry is sucessfull return;
 
@@ -2216,6 +2236,9 @@ export async function onAttackRoll(data, event) {
     let dmg = await Dice.DMGRoll(cacheObject.dmgString, actor, dmgMulti);
     let sp = (dmg.result - targetActor.system.RS);
     let newHP = targetToken.actor.system.LeP.value - sp;
+
+    
+    dmg.message.setFlag('gdsa', 'isCollapsable', true);
 
     GDSA.socket.executeAsGM("adjustRessource", targetToken.actor, newHP, "LeP");
 
@@ -2234,7 +2257,9 @@ async function onMeeleAttack(data, actor, item, ATKValue, Modi, isSpezi, auto, c
 
     // If Spezialistation is present, raise ATK and add WM
 
+    ATKValue = parseInt(ATKValue);
     if(isSpezi) ATKValue++;
+
 
     // Get WM from Weapon
     
@@ -2345,7 +2370,7 @@ async function onRangeAttack(actor, ATKValue, Modi, isSpezi, item, auto, cacheOb
     }
 
     // Create Dialog for ATK Options
-
+    
     let ATKInfo = await Dialog.GetRangeAtkInfo(await item.sheet.getData());
     if (ATKInfo.cancelled) return;
 
@@ -2360,7 +2385,7 @@ async function onRangeAttack(actor, ATKValue, Modi, isSpezi, item, auto, cacheOb
 
     // Check for Distanzsense to add 2 Advantage
     
-    let entsin = actor._sheet.getData().advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.entsin"))});
+    let entsin = actor._sheet.sheet.advantages.filter(function(item) {return item.name.includes(game.i18n.localize("GDSA.advantage.entsin"))});
     if (entsin.length) Modi += 2;
 
     // Add up Modifiers
@@ -2482,11 +2507,10 @@ export async function onNPCAttackRoll(data, event) {
     let modi = 0;
 
     if (game.combat) {
-        
-        let currentScene = game.scenes.current._id;
-        let currentSceneCombat = game.combats.contents.filter(function(combat) {return combat._source.scene === currentScene})[0];
+
+        let currentSceneCombat = game.combats.contents.filter(function(combat) {return combat.active})[0];
         let userCombatantId = currentSceneCombat.combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]?._id;
-        userCombatant =  currentSceneCombat.combatants.get(userCombatantId);
+        userCombatant =  currentSceneCombat.getCombatantByActor(userCombatantId);
         
         if(userCombatant) {
 
@@ -2495,8 +2519,8 @@ export async function onNPCAttackRoll(data, event) {
         }
     }
 
-    if(attacksLeft < 1 && attackerparriesLeft > 0 && game.combats.contents.length > 0) modi = -4;
-    if(attacksLeft < 1 && attackerparriesLeft < 1 && game.combats.contents.length > 0) return;
+    if(attacksLeft < 1 && attackerparriesLeft > 0 && userCombatant) modi = -4;
+    if(attacksLeft < 1 && attackerparriesLeft < 1 && userCombatant) return;
 
     // Generate Chat Cache Object and store ID
 
@@ -2516,10 +2540,11 @@ export async function onNPCAttackRoll(data, event) {
     // Execute Roll
     
     let result = await Dice.ATKCheck(value, modi, actor, auto, true, chatId, context);
+    result.message.setFlag('gdsa', 'isCollapsable', true);
 
     // Remove one Attack from the Possible Attacks this round
 
-    if (game.combats.contents.length > 0) { 
+    if (userCombatant) { 
         attacksLeft--;
         attackerparriesLeft --;
         if(attacksLeft >= 0)userCombatant.setFlag("gdsa", "attacks", attacksLeft)
@@ -2550,6 +2575,7 @@ export async function onNPCAttackRoll(data, event) {
             combatant.setFlag("gdsa", "parries", parriesLeft);
 
             let answer2 = await Dice.PACheck(PAValue, 0, targetToken);
+            answer2.message.setFlag('gdsa', 'isCollapsable', true);
     
             // If Parry is sucessfull return;
 
@@ -2559,6 +2585,7 @@ export async function onNPCAttackRoll(data, event) {
         // Do DMG Rolls
         
         let dmg = await Dice.DMGRoll(dmgString, actor, 1);
+        dmg.message.setFlag('gdsa', 'isCollapsable', true);
 
         // Set new HP to Target
 
@@ -2639,7 +2666,7 @@ export async function onParryRoll(data, event) {
 
         // Get Weapon
         
-        PAValue = actor.system.skill[item.skill].def;
+        PAValue = parseInt(actor.system.skill[item.skill].def);
 
     } else {
 
@@ -2659,11 +2686,13 @@ export async function onParryRoll(data, event) {
             if (CONFIG.Templates.talents.all[i]._id === skill) 
                 skillItem = CONFIG.Templates.talents.all[i];
         
-        PAValue = actor.system.skill[skillItem.name].def;
+        PAValue = parseInt(actor.system.skill[skillItem.name].def);
 
-        PAValue += item.system.weapon["WM-DEF"];
+        PAValue += parseInt(item.system.weapon["WM-DEF"]);
         if(isSpezi) PAValue++;
     }
+    
+    PAValue += actor.system.PABasis.tempmodi;
 
     // Create Parry Dialog
 
@@ -2720,7 +2749,7 @@ export async function onParryRoll(data, event) {
     if (isPartofCombat) userCombatant.setFlag("gdsa", "parries", parriesLeft);
 }
 
-export function onNPCParryRoll(data, event) {
+export async function onNPCParryRoll(data, event) {
 
     event.preventDefault();
 
@@ -2739,7 +2768,8 @@ export function onNPCParryRoll(data, event) {
 
     // Execute Roll
     
-    Dice.PACheck(value, 0, actor, context);
+    let answer = await Dice.PACheck(value, 0, actor, context);
+    answer.message.setFlag('gdsa', 'isCollapsable', true);
 }
 
 export async function onShildRoll(data, event) {
@@ -3008,7 +3038,7 @@ export async function onDMGRoll(data, event) {
             item = { name: "Raufen", skill: "Raufen", skillId: "q80TrWRaYyPMuetB", system : { weapon: { "WM-ATK": 0, "type": "Faust", "TPKK": "10/3" }}};
         else 
             item = { name: "Ringen", skill: "Ringen", skillId: "FKwfmO4jlia32EAz", system : { weapon: { "WM-ATK": 0, "type": "Faust", "TPKK": "10/3" }}};
-    } else item = this.actor.items.get(itemId);
+    } else item = actor.items.get(itemId);
 
     // Calculate TPKK
 
@@ -3031,7 +3061,7 @@ export async function onDMGRoll(data, event) {
     if (itemId === "raufen" || itemId === "ringen") dmgString = "1d6+" + tpBonus;
     if (itemId === "biss") dmgString = actor.system.nwbite + "+" + tpBonus;
     if (itemId === "schwanz") dmgString = actor.system.nwtail + "+" + tpBonus;
-
+    
     // Generate Chat Cache Object and store ID
 
     let cacheObject = {
@@ -3065,7 +3095,7 @@ export async function onZoneRoll(data, event) {
     result.setFlag('gdsa', 'isCollapsable', true);
 }
 
-export function onNPCDMGRoll(data, event) {
+export async function onNPCDMGRoll(data, event) {
 
     event.preventDefault();
 
@@ -3080,7 +3110,8 @@ export function onNPCDMGRoll(data, event) {
 
     // Execute Roll
     
-    Dice.DMGRoll(value, actor, 1);
+    let dmg = await Dice.DMGRoll(value, actor, 1);
+    dmg.message.setFlag('gdsa', 'isCollapsable', true);
 }
 
 export async function onStatLoss(data, type, event) {
@@ -3120,7 +3151,7 @@ export async function onStatLoss(data, type, event) {
     let chatData = {
         user: game.user.id,
         speaker: ChatMessage.getSpeaker({ actor }),
-        content: await renderTemplate(template, templateContext)};
+        content: await foundry.applications.handlebars.renderTemplate(template, templateContext)};
     
     ChatMessage.create(chatData);  
 }
@@ -3162,7 +3193,7 @@ export async function onStatGain(data, type, event) {
     let chatData = {
         user: game.user.id,
         speaker: ChatMessage.getSpeaker({ actor }),
-        content: await renderTemplate(template, templateContext)};
+        content: await foundry.applications.handlebars.renderTemplate(template, templateContext)};
     
     ChatMessage.create(chatData);  
 }
@@ -3240,8 +3271,15 @@ export function onWoundChange(data, event) {
     // Get Woundcount
 
     let wound = (system.wp[zone] != null) ? system.wp[zone] : 0;
-    wound ++;
+    let suswound = (system.swp?.[zone] != null) ? system.swp[zone] : 0;
+    
+    if(event.button == 0) wound ++;
+    if(event.button == 2) suswound ++;
+
     if(wound > 3) wound = 0;
+    if(suswound > wound) suswound = 0;
+
+    let effwound = wound -  suswound;
 
     // Update WS Stat and Render
 
@@ -3250,7 +3288,7 @@ export function onWoundChange(data, event) {
 
     switch (zone) {
         case "head":
-            switch (wound) {
+            switch (effwound) {
                 case 1:
                     additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Kopfwunde I"})[0];
                     break;
@@ -3264,7 +3302,7 @@ export function onWoundChange(data, event) {
             delitem = actor.effects.contents.filter(function(a) {return a.name.includes("Kopfwunde")}).map(a => a._id);
             break;
         case "chest":
-            switch (wound) {
+            switch (effwound) {
                 case 1:
                     additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Brustwunde I"})[0];
                     break;
@@ -3278,7 +3316,7 @@ export function onWoundChange(data, event) {
             delitem = actor.effects.contents.filter(function(a) {return a.name.includes("Brustwunde")}).map(a => a._id);
             break;
         case "tummy":
-            switch (wound) {
+            switch (effwound) {
                 case 1:
                     additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Bauchwunde I"})[0];
                     break;
@@ -3292,7 +3330,7 @@ export function onWoundChange(data, event) {
             delitem = actor.effects.contents.filter(function(a) {return a.name.includes("Bauchwunde")}).map(a => a._id);
             break;
         case "lArm":
-            switch (wound) {
+            switch (effwound) {
                 case 1:
                     additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Armwunde (links) I"})[0];
                     break;
@@ -3306,7 +3344,7 @@ export function onWoundChange(data, event) {
             delitem = actor.effects.contents.filter(function(a) {return a.name.includes("Armwunde (links)")}).map(a => a._id);
             break;
         case "rArm":
-            switch (wound) {
+            switch (effwound) {
                 case 1:
                     additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Armwunde (rechts) I"})[0];
                     break;
@@ -3320,7 +3358,7 @@ export function onWoundChange(data, event) {
             delitem = actor.effects.contents.filter(function(a) {return a.name.includes("Armwunde (rechts)")}).map(a => a._id);
             break;
         case "lLeg":
-            switch (wound) {
+            switch (effwound) {
                 case 1:
                     additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Beinwunde (links) I"})[0];
                     break;
@@ -3334,7 +3372,7 @@ export function onWoundChange(data, event) {
             delitem = actor.effects.contents.filter(function(a) {return a.name.includes("Beinwunde (links)")}).map(a => a._id);
             break;
         case "rLeg":
-            switch (wound) {
+            switch (effwound) {
                 case 1:
                     additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Beinwunde (rechts) I"})[0];
                     break;
@@ -3348,7 +3386,7 @@ export function onWoundChange(data, event) {
             delitem = actor.effects.contents.filter(function(a) {return a.name.includes("Beinwunde (rechts)")}).map(a => a._id);
             break;    
         default:
-            switch (wound) {
+            switch (effwound) {
                 case 1:
                     additem = CONFIG.Templates.effects.all.filter(function(a) {return a.name === "Ganzkörperwunde I"})[0];
                     break;
@@ -3367,7 +3405,7 @@ export function onWoundChange(data, event) {
     if (additem) actor.createEmbeddedDocuments("ActiveEffect", [additem]);
     if (delitem) actor.deleteEmbeddedDocuments("ActiveEffect", delitem);
 
-    actor.setWound(zone, wound);
+    actor.setWound(zone, wound, suswound);
     actor.render();
 }
 
@@ -3436,7 +3474,7 @@ export async function onReg(data, event) {
     if(checkRegIII != null) APBonus = Math.round(statValueKL / 3) + 3 + parseInt(regDialog.asp) + NOBonus;
     if(checkRegIII != null) magActive = true;
     if(system.KaP.max > 0 && system.KaP.max != system.KaP.value) KABonus++; else KABonus = 0; 
-    console.log(APBonus);
+
     // Do Regeneration
 
     if(system.LeP.max != system.LeP.value)
@@ -3446,7 +3484,7 @@ export async function onReg(data, event) {
 
     // Save new Values
 
-    system.LeP.value += parseInt(regtLeP);
+    system.LeP.value += parseInt(regtLeP.regtotal);
     system.AuP.value = system.AuP.max;
     system.AsP.value += parseInt(regtAsP.regtotal);
     system.KaP.value += parseInt(KABonus);
@@ -3458,6 +3496,7 @@ export async function onReg(data, event) {
     actor.render();
 
     if(regtAsP != 0) regtAsP.message.setFlag('gdsa', 'isCollapsable', true);
+    if(regtLeP != 0) regtLeP.message.setFlag('gdsa', 'isCollapsable', true);
 }
 
 export async function onMed(data, event) {
@@ -3543,18 +3582,18 @@ export function onPACountToggel(data, event) {
     combatant.setFlag("gdsa", "parries", newPALeft);
 }
 
-export async function doOrientation(data, event) {
+export async function doOrientation(event) {
 
     event.preventDefault();
 
     // Get Element
 
-    let element = event.currentTarget;
+    let element = event.srcElement;
     
     // Get toggeld Combatant ID
-
-    let combatId = element.closest(".toggelAT").dataset.cmbtid;
-    let combatantId = element.closest(".orient").dataset.id;
+    
+    let combatId = element.dataset.cmbtid;
+    let combatantId = element.dataset.id;
 
     // Get ATs and PAs left from the Combatant
 
@@ -3563,7 +3602,7 @@ export async function doOrientation(data, event) {
     let paLeft = combatant.getFlag("gdsa", "parries");
 
     // Set new AT Left Flag for Combatant
-
+    
     if (atLeft > 0) atLeft--;
     else if (paLeft > 0) paLeft--
     else return; 
@@ -3571,15 +3610,15 @@ export async function doOrientation(data, event) {
     combatant.setFlag("gdsa", "attacks", atLeft);
     combatant.setFlag("gdsa", "parries", paLeft);
 
-    let newIni = combatant.actor.type == "PlayerCharakter" ? parseInt(combatant.actor.sheet.getData().system.INIBasis.value) : parseInt(combatant.actor.sheet.getData().system.INI.split('+')[1].trim());
+    let combatantSystem = await combatant.actor.sheet._prepareContext();
+    let newIni = combatant.actor.type == "PlayerCharakter" ? parseInt(combatant.actor.system.INIBasis.value) : parseInt(combatant.actor.system.INI.split('+')[1].trim());
     newIni += 6;
-    if (combatant.actor.sheet.getData().system.INIDice == "2d6") newIni += 6;
-
+    if (combatant.actor.system.INIDice == "2d6") newIni += 6;
     game.combats.get(combatId).setInitiative(combatantId, newIni)
 
     let templateContext = {actor: combatant, value: newIni}
 
-    let chatModel = { user: game.user.id, speaker: ChatMessage.getSpeaker({combatant}), content: await renderTemplate("systems/gdsa/templates/chat/chatTemplate/oriantation-Roll.hbs", templateContext)};
+    let chatModel = { user: game.user.id, speaker: ChatMessage.getSpeaker({combatant}), content: await foundry.applications.handlebars.renderTemplate("systems/gdsa/templates/chat/chatTemplate/oriantation-Roll.hbs", templateContext)};
     let roll = new Roll("1d20", {});
     let message = await roll.toMessage(chatModel);
 }
@@ -3759,6 +3798,178 @@ export async function editCharRessource(data, event) {
     data.actor.render();
 }
 
+export async function editItemBookDetails(data, event) {
+
+    // Set inital Variabels
+
+    let checkOptions = false;
+
+    // Generate Context for the Dialog
+
+    let context = {
+
+        name: data.item.name,
+        value: data.system.value,
+        weight: data.system.weight,
+        storage: data.system.item.storage,
+        category: data.system.item.category,
+        quote: data.system.item.quote,
+        description: data.system.item.description,
+        prerequisits: data.system.item.prerequisits,
+        ingame: data.system.item.ingame,
+        special: data.system.item.special,
+        itemType: data.system.itemType,
+        type: data.system.type,
+        note: data.system.item.note
+    };
+
+    // Create Dialog
+
+    checkOptions = await Dialog.editItemBook(context);
+    if (checkOptions.cancelled) return;
+
+    // Process Dialog and generate Log Entry
+
+    data.item.setBookItemData(checkOptions);
+    data.item.render();
+}
+
+export async function openItemPage(data, page, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let container = element.closest(".bookItemContainer");
+
+    // Get Collabseable DIV Box
+    
+    let page2 = container.querySelector("[id=page2]");
+    let page3 = container.querySelector("[id=page3]");
+
+    // Hide / Show Pages
+
+    switch (page) {
+
+        case 2:
+            page2.style.display = "block";
+            page3.style.display = "none";
+            break;
+    
+        case 3:
+            page3.style.display = "block";
+            page2.style.display = "none";
+            break;
+    }
+}
+
+export async function onEffectToggle(data, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let container = element.closest(".effectmainBNT");
+    let actor = data.actor;
+
+    // Get Effect from DOM
+
+    let idname = container.id;
+    let name = game.i18n.localize("GDSA.templates." + idname)
+    
+    // Get Full Effect from registry
+
+    let effects = CONFIG.Templates.effects.all;
+    let effect = effects.filter(function(item) {return item.name === name})[0]
+    if (effect === null || effect === undefined) return;
+
+    // Enable or Disable Effect on Actor
+
+    let extistingEffect = actor.effects.contents.filter(function(item) {return item.name === name}).map(a => a._id);
+
+    if (extistingEffect.length > 0) {
+        
+        actor.deleteEmbeddedDocuments("ActiveEffect", extistingEffect);
+        actor.updateBuffValue(idname, 0);
+
+    } else {
+        
+        actor.createEmbeddedDocuments("ActiveEffect", [effect]);
+        actor.updateBuffValue(idname, 1);
+    }
+    game.gdsa.buffHud?.render();
+    actor.render();
+}
+
+export async function onEffectUp(data, event) {
+
+    event.stopPropagation();
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let container = element.closest(".effectmainBNT");
+    let actor = data.actor;
+
+    // Get Effect from DOM
+
+    let idname = container.id;
+    let name = game.i18n.localize("GDSA.templates." + idname)
+    
+    // Get Full Effect from registry
+
+    let effects = CONFIG.Templates.effects.all;
+    let effect = effects.filter(function(item) {return item.name === name})[0]
+    if (effect === null || effect === undefined) return;
+
+    let buffvalue = actor.system.buffs[idname];
+    buffvalue++;
+
+    actor.updateBuffValue(idname, buffvalue);
+
+    if (buffvalue === 1) actor.createEmbeddedDocuments("ActiveEffect", [effect]);
+    game.gdsa.buffHud?.render();
+    actor.render();
+}
+
+export async function onEffectDown(data, event) {
+
+    event.stopPropagation();
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+    let container = element.closest(".effectmainBNT");
+    let actor = data.actor;
+
+    // Get Effect from DOM
+
+    let idname = container.id;
+    let name = game.i18n.localize("GDSA.templates." + idname)
+    
+    // Get Full Effect from registry
+
+    let effects = CONFIG.Templates.effects.all;
+    let effect = effects.filter(function(item) {return item.name === name})[0]
+    if (effect === null || effect === undefined) return;
+
+    let buffvalue = actor.system.buffs[idname];
+    if (buffvalue === 0) return;
+
+    buffvalue--;
+    let extistingEffect = actor.effects.contents.filter(function(item) {return item.name === name}).map(a => a._id);
+
+    actor.updateBuffValue(idname, buffvalue);
+
+    if (buffvalue === 0) actor.deleteEmbeddedDocuments("ActiveEffect", extistingEffect);
+    game.gdsa.buffHud?.render();
+    actor.render();
+}
+
 export async function editRitualSkills(data, event) {
 
     // Set inital Variabels
@@ -3842,7 +4053,6 @@ export async function addAdvantage(data, event) {
     if(!event.shiftKey) {
 
         checkOptions = await Dialog.getAdvantage(template);
-
         advantage = checkOptions.advantage;
     }
     
@@ -4028,6 +4238,7 @@ export function onItemDelete(data, event) {
 export function onItemEquip(data, event) {
 
     event.preventDefault();
+    event.stopPropagation();
 
     // Get Actor and System
 
@@ -4049,6 +4260,7 @@ export function onItemEquip(data, event) {
 export function onItemRemove(data, event) {
 
     event.preventDefault();
+    event.stopPropagation();
 
     // Get Actor and System
 
@@ -4245,7 +4457,7 @@ export async function onMoneyChange(data, event) {
     let chatData = {
         user: game.user.id,
         speaker: ChatMessage.getSpeaker({ actor }),
-        content: await renderTemplate(template, templateContext)
+        content: await foundry.applications.handlebars.renderTemplate(template, templateContext)
     };
         
     ChatMessage.create(chatData);  
@@ -4600,13 +4812,13 @@ export function getItemContextMenu() {
 
             name: game.i18n.localize("GDSA.system.edit"),
             icon: '<i class="fas fa-edit" />',
-            callback: element => { getItemFromActors(element.data("item-id")).sheet.render(true);}
+            callback: (element => { getItemFromActors($(element).data("item-id")).sheet.render(true);})
 
         },{
 
             name: game.i18n.localize("GDSA.system.delete"),
             icon: '<i class="fas fa-trash" />',
-            callback: element => { getActorFromItem(element.data("item-id")).deleteEmbeddedDocuments("Item", [element.data("item-id")]);}
+            callback: (element => { getActorFromItem($(element).data("item-id")).deleteEmbeddedDocuments("Item", [$(element).data("item-id")]);})
     }];
 }
 
@@ -4890,7 +5102,7 @@ export async function executeHealthLoss(event) {
 
     if(targetToken.type == "PlayerCharakter" && isArmoured && dmgModifier != -1) rs = Util.getZoneArmour(targetToken, dmgZone);
     if(targetToken.type == "NonPlayer" && isArmoured && dmgModifier != -1) rs = targetToken.system.RS;
-    if(targetToken.type == "PlayerCharakter") ws = targetToken.sheet.getData().system.WS;
+    if(targetToken.type == "PlayerCharakter") ws = targetToken.sheet._prepareContext().system.WS;
     if(targetToken.type == "NonPlayer") ws = targetToken.system.KO / 2;
 
     let dmgCalc = Math.round(dmgAmmount * dmgModifier);
@@ -4928,14 +5140,13 @@ export async function executeHealthLoss(event) {
     else await token.toggleActiveEffect(effect, {overlay: true, active: isDefeated});
 }
 
-export function changeTab(data, event) {
+export async function changeTab(data, event) {
 
     event.preventDefault();
 
     // Get Element, Actor and System
 
     let element = event.currentTarget;
-    let actor = data.actor;
  
     // Get Destination and Origin
  
@@ -4945,13 +5156,104 @@ export function changeTab(data, event) {
     let optional = (dataset.optional != null) ? dataset.optional : "";
 
     // Change MainTab to Destination
-    
     data.system.origin = origin;
+    let tabs = event.srcElement.closest("form").querySelector(".sheet-body");
+    let activeTab = tabs.querySelector(".tab.primary.active");
+    let destinationTab = tabs.querySelector("#"+destination);
+    
+    activeTab.classList.remove("active");
+    destinationTab.classList.add("active")
+    
+    let nav = event.srcElement.closest("form").querySelector(".sheet-tabs");
+    let activeNav = nav.querySelectorAll(".item.menuMainItem.active");
+    let destinationNav = nav.querySelectorAll("#"+destination);
+
+    let sheet =  event.srcElement.closest("form").querySelector(".sheet");
+    let sheetMenu = sheet.querySelector(".menuBar");
+    if(destination === "characterView") sheetMenu.style.display = "none";
+    if(destination === "mainPage") sheetMenu.style.display = "block";
+    
+    activeNav.forEach(navElement => { navElement.classList.remove("active") });
+    destinationNav.forEach(navElement => { navElement.classList.add("active") });
+    data.actor.setFlag('gdsa', 'primaryTabSelection', destination);
     data.system.optional = optional;
-    if(destination === "characterView") data.actor.hideMenu();
-    if(destination === "mainPage") data.actor.showMenu();
-    actor.sheet._tabs[0].activate(destination);
-    data.actor.render();
+}
+
+export async function changeSubTab(data, event) {
+
+    event.preventDefault();
+
+    // Get Element, Actor and System
+
+    let element = event.currentTarget;
+ 
+    // Get Destination and Origin
+ 
+    let dataset = element.closest("a").dataset;
+    let navdata = element.closest("nav").dataset;
+    let destination = dataset.tab;
+    let subset = navdata.group;
+
+    // Change MainTab to Destination
+
+    switch (subset) {
+        case "secondary":
+            let tabs = event.srcElement.closest("form").querySelector(".skill-body");
+            let activeTab = tabs.querySelector(".tab.skillsBox.active");
+            let destinationTab = tabs.querySelector("#"+destination);
+            
+            activeTab.classList.remove("active");
+            destinationTab.classList.add("active")
+            
+            let nav = event.srcElement.closest("form").querySelector(".skill-tabs");
+            let activeNav = nav.querySelectorAll(".item.menuSubItem.active");
+            let destinationNav = nav.querySelectorAll("#"+destination);
+            
+            activeNav.forEach(navElement => { navElement.classList.remove("active") });
+            destinationNav.forEach(navElement => { navElement.classList.add("active") });
+            
+            data.actor.setFlag('gdsa', 'skillTabSelection', destination);
+            break;
+
+        case "magic":
+            let tabs2 = event.srcElement.closest("form").querySelector(".magic-body");
+            let activeTab2 = tabs2.querySelector(".tab.magicBox.active");
+            let destinationTab2 = tabs2.querySelector("#"+destination);
+            
+            activeTab2.classList.remove("active");
+            destinationTab2.classList.add("active")
+            
+            let nav2 = event.srcElement.closest("form").querySelector(".magic-tabs");
+            let activeNav2 = nav2.querySelectorAll(".item.menuSubItem.active");
+            let destinationNav2 = nav2.querySelectorAll("#"+destination);
+            
+            activeNav2.forEach(navElement => { navElement.classList.remove("active") });
+            destinationNav2.forEach(navElement => { navElement.classList.add("active") });
+            
+            data.actor.setFlag('gdsa', 'magicTabSelection', destination);
+            break;
+
+        case "holy":
+            let tabs3 = event.srcElement.closest("form").querySelector(".holy-body");
+            let activeTab3 = tabs3.querySelector(".tab.magicBox.active");
+            let destinationTab3 = tabs3.querySelector("#"+destination);
+            
+            activeTab3.classList.remove("active");
+            destinationTab3.classList.add("active")
+            
+            let nav3 = event.srcElement.closest("form").querySelector(".holy-tabs");
+            let activeNav3 = nav3.querySelectorAll(".item.menuSubItem.active");
+            let destinationNav3 = nav3.querySelectorAll("#"+destination);
+            
+            activeNav3.forEach(navElement => { navElement.classList.remove("active") });
+            destinationNav3.forEach(navElement => { navElement.classList.add("active") });
+            
+            data.actor.setFlag('gdsa', 'holyTabSelection', destination);
+            break;
+            
+        default:
+            break;
+    }   
 }
 
 export function containsWord(str, word) {
@@ -4987,33 +5289,50 @@ export function chatCollaps(event) {
 
     event.preventDefault();
 
-    // Get Element and ChatMessage
-
-    let element = event.currentTarget;
-    let message = element.closest(".chat-message");
-
-    // Get Collabseable DIV Box and Bnt Picture
+    let message = event.currentTarget.closest(".chat-message");
+    
+    // Toggle Class to Message
     
     let dBox = message.querySelector("[id=collapsable]");
-    let bntImg = message.querySelector("[id=collapsImg]");
-
-    // Toggle Class to Message
-
     dBox.classList.toggle('collabst');
-
+    
     // Change Bnt Picture
-
+    
+    let bntImg = message.querySelector("[id=collapsImg]");
     bntImg.classList.toggle("fa-chevron-up");
     bntImg.classList.toggle("fa-chevron-down");
 
     // Hide / Show Additional Infos
 
     let spanObj =  message.querySelector("[id=additionalInfo]");
-    let hidden = spanObj.getAttribute("hidden");
-    
-    if ( hidden ) spanObj.removeAttribute("hidden");
+    if (spanObj.getAttribute("hidden")) spanObj.removeAttribute("hidden");
     else spanObj.setAttribute("hidden", "hidden");
 
+}
+
+export function primeChatCollaps(messageObj, html, options) {
+    
+    if(game.settings.get("gdsa", "defaultCollapsChat")) {
+
+        // Toggle Class to Message
+
+        let dBox = html.querySelector("[id=collapsable]");
+        dBox.classList.toggle('collabst');
+        
+        // Change Bnt Picture
+        
+        let bntImg = html.querySelector("[id=collapsImg]");
+        if(bntImg != null) {
+            bntImg.classList.toggle("fa-chevron-up");
+            bntImg.classList.toggle("fa-chevron-down");
+        }
+
+        // Hide / Show Additional Infos
+
+        let spanObj =  html.querySelector("[id=additionalInfo]");
+        if (spanObj.getAttribute("hidden")) spanObj.removeAttribute("hidden");
+        else spanObj.setAttribute("hidden", "hidden");
+    }
 }
 
 export async function showAllSkills(data, event) {
@@ -5042,7 +5361,7 @@ export async function noteGMPost(data, event) {
     
     let templateContext = {name: data.item.name, value: data.system.tale.notes}
     let chatModel = { user: game.user.id, speaker: null, type: 1, 
-        content: await renderTemplate("systems/gdsa/templates/chat/chatTemplate/note-Post.hbs", templateContext)};
+        content: await foundry.applications.handlebars.renderTemplate("systems/gdsa/templates/chat/chatTemplate/note-Post.hbs", templateContext)};
     let message = await ChatMessage.create(chatModel);
 
     message.setFlag('gdsa', 'isCollapsable', true);
@@ -5056,7 +5375,7 @@ export async function noteAllPost(data, event) {
     
     let templateContext = {name: data.item.name, value: data.system.tale.notes}
     let chatModel = { user: game.user.id, speaker: null, 
-        content: await renderTemplate("systems/gdsa/templates/chat/chatTemplate/note-Post.hbs", templateContext)};
+        content: await foundry.applications.handlebars.renderTemplate("systems/gdsa/templates/chat/chatTemplate/note-Post.hbs", templateContext)};
     let message = await ChatMessage.create(chatModel);
 
     message.setFlag('gdsa', 'isCollapsable', true);
@@ -5064,46 +5383,4 @@ export async function noteAllPost(data, event) {
 
 export async function updateChatMessagesAfterCreation(message) {
 
-}
-
-export function testFunc(data,event) {
-
-    event.preventDefault();
-
-    let element = event.currentTarget;
-
-    console.log(game);
-
-    GDSAItem.create({
-        "name": "Test",
-        "img": "icons/svg/item-bag.svg",
-        "type": "Gegenstand",
-        "system": { 
-            "type": "melee", 
-            "weight": 12,
-            "value": 1000,
-            "weapon": {
-                "length": 220,
-                "type": "pike",
-                "skill": "",
-                "BF-cur": 0,
-                "BF-min": 0,
-                "DK": "N",
-                "INI": 1,
-                "WM-ATK": 1,
-                "WM-DEF": 1,
-                "TPKK": "12/4",
-                "damage": "1d6+5"
-            },
-            "item": {
-                "storage": "bag"
-            },                    
-            "tale": {
-                "notes": ""
-            }
-        }
-    })
-
-    console.log(event);
-    console.log(data);
 }

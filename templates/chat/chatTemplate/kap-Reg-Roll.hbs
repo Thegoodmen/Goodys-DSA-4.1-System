@@ -1,35 +1,36 @@
-<div class="GDSA chat message">
-    <div class="flawBox {{#if modPresent}}statModBoxAdd{{/if}}">
-        
-        <div class="flawName">{{localize "GDSA.chat.medi.media"}} {{statValue}}</div>
-        <div class="dicefiller"></div>
-        <div class="diceCol">
-            <div class="dices2">
-                <div class="dice">{{roll.total}}</div>
-                <div class="dice">{{roll2.total}}</div>
-                <div class="dice">{{roll3.total}}</div>
+<div class="GDSA chat message skill">
+
+    <div class="chathrBox"><hr class="chathr" /></div>
+    <div class="chatheadline">{{localize "GDSA.chat.medi.media"}} {{statValue}}</div>
+    <div class="chathrBox"><hr class="chathrBold" /></div>
+
+    <div id="collapsable">
+        <div class="infoMainBox">
+            <div class="infoDiceBox4">
+                <div class="infoDices">{{roll.total}}</div>
+                <div class="infoDices">{{roll2.total}}</div>
+                <div class="infoDices">{{roll3.total}}</div>
             </div>
         </div>
-        
-        <div class="dicefiller"></div>
-        
-        {{#if modPresent}}
-            {{#if isAdv}}
-            <div class="rollposMod">{{localize "GDSA.chat.skill.advantageOf"}} {{adv}}</div>
-            <div class="dicefiller1"></div>
-            {{/if}}
-            {{#if isDis}}
-            <div class="rollnegMod">{{localize "GDSA.chat.skill.disadvantageOf"}} {{dis}}</div>
-            <div class="dicefiller1"></div>
-            {{/if}}
-        {{/if}}
-        
-        <div class="dice-formula">
-            {{#if result}}
-                    <div class="rollMediSuccess">{{tap}} {{localize "GDSA.chat.medi.kapReg"}}<br /></div>
-            {{else}}
-                    <div class="rollMediFail">{{localize "GDSA.chat.stat.fail"}} <br /></div>
-            {{/if}}
-        </div>
+        <div class="chathrBox"><hr class="chathrBold" /></div>
     </div>
+    
+    {{#if modPresent}}
+        {{#if isAdv}}
+            <div class="rollpositivMod">{{localize "GDSA.chat.skill.advantageOf"}} {{adv}}</div>
+            <div class="chathrBox"><hr class="chathrBold" /></div>
+        {{/if}}
+        {{#if isDis}}
+            <div class="rollnegativMod">{{localize "GDSA.chat.skill.disadvantageOf"}} {{dis}}</div>
+            <div class="chathrBox"><hr class="chathrBold" /></div>
+        {{/if}}
+    {{/if}}
+
+    <div class="dice-formula">
+        {{#if result}}
+            <div class="rollSkillSuccess">{{tap}} {{localize "GDSA.chat.medi.kapReg"}}<span id="additionalInfo"></span></div>
+        {{else}}
+            <div class="rollSkillFail">{{localize "GDSA.chat.stat.fail"}}<span id="additionalInfo"></span></div>
+        {{/if}}
+    </div>  
 </div>

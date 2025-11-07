@@ -20,7 +20,7 @@
 
     <div class="spellMenuBox">
 	    <section class="spell-body">
-            {{doLog this}}
+            
             <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">                
                 <div class="input100 coloPickLbl">{{localize "GDSA.templates.state"}}:</div>
                 <select class="inputTempColo" name="system.affi.type">{{selectOptions config.affilation selected=system.affi.type blank="" localize=true}}</select>
@@ -28,26 +28,6 @@
                 <input class="coloPickTemplate" name="system.affi.fontColo" type="color" value="{{system.affi.fontColo}}" />
                 <div class="input100 coloPickLbl">{{localize "GDSA.templates.backC"}}:</div>
                 <input class="coloPickTemplate" name="system.affi.backgroundColor" type="color" value="{{system.affi.backgroundColor}}" />
-            
-                <h2>{{localize "fs2e.sheet.effects"}}
-                    <a class="effect-control" data-action="create"><i class="fas fa-plus"></i></a>
-                </h2>
-                
-                <ol>
-                    {{#each effects as |effect|}}
-                        <li class="item effect" data-effect-id="{{effect._id}}">
-                            <div class="item-name effect-name"><h4>{{effect.name}}</h4></div>
-                            <div class="effect-controls">
-                                <a class="effect-control" data-action="edit" title="{{localize 'GDSA.system.edit'}}">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a class="effect-control" data-action="delete" title="{{localize 'GDSA.system.delete'}}">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </div>
-                        </li>
-                    {{/each}}
-                </ol>
             </div>
             
             <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">

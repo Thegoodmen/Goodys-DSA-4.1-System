@@ -1,4 +1,6 @@
-export default class GDSACompBrowser extends FormApplication {
+const api = foundry.applications.api;
+
+export default class GDSACompBrowser extends api.HandlebarsApplicationMixin(api.ApplicationV2) {
 
     constructor(object={}, options={}, type="", actor="") {
         
@@ -30,33 +32,39 @@ export default class GDSACompBrowser extends FormApplication {
         this.sFocus = 0;
     }
 
-    static get defaultOptions() {
-
-        return foundry.utils.mergeObject(super.defaultOptions, {
-            classes: ["GDSA", "browser"],
-            template: "systems/gdsa/templates/apps/compBrowser.hbs",
-            width: 800,
-            height: "auto",
-            title: "Browser",
+    static DEFAULT_OPTIONS = {
+        tag: "div",
+        classes: ["GDSA", "browser"],
+        actions: {},
+        form: {
+            submitOnChange: false,
             closeOnSubmit: false
-        });
+        },
+        position: {},
+        window: {}
     }
 
-    async getData() {
+    static PARTS = {
 
-        const baseData = super.getData();
+        main: { template: "systems/gdsa/templates/apps/compBrowser.hbs" }
+    }
 
-        let sheetData = {
+    get title() {
 
-            // Set General Values
+        return "Browser";
+    }
 
-            config: CONFIG.GDSA,
-            template: CONFIG.Templates
-        }
+    /** @override */
+    _configureRenderOptions(options) {
 
-        console.log(this.type);
+        super._configureRenderOptions(options);
+        options.parts = ["main"];
+    }
 
-        // Keep Selection
+    /** @override */
+    async _prepareContext(options) {
+
+        let sheetData = { config: CONFIG.GDSA, template: CONFIG.Templates, type: this.type };
         
         sheetData.search = this.searchString;
         sheetData.trait = this.trait;
@@ -77,8 +85,6 @@ export default class GDSACompBrowser extends FormApplication {
         sheetData.skill = this.skill;
         sheetData.aPlace = this.aPlace;
         sheetData.rittSkill = this.rittSkill;
-
-        // Fill Browser with Items of definied Type
 
         let itemArray = [];
         let sortedArray = [];
@@ -299,191 +305,70 @@ export default class GDSACompBrowser extends FormApplication {
                 break;
         }
 
-        sheetData.type = this.type;
         sheetData.items = sortedArray.sort((a,b) => { if (a.name === b.name) return a.system.grad < b.system.grad ? -1 : 1; else return b.name > a.name ? -1 : 1});
 
         this.itemList = sheetData.items;
 
         return sheetData;
     }
+ 
+    /** @override */
+    _onRender(context, options) {
 
-    activateListeners(html) {
-
-        html.find(".browserInput").click(this.objectClicked.bind(this));
-        html.find(".browserMenuInput").change(this.objectClicked.bind(this));
-        html.find(".item").dblclick(this.addItem.bind(this));
-        super.activateListeners(html);
-    }
-
-    _updateObject(html) {
+        super._onRender(context, options);
         
-        this.searchString = html.target[0].value;
-
-        if ( this.type === "spell"){
-            this.trait = html.target[1].value;
-            this.rep = html.target[2].value;
-            this.v0 = html.target[3].checked;
-            this.v1 = html.target[4].checked;
-            this.v2 = html.target[5].checked;
-            this.v3 = html.target[6].checked;
-            this.v4 = html.target[7].checked;
-            this.v5 = html.target[8].checked;
-            this.v6 = html.target[9].checked;
-            this.kA = html.target[10].checked;
-            this.kB = html.target[11].checked;
-            this.kC = html.target[12].checked;
-            this.kD = html.target[13].checked;
-            this.kE = html.target[14].checked;
-            this.kF = html.target[15].checked;
-        }
-
-        if ( this.type === "melee-weapons" || this.type === "range-weapons"){
-            this.skill = html.target[1].value;
-        }
-
-        if ( this.type === "armour" ) {
-            this.aPlace = html.target[1].value;
-        }
-
-        if ( this.type === "objektRitual"){
-            this.rittSkill = html.target[1].value;
-        }
-
-        if ( this.type === "wonder"){
-            this.rep = html.target[1].value;
-            this.kA = html.target[2].checked;
-            this.kB = html.target[3].checked;
-            this.kC = html.target[4].checked;
-            this.kD = html.target[5].checked;
-            this.kE = html.target[6].checked;
-            this.kF = html.target[7].checked;
-        }
-
-        this.render();
+        this.element.querySelectorAll(".browserInput").forEach(action => { action.addEventListener("click", (e) => this.objectClicked(e)) });
+        this.element.querySelectorAll(".browserMenuInput").forEach(action => { action.addEventListener("change", (e) => this.objectClicked(e)) });
+        this.element.querySelectorAll(".item").forEach(action => { action.addEventListener("dblclick", (e) => this.addItem(e)) });
     }
 
     objectClicked(event) {
         
-        this.searchString = event.currentTarget.form[0].value;
-        
-        if ( this.type === "spell"){
-            this.trait = event.currentTarget.form[1].value;
-            this.rep = event.currentTarget.form[2].value;
-            this.v0 = event.currentTarget.form[3].checked;
-            this.v1 = event.currentTarget.form[4].checked;
-            this.v2 = event.currentTarget.form[5].checked;
-            this.v3 = event.currentTarget.form[6].checked;
-            this.v4 = event.currentTarget.form[7].checked;
-            this.v5 = event.currentTarget.form[8].checked;
-            this.v6 = event.currentTarget.form[9].checked;
-            this.kA = event.currentTarget.form[10].checked;
-            this.kB = event.currentTarget.form[11].checked;
-            this.kC = event.currentTarget.form[12].checked;
-            this.kD = event.currentTarget.form[13].checked;
-            this.kE = event.currentTarget.form[14].checked;
-            this.kF = event.currentTarget.form[15].checked;
-        }
-        if ( this.type === "melee-weapons" || this.type === "range-weapons"){
-            this.skill = event.currentTarget.form[1].value;
-        }
+        let html = event.srcElement.closest(".settings");
 
-        if ( this.type === "armour" ){
-            this.aPlace = event.currentTarget.form[1].value;
-        }
+        this.searchString = html.querySelector("#menuSearch").value;
 
-        if ( this.type === "objektRitual"){
-            this.rittSkill = event.currentTarget.form[1].value;
-        }
-
-        if ( this.type === "wonder"){
-            this.rep = event.currentTarget.form[1].value;
-            this.kA = event.currentTarget.form[2].checked;
-            this.kB = event.currentTarget.form[3].checked;
-            this.kC = event.currentTarget.form[4].checked;
-            this.kD = event.currentTarget.form[5].checked;
-            this.kE = event.currentTarget.form[6].checked;
-            this.kF = event.currentTarget.form[7].checked;
+        switch (this.type) {
+            case "spell":
+                this.trait = html.querySelector("#trait").value;
+                this.v0 = html.querySelector("#v0").checked;
+                this.v1 = html.querySelector("#v1").checked;
+                this.v2 = html.querySelector("#v2").checked;
+                this.v3 = html.querySelector("#v3").checked;
+                this.v4 = html.querySelector("#v4").checked;
+                this.v5 = html.querySelector("#v5").checked;
+                this.v6 = html.querySelector("#v6").checked;
+            case "wonder":
+                this.rep = html.querySelector("#rep").value;
+                this.kA = html.querySelector("#kA").checked;
+                this.kB = html.querySelector("#kB").checked;
+                this.kC = html.querySelector("#kC").checked;
+                this.kD = html.querySelector("#kD").checked;
+                this.kE = html.querySelector("#kE").checked;
+                this.kF = html.querySelector("#kF").checked;
+                break;
+            case "melee-weapons":
+            case "range-weapons":
+                this.skill = html.querySelector("#skill").value;
+                break;
+            case "armour":
+                this.aPlace = html.querySelector("#place").value;
+                break;
+            case "objektRitual":
+                this.rittSkill = html.querySelector("#skill").value;
+                break;
         }
 
         this.render();
-
     }
 
-    async objectSearch(event) {
+    checkArmourRat(item, place) { return (item.system.armour[place] > 0); }
+    
+    checkForSkill(item, skill) { return (item.system.weapon.skill === skill); }
 
-        const sel = event.target.selectionStart;
-        const input = document.getElementById('menuSearch');
-        
-        this.searchString = event.currentTarget.form[0].value;
+    checkRitualSkill(ritObj, rit) { return ritObj.system.creatTalent === rit ? true : false; }
 
-        if ( this.type === "spell"){
-            this.trait = event.currentTarget.form[1].value;
-            this.rep = event.currentTarget.form[2].value;
-            this.v0 = event.currentTarget.form[3].checked;
-            this.v1 = event.currentTarget.form[4].checked;
-            this.v2 = event.currentTarget.form[5].checked;
-            this.v3 = event.currentTarget.form[6].checked;
-            this.v4 = event.currentTarget.form[7].checked;
-            this.v5 = event.currentTarget.form[8].checked;
-            this.v6 = event.currentTarget.form[9].checked;
-            this.kA = event.currentTarget.form[10].checked;
-            this.kB = event.currentTarget.form[11].checked;
-            this.kC = event.currentTarget.form[12].checked;
-            this.kD = event.currentTarget.form[13].checked;
-            this.kE = event.currentTarget.form[14].checked;
-            this.kF = event.currentTarget.form[15].checked;
-            this.sFocus = sel;
-        }
-
-        if ( this.type === "melee-weapons" || this.type === "range-weapons"){
-            this.skill = event.currentTarget.form[1].value;
-        }
-
-        if ( this.type === "armour" ){
-            this.aPlace = event.currentTarget.form[1].value;
-        }
-
-        if ( this.type === "objektRitual"){
-            this.rittSkill = event.currentTarget.form[1].value;
-        }
-
-        if ( this.type === "wonder"){
-            this.rep = event.currentTarget.form[1].value;
-            this.kA = event.currentTarget.form[2].checked;
-            this.kB = event.currentTarget.form[3].checked;
-            this.kC = event.currentTarget.form[4].checked;
-            this.kD = event.currentTarget.form[5].checked;
-            this.kE = event.currentTarget.form[6].checked;
-            this.kF = event.currentTarget.form[7].checked;
-        }
-
-        let newDoc = await this.render();
-        newDoc.element[0].ownerDocument.getElementById('menuSearch').setSelectionRange(2,2);
-    }
-
-    checkForTrait(spell, trait) {
-
-        if(spell.system.trait1 === trait) return true;
-        if(spell.system.trait2 === trait) return true;
-        if(spell.system.trait3 === trait) return true;
-        if(spell.system.trait4 === trait) return true;        
-        
-        return false
-    }
-
-    checkForSkill(item, skill) {
-
-        if(item.system.weapon.skill === skill) return true;      
-        
-        return false
-    }
-
-    checkArmourRat(item, place) {
-
-        if(item.system.armour[place] > 0) return true;      
-        
-        return false
-    }
+    checkForTrait(spell, trait) { return (spell.system.trait1 === trait || spell.system.trait2 === trait || spell.system.trait3 === trait || spell.system.trait4 === trait); }
 
     checkForRep(spell, rep) {
 
@@ -511,12 +396,6 @@ export default class GDSACompBrowser extends FormApplication {
         }
     }
 
-    checkRitualSkill(ritObj, rit) {
-
-        return ritObj.system.creatTalent === rit ? true : false;
-
-    }
-
     checkKomp(komp) {
 
         switch (komp) {
@@ -538,17 +417,8 @@ export default class GDSACompBrowser extends FormApplication {
     }
 
     async addItem(event) {    
-
-        // Get Element and Actor
-
-        let element = event.currentTarget;
     
-        // Get Dataset from HTML
-    
-        let dataset = element.closest(".item").dataset;
-        let id = dataset.id;
-
-        // Add Item to Actor
+        let id = event.currentTarget.closest(".item").dataset.id;
 
         switch (this.type) {
 

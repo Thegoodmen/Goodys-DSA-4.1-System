@@ -508,6 +508,7 @@
             "prereq": "Vorraussetzung",
             "creation": "Erschaffung",
             "activation": "Aktivierung",
+            "isActiv": "Aktiv?",
             "pcost": "Permanente Kosten",
             "pcosts": "Perm. Kosten",
             "zduration": "Zauberdauer",

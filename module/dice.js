@@ -68,7 +68,7 @@ export async function statCheck(statName, statValue, statMod, actor, modi = 0, o
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
     let dices = [rollResult.dice[0].values[0]];
-    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    const chatModel = chatData(actor, await foundry.applications.handlebars.renderTemplate(templatePath, templateContext));
     if(rollResult.total === 1 || rollResult.total === 20) dices.push(rollResult2.dice[0].values[0]);
     let message = "";
     if (!optional.noChat) message = await doXD20XD6Roll(chatModel, dices, []);
@@ -145,7 +145,7 @@ export async function dogdeCheck(statName, statValue, statMod, actor, context = 
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
     let dices = [rollResult1.dice[0].values[0]];
-    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    const chatModel = chatData(actor, await foundry.applications.handlebars.renderTemplate(templatePath, templateContext));
     if(rollResult1.total == 1 || rollResult1.total == 20) dices.push(rollResult2.dice[0].values[0]);
     let message = await doXD20XD6Roll(chatModel, dices, []);
 
@@ -203,7 +203,7 @@ export async function flawCheck(flawName, flawValue, actor) {
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
     let dices = [rollResult.dice[0].values[0]];
-    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    const chatModel = chatData(actor, await foundry.applications.handlebars.renderTemplate(templatePath, templateContext));
     if(rollResult.total == 1 || rollResult.total == 20) dices.push(rollResult2.dice[0].values[0]);
     let message = "";
     message = await doXD20XD6Roll(chatModel, dices, []);
@@ -237,7 +237,7 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
     // ##                                                                                             ##
     // #################################################################################################
     // #################################################################################################
-
+    
     // Set up the Path of the Chat HTML
     let templatePath = "systems/gdsa/templates/chat/skill-check.hbs";
     if (Object.keys(optional).length !== 0) templatePath = optional.template;
@@ -367,7 +367,7 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
         tap: tap,
         tapMax: tapMax
     };
-
+    
     // Sets the Booleans and Values for the Modifikation Indikator in the Chat
 
     templateContext.modPresent = (modif != 0) ? true : false;
@@ -379,7 +379,7 @@ export async function skillCheck(statName, statValue, statOne, statTwo, statThre
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
     
     let dices = [rollResult.dice[0].values[0], rollResult2.dice[0].values[0], rollResult3.dice[0].values[0]];
-    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    const chatModel = chatData(actor, await foundry.applications.handlebars.renderTemplate(templatePath, templateContext));
     let message = "";
     if (!optional.noChat) message = await doXD20XD6Roll(chatModel, dices, []);
 
@@ -426,6 +426,10 @@ export async function doLePReg(actor, HPBonus) {
     if(lostLeP < regtotal) regtotal = lostLeP;
     if(regtotal < 0) regtotal = 0;
 
+    // Check if Charakter is sick
+
+    if(actor.system.buffs.sick === 1 && regtotal !== 0) regtotal = 0;
+
     // Fill the Context for the Chat HTML to fill
 
     let templateContext = {
@@ -436,12 +440,16 @@ export async function doLePReg(actor, HPBonus) {
 
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
-    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
-    await doXD20XD6Roll(chatModel, [rollResult2.total], [rollResult.total]);   
+    const chatModel = chatData(actor, await foundry.applications.handlebars.renderTemplate(templatePath, templateContext));
+    let message = "";
+    message = await doXD20XD6Roll(chatModel, [rollResult2.total], [rollResult.total]);   
 
     // Return the Total Amount of Regenerated LeP Amount
 
-    return regtotal;
+    return {
+        regtotal:regtotal,
+        message: message
+    };
 }
 
 export async function doAsPReg(actor, APBonus, isMaster) {
@@ -473,11 +481,15 @@ export async function doAsPReg(actor, APBonus, isMaster) {
     else regtotal = parseInt(rollResult.total) + parseInt(APBonus);
     if(rollResult2.total <= actor.system.IN.value) regtotal++;
 
-    // Check that the Max Reg Possible is what LeP is actually missing
+    // Check that the Max Reg Possible is what AsP is actually missing
 
     let lostAsP = actor.system.AsP.max - actor.system.AsP.value;
     if(lostAsP < regtotal) regtotal = lostAsP;
     if(regtotal < 0) regtotal = 0;
+
+    // Check if Charakter is sick
+
+    if(actor.system.buffs.sick === 1 && regtotal !== 0) regtotal = 1;
 
     // Fill the Context for the Chat HTML to fill
 
@@ -490,11 +502,11 @@ export async function doAsPReg(actor, APBonus, isMaster) {
 
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
-    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    const chatModel = chatData(actor, await foundry.applications.handlebars.renderTemplate(templatePath, templateContext));
     let message = "";
     message = await doXD20XD6Roll(chatModel, [rollResult2.total], [rollResult.total]);   
 
-    // Return the Total Amount of Regenerated LeP Amount
+    // Return the Total Amount of Regenerated AsP Amount
 
     return {
         regtotal:regtotal,
@@ -653,7 +665,7 @@ export async function doKaPReg(actor, modi) {
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
     let dices = [rollResult.dice[0].values[0], rollResult2.dice[0].values[0], rollResult3.dice[0].values[0]];
-    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    const chatModel = chatData(actor, await foundry.applications.handlebars.renderTemplate(templatePath, templateContext));
     await doXD20XD6Roll(chatModel, dices, []);
 
     // Return the Total Amount of Regenerated LeP Amount
@@ -728,7 +740,7 @@ export async function ATKCheck(atk, modi, actor, auto = false, isMeele = true, c
 
     let goofDices = [];
     let dices = [rollResult1.dice[0].values[0]];
-    let chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    let chatModel = chatData(actor, await foundry.applications.handlebars.renderTemplate(templatePath, templateContext));
 
     if(rollResult1.total === 1 || rollResult1.total === 20) dices.push(rollResult2.dice[0].values[0]);
     if(rollResult1.total === 20 && rollResult2.total > statValueTotal) goofDices.push(rollResult3.dice[0].values);
@@ -811,7 +823,7 @@ export async function PACheck(parry, modi, actor, context = {}) {
 
     let goofDices = [];
     let dices = [rollResult1.dice[0].values[0]];
-    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    const chatModel = chatData(actor, await foundry.applications.handlebars.renderTemplate(templatePath, templateContext));
     if(rollResult1.total == 1 || rollResult1.total == 20) dices.push(rollResult2.dice[0].values[0]);
     if(rollResult1.total == 20 && rollResult2.total > statValueTotal) 
         {goofDices.push(rollResult3.dice[0].values[0]); goofDices.push(rollResult3.dice[0].values[1]);} 
@@ -855,7 +867,7 @@ export async function DMGRoll(formula, actor, multi, chatId = "") {
     const templatePath = "systems/gdsa/templates/chat/chatTemplate/damage-Roll.hbs";
 
     // Roll the Dice and add together the DMG
-
+    
     let rollResult = await new Roll(formula, {}).roll();
     let total = parseInt(rollResult.total) * parseInt(multi);
 
@@ -881,7 +893,7 @@ export async function DMGRoll(formula, actor, multi, chatId = "") {
     if(rollResult.dice[0].faces == 6) d6.push(...rollResult.dice[0].values);
     if(rollResult.dice[0].faces == 20) d20.push(...rollResult.dice[0].values)
 
-    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    const chatModel = chatData(actor, await foundry.applications.handlebars.renderTemplate(templatePath, templateContext));
     let message = await doXD20XD6Roll(chatModel, d20, d6);
 
     return {
@@ -923,7 +935,7 @@ export async function CrittMisMeele(actor) {
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
     let goofDices = [];
-    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    const chatModel = chatData(actor, await foundry.applications.handlebars.renderTemplate(templatePath, templateContext));
     goofDices.push(rollResult.dice[0].values[0]);
     goofDices.push(rollResult.dice[0].values[1]);
     let status = await doXD20XD6Roll(chatModel, [], goofDices);
@@ -964,7 +976,7 @@ export async function CrittMisRange(actor) {
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
     let goofDices = [];
-    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    const chatModel = chatData(actor, await foundry.applications.handlebars.renderTemplate(templatePath, templateContext));
     goofDices.push(rollResult.dice[0].values[0]);
     goofDices.push(rollResult.dice[0].values[1]);
     let status = await doXD20XD6Roll(chatModel, [], goofDices);
@@ -1004,7 +1016,7 @@ export async function HitZone(actor) {
     // Create the Chatmodel and sent the Roll to Chat and if Dice so Nice is active queue the Animation
 
     let goofDices = [];
-    const chatModel = chatData(actor, await renderTemplate(templatePath, templateContext));
+    const chatModel = chatData(actor, await foundry.applications.handlebars.renderTemplate(templatePath, templateContext));
     goofDices.push(rollResult.dice[0].values[0]);
     let status = await doXD20XD6Roll(chatModel, [], goofDices);
 
@@ -1034,7 +1046,7 @@ export async function DMGRollWitoutChat(formula, actor, multi, hasNoZone = false
     const templatePath = "systems/gdsa/templates/chat/chatTemplate/damage-Roll.hbs";
 
     // Roll the Dice and add together the DMG
-
+    
     let rollResult = await new Roll(formula, {}).roll();
     let total = parseInt(rollResult.total) * parseInt(multi);
 
@@ -1108,20 +1120,19 @@ export async function doXD20XD6Roll(chatData, result1, result2) {
 
 async function sendChatMessage(chatData) {
 
-    if(!game.modules.get("dice-so-nice")?.active) {
+    // Prepare chat data
+    let messageData = foundry.utils.mergeObject({
+        author: game.user.id,
+        sound: CONFIG.sounds.dice,
+        classes: ["GDSA", "chat", "skillRoll"]
+    }, chatData);
 
-        let r = new Roll("1d20", {});
-        let m = await r.toMessage(chatData, {rollMode: chatData.rtype})
-        return m;
+    // Either create the message or just return the chat data
+    const cls = foundry.utils.getDocumentClass("ChatMessage");
+    const msg = new cls(messageData);
+    msg.applyRollMode(chatData.rtype);
 
-    } else {
-
-        let r = await new Roll("1d20").evaluate();
-        r.dice[0].results[0].hidden = true;
-        let m = await r.toMessage(chatData, {rollMode: chatData.rtype})
-        return m;
-    }
-
+    return cls.create(msg);
 }
 
 export async function doXD20XD6RollWitoutChat(result1, result2) {

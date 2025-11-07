@@ -1,961 +1,403 @@
-export async function GetSkillCheckOptions(skill) {
+const global = foundry.applications.handlebars;
+const dialog = foundry.applications.api.DialogV2;
 
-    // Create Dialog and show to User
+export async function GetSkillCheckOptions(context) {
 
-    const template = "systems/gdsa/templates/chat/dialog/skill-Roll.hbs";
-    const html = await renderTemplate(template, skill);
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/skill-Roll.hbs", context);
 
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.roll"),
-                                callback: html => resolve(_processSkillCheckOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processSkillCheckOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.roll"},
+        modal: true
+    }));
 }
 
-export async function GetStatCheckOptions(skill) {
+export async function GetStatCheckOptions(context) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/stat-Roll.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/stat-Roll.hbs";
-    const html = await renderTemplate(template, skill);
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.roll"),
-                                callback: html => resolve(_processStatCheckOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processStatCheckOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.roll"},
+        modal: true
+    }));
 }
 
-export async function GetDogdeOptions() {
+export async function GetDogdeOptions(context = {}) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/dogde-Roll.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/dogde-Roll.hbs";
-    const html = await renderTemplate(template, {});
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.roll"),
-                                callback: html => resolve(_processDogdeOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processDogdeOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.roll"},
+        modal: true
+    }));
 }
 
-export async function GetMirikalOptions(mirikal) {
+export async function GetMirikalOptions(context) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/mirikal-Roll.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/mirikal-Roll.hbs";
-    const html = await renderTemplate(template, mirikal);
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.roll"),
-                                callback: html => resolve(_processMirikalCheckOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processMirikalCheckOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.roll"},
+        modal: true
+    }));
 }
 
-export async function GetWonderOptions(wonder) {
+export async function GetWonderOptions(context) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/wonder-Cast-Roll.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/wonder-Cast-Roll.hbs";
-    const html = await renderTemplate(template, wonder);
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.roll"),
-                                callback: html => resolve(_processWonderCheckOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processWonderCheckOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.roll"},
+        modal: true
+    }));
 }
 
-export async function GetSpellOptions(spell) {
+export async function GetSpellOptions(context) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/spell-Cast-Roll.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/spell-Cast-Roll.hbs";
-    const html = await renderTemplate(template, spell);
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.roll"),
-                                callback: html => resolve(_processSpellCheckOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processSpellCheckOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.roll"},
+        modal: true
+    }));
 }
 
-export async function GetRitualOptions(spell) {
+export async function GetRitualOptions(context) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/ritual-Cast-Roll.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/ritual-Cast-Roll.hbs";
-    const html = await renderTemplate(template, spell);
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.roll"),
-                                callback: html => resolve(_processNRitualCheckOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processNRitualCheckOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.roll"},
+        modal: true
+    }));
 }
 
-export async function GetSchamanOptions(spell) {
+export async function GetSchamanOptions(context) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/schaman-Cast-Roll.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/schaman-Cast-Roll.hbs";
-    const html = await renderTemplate(template, spell);
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.roll"),
-                                callback: html => resolve(_processSRitualCheckOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processSRitualCheckOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.roll"},
+        modal: true
+    }));
 }
 
-export async function GetAttributoOptions(spell) {
+export async function GetAttributoOptions(context) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/spell-attributo.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/spell-attributo.hbs";
-    const html = await renderTemplate(template, spell);
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.roll"),
-                                callback: html => resolve(_processAttributoOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processAttributoOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.roll"},
+        modal: true
+    }));
 }
 
-export async function GetFaxiOptions(spell) {
+export async function GetFaxiOptions(context) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/spell-faxio.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/spell-faxio.hbs";
-    const html = await renderTemplate(template, spell);
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.roll"),
-                                callback: html => resolve(_processFaxioOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processFaxioOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.roll"},
+        modal: true
+    }));
 }
 
-export async function GetAchazOptions(spell) {
+export async function GetAchazOptions(context) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/spell-achaz.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/spell-achaz.hbs";
-    const html = await renderTemplate(template, spell);
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.roll"),
-                                callback: html => resolve(_processAchazOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
-
+    return _processAchazOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.roll"},
+        modal: true
+    }));
 }
 
-export async function GetMeditationOptions(wonder) {
+export async function GetMeditationOptions(context) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/medi-Check-Roll.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/medi-Check-Roll.hbs";
-    const html = await renderTemplate(template, wonder);
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.roll"),
-                                callback: html => resolve(_processMediCheckOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processMediCheckOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.roll"},
+        modal: true
+    }));
 }
 
-export async function GetLePLossInfo() {
+export async function GetLePLossInfo(context = {}) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/lep-loss.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/lep-loss.hbs";
-    const html = await renderTemplate(template, {});
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processGetDMGOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processGetDMGOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.do"},
+        modal: true
+    }));
 }
 
-export async function GetAsPLossInfo() {
+export async function GetAsPLossInfo(context = {}) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/asp-loss.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/asp-loss.hbs";
-    const html = await renderTemplate(template, {});
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processGetDMGOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processGetDMGOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.do"},
+        modal: true
+    }));
 }
 
-export async function GetAsPInfo() {
+export async function GetKaPLossInfo(context = {}) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/kap-loss.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/asp-gain.hbs";
-    const html = await renderTemplate(template, {});
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processGetHealOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processGetDMGOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.do"},
+        modal: true
+    }));
 }
 
-export async function GetKaPInfo() {
+export async function GetLePInfo(context = {}) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/lep-gain.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/kap-gain.hbs";
-    const html = await renderTemplate(template, {});
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processGetHealOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processGetHealOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.do"},
+        modal: true
+    }));
 }
 
-export async function GetKaPLossInfo() {
+export async function GetAsPInfo(context = {}) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/asp-gain.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/kap-loss.hbs";
-    const html = await renderTemplate(template, {});
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processGetDMGOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processGetHealOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.do"},
+        modal: true
+    }));
 }
 
-export async function GetLePInfo() {
+export async function GetKaPInfo(context = {}) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/kap-gain.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/lep-gain.hbs";
-    const html = await renderTemplate(template, {});
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processGetHealOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processGetHealOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.do"},
+        modal: true
+    }));
 }
 
-export async function GetRegInfo() {
+export async function GetRegInfo(context = {}) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/regeneration-Roll.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/regeneration-Roll.hbs";
-    const html = await renderTemplate(template, {});
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processGetRegOptions(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processGetRegOptions( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.do"},
+        modal: true
+    }));
 }
 
-export async function GetAtkInfo(item) {
+export async function GetAtkInfo(context) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/meele-Attack-Roll.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/meele-Attack-Roll.hbs";
-    const html = await renderTemplate(template, item);
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processGetAtkInfo(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processGetAtkInfo( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.do"},
+        modal: true
+    }));
 }
 
-export async function GetRangeAtkInfo(item) {
+export async function GetRangeAtkInfo(context) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/range-Attack-Roll.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/range-Attack-Roll.hbs";
-    const html = await renderTemplate(template, item);
-
-    return new Promise(resolve => {  
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processGetRangeAtkInfo(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processGetRangeAtkInfo( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.do"},
+        modal: true
+    }));
 }
 
-export async function GetMoneyOptions() {
+export async function GetMoneyOptions(context = {}) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/currency-change.hbs", context);
 
-    const template = "systems/gdsa/templates/chat/dialog/currency-change.hbs";
-    const html = await renderTemplate(template, {config: CONFIG.GDSA});
-
-    return new Promise(resolve => {
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processGetMoneyInfo(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processGetMoneyInfo( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.do"},
+        modal: true
+    }));
 }
 
-export async function GetSpellVariantEdit(spell) {
+export async function GetSpellVariantEdit(context) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/ressources/spellVariant.hbs", context);
 
-    const template = "systems/gdsa/templates/ressources/spellVariant.hbs";
-    spell.config = CONFIG.GDSA;
-    const html = await renderTemplate(template, spell);
-
-    return new Promise(resolve => {  
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processSpellEdit(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processSpellEdit( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.do"},
+        modal: true
+    }));
 }
 
 export async function editCharFacts(context) {
 
-    // Create Dialog and show to User
-
-    const template = "systems/gdsa/templates/ressources/charStats.hbs";
     context.config = CONFIG.GDSA;
-    const html = await renderTemplate(template, context);
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/charStats.hbs", context);
 
-    return new Promise(resolve => {  
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processCharFacts(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processCharFacts( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.system.save"},
+        modal: true
+    }));
 }
 
 export async function editCharNotes(context) {
 
-    // Create Dialog and show to User
-
-    const template = "systems/gdsa/templates/ressources/charNotes.hbs";
     context.config = CONFIG.GDSA;
-    const html = await renderTemplate(template, context);
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/charNotes.hbs", context);
 
-    return new Promise(resolve => {   
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.system.save"),
-                                callback: html => resolve(_processCharNotes(html))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        let options = {
-            width: 455
-        };
-
-        new Dialog(data, null).render(true, options);
-    });
+    return _processCharNotes( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        position: { width: 475},
+        content,
+        ok: { label: "GDSA.system.save"},
+        modal: true
+    }));
 }
 
 export async function editCharStats(context) {
 
-    // Create Dialog and show to User
-
-    const template = "systems/gdsa/templates/ressources/charAttributes.hbs";
     context.config = CONFIG.GDSA;
-    const html = await renderTemplate(template, context);
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/charAttributes.hbs", context);
 
-    return new Promise(resolve => {  
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processCharStats(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processCharStats( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.system.save"},
+        modal: true
+    }));
 }
 
 export async function editCharRess(context) {
 
-    // Create Dialog and show to User
-
-    const template = "systems/gdsa/templates/ressources/charRessources.hbs";
     context.config = CONFIG.GDSA;
-    const html = await renderTemplate(template, context);
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/charRessources.hbs", context);
 
-    return new Promise(resolve => {  
+    return _processCharRess( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.system.save"},
+        modal: true
+    }));
+}
 
-        // Set up Parameters for Dialog
+export async function editItemBook(context) {
 
-        const data = {
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/sheets/gegenstand/Gegenstand-item-book-edit.hbs", context);
 
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processCharRess(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processItemBook( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.system.save"},
+        modal: true
+    }));
 }
 
 export async function getAdvantage(context) {
 
-    // Create Dialog and show to User
-
-    const template = "systems/gdsa/templates/sheets/getAdvantage.hbs";
     context.config = CONFIG.GDSA;
-    const html = await renderTemplate(template, context);
-
-    return new Promise(resolve => {  
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processTempSelection(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/getAdvantage.hbs", context);
+    const window = await dialog.input({ window: { title: "GDSA.chat.skill.optionDialog"}, content, ok: { label: "GDSA.chat.skill.do"}, modal: true });
+    return _processTempSelection(window);
 }
 
-export async function getLangConfirmation() {
+export async function getLangConfirmation(context = {}) {
 
-    // Create Dialog and show to User
+    context.config = CONFIG.GDSA;
+    const content = await global.renderTemplate("systems/gdsa/templates/ressources/getLangConfirmation.hbs", context);
 
-    const template = "systems/gdsa/templates/apps/getLangConfirmation.hbs";
-    const html = await renderTemplate(template, {});
-
-    return new Promise(resolve => {  
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("Okeay"),
-                                callback: html => resolve(game.i18n.setLanguage("de"))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
+    return await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.do"},
+        modal: true
     });
 }
 
 export async function editRitualSkills(context) {
 
-    // Create Dialog and show to User
-
-    const template = "systems/gdsa/templates/chat/dialog/ritSkill-change.hbs";
     context.config = CONFIG.GDSA;
-    const html = await renderTemplate(template, context);
+    const content = await global.renderTemplate("systems/gdsa/templates/chat/dialog/ritSkill-change.hbs", context);
 
-    return new Promise(resolve => {  
-
-        // Set up Parameters for Dialog
-
-        const data = {
-
-            title: game.i18n.format("GDSA.chat.skill.optionDialog"),
-            content: html,
-            buttons: {
-                    normal: {
-                                label: game.i18n.format("GDSA.chat.skill.do"),
-                                callback: html => resolve(_processEditRitSkill(html[0].querySelector("form")))},
-                    cancel: {
-                                label: game.i18n.format("GDSA.chat.skill.cancel"),
-                                callback: html => resolve({cancelled: true})}},
-            default: "normal",
-            closed: () => resolve({cancelled: true})
-        };
-
-        // Generate and Render Dialog
-
-        new Dialog(data, null).render(true);
-    });
+    return _processEditRitSkill( await dialog.input({
+        window: { title: "GDSA.chat.skill.optionDialog"},
+        content,
+        ok: { label: "GDSA.chat.skill.do"},
+        modal: true
+    }));
 }
 
         // #################################################################################################
@@ -979,18 +421,18 @@ function _processSkillCheckOptions(form) {
     let beDis = 0;
     let mhk = 0;
     let used = [];
+    
+    advantage = parseInt(form.advantage !== "" ? form.advantage : 0);
+    disadvantage = parseInt(form.disadvantage !== "" ? form.disadvantage : 0);
 
-    advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
-    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+    if(form.talSadvantage != null) taladvantage = parseInt(form.talSadvantage !== "" ? form.talSadvantage : 0);
+    if(form.talSdisadvantage != null) taldisadvantage = parseInt(form.talSdisadvantage !== "" ? form.talSdisadvantage : 0);
 
-    if(form.talSadvantage != null) taladvantage = parseInt(form.talSadvantage.value !== "" ? form.talSadvantage.value : 0);
-    if(form.talSdisadvantage != null) taldisadvantage = parseInt(form.talSdisadvantage.value !== "" ? form.talSdisadvantage.value : 0);
-
-    if(form.talentS != null) talS = form.talentS.checked;
-    if(form.be != null) be = form.be.checked;
-    if(form.be != null) beDis = form.beValue.value;
-    if(form.mhk != null) mhk = form.mhk.value;
-    if(form.mirakel != null) mirakel = form.mirakel.checked;
+    if(form.talentS != null) talS = form.talentS;
+    if(form.be != null) be = form.be;
+    if(form.be != null) beDis = form.beValue;
+    if(form.mhk != null) mhk = form.mhk;
+    if(form.mirakel != null) mirakel = form.mirakel;
 
     if(be && beDis > 0) { used.push(game.i18n.localize("GDSA.template.BE") + "s " + game.i18n.localize("GDSA.itemsheet.disad")  + " (+ " + beDis + ")")};
 
@@ -1020,16 +462,16 @@ function _processStatCheckOptions(form) {
     let ironWill = false;
     let willProt = false;
 
-    advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
-    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+    advantage = parseInt(form.advantage !== "" ? form.advantage : 0);
+    disadvantage = parseInt(form.disadvantage !== "" ? form.disadvantage : 0);
 
-    if(form.talSadvantage != null) taladvantage = parseInt(form.talSadvantage.value !== "" ? form.talSadvantage.value : 0);
-    if(form.talSdisadvantage != null) taldisadvantage = parseInt(form.talSdisadvantage.value !== "" ? form.talSdisadvantage.value : 0);
+    if(form.talSadvantage != null) taladvantage = parseInt(form.talSadvantage !== "" ? form.talSadvantage : 0);
+    if(form.talSdisadvantage != null) taldisadvantage = parseInt(form.talSdisadvantage !== "" ? form.talSdisadvantage : 0);
 
-    if(form.talentS != null) talS = form.talentS.checked;
-    if(form.mirakel != null) mirakel = form.mirakel.checked;
-    if(form.ironWill != null) ironWill = form.ironWill.checked;
-    if(form.willProt != null) willProt = form.willProt.checked;
+    if(form.talentS != null) talS = form.talentS;
+    if(form.mirakel != null) mirakel = form.mirakel;
+    if(form.ironWill != null) ironWill = form.ironWill;
+    if(form.willProt != null) willProt = form.willProt;
 
     return {
        
@@ -1053,15 +495,37 @@ function _processDogdeOptions(form) {
     let directed = false;
     let addCombt = 0;
 
-    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+    disadvantage = parseInt(form.disadvantage !== "" ? form.disadvantage : 0);
 
-    directed = form.directed.checked;
+    directed = form.directed;
     if(directed) multi = 2;
 
-    disadvantage += (parseInt(form.dk.value) * multi) + parseInt(form.addCombt.value);
+    disadvantage += (parseInt(form.dk) * multi) + parseInt(form.addCombt);
 
-    if (form.dk.options[form.dk.selectedIndex].text) dk = form.dk.options[form.dk.selectedIndex].text;
-    addCombt = parseInt(form.addCombt.value) / 2;
+    switch (form.dk) {
+        case "8":
+            dk = game.i18n.localize("GDSA.charactersheet.rangeFK");
+            break;
+        case "4":
+            dk = game.i18n.localize("GDSA.charactersheet.rangeH") + " / " + game.i18n.localize("GDSA.charactersheet.rangeWW");
+            break;
+        case "2":
+            dk = game.i18n.localize("GDSA.charactersheet.rangeN");
+            break;
+        case "1":
+            dk = game.i18n.localize("GDSA.charactersheet.rangeS");
+            break;
+        case "0":
+            dk = game.i18n.localize("GDSA.charactersheet.rangeP");
+            break;
+        default:
+            dk = "";
+            break;
+    }
+    console.log(form.dk);
+    console.log(dk);
+
+    addCombt = parseInt(form.addCombt) / 2;
 
     return {
 
@@ -1085,32 +549,32 @@ function _processSpellCheckOptions(form) {
     let costMod = 0;
     let variants = [];
     let used = [];
-    let rep = form.rep.value;
+    let rep = form.rep;
     let forcedMod = (rep === "dru") ? 2 : 1;
     let costDurDoub = (rep === "eld") ? 4 : 7;
 
-    advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
-    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
-    nonDiscountDisadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+    advantage = parseInt(form.advantage !== "" ? form.advantage : 0);
+    disadvantage = parseInt(form.disadvantage !== "" ? form.disadvantage : 0);
+    nonDiscountDisadvantage = parseInt(form.disadvantage !== "" ? form.disadvantage : 0);
     actions = 0;
 
-    if(form.tech.checked) { disadvantage = disadvantage + 7; actions = actions + 3; used.push(game.i18n.localize("GDSA.system.technic") + " (+ 7)")};
-    if(form.zentech.checked) { disadvantage = disadvantage + 12; actions = actions + 3; used.push(game.i18n.localize("GDSA.system.zenTech") + " (+ 12)")};
-    if(form.doubcast.checked) { advantage = advantage + 3; actionDoub = true; used.push(game.i18n.localize("GDSA.system.doppelD") + " (- 3 / - 4)")};
-    if(form.powerC != null) if(form.powerC.checked) powerC = true;
+    if(form.tech) { disadvantage = disadvantage + 7; actions = actions + 3; used.push(game.i18n.localize("GDSA.system.technic") + " (+ 7)")};
+    if(form.zentech) { disadvantage = disadvantage + 12; actions = actions + 3; used.push(game.i18n.localize("GDSA.system.zenTech") + " (+ 12)")};
+    if(form.doubcast) { advantage = advantage + 3; actionDoub = true; used.push(game.i18n.localize("GDSA.system.doppelD") + " (- 3 / - 4)")};
+    if(form.powerC != null) if(form.powerC) powerC = true;
 
-    if(form.halfcast.value > 0) {disadvantage = disadvantage + (form.halfcast.value * 5); actionHalf = form.halfcast.value; used.push(form.halfcast.value + "x " + game.i18n.localize("GDSA.system.halfDur") + " (+ " + (form.halfcast.value * 5) + ")")};
-    if(form.forced.value > 0) {advantage = advantage + parseInt(form.forced.value); bonusCost = Math.round((( 2 ** parseInt(form.forced.value)) / 2) / forcedMod); actions = actions + parseInt(form.forced.value); used.push(form.forced.value + "x " + game.i18n.localize("GDSA.system.force") + " (- " + (form.forced.value) + ")")};
-    if(form.costMod.value > 0) {disadvantage = disadvantage + (form.costMod.value * 3); actions = actions + parseInt(form.costMod.value); costMod = parseInt(form.costMod.value); used.push(form.costMod.value + "x " + game.i18n.localize("GDSA.system.cost") + " (+ " + (form.costMod.value * 3) + ")")};
-    if(form.preach.value > 0) {disadvantage = disadvantage + (form.preach.value * 5); actions = actions + parseInt(form.preach.value); used.push(form.preach.value + "x " + game.i18n.localize("GDSA.system.pRad") + " (+ " + (form.preach.value * 5) + ")")};
-    if(form.mreach.value > 0) {disadvantage = disadvantage + (form.mreach.value * 3); actions = actions + parseInt(form.mreach.value); used.push(form.mreach.value + "x " + game.i18n.localize("GDSA.system.mRad") + " (+ " + (form.mreach.value * 3) + ")")};
-    if(form.halfdura.value > 0) {disadvantage = disadvantage + (form.halfdura.value * 3); actions = actions + parseInt(form.halfdura.value); used.push(form.halfdura.value + "x " + game.i18n.localize("GDSA.system.hDur") + " (+ " + (form.halfdura.value * 3) + ")")};
-    if(form.doubdura.value > 0) {disadvantage = disadvantage + (form.doubdura.value * costDurDoub); actions = actions + parseInt(form.doubdura.value); used.push(form.doubdura.value + "x " + game.i18n.localize("GDSA.system.dDur") + " (+ " + (form.doubdura.value * costDurDoub) + ")")};
+    if(form.halfcast > 0) {disadvantage = disadvantage + (form.halfcast * 5); actionHalf = form.halfcast; used.push(form.halfcast + "x " + game.i18n.localize("GDSA.system.halfDur") + " (+ " + (form.halfcast * 5) + ")")};
+    if(form.forced > 0) {advantage = advantage + parseInt(form.forced); bonusCost = Math.round((( 2 ** parseInt(form.forced)) / 2) / forcedMod); actions = actions + parseInt(form.forced); used.push(form.forced + "x " + game.i18n.localize("GDSA.system.force") + " (- " + (form.forced) + ")")};
+    if(form.costMod > 0) {disadvantage = disadvantage + (form.costMod * 3); actions = actions + parseInt(form.costMod); costMod = parseInt(form.costMod); used.push(form.costMod + "x " + game.i18n.localize("GDSA.system.cost") + " (+ " + (form.costMod * 3) + ")")};
+    if(form.preach > 0) {disadvantage = disadvantage + (form.preach * 5); actions = actions + parseInt(form.preach); used.push(form.preach + "x " + game.i18n.localize("GDSA.system.pRad") + " (+ " + (form.preach * 5) + ")")};
+    if(form.mreach > 0) {disadvantage = disadvantage + (form.mreach * 3); actions = actions + parseInt(form.mreach); used.push(form.mreach + "x " + game.i18n.localize("GDSA.system.mRad") + " (+ " + (form.mreach * 3) + ")")};
+    if(form.halfdura > 0) {disadvantage = disadvantage + (form.halfdura * 3); actions = actions + parseInt(form.halfdura); used.push(form.halfdura + "x " + game.i18n.localize("GDSA.system.hDur") + " (+ " + (form.halfdura * 3) + ")")};
+    if(form.doubdura > 0) {disadvantage = disadvantage + (form.doubdura * costDurDoub); actions = actions + parseInt(form.doubdura); used.push(form.doubdura + "x " + game.i18n.localize("GDSA.system.dDur") + " (+ " + (form.doubdura * costDurDoub) + ")")};
 
-    if (form.varCount.value > 0) {
-        for (let i = 0; i < form.varCount.value; i++) {
+    if (form.varCount > 0) {
+        for (let i = 0; i < form.varCount; i++) {
             
-            let variant = form["var" + i].checked;
+            let variant = form["var" + i];
             variants.push(variant);
         }
     }
@@ -1137,8 +601,8 @@ function _processNRitualCheckOptions(form) {
     let disadvantage;
     let used = [];
 
-    advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
-    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+    advantage = parseInt(form.advantage !== "" ? form.advantage : 0);
+    disadvantage = parseInt(form.disadvantage !== "" ? form.disadvantage : 0);
 
     return {
         
@@ -1155,38 +619,50 @@ function _processSRitualCheckOptions(form) {
     let used = [];
     let helpers = [];
 
-    advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
-    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+    advantage = parseInt(form.advantage !== "" ? form.advantage : 0);
+    disadvantage = parseInt(form.disadvantage !== "" ? form.disadvantage : 0);
 
-    if(form.disbeliv.checked) { disadvantage += 3; used.push(game.i18n.localize("GDSA.system.disbelive") + " (+ 3)")};
-    if(form.holdyday.checked) { advantage += 2; used.push(game.i18n.localize("GDSA.ritual.holyDay") + " (- 2)")};
+    if(form.disbeliv) { disadvantage += 3; used.push(game.i18n.localize("GDSA.system.disbelive") + " (+ 3)")};
+    if(form.holdyday) { advantage += 2; used.push(game.i18n.localize("GDSA.ritual.holyDay") + " (- 2)")};
 
-    if (parseInt(form.place.value) > 0) disadvantage += parseInt(form.place.value);
-    else advantage += (parseInt(form.place.value) * (-1))
-    if (parseInt(form.place.value) !== 0) used.push(form.place.options[form.place.selectedIndex].innerHTML + " (" + _formatModifikation(form.place.value) + ")")
+    if (parseInt(form.place) > 0) disadvantage += parseInt(form.place);
+    else advantage += (parseInt(form.place) * (-1))
+    if (parseInt(form.place) !== 0) used.push(game.i18n.localize(CONFIG.GDSA.schamLocation[form.place]) + " (" + _formatModifikation(form.place) + ")")
 
-    if (parseInt(form.time.value) > 0) disadvantage += parseInt(form.time.value);
-    else advantage += (parseInt(form.time.value) * (-1))
-    if (parseInt(form.time.value) !== 0) used.push(form.time.options[form.time.selectedIndex].innerHTML + " (" + _formatModifikation(form.time.value) + ")")
+    if (parseInt(form.time) > 0) disadvantage += parseInt(form.time);
+    else advantage += (parseInt(form.time) * (-1))
+    if (parseInt(form.time) !== 0) used.push(game.i18n.localize(CONFIG.GDSA.schamTime[form.time]) + " (" + _formatModifikation(form.time) + ")")
 
-    if (parseInt(form.naturevent.value) > 0) disadvantage += parseInt(form.naturevent.value);
-    else advantage += (parseInt(form.naturevent.value) * (-1))
-    if (parseInt(form.naturevent.value) !== 0) used.push(form.naturevent.options[form.naturevent.selectedIndex].innerHTML + " (" + _formatModifikation(form.naturevent.value) + ")")
+    if (parseInt(form.naturevent) > 0) disadvantage += parseInt(form.naturevent);
+    else advantage += (parseInt(form.naturevent) * (-1))
+    if (parseInt(form.naturevent) !== 0) used.push(game.i18n.localize(CONFIG.GDSA.schamNatur[form.naturevent]) + " (" + _formatModifikation(form.naturevent) + ")")
 
-    if (parseInt(form.fetisch.value) > 0) disadvantage += parseInt(form.fetisch.value);
-    else advantage += (parseInt(form.fetisch.value) * (-1))
-    if (parseInt(form.fetisch.value) !== 0) used.push(form.fetisch.options[form.fetisch.selectedIndex].innerHTML + " (" + _formatModifikation(form.fetisch.value) + ")")
+    if (parseInt(form.fetisch) > 0) disadvantage += parseInt(form.fetisch);
+    else advantage += (parseInt(form.fetisch) * (-1))
+    if (parseInt(form.fetisch) !== 0) used.push(game.i18n.localize(CONFIG.GDSA.schamFetisch[form.fetisch]) + " (" + _formatModifikation(form.fetisch) + ")")
 
-    if (parseInt(form.wear.value) > 0) disadvantage += parseInt(form.wear.value);
-    else advantage += (parseInt(form.wear.value) * (-1))
-    if (parseInt(form.wear.value) !== 0) used.push(form.wear.options[form.wear.selectedIndex].innerHTML + " (" + _formatModifikation(form.wear.value) + ")")
+    if (parseInt(form.wear) > 0) disadvantage += parseInt(form.wear);
+    else advantage += (parseInt(form.wear) * (-1))
+    if (parseInt(form.wear) !== 0) used.push(game.i18n.localize(CONFIG.GDSA.schamWear[form.wear]) + " (" + _formatModifikation(form.wear) + ")")
 
-    if (parseInt(form.drug.value) > 0) disadvantage += parseInt(form.drug.value);
-    else advantage += (parseInt(form.drug.value) * (-1))
-    if (parseInt(form.drug.value) !== 0) used.push(form.drug.options[form.drug.selectedIndex].innerHTML + " (" + _formatModifikation(form.drug.value) + ")")
+    if (parseInt(form.drug) > 0) disadvantage += parseInt(form.drug);
+    else advantage += (parseInt(form.drug) * (-1))
+    if (parseInt(form.drug) !== 0) used.push(game.i18n.localize(CONFIG.GDSA.schamDrug[form.drug]) + " (" + _formatModifikation(form.drug) + ")")
 
-    for (let index = 0; index < (form.helper.value.split(",").length); index++)
-        if(form["helptale" + index].checked) helpers.push(form["helptype" + index].value);
+    for (let index = 0; index < (form.helper.split(",").length); index++)
+        if(form["helptale" + index]) helpers.push(form["helptype" + index]);
+
+    console.log({
+        
+        advantage: advantage,
+        disadvantage: disadvantage,
+        used: used,
+        helper: helpers,
+        ritdur: form.ritduaration.checked,
+        target: form.target.checked,
+        reach: form.rangeH.checked,
+        wdura: form.duration.checked
+    })
 
     return {
         
@@ -1207,28 +683,28 @@ function _processMirikalCheckOptions(form) {
     let disadvantage = 0;
     let used = [];
 
-    advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
-    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+    advantage = parseInt(form.advantage !== "" ? form.advantage : 0);
+    disadvantage = parseInt(form.disadvantage !== "" ? form.disadvantage : 0);
 
-    if(form.lastResort.checked) { advantage += 2; used.push(game.i18n.localize("GDSA.system.lastResort") + " (- 2)")};
-    if(form.forcedHoly.checked) { disadvantage += 6; used.push(game.i18n.localize("GDSA.system.magicForced") + " (+ 6)")};
-    if(form.disbeliv.checked) { disadvantage += 3; used.push(game.i18n.localize("GDSA.system.disbelive") + " (+ 3)")};
-    if(form.demonic.checked) { disadvantage += 7; used.push(game.i18n.localize("GDSA.system.chaospres") + " (+ 7)")};
+    if(form.lastResort) { advantage += 2; used.push(game.i18n.localize("GDSA.system.lastResort") + " (- 2)")};
+    if(form.forcedHoly) { disadvantage += 6; used.push(game.i18n.localize("GDSA.system.magicForced") + " (+ 6)")};
+    if(form.disbeliv) { disadvantage += 3; used.push(game.i18n.localize("GDSA.system.disbelive") + " (+ 3)")};
+    if(form.demonic) { disadvantage += 7; used.push(game.i18n.localize("GDSA.system.chaospres") + " (+ 7)")};
 
-    if (parseInt(form.motivation.value) > 0) disadvantage += Math.round((parseInt(form.motivation.value)) / 2);
-        else advantage += Math.round((parseInt(form.motivation.value) * (-1)) / 2);
+    if (parseInt(form.motivation) > 0) disadvantage += Math.round((parseInt(form.motivation)) / 2);
+        else advantage += Math.round((parseInt(form.motivation) * (-1)) / 2);
 
-    if (parseInt(form.motivation.value) !== 0) used.push(form.motivation.options[form.motivation.selectedIndex].innerHTML)
+    if (parseInt(form.motivation) !== 0) used.push(game.i18n.localize(CONFIG.GDSA.holyMotivation[form.motivation]))
     
-    if (parseInt(form.place.value) > 0) disadvantage += parseInt(form.place.value);
-        else advantage += (parseInt(form.place.value) * (-1))
+    if (parseInt(form.place) > 0) disadvantage += parseInt(form.place);
+        else advantage += (parseInt(form.place) * (-1))
     
-    if (parseInt(form.place.value) !== 0) used.push(form.place.options[form.place.selectedIndex].innerHTML + " (" + _formatModifikation(form.place.value) + ")")
+    if (parseInt(form.place) !== 0) used.push(game.i18n.localize(CONFIG.GDSA.holyPlace[form.place]) + " (" + _formatModifikation(form.place) + ")")
 
-    if (parseInt(form.time.value) > 0) disadvantage += Math.round((parseInt(form.time.value)) / 2);
-        else advantage += Math.round((parseInt(form.time.value) * (-1)) / 2);
+    if (parseInt(form.time) > 0) disadvantage += Math.round((parseInt(form.time)) / 2);
+        else advantage += Math.round((parseInt(form.time) * (-1)) / 2);
     
-    if (parseInt(form.time.value) !== 0) used.push(form.time.options[form.time.selectedIndex].innerHTML + " (" + (Math.round((parseInt(form.time.value) * -1) / 2) *  -1) + ")")
+    if (parseInt(form.time) !== 0) used.push(game.i18n.localize(CONFIG.GDSA.holyTime[form.time]) + " (" + (Math.round((parseInt(form.time) * -1) / 2) *  -1) + ")")
 
     return {
 
@@ -1244,51 +720,51 @@ function _processWonderCheckOptions(form) {
     let disadvantage = 0;
     let used = [];
 
-    advantage = parseInt(form.advantage.value !== "" ? form.advantage.value : 0);
-    disadvantage = parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0);
+    advantage = parseInt(form.advantage !== "" ? form.advantage : 0);
+    disadvantage = parseInt(form.disadvantage !== "" ? form.disadvantage : 0);
 
-    if(form.lastResort.checked) { advantage += 3; used.push(game.i18n.localize("GDSA.system.lastResort") + " (- 3)")};
-    if(form.forcedHoly.checked) { disadvantage += 12; used.push(game.i18n.localize("GDSA.system.magicForced") + " (+ 12)")};
-    if(form.disbeliv.checked) { disadvantage += 3; used.push(game.i18n.localize("GDSA.system.disbelive") + " (+ 3)")};
-    if(form.demonic.checked) { disadvantage += 7; used.push(game.i18n.localize("GDSA.system.chaospres") + " (+ 7)")};
-    if(form.othbreak.checked) { disadvantage += 2; used.push(game.i18n.localize("GDSA.system.eidbrech") + " (+ 2)")};
-    if(form.symbolFrev.checked) { disadvantage += 5; used.push(game.i18n.localize("GDSA.system.frevler") + " (+ 5)")};
-    if(form.smallPakt.checked) { disadvantage += 2; used.push(game.i18n.localize("GDSA.system.minder") + " (+ 2)")};
+    if(form.lastResort) { advantage += 3; used.push(game.i18n.localize("GDSA.system.lastResort") + " (- 3)")};
+    if(form.forcedHoly) { disadvantage += 12; used.push(game.i18n.localize("GDSA.system.magicForced") + " (+ 12)")};
+    if(form.disbeliv) { disadvantage += 3; used.push(game.i18n.localize("GDSA.system.disbelive") + " (+ 3)")};
+    if(form.demonic) { disadvantage += 7; used.push(game.i18n.localize("GDSA.system.chaospres") + " (+ 7)")};
+    if(form.othbreak) { disadvantage += 2; used.push(game.i18n.localize("GDSA.system.eidbrech") + " (+ 2)")};
+    if(form.symbolFrev) { disadvantage += 5; used.push(game.i18n.localize("GDSA.system.frevler") + " (+ 5)")};
+    if(form.smallPakt) { disadvantage += 2; used.push(game.i18n.localize("GDSA.system.minder") + " (+ 2)")};
 
-    if (parseInt(form.motivation.value) > 0) disadvantage += parseInt(form.motivation.value);
-        else advantage += (parseInt(form.motivation.value) * (-1))
+    if (parseInt(form.motivation) > 0) disadvantage += parseInt(form.motivation);
+        else advantage += (parseInt(form.motivation) * (-1))
 
-    if (parseInt(form.motivation.value) !== 0) used.push(form.motivation.options[form.motivation.selectedIndex].innerHTML)
+    if (parseInt(form.motivation) !== 0) used.push(game.i18n.localize(CONFIG.GDSA.holyMotivation[form.motivation]))
     
-    if (parseInt(form.place.value) > 0) disadvantage += parseInt(form.place.value);
-        else advantage += (parseInt(form.place.value) * (-1))
+    if (parseInt(form.place) > 0) disadvantage += parseInt(form.place);
+        else advantage += (parseInt(form.place) * (-1))
     
-    if (parseInt(form.place.value) !== 0) used.push(form.place.options[form.place.selectedIndex].innerHTML + " (" + _formatModifikation(form.place.value) + ")")
+    if (parseInt(form.place) !== 0) used.push(game.i18n.localize(CONFIG.GDSA.holyPlace[form.place]) + " (" + _formatModifikation(form.place) + ")")
 
-    if (parseInt(form.time.value) > 0) disadvantage += parseInt(form.time.value);
-        else advantage += (parseInt(form.time.value) * (-1))
+    if (parseInt(form.time) > 0) disadvantage += parseInt(form.time);
+        else advantage += (parseInt(form.time) * (-1))
     
-    if (parseInt(form.time.value) !== 0) used.push(form.time.options[form.time.selectedIndex].innerHTML + " (" + _formatModifikation(form.time.value) + ")")
+    if (parseInt(form.time) !== 0) used.push(game.i18n.localize(CONFIG.GDSA.holyTime[form.time]) + " (" + _formatModifikation(form.time) + ")")
 
-    if (parseInt(form.resulting.value) > 0) disadvantage += parseInt(form.resulting.value);
-        else advantage += (parseInt(form.resulting.value) * (-1))
+    if (parseInt(form.resulting) > 0) disadvantage += parseInt(form.resulting);
+        else advantage += (parseInt(form.resulting) * (-1))
     
-    if (parseInt(form.resulting.value) !== 0) used.push(form.resulting.options[form.resulting.selectedIndex].innerHTML)
+    if (parseInt(form.resulting) !== 0) used.push(game.i18n.localize(CONFIG.GDSA.holyResulting[form.resulting]))
 
-    if (parseInt(form.help.value) > 0) disadvantage += parseInt(form.help.value);
-        else advantage += (parseInt(form.help.value) * (-1))
+    if (parseInt(form.help) > 0) disadvantage += parseInt(form.help);
+        else advantage += (parseInt(form.help) * (-1))
     
-    if (parseInt(form.help.value) !== 0) used.push(form.help.options[form.help.selectedIndex].innerHTML + " (" + _formatModifikation(form.help.value) + ")")
+    if (parseInt(form.help) !== 0) used.push(game.i18n.localize(CONFIG.GDSA.holyHelp[form.help]) + " (" + _formatModifikation(form.help) + ")")
 
     return {
 
         advantage: advantage,
         disadvantage: disadvantage,
         used: used,
-        ritdur: form.ritduaration.checked,
-        target: form.target.checked,
-        reach: form.rangeH.checked,
-        wdura: form.duration.checked
+        ritdur: form.ritduaration,
+        target: form.target,
+        reach: form.rangeH,
+        wdura: form.duration
     }
 }
 
@@ -1296,48 +772,48 @@ function _processSpellEdit(form) {
 
     let resti = [];
 
-    if(form.mag.checked) resti.push({type: form.reglaKind1.value, rep: "mag"});
-    if(form.dru.checked) resti.push({type: form.reglaKind1.value, rep: "dru"});
-    if(form.bor.checked) resti.push({type: form.reglaKind1.value, rep: "bor"});
-    if(form.srl.checked) resti.push({type: form.reglaKind1.value, rep: "srl"});
-    if(form.hex.checked) resti.push({type: form.reglaKind1.value, rep: "hex"});
-    if(form.elf.checked) resti.push({type: form.reglaKind1.value, rep: "elf"});
-    if(form.sch.checked) resti.push({type: form.reglaKind1.value, rep: "sch"});
-    if(form.geo.checked) resti.push({type: form.reglaKind1.value, rep: "geo"});
-    if(form.ach.checked) resti.push({type: form.reglaKind1.value, rep: "ach"});
+    if(form.mag) resti.push({type: form.reglaKind1, rep: "mag"});
+    if(form.dru) resti.push({type: form.reglaKind1, rep: "dru"});
+    if(form.bor) resti.push({type: form.reglaKind1, rep: "bor"});
+    if(form.srl) resti.push({type: form.reglaKind1, rep: "srl"});
+    if(form.hex) resti.push({type: form.reglaKind1, rep: "hex"});
+    if(form.elf) resti.push({type: form.reglaKind1, rep: "elf"});
+    if(form.sch) resti.push({type: form.reglaKind1, rep: "sch"});
+    if(form.geo) resti.push({type: form.reglaKind1, rep: "geo"});
+    if(form.ach) resti.push({type: form.reglaKind1, rep: "ach"});
 
     return {
-        name: form.name.value,
-        minZfW: parseInt(form.minZ.value),
-        disad: parseInt(form.disad.value),
-        cost: form.cost.value,
-        casttime: form.casttime.value,
+        name: form.name,
+        minZfW: parseInt(form.minZ),
+        disad: parseInt(form.disad),
+        cost: form.cost,
+        casttime: form.casttime,
         resti: resti
     }
 }
 
 function _processMediCheckOptions(form) {
 
-    return {disadvantage: parseInt(form.time.value) + parseInt(form.place.value) + parseInt(form.last.value)}
+    return {disadvantage: parseInt(form.time) + parseInt(form.place) + parseInt(form.last)}
 }
 
 function _processGetDMGOptions(form) {
 
-    return {value: parseInt(form.dmg.value !== "" ? form.dmg.value : 0)}
+    return {value: parseInt(form.dmg !== "" ? form.dmg : 0)}
 }
 
 function _processGetHealOptions(form) {
 
-    return {value: parseInt(form.heal.value !== "" ? form.heal.value : 0)}
+    return {value: parseInt(form.heal !== "" ? form.heal : 0)}
 }
 
 function _processGetRegOptions(form) {
 
     return {
-        dis: parseInt(form.disadvantage.value !== "" ? form.disadvantage.value : 0),
-        lep: parseInt(form.reglep.value !== "" ? form.reglep.value : 0),
-        asp: parseInt(form.regasp.value !== "" ? form.regasp.value : 0),
-        kap: parseInt(form.regkap.value !== "" ? form.regkap.value : 0)
+        dis: parseInt(form.disadvantage !== "" ? form.disadvantage : 0),
+        lep: parseInt(form.reglep !== "" ? form.reglep : 0),
+        asp: parseInt(form.regasp !== "" ? form.regasp : 0),
+        kap: parseInt(form.regkap !== "" ? form.regkap : 0)
     }
 }
 
@@ -1349,10 +825,10 @@ function _processGetAtkInfo(form) {
     let sturm = false;
     let used = [];
 
-    if(form.anatomy != null) anat = form.anatomy.checked;
-    if(form.butcher != null) butc = form.butcher.checked;
-    if(form.hamme != null) hamme = form.hamme.checked;
-    if(form.sturm != null) sturm = form.sturm.checked;
+    if(form.anatomy != null || form.anatomy != undefined) anat = form.anatomy;
+    if(form.butcher != null || form.butcher != undefined) butc = form.butcher;
+    if(form.hamme != null || form.hamme != undefined) hamme = form.hamme;
+    if(form.sturm != null || form.sturm != undefined) sturm = form.sturm;
 
     let bDMG = 0;
 
@@ -1364,10 +840,10 @@ function _processGetAtkInfo(form) {
     return {
 
         bonus: bDMG,
-        advan: parseInt(form.advan.value !== "" ? form.advan.value : 0),
-        disad: parseInt(form.disad.value !== "" ? form.disad.value : 0),
-        wucht: parseInt(form.wucht.value !== "" ? form.wucht.value : 0),
-        finte: parseInt(form.finte.value !== "" ? form.finte.value : 0),
+        advan: parseInt(form.advan !== "" ? form.advan : 0),
+        disad: parseInt(form.disad !== "" ? form.disad : 0),
+        wucht: parseInt(form.wucht !== "" ? form.wucht : 0),
+        finte: parseInt(form.finte !== "" ? form.finte : 0),
         hamme: hamme,
         sturm: sturm,
         used: used
@@ -1378,49 +854,71 @@ function _processGetRangeAtkInfo(form) {
 
     return {
 
-        advan: parseInt(form.advan.value !== "" ? form.advan.value : 0),
-        disad: parseInt(form.disad.value !== "" ? form.disad.value : 0),
-        bonus: parseInt(form.bonus.value !== "" ? form.bonus.value : 0),
-        aimed: parseInt(form.aimed.value !== "" ? form.aimed.value : 0),
-        winds: parseInt(form.winds.value !== "" ? form.winds.value : 0),
-        sight: parseInt(form.sight.value !== "" ? form.sight.value : 0),
-        movem: parseInt(form.movem.value !== "" ? form.movem.value : 0),
-        dista: parseInt(form.dista.value !== "" ? form.dista.value : 0),
-        hidea: parseInt(form.hidea.value !== "" ? form.hidea.value : 0),
-        sizeX: parseInt(form.sizeX.value !== "" ? form.sizeX.value : 0)}
+        advan: parseInt(form.advan !== "" ? form.advan : 0),
+        disad: parseInt(form.disad !== "" ? form.disad : 0),
+        bonus: parseInt(form.bonus !== "" ? form.bonus : 0),
+        aimed: parseInt(form.aimed !== "" ? form.aimed : 0),
+        winds: parseInt(form.winds !== "" ? form.winds : 0),
+        sight: parseInt(form.sight !== "" ? form.sight : 0),
+        movem: parseInt(form.movem !== "" ? form.movem : 0),
+        dista: parseInt(form.dista !== "" ? form.dista : 0),
+        hidea: parseInt(form.hidea !== "" ? form.hidea : 0),
+        sizeX: parseInt(form.sizeX !== "" ? form.sizeX : 0)}
 }
 
 function _processGetMoneyInfo(form) {
 
     return {
 
-        operation: form.operation.value,
-        gold: parseInt(form.gold.value !== "" ? form.gold.value : 0),
-        silver: parseInt(form.silver.value !== "" ? form.silver.value : 0),
-        copper: parseInt(form.copper.value !== "" ? form.copper.value : 0),
-        nikel: parseInt(form.nikel.value !== "" ? form.nikel.value : 0)}
+        operation: form.operation,
+        gold: parseInt(form.gold !== "" ? form.gold : 0),
+        silver: parseInt(form.silver !== "" ? form.silver : 0),
+        copper: parseInt(form.copper !== "" ? form.copper : 0),
+        nikel: parseInt(form.nikel !== "" ? form.nikel : 0)}
 }
 
 function _processCharFacts(form) {
 
     return {
 
-        race: form.race.value,
-        culture: form.culture.value,
-        profession: form.profession.value,
-        gender: form.gender.value,
-        age: form.age.value,
-        size: form.size.value,
-        weight: form.weight.value,
-        social: form.social.value
+        race: form.race,
+        culture: form.culture,
+        profession: form.profession,
+        gender: form.gender,
+        age: form.age,
+        size: form.size,
+        weight: form.weight,
+        social: form.social
+    }
+}
+
+function _processItemBook(forms) {
+
+    let form = forms[0].querySelector("[class=dialogConfig]");
+
+    return {
+
+        name: form.name,
+        value: form.value,
+        weight: form.weight,
+        storage: form.storage,
+        category: form.category,
+        quote: form.quote,
+        description: form.description,
+        prerequisits: form.prerequisits,
+        ingame: form.ingame,
+        special: form.special,
+        type: form.type,
+        itemType: form.itemType,
+        note: form.note
     }
 }
 
 function _processCharRess(form) {
 
     return {
-        newModValue: form.modValue.value,
-        newBuyValue: form.buyValue.value
+        newModValue: form.modValue,
+        newBuyValue: form.buyValue
     }
 }
 
@@ -1428,22 +926,22 @@ function _processEditRitSkill(form) {
 
     return {
 
-        ritalch: form.ritalch.value,
-        ritderw: form.ritderw.value,
-        ritdrui: form.ritdrui.value,
-        ritdurr: form.ritdurr.value,
-        ritgban: form.ritgban.value,
-        ritgruf: form.ritgruf.value,
-        ritgauf: form.ritgauf.value,
-        ritgbin: form.ritgbin.value,
-        ritgeod: form.ritgeod.value,
-        ritgild: form.ritgild.value,
-        rithexe: form.rithexe.value,
-        ritkris: form.ritkris.value,
-        ritpetr: form.ritpetr.value,
-        ritscha: form.ritscha.value,
-        rittanz: form.rittanz.value,
-        ritzibi: form.ritzibi.value
+        ritalch: form.ritalch,
+        ritderw: form.ritderw,
+        ritdrui: form.ritdrui,
+        ritdurr: form.ritdurr,
+        ritgban: form.ritgban,
+        ritgruf: form.ritgruf,
+        ritgauf: form.ritgauf,
+        ritgbin: form.ritgbin,
+        ritgeod: form.ritgeod,
+        ritgild: form.ritgild,
+        rithexe: form.rithexe,
+        ritkris: form.ritkris,
+        ritpetr: form.ritpetr,
+        ritscha: form.ritscha,
+        rittanz: form.rittanz,
+        ritzibi: form.ritzibi
     }
 }
 
@@ -1451,14 +949,14 @@ function _processAchazOptions(form) {
 
     let mod = 0;
 
-    if (form.stoneTrait1 != null) mod += parseInt(form.stoneTrait1.value) - 1;
-    if (form.stoneTrait2 != null) mod += parseInt(form.stoneTrait2.value) - 1;
-    if (form.stoneTrait3 != null) mod += parseInt(form.stoneTrait3.value) - 1;
-    if (form.stoneTrait4 != null) mod += parseInt(form.stoneTrait4.value) - 1;
+    if (form.stoneTrait1 != null) mod += parseInt(form.stoneTrait1) - 1;
+    if (form.stoneTrait2 != null) mod += parseInt(form.stoneTrait2) - 1;
+    if (form.stoneTrait3 != null) mod += parseInt(form.stoneTrait3) - 1;
+    if (form.stoneTrait4 != null) mod += parseInt(form.stoneTrait4) - 1;
 
-    if (form.modicount.value > 0)
-        for (let i = 0; i == form.modicount.value; i++)
-            if (form["modi" + i] != null) mod -= parseInt(form["modi" + i].value);
+    if (form.modicount > 0)
+        for (let i = 0; i == form.modicount; i++)
+            if (form["modi" + i] != null) mod -= parseInt(form["modi" + i]);
     
     let usedStones = [];
 
@@ -1467,8 +965,8 @@ function _processAchazOptions(form) {
     if (form.stoneTrait3 != null) usedStones.push(form.stoneTrait3.options[form.stoneTrait3.selectedIndex].innerHTML);
     if (form.stoneTrait4 != null) usedStones.push(form.stoneTrait4.options[form.stoneTrait4.selectedIndex].innerHTML);
     
-    if (form.modicount.value > 0)
-        for (let j = 0; j == form.modicount.value; j++)
+    if (form.modicount > 0)
+        for (let j = 0; j == form.modicount; j++)
             if (form["modi" + j] != null) usedStones.push(form["modi" + j].options[form["modi" + j].selectedIndex].innerHTML);
 
     usedStones = usedStones.filter((value, index, array) => array.indexOf(value) === index);
@@ -1476,14 +974,14 @@ function _processAchazOptions(form) {
     let index = usedStones.indexOf(game.i18n.localize("GDSA.spell.noGem"));
     if (index !== -1) usedStones = usedStones.splice(index, 1);
 
-    let actionsPer = form.gemStore.value;
+    let actionsPer = form.gemStore;
     let actions = 0;
 
     if (form.such != null) actionsPer = 1;
 
     actions = actionsPer * usedStones.length;
 
-    if (form.such != null)actions = Math.ceil(actions / form.such.value);
+    if (form.such != null)actions = Math.ceil(actions / form.such);
 
     return {
         advantage: mod,
@@ -1491,9 +989,9 @@ function _processAchazOptions(form) {
     }
 }
 
-function _processCharStats(form) { return { newvalue: form.value.value }};
-function _processAttributoOptions(form) { return { att: form.att1.value }};
-function _processFaxioOptions(form) { return { dice: parseInt(form.dice.value)+1 }};
+function _processCharStats(form) { return { newvalue: form.value }};
+function _processAttributoOptions(form) { return { att: form.att1 }};
+function _processFaxioOptions(form) { return { dice: parseInt(form.dice)+1 }};
 function _formatModifikation(string) { return string[0] + " " + string.substring(1)};
-function _processTempSelection(form) { return { advantage: form.advantages.value}};
-function _processCharNotes(form) { return form[0].children[1].children[0].children.usrform.children[0].children[0].form[0].value;}
+function _processTempSelection(form) { return { advantage: form.advantages}};
+function _processCharNotes(form) { return form.charNotes;}

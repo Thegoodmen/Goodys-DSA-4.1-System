@@ -1,118 +1,97 @@
 <div style="height: 600px; text-align: center">
     
-    <div class="combatBntBar">
-        <a class="myButton lossAsP">{{localize "GDSA.charactersheet.masp"}}</a> 
-        <a class="myButton doReg">{{localize "GDSA.charactersheet.reg"}}</a> 
-        <a class="myButton getAsP">{{localize "GDSA.charactersheet.pasp"}}</a>
-    </div>
+    <div class="skill-mag">
+        <div class="combatBntBar">
+            <a class="myButton lossAsP specialBnt">{{localize "GDSA.charactersheet.masp"}}</a> 
+            <a class="myButton doReg specialBnt">{{localize "GDSA.charactersheet.reg"}}</a> 
+            <a class="myButton getAsP specialBnt">{{localize "GDSA.charactersheet.pasp"}}</a>
+        </div>
 
-    <div class="skill-rit">
-        <table style="display: inline-block">
-            <tr class="headcol">
-                <td class="skillTableNameBig" colspan="2"><div class="addRitKenn">{{localize "GDSA.charactersheet.rit"}}</div>
-                    <div class="ritHelper">   
-                        <a class="edit-ritSkill"><i class="fas fa-gear"></i></a>
-                    </div>
-                </td>
-            </tr>
+        <div class="magicskillLbl">{{localize "GDSA.charactersheet.rit"}}</div>
+        <div class="magAddRit"><a class="edit-ritSkill"><i class="fas fa-gear"></i></a></div>
+        <div class="magRitFiller"></div>
 
+        <div class="magRitSkillOverview">
             {{#if (isEqualORGreater system.skill.ritalch 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.alch"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritalch" type="number" value="{{system.skill.ritalch}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.alch"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.ritalch" type="number" value="{{system.skill.ritalch}}" /></div>
             {{/if}}
+
             {{#if (isEqualORGreater system.skill.ritderw 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.derw"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritderw" type="number" value="{{system.skill.ritderw}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.derw"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.ritderw" type="number" value="{{system.skill.ritderw}}" /></div>
             {{/if}}
+
             {{#if (isEqualORGreater system.skill.ritdrui 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.drui"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritdrui" type="number" value="{{system.skill.ritdrui}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.drui"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.ritdrui" type="number" value="{{system.skill.ritdrui}}" /></div>
             {{/if}}
+
             {{#if (isEqualORGreater system.skill.ritdurr 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.durr"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritdurr" type="number" value="{{system.skill.ritdurr}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.durr"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.ritdurr" type="number" value="{{system.skill.ritdurr}}" /></div>
             {{/if}}
+
             {{#if (isEqualORGreater system.skill.ritgban 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.gban"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritgban" type="number" value="{{system.skill.ritgban}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.gban"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.ritgban" type="number" value="{{system.skill.ritgban}}" /></div>
             {{/if}}
+
             {{#if (isEqualORGreater system.skill.ritgruf 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.gruf"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritgruf" type="number" value="{{system.skill.ritgruf}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.gruf"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.ritgruf" type="number" value="{{system.skill.ritgruf}}" /></div>
             {{/if}}
+
             {{#if (isEqualORGreater system.skill.ritgauf 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.gauf"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritgauf" type="number" value="{{system.skill.ritgauf}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.gauf"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.ritgauf" type="number" value="{{system.skill.ritgauf}}" /></div>
             {{/if}}
+
             {{#if (isEqualORGreater system.skill.ritgbin 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.gbin"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritgbin" type="number" value="{{system.skill.ritgbin}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.gbin"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.ritgbin" type="number" value="{{system.skill.ritgbin}}" /></div>
             {{/if}}
+
             {{#if (isEqualORGreater system.skill.ritgeod 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.geod"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritgeod" type="number" value="{{system.skill.ritgeod}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.geod"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.ritgeod" type="number" value="{{system.skill.ritgeod}}" /></div>
             {{/if}}
+
             {{#if (isEqualORGreater system.skill.ritgild 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.gild"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritgild" type="number" value="{{system.skill.ritgild}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.gild"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.ritgild" type="number" value="{{system.skill.ritgild}}" /></div>
             {{/if}}
+
             {{#if (isEqualORGreater system.skill.rithexe 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.hexe"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.rithexe" type="number" value="{{system.skill.rithexe}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.hexe"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.rithexe" type="number" value="{{system.skill.rithexe}}" /></div>
             {{/if}}
+
             {{#if (isEqualORGreater system.skill.ritkris 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.kris"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritkris" type="number" value="{{system.skill.ritkris}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.kris"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.ritkris" type="number" value="{{system.skill.ritkris}}" /></div>
             {{/if}}
+
             {{#if (isEqualORGreater system.skill.ritpetr 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.petr"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritpetr" type="number" value="{{system.skill.ritpetr}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.petr"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.ritpetr" type="number" value="{{system.skill.ritpetr}}" /></div>
             {{/if}}
+
             {{#if (isEqualORGreater system.skill.ritscha 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.scha"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritscha" type="number" value="{{system.skill.ritscha}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.scha"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.ritscha" type="number" value="{{system.skill.ritscha}}" /></div>
             {{/if}}
+
             {{#if (isEqualORGreater system.skill.rittanz 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.tanz"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.rittanz" type="number" value="{{system.skill.rittanz}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.tanz"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.rittanz" type="number" value="{{system.skill.rittanz}}" /></div>
             {{/if}}
+
             {{#if (isEqualORGreater system.skill.ritzibi 1)}}
-                <tr class="item">
-                    <td class="skillTableNameBig">{{localize "GDSA.ritualSkills.zibi"}}</td>
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.ritzibi" type="number" value="{{system.skill.ritzibi}}" /></td>
-                </tr>
+                <div class="magRitLbl">{{localize "GDSA.ritualSkills.zibi"}}</div>
+                <div class="magRitValue"><input class="skillTemp2" name="system.skill.ritzibi" type="number" value="{{system.skill.ritzibi}}" /></div>
             {{/if}}
-        </table>
+        </div>
     </div>
 
     <div class="holyTraitBox">

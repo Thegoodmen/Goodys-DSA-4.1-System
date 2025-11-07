@@ -30,7 +30,7 @@ export function getTemplateItems(data, type) {
     // #################################################################################################
 
     // Filter items of a Type
-
+    
     let tempArray = data.items.filter(function(item) {return item.type === "Template"});
     let itemArray = tempArray.filter(function(item) {return item.system.type === type});
 

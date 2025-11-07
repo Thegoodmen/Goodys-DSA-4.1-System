@@ -1,20 +1,17 @@
 <div style="height: 600px; text-align: center">
     
-    <div class="combatBntBar">
-        <a class="myButton lossKaP">{{localize "GDSA.charactersheet.mkap"}}</a> 
-        <a class="myButton doMedi">{{localize "GDSA.charactersheet.medi"}}</a> 
-        <a class="myButton getKaP">{{localize "GDSA.charactersheet.pkap"}}</a>
-    </div>
-
     <div class="skill-lit">
-        <table style="display: inline-block">
-                <tr>
-                    <td class="skillTableNameBig"><a class="item skill-roll" title="{{localize 'GDSA.chat.skill.roll'}}">
-                        {{localize "GDSA.charactersheet.wonderskill"}}   
-                    </a></td> 
-                    <td class="skillTableValue"><input class="skillTemp" name="system.skill.Liturgiekenntnis" type="number" value="{{system.skill.Liturgiekenntnis}}" data-stat="Liturgiekenntnis" data-lbl="Liturgiekenntnis" /></td>
-                </tr>
-        </table>
+        <div class="combatBntBar">
+            <a class="myButton lossKaP specialBnt">{{localize "GDSA.charactersheet.mkap"}}</a> 
+            <a class="myButton doMedi specialBnt">{{localize "GDSA.charactersheet.medi"}}</a> 
+            <a class="myButton getKaP specialBnt">{{localize "GDSA.charactersheet.pkap"}}</a>
+        </div>
+        <div class="wonderskillLbl">
+            <a class="item litSkill-roll" title="{{localize 'GDSA.chat.skill.roll'}}">{{localize "GDSA.charactersheet.wonderskill"}}</a>
+        </div>
+        <div class="wonderskillValue">
+            <input class="skillTemp wonderskillInput" name="system.skill.liturgy" type="number" value="{{system.skill.liturgy}}" data-stat="liturgy" data-lbl="Liturgiekenntnis" />
+        </div>
     </div>
 
     <div class="god-outer">

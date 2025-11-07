@@ -3,29 +3,29 @@
 <hr class="subhr" />
 
 <div class="importBox">
-    <div class="importStat1">Rasse</div> <div class="importStat2">{{info.race}}</div>
-    <div class="importStat1">Kultur</div> <div class="importStat2">{{info.culture}}</div>
-    <div class="importStat1">Profession</div> <div class="importStat2">{{info.profession}}</div>
+    <div class="importRow"><div class="importStat1">{{localize "GDSA.charactersheet.race"}}</div><div class="importStat2">{{info.race}}</div></div>
+    <div class="importRow"><div class="importStat1">{{localize "GDSA.charactersheet.culture"}}</div><div class="importStat2">{{info.culture}}</div></div>
+    <div class="importRow"><div class="importStat1">{{localize "GDSA.charactersheet.profession"}}</div><div class="importStat2">{{info.profession}}</div></div>
 </div>
 
 <hr class="subhr" />
 
 <div class="importBox">
-    <div class="importStat1">AP</div> <div class="importStat2">{{formatNumber stats.ap}}</div>
-    <div class="importStat1">GP</div> <div class="importStat2">{{stats.gp}}</div>
-    <div class="importStat1">Attributspunkte</div> <div class="importStat2">{{stats.attPoints}}</div>
+    <div class="importRow"><div class="importStat1">AP</div><div class="importStat2">{{formatNumber stats.ap}}</div></div>
+    <div class="importRow"><div class="importStat1">GP</div><div class="importStat2">{{stats.gp}}</div></div>
+    <div class="importRow"><div class="importStat1">{{localize "GDSA.charactersheet.attributes"}}</div><div class="importStat2">{{stats.attPoints}}</div></div>
 </div>
 
 <hr class="subhr" />
 
 <div class="importBox">
-    <div class="importStat1">Vorteile</div> <div class="importStat2">{{advantages.length}}</div>
-    <div class="importStat1">Nachteile</div> <div class="importStat2">{{disadvantages.length}}</div>
-    <div class="importStat1">Sonderfertigkeiten</div> <div class="importStat2">{{sfGeneral.length}}</div>
-    <div class="importStat1">Talente</div> <div class="importStat2">{{stats.skills}}</div>
-    <div class="importStat1">Zauber</div> <div class="importStat2">{{spells.length}}</div>
-    <div class="importStat1">Rituale</div> <div class="importStat2">{{rits.length}}</div>
-    <div class="importStat1">Objektrituale</div> <div class="importStat2">{{objectRit.length}}</div>
-    <div class="importStat1">Liturgien</div> <div class="importStat2">{{wonders.length}}</div>
-    <div class="importStat1">Gegenstände</div> <div class="importStat2">{{items.length}}</div>
+    <div class="importRow"><div class="importStat1">{{localize "GDSA.charactersheet.advantage"}}</div><div class="importStat2">{{advantages.length}}</div></div>
+    <div class="importRow"><div class="importStat1">{{localize "GDSA.charactersheet.flaw"}}</div><div class="importStat2">{{disadvantages.length}}</div></div>
+    <div class="importRow"><div class="importStat1">{{localize "GDSA.templates.sfs"}}</div><div class="importStat2">{{sfGeneral.length}}</div></div>
+    <div class="importRow"><div class="importStat1">{{localize "GDSA.charactersheet.talente"}}</div><div class="importStat2">{{stats.skills}}</div></div>
+    <div class="importRow"><div class="importStat1">{{localize "GDSA.charactersheet.cast"}}</div><div class="importStat2">{{spells.length}}</div></div>
+    <div class="importRow"><div class="importStat1">{{localize "GDSA.charactersheet.ritual"}}</div><div class="importStat2">{{rits.length}}</div></div>
+    <div class="importRow"><div class="importStat1">{{localize "GDSA.charactersheet.mobjekt"}}</div><div class="importStat2">{{objectRit.length}}</div></div>
+    <div class="importRow"><div class="importStat1">{{localize "GDSA.charactersheet.wonder"}}</div><div class="importStat2">{{wonders.length}}</div></div>
+    <div class="importRow"><div class="importStat1">{{localize "GDSA.charactersheet.items"}}</div><div class="importStat2">{{items.length}}</div></div>
 </div>
