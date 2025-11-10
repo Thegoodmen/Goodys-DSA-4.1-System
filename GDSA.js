@@ -310,15 +310,15 @@ function registerHandelbarsHelpers() {
 
         let spezList = actor.system.SpellSpez;
         let arrayofSpez = spezList.filter(function(item) {return item.spellname.includes(spell.name)});
-        let response = "[ ";
+        let response = "[";
 
         if(arrayofSpez.length > 0)
             for (let index = 0; index < arrayofSpez.length; index++)
                 response += arrayofSpez[index].spezi + " ";
 
-        response += "]";
+        response = response.trim() + "]";
 
-        if (response !== "[ ]") return response;
+        if (response !== "[]") return response;
     });
 
     Handlebars.registerHelper("isUsableVari", function(vari, spellRep) {
