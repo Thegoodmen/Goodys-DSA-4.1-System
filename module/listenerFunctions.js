@@ -323,9 +323,12 @@ export async function onSpellRoll(data, event) {
         if (modis.length > 0) isSpez = true;
         
         let vars = item.system.vars;
-        let spzVars = vars.filter(function(mod) {return mod.name.includes(value)})[0];
-        if (spzVars != null) if (checkOptions.variants[spzVars.id]) isSpez = true;
-    
+
+        if (vars != null)
+        {
+            let spzVars = vars.filter(function(mod) {return mod.name.includes(value)})[0];
+            if (spzVars != null) if (checkOptions.variants[spzVars.id]) isSpez = true;
+        }    
     }
 
     if (isSpez) spellValue = parseInt(spellValue) + 2;
