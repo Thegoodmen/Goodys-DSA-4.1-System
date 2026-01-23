@@ -7,12 +7,17 @@
 
 **Additional Features**
 
-+
++ Added Styling to Standart Chat Messages for a cohirant Experiance
 
 **Bugfixes**
 
 + Adjusted Display of Spell Specialation in Character Sheet (#XXX)
 + Fixed Spelling Error  (#XXX)
++ Fixed Context Menues in regard of the Chat (#XXX)
++ Disabled Language Notifier due to switch to support only German for now (#XXX)
++ Fixed the Regeneration Problem due to missing check for full value (#XXX)
++ Fixed the PDF Pager Integration (#XXX)
++ Fixed double Roll Sound with Dice-so-Nice (#XXX)
 
 **ToDos for next minor Version**
 
@@ -27,10 +32,8 @@
 + Fix Halbierung der Modis bei MAG
 + Allgemeine Gegenstände wird das Contextmenü nicht angezeigt
 + Blind gm rolls und gm rolls machen das gleiche - also spieler können ergebnisse mit blind gm roll sehen!
-+ Als Spieler, funktioniert das Kontextmenü um seine eigenen Nachrichten zu veröffentlichen oder löschen nicht.
 + Beim Import eines Charakterbogens via xml wird der Vorteil [Viertelzauberer] stattdessen als Nachteil [Unbewusster Viertelzauberer] eingepflegt
 + Außerdem scheint der Viertelzauberer selbst nicht die AsP richtig zu beeinflussen (es fehlen 6 AsP  > Modifikator muss manuell auf 0 gesetzt werden)
-+ PDFs lassen sich aktuell nicht öffnen
 
 ---
 

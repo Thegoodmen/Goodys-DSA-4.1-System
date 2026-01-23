@@ -72,8 +72,6 @@ Hooks.once("ready", async () => {
 
     game.gdsa.buffHud = new BuffHud();
 
-    if(game.i18n.lang != "de") Dialog.getLangConfirmation();
-
     if(!game.user.isGM) return;
 
     const currentVersion = game.settings.get("gdsa", "systemMigrationVersion");

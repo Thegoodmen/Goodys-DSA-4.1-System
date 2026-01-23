@@ -2214,6 +2214,15 @@
   font-size: 10px;
   font-family: 'Signika';
 }
+.GDSA.sheet.characterSheet .context-items {
+  background: #302a31;
+  z-index: 100;
+  position: relative;
+  border-radius: 12px;
+  border: 2px solid;
+  overflow: hidden;
+  margin-right: 30px;
+}
 .mediOpt {
   height: 25px;
   max-width: 180px;
@@ -4454,13 +4463,21 @@
   height: 490px;
   width: 440px;
 }
-.chat-message.message:has(.GDSA.chat.message.skill) {
+.chat-message.message {
   background-color: #0b0a13e6 !important;
   border: 2px solid #353535;
   border-radius: 14px;
   background: none;
   padding: 0px;
   overflow: hidden;
+}
+.chat-message.message:has(.GDSA.chat.message.skill) .message-content {
+  color: #e0caab;
+  padding: 0px !important;
+}
+.message-content {
+  color: #e0caab;
+  padding: 5px 12px 5px 12px;
 }
 .message-header {
   background-color: #7d7d7d6b;
@@ -4633,6 +4650,11 @@
   position: fixed;
   transform: none !important;
   pointer-events: none;
+}
+#context-menu {
+  z-index: 100;
+  display: contents;
+  color: #e0caab;
 }
 .GDSA.heldenimporter .window-content {
   padding: 8px;

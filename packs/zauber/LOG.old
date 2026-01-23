@@ -1,5 +1,7 @@
-2025/11/07-22:35:06.549 a034 Log #437: 0 ops saved to Table #440 OK
-2025/11/07-22:35:06.549 a034 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\zauber/000437.log: OK
-2025/11/07-22:35:06.553 a034 Table #439: 363 entries OK
-2025/11/07-22:35:06.555 a034 Archiving C:\FoundryVTT\Data\systems\gdsa\packs\zauber/MANIFEST-000435: OK
-2025/11/07-22:35:06.560 a034 **** Repaired leveldb C:\FoundryVTT\Data\systems\gdsa\packs\zauber; recovered 1 files; 1440636 bytes. Some data may have been lost. ****
+2025/11/22-16:39:54.014 8274 Recovering log #443
+2025/11/22-16:39:54.025 8274 Delete type=0 #443
+2025/11/22-16:39:54.026 8274 Delete type=3 #441
+2025/11/22-17:25:45.867 97a8 Level-0 table #449: started
+2025/11/22-17:25:45.867 97a8 Level-0 table #449: 0 bytes OK
+2025/11/22-17:25:45.872 97a8 Delete type=0 #447
+2025/11/22-17:25:45.880 97a8 Manual compaction at level-0 from '!items!02zlFKZfi8DHDybN' @ 72057594037927935 : 1 .. '!items!zgRTkFCGA3rDTKLi' @ 0 : 0; will stop at (end)

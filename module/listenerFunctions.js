@@ -3484,9 +3484,9 @@ export async function onReg(data, event) {
 
     // Save new Values
 
-    system.LeP.value += parseInt(regtLeP.regtotal);
+    if(regtLeP != 0) system.LeP.value += parseInt(regtLeP.regtotal);
     system.AuP.value = system.AuP.max;
-    system.AsP.value += parseInt(regtAsP.regtotal);
+    if(regtAsP != 0) system.AsP.value += parseInt(regtAsP.regtotal);
     system.KaP.value += parseInt(KABonus);
 
     actor.setStatData("LeP", system.LeP.value);
@@ -4807,7 +4807,7 @@ export function openPDF(type, event) {
 }
 
 export function getItemContextMenu() {
-    
+    console.log("here!")
     return [{
 
             name: game.i18n.localize("GDSA.system.edit"),

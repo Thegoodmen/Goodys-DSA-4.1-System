@@ -222,9 +222,9 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
             
             // Set Listener for PDFoundry
         
-            this.element.querySelectorAll(".openSpell").forEach(action => { action.addEventListener("click", (e) => LsFunction.openPDF.bind("Spell", e)) });
-            this.element.querySelectorAll(".openRitual").forEach(action => { action.addEventListener("click", (e) => LsFunction.openPDF.bind("Ritual", e)) });
-            this.element.querySelectorAll(".openWonder").forEach(action => { action.addEventListener("click", (e) => LsFunction.openPDF.bind("Wonder", e)) });
+            this.element.querySelectorAll(".openSpell").forEach(action => { action.addEventListener("click", (e) => LsFunction.openPDF("Spell", e)) });
+            this.element.querySelectorAll(".openRitual").forEach(action => { action.addEventListener("click", (e) => LsFunction.openPDF("Ritual", e)) });
+            this.element.querySelectorAll(".openWonder").forEach(action => { action.addEventListener("click", (e) => LsFunction.openPDF("Wonder", e)) });
         
             // Set Listeners for Navigation
         

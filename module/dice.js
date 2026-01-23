@@ -1123,7 +1123,7 @@ async function sendChatMessage(chatData) {
     // Prepare chat data
     let messageData = foundry.utils.mergeObject({
         author: game.user.id,
-        sound: CONFIG.sounds.dice,
+        sound: game.modules.get("dice-so-nice")?.active ? null : CONFIG.sounds.dice,
         classes: ["GDSA", "chat", "skillRoll"]
     }, chatData);
 
