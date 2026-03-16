@@ -2243,7 +2243,7 @@ export async function onAttackRoll(data, event) {
     
     dmg.message.setFlag('gdsa', 'isCollapsable', true);
 
-    GDSA.socket.executeAsGM("adjustRessource", targetToken.actor, newHP, "LeP");
+    GDSA.socket.executeAsGM("adjustRessource", targetToken, newHP, "LeP");
 
     if(isPartofCombat && newHP <= 0) {
 

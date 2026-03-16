@@ -158,7 +158,16 @@ function registerSystemSettings() {
     })
 }
 
-function adjustRessource(target, value, type) { target.setStatData(type, value) };
+function adjustRessource(target, value, type) { 
+    
+    if (target instanceof TokenDocument) {
+        target = target.actor;
+    } else if (target instanceof Object) {
+        target = canvas.tokens.get(target._id).document.actor;
+    }
+
+    target.setStatData(type, value);
+};
 
 function sendToMemory(key, object) {
 
