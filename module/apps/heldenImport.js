@@ -208,25 +208,32 @@ export default class GDSAHeldenImporter extends api.HandlebarsApplicationMixin(a
         let spellsArray = await game.packs.get("gdsa.spells").getDocuments();
 
         for (let i = 0; i < hero.advantages.length; i++)
-            await actor.createEmbeddedDocuments("Item", [hero.advantages[i]]);
+            try { await actor.createEmbeddedDocuments("Item", [hero.advantages[i]]);
+            } catch (error) { console.error("Error while creating an Advantage:", error);}
 
         for (let i = 0; i < hero.disadvantages.length; i++)
-            await actor.createEmbeddedDocuments("Item", [hero.disadvantages[i]]);
-    
+            try { await actor.createEmbeddedDocuments("Item", [hero.disadvantages[i]]);
+            } catch (error) { console.error("Error while creating an Disadvantage:", error);}
+
         for (let i = 0; i < hero.sfGeneral.length; i++)
-            await actor.createEmbeddedDocuments("Item", [hero.sfGeneral[i]]);
+            try { await actor.createEmbeddedDocuments("Item", [hero.sfGeneral[i]]);
+            } catch (error) { console.error("Error while creating a general SF:", error);}
             
         for (let i = 0; i < hero.wonders.length; i++)
-            await actor.createEmbeddedDocuments("Item", [hero.wonders[i]]);
+            try { await actor.createEmbeddedDocuments("Item", [hero.wonders[i]]);
+            } catch (error) { console.error("Error while creating a Wonder:", error);}
             
         for (let i = 0; i < hero.objectRit.length; i++)
-            await actor.createEmbeddedDocuments("Item", [hero.objectRit[i]]);
+            try { await actor.createEmbeddedDocuments("Item", [hero.objectRit[i]]);
+            } catch (error) { console.error("Error while creating an Object Ritual:", error);}
             
         for (let i = 0; i < hero.rits.length; i++)
-            await actor.createEmbeddedDocuments("Item", [hero.rits[i]]);
-            
+            try { await actor.createEmbeddedDocuments("Item", [hero.rits[i]]);
+            } catch (error) { console.error("Error while creating a Ritual:", error);}
+
         for (let i = 0; i < hero.items.length; i++)
-            await actor.createEmbeddedDocuments("Item", [hero.items[i]]);
+            try { await actor.createEmbeddedDocuments("Item", [hero.items[i]]);
+            } catch (error) { console.error("Error while creating an Item:", error);}
 
         for (let i = 0; i < hero.spells.length; i++) {
 
@@ -337,7 +344,7 @@ export default class GDSAHeldenImporter extends api.HandlebarsApplicationMixin(a
             }
         }
         
-        await delay(2500);
+        await delay(1500);
 
         actor.update({ "system.LeP.value": actor.system.LeP.max });
         actor.update({ "system.AuP.value": actor.system.AuP.max });
@@ -373,6 +380,7 @@ function removeEleValue(value, index, arr) {
 }
 
 function generateHeroObject(event, xml) {
+
     let advantage = [];
     let disadvantage = [];
     let sfGeneral = [];
@@ -403,6 +411,11 @@ function generateHeroObject(event, xml) {
         let advaArray = templates.advantage.all.filter(function(item) {return item.name.includes(traitName)});
         let flawArray = templates.flaw.all.filter(function(item) {return item.name.includes(traitName)});
 
+        if (flawArray.length > 0 && advaArray.length > 0) {
+
+            console.log(advaArray);
+            console.log(flawArray);
+        }
 
         if (flawArray.length > 0) {
 
@@ -470,6 +483,8 @@ function generateHeroObject(event, xml) {
                     nameAddition = advantages[i].attributes.value.value;
                 else value = parseInt(advantages[i].attributes.value.value);
 
+            let testForPerfectMatch = advaArray.filter(function(item) {return item.name === traitName});
+
             if (advaArray.length !== 1)
                 if (traitName === "Verbindungen")
                     newAdv = structuredClone(advaArray[0]);
@@ -477,6 +492,8 @@ function generateHeroObject(event, xml) {
                     newAdv = structuredClone(advaArray.filter(function(item) {return item.system.trait.value === value})[0]);
                 else if (nameAddition !== "")
                     newAdv = structuredClone(advaArray.filter(function(item) {return item.name.includes(nameAddition)})[0]);
+                else if (testForPerfectMatch.length === 1)
+                    newAdv = structuredClone(testForPerfectMatch[0]);
                 else newAdv = structuredClone(advaArray[0]);
             else newAdv = structuredClone(advaArray[0]);
 
@@ -507,7 +524,7 @@ function generateHeroObject(event, xml) {
     }
 
     for (let i = 0; i < spezialSkills.length; i++) {
-
+        
         const templates = Object.assign({}, CONFIG.Templates);
         let traitName = spezialSkills[i].attributes.name.value;
         
@@ -525,8 +542,13 @@ function generateHeroObject(event, xml) {
 
                 if (traitName === "Kulturkunde") {
 
-                    for (let j = 0; j < spezialSkills[i].getElementsByTagName("kultur").length; j++)
-                        sfGeneral.push(traitArray.filter(function(item) {return item.name.includes(spezialSkills[i].getElementsByTagName("kultur")[j].attributes.name.value)})[0]);
+                    for (let j = 0; j < spezialSkills[i].getElementsByTagName("kultur").length; j++){
+
+                        let newSF = structuredClone(traitArray[0]);
+                        newSF.system.tale.DE = "Kulturkunde (" + spezialSkills[i].getElementsByTagName("kultur")[j].attributes.name.value + ")";
+                        newSF.name = "Kulturkunde (" + spezialSkills[i].getElementsByTagName("kultur")[j].attributes.name.value + ")";
+                        sfGeneral.push(newSF)
+                    }
 
                 } else if(traitName === "Rüstungsgewöhnung I") {
 
@@ -1258,6 +1280,7 @@ function generateHeroObject(event, xml) {
                         }
                     }
                     if (itemArray[i].getElementsByTagName("Wesen")[0] !== undefined) continue;
+                    
                     items.push(newitem);
                 }
             } else event.srcElement.closest("form").querySelector("[id=overview2]").innerHTML += 

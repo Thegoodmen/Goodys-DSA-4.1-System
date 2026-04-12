@@ -275,6 +275,9 @@ export async function onSpellRoll(data, event) {
     let notEnoughAsP = false;
     let noChat = false;
     let usePowerC = false;
+    let actorToken = null;
+    let targetToken = null;
+    let targetActor = null;
 
     // Preap General
 
@@ -285,6 +288,21 @@ export async function onSpellRoll(data, event) {
 
     if (item.system.rep === "dru") item.system.forced = true;
     if (matrixK.length !== 0) item.hasRep = true;
+
+    // Get Target of Attack
+
+    let currentScene = game.scenes.current._id;
+
+    if (game.users.get(game.userId).targets.ids.length) {
+
+        let targetId = game.users.get(game.userId).targets.ids[0];
+
+        targetToken = game.scenes.get(currentScene).collections.tokens.get(targetId);
+        targetActor = game.actors.get(targetToken.actorId);
+    }
+
+    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
+        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
 
     // Generate Dialog for Modifikations
 
@@ -323,9 +341,10 @@ export async function onSpellRoll(data, event) {
         if (modis.length > 0) isSpez = true;
         
         let vars = item.system.vars;
+        if (vars == null) countinue;
+
         let spzVars = vars.filter(function(mod) {return mod.name.includes(value)})[0];
         if (spzVars != null) if (checkOptions.variants[spzVars.id]) isSpez = true;
-    
     }
 
     if (isSpez) spellValue = parseInt(spellValue) + 2;
@@ -541,10 +560,11 @@ export async function onSpellRoll(data, event) {
     if (item.system.att2 === "CH") chamount++;
     if (item.system.att3 === "CH") chamount++;
 
-    if (item.system.rep === "mag") disadvantage = Math.round(disadvantage - nonDiscountDisadvantage / 2) + nonDiscountDisadvantage;
+    if (item.system.rep === "mag") disadvantage = Math.round((disadvantage - nonDiscountDisadvantage) / 2) + nonDiscountDisadvantage;
     if (item.system.rep === "mag") if (doubcast) advantage++;
+
     if (item.system.vars != undefined) for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) disadvantage += item.system.vars[i].disad;
-    if (item.system.rep === "srl") if (item.system.trait1 === "illu" || item.system.trait2 === "illu" || item.system.trait3 === "illu" || item.system.trait4 === "illu") disadvantage = Math.round(disadvantage - nonDiscountDisadvantage / 2) + nonDiscountDisadvantage;
+    if (item.system.rep === "srl") if (item.system.trait1 === "illu" || item.system.trait2 === "illu" || item.system.trait3 === "illu" || item.system.trait4 === "illu") disadvantage = Math.round((disadvantage - nonDiscountDisadvantage) / 2) + nonDiscountDisadvantage;
     
     if (animag.length !== 0 && klamount > 0) disadvantage += (klamount * animag[0].system.trait.value);
     if (schaus.length !== 0 && chamount > 0) disadvantage += (chamount * schaus[0].system.trait.value);
@@ -637,6 +657,7 @@ export async function onSpellRoll(data, event) {
     // Calculate Actions
 
     let action = item.system.zduration;
+
     if (item.system.vars != undefined) for (let i = 0; i < item.system.vars.length; i++) if (variants[i]) if (item.system.vars[i].casttime != null) action = item.system.vars[i].casttime;
     if (item.system.rep !== "elf" && item.system.rep !== "ach" && item.system.rep !== "sch") if (usePowerC) action++;
     if (matrixK.length === 0) action = action + parseInt(actions);
@@ -670,7 +691,10 @@ export async function onSpellRoll(data, event) {
     optional.vari = (usedVar.length > 0);
     optional.varis = (usedVars.length > 0);
 
-    // Execute Roll
+    // Trigger Hooks and Execute Roll
+
+    Hooks.callAll("gdsa.spellCast", actor, item, targetActor, actorToken, targetToken, optional);
+    Hooks.callAll("gdsa.rollEvent", "spell", actor, item, targetActor, actorToken, targetToken, optional);
 
     let spellCheck = await Dice.skillCheck(dataset.statname, spellValue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif, optional);
     if (!noChat) spellCheck.message.setFlag('gdsa', 'isCollapsable', true);
@@ -822,16 +846,31 @@ export async function onRitualRoll(data, event) {
     let advantage = 0;
     let disadvantage = 0;
     let spellValue = 0;
-    let spellName = "";
     let usedVars = [];
     let usedVar = [];
     let notEnoughAsP = false;
     let helperAdvantage = 0;
     let helperDisadvantage = 0;
+    let actorToken = null;
+    let targetToken = null;
+    let targetActor = null;
+
 
     // Preap General
 
     if(item.system.ritTalent === "none" || item.system.ritTalent === "") ui.notifications.warn('Bitte eine Repräsentation im Ritual auswählen!')
+    let currentScene = game.scenes.current._id;
+    if (game.users.get(game.userId).targets.ids.length) {
+
+        let targetId = game.users.get(game.userId).targets.ids[0];
+
+        targetToken = game.scenes.get(currentScene).collections.tokens.get(targetId);
+        targetActor = game.actors.get(targetToken.actorId);
+    }
+
+    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
+        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
+
 
     // Tanzen when Zaubertänzer
 
@@ -910,7 +949,10 @@ export async function onRitualRoll(data, event) {
     optional.vari = (usedVar.length > 0);
     optional.varis = (usedVars.length > 0);
 
-    // Execute Roll
+    // Trigger Hooks and Execute Roll
+
+    Hooks.callAll("gdsa.ritualCast", actor, item, targetActor, actorToken, targetToken, optional);
+    Hooks.callAll("gdsa.rollEvent", "ritual", actor, item, targetActor, actorToken, targetToken, optional);
 
     let spellCheck = await Dice.skillCheck(dataset.statname, spellValue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif, optional);
     spellCheck.message.setFlag('gdsa', 'isCollapsable', true);
@@ -949,12 +991,27 @@ export async function onSchamanRoll(data, event) {
     let modRitDur = false;
     let modTarget = false;
     let modDura = false;
+    let actorToken = null;
+    let targetToken = null;
+    let targetActor = null;
     
     let notEnoughAsP = false;
 
     // Preap General
 
     if(item.system.skill === "none" || item.system.skill === "") {ui.notifications.warn('Bitte ein Talent im Ritual auswählen!'); return}
+    
+    let currentScene = game.scenes.current._id;
+    if (game.users.get(game.userId).targets.ids.length) {
+
+        let targetId = game.users.get(game.userId).targets.ids[0];
+
+        targetToken = game.scenes.get(currentScene).collections.tokens.get(targetId);
+        targetActor = game.actors.get(targetToken.actorId);
+    }
+
+    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
+        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
 
     // Find what Type Schamen is Casting
 
@@ -1142,12 +1199,7 @@ export async function onSchamanRoll(data, event) {
     spellName = dataset.statname;
 
     let modif = parseInt(advantage) - parseInt(disadvantage) - parseInt(helperModi) + parseInt(keuleAdv) - parseInt(gradDis);
-console.log(modif);
-console.log(advantage);
-console.log(disadvantage);
-console.log(helperModi);
-console.log(keuleAdv);
-console.log(gradDis);
+
     // Calculate min. Cost
 
     let minCost =  item.system.aspCost === "" ? 0 : item.system.aspCost;
@@ -1179,8 +1231,11 @@ console.log(gradDis);
     optional.vari = (usedVar.length > 0);
     optional.varis = (used.length > 0);
 
-    // Execute Roll
-    console.log(modif);
+    // Trigger Hooks and Execute Roll
+
+    Hooks.callAll("gdsa.ritualCast", actor, item, targetActor, actorToken, targetToken, optional);
+    Hooks.callAll("gdsa.rollEvent", "ritual", actor, item, targetActor, actorToken, targetToken, optional);
+
     let spellCheck = await Dice.skillCheck(dataset.statname, spellValue, dataset.stat_one, dataset.stat_two, dataset.stat_three, actor, data.goofy, modif, optional);
     spellCheck.message.setFlag('gdsa', 'isCollapsable', true);
 }
@@ -1218,6 +1273,22 @@ export async function onMirikalRoll(data, event, statname = "") {
     let disadvantage = 0;
     let used = [];
     let context = { "config": GDSA };
+    let actorToken = null;
+    let targetToken = null;
+    let targetActor = null;
+
+    if (game.users.get(game.userId).targets.ids.length) {
+
+        let targetId = game.users.get(game.userId).targets.ids[0];
+
+        targetToken = game.scenes.get(currentScene).collections.tokens.get(targetId);
+        targetActor = game.actors.get(targetToken.actorId);
+    }
+
+    let currentScene = game.scenes.current._id;
+
+    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
+        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
 
     if(options) {
 
@@ -1263,7 +1334,10 @@ export async function onMirikalRoll(data, event, statname = "") {
         asp: 0
     };
     
-    // Execute Roll
+    // Trigger Hooks and Execute Roll
+
+    Hooks.callAll("gdsa.mirikalCast", actor, targetActor, actorToken, targetToken, optional);
+    Hooks.callAll("gdsa.rollEvent", "mirikal", actor, null, targetActor, actorToken, targetToken, optional);
 
     let response = await Dice.skillCheck(skillname, statvalue, dieOne, dieTwo, dieThr, actor, data.goofy, modif, optional);
     response.message.setFlag('gdsa', 'isCollapsable', true);
@@ -1314,6 +1388,9 @@ export async function onWonderRoll(data, event) {
     let reach = false;
     let wdura = false;
     let isAuf = false;
+    let actorToken = null;
+    let targetToken = null;
+    let targetActor = null;
 
 
     if (item.system.range !== "faar")
@@ -1337,6 +1414,18 @@ export async function onWonderRoll(data, event) {
     }
 
     if (checkOptions.cancelled) return;
+    let currentScene = game.scenes.current._id;
+
+    if (game.users.get(game.userId).targets.ids.length) {
+
+        let targetId = game.users.get(game.userId).targets.ids[0];
+
+        targetToken = game.scenes.get(currentScene).collections.tokens.get(targetId);
+        targetActor = game.actors.get(targetToken.actorId);
+    }
+
+    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
+        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
 
     // Calculate Lit Grad
 
@@ -1596,7 +1685,10 @@ export async function onWonderRoll(data, event) {
     let dieTwo = actor.system.IN.value + actor.system.IN.temp;
     let dieThr = actor.system.CH.value + actor.system.CH.temp;
     
-    // Execute Roll
+    // Trigger Hooks and Execute Roll
+
+    Hooks.callAll("gdsa.holyCast", actor, item, targetActor, actorToken, targetToken, optional);
+    Hooks.callAll("gdsa.rollEvent", "holy", actor, item, targetActor, actorToken, targetToken, optional);
 
     let wonderCheck = await Dice.skillCheck(item.name, statvalue, dieOne, dieTwo, dieThr, actor, data.goofy, modif, optional);
     wonderCheck.message.setFlag('gdsa', 'isCollapsable', true);
@@ -1616,21 +1708,26 @@ export async function onRitualCreation(data, event) {
     let dataset = element.closest(".item").dataset;
 
     // Get Item
-    console.log(dataset.itemId);
+
     let item = actor.items.get(dataset.itemId);
-    console.log(actor);
+
     // Get Skill Value from the HTML
     
     let skill = item.system.creatTalent;
 
     let statvalue = (await actor.sheet._prepareContext()).system.skill["rit" + skill];
     if (!statvalue < 0) return;
+
     // Check if Shift is presst for Skip Dialog
 
     let options = event.shiftKey ? false : true;
+
     let checkOptions = false;
     let advantage = 0;
-    let disadvantage = 0;
+    let disadvantage = 0;    
+    let actorToken = null;
+    let targetToken = null;
+    let targetActor = null;
 
     if(options) {
 
@@ -1641,15 +1738,26 @@ export async function onRitualCreation(data, event) {
     }
 
     if (checkOptions.cancelled) return;
+    let currentScene = game.scenes.current._id;
+
+    if (game.users.get(game.userId).targets.ids.length) {
+
+        let targetId = game.users.get(game.userId).targets.ids[0];
+
+        targetToken = game.scenes.get(currentScene).collections.tokens.get(targetId);
+        targetActor = game.actors.get(targetToken.actorId);
+    }
+
+    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
+        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
 
     // Calculate Modifier
 
     let modif = (parseInt(advantage) - parseInt(disadvantage)) - item.system.creatDisAd;
 
     // Calculate Cost
-    console.log(item);
+
     let minCost = item.system.creatCost != null ? item.system.creatCost : 0;
-    console.log(minCost);
     minCost = minCost.toString().toLowerCase().replace("w", "d")
     if(minCost.includes("d")) minCost = (await Dice.DMGRollWitoutChat(minCost, actor, 1, true)).total;
 
@@ -1671,7 +1779,10 @@ export async function onRitualCreation(data, event) {
         noChat: false
     };
 
-    // Execute Roll
+    // Trigger Hooks and Execute Roll
+
+    Hooks.callAll("gdsa.ritualCast", actor, item, targetActor, actorToken, targetToken, optional);
+    Hooks.callAll("gdsa.rollEvent", "ritual", actor, item, targetActor, actorToken, targetToken, optional);
 
     let answer = await Dice.skillCheck(statname, statvalue, dieOne, dieTwo, dieThr, actor, data.goofy, modif, optional);
 
@@ -1707,6 +1818,9 @@ export async function onRitualActivation(data, event) {
     let checkOptions = false;
     let advantage = 0;
     let disadvantage = 0;
+    let actorToken = null;
+    let targetToken = null;
+    let targetActor = null;
 
     if(options) {
 
@@ -1717,6 +1831,18 @@ export async function onRitualActivation(data, event) {
     }
 
     if (checkOptions.cancelled) return;
+    let currentScene = game.scenes.current._id;
+
+    if (game.users.get(game.userId).targets.ids.length) {
+
+        let targetId = game.users.get(game.userId).targets.ids[0];
+
+        targetToken = game.scenes.get(currentScene).collections.tokens.get(targetId);
+        targetActor = game.actors.get(targetToken.actorId);
+    }
+
+    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
+        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
 
     // Calculate Modifier
 
@@ -1748,7 +1874,10 @@ export async function onRitualActivation(data, event) {
         activ: true
     };
 
-    // Execute Roll
+    // Trigger Hooks and Execute Roll
+
+    Hooks.callAll("gdsa.ritualCast", actor, item, targetActor, actorToken, targetToken, optional);
+    Hooks.callAll("gdsa.rollEvent", "ritual", actor, item, targetActor, actorToken, targetToken, optional);
 
     await Dice.skillCheck(statname, statvalue, dieOne, dieTwo, dieThr, actor, data.goofy, modif, optional);
 }
@@ -1996,6 +2125,7 @@ export async function onAttackRoll(data, event) {
     let targetId = "";            //If True, holds the Targets Id
     let targetToken = null;       //If True, holds the Target Token Object
     let targetActor = null;       //If True, holds the Target Actor Object
+    let actorToken = null;        //If True, holds the Actor Token Object
 
     let targetCombatant = null;   //If has Target and is in Combat, holds the Combatant Instance of the Target
 
@@ -2015,7 +2145,7 @@ export async function onAttackRoll(data, event) {
         
         currentScene = game.scenes.current._id;
         currentSceneCombat = game.combats.contents.filter(function(combat) {return combat.active})[0];
-        userCombatant = currentSceneCombat.getCombatantByActor(data.actor.id);
+        userCombatant = currentSceneCombat.getCombatantsByActor(data.actor.id)[0];
         
         if(userCombatant) {
 
@@ -2038,6 +2168,9 @@ export async function onAttackRoll(data, event) {
 
         auto = (targetActor.type === "NonPlayer");
     }
+
+    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
+        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
 
     // Set Item if its for Raufen or Ringen
 
@@ -2091,6 +2224,9 @@ export async function onAttackRoll(data, event) {
         };
 
         // Do ATK Rolls
+
+        Hooks.callAll("gdsa.meeleEvent", actor, item, targetActor, actorToken, targetToken, cacheObject);
+        Hooks.callAll("gdsa.rollEvent", "melee", actor, item, targetActor, actorToken, targetToken, cacheObject);
 
         answer = await onMeeleAttack(data, actor, item, ATKValue, atkModi, false, auto, cacheObject);
 
@@ -2158,9 +2294,19 @@ export async function onAttackRoll(data, event) {
 
         // Do ATK Rolls
 
-        if(item.system.type == "melee") answer = await onMeeleAttack(data, actor, item, ATKValue, atkModi, isSpezi, auto, cacheObject);
-        else answer = await onRangeAttack(actor, ATKValue, atkModi, isSpezi, item, auto, cacheObject);
         
+        if(item.system.type == "melee") {
+            
+            Hooks.callAll("gdsa.meeleEvent", actor, item, targetActor, actorToken, targetToken, cacheObject);
+            Hooks.callAll("gdsa.rollEvent", "melee", actor, item, targetActor, actorToken, targetToken, cacheObject);
+            answer = await onMeeleAttack(data, actor, item, ATKValue, atkModi, isSpezi, auto, cacheObject);
+        } else { 
+            
+            Hooks.callAll("gdsa.rangeEvent", actor, item, targetActor, actorToken, targetToken, cacheObject);
+            Hooks.callAll("gdsa.rollEvent", "range", actor, item, targetActor, actorToken, targetToken, cacheObject);
+            answer = await onRangeAttack(actor, ATKValue, atkModi, isSpezi, item, auto, cacheObject);
+        }
+
         if(!answer) return false;
         
         answer.result.message.setFlag('gdsa', 'isCollapsable', true);
@@ -2240,7 +2386,7 @@ export async function onAttackRoll(data, event) {
     
     dmg.message.setFlag('gdsa', 'isCollapsable', true);
 
-    GDSA.socket.executeAsGM("adjustRessource", targetToken.actor, newHP, "LeP");
+    GDSA.socket.executeAsGM("adjustRessource", targetToken, newHP, "LeP");
 
     if(isPartofCombat && newHP <= 0) {
 
@@ -2491,7 +2637,13 @@ export async function onNPCAttackRoll(data, event) {
 
     let targetToken = (targetId == null) ?  null : game.actors.tokens[targetId];
     let targetType = targetToken?.type;
+    let actorToken = null;
+    let targetActor =  (targetToken == null) ?  null : game.actors.get(targetToken.actorId); 
     let auto = (targetType == "NonPlayer");
+    let currentScene = game.scenes.current._id;
+
+    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
+        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
 
     // Get Stat Name and Value
 
@@ -2510,7 +2662,7 @@ export async function onNPCAttackRoll(data, event) {
 
         let currentSceneCombat = game.combats.contents.filter(function(combat) {return combat.active})[0];
         let userCombatantId = currentSceneCombat.combatants._source.filter(function(cbt) {return cbt.actorId == data.actor.id})[0]?._id;
-        userCombatant =  currentSceneCombat.getCombatantByActor(userCombatantId);
+        userCombatant =  currentSceneCombat.getCombatantsByActor(userCombatantId)[0];
         
         if(userCombatant) {
 
@@ -2537,7 +2689,10 @@ export async function onNPCAttackRoll(data, event) {
 
     let context = { "skill": { "system": { "tale": { "DE": "NPC-Angriff", "BEtype": "0"} }}, "item": { "img": "./icons/skills/melee/strike-slashes-orange.webp", "system": { "weapon": { "type": weaponName}}}};
 
-    // Execute Roll
+    // Trigger Hooks and Execute Roll
+
+    Hooks.callAll("gdsa.meeleEvent", actor, null, targetActor, actorToken, targetToken, cacheObject);
+    Hooks.callAll("gdsa.rollEvent", "melee", actor, null, targetActor, actorToken, targetToken, cacheObject);
     
     let result = await Dice.ATKCheck(value, modi, actor, auto, true, chatId, context);
     result.message.setFlag('gdsa', 'isCollapsable', true);
@@ -2625,6 +2780,7 @@ export async function onParryRoll(data, event) {
     
     let isPartofCombat = false;   //Indicates if Token/Actor is part of Combat
     let userCombatant = null;     //If True, holds the Combatant Instance of the User
+    let actorToken = null;
     let parriesLeft = 0;          //If True, holds the Numbers of Parads left this Round of the Combatant
 
     let defModi = 0;              //Holds TPKK Atk Mali
@@ -2641,13 +2797,18 @@ export async function onParryRoll(data, event) {
 
     if (game.combat) {
 
-        userCombatant = game.combat.getCombatantByActor(data.actor.id);
+        userCombatant = game.combat.getCombatantsByActor(data.actor.id)[0];
 
         if(userCombatant) {
             isPartofCombat = true;
             parriesLeft = userCombatant.getFlag("gdsa", "parries");
         }
     }
+
+    let currentScene = game.scenes.current._id;
+
+    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
+        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
 
     let itemId = element.closest("tr").dataset.itemId;
 
@@ -2740,7 +2901,10 @@ export async function onParryRoll(data, event) {
 
     cacheObject.used = used;
 
-    // Do Parry Roll
+    // Trigger Hooks and Execute Roll
+
+    Hooks.callAll("gdsa.meeleEvent", actor, item, null, actorToken, null, cacheObject);
+    Hooks.callAll("gdsa.rollEvent", "melee", actor, item, null, actorToken, null, cacheObject);
 
     answer = await Dice.PACheck(PAValue, defModi, actor, cacheObject);  
     answer.message.setFlag('gdsa', 'isCollapsable', true);
@@ -2757,16 +2921,23 @@ export async function onNPCParryRoll(data, event) {
 
     let element = event.currentTarget;
     let actor = data.actor;
+    let actorToken = null;
 
     // Get Stat Value
 
     let value = element.closest(".item").dataset.pa;
     let weaponName = element.closest(".item").dataset.name;
+    let currentScene = game.scenes.current._id;
 
+    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
+        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
 
     let context = { "skill": { "system": { "tale": { "DE": "NPC-Angriff", "BEtype": "0"} }}, "item": { "img": "./icons/skills/melee/shield-block-gray-yellow.webp", "system": { "weapon": { "type": weaponName, "size": "null"}}}};
 
-    // Execute Roll
+    // Trigger Hooks and Execute Roll
+
+    Hooks.callAll("gdsa.meeleEvent", actor, null, null, actorToken, null, context);
+    Hooks.callAll("gdsa.rollEvent", "melee", actor, null, null, actorToken, null, context);
     
     let answer = await Dice.PACheck(value, 0, actor, context);
     answer.message.setFlag('gdsa', 'isCollapsable', true);
@@ -2786,6 +2957,7 @@ export async function onShildRoll(data, event) {
     
     let isPartofCombat = false;   //Indicates if Token/Actor is part of Combat
     let userCombatant = null;     //If True, holds the Combatant Instance of the User
+    let actorToken = null;
     let parriesLeft = 0;          //If True, holds the Numbers of Parads left this Round of the Combatant
 
     let defModi = 0;              //Holds TPKK Atk Mali
@@ -2801,13 +2973,18 @@ export async function onShildRoll(data, event) {
 
     if (game.combat) {
 
-        userCombatant = game.combat.getCombatantByActor(data.actor.id);
+        userCombatant = game.combat.getCombatantsByActor(data.actor.id)[0];
 
         if(userCombatant) {
             isPartofCombat = true;
             parriesLeft = userCombatant.getFlag("gdsa", "parries");
         }
     }
+
+    let currentScene = game.scenes.current._id;
+
+    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
+        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
 
     // Get Shield    
     
@@ -2856,7 +3033,10 @@ export async function onShildRoll(data, event) {
         hWeapon: response.usedWeapon
     };
 
-    // Do Parry Roll
+    // Trigger Hooks and Execute Roll
+
+    Hooks.callAll("gdsa.meeleEvent", actor, item, null, actorToken, null, cacheObject);
+    Hooks.callAll("gdsa.rollEvent", "melee", actor, item, null, actorToken, null, cacheObject);
 
     answer = await Dice.PACheck(PAValue, defModi, actor, cacheObject);  
     answer.message.setFlag('gdsa', 'isCollapsable', true);
@@ -2986,6 +3166,11 @@ export async function onDogdeRoll(data, event) {
     // Get Actor and System
     let actor = data.actor;
     let system = data.system;
+    let actorToken = null;
+    let currentScene = game.scenes.current._id;
+    
+    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
+        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
 
     // Get Dogde Value and Name
 
@@ -3011,7 +3196,10 @@ export async function onDogdeRoll(data, event) {
         addCombt: checkOptions.addCombt
     };
 
-    // Execute Dogde Roll
+    // Trigger Hooks and Execute Roll
+
+    Hooks.callAll("gdsa.dogdeEvent", actor, actorToken, context);
+    Hooks.callAll("gdsa.rollEvent", "dogde", actor, null, null, actorToken, null, context);
 
     let answer = await Dice.dogdeCheck(statname, statvalue, disadvantage, actor, context);
 
@@ -4807,7 +4995,7 @@ export function openPDF(type, event) {
 }
 
 export function getItemContextMenu() {
-    console.log("here!")
+    
     return [{
 
             name: game.i18n.localize("GDSA.system.edit"),

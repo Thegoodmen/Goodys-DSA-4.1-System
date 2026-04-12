@@ -354,7 +354,7 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
         // #################################################################################################
 
         const source = this.actor.items.get(itemData._id);
-        console.log("here");
+        
         switch(source.type) {
 
             case "generals":
@@ -979,15 +979,15 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
     }
 
     static async openEffectList(event) {
-
-        let tabs = event.srcElement.closest("form").querySelector(".sheet-body");
+        
+        let tabs = this.form.querySelector(".sheet-body");
         let activeTab = tabs.querySelector(".tab.primary.active");
         let destinationTab = tabs.querySelector("#characterEffects");
         
         activeTab.classList.remove("active");
         destinationTab.classList.add("active")
         
-        let nav = event.srcElement.closest("form").querySelector(".sheet-tabs");
+        let nav = this.form.querySelector(".sheet-tabs");
         let activeNav = nav.querySelectorAll(".item.menuMainItem.active");
         let destinationNav = nav.querySelectorAll("#characterEffects");
         

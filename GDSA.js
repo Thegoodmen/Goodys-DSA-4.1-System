@@ -156,7 +156,13 @@ function registerSystemSettings() {
     })
 }
 
-function adjustRessource(target, value, type) { target.setStatData(type, value) };
+function adjustRessource(target, value, type) { 
+    
+    if (target instanceof TokenDocument) target = target.actor;
+    else if (target instanceof Object) target = canvas.tokens.get(target._id).document.actor;
+
+    target.setStatData(type, value);
+}
 
 function sendToMemory(key, object) {
 
@@ -576,7 +582,7 @@ function registerHandelbarsHelpers() {
         let full = (skillname != "" ? actor.system.skill[skillname].atk : actor.system.skill[skillItem.name].atk) + spezi + wm;
         let skill = (full - atBase);
 
-        let answer = "<div class='tooltipCMB'>Basis <input class='tooltipNum' value='" +
+        let answer = "Basis <input class='tooltipNum' value='" +
         atBase +
         "' disabled> + Skill <input class='tooltipNum' value='" +
         skill +
@@ -586,7 +592,7 @@ function registerHandelbarsHelpers() {
         wm + 
         "' disabled> = <input class='tooltipNum' value='" +
         full +
-        "' disabled></div>";
+        "' disabled>";
 
         return answer;
     });
@@ -614,7 +620,7 @@ function registerHandelbarsHelpers() {
         let full = (skillname != "" ? actor.system.skill[skillname].def : actor.system.skill[skillItem.name].def) + spezi + wm;
         let skill = (full - paBase);
 
-        let answer = "<div class='tooltipCMB'>Basis <input class='tooltipNum' value='" +
+        let answer = "Basis <input class='tooltipNum' value='" +
         paBase +
         "' disabled> + Skill <input class='tooltipNum' value='" +
         skill +
@@ -624,7 +630,7 @@ function registerHandelbarsHelpers() {
         wm + 
         "' disabled> = <input class='tooltipNum' value='" +
         full +
-        "' disabled></div>";
+        "' disabled>";
 
         return answer;
     });
@@ -651,7 +657,7 @@ function registerHandelbarsHelpers() {
         let full = (skillname != "" ? actor.system.skill[skillname].atk : actor.system.skill[skillItem.name].atk) + spezi;
         let skill = (full - atBase);
 
-        let answer = "<div class='tooltipCMB2'>Basis <input class='tooltipNum' value='" +
+        let answer = "Basis <input class='tooltipNum' value='" +
         atBase +
         "' disabled> + Skill <input class='tooltipNum' value='" +
         skill +
@@ -659,7 +665,7 @@ function registerHandelbarsHelpers() {
         spezi +  
         "' disabled> = <input class='tooltipNum' value='" +
         full +
-        "' disabled></div>";
+        "' disabled>";
 
         return answer;
     });

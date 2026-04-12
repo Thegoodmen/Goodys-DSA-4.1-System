@@ -3,11 +3,12 @@
         <div class="headerLable2">{{localize "GDSA.charactersheet.ATBasis"}}</div><div class="headerValue2">{{system.ATBasis.value}}</div> 
         <div class="headerLable2">{{localize "GDSA.charactersheet.PABasis"}}</div><div class="headerValue2">{{system.PABasis.value}}</div>
         <div class="headerLable2">{{localize "GDSA.charactersheet.FKBasis"}}</div><div class="headerValue2">{{system.FKBasis.value}}</div> 
-        <div class="headerLable2" data-tooltip=
-        "<div class='tooltipInI'> InI Basis <input class='tooltipNum' value='{{system.iniBaseValue}}' disabled> - BE <input class='tooltipNum' value='{{system.gBEArmour}}' disabled> + Waffenmod <input class='tooltipNum' value='{{system.equipINI}}' disabled> = <input class='tooltipNum' value='{{system.INIBasis.value}}' disabled></div>"
-        data-tooltip-direction="LEFT">{{localize "GDSA.charactersheet.INIBasis"}}</div><div class="headerValue2" data-tooltip=
-        "<div class='tooltipInI'> InI Basis <input class='tooltipNum' value='{{system.iniBaseValue}}' disabled> - BE <input class='tooltipNum' value='{{system.gBEArmour}}' disabled> + Waffenmod <input class='tooltipNum' value='{{system.equipINI}}' disabled> = <input class='tooltipNum' value='{{system.INIBasis.value}}' disabled></div>"
-        data-tooltip-direction="LEFT">{{system.INIBasis.value}}</div>
+        <div class="headerLable2">
+            <span class='tooltipTrigger'>{{localize "GDSA.charactersheet.INIBasis"}}<div class='tooltipBox'><span class='tooltipText'><div class='tooltipInI'>Ini Basis <input class='tooltipNum' value='{{system.iniBaseValue}}' disabled> - BE <input class='tooltipNum' value='{{system.gBEArmour}}' disabled> + Itemmod <input class='tooltipNum' value='{{system.equipINI}}' disabled> = <input class='tooltipNum' value='{{system.INIBasis.value}}' disabled></div></span></div></span>
+        </div>
+        <div class="headerValue2">
+            <span class='tooltipTrigger'>{{system.INIBasis.value}}<div class='tooltipBox'><span class='tooltipText'><div class='tooltipInI'>Ini Basis <input class='tooltipNum' value='{{system.iniBaseValue}}' disabled> - BE <input class='tooltipNum' value='{{system.gBEArmour}}' disabled> + Itemmod <input class='tooltipNum' value='{{system.equipINI}}' disabled> = <input class='tooltipNum' value='{{system.INIBasis.value}}' disabled></div></span></div></span>
+        </div>
         <div class="headerLable2">WS</div><div class="headerValue2">{{system.WS}}</div>
 	</div>
 </div>
@@ -48,37 +49,57 @@
                 </tr>
                 <tr data-item-id="raufen">
                         <td class="tableLbl">{{localize "GDSA.charactersheet.raufSkill"}}</td>
-                        <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}" data-tooltip="{{aktTooltip this "Raufen" ""}}" data-tooltip-direction="LEFT"><i class="fas fa-gavel faD20Stat"></i></a></td>
-                        <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}" data-tooltip="{{defTooltip this "Raufen" ""}}" data-tooltip-direction="LEFT"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item attack-roll">
+                            <span class='tooltipTrigger'><i class="fas fa-gavel faD20Stat"></i><div class='tooltipBox'><span class='tooltipText2'><div class='tooltipInI'>{{{aktTooltip this "Raufen" ""}}}</div></span></div></span>
+                        </a></td>
+                        <td class="tableBnt"><a class="item parry-roll">
+                            <span class='tooltipTrigger'><i class="fas fa-shield-alt faD20Stat"></i><div class='tooltipBox'><span class='tooltipText3'><div class='tooltipInI'>{{{defTooltip this "Raufen" ""}}}</div></span></div></span>
+                        </a></td>
                         <td class="tableBnt"><a class="item damage-roll" title="{{localize "GDSA.charactersheet.dmgRoll"}}"><i class="fas fa-tint faD20Stat"></i></a></td>
                 </tr>
                 <tr data-item-id="ringen">
                         <td class="tableLbl">{{localize "GDSA.charactersheet.ringSkill"}}</td>
-                        <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}" data-tooltip="{{aktTooltip this "Ringen" ""}}" data-tooltip-direction="LEFT"><i class="fas fa-gavel faD20Stat"></i></a></td>
-                        <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}" data-tooltip="{{defTooltip this "Ringen" ""}}" data-tooltip-direction="LEFT"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item attack-roll">
+                             <span class='tooltipTrigger'><i class="fas fa-gavel faD20Stat"></i><div class='tooltipBox'><span class='tooltipText2'><div class='tooltipInI'>{{{aktTooltip this "Ringen" ""}}}</div></span></div></span>
+                        </a></td>
+                        <td class="tableBnt"><a class="item parry-roll">
+                            <span class='tooltipTrigger'><i class="fas fa-shield-alt faD20Stat"></i><div class='tooltipBox'><span class='tooltipText3'><div class='tooltipInI'>{{{defTooltip this "Ringen" ""}}}</div></span></div></span>
+                            </a></td>
                         <td class="tableBnt"><a class="item damage-roll" title="{{localize "GDSA.charactersheet.dmgRoll"}}"><i class="fas fa-tint faD20Stat"></i></a></td>
                 </tr>
                 {{#if system.nwbite}}
                     <tr data-item-id="biss">
                             <td class="tableLbl">{{localize "GDSA.advantage.bite"}}</td>
-                            <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}" data-tooltip="{{aktTooltip this "Raufen" ""}}" data-tooltip-direction="LEFT"><i class="fas fa-gavel faD20Stat"></i></a></td>
-                            <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}" data-tooltip="{{defTooltip this "Raufen" ""}}" data-tooltip-direction="LEFT"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                            <td class="tableBnt"><a class="item attack-roll">
+                                 <span class='tooltipTrigger'><i class="fas fa-gavel faD20Stat"></i><div class='tooltipBox'><span class='tooltipText2'><div class='tooltipInI'>{{{aktTooltip this "Raufen" ""}}}</div></span></div></span>
+                            </a></td>
+                            <td class="tableBnt"><a class="item parry-roll">
+                                <span class='tooltipTrigger'><i class="fas fa-shield-alt faD20Stat"></i><div class='tooltipBox'><span class='tooltipText3'><div class='tooltipInI'>{{{defTooltip this "Raufen" ""}}}</div></span></div></span>
+                                </a></td>
                             <td class="tableBnt"><a class="item damage-roll" title="{{localize "GDSA.charactersheet.dmgRoll"}}"><i class="fas fa-tint faD20Stat"></i></a></td>
                     </tr>
                 {{/if}}
                 {{#if system.nwtail}}
                     <tr data-item-id="schwanz">
                             <td class="tableLbl">{{localize "GDSA.advantage.tail"}}</td>
-                            <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}" data-tooltip="{{aktTooltip this "Ringen" ""}}" data-tooltip-direction="LEFT"><i class="fas fa-gavel faD20Stat"></i></a></td>
-                            <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}" data-tooltip="{{defTooltip this "Ringen" ""}}" data-tooltip-direction="LEFT"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                            <td class="tableBnt"><a class="item attack-roll">
+                                 <span class='tooltipTrigger'><i class="fas fa-gavel faD20Stat"></i><div class='tooltipBox'><span class='tooltipText2'><div class='tooltipInI'>{{{aktTooltip this "Ringen" ""}}}</div></span></div></span>
+                            </a></td>
+                            <td class="tableBnt"><a class="item parry-roll">
+                                <span class='tooltipTrigger'><i class="fas fa-shield-alt faD20Stat"></i><div class='tooltipBox'><span class='tooltipText3'><div class='tooltipInI'>{{{defTooltip this "Ringen" ""}}}</div></span></div></span>
+                                </a></td>
                             <td class="tableBnt"><a class="item damage-roll" title="{{localize "GDSA.charactersheet.dmgRoll"}}"><i class="fas fa-tint faD20Stat"></i></a></td>
                     </tr>
                 {{/if}}
                 {{#each equiptMelee as |item id|}}
                     <tr data-item-id="{{_id}}">
                         <td class="tableLbl">{{name}}</td>
-                        <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}" data-tooltip="{{aktTooltip ../this "" this}}" data-tooltip-direction="LEFT"><i class="fas fa-gavel faD20Stat"></i></a></td>
-                        <td class="tableBnt"><a class="item parry-roll" title="{{localize "GDSA.charactersheet.paRoll"}}" data-tooltip="{{defTooltip ../this "" this}}" data-tooltip-direction="LEFT"><i class="fas fa-shield-alt faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item attack-roll">
+                            <span class='tooltipTrigger'><i class="fas fa-gavel faD20Stat"></i><div class='tooltipBox'><span class='tooltipText2'><div class='tooltipInI'>{{{aktTooltip ../this "" this}}}</div></span></div></span>
+                        </a></td>
+                        <td class="tableBnt"><a class="item parry-roll">
+                            <span class='tooltipTrigger'><i class="fas fa-shield-alt faD20Stat"></i><div class='tooltipBox'><span class='tooltipText3'><div class='tooltipInI'>{{{defTooltip ../this "" this}}}</div></span></div></span>
+                        </a></td>
                         <td class="tableBnt"><a class="item damage-roll" title="{{localize "GDSA.charactersheet.dmgRoll"}}"><i class="fas fa-tint faD20Stat"></i></a></td>
                     </tr>
                 {{/each}}
@@ -96,7 +117,9 @@
                     <tr data-item-id="{{_id}}">
                         <td class="tableLbl">{{name}}</td>
                         <td class="tableBnt"></td>
-                        <td class="tableBnt"><a class="item attack-roll" title="{{localize "GDSA.charactersheet.atRoll"}}" data-tooltip="{{rangeTooltip ../this "" this}}" data-tooltip-direction="LEFT"><i class="fas fa-bullseye faD20Stat"></i></a></td>
+                        <td class="tableBnt"><a class="item attack-roll">
+                            <span class='tooltipTrigger'><i class="fas fa-bullseye faD20Stat"></i><div class='tooltipBox'><span class='tooltipText3'><div class='tooltipInI'>{{{rangeTooltip ../this "" this}}}</div></span></div></span>
+                        </a></td>
                         <td class="tableBnt"><a class="item damage-roll" title="{{localize "GDSA.charactersheet.dmgRoll"}}"><i class="fas fa-tint faD20Stat"></i></a></td>
                     </tr>
                 {{/each}}

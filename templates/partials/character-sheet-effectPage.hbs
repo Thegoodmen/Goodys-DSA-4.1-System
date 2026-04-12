@@ -4,8 +4,7 @@
         <div class="charstateTable">
             <div class="charstateRow">
                 {{#each system.buffs as |value effect|}}
-                    <div id="{{effect}}" class="charstateBnt effectmainBNT {{concat "buff" effect ""}}" data-tooltip="{{localize (concat "GDSA.templates." effect "")}}" 
-                        data-tooltip-direction="DOWN" style="{{#if (equals value 0)}}filter: grayscale(75%);{{/if}}">
+                    <div id="{{effect}}" class="charstateBnt effectmainBNT {{concat "buff" effect ""}} tooltipTrigger" style="{{#if (equals value 0)}}filter: grayscale(75%);{{/if}}">
                         {{#if (isEqualORGreater @index 5)}}
                             <div class="buffcontrol">
                                 <div class="buffUP"><a class="effectupBNT">↑</a></div>
@@ -13,8 +12,9 @@
                                 <div class="buffDOWN"><a class="effectdownBNT">↓</a></div>
                             </div>
                         {{/if}}
+                        <div class='tooltipBox'><span class='tooltipTextEffekt'><div class='tooltipInI'>{{localize (concat "GDSA.templates." effect "")}}</div></span></div>
                     </div>
-                    {{#if (equals @index 5)}}</div><div class="charstateRow">{{/if}}
+                    {{#if (equals @index 4)}}</div><div class="charstateRow">{{/if}}
                 {{/each}}
             </div>
         </div>

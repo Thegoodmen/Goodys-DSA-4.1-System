@@ -1063,6 +1063,7 @@
         width: 355px;
         margin: 3px 0px;
         background-color: #000000b0;
+        overflow: visible;
     };
     .combatTableBox1{
         width: 336px;
@@ -1482,13 +1483,12 @@
         border-left-width: 2px;
         padding-left: 75px;
         height: 41px;
-        padding-top: 1px;
+        padding-top: 6px;
         width: 545px;
         position: relative;
         margin-left: 20px;
         text-overflow: ellipsis;
         text-wrap-mode: nowrap;
-        overflow: hidden;
         padding-right: 15px;
     };
     .invDivider{
@@ -1527,6 +1527,7 @@
         position: absolute;
         top: 4px;
         left: 4px;
+        margin-top: 5px;
     };
     .itemImgBox2{
         width: 30px;
@@ -1545,6 +1546,7 @@
         padding-top: 3px;
         color: #edd4b9;
         font-size: 14px;
+        margin-top: 5px;
     };
     .changeAmount {
         position: absolute;
@@ -2241,6 +2243,146 @@
         overflow: hidden;
         margin-right: 30px;
     };
+
+    .tooltipTrigger {
+        position: relative;
+        display: inline-block;
+        cursor: pointer; 
+    };
+    .tooltipText {
+        position: absolute;
+        visibility: hidden;
+        z-index: 1;
+        top: 100%;
+        left: 50%;
+        width: 275px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        opacity: 0;
+        margin-left: -137px;
+        margin-top: 4px;
+        border-radius: 6px;
+        padding: 7px 0;
+        transition: opacity 2s;
+        border: 1px solid #ebd3b7;
+        font-size: 12px;
+    };
+    .tooltipText2 {
+        position: absolute;
+        visibility: hidden;
+        z-index: 1;
+        top: 100%;
+        left: 50%;
+        width: 310px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        opacity: 0;
+        margin-left: -155px;
+        margin-top: 4px;
+        border-radius: 6px;
+        padding: 7px 0;
+        transition: opacity 2s;
+        border: 1px solid #ebd3b7;
+        font-size: 12px;
+    };
+    .tooltipText3 {
+        position: absolute;
+        visibility: hidden;
+        z-index: 1;
+        top: 100%;
+        left: 0%;
+        width: 310px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        opacity: 0;
+        margin-left: -315px;
+        margin-top: -26px;
+        border-radius: 6px;
+        padding: 7px 0;
+        transition: opacity 2s;
+        border: 1px solid #ebd3b7;
+        font-size: 12px;
+    };
+    .tooltipTextEffekt {
+        position: absolute;
+        visibility: hidden;
+        z-index: 500;
+        top: 100%;
+        left: 50%;
+        width: 70px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        opacity: 0;
+        font-size: 10px;
+        line-height: 16px;
+        margin-left: -35px;
+        margin-top: -19px;
+        border-radius: 6px;
+        padding: 2px 0;
+        transition: opacity 2s;
+        border: 1px solid #ebd3b7;
+    };
+    .tooltipTrigger:hover .tooltipText {
+        visibility: visible;
+        opacity: 1;
+    };
+    .tooltipTrigger:hover .tooltipText2 {
+        visibility: visible;
+        opacity: 1;
+    };
+    .tooltipTrigger:hover .tooltipText3 {
+        visibility: visible;
+        opacity: 1;
+    };
+    .tooltipTrigger:hover .tooltipTextEffekt {
+        visibility: visible;
+        opacity: 1;
+    };
+    .tooltipText::after {
+        content: " ";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent black transparent;
+    };
+    .tooltipText2::after {
+        content: " ";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent black transparent;
+    };
+    .tooltipText3::after {
+        content: " ";
+        position: absolute;
+        bottom: 30%;
+        left: 100%;
+        margin-left: 0px;
+        margin-top: 0px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent transparent black;
+    };
+    .tooltipTextEffekt::after {
+        content: " ";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent black transparent;
+    };
 };
 
 .mediOpt {
@@ -2257,12 +2399,7 @@
     width: 205px;
 };
 .tooltipInI {
-    height: 23px;
-    width: 350px;
-    background-color: #fefff3;
-    color: black;
-    padding-top: 2px;
-    padding-left: 5px;
+    height: 15px;
     font-family: 'MasonSerifBold';
 };
 .tooltipCMB {
@@ -2291,7 +2428,8 @@
     border-width: 1px;
     text-align: center;
     padding: 0px;
-    background-color: #f1e7ca;
+    background-color: #FFF;
+    color: #000
 };
 #tooltip, .locked-tooltip {
     position: absolute;

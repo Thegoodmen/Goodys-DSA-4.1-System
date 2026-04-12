@@ -415,7 +415,11 @@
         "Gegenstand": {
             "templates": ["generalItems"],
             "type": "item",
-            "quantity": 1
+            "quantity": 1,
+            "item": {
+                "category": "",
+                "storage": "bag"
+            }
         },
         "Template": {
             "type": "s"

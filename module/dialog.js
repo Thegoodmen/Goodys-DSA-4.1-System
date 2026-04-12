@@ -410,6 +410,8 @@ export async function editRitualSkills(context) {
 
 
 function _processSkillCheckOptions(form) {
+    
+    if(!form) return {cancelled: true};
 
     let advantage;
     let disadvantage;
@@ -451,6 +453,8 @@ function _processSkillCheckOptions(form) {
 }
 
 function _processStatCheckOptions(form) {
+    
+    if(!form) return {cancelled: true};
 
     let advantage;
     let disadvantage;
@@ -488,6 +492,8 @@ function _processStatCheckOptions(form) {
 }
 
 function _processDogdeOptions(form) {
+    
+    if(!form) return {cancelled: true};
 
     let disadvantage = 0;
     let multi = 1;
@@ -537,6 +543,8 @@ function _processDogdeOptions(form) {
 }
 
 function _processSpellCheckOptions(form) {
+    
+    if(!form) return {cancelled: true};
 
     let advantage;
     let disadvantage;
@@ -596,6 +604,8 @@ function _processSpellCheckOptions(form) {
 }
 
 function _processNRitualCheckOptions(form) {
+    
+    if(!form) return {cancelled: true};
 
     let advantage;
     let disadvantage;
@@ -613,6 +623,8 @@ function _processNRitualCheckOptions(form) {
 }
 
 function _processSRitualCheckOptions(form) {
+    
+    if(!form) return {cancelled: true};
 
     let advantage;
     let disadvantage;
@@ -678,6 +690,8 @@ function _processSRitualCheckOptions(form) {
 }
 
 function _processMirikalCheckOptions(form) {
+    
+    if(!form) return {cancelled: true};
 
     let advantage = 0;
     let disadvantage = 0;
@@ -715,6 +729,8 @@ function _processMirikalCheckOptions(form) {
 }
 
 function _processWonderCheckOptions(form) {
+    
+    if(!form) return {cancelled: true};
 
     let advantage = 0;
     let disadvantage = 0;
@@ -769,6 +785,8 @@ function _processWonderCheckOptions(form) {
 }
 
 function _processSpellEdit(form) {
+    
+    if(!form) return {cancelled: true};
 
     let resti = [];
 
@@ -793,21 +811,29 @@ function _processSpellEdit(form) {
 }
 
 function _processMediCheckOptions(form) {
+    
+    if(!form) return {cancelled: true};
 
     return {disadvantage: parseInt(form.time) + parseInt(form.place) + parseInt(form.last)}
 }
 
 function _processGetDMGOptions(form) {
+    
+    if(!form) return {cancelled: true};
 
     return {value: parseInt(form.dmg !== "" ? form.dmg : 0)}
 }
 
 function _processGetHealOptions(form) {
+    
+    if(!form) return {cancelled: true};
 
     return {value: parseInt(form.heal !== "" ? form.heal : 0)}
 }
 
 function _processGetRegOptions(form) {
+    
+    if(!form) return {cancelled: true};
 
     return {
         dis: parseInt(form.disadvantage !== "" ? form.disadvantage : 0),
@@ -818,6 +844,8 @@ function _processGetRegOptions(form) {
 }
 
 function _processGetAtkInfo(form) {
+    
+    if(!form) return {cancelled: true};
 
     let anat = false;
     let butc = false;
@@ -851,6 +879,8 @@ function _processGetAtkInfo(form) {
 }
 
 function _processGetRangeAtkInfo(form) {
+    
+    if(!form) return {cancelled: true};
 
     return {
 
@@ -867,6 +897,8 @@ function _processGetRangeAtkInfo(form) {
 }
 
 function _processGetMoneyInfo(form) {
+    
+    if(!form) return {cancelled: true};
 
     return {
 
@@ -878,6 +910,8 @@ function _processGetMoneyInfo(form) {
 }
 
 function _processCharFacts(form) {
+    
+    if(!form) return {cancelled: true};
 
     return {
 
@@ -893,6 +927,8 @@ function _processCharFacts(form) {
 }
 
 function _processItemBook(forms) {
+    
+    if(!form) return {cancelled: true};
 
     let form = forms[0].querySelector("[class=dialogConfig]");
 
@@ -915,6 +951,8 @@ function _processItemBook(forms) {
 }
 
 function _processCharRess(form) {
+    
+    if(!form) return {cancelled: true};
 
     return {
         newModValue: form.modValue,
@@ -923,6 +961,8 @@ function _processCharRess(form) {
 }
 
 function _processEditRitSkill(form) {
+    
+    if(!form) return {cancelled: true};
 
     return {
 
@@ -946,6 +986,8 @@ function _processEditRitSkill(form) {
 }
 
 function _processAchazOptions(form) {
+    
+    if(!form) return {cancelled: true};
 
     let mod = 0;
 
@@ -989,9 +1031,44 @@ function _processAchazOptions(form) {
     }
 }
 
-function _processCharStats(form) { return { newvalue: form.value }};
-function _processAttributoOptions(form) { return { att: form.att1 }};
-function _processFaxioOptions(form) { return { dice: parseInt(form.dice)+1 }};
-function _formatModifikation(string) { return string[0] + " " + string.substring(1)};
-function _processTempSelection(form) { return { advantage: form.advantages}};
-function _processCharNotes(form) { return form.charNotes;}
+function _processCharStats(form) {
+
+    if(!form) return {cancelled: true};
+    
+    return { newvalue: form.value }
+}
+
+function _processAttributoOptions(form) { 
+    
+    if(!form) return {cancelled: true};
+    
+    return { att: form.att1 }
+}
+
+function _processFaxioOptions(form) { 
+    
+    if(!form) return {cancelled: true};
+
+    return { dice: parseInt(form.dice)+1 }
+}
+
+function _formatModifikation(string) { 
+
+    if(!form) return {cancelled: true};
+
+    return string[0] + " " + string.substring(1)
+}
+
+function _processTempSelection(form) { 
+    
+    if(!form) return {cancelled: true};
+
+    return { advantage: form.advantages}
+}
+
+function _processCharNotes(form) {
+    
+    if(!form) return {cancelled: true};
+    
+    return form.charNotes;
+}

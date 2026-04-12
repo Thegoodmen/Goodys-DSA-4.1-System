@@ -1,6 +1,6 @@
 # Version 0.9.6
 
-**Update for Foundry Version 13 - Pre Release 2**
+**Update for Foundry Version 14 - Pre Release 2**
 + Update of the Different Document Types used in the System to Application V2
    - [] Actor Sheets
    - [] Item Sheet
@@ -8,6 +8,14 @@
 **Additional Features**
 
 + Added Styling to Standart Chat Messages for a cohirant Experiance
++ Added Hook "gdsa.rollEvent"
++ Added Hook "gdsa.meeleEvent"
++ Added Hook "gdsa.rangeEvent"
++ Added Hook "gdsa.spellCast"
++ Added Hook "gdsa.ritualCast"
++ Added Hook "gdsa.holyCast"
++ Added Hook "gdsa.dogdeEvent"
++ Added Documentation for Hooks (Hooks.md)
 
 **Bugfixes**
 
@@ -18,22 +26,26 @@
 + Fixed the Regeneration Problem due to missing check for full value (#XXX)
 + Fixed the PDF Pager Integration (#XXX)
 + Fixed double Roll Sound with Dice-so-Nice (#XXX)
++ Added Fix for adjustRessource Function from @STBaf from PR #170
++ Added Fix for missing Variable Error in Spell Casting from @STBaf from PR #170
++ Fixed Blind gm rolls und gm rolls machen das gleiche - also spieler können ergebnisse mit blind gm roll sehen
++ Fixed that the Context Menu is not shown on general Items
++ Fixed the Styling of the Context Menu in Chat Messages
++ Fixed the wrong detection for "Viertelzauberer" that gave the charakters "Unbewusster Viertelzauberer" instead
++ With the Fix above, the Problem with the incurrect amount of AsP disappeared as well
++ Fixed halving the Disadvantes on Mods for MAG and SRL
++ Fixed the Bug that makes the Tooltips invisible
 
 **ToDos for next minor Version**
 
-+ Reenable Buff Hud 
-+ Bug that makes the Tooltips invisible
-+ Update Item Sheets to V2 and finish Graphic Rework
-+ Update missing Merchant Sheets to V2
-+ Hinzufügen von Zauberlieder, Zaubezeichen und Runenmagie
-+ Finish Character Sheet View for Limited Viewport
-+ Add Effects to Effect System => More then a number :D
 + Browser for SF, Advantages etc
-+ Fix Halbierung der Modis bei MAG
-+ Allgemeine Gegenstände wird das Contextmenü nicht angezeigt
-+ Blind gm rolls und gm rolls machen das gleiche - also spieler können ergebnisse mit blind gm roll sehen!
-+ Beim Import eines Charakterbogens via xml wird der Vorteil [Viertelzauberer] stattdessen als Nachteil [Unbewusster Viertelzauberer] eingepflegt
-+ Außerdem scheint der Viertelzauberer selbst nicht die AsP richtig zu beeinflussen (es fehlen 6 AsP  > Modifikator muss manuell auf 0 gesetzt werden)
++ Reenable Buff Hud 
++ Update missing Merchant Sheets to V2
++ Finish Character Sheet View for Limited Viewport
+
++ Update Item Sheets to V2 and finish Graphic Rework
++ Add Effects to Effect System => More then a number :D
++ Hinzufügen von Zauberlieder, Zaubezeichen und Runenmagie
 
 ---
 

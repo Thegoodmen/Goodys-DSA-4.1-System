@@ -12,8 +12,8 @@
     "version": "1.1.0",
     "compatibility": {
         "minimum": 13,
-        "verified": "13.342",
-        "maximum": 13
+        "verified": "14.360",
+        "maximum": 14
     },
     "esmodules": [
         "GDSA.js"

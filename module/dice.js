@@ -1130,7 +1130,7 @@ async function sendChatMessage(chatData) {
     // Either create the message or just return the chat data
     const cls = foundry.utils.getDocumentClass("ChatMessage");
     const msg = new cls(messageData);
-    msg.applyRollMode(chatData.rtype);
+    msg.applyMode(chatData.rtype);
 
     return cls.create(msg);
 }
@@ -1211,23 +1211,7 @@ export function chatData(actor, template) {
 
     // Check Chat Settings
 
-    switch (game.settings.get('core', 'rollMode')) {
-        case "selfroll":
-            data.whisper = [game.user];
-            data.rtype = CONST.DICE_ROLL_MODES.SELF;
-            break;
-        case "blindroll":
-            data.blind = true;
-            data.rtype = CONST.DICE_ROLL_MODES.BLIND;
-            break;
-        case "gmroll":
-            data.type = 1;
-            break;
-        case "publicroll":
-        default:
-            data.rtype = CONST.DICE_ROLL_MODES.PUBLIC;
-            break;
-    }
+    data.rtype = game.settings.get('core', 'messageMode');
 
     return data;
 }
