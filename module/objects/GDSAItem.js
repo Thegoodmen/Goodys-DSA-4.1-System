@@ -39,7 +39,6 @@ export default class GDSAItem extends Item {
 
 
         const folders = collection?._formatFolderSelectOptions() ?? [];
-        const label = game.i18n.localize(this.metadata.label);
         const title = game.i18n.localize("GDSA.system.creaNewItem");
 
         const context = {
@@ -67,7 +66,7 @@ export default class GDSAItem extends Item {
             content: html,
             label: title,
 
-            callback: html => {
+            onClick: html => {
                 const form = html[0].querySelector("form");
                 const fd = new FormDataExtended(form);
                 foundry.utils.mergeObject(data, fd.object, {inplace: true});

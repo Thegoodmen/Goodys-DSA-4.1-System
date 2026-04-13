@@ -68,11 +68,12 @@ export default class GDSALootActorSheet extends api.HandlebarsApplicationMixin(s
 
             // Create for each Item Type its own Array
 
-            generals: Util.getItems(baseData.document, "generals", false),
-            meleeweapons: Util.getItems(baseData.document, "melee-weapons", false),
-            rangeweapons: Util.getItems(baseData.document, "range-weapons", false),
-            shields: Util.getItems(baseData.document, "shields", false),
-            armour: Util.getItems(baseData.document, "armour", false)
+            generals: Util.getItem(baseData.document, "item", false),
+            meleeweapons: Util.getItem(baseData.document, "melee", false),
+            rangeweapons: Util.getItem(baseData.document, "range", false),
+            shields: Util.getItem(baseData.document, "shild", false),
+            armour: Util.getItem(baseData.document, "armour", false),
+            affiliation: Util.getItems(baseData.document, "affiliation", false),
         };
 
         this.sheet = context;

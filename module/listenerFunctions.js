@@ -4998,15 +4998,15 @@ export function getItemContextMenu() {
     
     return [{
 
-            name: game.i18n.localize("GDSA.system.edit"),
+            label: game.i18n.localize("GDSA.system.edit"),
             icon: '<i class="fas fa-edit" />',
-            callback: (element => { getItemFromActors($(element).data("item-id")).sheet.render(true);})
+            onClick: (element => { getItemFromActors(element.srcElement.parentElement.parentElement.parentElement.dataset.itemId).sheet.render(true);})
 
         },{
 
-            name: game.i18n.localize("GDSA.system.delete"),
+            label: game.i18n.localize("GDSA.system.delete"),
             icon: '<i class="fas fa-trash" />',
-            callback: (element => { getActorFromItem($(element).data("item-id")).deleteEmbeddedDocuments("Item", [$(element).data("item-id")]);})
+            onClick: (element => { getActorFromItem(element.srcElement.parentElement.parentElement.parentElement.dataset.itemId).deleteEmbeddedDocuments("Item", [element.srcElement.parentElement.parentElement.parentElement.dataset.itemId]);})
     }];
 }
 

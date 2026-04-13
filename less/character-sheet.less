@@ -1379,6 +1379,7 @@
         border-left-style: groove;
         margin-left: 16px;
         scrollbar-width: none;
+        border-color: #e7d1b199;
     };  
     .inventory4{
         width: calc(100% - 50px);
@@ -1425,13 +1426,14 @@
     .invHeader2{
         height: 30px;
         width: 410px;
-        border: 1px solid black;
+        border: 0px solid #d5c1a4;
+        border-radius: 8px 8px 0px 0px;
         border-bottom-width: 2px;
         position: relative;
         font-size: 16px;
-        padding-top: 4px;
+        padding-top: 5px;
         padding-left: 16px;
-        background-color: rgba(0,0,0,0.07);
+        background-color: rgba(0, 0, 0, 0.07);
     };
     .invHeader3{
         position: relative;
@@ -1538,10 +1540,10 @@
     };
     .itemAmountBox {
         height: 18px;
-        width: 25px;
+        width: 19px;
         position: absolute;
-        left: 10px;
-        top: 8px;
+        left: 16px;
+        top: 5px;
         text-align: center;
         padding-top: 3px;
         color: #edd4b9;
@@ -1550,20 +1552,22 @@
     };
     .changeAmount {
         position: absolute;
-        top: 10px;
-        left: 1px;
-        font-size: 9px;
+        top: 11px;
+        left: 3px;
+        font-size: 8px;
         width: 6px;
     };
     .itemAmount {
         position: absolute;
         left: 0px;
         top: -2px;
-        height: 26px;
+        height: 22px;
         border-radius: 7px;
         background-color: #1e161e;
         padding: 0px 1px;
         text-align: center;
+        border: 1px #d5c1a4 solid;
+        font-size: 12px;
     };
     .itemImg{
         width: 30px;
@@ -1574,7 +1578,9 @@
     };
     .invtableborder2{
         width: 410px;
-        border: 1px solid black;
+        border: 1px solid #d5c1a4;
+        border-radius: 8px;
+        overflow: hidden;
     };
     .invtableborder3{
         width: 580px;
@@ -1594,8 +1600,8 @@
         width: 20px;
         height: 20px;
         position: absolute;
-        top: 2px;
-        left: 375px;
+        top: 3px;
+        left: 371px;
     };
     .addItemBox3{
         width: 160px;
@@ -1659,7 +1665,7 @@
     };
     .merchantDisc {
         width: 175px;
-        height: 415px;
+        height: 395px;
         resize: none;
     };
     .affiliate {
@@ -1672,10 +1678,14 @@
     };
     .classification {
         height: 40px;
-        width: 175px;
+        width: 144px;
         margin-top: 10px;
-        border: 1px solid black;
-        padding: 3px 6px;
+        margin-left: 17px;
+        padding: 4px 6px;
+        color: #e8dfd1;
+        font-size: 12px;
+        border: 2px solid #e5cfaf;
+        border-radius: 7px;
     };
     .classificationSelection {
         width: 89px;
@@ -1714,7 +1724,7 @@
     .merchRoll {
         font-size: 12px;
         position: absolute;
-        left: 126px;
+        left: 145px;
         margin-top: 1px;
     };
     .holyTraitBox {
@@ -1965,6 +1975,7 @@
         height: 14px;
         margin: auto;
         padding-left: 10px;
+        margin-bottom: 6px;
     };
     .charBanner {
         width: 232px;
@@ -2382,6 +2393,20 @@
         border-width: 5px;
         border-style: solid;
         border-color: transparent transparent black transparent;
+    };
+    .merchantHead {
+        float: left;
+        height: 75px;
+        width: 100%;
+    };
+    .invFiller4 {
+        float: left;
+        width: 100%;
+        height: 3px;
+        border-top-width: 2px;
+        margin-top: 2px;
+        margin-bottom: 8px;
+        background-image: linear-gradient(90deg, transparent 0%, #e7d1b1 50%, transparent 100%);
     };
 };
 

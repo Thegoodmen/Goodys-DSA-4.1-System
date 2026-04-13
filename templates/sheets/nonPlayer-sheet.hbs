@@ -111,13 +111,13 @@
                 <div class="subrow2">       
                     {{#each talents as |talent id|}}
                         <div class="item" data-item-id="{{_id}}" data-value="{{system.tale.taw}}" data-name="{{name}}">
-                        <a class="npc-roll"><div class="traitName item-context" data-item-id="{{_id}}">{{name}} {{system.tale.taw}}</div></a>
+                        <a class="npc-roll"><div class="traitName" data-item-id="{{_id}}">{{name}} {{system.tale.taw}}</div></a>
                         <div class="cmbticon"><a class="item-edit" title="{{localize 'GDSA.system.edit'}}"><i class="fas fa-gear faD20Stat"></i></a></div>
                         <div class="cmbticon"><a class="item-delete" title="Delete"><i class="fas fa-trash-can faD20Stat"></i></a></div></div>
                     {{/each}}
                     {{#each casts as |talent id|}}
                         <div class="item" data-item-id="{{_id}}" data-value="{{system.zfw}}" data-name="{{name}}">
-                        <a class="npc-roll"><div class="traitName item-context" data-item-id="{{_id}}">{{name}} {{system.zfw}}</div></a>
+                        <a class="npc-roll"><div class="traitName" data-item-id="{{_id}}">{{name}} {{system.zfw}}</div></a>
                         <div class="cmbticon"><a class="item-edit" title="{{localize 'GDSA.system.edit'}}"><i class="fas fa-gear faD20Stat"></i></a></div>
                         <div class="cmbticon"><a class="item-delete" title="Delete"><i class="fas fa-trash-can faD20Stat"></i></a></div></div>
                     {{/each}}

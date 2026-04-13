@@ -27,7 +27,7 @@ export default class BuffHud extends api.HeadsUpDisplayContainer {
     async _renderHTML(_context, _options) {
 
         const template = "systems/gdsa/templates/apps/buff-hud.hbs";
-        const html = await foundry.applications.handlebars.renderTemplate(template, this._prepareContext(_options));
+        const html = await foundry.applications.handlebars.renderTemplate(template, await this._prepareContext(_options));
         
         return html;
     }
@@ -43,13 +43,13 @@ export default class BuffHud extends api.HeadsUpDisplayContainer {
         }
 
         if(this.selectedEffects) context.selEffects = this.selectedEffects.document.actor.effects.contents;
-
+        
         return context;
     }
 
     /** Custom Functions */
     setSelectedEffects(effects) {
-
+        
         this.selectedEffects = effects;
     }  
 }

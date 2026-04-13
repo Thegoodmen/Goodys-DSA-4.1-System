@@ -126,23 +126,26 @@
     };
     .buff-hud {
         position: fixed;
-        left: 105px;
-        top: 60px;
+        right: 365px;
+        bottom: 85px;
         padding: 0px;
-        min-height: 180px;
+        min-height: 160px;
         max-width: 260px;
-        overflow: hidden;
         background: none;
         border: none;
         box-shadow: none;
-    };
+    }
     .buffSpan {
         float: right;
+        position: relative;
+        display: block;
+        pointer-events: all;
+        margin: 1px;
     };
     .buffLine {
         float: right;
         width: 260px;
-        height: 135px;
+        height: 80px;
         display: block;
     };
     .testBuff {
@@ -159,6 +162,41 @@
         padding-top: 13px;
         padding-right: 4px;
         -webkit-text-stroke: 1px black;
+    };
+    .tooltipText4 {
+        position: absolute;
+        visibility: hidden;
+        z-index: 200;
+        top: 100%;
+        left: 0%;
+        width: 115px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        opacity: 0;
+        margin-left: -37px;
+        margin-top: 3px;
+        border-radius: 6px;
+        padding: 2px 6px;
+        transition: opacity 2s;
+        border: 1px solid #ebd3b7;
+        font-size: 12px;
+        text-wrap-mode: nowrap;
+        overflow: hidden;
+    }
+    .buffSpan:hover .tooltipText4 {
+        visibility: visible;
+        opacity: 1;
+    };
+    .tooltipText4::after {
+        content: " ";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent black transparent;
     };
     .GDSA.buffHUD {
         position: fixed;

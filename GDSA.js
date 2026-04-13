@@ -15,7 +15,6 @@ import GMScreen from "./module/apps/gmScreen.js";
 import HeldenImporter from "./module/apps/heldenImport.js";
 import * as Template from "./module/apps/templates.js";
 import * as Dice from "./module/dice.js";
-import * as Dialog from "./module/dialog.js";
 import BuffHud from "./module/apps/buff-hud.js";
 
 Hooks.once("init", async () => {
@@ -354,6 +353,7 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("hasSilver", function(value) {
 
+        if (!value) return false;
         let lengt = value.length;
         let silver = value[lengt-3]
 
@@ -371,6 +371,7 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("hasCopper", function(value) {
 
+        if (!value) return false;
         let lengt = value.length;
         let copper = value[lengt-2]
 
@@ -388,6 +389,7 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("hasNickel", function(value) {
 
+        if (!value) return false;
         let lengt = value.length;
         let nickel = value[lengt-1]
 

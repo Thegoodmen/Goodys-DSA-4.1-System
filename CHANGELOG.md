@@ -2,8 +2,16 @@
 
 **Update for Foundry Version 14 - Pre Release 2**
 + Update of the Different Document Types used in the System to Application V2
-   - [] Actor Sheets
+   - [x] Actor Sheets
    - [] Item Sheet
+      - [] Zauber
+      - [] Ritual
+      - [] Liturgie
+      - [] Gegenstand
+      - [] Buch
+      - [] Edelstein
+      - [] Ressourcen
+      - [] Template
 
 **Additional Features**
 
@@ -35,16 +43,17 @@
 + With the Fix above, the Problem with the incurrect amount of AsP disappeared as well
 + Fixed halving the Disadvantes on Mods for MAG and SRL
 + Fixed the Bug that makes the Tooltips invisible
++ Reenable the Buff Hud and fix Tooltip 
+
+**ToDos for this Version to be Done**
+
++ Finish Character Sheet View for Limited Viewport
++ Gegenstanserstellung fixen
 
 **ToDos for next minor Version**
 
-+ Browser for SF, Advantages etc
-+ Reenable Buff Hud 
-+ Update missing Merchant Sheets to V2
-+ Finish Character Sheet View for Limited Viewport
-
-+ Update Item Sheets to V2 and finish Graphic Rework
 + Add Effects to Effect System => More then a number :D
++ Browser for SF, Advantages etc
 + Hinzufügen von Zauberlieder, Zaubezeichen und Runenmagie
 
 ---
