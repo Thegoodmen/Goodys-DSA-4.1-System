@@ -97,6 +97,16 @@
             "talent": "Talent",
             "switchLang": "Switch to German"
         },
+        "animationIntegration": {
+            "enableAttacks.name": "Angriffs-Animationen aktivieren",
+            "enableAttacks.hint": "Animationen abspielen, wenn Angriffswürfe (Nah- und Fernkampf) ausgeführt werden.",
+            "enableSpells.name": "Zauber-Animationen aktivieren",
+            "enableSpells.hint": "Animationen abspielen, wenn Zauber, Rituale oder schamanische Zauber gewirkt werden.",
+            "enableWonders.name": "Liturgie-/Mirakel-Animationen aktivieren",
+            "enableWonders.hint": "Animationen abspielen, wenn Liturgien oder Mirakel gewirkt werden.",
+            "debug.name": "Debug-Modus für Animation Bridge",
+            "debug.hint": "Detaillierte Debug-Informationen in die Browser-Konsole (F12) ausgeben."
+        },
         "templates": {
             "tal": "Talent",
             "kult": "Gott / Kult",

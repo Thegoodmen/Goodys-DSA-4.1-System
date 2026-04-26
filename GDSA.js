@@ -16,6 +16,7 @@ import HeldenImporter from "./module/apps/heldenImport.js";
 import * as Template from "./module/apps/templates.js";
 import * as Dice from "./module/dice.js";
 import BuffHud from "./module/apps/buff-hud.js";
+import * as aaBridge from "./module/apps/aaBridge.js";
 
 Hooks.once("init", async () => {
 
@@ -67,9 +68,15 @@ Hooks.once("ready", async () => {
     CONFIG.INIT = false;
     CONFIG.Templates = await Template.templateData();
 
+    const newSettings = await aaBridge.generateAutorecUpdate();
+
+    AutomatedAnimations.AutorecManager.overwriteMenus( JSON.stringify(newSettings), { submitAll: true });
+
     Hooks.on("hotbarDrop", (bar, data, slot) => createGDSAMacro(data, slot));
 
     game.gdsa.buffHud = new BuffHud();
+
+    if (game.modules.get("autoanimations")?.active) registerAnimationHooks();
 
     if(!game.user.isGM) return;
 
@@ -130,6 +137,7 @@ Hooks.on("controlToken", (token, isSelected) => {
 
     let selEffects = false;
     if(isSelected) selEffects = token;
+    if (!game.gdsa.buffHud) return;
 
     game.gdsa.buffHud.setSelectedEffects(selEffects);
     game.gdsa.buffHud.render();
@@ -152,7 +160,67 @@ function registerSystemSettings() {
         scope: "world",
         type: String, 
         default: ""
-    })
+    });
+
+    game.settings.register("gdsa", "enableAttackAnimations", {
+        name: game.i18n?.localize("GDSA.animationIntegration.enableAttacks.name") ?? "Enable Attack Animations",
+        hint: game.i18n?.localize("GDSA.animationIntegration.enableAttacks.hint") ?? "Play animations when attack rolls are made.",
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: true
+    });
+
+    game.settings.register("gdsa", "enableSpellAnimations", {
+        name: game.i18n?.localize("GDSA.animationIntegration.enableSpells.name") ?? "Enable Spell Animations",
+        hint: game.i18n?.localize("GDSA.animationIntegration.enableSpells.hint") ?? "Play animations when spells are cast.",
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: true
+    });
+
+    game.settings.register("gdsa", "enableWonderAnimations", {
+        name: game.i18n?.localize("GDSA.animationIntegration.enableWonders.name") ?? "Enable Liturgy/Wonder Animations",
+        hint: game.i18n?.localize("GDSA.animationIntegration.enableWonders.hint") ?? "Play animations when liturgies or wonders are invoked.",
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: true
+    });
+
+    game.settings.register("gdsa", "animationDebug", {
+        name: game.i18n?.localize("GDSA.animationIntegration.debug.name") ?? "Debug Mode for Animation Bridge",
+        hint: game.i18n?.localize("GDSA.animationIntegration.debug.hint") ?? "Log detailed debug information to the browser console.",
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: false
+    });
+}
+
+function registerAnimationHooks() {
+
+     // Register the main chat message hook
+    Hooks.on("gdsa.rollEvent", async (type, actor, item, target, tokenActor, tokenTarget, optional) => {
+
+        try {
+
+            if (type === "melee" || type === "range" || type === "dogde") 
+                if(!game.settings.get("gdsa", "enableAttackAnimations")) return;
+            if (type === "holy" || type === "mirikal")
+                if(!game.settings.get("gdsa", "enableWonderAnimations")) return;
+            if (type === "spell" || type === "ritual") 
+                if(!game.settings.get("gdsa", "enableSpellAnimations")) return;
+            if (type === "meleeParry") return; // Parry rolls should not trigger animations - they need there Animation handeld separately
+
+            await aaBridge.handleAnimationEvent(item, tokenActor, [tokenTarget?.object]);
+
+        } catch (err) {
+
+            console.error("GDSA | Error processing chat message: ", err);
+
+    }});
 }
 
 function adjustRessource(target, value, type) { 

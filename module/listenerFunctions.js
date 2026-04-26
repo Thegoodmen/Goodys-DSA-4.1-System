@@ -2225,12 +2225,12 @@ export async function onAttackRoll(data, event) {
 
         // Do ATK Rolls
 
+        answer = await onMeeleAttack(data, actor, item, ATKValue, atkModi, false, auto, cacheObject);
+        
+        if(!answer) return false;
+        
         Hooks.callAll("gdsa.meeleEvent", actor, item, targetActor, actorToken, targetToken, cacheObject);
         Hooks.callAll("gdsa.rollEvent", "melee", actor, item, targetActor, actorToken, targetToken, cacheObject);
-
-        answer = await onMeeleAttack(data, actor, item, ATKValue, atkModi, false, auto, cacheObject);
-
-        if(!answer) return false;
         
         answer.result.message.setFlag('gdsa', 'isCollapsable', true);
 
@@ -2297,14 +2297,14 @@ export async function onAttackRoll(data, event) {
         
         if(item.system.type == "melee") {
             
+            answer = await onMeeleAttack(data, actor, item, ATKValue, atkModi, isSpezi, auto, cacheObject);
             Hooks.callAll("gdsa.meeleEvent", actor, item, targetActor, actorToken, targetToken, cacheObject);
             Hooks.callAll("gdsa.rollEvent", "melee", actor, item, targetActor, actorToken, targetToken, cacheObject);
-            answer = await onMeeleAttack(data, actor, item, ATKValue, atkModi, isSpezi, auto, cacheObject);
         } else { 
             
+            answer = await onRangeAttack(actor, ATKValue, atkModi, isSpezi, item, auto, cacheObject);
             Hooks.callAll("gdsa.rangeEvent", actor, item, targetActor, actorToken, targetToken, cacheObject);
             Hooks.callAll("gdsa.rollEvent", "range", actor, item, targetActor, actorToken, targetToken, cacheObject);
-            answer = await onRangeAttack(actor, ATKValue, atkModi, isSpezi, item, auto, cacheObject);
         }
 
         if(!answer) return false;
@@ -2904,7 +2904,7 @@ export async function onParryRoll(data, event) {
     // Trigger Hooks and Execute Roll
 
     Hooks.callAll("gdsa.meeleEvent", actor, item, null, actorToken, null, cacheObject);
-    Hooks.callAll("gdsa.rollEvent", "melee", actor, item, null, actorToken, null, cacheObject);
+    Hooks.callAll("gdsa.rollEvent", "meleeParry", actor, item, null, actorToken, null, cacheObject);
 
     answer = await Dice.PACheck(PAValue, defModi, actor, cacheObject);  
     answer.message.setFlag('gdsa', 'isCollapsable', true);
@@ -2937,7 +2937,7 @@ export async function onNPCParryRoll(data, event) {
     // Trigger Hooks and Execute Roll
 
     Hooks.callAll("gdsa.meeleEvent", actor, null, null, actorToken, null, context);
-    Hooks.callAll("gdsa.rollEvent", "melee", actor, null, null, actorToken, null, context);
+    Hooks.callAll("gdsa.rollEvent", "meleeParry", actor, null, null, actorToken, null, context);
     
     let answer = await Dice.PACheck(value, 0, actor, context);
     answer.message.setFlag('gdsa', 'isCollapsable', true);
@@ -3036,7 +3036,7 @@ export async function onShildRoll(data, event) {
     // Trigger Hooks and Execute Roll
 
     Hooks.callAll("gdsa.meeleEvent", actor, item, null, actorToken, null, cacheObject);
-    Hooks.callAll("gdsa.rollEvent", "melee", actor, item, null, actorToken, null, cacheObject);
+    Hooks.callAll("gdsa.rollEvent", "meleeParry", actor, item, null, actorToken, null, cacheObject);
 
     answer = await Dice.PACheck(PAValue, defModi, actor, cacheObject);  
     answer.message.setFlag('gdsa', 'isCollapsable', true);

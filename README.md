@@ -25,7 +25,7 @@
 * [Yagrima](https://github.com/yagrima) for Testing, Feedback and listening to my rants while Developing!
 * The Amazing People and their amazing feedback, over at the [Goody's DSA Corner](https://discord.gg/hFjcsX9QbF)!
 * [STBaf](https://github.com/STBaf) for some Bugfixes that I missed or had not fixed yet
-* [Geanofee]((https://github.com/geanofee) for working on the Integration to AutoAnimation for the nice Animations when doing anything in combat!
+* [Geanofee](https://github.com/geanofee) for working on the Integration to AutoAnimation for the nice Animations when doing anything in combat!
 * The People at Ulisses Spiele for clearing me for creating this System as well as there Support!
 
 ## Copyright

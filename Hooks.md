@@ -4,7 +4,7 @@
 *Triggered whenever an Attack, Parry, Dodge, Spell Casting or Holy Casting Action is triggered. The Hook is cast, right before the Chat Message is initiated and after all Calculation and all User Interaction is done.*
 
 - **Type**
-    ENUM {"melee", "range", "spell", "ritual", "holy", "mirikal", "dogde"}
+    ENUM {"melee", "range", "spell", "ritual", "holy", "mirikal", "dogde", "meleeParry"}
 - **Actor**
     Reference to the Actor Document of the Triggering Entity
 - **Item**
