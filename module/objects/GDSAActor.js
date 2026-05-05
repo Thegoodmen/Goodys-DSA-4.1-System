@@ -361,6 +361,8 @@ export default class GDSAActor extends Actor {
         this.update({ "system.height": object.size });
         this.update({ "system.weight": object.weight });
         this.update({ "system.SO": object.social });        
+        this.update({ "system.hair": object.hair });  
+        this.update({ "system.eyes": object.eyes });  
     }
 
     updateBuffValue(name, value) {

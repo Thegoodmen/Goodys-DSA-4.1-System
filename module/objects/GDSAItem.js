@@ -99,4 +99,9 @@ export default class GDSAItem extends Item {
         this.update({ "system.itemType": object.itemType});
         this.update({ "system.item.note": object.note });
     }
+
+    setAffilationType(type) {
+
+        this.update({ "system.affi.type": type});
+    }
 }

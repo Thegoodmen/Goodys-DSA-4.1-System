@@ -3653,14 +3653,14 @@ export async function onReg(data, event) {
     let checkRegI = data.magicTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.regI")})[0];
     let checkRegII = data.magicTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.regII")})[0];
     let checkRegIII = data.magicTraits.filter(function(item) {return item.name == game.i18n.localize("GDSA.trait.regIII")})[0];
-    if(checkFastHeal != null) HPBonus += parseInt(checkFastHeal.system.trait.value);
-    if(checkBadReg != null) HPBonus -= 1;
-    if(checkAstralHeal != null) APBonus += parseInt(checkAstralHeal.system.trait.value);
-    if(checkAstralBlock != null) APBonus -= 1;
     if(checkRegI != null) APBonus += 1;
     if(checkRegII != null) APBonus += 1;
     if(checkRegIII != null) APBonus = Math.round(statValueKL / 3) + 3 + parseInt(regDialog.asp) + NOBonus;
     if(checkRegIII != null) magActive = true;
+    if(checkFastHeal != null) HPBonus += parseInt(checkFastHeal.system.trait.value);
+    if(checkBadReg != null) HPBonus -= 1;
+    if(checkAstralHeal != null) APBonus += parseInt(checkAstralHeal.system.trait.value);
+    if(checkAstralBlock != null) APBonus -= 1;
     if(system.KaP.max > 0 && system.KaP.max != system.KaP.value) KABonus++; else KABonus = 0; 
 
     // Do Regeneration
@@ -3823,6 +3823,8 @@ export async function editCharFacts(data, event) {
     let size = data.system.height;
     let weight = data.system.weight;
     let social = data.system.SO;
+    let hair = data.system.hair;
+    let eyes = data.system.eyes;
     let checkOptions = false;
 
     // Generate Context for the Dialog
@@ -3837,7 +3839,9 @@ export async function editCharFacts(data, event) {
         age: age,
         size: size,
         weight: weight,
-        social: social
+        social: social,
+        hair: hair,
+        eyes: eyes
     };
 
     // Create Dialog

@@ -67,19 +67,18 @@ Hooks.once("ready", async () => {
 
     CONFIG.INIT = false;
     CONFIG.Templates = await Template.templateData();
-
-    const newSettings = await aaBridge.generateAutorecUpdate();
-
-    AutomatedAnimations.AutorecManager.overwriteMenus( JSON.stringify(newSettings), { submitAll: true });
-
+    
     Hooks.on("hotbarDrop", (bar, data, slot) => createGDSAMacro(data, slot));
-
+    
     game.gdsa.buffHud = new BuffHud();
-
+    
     if (game.modules.get("autoanimations")?.active) registerAnimationHooks();
-
+    
     if(!game.user.isGM) return;
 
+    const newSettings = await aaBridge.generateAutorecUpdate();
+    AutomatedAnimations.AutorecManager.overwriteMenus( JSON.stringify(newSettings), { submitAll: true });
+    
     const currentVersion = game.settings.get("gdsa", "systemMigrationVersion");
     const NEEDS_MIGRATION_VERSION = "1.0.0";
 

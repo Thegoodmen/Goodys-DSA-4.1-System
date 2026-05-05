@@ -922,7 +922,9 @@ function _processCharFacts(form) {
         age: form.age,
         size: form.size,
         weight: form.weight,
-        social: form.social
+        social: form.social,
+        hair: form.hair,
+        eyes: form.eyes
     }
 }
 

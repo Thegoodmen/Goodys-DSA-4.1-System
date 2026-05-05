@@ -1198,5 +1198,6 @@ config.templatefx = {
     "13":  ["1167", "Ignisphaero Feuerball",                                    "templatefx",   "circle",       "fireball",         "explode",  "orange",       ""  ],
     "14":  ["1168", "Orcanosphaero Orkanball",                                  "templatefx",   "circle",       "explosion",        "01",       "orange",       ""  ],
     "15":  ["1169", "Sumpfstrudel",                                             "templatefx",   "circle",       "vortex",           "intro",    "blue",         ""  ],
-    "16":  ["1170", "Wettermeisterschaft",                                      "templatefx",   "circle",       "sleetstorm",       "01",       "blue",         ""  ]
+    "16":  ["1170", "Wettermeisterschaft",                                      "templatefx",   "circle",       "sleetstorm",       "01",       "blue",         ""  ],
+    "17":  ["1182", "Aeolitus Windgebraus",                                     "templatefx",   "circle",       "vortex",           "intro",    "blue",         ""  ]
 }      

@@ -24,6 +24,7 @@
 + Added Hook "gdsa.holyCast"
 + Added Hook "gdsa.dogdeEvent"
 + Added Documentation for Hooks (Hooks.md)
++ Updated Character Limited View 
 
 **Bugfixes**
 
@@ -47,8 +48,10 @@
 
 **ToDos for this Version to be Done**
 
-+ Finish Character Sheet View for Limited Viewport
 + Gegenstanserstellung fixen
++ Context Menues und Non-Player Bogen prüfen auf Grafik und Funktion
++ Context Menue Affiliation the limited view maybe drag and drop
++ Funktion mit deaktivierter Animation
 
 **ToDos for next minor Version**
 
