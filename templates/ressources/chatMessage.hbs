@@ -1,6 +1,6 @@
-<li class="chat-message message flexcol {{cssClass}}" data-message-id="{{message._id}}" {{#if borderColor}}style="border-color:{{borderColor}}"{{/if}}>
+<li class="{{#if isWhisper}}whisperMSG{{/if}} chat-message message flexcol {{cssClass}}" data-message-id="{{message._id}}" {{#if borderColor}}style="border-color:{{borderColor}}"{{/if}}>
     <header class="message-header flexrow">
-        <h4 class="message-sender messSenderName">{{alias}}</h4>
+        <h4 class="message-sender messSenderName">{{#if isWhisper}}<i class="fa-duotone fa-eye-slash"></i> {{/if}}{{alias}}</h4>
         <span class="message-metadata messOptionBar" style="flex: none;">
             <time class="message-timestamp">{{timeSince message.timestamp}}</time>
             {{#if canDelete}}
@@ -12,7 +12,7 @@
         </span>
 
         {{#if isWhisper}}
-        <span class="whisper-to">{{localize 'CHAT.To'}}: {{whisperTo}}</span>
+        {{!-- <span class="whisper-to">{{localize 'CHAT.To'}}: {{whisperTo}}</span> --}}
         {{/if}}
 
         {{#if message.flavor}}

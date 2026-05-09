@@ -49,9 +49,9 @@
 		<hr class="flawhr1">
 
 		<div class="bigValueBox">{{localize "GDSA.charactersheet.INIBasis"}}</div><div class="smallValueBox"></div>
-		<div class="smallValueBox" data-tooltip=
-        "<div class='tooltipInI'> InI Basis <input class='tooltipNum' value='{{system.iniBaseValue}}' disabled> - BE <input class='tooltipNum' value='{{system.gBEArmour}}' disabled> + Waffenmod <input class='tooltipNum' value='{{system.equipINI}}' disabled> = <input class='tooltipNum' value='{{system.INIBasis.value}}' disabled></div>"
-        data-tooltip-direction="LEFT">{{system.INIBasis.value}}</div>
+		<div class="smallValueBox">
+			<span class='tooltipTrigger'>{{system.INIBasis.value}}<div class='tooltipBox'><span class='tooltipText'><div class='tooltipInI'>Ini Basis <input class='tooltipNum' value='{{system.iniBaseValue}}' disabled> - BE <input class='tooltipNum' value='{{system.gBEArmour}}' disabled> + Itemmod <input class='tooltipNum' value='{{system.equipINI}}' disabled> = <input class='tooltipNum' value='{{system.INIBasis.value}}' disabled></div></span></div></span>
+		</div>
 		<div class="smallValueBox"><input class="statTemp" name="system.INIBasis.tempmodi" type="number" value="{{system.INIBasis.tempmodi}}"/></div>
 		<div class="smallValueBox"></div><div class="smallValueBox"></div>
 

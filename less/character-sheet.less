@@ -1063,6 +1063,7 @@
         width: 355px;
         margin: 3px 0px;
         background-color: #000000b0;
+        overflow: visible;
     };
     .combatTableBox1{
         width: 336px;
@@ -1378,6 +1379,7 @@
         border-left-style: groove;
         margin-left: 16px;
         scrollbar-width: none;
+        border-color: #e7d1b199;
     };  
     .inventory4{
         width: calc(100% - 50px);
@@ -1424,13 +1426,14 @@
     .invHeader2{
         height: 30px;
         width: 410px;
-        border: 1px solid black;
+        border: 0px solid #d5c1a4;
+        border-radius: 8px 8px 0px 0px;
         border-bottom-width: 2px;
         position: relative;
         font-size: 16px;
-        padding-top: 4px;
+        padding-top: 5px;
         padding-left: 16px;
-        background-color: rgba(0,0,0,0.07);
+        background-color: rgba(0, 0, 0, 0.07);
     };
     .invHeader3{
         position: relative;
@@ -1482,13 +1485,12 @@
         border-left-width: 2px;
         padding-left: 75px;
         height: 41px;
-        padding-top: 1px;
+        padding-top: 6px;
         width: 545px;
         position: relative;
         margin-left: 20px;
         text-overflow: ellipsis;
         text-wrap-mode: nowrap;
-        overflow: hidden;
         padding-right: 15px;
     };
     .invDivider{
@@ -1527,6 +1529,7 @@
         position: absolute;
         top: 4px;
         left: 4px;
+        margin-top: 5px;
     };
     .itemImgBox2{
         width: 30px;
@@ -1537,31 +1540,34 @@
     };
     .itemAmountBox {
         height: 18px;
-        width: 25px;
+        width: 19px;
         position: absolute;
-        left: 10px;
-        top: 8px;
+        left: 16px;
+        top: 5px;
         text-align: center;
         padding-top: 3px;
         color: #edd4b9;
         font-size: 14px;
+        margin-top: 5px;
     };
     .changeAmount {
         position: absolute;
-        top: 10px;
-        left: 1px;
-        font-size: 9px;
+        top: 11px;
+        left: 3px;
+        font-size: 8px;
         width: 6px;
     };
     .itemAmount {
         position: absolute;
         left: 0px;
         top: -2px;
-        height: 26px;
+        height: 22px;
         border-radius: 7px;
         background-color: #1e161e;
         padding: 0px 1px;
         text-align: center;
+        border: 1px #d5c1a4 solid;
+        font-size: 12px;
     };
     .itemImg{
         width: 30px;
@@ -1572,7 +1578,8 @@
     };
     .invtableborder2{
         width: 410px;
-        border: 1px solid black;
+        border: 1px solid #d5c1a4;
+        border-radius: 8px;
     };
     .invtableborder3{
         width: 580px;
@@ -1592,8 +1599,8 @@
         width: 20px;
         height: 20px;
         position: absolute;
-        top: 2px;
-        left: 375px;
+        top: 3px;
+        left: 371px;
     };
     .addItemBox3{
         width: 160px;
@@ -1657,7 +1664,7 @@
     };
     .merchantDisc {
         width: 175px;
-        height: 415px;
+        height: 395px;
         resize: none;
     };
     .affiliate {
@@ -1670,10 +1677,14 @@
     };
     .classification {
         height: 40px;
-        width: 175px;
+        width: 144px;
         margin-top: 10px;
-        border: 1px solid black;
-        padding: 3px 6px;
+        margin-left: 17px;
+        padding: 4px 6px;
+        color: #e8dfd1;
+        font-size: 12px;
+        border: 2px solid #e5cfaf;
+        border-radius: 7px;
     };
     .classificationSelection {
         width: 89px;
@@ -1683,6 +1694,7 @@
     .affiliateBar {
         margin-top: 3px;
         float: left;
+        height: 23px;
         border-radius: 15px;
         border: 2px solid;
         border-color: #00000082;
@@ -1712,7 +1724,7 @@
     .merchRoll {
         font-size: 12px;
         position: absolute;
-        left: 126px;
+        left: 145px;
         margin-top: 1px;
     };
     .holyTraitBox {
@@ -1963,20 +1975,12 @@
         height: 14px;
         margin: auto;
         padding-left: 10px;
-    };
-    .charBanner {
-        width: 232px;
-        height: 750px;
-        background-image: url(assets/ui/banner.png);
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position-x: -30px;
+        margin-bottom: 6px;
     };
     .charBannerBox {
         float: left;
-        width: 210px;
-        height: 600px;
-        overflow: hidden;
+        width: 100%;
+        height: 590px;
     };
     .nameBox {
         float: left;
@@ -1989,7 +1993,7 @@
     };
     .intercepter {
         float: left;
-        width: 390px;
+        width: 620px;
         height: 3px
     };
     .charsheet {
@@ -2014,9 +2018,12 @@
         margin-bottom: 12px;
     };
     .charNotes {
+        float: left;
+        width: 100%;
         height: 170px;
-        margin-top: 5px;
         resize: none;
+        border: 2px solid #e9d2b4;
+        border-radius: 10px;
     };
     .bannerTopic {
         float: left;
@@ -2032,7 +2039,7 @@
     };
     .affilBar {
         float: left;
-        margin-left: 20px;
+        margin-left: 0px;
         border-radius: 15px;
         border: 2px solid;
         border-color: #00000082;
@@ -2040,27 +2047,28 @@
         color: white;
     };
     .affilImg {
-        width: 23px;
-        height: 23px;
+        width: 18px;
+        height: 18px;
         float: left;
-        border-radius: 12px;
+        border-radius: 9px;
         overflow: hidden;
     };
     .affilName {
-        height: 24px;
-        width: 120px;
+        height: 19px;
+        min-width: 60px;
         float: left;
         padding: 1px;
         padding-left: 5px;
         padding-top: 2px;
+        padding-right: 7px;
+        font-size: 12px;
     };
     .charBackBotton {
-        height: 20px;
-        width: 20px;
+        height: 35px;
+        width: 190px;
+        padding-top: 3px;
+        padding-left: 80px;
         font-size: 28px;
-        position: absolute;
-        top: 45px;
-        left: 95px;
     };
     .rowAdvan {
         position: relative;
@@ -2232,6 +2240,352 @@
         font-size: 10px;
         font-family: 'Signika';
     };
+    .context-items {
+        background: #302a31;
+        z-index: 100;
+        position: relative;
+        border-radius: 12px;
+        border: 2px solid;
+        overflow: hidden;
+        margin-right: 30px;
+    };
+
+    .tooltipTrigger {
+        position: relative;
+        display: inline-block;
+        cursor: pointer; 
+    };
+    .tooltipText {
+        position: absolute;
+        visibility: hidden;
+        z-index: 1;
+        top: 100%;
+        left: 50%;
+        width: 275px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        opacity: 0;
+        margin-left: -137px;
+        margin-top: 4px;
+        border-radius: 6px;
+        padding: 7px 0;
+        transition: opacity 2s;
+        border: 1px solid #ebd3b7;
+        font-size: 12px;
+    };
+    .tooltipText2 {
+        position: absolute;
+        visibility: hidden;
+        z-index: 1;
+        top: 100%;
+        left: 50%;
+        width: 310px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        opacity: 0;
+        margin-left: -155px;
+        margin-top: 4px;
+        border-radius: 6px;
+        padding: 7px 0;
+        transition: opacity 2s;
+        border: 1px solid #ebd3b7;
+        font-size: 12px;
+    };
+    .tooltipText3 {
+        position: absolute;
+        visibility: hidden;
+        z-index: 1;
+        top: 100%;
+        left: 0%;
+        width: 310px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        opacity: 0;
+        margin-left: -315px;
+        margin-top: -26px;
+        border-radius: 6px;
+        padding: 7px 0;
+        transition: opacity 2s;
+        border: 1px solid #ebd3b7;
+        font-size: 12px;
+    };
+    .tooltipTextEffekt {
+        position: absolute;
+        visibility: hidden;
+        z-index: 500;
+        top: 100%;
+        left: 50%;
+        width: 70px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        opacity: 0;
+        font-size: 10px;
+        line-height: 16px;
+        margin-left: -35px;
+        margin-top: -19px;
+        border-radius: 6px;
+        padding: 2px 0;
+        transition: opacity 2s;
+        border: 1px solid #ebd3b7;
+    };
+    .tooltipTrigger:hover .tooltipText {
+        visibility: visible;
+        opacity: 1;
+    };
+    .tooltipTrigger:hover .tooltipText2 {
+        visibility: visible;
+        opacity: 1;
+    };
+    .tooltipTrigger:hover .tooltipText3 {
+        visibility: visible;
+        opacity: 1;
+    };
+    .tooltipTrigger:hover .tooltipTextEffekt {
+        visibility: visible;
+        opacity: 1;
+    };
+    .tooltipText::after {
+        content: " ";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent black transparent;
+    };
+    .tooltipText2::after {
+        content: " ";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent black transparent;
+    };
+    .tooltipText3::after {
+        content: " ";
+        position: absolute;
+        bottom: 30%;
+        left: 100%;
+        margin-left: 0px;
+        margin-top: 0px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent transparent black;
+    };
+    .tooltipTextEffekt::after {
+        content: " ";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent black transparent;
+    };
+    .merchantHead {
+        float: left;
+        height: 75px;
+        width: 100%;
+    };
+    .invFiller4 {
+        float: left;
+        width: 100%;
+        height: 3px;
+        border-top-width: 2px;
+        margin-top: 2px;
+        margin-bottom: 8px;
+        background-image: linear-gradient(90deg, transparent 0%, #e7d1b1 50%, transparent 100%);
+    };
+    .charViewCol1 {
+        float: left;
+        height: 415px;
+        width: 190px;
+    };
+    .charViewCol2 {
+        float: left;
+        height: 415px;
+        width: calc(100% - 190px);
+    };
+    .charViewDiagramm {
+        height: 145px;
+        width: 190px;
+    };
+    .charViewQuote {
+        float: left;
+        position: relative;
+        display: flex;
+        width: 100%;
+        height: 70px;
+        border: 2px solid #e9d2b4;
+        border-radius: 10px;
+        margin: 0px 0px 5px 0px;
+        align-items: center;
+        justify-content: center;
+        padding: 15px 10px 10px 10px;
+    };
+    .quotelbl {
+        position: absolute;
+        top: 4px;
+        left: 8px;
+        font-size: 12px;
+        font-style: italic;
+    };
+    .charViewFactionBox {
+        float: left;
+        width: 100%;
+        height: 110px;
+    };
+    .charViewFractionHolder {
+        float: left;
+        width: 200px;
+        height: 85%;
+        border: 2px solid #e9d2b4;
+        border-radius: 10px;
+        padding: 5px;
+    };
+    .charViewFractionDivider {
+        float: left;
+        width: 10px;
+        height: 100%;
+    };
+    .charViewName {
+        float: left;
+        width: 430px;
+        height: 35px;
+        font-size: 25px;
+        padding-left: 5px;
+        overflow: hidden;
+        border: 2px solid #e9d2b4;
+        border-radius: 8px;
+    };
+    .charViewPie {
+        float: left;
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        background: conic-gradient(
+            deepskyblue 0% 25%,
+            orangered 25% 85%,
+            darkgreen 85%
+        );
+        border: 2px solid #e9d2b4;
+        margin-left: 45px;
+        margin-top: 7px;
+        margin-bottom: 12px;
+    };
+    .charViewPieDesc {
+        float: left;
+        height: 40px;
+        width: 190px;
+        padding: 0px 18px;
+        align-items: center;
+        text-align: center;
+        line-height: 10px;
+    };
+    .charViewDescCol {
+        display: inline-block;
+        height: 8px;
+        width: 16px;
+        border-radius: 4px;
+        margin-top: 2px;
+        border: 1px solid #e9d2b4;
+        background-color: goldenrod;
+    };
+    .charViewDescLbl {
+        display: inline-block;
+        margin-left: 5px;
+        margin-right: 5px;
+        font-size: 10px;
+        line-height: 10px;
+    };
+    .img2 {
+        max-height: 200px;
+        max-width: 177px;
+        vertical-align: middle;
+        border: 2px solid #e9d2b4;
+        border-radius: 12px;
+        object-fit: fill;
+        margin: auto;
+    };
+    .charInfoFacts {
+        float: left;
+        width: 430px;
+        height: 88%;
+        border: 2px solid #e9d2b4;
+        border-radius: 8px;
+        margin-top: 9px;
+        padding: 10px;
+        overflow: auto;
+    };
+    .charInfoLbl {
+        float: left;
+        width: 225px;
+        font-size: 12px;
+    };
+    .charInfoValue {
+        float: left;
+        width: 170px;
+        color: white;
+        overflow: hidden;
+        font-size: 12px;
+        text-wrap-mode: nowrap;
+    };
+    .charInfoMainLbl {
+        float: left;
+        width: 100%;
+        margin-top: 5px;
+    };
+    .charInfoMainBox {
+        float: left;
+        width: 100%;
+        min-height: 25px;
+        font-size: 12px;
+        padding-left: 5px;
+    };
+    .charViewGMModi {
+        width: 465px;
+    };
+    .charViewGMOptions {
+        float: left;
+        width: 150px;
+        height: 170px;
+        border: 2px solid #e9d2b4;
+        border-radius: 8px;
+        margin-right: 5px;
+        font-size: 11px;
+    };
+    .charViewOptionsLbl {
+        float: left;
+        font-size: 14px;
+        margin-left: 38px;
+        margin-right: 20px;
+        padding-top: 10px;
+        margin-bottom: 2px;
+    };
+    .charViewOptionsCB {
+        transform: scale(0.7);
+        vertical-align: middle;
+    };
+    .charViewOptionsText {
+        height: 20px;
+        width: 135px;
+        margin: 0px 5px;
+    };
+    .affilBar > nav#context-menu{
+        position: relative;
+        display: flow-root;
+    };
+    
+    .affilBar > nav#context-menu > .context-items{
+        margin: 0px;
+    };
 };
 
 .mediOpt {
@@ -2248,12 +2602,7 @@
     width: 205px;
 };
 .tooltipInI {
-    height: 23px;
-    width: 350px;
-    background-color: #fefff3;
-    color: black;
-    padding-top: 2px;
-    padding-left: 5px;
+    height: 15px;
     font-family: 'MasonSerifBold';
 };
 .tooltipCMB {
@@ -2282,7 +2631,8 @@
     border-width: 1px;
     text-align: center;
     padding: 0px;
-    background-color: #f1e7ca;
+    background-color: #FFF;
+    color: #000
 };
 #tooltip, .locked-tooltip {
     position: absolute;

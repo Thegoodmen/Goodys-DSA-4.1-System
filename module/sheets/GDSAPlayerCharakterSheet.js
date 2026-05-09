@@ -34,8 +34,8 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
 
     static PARTS = {
 
-        osheet: { template: "systems/gdsa/templates/sheets/charakter-sheet.hbs" },
-        view: { template: "systems/gdsa/templates/partials/charakter-sheet-view.hbs" }
+        osheet: { template: "systems/gdsa/templates/sheets/charakter-sheet.hbs", scrollable: [".inventory"] },
+        view: { template: "systems/gdsa/templates/partials/charakter-sheet-view.hbs", scrollable: [''] }
     }
 
     get title() {
@@ -222,9 +222,9 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
             
             // Set Listener for PDFoundry
         
-            this.element.querySelectorAll(".openSpell").forEach(action => { action.addEventListener("click", (e) => LsFunction.openPDF.bind("Spell", e)) });
-            this.element.querySelectorAll(".openRitual").forEach(action => { action.addEventListener("click", (e) => LsFunction.openPDF.bind("Ritual", e)) });
-            this.element.querySelectorAll(".openWonder").forEach(action => { action.addEventListener("click", (e) => LsFunction.openPDF.bind("Wonder", e)) });
+            this.element.querySelectorAll(".openSpell").forEach(action => { action.addEventListener("click", (e) => LsFunction.openPDF("Spell", e)) });
+            this.element.querySelectorAll(".openRitual").forEach(action => { action.addEventListener("click", (e) => LsFunction.openPDF("Ritual", e)) });
+            this.element.querySelectorAll(".openWonder").forEach(action => { action.addEventListener("click", (e) => LsFunction.openPDF("Wonder", e)) });
         
             // Set Listeners for Navigation
         
@@ -243,6 +243,7 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
             // Set Listener for Skill Macrobar Support 
         
             let handler = ev => this._onDragStart(ev);
+            let handlerDrop = ev => this._onDrop(ev);
 
             // Find all items on the character sheet.
             this.element.querySelectorAll(".skillitem").forEach(action => {
@@ -258,11 +259,24 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
                 action.setAttribute("draggable", true);
                 action.addEventListener("dragstart", handler, false);
             });
+
+            this.element.querySelectorAll(".affilBar").forEach(action => {
+
+                // Add draggable attribute and dragstart listener.
+                action.setAttribute("draggable", true);
+                action.addEventListener("dragstart", handler, false);
+            });
+            
+            this.element.querySelectorAll(".charViewFractionHolder").forEach(action => {
+
+                // Add draggable attribute and dragstart listener.
+                action.setAttribute("dropable", true);
+            });
         };
 
         let mainTabs = this.actor.getFlag('gdsa', 'primaryTabSelection');
         
-        if(mainTabs != null) {
+        if(mainTabs != null && this.isEditable) {
 
             let tabs = this.element.closest("form").querySelector(".sheet-body");
             let activeTab = tabs.querySelector(".tab.primary.active");
@@ -286,7 +300,7 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
 
         let skillTabs = this.actor.getFlag('gdsa', 'skillTabSelection');
         
-        if(skillTabs != null) {
+        if(skillTabs != null && this.isEditable) {
 
             let tabs = this.element.closest("form").querySelector(".skill-body");
             let activeTab = tabs.querySelector(".tab.skillsBox.active");
@@ -305,7 +319,7 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
 
         let magicTabs = this.actor.getFlag('gdsa', 'magicTabSelection');
         
-        if(magicTabs != null) {
+        if(magicTabs != null && this.isEditable) {
 
             let tabs = this.element.closest("form").querySelector(".magic-body");
             let activeTab = tabs.querySelector(".tab.magicBox.active");
@@ -324,7 +338,7 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
 
         let holyTabs = this.actor.getFlag('gdsa', 'holyTabSelection');
         
-        if(holyTabs != null) {
+        if(holyTabs != null && this.isEditable) {
 
             let tabs = this.element.closest("form").querySelector(".holy-body");
             let activeTab = tabs.querySelector(".tab.magicBox.active");
@@ -354,7 +368,7 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
         // #################################################################################################
 
         const source = this.actor.items.get(itemData._id);
-        console.log("here");
+        
         switch(source.type) {
 
             case "generals":
@@ -393,9 +407,9 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
     
     /** @override */
     _onDragStart(event) {
-
-        if(event.srcElement.className != "skillitem" && event.srcElement.className != "statitem") super._onDragStart(event);
-
+        
+        if(event.srcElement.className != "skillitem" && event.srcElement.className != "statitem" && !event.srcElement.className.includes("affilBar")) 
+            super._onDragStart(event);
         else if(event.srcElement.className === "skillitem") {
 
             // Get Element and Skill Infos
@@ -438,7 +452,54 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
             // Set data transfer
     
             event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
-        } 
+
+        } else if(event.srcElement.className.includes("affilBar")) {
+
+            // Get Element and Item Id
+
+            let element = event.currentTarget;
+            let message = element.closest(".affilBar");
+            let itemId = message.dataset.itemId;
+            
+            // Prepare DragData
+
+            const dragData = {
+                type: "affilChange",
+                itemId: itemId
+            };
+    
+            // Set data transfer
+    
+            event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+        }
+    }
+
+    /** @overload */
+    _onDrop(event) {
+
+        event.preventDefault();
+
+        if(event.srcElement.className != "charViewFractionHolder") 
+            super._onDrop(event);
+        else if(event.srcElement.className === "charViewFractionHolder") {
+            
+            // Get Event Data, Target and Item
+
+            let element = event.srcElement;
+            let dataObject = JSON.parse(event.dataTransfer.getData("text/plain"));
+
+            if (dataObject.type === "affilChange") {
+                
+                let item = this.document.items.get(dataObject.itemId);
+                let targetValue = element.dataset.target;
+    
+                // Set Item Data
+    
+                item.system.affi.type = targetValue;
+                item.setAffilationType(targetValue);
+                
+            } else super._onDrop(event);
+        }
     }
         
     /** @override */
@@ -856,6 +917,274 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
         if(checkGoofy != null) sheetData.goofy = true;
         else sheetData.goofy = false;
 
+        // Prepare all Values for Char View
+
+        let advantList = "";
+
+        for (const item in sheetData.advantages) {
+            if (sheetData.advantages[item].system.trait.gpCost >= 10 || sheetData.advantages[item].system.trait.value >= 5 || sheetData.advantages[item].name === "Gutaussehend") {
+                if (sheetData.advantages[item].name === "Vollzauberer" || sheetData.advantages[item].name === "Halbzauberer" || sheetData.advantages[item].name === "Viertelzauberer" || sheetData.advantages[item].name === "Geweihter") continue;
+                if (advantList != "") advantList += ", ";
+                advantList += sheetData.advantages[item].name;
+            }
+        }
+
+        for (const item in sheetData.flaws) {
+            if (sheetData.flaws[item].system.trait.gpCost >= 10 || sheetData.flaws[item].system.trait.value >= 7) {
+                if (sheetData.flaws[item].name === "Schulden" || sheetData.flaws[item].name === "Verpflichtungen" || sheetData.flaws[item].name.includes("Moralkodex")) continue;
+                if (advantList != "") advantList += ", ";
+                let newValue = sheetData.flaws[item].name
+                if(newValue.includes("Angst vor (") || newValue.includes("Schlechte Eigenschaft")) newValue = sheetData.flaws[item].name.split("(")[0] + sheetData.flaws[item].name.split(")")[1];
+                advantList += newValue;
+            }
+        }
+
+        let attriList = "";
+
+        if (sheetData.system.showViewAttributes) {
+
+            if (sheetData.system.MU.value >= 16)  attriList += "Hoher Mut";
+            if (sheetData.system.KL.value >= 16 && attriList != "") attriList += ", ";
+            if (sheetData.system.KL.value >= 16)  attriList += "Hohe Klugheit";
+            if (sheetData.system.IN.value >= 16 && attriList != "") attriList += ", ";
+            if (sheetData.system.IN.value >= 16)  attriList += "Hohe Intuition";
+            if (sheetData.system.CH.value >= 16 && attriList != "") attriList += ", ";
+            if (sheetData.system.CH.value >= 16)  attriList += "Hohes Charisma";
+            if (sheetData.system.FF.value >= 16 && attriList != "") attriList += ", ";
+            if (sheetData.system.FF.value >= 16)  attriList += "Hohe Fingerfertigkeit";
+            if (sheetData.system.GE.value >= 16 && attriList != "") attriList += ", ";
+            if (sheetData.system.GE.value >= 16)  attriList += "Hohe Gewandheit";
+            if (sheetData.system.KO.value >= 16 && attriList != "") attriList += ", ";
+            if (sheetData.system.KO.value >= 16)  attriList += "Hohe Konstitution";
+            if (sheetData.system.KK.value >= 16 && attriList != "") attriList += ", ";
+            if (sheetData.system.KK.value >= 16)  attriList += "Hohe Körperkraft";
+            if (sheetData.system.MU.value <= 9 && attriList != "") attriList += ", ";
+            if (sheetData.system.MU.value <= 9)  attriList += "Niedriger Mut";
+            if (sheetData.system.KL.value <= 9 && attriList != "") attriList += ", ";
+            if (sheetData.system.KL.value <= 9)  attriList += "Niedrige Klugheit";
+            if (sheetData.system.IN.value <= 9 && attriList != "") attriList += ", ";
+            if (sheetData.system.IN.value <= 9)  attriList += "Niedrige Intuition";
+            if (sheetData.system.CH.value <= 9 && attriList != "") attriList += ", ";
+            if (sheetData.system.CH.value <= 9)  attriList += "Niedriges Charisma";
+            if (sheetData.system.FF.value <= 9 && attriList != "") attriList += ", ";
+            if (sheetData.system.FF.value <= 9)  attriList += "Niedrige Fingerfertigkeit";
+            if (sheetData.system.GE.value <= 9 && attriList != "") attriList += ", ";
+            if (sheetData.system.GE.value <= 9)  attriList += "Niedrige Gewandheit";
+            if (sheetData.system.KO.value <= 9 && attriList != "") attriList += ", ";
+            if (sheetData.system.KO.value <= 9)  attriList += "Niedrige Konstitution";
+            if (sheetData.system.KK.value <= 9 && attriList != "") attriList += ", ";
+            if (sheetData.system.KK.value <= 9)  attriList += "Niedrige Körperkraft";
+        }
+
+        if (sheetData.system.showViewTalents) {
+            for (const item in sheetData.system.skill) {
+
+                if (item.includes("sign") || item.includes("lang") || item.includes("Talentschub") || item.includes("rit")) continue;
+                    
+                if (sheetData.system.skill[item] > 12 || sheetData.system.skill[item]?.value > 12) {
+                    if (sheetData.system.skill[item] > 15 || sheetData.system.skill[item]?.value > 15) {
+                        if (sheetData.system.skill[item] > 18 || sheetData.system.skill[item]?.value > 18) {
+                            
+                            if (attriList != "") attriList += ", ";
+                            attriList += "Vollendet in " + item;
+                            continue;
+                        }
+
+                        if (attriList != "") attriList += ", ";
+                        attriList += "Brilliant in " + item;
+                        continue;
+                    }
+
+                    if (attriList != "") attriList += ", ";
+                    attriList += "Meisterlich in " + item;
+                    continue;
+                }
+            }
+        }
+
+        let traitList = "";
+
+        for (const item in sheetData.generalTraits) {
+            if (sheetData.generalTraits[item].system.sf.apCost >= 200) {
+                if (sheetData.generalTraits[item].name === "Exculded") continue;
+                if (traitList != "") traitList += ", ";
+                traitList += sheetData.generalTraits[item].name;
+            }
+        }
+
+        for (const item in sheetData.combatTraits) {
+            if (sheetData.combatTraits[item].system.sf.apCost >= 200) {
+                if (sheetData.combatTraits[item].name === "Ausweichen I") continue;
+                if (traitList != "") traitList += ", ";
+                traitList += sheetData.combatTraits[item].name;
+            }
+        }
+
+        if (sheetData.system.showViewMagie) {
+            for (const item in sheetData.magicTraits) {
+                if (sheetData.magicTraits[item].system.sf.apCost >= 200) {
+                    if (sheetData.magicTraits[item].name.includes("Merkmalskenntnis") || sheetData.magicTraits[item].name.includes("Repräsentation") || sheetData.magicTraits[item].name.includes("Ritualkenntnis")) continue;
+                    if (traitList != "") traitList += ", ";
+                    traitList += sheetData.magicTraits[item].name;
+                }
+            }
+        }
+
+        if (sheetData.system.showViewKarma) {
+            for (const item in sheetData.holyTraits) {
+                if (sheetData.holyTraits[item].system.sf.apCost >= 200) {
+                    if (sheetData.holyTraits[item].name.includes("Spätweihe")) continue;
+                    if (traitList != "") traitList += ", ";
+                    traitList += sheetData.holyTraits[item].name;
+                }
+            }
+        }
+
+        let skillgroups = {
+            body: 0,
+            combat: 0,
+            craft: 0,
+            gift: 0,
+            knowledge: 0,
+            lang: 0,
+            nature: 0,
+            sign: 0,
+            social: 0,
+            magic: 0
+        };
+
+        for (const item in sheetData.system.skill) {
+
+            if (sheetData.system.skill[item] === null || sheetData.system.skill[item] === "" || sheetData.system.skill[item]?.value === null) continue;
+            if (item.includes("rit") || item.includes("Talentschub")) continue;
+
+            let skillItem = null;
+            if (item.includes("sign")) {
+
+                skillItem = CONFIG.Templates.talents.sign.filter(function(sitem) {return item.includes(sitem.name)})
+
+            } else if (item.includes("lang")) {
+
+                skillItem = CONFIG.Templates.talents.lang.filter(function(sitem) {return  item.includes(sitem.name)})
+
+            } else if (item === "liturgy") {
+
+                skillItem = CONFIG.Templates.talents.all.filter(function(sitem) {return sitem.name === "Liturgiekenntnis"})
+
+            } else {
+
+                skillItem = CONFIG.Templates.talents.all.filter(function(sitem) {return sitem.name === item})
+            }
+
+            let skilllvlgroup = "a";
+
+            switch (skillItem[0].system.tale.type) {
+                case "combat":
+                case "sign":
+                case "lang":
+                    skilllvlgroup = skillItem[0].system.tale.levelup.toLowerCase();
+                    break;
+                case "body":
+                    skilllvlgroup = "d"
+                    break;
+                case "social":
+                    skilllvlgroup = "b"
+                    break;
+                case "nature":
+                    skilllvlgroup = "b"
+                    break;
+                case "knowledge":
+                    skilllvlgroup = "b"
+                    break;
+                case "craft":
+                    skilllvlgroup = "b"
+                    break;
+                case "gift":
+                    skilllvlgroup = "f"
+                    break;
+                default:
+                    skilllvlgroup = "a"
+                    break;
+            }
+
+            let skillLvl = typeof sheetData.system.skill[item] === "object" ? sheetData.system.skill[item].value : sheetData.system.skill[item];
+
+            const arrayOfExp = Object.values(CONFIG.GDSA.skilling[skilllvlgroup]).slice(0, skillLvl + 1);
+            const sumOfExp = arrayOfExp.reduce((acc, num) => acc + num, 0)
+
+            skillgroups[skillItem[0].system.tale.type] += sumOfExp;
+        }
+
+        for (const item in sheetData.combatTraits)
+            if (sheetData.combatTraits[item].system.sf.apCost > 0)
+                skillgroups.combat += sheetData.combatTraits[item].system.sf.apCost;
+
+        for (const item in sheetData.magicTraits)
+            if (sheetData.magicTraits[item].system.sf.apCost > 0)
+                skillgroups.magic += sheetData.magicTraits[item].system.sf.apCost;
+
+        for (const item in sheetData.holyTraits)
+            if (sheetData.holyTraits[item].system.sf.apCost >= 0)
+                skillgroups.gift += sheetData.holyTraits[item].system.sf.apCost;
+
+        for (const item in sheetData.wonders)
+            if (parseInt(sheetData.wonders[item].system.grad) >= 0)
+                skillgroups.gift += (parseInt(sheetData.wonders[item].system.grad) * 50);
+
+        for (const item in sheetData.rituals)
+            if (sheetData.rituals[item].system.apCost >= 0)
+                skillgroups.magic += sheetData.rituals[item].system.apCost;
+            else if (sheetData.rituals[item].system.grad >= 0)
+                skillgroups.magic += (sheetData.rituals[item].system.grad * 50);
+        
+        for (const item in sheetData.spells) {
+            
+            let skilllvlgroup = sheetData.spells[item].system.komp != "" ? sheetData.spells[item].system.komp.toLowerCase() : "c";
+            let skillLvl = parseInt(sheetData.spells[item].system.zfw);
+
+            const arrayOfExp = Object.values(CONFIG.GDSA.skilling[skilllvlgroup]).slice(0, skillLvl + 1);
+            const sumOfExp = arrayOfExp.reduce((acc, num) => acc + num, 0)
+
+            skillgroups.magic += sumOfExp;
+        }
+
+        let showMagic = sheetData.system.showViewMagie;
+        let showHoly = sheetData.system.showViewKarma;
+
+        if (!showMagic) skillgroups.magic = 0;
+        if (!showHoly) skillgroups.gift = 0;
+
+        let allAPValues = Object.values(skillgroups).reduce((acc, num) => acc + num, 0);
+        let bodyAP = Math.round((skillgroups.body / allAPValues) * 100);
+        let combatAP = Math.round((skillgroups.combat / allAPValues) * 100);
+        let craftAP = Math.round((skillgroups.craft / allAPValues) * 100);
+        let giftAP = Math.round((skillgroups.gift / allAPValues) * 100);
+        let knowledgeAP = Math.round(((skillgroups.knowledge + skillgroups.lang +  skillgroups.sign) / allAPValues) * 100);
+        let natureAP = Math.round((skillgroups. nature / allAPValues) * 100);
+        let socialAP = Math.round((skillgroups.social / allAPValues) * 100);
+        let magAP = Math.round((skillgroups.magic / allAPValues) * 100);
+
+        let allpercent = bodyAP + combatAP + craftAP + giftAP + knowledgeAP + natureAP + socialAP + magAP;
+        bodyAP += 100 - allpercent;
+
+        let pcVal = [
+            combatAP,
+            combatAP + bodyAP,
+            combatAP + bodyAP + socialAP,
+            combatAP + bodyAP + socialAP + natureAP,
+            combatAP + bodyAP + socialAP + natureAP + knowledgeAP,
+            combatAP + bodyAP + socialAP + natureAP + knowledgeAP + craftAP,
+            combatAP + bodyAP + socialAP + natureAP + knowledgeAP + craftAP + magAP,
+            combatAP + bodyAP + socialAP + natureAP + knowledgeAP + craftAP + magAP + giftAP
+        ];
+
+        sheetData.system.skillpiechart = "#a91416 0% " + pcVal[0] + "%, #df871f " + pcVal[0] + "% " + pcVal[1] + "%, #d1d92c " + pcVal[1] + "% " + pcVal[2] + "%," +
+                                        "#1eb71a " + pcVal[2] + "% " + pcVal[3] + "%, #15e5d0 " + pcVal[3] + "% " + pcVal[4] + "%, #ab19bf " + pcVal[4] + "% " + pcVal[5] + "%," +
+                                        "#145ec7 " + pcVal[5] + "% " + pcVal[6] + "%, #ab8a19 " + pcVal[6] + "%";                           
+        sheetData.system.listedAdvantages = advantList;
+        sheetData.system.listedAttributes = attriList;
+        sheetData.system.listedTraits = traitList;
+
         // Sort Lang, Sign, Advantages, Flaws, Spells, general and combat Traits
 
         sheetData.advantages.sort(function(a, b){
@@ -979,15 +1308,15 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
     }
 
     static async openEffectList(event) {
-
-        let tabs = event.srcElement.closest("form").querySelector(".sheet-body");
+        
+        let tabs = this.form.querySelector(".sheet-body");
         let activeTab = tabs.querySelector(".tab.primary.active");
         let destinationTab = tabs.querySelector("#characterEffects");
         
         activeTab.classList.remove("active");
         destinationTab.classList.add("active")
         
-        let nav = event.srcElement.closest("form").querySelector(".sheet-tabs");
+        let nav = this.form.querySelector(".sheet-tabs");
         let activeNav = nav.querySelectorAll(".item.menuMainItem.active");
         let destinationNav = nav.querySelectorAll("#characterEffects");
         

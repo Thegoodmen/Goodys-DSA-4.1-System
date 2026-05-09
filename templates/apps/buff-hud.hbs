@@ -2,8 +2,9 @@
     <div class="buffLine">
         {{#each ownEffects as |effect|}}
             {{#unless effect.disabled}}
-                <span class="buffSpan" data-tooltip="{{effect.name}}{{#if effect.description}} - {{effect.description}}{{/if}}" data-tooltip-direction="LEFT">
-                    <div class="testBuff" style="border-color: {{effect.tint.css}}; background-image: url({{effect.img}}); background-size: contain;">I</div>
+                <span class="buffSpan">
+                    <div class="testBuff" style="border-color: {{effect.tint.css}}; background-image: url({{effect.img}}); background-size: contain;">{{getNumber effect.name}}</div>
+                    <span class='tooltipText4'><div class='tooltipInI'>{{effect.name}}{{#if effect.description}} - {{effect.description}}{{/if}}</div></span>
                 </span>
             {{/unless}}
         {{/each}}
@@ -11,8 +12,9 @@
     <div class="buffLine">
         {{#each selEffects as |effect|}}
             {{#unless effect.disabled}}
-                <span class="buffSpan" data-tooltip="{{effect.name}}{{#if effect.description}} - {{effect.description}}{{/if}}" data-tooltip-direction="LEFT">
+                <span class="buffSpan">
                     <div class="testBuff" style="border-color: {{effect.tint.css}}; background-image: url({{effect.img}}); background-size: contain;">{{getNumber effect.name}}</div>
+                    <span class='tooltipText4'><div class='tooltipInI'>{{effect.name}}{{#if effect.description}} - {{effect.description}}{{/if}}</div></span>
                 </span>
             {{/unless}}
         {{/each}}

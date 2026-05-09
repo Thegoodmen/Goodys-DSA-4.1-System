@@ -1,4 +1,4 @@
-<form class="{{cssClass}}" autocomplete="off">{{doLog this}}
+<form class="{{cssClass}}" autocomplete="off">
     <div class="sheet2">
 
     <header class="sheet-header">
@@ -14,15 +14,14 @@
         </div>
     </header>
 
-        <div class="invFiller3"></div>
+        <div class="invFiller4"></div>
 
 		<section class="sheet-body">
 
             <div class="merchantInfo">
 
                 <div class="merchMenuBox">
-                    {{#if isGM}}<a class="item menuMainItem merchMenu">{{/if}}{{localize "GDSA.itemsheet.description"}}{{#if isGM}}</a>{{/if}}
-                    {{#if isGM}}
+                    {{#if isGM}}<a class="item menuMainItem merchMenu">{{/if}}{{localize "GDSA.itemsheet.description"}}{{#if isGM}}</a>
                         <span class="merchMenuDiv">|</span> 
                         <a class="item menuMainItem merchMenu">{{localize "GDSA.system.settings"}}</a>
                     {{/if}}
@@ -62,7 +61,7 @@
                             {{/if}}
                         </div>
                         {{#each inventar as |item id|}}
-                            <div class="invItem2 {{#if ../isGM}}item-context{{/if}} item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{localize (concat "GDSA.templates." system.itemType "")}}</i>
+                            <div class="invItem2 {{#if ../isGM}}item-context{{/if}} item" data-item-id="{{_id}}">{{name}} <br /> > <i>{{localize (concat "GDSA.templates.item" system.type "")}}</i>
                                 {{#if ../isGM}}
                                     <div class="changeAmount">
                                         <a class="addQuant"><i class="fas fa-plus"></i></a>

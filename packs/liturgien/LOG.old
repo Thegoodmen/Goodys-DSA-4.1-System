@@ -1,5 +1,7 @@
-2025/11/07-22:35:06.613 7a6c Log #429: 0 ops saved to Table #430 OK
-2025/11/07-22:35:06.613 7a6c Archiving C:\FoundryVTT\Data\systems\gdsa\packs\liturgien/000429.log: OK
-2025/11/07-22:35:06.615 7a6c Table #410: 448 entries OK
-2025/11/07-22:35:06.617 7a6c Archiving C:\FoundryVTT\Data\systems\gdsa\packs\liturgien/MANIFEST-000427: OK
-2025/11/07-22:35:06.621 7a6c **** Repaired leveldb C:\FoundryVTT\Data\systems\gdsa\packs\liturgien; recovered 1 files; 135658 bytes. Some data may have been lost. ****
+2026/05/08-15:06:03.989 fe94 Recovering log #476
+2026/05/08-15:06:03.995 fe94 Delete type=0 #476
+2026/05/08-15:06:03.996 fe94 Delete type=3 #474
+2026/05/09-11:05:31.701 119f0 Level-0 table #481: started
+2026/05/09-11:05:31.702 119f0 Level-0 table #481: 0 bytes OK
+2026/05/09-11:05:31.704 119f0 Delete type=0 #479
+2026/05/09-11:05:31.708 119f0 Manual compaction at level-0 from '!items!048Z7NHzxMDrbavS' @ 72057594037927935 : 1 .. '!items!zumbrZmlHLQBYB8J' @ 0 : 0; will stop at (end)

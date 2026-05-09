@@ -1043,6 +1043,7 @@
   width: 355px;
   margin: 3px 0px;
   background-color: #000000b0;
+  overflow: visible;
 }
 .GDSA.sheet.characterSheet .combatTableBox1 {
   width: 336px;
@@ -1358,6 +1359,7 @@
   border-left-style: groove;
   margin-left: 16px;
   scrollbar-width: none;
+  border-color: #e7d1b199;
 }
 .GDSA.sheet.characterSheet .inventory4 {
   width: calc(100% - 50px);
@@ -1404,11 +1406,12 @@
 .GDSA.sheet.characterSheet .invHeader2 {
   height: 30px;
   width: 410px;
-  border: 1px solid black;
+  border: 0px solid #d5c1a4;
+  border-radius: 8px 8px 0px 0px;
   border-bottom-width: 2px;
   position: relative;
   font-size: 16px;
-  padding-top: 4px;
+  padding-top: 5px;
   padding-left: 16px;
   background-color: rgba(0, 0, 0, 0.07);
 }
@@ -1462,13 +1465,12 @@
   border-left-width: 2px;
   padding-left: 75px;
   height: 41px;
-  padding-top: 1px;
+  padding-top: 6px;
   width: 545px;
   position: relative;
   margin-left: 20px;
   text-overflow: ellipsis;
   text-wrap-mode: nowrap;
-  overflow: hidden;
   padding-right: 15px;
 }
 .GDSA.sheet.characterSheet .invDivider {
@@ -1507,6 +1509,7 @@
   position: absolute;
   top: 4px;
   left: 4px;
+  margin-top: 5px;
 }
 .GDSA.sheet.characterSheet .itemImgBox2 {
   width: 30px;
@@ -1517,31 +1520,34 @@
 }
 .GDSA.sheet.characterSheet .itemAmountBox {
   height: 18px;
-  width: 25px;
+  width: 19px;
   position: absolute;
-  left: 10px;
-  top: 8px;
+  left: 16px;
+  top: 5px;
   text-align: center;
   padding-top: 3px;
   color: #edd4b9;
   font-size: 14px;
+  margin-top: 5px;
 }
 .GDSA.sheet.characterSheet .changeAmount {
   position: absolute;
-  top: 10px;
-  left: 1px;
-  font-size: 9px;
+  top: 11px;
+  left: 3px;
+  font-size: 8px;
   width: 6px;
 }
 .GDSA.sheet.characterSheet .itemAmount {
   position: absolute;
   left: 0px;
   top: -2px;
-  height: 26px;
+  height: 22px;
   border-radius: 7px;
   background-color: #1e161e;
   padding: 0px 1px;
   text-align: center;
+  border: 1px #d5c1a4 solid;
+  font-size: 12px;
 }
 .GDSA.sheet.characterSheet .itemImg {
   width: 30px;
@@ -1552,7 +1558,8 @@
 }
 .GDSA.sheet.characterSheet .invtableborder2 {
   width: 410px;
-  border: 1px solid black;
+  border: 1px solid #d5c1a4;
+  border-radius: 8px;
 }
 .GDSA.sheet.characterSheet .invtableborder3 {
   width: 580px;
@@ -1572,8 +1579,8 @@
   width: 20px;
   height: 20px;
   position: absolute;
-  top: 2px;
-  left: 375px;
+  top: 3px;
+  left: 371px;
 }
 .GDSA.sheet.characterSheet .addItemBox3 {
   width: 160px;
@@ -1637,7 +1644,7 @@
 }
 .GDSA.sheet.characterSheet .merchantDisc {
   width: 175px;
-  height: 415px;
+  height: 395px;
   resize: none;
 }
 .GDSA.sheet.characterSheet .affiliate {
@@ -1650,10 +1657,14 @@
 }
 .GDSA.sheet.characterSheet .classification {
   height: 40px;
-  width: 175px;
+  width: 144px;
   margin-top: 10px;
-  border: 1px solid black;
-  padding: 3px 6px;
+  margin-left: 17px;
+  padding: 4px 6px;
+  color: #e8dfd1;
+  font-size: 12px;
+  border: 2px solid #e5cfaf;
+  border-radius: 7px;
 }
 .GDSA.sheet.characterSheet .classificationSelection {
   width: 89px;
@@ -1663,6 +1674,7 @@
 .GDSA.sheet.characterSheet .affiliateBar {
   margin-top: 3px;
   float: left;
+  height: 23px;
   border-radius: 15px;
   border: 2px solid;
   border-color: #00000082;
@@ -1692,7 +1704,7 @@
 .GDSA.sheet.characterSheet .merchRoll {
   font-size: 12px;
   position: absolute;
-  left: 126px;
+  left: 145px;
   margin-top: 1px;
 }
 .GDSA.sheet.characterSheet .holyTraitBox {
@@ -1943,20 +1955,12 @@
   height: 14px;
   margin: auto;
   padding-left: 10px;
-}
-.GDSA.sheet.characterSheet .charBanner {
-  width: 232px;
-  height: 750px;
-  background-image: url(assets/ui/banner.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position-x: -30px;
+  margin-bottom: 6px;
 }
 .GDSA.sheet.characterSheet .charBannerBox {
   float: left;
-  width: 210px;
-  height: 600px;
-  overflow: hidden;
+  width: 100%;
+  height: 590px;
 }
 .GDSA.sheet.characterSheet .nameBox {
   float: left;
@@ -1969,7 +1973,7 @@
 }
 .GDSA.sheet.characterSheet .intercepter {
   float: left;
-  width: 390px;
+  width: 620px;
   height: 3px;
 }
 .GDSA.sheet.characterSheet .charsheet {
@@ -1994,9 +1998,12 @@
   margin-bottom: 12px;
 }
 .GDSA.sheet.characterSheet .charNotes {
+  float: left;
+  width: 100%;
   height: 170px;
-  margin-top: 5px;
   resize: none;
+  border: 2px solid #e9d2b4;
+  border-radius: 10px;
 }
 .GDSA.sheet.characterSheet .bannerTopic {
   float: left;
@@ -2012,7 +2019,7 @@
 }
 .GDSA.sheet.characterSheet .affilBar {
   float: left;
-  margin-left: 20px;
+  margin-left: 0px;
   border-radius: 15px;
   border: 2px solid;
   border-color: #00000082;
@@ -2020,27 +2027,28 @@
   color: white;
 }
 .GDSA.sheet.characterSheet .affilImg {
-  width: 23px;
-  height: 23px;
+  width: 18px;
+  height: 18px;
   float: left;
-  border-radius: 12px;
+  border-radius: 9px;
   overflow: hidden;
 }
 .GDSA.sheet.characterSheet .affilName {
-  height: 24px;
-  width: 120px;
+  height: 19px;
+  min-width: 60px;
   float: left;
   padding: 1px;
   padding-left: 5px;
   padding-top: 2px;
+  padding-right: 7px;
+  font-size: 12px;
 }
 .GDSA.sheet.characterSheet .charBackBotton {
-  height: 20px;
-  width: 20px;
+  height: 35px;
+  width: 190px;
+  padding-top: 3px;
+  padding-left: 80px;
   font-size: 28px;
-  position: absolute;
-  top: 45px;
-  left: 95px;
 }
 .GDSA.sheet.characterSheet .rowAdvan {
   position: relative;
@@ -2214,6 +2222,346 @@
   font-size: 10px;
   font-family: 'Signika';
 }
+.GDSA.sheet.characterSheet .context-items {
+  background: #302a31;
+  z-index: 100;
+  position: relative;
+  border-radius: 12px;
+  border: 2px solid;
+  overflow: hidden;
+  margin-right: 30px;
+}
+.GDSA.sheet.characterSheet .tooltipTrigger {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+.GDSA.sheet.characterSheet .tooltipText {
+  position: absolute;
+  visibility: hidden;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  width: 275px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  opacity: 0;
+  margin-left: -137px;
+  margin-top: 4px;
+  border-radius: 6px;
+  padding: 7px 0;
+  transition: opacity 2s;
+  border: 1px solid #ebd3b7;
+  font-size: 12px;
+}
+.GDSA.sheet.characterSheet .tooltipText2 {
+  position: absolute;
+  visibility: hidden;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  width: 310px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  opacity: 0;
+  margin-left: -155px;
+  margin-top: 4px;
+  border-radius: 6px;
+  padding: 7px 0;
+  transition: opacity 2s;
+  border: 1px solid #ebd3b7;
+  font-size: 12px;
+}
+.GDSA.sheet.characterSheet .tooltipText3 {
+  position: absolute;
+  visibility: hidden;
+  z-index: 1;
+  top: 100%;
+  left: 0%;
+  width: 310px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  opacity: 0;
+  margin-left: -315px;
+  margin-top: -26px;
+  border-radius: 6px;
+  padding: 7px 0;
+  transition: opacity 2s;
+  border: 1px solid #ebd3b7;
+  font-size: 12px;
+}
+.GDSA.sheet.characterSheet .tooltipTextEffekt {
+  position: absolute;
+  visibility: hidden;
+  z-index: 500;
+  top: 100%;
+  left: 50%;
+  width: 70px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  opacity: 0;
+  font-size: 10px;
+  line-height: 16px;
+  margin-left: -35px;
+  margin-top: -19px;
+  border-radius: 6px;
+  padding: 2px 0;
+  transition: opacity 2s;
+  border: 1px solid #ebd3b7;
+}
+.GDSA.sheet.characterSheet .tooltipTrigger:hover .tooltipText {
+  visibility: visible;
+  opacity: 1;
+}
+.GDSA.sheet.characterSheet .tooltipTrigger:hover .tooltipText2 {
+  visibility: visible;
+  opacity: 1;
+}
+.GDSA.sheet.characterSheet .tooltipTrigger:hover .tooltipText3 {
+  visibility: visible;
+  opacity: 1;
+}
+.GDSA.sheet.characterSheet .tooltipTrigger:hover .tooltipTextEffekt {
+  visibility: visible;
+  opacity: 1;
+}
+.GDSA.sheet.characterSheet .tooltipText::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+.GDSA.sheet.characterSheet .tooltipText2::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+.GDSA.sheet.characterSheet .tooltipText3::after {
+  content: " ";
+  position: absolute;
+  bottom: 30%;
+  left: 100%;
+  margin-left: 0px;
+  margin-top: 0px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent black;
+}
+.GDSA.sheet.characterSheet .tooltipTextEffekt::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+.GDSA.sheet.characterSheet .merchantHead {
+  float: left;
+  height: 75px;
+  width: 100%;
+}
+.GDSA.sheet.characterSheet .invFiller4 {
+  float: left;
+  width: 100%;
+  height: 3px;
+  border-top-width: 2px;
+  margin-top: 2px;
+  margin-bottom: 8px;
+  background-image: linear-gradient(90deg, transparent 0%, #e7d1b1 50%, transparent 100%);
+}
+.GDSA.sheet.characterSheet .charViewCol1 {
+  float: left;
+  height: 415px;
+  width: 190px;
+}
+.GDSA.sheet.characterSheet .charViewCol2 {
+  float: left;
+  height: 415px;
+  width: calc(100% - 190px);
+}
+.GDSA.sheet.characterSheet .charViewDiagramm {
+  height: 145px;
+  width: 190px;
+}
+.GDSA.sheet.characterSheet .charViewQuote {
+  float: left;
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 70px;
+  border: 2px solid #e9d2b4;
+  border-radius: 10px;
+  margin: 0px 0px 5px 0px;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 10px 10px 10px;
+}
+.GDSA.sheet.characterSheet .quotelbl {
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  font-size: 12px;
+  font-style: italic;
+}
+.GDSA.sheet.characterSheet .charViewFactionBox {
+  float: left;
+  width: 100%;
+  height: 110px;
+}
+.GDSA.sheet.characterSheet .charViewFractionHolder {
+  float: left;
+  width: 200px;
+  height: 85%;
+  border: 2px solid #e9d2b4;
+  border-radius: 10px;
+  padding: 5px;
+}
+.GDSA.sheet.characterSheet .charViewFractionDivider {
+  float: left;
+  width: 10px;
+  height: 100%;
+}
+.GDSA.sheet.characterSheet .charViewName {
+  float: left;
+  width: 430px;
+  height: 35px;
+  font-size: 25px;
+  padding-left: 5px;
+  overflow: hidden;
+  border: 2px solid #e9d2b4;
+  border-radius: 8px;
+}
+.GDSA.sheet.characterSheet .charViewPie {
+  float: left;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  background: conic-gradient(deepskyblue 0% 25%, orangered 25% 85%, darkgreen 85%);
+  border: 2px solid #e9d2b4;
+  margin-left: 45px;
+  margin-top: 7px;
+  margin-bottom: 12px;
+}
+.GDSA.sheet.characterSheet .charViewPieDesc {
+  float: left;
+  height: 40px;
+  width: 190px;
+  padding: 0px 18px;
+  align-items: center;
+  text-align: center;
+  line-height: 10px;
+}
+.GDSA.sheet.characterSheet .charViewDescCol {
+  display: inline-block;
+  height: 8px;
+  width: 16px;
+  border-radius: 4px;
+  margin-top: 2px;
+  border: 1px solid #e9d2b4;
+  background-color: goldenrod;
+}
+.GDSA.sheet.characterSheet .charViewDescLbl {
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 10px;
+  line-height: 10px;
+}
+.GDSA.sheet.characterSheet .img2 {
+  max-height: 200px;
+  max-width: 177px;
+  vertical-align: middle;
+  border: 2px solid #e9d2b4;
+  border-radius: 12px;
+  object-fit: fill;
+  margin: auto;
+}
+.GDSA.sheet.characterSheet .charInfoFacts {
+  float: left;
+  width: 430px;
+  height: 88%;
+  border: 2px solid #e9d2b4;
+  border-radius: 8px;
+  margin-top: 9px;
+  padding: 10px;
+  overflow: auto;
+}
+.GDSA.sheet.characterSheet .charInfoLbl {
+  float: left;
+  width: 225px;
+  font-size: 12px;
+}
+.GDSA.sheet.characterSheet .charInfoValue {
+  float: left;
+  width: 170px;
+  color: white;
+  overflow: hidden;
+  font-size: 12px;
+  text-wrap-mode: nowrap;
+}
+.GDSA.sheet.characterSheet .charInfoMainLbl {
+  float: left;
+  width: 100%;
+  margin-top: 5px;
+}
+.GDSA.sheet.characterSheet .charInfoMainBox {
+  float: left;
+  width: 100%;
+  min-height: 25px;
+  font-size: 12px;
+  padding-left: 5px;
+}
+.GDSA.sheet.characterSheet .charViewGMModi {
+  width: 465px;
+}
+.GDSA.sheet.characterSheet .charViewGMOptions {
+  float: left;
+  width: 150px;
+  height: 170px;
+  border: 2px solid #e9d2b4;
+  border-radius: 8px;
+  margin-right: 5px;
+  font-size: 11px;
+}
+.GDSA.sheet.characterSheet .charViewOptionsLbl {
+  float: left;
+  font-size: 14px;
+  margin-left: 38px;
+  margin-right: 20px;
+  padding-top: 10px;
+  margin-bottom: 2px;
+}
+.GDSA.sheet.characterSheet .charViewOptionsCB {
+  transform: scale(0.7);
+  vertical-align: middle;
+}
+.GDSA.sheet.characterSheet .charViewOptionsText {
+  height: 20px;
+  width: 135px;
+  margin: 0px 5px;
+}
+.GDSA.sheet.characterSheet .affilBar > nav#context-menu {
+  position: relative;
+  display: flow-root;
+}
+.GDSA.sheet.characterSheet .affilBar > nav#context-menu > .context-items {
+  margin: 0px;
+}
 .mediOpt {
   height: 25px;
   max-width: 180px;
@@ -2228,12 +2576,7 @@
   width: 205px;
 }
 .tooltipInI {
-  height: 23px;
-  width: 350px;
-  background-color: #fefff3;
-  color: black;
-  padding-top: 2px;
-  padding-left: 5px;
+  height: 15px;
   font-family: 'MasonSerifBold';
 }
 .tooltipCMB {
@@ -2262,7 +2605,8 @@
   border-width: 1px;
   text-align: center;
   padding: 0px;
-  background-color: #f1e7ca;
+  background-color: #FFF;
+  color: #000;
 }
 #tooltip,
 .locked-tooltip {
@@ -2515,10 +2859,13 @@
 }
 .GDSA.sheet.npcSheet .traitName {
   height: 20px;
-  width: 225px;
+  width: 220px;
   float: left;
   font-size: 14px;
   margin-left: 20px;
+  text-wrap-mode: nowrap;
+  overflow: hidden;
+  margin-right: 5px;
 }
 .GDSA.sheet.npcSheet .combatline {
   height: 20px;
@@ -4091,8 +4438,12 @@
   overflow-x: hidden;
 }
 .messOptionBar {
-  width: 110px;
   flex: none;
+  width: 140px;
+  overflow-x: hidden;
+}
+.whisperMSG.chat-message.message {
+  background-color: #413e57e6 !important;
 }
 .infoBox1 {
   background-color: rgba(215, 215, 215, 0.86);
@@ -4108,13 +4459,6 @@
   display: block;
   text-align: center;
   font-weight: bold;
-}
-.prosemirror {
-  height: 280px;
-  --color-control-bg: #d9d8c8;
-  --color-hover-bg: #f0f0e0;
-  --menu-height: 26px;
-  --menu-background: rgba(0, 0, 0, 0.1);
 }
 .dialog-content.standard-form {
   gap: 5px;
@@ -4164,16 +4508,17 @@
 }
 .GDSA.chat.message.skill .chathrBold {
   width: 100%;
-  margin-left: 7px;
   margin-top: 0px;
   margin-bottom: 2px;
+  background-image: linear-gradient(90deg, transparent 0%, #e7d1b1 50%, transparent 100%);
+  border: 0;
 }
 .GDSA.chat.message.skill .chathr {
   width: 100%;
-  margin-left: 7px;
   margin-top: 0px;
   margin-bottom: 2px;
   background-image: linear-gradient(90deg, transparent 0%, #e7d1b161 50%, transparent 100%);
+  border: 0;
 }
 .GDSA.chat.message.skill .infoMainBox {
   float: left;
@@ -4454,13 +4799,21 @@
   height: 490px;
   width: 440px;
 }
-.chat-message.message:has(.GDSA.chat.message.skill) {
+.chat-message.message {
   background-color: #0b0a13e6 !important;
   border: 2px solid #353535;
   border-radius: 14px;
   background: none;
   padding: 0px;
   overflow: hidden;
+}
+.chat-message.message:has(.GDSA.chat.message.skill) .message-content {
+  color: #e0caab;
+  padding: 0px !important;
+}
+.message-content {
+  color: #e0caab;
+  padding: 5px 12px 5px 12px;
 }
 .message-header {
   background-color: #7d7d7d6b;
@@ -4595,23 +4948,26 @@
 }
 .buff-hud {
   position: fixed;
-  left: 105px;
-  top: 60px;
+  right: 365px;
+  bottom: 105px;
   padding: 0px;
-  min-height: 180px;
+  min-height: 160px;
   max-width: 260px;
-  overflow: hidden;
   background: none;
   border: none;
   box-shadow: none;
 }
 .buffSpan {
   float: right;
+  position: relative;
+  display: block;
+  pointer-events: all;
+  margin: 1px;
 }
 .buffLine {
   float: right;
   width: 260px;
-  height: 135px;
+  height: 80px;
   display: block;
 }
 .testBuff {
@@ -4629,10 +4985,51 @@
   padding-right: 4px;
   -webkit-text-stroke: 1px black;
 }
+.tooltipText4 {
+  position: absolute;
+  visibility: hidden;
+  z-index: 200;
+  top: 100%;
+  left: 0%;
+  width: 115px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  opacity: 0;
+  margin-left: -37px;
+  margin-top: 3px;
+  border-radius: 6px;
+  padding: 2px 6px;
+  transition: opacity 2s;
+  border: 1px solid #ebd3b7;
+  font-size: 12px;
+  text-wrap-mode: nowrap;
+  overflow: hidden;
+}
+.buffSpan:hover .tooltipText4 {
+  visibility: visible;
+  opacity: 1;
+}
+.tooltipText4::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
 .GDSA.buffHUD {
   position: fixed;
   transform: none !important;
   pointer-events: none;
+}
+#context-menu {
+  z-index: 100;
+  display: contents;
+  color: #e0caab;
+  background: #302a31;
 }
 .GDSA.heldenimporter .window-content {
   padding: 8px;

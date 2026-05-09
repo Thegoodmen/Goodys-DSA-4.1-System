@@ -2,45 +2,106 @@
     <div class="charsheet">
 
         <div class="charBannerBox">
-            <div class="charBanner">
-                <div class="charImgBanner">
-                    <span class="imgHelper"></span>
-                    <img class="img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+
+                <div class="charViewCol1">
+                    <div class="charViewImg">
+                        <img class="img2" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+                    </div>
+
+                    {{#if editable}}
+                        <div class="charBackBotton"><a class="changeTab" data-destination="mainPage" data-origin="characterView"><i class="fa-solid fa-arrow-left-long"></i></a></div>
+                    {{/if}}
+
+                    <div class="charViewDiagramm">
+                        <div class="charViewPie" style="background: conic-gradient({{system.skillpiechart}});">
+                        </div>
+                        <div class="charViewPieDesc">
+                            <div class="charViewDescCol" style="background-color: #a91416;"></div><span class="charViewDescLbl">{{localize "GDSA.charactersheet.combatSkills"}}</span>
+                            <div class="charViewDescCol" style="background-color: #df871f;"></div><span class="charViewDescLbl">{{localize "GDSA.charactersheet.bodySkills"}}</span>
+                            <div class="charViewDescCol" style="background-color: #d1d92c;"></div><span class="charViewDescLbl">{{localize "GDSA.charactersheet.socialSkills"}}</span>
+                            <div class="charViewDescCol" style="background-color: #1eb71a;"></div><span class="charViewDescLbl">{{localize "GDSA.charactersheet.natureSkills"}}</span>
+                            <div class="charViewDescCol" style="background-color: #15e5d0;"></div><span class="charViewDescLbl">{{localize "GDSA.charactersheet.knowledgeSkills"}}</span>
+                            <div class="charViewDescCol" style="background-color: #ab19bf;"></div><span class="charViewDescLbl">{{localize "GDSA.charactersheet.craftSkils"}}</span>
+                            {{#if system.showViewMagie}}<div class="charViewDescCol" style="background-color: #145ec7;"></div><span class="charViewDescLbl">{{localize "GDSA.charactersheet.magicSkill"}}</span>{{/if}}
+                            {{#if system.showViewKarma}}<div class="charViewDescCol" style="background-color: #ab8a19;"></div><span class="charViewDescLbl">{{localize "GDSA.charactersheet.holySkill"}}</span>{{/if}}
+                        </div>
+                    </div>
                 </div>
-                <div class="bannerTopic">Fraktion:</div>
-                {{#each affilPart as |item id|}}
-                    <div class="affilBar {{#if ../isGM}}item-context{{/if}}" data-item-id="{{_id}}" style="color: {{system.affi.fontColo}}; background-color: {{system.affi.backgroundColor}}">
-                        <div class="affilImg"><img class="affiIMG" src="{{item.img}}" title="{{item.name}}" /></div>
-                        <div class="affilName">{{name}}</div>
+
+                <div class="charViewCol2">
+
+                    <div class="charViewName">{{actor.name}}</div>
+
+                    <div class="charInfoFacts">
+                        <span class="charInfoLbl">{{localize "GDSA.charactersheet.race"}}:</span><span class="charInfoValue">{{system.race}}</span>
+                        <span class="charInfoLbl">{{localize "GDSA.charactersheet.culture"}}:</span><span class="charInfoValue">{{system.kulture}}</span>
+                        <span class="charInfoLbl">{{localize "GDSA.charactersheet.gender"}}:</span><span class="charInfoValue">{{system.gender}}</span>
+                        <span class="charInfoLbl">{{localize "GDSA.charactersheet.height"}}:</span><span class="charInfoValue">{{system.height}} cm</span>
+                        <span class="charInfoLbl">{{localize "GDSA.charactersheet.weight"}}:</span><span class="charInfoValue">{{system.weight}} kg</span>
+                        <span class="charInfoLbl">{{localize "GDSA.charactersheet.eyes"}}:</span><span class="charInfoValue">{{system.eyes}}</span>
+                        <span class="charInfoLbl">{{localize "GDSA.charactersheet.hair"}}:</span><span class="charInfoValue">{{system.hair}}</span>
+                        <span class="charInfoLbl">{{localize "GDSA.charactersheet.age"}}:</span><span class="charInfoValue">{{system.age}}</span>
+                        <span class="charInfoLbl">{{localize "GDSA.charactersheet.so"}}:</span><span class="charInfoValue">{{system.SO}}</span>
+
+                        <span class="charInfoMainLbl">{{localize "GDSA.charactersheet.importAdvantage"}}:</span>
+                        <div class="charInfoMainBox">{{system.listedAdvantages}}</div>
+                        <span class="charInfoMainLbl">{{localize "GDSA.charactersheet.importSkill"}}:</span>
+                        <div class="charInfoMainBox">{{system.listedAttributes}}</div>
+                        <span class="charInfoMainLbl">{{localize "GDSA.charactersheet.importTrait"}}:</span>
+                        <div class="charInfoMainBox">{{system.listedTraits}}</div>
                     </div>
-                {{/each}}
-                <hr class="bannerline">
-                <div class="bannerTopic">Verbündet:</div>
-                {{#each affilPosi as |item id|}}
-                    <div class="affilBar {{#if ../isGM}}item-context{{/if}}" data-item-id="{{_id}}" style="color: {{system.affi.fontColo}}; background-color: {{system.affi.backgroundColor}}">
-                        <div class="affilImg"><img class="affiIMG" src="{{item.img}}" title="{{item.name}}" /></div>
-                        <div class="affilName">{{name}}</div>
+
+                </div>
+
+                <div class="charViewQuote">
+                    <div class="quotelbl">{{localize "GDSA.charactersheet.quote"}}</div>
+                    „{{system.viewQuote}}“
+                </div>
+
+
+                <div class="charViewFactionBox">
+                    <div class="charViewFractionHolder" data-target="part">
+                        <div class="bannerTopic">{{localize "GDSA.charactersheet.affFraction"}}:</div>
+                        {{#each affilPart as |item id|}}
+                            <div class="affilBar {{#if ../isGM}}item-context{{/if}}" data-item-id="{{_id}}" style="color: {{system.affi.fontColo}}; background-color: {{system.affi.backgroundColor}}">
+                                <div class="affilImg"><img class="affiIMG" src="{{item.img}}" title="{{item.name}}" /></div>
+                                <div class="affilName">{{name}}</div>
+                            </div>
+                        {{/each}}
                     </div>
-                {{/each}}
-                <hr class="bannerline">
-                <div class="bannerTopic">Verfeindet:</div>
-                {{#each affilNega as |item id|}}
-                    <div class="affilBar {{#if ../isGM}}item-context{{/if}}" data-item-id="{{_id}}" style="color: {{system.affi.fontColo}}; background-color: {{system.affi.backgroundColor}}">
-                        <div class="affilImg"><img class="affiIMG" src="{{item.img}}" title="{{item.name}}" /></div>
-                        <div class="affilName">{{name}}</div>
+                    <div class="charViewFractionDivider"></div>
+                    <div class="charViewFractionHolder" data-target="posi">
+                        <div class="bannerTopic">{{localize "GDSA.charactersheet.affAllied"}}:</div>
+                        {{#each affilPosi as |item id|}}
+                            <div class="affilBar {{#if ../isGM}}item-context{{/if}}" data-item-id="{{_id}}" style="color: {{system.affi.fontColo}}; background-color: {{system.affi.backgroundColor}}">
+                                <div class="affilImg"><img class="affiIMG" src="{{item.img}}" title="{{item.name}}" /></div>
+                                <div class="affilName">{{name}}</div>
+                            </div>
+                        {{/each}}
                     </div>
-                {{/each}}
-                <hr class="bannerline">
-	   	    </div>
-            {{#if editable}}
-                <div class="charBackBotton"><a class="changeTab" data-destination="mainPage" data-origin="characterView"><i class="fa-solid fa-arrow-left-long"></i></a></div>
-            {{/if}}
+                    <div class="charViewFractionDivider"></div>
+                    <div class="charViewFractionHolder" data-target="nega">
+                        <div class="bannerTopic">{{localize "GDSA.charactersheet.affEnemyed"}}:</div>
+                        {{#each affilNega as |item id|}}
+                            <div class="affilBar {{#if ../isGM}}item-context{{/if}}" data-item-id="{{_id}}" style="color: {{system.affi.fontColo}}; background-color: {{system.affi.backgroundColor}}">
+                                <div class="affilImg"><img class="affiIMG" src="{{item.img}}" title="{{item.name}}" /></div>
+                                <div class="affilName">{{name}}</div>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
         </div>
 
-        <div class="nameBox">{{actor.name}}</div>
-
-        <hr class="intercepter">
-
-        <textarea class="charNotes" name="system.notes">{{system.notes}}</textarea>
+        {{#if owner}}
+            <div class="charViewGMOptions">
+                <span class="charViewOptionsLbl">Optionen</span><br />
+                <input class="charViewOptionsCB" type="checkbox" name="system.showViewAttributes" {{checked system.showViewAttributes}} /> Zeige Eigenschaften<br />
+                <input class="charViewOptionsCB" type="checkbox" name="system.showViewTalents" {{checked system.showViewTalents}} /> Zeige Talente<br />
+                <input class="charViewOptionsCB" type="checkbox" name="system.showViewMagie" {{checked system.showViewMagie}} /> Zeige Magie<br />
+                <input class="charViewOptionsCB" type="checkbox" name="system.showViewKarma" {{checked system.showViewKarma}} /> Zeige Karmal<br />
+                <input class="charViewOptionsText" type="text" placeholder="Charakter Zitat" name="system.viewQuote" value="{{system.viewQuote}}"/>
+            </div>   
+        {{/if}}
+        <textarea class="charNotes {{#if owner}}charViewGMModi{{/if}}" name="system.notes">{{system.notes}}</textarea>
     </div>
 </div>

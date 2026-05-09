@@ -1,5 +1,14 @@
-2025/11/07-22:35:06.632 7a6c Log #453: 0 ops saved to Table #456 OK
-2025/11/07-22:35:06.632 7a6c Archiving C:\FoundryVTT\Data\systems\gdsa\packs\templates/000453.log: OK
-2025/11/07-22:35:06.633 7a6c Table #455: 1269 entries OK
-2025/11/07-22:35:06.637 7a6c Archiving C:\FoundryVTT\Data\systems\gdsa\packs\templates/MANIFEST-000451: OK
-2025/11/07-22:35:06.640 7a6c **** Repaired leveldb C:\FoundryVTT\Data\systems\gdsa\packs\templates; recovered 1 files; 658101 bytes. Some data may have been lost. ****
+2026/05/08-15:06:03.998 ecb4 Recovering log #504
+2026/05/08-15:06:04.007 ecb4 Delete type=0 #504
+2026/05/08-15:06:04.007 ecb4 Delete type=3 #502
+2026/05/09-11:05:31.718 119f0 Level-0 table #509: started
+2026/05/09-11:05:31.724 119f0 Level-0 table #509: 2150 bytes OK
+2026/05/09-11:05:31.727 119f0 Delete type=0 #507
+2026/05/09-11:05:31.727 119f0 Manual compaction at level-0 from '!items!06aMB39mcK5uHm76' @ 72057594037927935 : 1 .. '!items.effects!ffHaSbRSAxAX55pe.y1khO9u3W91NFjPH' @ 0 : 0; will stop at '!items.effects!ffHaSbRSAxAX55pe.XyvHvj7yiZFzAF3A' @ 37426 : 1
+2026/05/09-11:05:31.727 119f0 Compacting 1@0 + 1@1 files
+2026/05/09-11:05:31.736 119f0 Generated table #510@0: 1268 keys, 657496 bytes
+2026/05/09-11:05:31.737 119f0 Compacted 1@0 + 1@1 files => 657496 bytes
+2026/05/09-11:05:31.738 119f0 compacted to: files[ 0 1 0 0 0 0 0 ]
+2026/05/09-11:05:31.738 119f0 Delete type=2 #479
+2026/05/09-11:05:31.738 119f0 Delete type=2 #509
+2026/05/09-11:05:31.752 119f0 Manual compaction at level-0 from '!items.effects!ffHaSbRSAxAX55pe.XyvHvj7yiZFzAF3A' @ 37426 : 1 .. '!items.effects!ffHaSbRSAxAX55pe.y1khO9u3W91NFjPH' @ 0 : 0; will stop at (end)

@@ -315,3 +315,15 @@ export function getRepFromHeldentool(value) {
             return "none";
     }
 }
+
+export function saveToFile(data) {
+    
+    try {
+
+        foundry.utils.saveDataToFile( JSON.stringify(data, null, 2) , "application/json", "rulesetExport.json"); 
+    
+    } catch (err) {
+        
+        console.error("GDSA | Error trying to write to File: ", err);
+    }
+}

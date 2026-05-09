@@ -15,8 +15,8 @@ import GMScreen from "./module/apps/gmScreen.js";
 import HeldenImporter from "./module/apps/heldenImport.js";
 import * as Template from "./module/apps/templates.js";
 import * as Dice from "./module/dice.js";
-import * as Dialog from "./module/dialog.js";
 import BuffHud from "./module/apps/buff-hud.js";
+import * as aaBridge from "./module/apps/aaBridge.js";
 
 Hooks.once("init", async () => {
 
@@ -67,15 +67,21 @@ Hooks.once("ready", async () => {
 
     CONFIG.INIT = false;
     CONFIG.Templates = await Template.templateData();
-
+    
     Hooks.on("hotbarDrop", (bar, data, slot) => createGDSAMacro(data, slot));
-
+    
     game.gdsa.buffHud = new BuffHud();
-
-    if(game.i18n.lang != "de") Dialog.getLangConfirmation();
-
+    
+    if (game.modules.get("autoanimations")?.active) registerAnimationHooks();
+    
     if(!game.user.isGM) return;
 
+    if (game.modules.get("autoanimations")?.active) {
+
+        const newSettings = await aaBridge.generateAutorecUpdate();
+        AutomatedAnimations.AutorecManager.overwriteMenus( JSON.stringify(newSettings), { submitAll: true });
+    }
+    
     const currentVersion = game.settings.get("gdsa", "systemMigrationVersion");
     const NEEDS_MIGRATION_VERSION = "1.0.0";
 
@@ -133,6 +139,7 @@ Hooks.on("controlToken", (token, isSelected) => {
 
     let selEffects = false;
     if(isSelected) selEffects = token;
+    if (!game.gdsa.buffHud) return;
 
     game.gdsa.buffHud.setSelectedEffects(selEffects);
     game.gdsa.buffHud.render();
@@ -155,10 +162,76 @@ function registerSystemSettings() {
         scope: "world",
         type: String, 
         default: ""
-    })
+    });
+
+    game.settings.register("gdsa", "enableAttackAnimations", {
+        name: game.i18n?.localize("GDSA.animationIntegration.enableAttacks.name") ?? "Enable Attack Animations",
+        hint: game.i18n?.localize("GDSA.animationIntegration.enableAttacks.hint") ?? "Play animations when attack rolls are made.",
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: true
+    });
+
+    game.settings.register("gdsa", "enableSpellAnimations", {
+        name: game.i18n?.localize("GDSA.animationIntegration.enableSpells.name") ?? "Enable Spell Animations",
+        hint: game.i18n?.localize("GDSA.animationIntegration.enableSpells.hint") ?? "Play animations when spells are cast.",
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: true
+    });
+
+    game.settings.register("gdsa", "enableWonderAnimations", {
+        name: game.i18n?.localize("GDSA.animationIntegration.enableWonders.name") ?? "Enable Liturgy/Wonder Animations",
+        hint: game.i18n?.localize("GDSA.animationIntegration.enableWonders.hint") ?? "Play animations when liturgies or wonders are invoked.",
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: true
+    });
+
+    game.settings.register("gdsa", "animationDebug", {
+        name: game.i18n?.localize("GDSA.animationIntegration.debug.name") ?? "Debug Mode for Animation Bridge",
+        hint: game.i18n?.localize("GDSA.animationIntegration.debug.hint") ?? "Log detailed debug information to the browser console.",
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: false
+    });
 }
 
-function adjustRessource(target, value, type) { target.setStatData(type, value) };
+function registerAnimationHooks() {
+
+     // Register the main chat message hook
+    Hooks.on("gdsa.rollEvent", async (type, actor, item, target, tokenActor, tokenTarget, optional) => {
+        
+        try {
+
+            if (type === "melee" || type === "range" || type === "dogde") 
+                if(!game.settings.get("gdsa", "enableAttackAnimations")) return;
+            if (type === "holy" || type === "mirikal")
+                if(!game.settings.get("gdsa", "enableWonderAnimations")) return;
+            if (type === "spell" || type === "ritual") 
+                if(!game.settings.get("gdsa", "enableSpellAnimations")) return;
+            if (type === "meleeParry") return; // Parry rolls should not trigger animations - they need there Animation handeld separately
+
+            await aaBridge.handleAnimationEvent(item, tokenActor, [tokenTarget?.object]);
+
+        } catch (err) {
+
+            console.error("GDSA | Error processing chat message: ", err);
+
+    }});
+}
+
+function adjustRessource(target, value, type) { 
+    
+    if (target instanceof TokenDocument) target = target.actor;
+    else if (target instanceof Object) target = canvas.tokens.get(target._id).document.actor;
+
+    target.setStatData(type, value);
+}
 
 function sendToMemory(key, object) {
 
@@ -250,7 +323,12 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("getItemtype", function(item) { return game.i18n.localize(CONFIG.GDSA.itemGenType[item])});
 
-    Handlebars.registerHelper("getSkillFromTemp", function(id) { return CONFIG.Templates.talents.all.filter(function(item) {return item._id === id})[0].system.tale[game.settings.get("core", "language").toUpperCase()]});
+    Handlebars.registerHelper("getSkillFromTemp", function(id) { 
+    
+        if (id === null || id === undefined || id === "") return "None";
+        
+        return CONFIG.Templates.talents.all.filter(function(item) {return item._id === id})[0].system.tale[game.settings.get("core", "language").toUpperCase()]
+    });
 
     Handlebars.registerHelper('for', function(from, to, incr, content) {
 
@@ -310,15 +388,15 @@ function registerHandelbarsHelpers() {
 
         let spezList = actor.system.SpellSpez;
         let arrayofSpez = spezList.filter(function(item) {return item.spellname.includes(spell.name)});
-        let response = "[ ";
+        let response = "[";
 
         if(arrayofSpez.length > 0)
             for (let index = 0; index < arrayofSpez.length; index++)
                 response += arrayofSpez[index].spezi + " ";
 
-        response += "]";
+        response = response.trim() + "]";
 
-        if (response !== "[ ]") return response;
+        if (response !== "[]") return response;
     });
 
     Handlebars.registerHelper("isUsableVari", function(vari, spellRep) {
@@ -350,6 +428,7 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("hasSilver", function(value) {
 
+        if (!value) return false;
         let lengt = value.length;
         let silver = value[lengt-3]
 
@@ -367,6 +446,7 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("hasCopper", function(value) {
 
+        if (!value) return false;
         let lengt = value.length;
         let copper = value[lengt-2]
 
@@ -384,6 +464,7 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("hasNickel", function(value) {
 
+        if (!value) return false;
         let lengt = value.length;
         let nickel = value[lengt-1]
 
@@ -578,7 +659,7 @@ function registerHandelbarsHelpers() {
         let full = (skillname != "" ? actor.system.skill[skillname].atk : actor.system.skill[skillItem.name].atk) + spezi + wm;
         let skill = (full - atBase);
 
-        let answer = "<div class='tooltipCMB'>Basis <input class='tooltipNum' value='" +
+        let answer = "Basis <input class='tooltipNum' value='" +
         atBase +
         "' disabled> + Skill <input class='tooltipNum' value='" +
         skill +
@@ -588,7 +669,7 @@ function registerHandelbarsHelpers() {
         wm + 
         "' disabled> = <input class='tooltipNum' value='" +
         full +
-        "' disabled></div>";
+        "' disabled>";
 
         return answer;
     });
@@ -616,7 +697,7 @@ function registerHandelbarsHelpers() {
         let full = (skillname != "" ? actor.system.skill[skillname].def : actor.system.skill[skillItem.name].def) + spezi + wm;
         let skill = (full - paBase);
 
-        let answer = "<div class='tooltipCMB'>Basis <input class='tooltipNum' value='" +
+        let answer = "Basis <input class='tooltipNum' value='" +
         paBase +
         "' disabled> + Skill <input class='tooltipNum' value='" +
         skill +
@@ -626,7 +707,7 @@ function registerHandelbarsHelpers() {
         wm + 
         "' disabled> = <input class='tooltipNum' value='" +
         full +
-        "' disabled></div>";
+        "' disabled>";
 
         return answer;
     });
@@ -653,7 +734,7 @@ function registerHandelbarsHelpers() {
         let full = (skillname != "" ? actor.system.skill[skillname].atk : actor.system.skill[skillItem.name].atk) + spezi;
         let skill = (full - atBase);
 
-        let answer = "<div class='tooltipCMB2'>Basis <input class='tooltipNum' value='" +
+        let answer = "Basis <input class='tooltipNum' value='" +
         atBase +
         "' disabled> + Skill <input class='tooltipNum' value='" +
         skill +
@@ -661,7 +742,7 @@ function registerHandelbarsHelpers() {
         spezi +  
         "' disabled> = <input class='tooltipNum' value='" +
         full +
-        "' disabled></div>";
+        "' disabled>";
 
         return answer;
     });
