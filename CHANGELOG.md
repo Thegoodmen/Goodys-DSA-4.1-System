@@ -1,5 +1,27 @@
+# Version 0.9.7
 
-**ToDos for next minor Version**
+**Update for Foundry Version 14 - Pre Release 3**
++ Update of the Different Document Types used in the System to Application V2
+   - [x] Actor Sheets
+   - [] Item Sheet
+      - [] Zauber
+      - [] Ritual
+      - [] Liturgie
+      - [] Gegenstand
+      - [] Buch
+      - [] Edelstein
+      - [] Ressourcen
+      - [] Template
+
+**Additional Features**
+
++ 
+
+**Bugfixes**
+
++ 
+
+**ToDos for this minor Version**
 
 + Add Effects to Effect System => More then a number :D
 + Browser for SF, Advantages etc
@@ -33,6 +55,7 @@
 + Added Hook "gdsa.holyCast"
 + Added Hook "gdsa.dogdeEvent"
 + Added Documentation for Hooks (Hooks.md)
++ Added Animation Support (Automated Animation) with Help and Initial Code from @geanofee
 + Updated Character Limited View 
 
 **Bugfixes**

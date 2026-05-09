@@ -33,7 +33,7 @@ DAS SCHWARZE AUGE, AVENTURIEN, DERE, MYRANOR, THARUN, UTHURIA, RIESLAND und THE
 Die Verwendung der Grafiken und Texte in dieser Software erfolgt unter den von Ulisses Spiele erlaubten Richtlinien. Eine Verwendung über diese Richtlinien 
 hinaus darf nur nach vorheriger schriftlicher Genehmigung der Ulisses Medien und Spiel Distribution GmbH erfolgen.
 
-[foundry-shield]: https://img.shields.io/badge/Foundry-v13.342-informational
+[foundry-shield]: https://img.shields.io/badge/Foundry-v14.361-informational
 [foundry-url]: https://foundryvtt.com/
 [forks-shield]: https://img.shields.io/github/forks/Thegoodmen/Goodys-DSA-4.1-System.svg?style=flat-square
 [forks-url]: https://github.com/Thegoodmen/Goodys-DSA-4.1-System/network/members
