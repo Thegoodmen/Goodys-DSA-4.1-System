@@ -528,8 +528,6 @@ function _processDogdeOptions(form) {
             dk = "";
             break;
     }
-    console.log(form.dk);
-    console.log(dk);
 
     addCombt = parseInt(form.addCombt) / 2;
 
@@ -663,18 +661,6 @@ function _processSRitualCheckOptions(form) {
 
     for (let index = 0; index < (form.helper.split(",").length); index++)
         if(form["helptale" + index]) helpers.push(form["helptype" + index]);
-
-    console.log({
-        
-        advantage: advantage,
-        disadvantage: disadvantage,
-        used: used,
-        helper: helpers,
-        ritdur: form.ritduaration.checked,
-        target: form.target.checked,
-        reach: form.rangeH.checked,
-        wdura: form.duration.checked
-    })
 
     return {
         
@@ -1056,7 +1042,7 @@ function _processFaxioOptions(form) {
 
 function _formatModifikation(string) { 
 
-    if(!form) return {cancelled: true};
+    if(!string) return {cancelled: true};
 
     return string[0] + " " + string.substring(1)
 }

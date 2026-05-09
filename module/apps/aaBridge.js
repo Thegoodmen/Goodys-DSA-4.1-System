@@ -12,10 +12,10 @@ import { config } from "../animationConfig.js";
  * Called on createChatMessage hook, only processes messages from the current user.
  */
 export async function handleAnimationEvent(item, actorToken, targets) {
-
+    
     // Check if AA is enabled
     if (game.settings.get("autoanimations", "killAllAnim") === "off") return;
-
+    
     // Trigger the animation
     triggerAnimation(actorToken, item, targets);
 }
@@ -29,7 +29,7 @@ export async function triggerAnimation(tokenDoc, item, targets) {
     
     if (!window.AutomatedAnimations?.playAnimation)      
         console.log("GDSA | AutomatedAnimations.playAnimation not available - ensure Automated Animations module is installed and enabled");
-    
+
     if (!tokenDoc || !item || !window.AutomatedAnimations?.playAnimation) return;
 
     if (targets[0] === null || targets[0] === undefined) targets = 0;

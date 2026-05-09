@@ -76,8 +76,11 @@ Hooks.once("ready", async () => {
     
     if(!game.user.isGM) return;
 
-    const newSettings = await aaBridge.generateAutorecUpdate();
-    AutomatedAnimations.AutorecManager.overwriteMenus( JSON.stringify(newSettings), { submitAll: true });
+    if (game.modules.get("autoanimations")?.active) {
+
+        const newSettings = await aaBridge.generateAutorecUpdate();
+        AutomatedAnimations.AutorecManager.overwriteMenus( JSON.stringify(newSettings), { submitAll: true });
+    }
     
     const currentVersion = game.settings.get("gdsa", "systemMigrationVersion");
     const NEEDS_MIGRATION_VERSION = "1.0.0";
@@ -202,7 +205,7 @@ function registerAnimationHooks() {
 
      // Register the main chat message hook
     Hooks.on("gdsa.rollEvent", async (type, actor, item, target, tokenActor, tokenTarget, optional) => {
-
+        
         try {
 
             if (type === "melee" || type === "range" || type === "dogde") 
@@ -320,7 +323,12 @@ function registerHandelbarsHelpers() {
 
     Handlebars.registerHelper("getItemtype", function(item) { return game.i18n.localize(CONFIG.GDSA.itemGenType[item])});
 
-    Handlebars.registerHelper("getSkillFromTemp", function(id) { return CONFIG.Templates.talents.all.filter(function(item) {return item._id === id})[0].system.tale[game.settings.get("core", "language").toUpperCase()]});
+    Handlebars.registerHelper("getSkillFromTemp", function(id) { 
+    
+        if (id === null || id === undefined || id === "") return "None";
+        
+        return CONFIG.Templates.talents.all.filter(function(item) {return item._id === id})[0].system.tale[game.settings.get("core", "language").toUpperCase()]
+    });
 
     Handlebars.registerHelper('for', function(from, to, incr, content) {
 

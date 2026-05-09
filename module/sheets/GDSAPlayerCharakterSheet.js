@@ -34,8 +34,8 @@ export default class GDSAPlayerCharakterSheet extends api.HandlebarsApplicationM
 
     static PARTS = {
 
-        osheet: { template: "systems/gdsa/templates/sheets/charakter-sheet.hbs" },
-        view: { template: "systems/gdsa/templates/partials/charakter-sheet-view.hbs" }
+        osheet: { template: "systems/gdsa/templates/sheets/charakter-sheet.hbs", scrollable: [".inventory"] },
+        view: { template: "systems/gdsa/templates/partials/charakter-sheet-view.hbs", scrollable: [''] }
     }
 
     get title() {

@@ -144,7 +144,7 @@ export default class GDSAActor extends Actor {
 
         for(let weapon of weapons) {
 
-            if(CONFIG.INIT) continue;
+            if(CONFIG.INIT || weapon.system.weapon === null || weapon.system.weapon === undefined) continue;
 
             let skill = weapon.system.weapon.skill;
             let weap = weapon.system.weapon.type;
@@ -174,7 +174,7 @@ export default class GDSAActor extends Actor {
 
         for(let shield of shields) {
 
-            if(CONFIG.INIT) continue;
+            if(CONFIG.INIT || shield.system.weapon === null || shield.system.weapon === undefined) continue;
 
             // Get Shield    
 

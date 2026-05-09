@@ -17,13 +17,13 @@
     </div>
 </div>
 
-<div class="inventory">
+<div class="inventory scrollable">
     <section class="item-list">
             
         <div class="invtableborder">
             <div class="invHeader">{{localize "GDSA.charactersheet.meleeWeapons"}}
                 {{#if system.editInv}}
-                    <div class="addItemBox"><a class="meleeW-add" data-type="melee-weapons" title="{{localize "GDSA.charactersheet.addItem"}}">
+                    <div class="addItemBox"><a class="meleeW-add" data-type="Gegenstand" data-subtype="melee" title="{{localize "GDSA.charactersheet.addItem"}}">
                         <i class="fas fa-plus plusSym2"></i>
                     </a></div>
                 {{/if}}
@@ -52,7 +52,7 @@
         <div class="invtableborder">
             <div class="invHeader">{{localize "GDSA.charactersheet.rangeWeapons"}}
                 {{#if system.editInv}}
-                    <div class="addItemBox"><a class="rangeW-add" data-type="range-weapons" title="{{localize "GDSA.charactersheet.addItem"}}">
+                    <div class="addItemBox"><a class="rangeW-add" data-type="Gegenstand" data-subtype="range" title="{{localize "GDSA.charactersheet.addItem"}}">
                         <i class="fas fa-plus plusSym2"></i>
                     </a></div>
                 {{/if}}
@@ -81,7 +81,7 @@
         <div class="invtableborder">
             <div class="invHeader">{{localize "GDSA.charactersheet.shields"}}
                 {{#if system.editInv}}
-                    <div class="addItemBox"><a class="shilds-add" data-type="shields" title="{{localize "GDSA.charactersheet.addItem"}}">
+                    <div class="addItemBox"><a class="shilds-add" data-type="Gegenstand" data-subtype="shild" title="{{localize "GDSA.charactersheet.addItem"}}">
                         <i class="fas fa-plus plusSym2"></i>
                     </a></div>
                 {{/if}}
@@ -110,7 +110,7 @@
         <div class="invtableborder">
             <div class="invHeader">{{localize "GDSA.charactersheet.armour"}}
                 {{#if system.editInv}}
-                    <div class="addItemBox"><a class="armour-add" data-type="armour" title="{{localize "GDSA.charactersheet.addItem"}}">
+                    <div class="addItemBox"><a class="armour-add" data-type="Gegenstand" data-subtype="armour" title="{{localize "GDSA.charactersheet.addItem"}}">
                         <i class="fas fa-plus plusSym2"></i>
                     </a></div>
                 {{/if}}

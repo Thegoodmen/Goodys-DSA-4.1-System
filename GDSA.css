@@ -1560,7 +1560,6 @@
   width: 410px;
   border: 1px solid #d5c1a4;
   border-radius: 8px;
-  overflow: hidden;
 }
 .GDSA.sheet.characterSheet .invtableborder3 {
   width: 580px;
@@ -1675,6 +1674,7 @@
 .GDSA.sheet.characterSheet .affiliateBar {
   margin-top: 3px;
   float: left;
+  height: 23px;
   border-radius: 15px;
   border: 2px solid;
   border-color: #00000082;
@@ -1961,7 +1961,6 @@
   float: left;
   width: 100%;
   height: 590px;
-  overflow: hidden;
 }
 .GDSA.sheet.characterSheet .nameBox {
   float: left;
@@ -2555,6 +2554,13 @@
   height: 20px;
   width: 135px;
   margin: 0px 5px;
+}
+.GDSA.sheet.characterSheet .affilBar > nav#context-menu {
+  position: relative;
+  display: flow-root;
+}
+.GDSA.sheet.characterSheet .affilBar > nav#context-menu > .context-items {
+  margin: 0px;
 }
 .mediOpt {
   height: 25px;
@@ -4454,13 +4460,6 @@
   text-align: center;
   font-weight: bold;
 }
-.prosemirror {
-  height: 280px;
-  --color-control-bg: #d9d8c8;
-  --color-hover-bg: #f0f0e0;
-  --menu-height: 26px;
-  --menu-background: rgba(0, 0, 0, 0.1);
-}
 .dialog-content.standard-form {
   gap: 5px;
 }
@@ -4950,7 +4949,7 @@
 .buff-hud {
   position: fixed;
   right: 365px;
-  bottom: 85px;
+  bottom: 105px;
   padding: 0px;
   min-height: 160px;
   max-width: 260px;

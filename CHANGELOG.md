@@ -1,3 +1,12 @@
+
+**ToDos for next minor Version**
+
++ Add Effects to Effect System => More then a number :D
++ Browser for SF, Advantages etc
++ Hinzufügen von Zauberlieder, Zaubezeichen und Runenmagie
+
+---
+
 # Version 0.9.6
 
 **Update for Foundry Version 14 - Pre Release 2**
@@ -45,19 +54,7 @@
 + Fixed halving the Disadvantes on Mods for MAG and SRL
 + Fixed the Bug that makes the Tooltips invisible
 + Reenable the Buff Hud and fix Tooltip 
-
-**ToDos for this Version to be Done**
-
-+ Gegenstanserstellung fixen
-+ Context Menues und Non-Player Bogen prüfen auf Grafik und Funktion
-+ Context Menue Affiliation the limited view maybe drag and drop
-+ Funktion mit deaktivierter Animation
-
-**ToDos for next minor Version**
-
-+ Add Effects to Effect System => More then a number :D
-+ Browser for SF, Advantages etc
-+ Hinzufügen von Zauberlieder, Zaubezeichen und Runenmagie
++ Reduced the loading Time of the Dialog for Adding Advantages and Flaws
 
 ---
 

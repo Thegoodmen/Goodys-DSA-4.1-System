@@ -301,9 +301,9 @@ export async function onSpellRoll(data, event) {
         targetActor = game.actors.get(targetToken.actorId);
     }
 
-    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
-        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
-
+    let tempActorToken = game.scenes.get(currentScene).collections.tokens.contents.filter(function(item) {return item.actorId === actor._id})[0];
+    if (tempActorToken !== null) actorToken = tempActorToken;
+    
     // Generate Dialog for Modifikations
 
     if(options) {
@@ -692,7 +692,7 @@ export async function onSpellRoll(data, event) {
     optional.varis = (usedVars.length > 0);
 
     // Trigger Hooks and Execute Roll
-
+    
     Hooks.callAll("gdsa.spellCast", actor, item, targetActor, actorToken, targetToken, optional);
     Hooks.callAll("gdsa.rollEvent", "spell", actor, item, targetActor, actorToken, targetToken, optional);
 
@@ -868,9 +868,8 @@ export async function onRitualRoll(data, event) {
         targetActor = game.actors.get(targetToken.actorId);
     }
 
-    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
-        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
-
+    let tempActorToken = game.scenes.get(currentScene).collections.tokens.contents.filter(function(item) {return item.actorId === actor._id})[0];
+    if (tempActorToken !== null) actorToken = tempActorToken;
 
     // Tanzen when Zaubertänzer
 
@@ -1010,8 +1009,8 @@ export async function onSchamanRoll(data, event) {
         targetActor = game.actors.get(targetToken.actorId);
     }
 
-    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
-        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
+    let tempActorToken = game.scenes.get(currentScene).collections.tokens.contents.filter(function(item) {return item.actorId === actor._id})[0];
+    if (tempActorToken !== null) actorToken = tempActorToken;
 
     // Find what Type Schamen is Casting
 
@@ -1287,8 +1286,8 @@ export async function onMirikalRoll(data, event, statname = "") {
 
     let currentScene = game.scenes.current._id;
 
-    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
-        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
+    let tempActorToken = game.scenes.get(currentScene).collections.tokens.contents.filter(function(item) {return item.actorId === actor._id})[0];
+    if (tempActorToken !== null) actorToken = tempActorToken;
 
     if(options) {
 
@@ -1424,8 +1423,8 @@ export async function onWonderRoll(data, event) {
         targetActor = game.actors.get(targetToken.actorId);
     }
 
-    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
-        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
+    let tempActorToken = game.scenes.get(currentScene).collections.tokens.contents.filter(function(item) {return item.actorId === actor._id})[0];
+    if (tempActorToken !== null) actorToken = tempActorToken;
 
     // Calculate Lit Grad
 
@@ -1748,8 +1747,8 @@ export async function onRitualCreation(data, event) {
         targetActor = game.actors.get(targetToken.actorId);
     }
 
-    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
-        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
+    let tempActorToken = game.scenes.get(currentScene).collections.tokens.contents.filter(function(item) {return item.actorId === actor._id})[0];
+    if (tempActorToken !== null) actorToken = tempActorToken;
 
     // Calculate Modifier
 
@@ -1841,8 +1840,8 @@ export async function onRitualActivation(data, event) {
         targetActor = game.actors.get(targetToken.actorId);
     }
 
-    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
-        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
+    let tempActorToken = game.scenes.get(currentScene).collections.tokens.contents.filter(function(item) {return item.actorId === actor._id})[0];
+    if (tempActorToken !== null) actorToken = tempActorToken;
 
     // Calculate Modifier
 
@@ -2161,7 +2160,7 @@ export async function onAttackRoll(data, event) {
         hasTarget = true;
         targetId = game.users.get(game.userId).targets.ids[0];
 
-        if (isPartofCombat) targetCombatant = currentSceneCombat.getCombatantByToken(targetId);
+        if (isPartofCombat) targetCombatant = currentSceneCombat.getCombatantsByToken(targetId)[0];
 
         targetToken = game.scenes.get(currentScene).collections.tokens.get(targetId);
         targetActor = game.actors.get(targetToken.actorId);
@@ -2169,8 +2168,8 @@ export async function onAttackRoll(data, event) {
         auto = (targetActor.type === "NonPlayer");
     }
 
-    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
-        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
+    let tempActorToken = game.scenes.get(currentScene).collections.tokens.contents.filter(function(item) {return item.actorId === actor._id})[0];
+    if (tempActorToken !== null) actorToken = tempActorToken;
 
     // Set Item if its for Raufen or Ringen
 
@@ -2642,8 +2641,8 @@ export async function onNPCAttackRoll(data, event) {
     let auto = (targetType == "NonPlayer");
     let currentScene = game.scenes.current._id;
 
-    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
-        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
+    let tempActorToken = game.scenes.get(currentScene).collections.tokens.contents.filter(function(item) {return item.actorId === actor._id})[0];
+    if (tempActorToken !== null) actorToken = tempActorToken;
 
     // Get Stat Name and Value
 
@@ -2807,8 +2806,8 @@ export async function onParryRoll(data, event) {
 
     let currentScene = game.scenes.current._id;
 
-    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
-        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
+    let tempActorToken = game.scenes.get(currentScene).collections.tokens.contents.filter(function(item) {return item.actorId === actor._id})[0];
+    if (tempActorToken !== null) actorToken = tempActorToken;
 
     let itemId = element.closest("tr").dataset.itemId;
 
@@ -2929,8 +2928,8 @@ export async function onNPCParryRoll(data, event) {
     let weaponName = element.closest(".item").dataset.name;
     let currentScene = game.scenes.current._id;
 
-    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
-        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
+    let tempActorToken = game.scenes.get(currentScene).collections.tokens.contents.filter(function(item) {return item.actorId === actor._id})[0];
+    if (tempActorToken !== null) actorToken = tempActorToken;
 
     let context = { "skill": { "system": { "tale": { "DE": "NPC-Angriff", "BEtype": "0"} }}, "item": { "img": "./icons/skills/melee/shield-block-gray-yellow.webp", "system": { "weapon": { "type": weaponName, "size": "null"}}}};
 
@@ -2983,8 +2982,8 @@ export async function onShildRoll(data, event) {
 
     let currentScene = game.scenes.current._id;
 
-    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
-        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
+    let tempActorToken = game.scenes.get(currentScene).collections.tokens.contents.filter(function(item) {return item.actorId === actor._id})[0];
+    if (tempActorToken !== null) actorToken = tempActorToken;
 
     // Get Shield    
     
@@ -3169,8 +3168,8 @@ export async function onDogdeRoll(data, event) {
     let actorToken = null;
     let currentScene = game.scenes.current._id;
     
-    if (game.scenes.get(currentScene).collections.tokens.get(actor.token?._id))
-        actorToken = game.scenes.get(currentScene).collections.tokens.get(actor.token._id);
+    let tempActorToken = game.scenes.get(currentScene).collections.tokens.contents.filter(function(item) {return item.actorId === actor._id})[0];
+    if (tempActorToken !== null) actorToken = tempActorToken;
 
     // Get Dogde Value and Name
 
@@ -3322,6 +3321,8 @@ export async function onStatLoss(data, type, event) {
     if (lossInfo.cancelled) return;
     let lossValue = lossInfo.value;
 
+    if (lossValue === 0) return;
+
     // Update Stats
 
     system[type].value -= parseInt(lossValue);
@@ -3363,6 +3364,8 @@ export async function onStatGain(data, type, event) {
     let gainInfo = await Dialog[DialogPath]();
     if (gainInfo.cancelled) return;
     let gainValue = gainInfo.value;
+
+    if (gainValue === 0) return;
 
     // Update Stats
 
@@ -4240,7 +4243,7 @@ export async function addAdvantage(data, event) {
     let checkOptions = false;
     let advantage = "";
     let item = {};
-    let template = {template: (await templateData()).advantage};
+    let template = {template: CONFIG.Templates.advantage};
 
     if(!event.shiftKey) {
 
@@ -4286,8 +4289,8 @@ export async function addDisadvantage(data, event) {
     let checkOptions = false;
     let advantage = "";
     let item = {};
-    let template = {template: (await templateData()).flaw};
-
+    let template = {template: CONFIG.Templates.flaw};
+    
     if(!event.shiftKey) {
 
         checkOptions = await Dialog.getAdvantage(template);
@@ -4331,6 +4334,7 @@ export function onItemCreate(data, event) {
 
     let element = event.currentTarget;
     let itemtype = element.dataset.type;
+    let subtype = element.dataset.subtype;
     let name = "GDSA.charactersheet.new" + itemtype;
 
     // Generate new Item
@@ -4343,20 +4347,40 @@ export function onItemCreate(data, event) {
 
     // If General Item
 
-    if (itemtype === "generals") itemData = { 
-                
-        "name": game.i18n.localize(name),
-        "type": "Gegenstand",
-        "system": { 
+    if (itemtype === "generals") {
 
-            "type": "item", 
-            "quantity": 1,
-            "weight": 0,
-            "value": 0,
-            "itemType": "item", 
-            "item": { "storage": "bag"}
-        }
-    };
+        itemData = {
+
+            "name": game.i18n.localize(name),
+            "type": "Gegenstand",
+            "system": { 
+
+                "type": "item", 
+                "quantity": 1,
+                "weight": 0,
+                "value": 0,
+                "itemType": "item", 
+                "item": { "storage": "bag"}
+            }
+        };
+        
+    } else if (itemtype === "Gegenstand") {
+
+        itemData = {
+
+            "name": game.i18n.localize(name),
+            "type": "Gegenstand",
+            "system": { 
+
+                "type": subtype, 
+                "quantity": 1,
+                "weight": 0,
+                "value": 0,
+                "itemType": "item", 
+                "item": { "storage": "bag"}
+            }
+        };
+    }
 
     // Create and return new item
 
@@ -4609,6 +4633,8 @@ export async function onMoneyChange(data, event) {
     let copper = parseInt(MonyInfo.copper);
     let nikel = parseInt(MonyInfo.nikel);
     let isAdd = (MonyInfo.operation == "add") ? true : false;
+
+    if ( gold === 0 && silver === 0 && copper === 0 && nikel === 0) return;
 
     // Do Operation
 
