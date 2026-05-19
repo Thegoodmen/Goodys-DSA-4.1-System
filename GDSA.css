@@ -3182,14 +3182,24 @@
   float: left;
 }
 .GDSA.sheet.itemSheet .itemRow3 {
-  width: 375px;
-  height: 50px;
   float: left;
+  width: 440px;
+  height: 50px;
+  padding-left: 20px;
 }
 .GDSA.sheet.itemSheet .itemRow4 {
   width: 375px;
   height: 55px;
   float: left;
+}
+.GDSA.sheet.itemSheet .itemRow5 {
+  float: left;
+  width: 435px;
+  background-color: #7d7d7d6b;
+  border: 1px solid #e9d2b4;
+  border-radius: 8px;
+  padding: 5px 0px 10px 0px;
+  margin-top: -10px;
 }
 .GDSA.sheet.itemSheet .itemMenu1 {
   width: 100px;
@@ -3207,13 +3217,37 @@
   float: left;
 }
 .GDSA.sheet.itemSheet .itemMenu4 {
-  width: 378px;
-  height: 22px;
   float: left;
+  width: 335px;
+  height: 23px;
+  margin-top: 20px;
+  margin-left: -10px;
+}
+.GDSA.sheet.itemSheet .itemMenu5 {
+  float: left;
+  width: 310px;
+  height: 23px;
+  margin-top: 20px;
+  margin-left: -10px;
+}
+.GDSA.sheet.itemSheet .itemMenu6 {
+  float: left;
+  width: 245px;
+  height: 23px;
+  margin-top: 20px;
+  margin-left: -10px;
+}
+.GDSA.sheet.itemSheet .itemMenu7 {
+  float: left;
+  width: 100px;
+  height: 23px;
+  margin-top: 20px;
+  margin-left: -10px;
 }
 .GDSA.sheet.itemSheet .itemNotesOut {
   height: 300px;
   width: 408px;
+  padding: 5px 5px 5px 10px;
 }
 .GDSA.sheet.itemSheet .itemNotesIn {
   height: 200px;
@@ -3401,16 +3435,30 @@
   margin-right: 2px;
   margin-bottom: 5px;
 }
+.GDSA.sheet.itemSheet .input100i {
+  width: 100px;
+  margin-left: 10px;
+}
 .GDSA.sheet.itemSheet .input95 {
   width: 95px;
 }
 .GDSA.sheet.itemSheet .input105 {
-  width: 195px;
+  width: 225px;
   margin-left: 105px;
   margin-bottom: 5px;
 }
 .GDSA.sheet.itemSheet .input105s {
-  width: 195px;
+  width: 225px;
+  margin-left: -10px;
+  margin-bottom: 5px;
+}
+.GDSA.sheet.itemSheet .input185 {
+  width: 185px;
+  margin-left: -10px;
+  margin-bottom: 5px;
+}
+.GDSA.sheet.itemSheet .input215 {
+  width: 215px;
   margin-left: -10px;
   margin-bottom: 5px;
 }
@@ -3454,6 +3502,13 @@
   width: 195px;
   margin-left: 85px;
   margin-bottom: 5px;
+}
+.GDSA.sheet.itemSheet .input85m {
+  float: left;
+  width: 60px;
+  margin-left: 220px;
+  margin-bottom: 5px;
+  text-align: center;
 }
 .GDSA.sheet.itemSheet .input90 {
   width: 89px;
@@ -3685,14 +3740,15 @@
   margin: 3px 9px;
 }
 .GDSA.sheet.itemSheet .adBnt {
-  margin-top: 20px;
+  float: left;
   width: 145px;
+  margin-top: 20px;
   margin-left: 155px;
 }
 .GDSA.sheet.itemSheet .noteBnt {
+  float: left;
   margin-top: 5px;
-  margin-left: 40px;
-  width: 145px;
+  margin-left: 65px;
 }
 .GDSA.sheet.itemSheet .ritHelper1 {
   float: left;
@@ -3721,8 +3777,9 @@
 }
 .GDSA.sheet.itemSheet .ritHelper7 {
   float: left;
-  width: 375px;
+  width: 440px;
   height: 55px;
+  padding-left: 20px;
 }
 .GDSA.sheet.itemSheet .ritHelper10 {
   width: 460px;
@@ -3797,8 +3854,9 @@
 }
 .GDSA.sheet.itemSheet .spHelper1 {
   float: left;
-  width: 285px;
+  width: 275px;
   height: 20px;
+  padding-left: 5px;
 }
 .GDSA.sheet.itemSheet .spHelper23 {
   float: left;
@@ -3806,40 +3864,34 @@
 }
 .GDSA.sheet.itemSheet .spHelper2 {
   float: left;
-  width: 275px;
+  width: 265px;
 }
 .GDSA.sheet.itemSheet .spHelper3 {
   float: left;
-  width: 40px;
-}
-.GDSA.sheet.itemSheet .spHelper31 {
-  float: left;
-  width: 80px;
-}
-.GDSA.sheet.itemSheet .spHelper32 {
-  float: left;
-  width: 40px;
-  margin: 0px 11px;
+  width: 60px;
 }
 .GDSA.sheet.itemSheet .spHelper4 {
   float: left;
-  width: 49px;
+  width: 60px;
+  height: 20px;
+  padding-left: 5px;
 }
 .GDSA.sheet.itemSheet .spHelper5 {
-  width: 80px;
+  width: 50px;
   margin-right: 10px;
 }
 .GDSA.sheet.itemSheet .spHelper52 {
-  width: 50px;
-  margin-right: 10px;
+  width: 70px;
+  margin-right: 5px;
+  text-align: center;
 }
 .GDSA.sheet.itemSheet .spHelper53 {
   width: 110px;
   margin-right: 10px;
-  margin-left: 23px;
+  margin-left: 5px;
 }
 .GDSA.sheet.itemSheet .spHelper54 {
-  width: 20px;
+  width: 25px;
 }
 .GDSA.sheet.itemSheet .spHelper51 {
   width: 80px;
@@ -3898,8 +3950,9 @@
 }
 .GDSA.sheet.itemSheet .spHelper16 {
   float: left;
-  width: 105px;
+  width: 45px;
   margin-right: 10px;
+  margin-left: 60px;
 }
 .GDSA.sheet.itemSheet .spHelper17 {
   float: left;
@@ -3955,13 +4008,105 @@
   text-align-last: end;
   margin-right: 29px;
 }
+.GDSA.sheet.itemSheet .spHelper29 {
+  float: left;
+  width: 230px;
+  height: 20px;
+  padding-left: 5px;
+}
+.GDSA.sheet.itemSheet .spHelper30 {
+  float: left;
+  width: 220px;
+}
+.GDSA.sheet.itemSheet .spHelper31 {
+  float: left;
+  width: 80px;
+}
+.GDSA.sheet.itemSheet .spHelper32 {
+  float: left;
+  width: 40px;
+  margin: 0px 11px;
+}
+.GDSA.sheet.itemSheet .spHelper33 {
+  float: left;
+  width: 125px;
+  margin-right: 10px;
+}
+.GDSA.sheet.itemSheet .spHelper34 {
+  float: left;
+  width: 70px;
+  margin-right: 10px;
+}
+.GDSA.sheet.itemSheet .spHelper35 {
+  float: left;
+  width: 60px;
+  margin-left: 35px;
+}
+.GDSA.sheet.itemSheet .spHelper36 {
+  float: left;
+  width: 80px;
+  height: 20px;
+  padding-left: 5px;
+}
+.GDSA.sheet.itemSheet .spHelper37 {
+  width: 110px;
+  height: 20px;
+  float: left;
+  padding-top: 3px;
+}
+.GDSA.sheet.itemSheet .spHelper38 {
+  width: 60px;
+  margin-right: 10px;
+}
+.GDSA.sheet.itemSheet .spHelper39 {
+  float: left;
+  width: 235px;
+  height: 20px;
+  margin-left: 50px;
+  padding-left: 5px;
+}
+.GDSA.sheet.itemSheet .spHelper40 {
+  float: left;
+  margin-top: 4px;
+  margin-left: 50px;
+}
+.GDSA.sheet.itemSheet .spHelper41 {
+  width: 90px;
+  margin-right: 10px;
+  margin-left: 5px;
+}
+.GDSA.sheet.itemSheet .spHelper42 {
+  width: 120px;
+  margin-right: 5px;
+  text-align: center;
+}
+.GDSA.sheet.itemSheet .spHelper43 {
+  float: left;
+  width: 225px;
+  height: 20px;
+  padding-left: 5px;
+}
+.GDSA.sheet.itemSheet .spHelper44 {
+  float: left;
+  width: 215px;
+}
+.GDSA.sheet.itemSheet .spHelper45 {
+  float: left;
+  width: 175px;
+  margin-right: 10px;
+}
+.GDSA.sheet.itemSheet .spHelper46 {
+  float: left;
+  width: 275px;
+  height: 35px;
+}
 .GDSA.sheet.itemSheet .tempHelper1 {
   height: 1250px;
   width: 80%;
   float: left;
 }
 .GDSA.sheet.itemSheet .input20 {
-  margin-left: 60px;
+  margin-left: 135px;
   margin-right: 50px;
   height: 20px;
 }
@@ -3972,11 +4117,18 @@
 .GDSA.sheet.itemSheet .labelspacer {
   margin-right: 10px;
 }
+.GDSA.sheet.itemSheet .effectAdd {
+  float: left;
+  width: 100%;
+  height: 10px;
+  margin-top: -6px;
+  font-size: 18px;
+}
 .GDSA.sheet.itemSheet .spellMenu {
   height: 22px;
   width: 90px;
   float: left;
-  border: black solid 1px;
+  border: 1px solid #e9d2b4;
   padding-top: 1px;
   margin: 1px;
   margin-bottom: 0px;
@@ -3987,7 +4139,7 @@
   height: 22px;
   width: 90px;
   float: left;
-  border: black solid 1px;
+  border: 1px solid #e9d2b4;
   padding-top: 1px;
   margin: 1px;
   margin-bottom: 0px;
@@ -3995,16 +4147,60 @@
   background-color: rgba(0, 0, 0, 0.08);
   margin-left: 10px;
 }
+.GDSA.sheet.itemSheet .spellMenu3 {
+  height: 22px;
+  width: 115px;
+  float: left;
+  border: 1px solid #e9d2b4;
+  padding-top: 1px;
+  margin: 1px;
+  margin-bottom: 0px;
+  border-radius: 8px 8px 0px 0px;
+  background-color: rgba(0, 0, 0, 0.08);
+  margin-left: 10px;
+}
+.GDSA.sheet.itemSheet .spellMenu4 {
+  height: 22px;
+  width: 115px;
+  float: left;
+  border: 1px solid #e9d2b4;
+  padding-top: 1px;
+  margin: 1px;
+  margin-bottom: 0px;
+  border-radius: 8px 8px 0px 0px;
+  background-color: rgba(0, 0, 0, 0.08);
+}
 .GDSA.sheet.itemSheet .spellMenuBox {
   height: 365px;
-  width: 430px;
-  margin-left: 10px;
+  width: 435px;
   float: left;
-  border: solid black 1px;
-  padding: 10px;
-  overflow-y: auto;
+  padding: 10px 5px;
+  background-color: #7d7d7d6b;
+  border: 1px solid #e9d2b4;
+  border-radius: 0px 0px 0px 10px;
+  overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: auto;
+}
+.GDSA.sheet.itemSheet .spellMenuBox::-webkit-scrollbar-track {
+  margin: 5px;
+  background-color: transparent;
+}
+.GDSA.sheet.itemSheet .spellMenuBox3 {
+  height: 415px;
+  width: 435px;
+  float: left;
+  padding: 10px 5px;
+  background-color: #7d7d7d6b;
+  border: 1px solid #e9d2b4;
+  border-radius: 0px 0px 0px 10px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: auto;
+}
+.GDSA.sheet.itemSheet .spellMenuBox3::-webkit-scrollbar-track {
+  margin: 5px;
+  background-color: transparent;
 }
 .GDSA.sheet.itemSheet .spellName {
   float: left;
@@ -4034,6 +4230,7 @@
   float: left;
   margin-top: 8px;
   margin-bottom: 8px;
+  margin-left: 10px;
   font-weight: bold;
 }
 .GDSA.sheet.itemSheet .spellLine2 {
@@ -4097,7 +4294,7 @@
 .GDSA.sheet.itemSheet .SelHelper2 {
   height: 20px;
   float: right;
-  margin-right: -160px;
+  margin-right: -180px;
 }
 .GDSA.sheet.itemSheet .nameSpan {
   height: 8px;
@@ -4113,11 +4310,14 @@
   float: left;
   width: 150px;
   margin-left: 105px;
+  margin-bottom: 5px;
 }
 .GDSA.sheet.itemSheet .coloPickLbl {
   float: left;
   margin-top: 5px;
   font-weight: bold;
+  margin-left: 10px;
+  width: 130px;
 }
 .GDSA.sheet.itemSheet .inputTempColo {
   width: 150px;
@@ -4303,20 +4503,20 @@
   padding-top: 16px;
 }
 .GDSA.sheet.itemSheet .effect-control {
+  float: right;
   right: 5px;
   position: relative;
-  float: right;
 }
 .GDSA.sheet.itemSheet .effect-name2 {
   width: 355px;
 }
 .GDSA.sheet.itemSheet .browserImgBox3 {
-  width: 58px;
-  height: 58px;
   float: left;
+  width: 56px;
+  height: 58px;
   margin-top: 24px;
-  margin-right: 6px;
-  margin-left: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 .GDSA.sheet.itemSheet .browserImgBox4 {
   width: 50px;
@@ -4328,6 +4528,17 @@
 }
 .GDSA.sheet.itemSheet .browserImg {
   border: 0px;
+}
+.GDSA.sheet.itemSheet .spell-tabs {
+  gap: 0px;
+  border: none;
+  line-height: 20px;
+}
+.GDSA.sheet.itemSheet .areaInputDesc {
+  float: left;
+  width: 395px;
+  height: 300px;
+  margin: 5px 10px;
 }
 .bookItemSheet {
   background-color: transparent;
@@ -4388,6 +4599,9 @@
 }
 .subSub {
   font-size: 16px;
+}
+.submenlbl {
+  padding-left: 15px;
 }
 .dialogFiller {
   width: 100%;
@@ -4461,7 +4675,7 @@
   font-weight: bold;
 }
 .dialog-content.standard-form {
-  gap: 5px;
+  gap: 12px;
 }
 .GDSA.chat.message.skill .collabst {
   height: 0px;
@@ -4488,6 +4702,17 @@
   padding-top: 2px;
   padding-bottom: 3px;
 }
+.GDSA.chat.message.skill .chatheadline2 {
+  min-height: 29px;
+  width: 100%;
+  float: left;
+  background-color: #38333a;
+  color: #efe6d8;
+  font-size: 18px;
+  font-family: 'MasonSerifBold';
+  text-align: center;
+  padding: 2px 10px 3px 10px;
+}
 .GDSA.chat.message.skill .chatInfoMessage {
   min-height: 29px;
   width: 100%;
@@ -4500,6 +4725,34 @@
   padding-top: 7px;
   padding-bottom: 3px;
   padding-left: 18px;
+}
+.GDSA.chat.message.skill .chatUnterlineInfo {
+  float: left;
+  width: 100%;
+  font-size: 12px;
+  text-align: center;
+  margin: 3px 0px;
+}
+.GDSA.chat.message.skill .chatMainInfo {
+  float: left;
+  width: calc(100% - 20px);
+  border: 1px solid #e9d2b4;
+  border-radius: 6px;
+  margin: 1px 10px;
+  padding: 5px 10px;
+  font-size: 10px;
+  font-family: sans-serif;
+  font-style: italic;
+  text-align: justify;
+  line-height: 14px;
+  background-color: #7d7d7d6b;
+}
+.GDSA.chat.message.skill .chatQuellInfo {
+  float: left;
+  width: 100%;
+  padding: 2px 15px;
+  font-size: 10px;
+  text-align: right;
 }
 .GDSA.chat.message.skill .chathrBox {
   width: 100%;

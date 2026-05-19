@@ -1,56 +1,67 @@
 import { GDSA } from "./module/config.js";
+import { _getInitiativeFormula } from "./module/combat/initative.js";
 import GDSAActor from "./module/objects/GDSAActor.js";
 import GDSAItem from "./module/objects/GDSAItem.js";
 import GDSACombat from "./module/combat/combat.js";
 import GDSACombatTracker from "./module/combat/combatTracker.js";
-import { _getInitiativeFormula } from "./module/combat/initative.js";
 import GDSAItemSheet from "./module/sheets/GDSAItemSheet.js";
+import GDSATemplateSheet from "./module/sheets/GDSATemplateSheet.js";
 import GDSAPlayerCharakterSheet from "./module/sheets/GDSAPlayerCharakterSheet.js";
 import GDSALootActorSheet from "./module/sheets/GDSALootActorSheet.js";
 import GDSAMerchantSheet from "./module/sheets/GDSAMerchantSheet.js";
 import GDSANonPlayerSheet from "./module/sheets/GDSANonPlayerSheet.js";
-import * as LsFunction from "./module/listenerFunctions.js";
 import MemoryCache from "./module/memory-cache.js";
 import GMScreen from "./module/apps/gmScreen.js";
 import HeldenImporter from "./module/apps/heldenImport.js";
+import BuffHud from "./module/apps/buff-hud.js";
+import * as LsFunction from "./module/listenerFunctions.js";
 import * as Template from "./module/apps/templates.js";
 import * as Dice from "./module/dice.js";
-import BuffHud from "./module/apps/buff-hud.js";
 import * as aaBridge from "./module/apps/aaBridge.js";
 
 Hooks.once("init", async () => {
 
     console.log("GDSA | Initalizing Goodys DSA 4.1 System");
 
-    game.gdsa = {
-        rollSkillMacro,
-        rollStatMacro
-    };
-
+    // Send out UI Warning if SocketLib is not active / present
+    
     if(!game.modules.get("socketlib")?.active) ui.notifications.warn('SocketLib must be installed and activated to use all Functions of the DSA System.');
 
-    CONFIG.Combat.initiative.formula = "1d6 + @INIBasis.value + @INIBasis.modi";
-	Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
-    CONFIG.ChatMessage.template = "./systems/gdsa/templates/ressources/chatMessage.hbs";
+    // Setup CONFIG  Global and Set Initial State to true
+    
     CONFIG.GDSA = GDSA;
     CONFIG.INIT = true;
+    
+    // Setup of Custom Chat Template
+    
+    CONFIG.ChatMessage.template = "./systems/gdsa/templates/ressources/chatMessage.hbs";
+    
+    // Setup of Custom Document Classes
+    
     CONFIG.Actor.documentClass = GDSAActor;
     CONFIG.Item.documentClass = GDSAItem;
     CONFIG.Combat.documentClass = GDSACombat;
+    
+    // Setup of Custom CombatTracker, Custom Default Initiativ and Custom Initaiative Function
+    
     CONFIG.ui.combat = GDSACombatTracker;
+    CONFIG.Combat.initiative.formula = "1d6 + @INIBasis.value + @INIBasis.modi";
+	Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
+    
+    // Setup of Custom GDSA Cache
+    
     CONFIG.cache = new MemoryCache();
-    CONFIG.fontDefinitions["MasonSerifBold"] = {
-        editor: true,
-        fonts: [
-          {urls: ["systems/gdsa/fonts/mason-serif-bold.otf"]}
-        ]
-    };
+
+    // Font Definition
+
+    CONFIG.fontDefinitions["MasonSerifBold"] = { editor: true, fonts: [{ urls: ["systems/gdsa/fonts/mason-serif-bold.otf"] }]};
     CONFIG.defaultFontFamily = "MasonSerifBold";
 
     const DocumentSheetConfig = foundry.applications.apps.DocumentSheetConfig;
 
     DocumentSheetConfig.unregisterSheet(Item, "core", foundry.appv1.sheets.ItemSheet);
-    DocumentSheetConfig.registerSheet(Item, "gdsa", GDSAItemSheet, { makeDefault: true, label: "GDSA.SheetClassItem"});
+    DocumentSheetConfig.registerSheet(Item, "gdsa", GDSATemplateSheet, { types: ["Template"], lable: "GDSA.SheetClassItem"});
+    //DocumentSheetConfig.registerSheet(Item, "gdsa", GDSAItemSheet, { makeDefault: true, label: "GDSA.SheetClassItem"});
 
     DocumentSheetConfig.unregisterSheet(Actor, "core", foundry.appv1.sheets.ActorSheet);
     DocumentSheetConfig.registerSheet(Actor, "gdsa", GDSAPlayerCharakterSheet, { types: ["PlayerCharakter"], label: "GDSA.SheetClassCharacter"});
@@ -58,7 +69,16 @@ Hooks.once("init", async () => {
     DocumentSheetConfig.registerSheet(Actor, "gdsa", GDSALootActorSheet, { types: ["LootActor"], makeDefault: true, label: "GDSA.SheetClassLoot"});
     DocumentSheetConfig.registerSheet(Actor, "gdsa", GDSANonPlayerSheet, { types: ["NonPlayer"], label: "GDSA.SheetClassNPC"});
   
+    // Setup and Link Custom Functions for Macro Usage
+
+    game.gdsa = { rollSkillMacro, rollStatMacro };
+
+    // Setup System Settings
+
     registerSystemSettings();
+    
+    // Setup Handlebar Helpers and Preload Templates for Partials Integration
+    
     preloadHandlebarsTemplates();
     registerHandelbarsHelpers();  
 });
@@ -349,6 +369,30 @@ function registerHandelbarsHelpers() {
         
         let fullValue = "rit" + value1; 
         return object1[fullValue];
+    });
+
+    Handlebars.registerHelper("countReq", function(obj) {
+
+        let counter = 2;
+
+        if (obj != undefined)
+            for (let index = 1; index < 30; index++)
+                if (obj["type" + index] != undefined && obj["type" + index] != "")
+                    counter ++;
+            
+        return counter;
+    });
+
+    Handlebars.registerHelper("countTale", function(obj) {
+
+        let counter = 2;
+
+        if (obj != undefined)
+            for (let index = 1; index < 30; index++)
+                if (obj["tale" + index] != undefined && obj["tale" + index] != "" && obj["tale" + index] != "none")
+                    counter ++;
+            
+        return counter;
     });
 
     Handlebars.registerHelper("times", function(n, content) {
@@ -949,10 +993,8 @@ function registerHandelbarsHelpers() {
  * @param {Object} item     The Item of the Skill
  * @param {Object} data     The Skill Object of the Actor
  * @param {Object} template The Template Object
- * 
  * @returns {Integer}
  */
-
 function calculateMetaSkill(item, data, template) {
 
     // Reset the Skill Value
@@ -1019,10 +1061,8 @@ function calculateMetaSkill(item, data, template) {
  * 
  * @param {Object} data     The dropped data
  * @param {number} slot     The hotbar slot to use
- * 
  * @returns {Promise}
  */
-
 async function createGDSAMacro(data, slot) {
 
     if (data.type === "skill") {
@@ -1071,10 +1111,8 @@ async function createGDSAMacro(data, slot) {
  * Makro for Stat Roll
  * 
  * @param {string} itemData
- * 
  * @return {Promise}
  */
-
 async function rollStatMacro(itemData) {
 
     let actor = game.actors.get(itemData.actorId);
@@ -1103,10 +1141,8 @@ async function rollStatMacro(itemData) {
  * Makro for Skill Roll
  * 
  * @param {string} itemData
- * 
  * @return {Promise}
  */
-
 async function rollSkillMacro(itemData) {
 
     // Calculate Skill Value 

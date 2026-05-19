@@ -1,124 +1,123 @@
-<form class="{{cssClass}}" autocomplete="off">
+<section>
 
-    <div class="browserImgBox3"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
+    <div class="itemRow5">
 
-    <div class="ritHelper7">
-        <div class="spHelper1"><b>{{localize "GDSA.itemsheet.name"}}</b></div>
-        <div class="spHelper4"><b>{{localize "GDSA.template.type"}}</b></div>
-        <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
-        <div class="spHelper3">
-            <select class="spHelper5" name="system.type">{{selectOptions config.tempTypes selected=system.type blank="" localize=true}}</select>
-        </div>
-    </div>
-
-    <div class="itemRow3">
-        <div class="spHelper1"><b>{{localize "GDSA.template.att"}}</b></div>
-        <div class="spHelper4"><b>{{localize "GDSA.template.kat"}}</b></div>
-        {{#for 1 4 1}}
-            <div class="spHelper13">
-                <select class="spHelper5" name="system.tale.att{{this}}">
-                    {{selectOptions ../config.taleAttributes selected=(getData ../system.tale (concat "att" this "")) blank="" localize=true}}
-                </select>
+        <div class="ritHelper7">
+            <div class="spHelper1"><b>{{localize "GDSA.itemsheet.name"}}</b></div>
+            <div class="spHelper36"><b>{{localize "GDSA.template.type"}}</b></div>
+            <div class="spHelper46"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
+            <div class="spHelper3">
+                <select class="spHelper33" name="system.type">{{selectOptions config.tempTypes selected=system.type blank="" localize=true}}</select>
             </div>
-        {{/for}}
-        <div class="spHelper3">
-            <select class="spHelper5" name="system.tale.type">{{selectOptions config.taleTypes selected=system.tale.type blank="" localize=true}}</select>
         </div>
+
+        <div class="itemRow3">
+            <div class="spHelper1"><b>{{localize "GDSA.template.att"}}</b></div>
+            <div class="spHelper36"><b>{{localize "GDSA.template.kat"}}</b></div>
+            {{#for 1 4 1}}
+                <div class="spHelper36">
+                    <select class="spHelper34" name="system.tale.att{{this}}">
+                        {{selectOptions ../config.taleAttributes selected=(getData ../system.tale (concat "att" this "")) blank="" localize=true}}
+                    </select>
+                </div>
+            {{/for}}
+            <div class="spHelper35">
+                <select class="spHelper33" name="system.tale.type">{{selectOptions config.taleTypes selected=system.tale.type blank="" localize=true}}</select>
+            </div>
+        </div>
+
     </div>
 
-    {{#if (ifOR (equals system.tale.type "meta") (equals system.tale.type "combat"))}}<div class="itemMenu4">{{else}}<div class="itemMenu3">{{/if}}
+    {{#if (ifOR (equals system.tale.type "meta") (equals system.tale.type "combat"))}}<div class="itemMenu4">{{else}}<div class="itemMenu6">{{/if}}
         <nav class="tabs nav spell-tabs" data-group="spell">
-            <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>  
+            <a class="item" data-tab="spellNotes"><div class="spellMenu3">{{localize "GDSA.itemsheet.description"}}</div></a>
+            <a class="item" data-tab="spellDetails"><div class="spellMenu4">{{localize "GDSA.template.general"}}</div></a>  
             {{#if (equals system.tale.type "meta")}}
-            <a class="item" data-tab="spellEffects"><div class="spellMenu">{{localize "GDSA.template.meta"}}</div></a>
+                <a class="item" data-tab="spellEffects"><div class="spellMenu">{{localize "GDSA.template.meta"}}</div></a>
             {{/if}}
             {{#if (equals system.tale.type "combat")}}
-            <a class="item" data-tab="spellEffects"><div class="spellMenu">{{localize "GDSA.template.combat"}}</div></a>
+                <a class="item" data-tab="spellEffects"><div class="spellMenu">{{localize "GDSA.template.combat"}}</div></a>
             {{/if}}
-            <a class="item" data-tab="spellVariants"><div class="spellMenu">{{localize "GDSA.template.localize"}}</div></a>
-            <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
         </nav>
     </div>
     
     <div class="spellMenuBox">
 	    <section class="spell-body">
+     
+            <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
+                <textarea class="areaInputDesc" name="system.tale.description">{{system.tale.description}}</textarea>
+                <button class="noteBnt" data-action="postGM">{{localize "GDSA.charactersheet.postGM"}}</button>
+                <button class="noteBnt" data-action="postAll">{{localize "GDSA.charactersheet.postAll"}}</button>
+            </div>
 
             <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
                 {{#if (ifOR (equals system.tale.type "sign") (equals system.tale.type "lang"))}}
 
-                    <div class="input100 spellName">{{localize "GDSA.template.langFam"}}:</div>
+                    <div class="input100i spellName">{{localize "GDSA.template.langFam"}}:</div>
                     <select class="input85s" name="system.tale.langFam">{{selectOptions config.langFam selected=system.tale.langFam blank="" localize=true}}</select>
-                    <div class="input100 spellName">{{localize "GDSA.template.levelup"}}:</div>
-                    <select class="input85s" name="system.tale.levelup">{{selectOptions config.levelup selected=system.tale.levelup blank=""}}</select>
-                    <div class="input100 spellName">{{localize "GDSA.template.komplex"}}:</div>
-                    <input class="input85s" name="system.tale.komplex" type="number" value="{{system.tale.komplex}}" />
+                    <div class="input100i spellName">{{localize "GDSA.template.levelup"}}:</div>
+                    <select class="input85m" name="system.tale.levelup">{{selectOptions config.levelup selected=system.tale.levelup blank=""}}</select>
+                    <div class="input100i spellName">{{localize "GDSA.template.komplex"}}:</div>
+                    <input class="input85m" name="system.tale.komplex" type="number" value="{{system.tale.komplex}}" />
 
                 {{else}}
 
-                    <div class="input100 spellName">{{localize "GDSA.template.BE"}}:</div>
-                    <div class="spHelper24"><input class="input20" name="system.tale.BECheck" type="checkbox" {{#if system.tale.BECheck}}checked="isChecked"{{/if}}/></div>
+                    <div class="input100i spellName">{{localize "GDSA.template.BE"}}:</div>
+                    <div class="spHelper37"><input class="input20" name="system.tale.BECheck" type="checkbox" {{#if system.tale.BECheck}}checked="isChecked"{{/if}}/></div>
                     <select class="spHelper16" name="system.tale.BEtype">{{selectOptions config.beType selected=system.tale.BEtype}}</select>
                     <input class="spHelper15" name="system.tale.BE" type="text" value="{{system.tale.BE}}" />
-                    <div class="input100 skillType">{{localize "GDSA.template.taletype"}}:</div>
+                    <div class="input100i skillType">{{localize "GDSA.template.taletype"}}:</div>
                     <select class="input70sk" name="system.tale.taletype">{{selectOptions config.taleType selected=system.tale.taletype blank="" localize=true}}</select>
+                    
                     <div class="spellLine">{{localize "GDSA.template.requierment"}}:</div>
 
-                    {{#for 1 6 1}}
+                    {{#for 1 (countTale system.tale.requ) 1}}
                         <select class="spHelper51" name="system.tale.requ.usage{{this}}">
                             {{selectOptions ../config.taleReqUsa selected=(getData ../system.tale.requ (concat "usage" this ""))}}
                         </select>
                         <select class="input105s" name="system.tale.requ.tale{{this}}">
                             {{selectOptions ../selTalentN selected=(getData ../system.tale.requ (concat "tale" this "")) blank="" localize=true}}
                         </select>
-                        <input class="spHelper5" name="system.tale.requ.level{{this}}" type="number" value="{{getData ../system.tale.requ (concat "level" this "")}}"/>
+                        <input class="spHelper38" name="system.tale.requ.level{{this}}" type="number" value="{{getData ../system.tale.requ (concat "level" this "")}}"/>
                     {{/for}}
 
                     <div class="spellLine">{{localize "GDSA.template.alternitivs"}}:</div>
 
-                    {{#for 1 6 1}}
+                    {{#for 1 (countTale system.tale.alt) 1}}
                         <select class="input105" name="system.tale.alt.tale{{this}}">
                             {{selectOptions ../selTalentN selected=(getData ../system.tale.alt (concat "tale" this "")) blank="" localize=true}}
                         </select>
-                        <select class="spHelper5" name="system.tale.alt.disad{{this}}">
+                        <select class="spHelper38" name="system.tale.alt.disad{{this}}">
                             {{selectOptions ../config.taleAltDis selected=(getData ../system.tale.alt (concat "disad" this ""))}}
                         </select>
                     {{/for}}
 
                 {{/if}} 
             </div>
-
-            <div class="tab spellVariants" data-group="spell" data-tab="spellVariants">
-                <div class="input100 spellName">{{localize "GDSA.template.DE"}}:</div>
-                <input class="input85s" name="system.tale.DE" type="text" value="{{system.tale.DE}}" />
-                <div class="input100 spellName">{{localize "GDSA.template.EN"}}:</div>
-                <input class="input85s" name="system.tale.EN" type="text" value="{{system.tale.EN}}" />
-            </div>
             
             <div class="tab spellEffects" data-group="spell" data-tab="spellEffects">
                 {{#if (equals system.tale.type "meta")}}
+
                     {{#for 1 6 1}}
-                        <div class="input100 spellName">{{localize "GDSA.template.skill"}} {{this}}:</div>
-                        <select class="input70s" name="system.tale.meta.tal{{this}}">
+                        <div class="input100i spellName">{{localize "GDSA.template.skill"}} {{this}}:</div>
+                        <select class="input70sk" name="system.tale.meta.tal{{this}}">
                             {{selectOptions ../selTalentN selected=(getData ../system.tale.meta (concat "tal" this "")) blank="" localize=true}}
                         </select>
                     {{/for}}
+
                 {{else}}
-                    <div class="input100 spellName">{{localize "GDSA.template.type"}}:</div>
-                    <select class="input70s" name="system.tale.cmbttype">{{selectOptions config.cmbttype selected=system.tale.cmbttype blank=""}}</select>
-                    <div class="input100 spellName">{{localize "GDSA.template.levelup"}}:</div>
-                    <select class="input70s" name="system.tale.levelup">{{selectOptions config.levelup selected=system.tale.levelup blank=""}}</select>
+
+                    <div class="input100i spellName">{{localize "GDSA.template.type"}}:</div>
+                    <select class="input70sk" name="system.tale.cmbttype">{{selectOptions config.cmbttype selected=system.tale.cmbttype blank="" localize=true}}</select>
+                    <div class="input100i spellName">{{localize "GDSA.template.levelup"}}:</div>
+                    <select class="input70sk" name="system.tale.levelup">{{selectOptions config.levelup selected=system.tale.levelup blank=""}}</select>
+
                 {{/if}}
-            </div>
-            
-            <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
-                <div class="itemNotesOut">{{editor system.notes class="itemNotesIn" target="system.notes" button=true engine="prosemirror" collaborate=false}}</div>
-                <button class="noteBnt note-gm-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postGM"}}</button>
-                <button class="noteBnt note-all-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postAll"}}</button>
             </div>
 
         </section>
     </div>
 
-    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+    <button class="adBnt" data-action="close">{{localize "GDSA.charactersheet.closeLabel"}}</button>
 
-</form>
+</section>

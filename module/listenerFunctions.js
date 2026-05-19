@@ -5571,34 +5571,6 @@ export async function showAllSkills(data, event) {
     actor.render();
 }
 
-export async function noteGMPost(data, event) {
-
-    event.preventDefault();
-
-    // Send Chat Message
-    
-    let templateContext = {name: data.item.name, value: data.system.tale.notes}
-    let chatModel = { user: game.user.id, speaker: null, type: 1, 
-        content: await foundry.applications.handlebars.renderTemplate("systems/gdsa/templates/chat/chatTemplate/note-Post.hbs", templateContext)};
-    let message = await ChatMessage.create(chatModel);
-
-    message.setFlag('gdsa', 'isCollapsable', true);
-}
-
-export async function noteAllPost(data, event) {
-
-    event.preventDefault();
-
-    // Send Chat Message
-    
-    let templateContext = {name: data.item.name, value: data.system.tale.notes}
-    let chatModel = { user: game.user.id, speaker: null, 
-        content: await foundry.applications.handlebars.renderTemplate("systems/gdsa/templates/chat/chatTemplate/note-Post.hbs", templateContext)};
-    let message = await ChatMessage.create(chatModel);
-
-    message.setFlag('gdsa', 'isCollapsable', true);
-}
-
 export async function updateChatMessagesAfterCreation(message) {
 
 }

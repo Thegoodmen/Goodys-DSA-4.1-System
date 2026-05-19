@@ -1,54 +1,62 @@
-<form class="{{cssClass}}" autocomplete="off">
+<section>
 
-    <div class="browserImgBox3"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
+    <div class="itemRow5">
 
-    <div class="ritHelper7">
-        <div class="spHelper1"><b>{{localize "GDSA.itemsheet.name"}}</b></div>
-        <div class="spHelper4"><b>{{localize "GDSA.template.type"}}</b></div>
-        <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
-        <div class="spHelper3">
-            <select class="spHelper5" name="system.type">{{selectOptions config.tempTypes selected=system.type blank="" localize=true}}</select>
+        <div class="ritHelper7">
+            <div class="spHelper1"><b>{{localize "GDSA.itemsheet.name"}}</b></div>
+            <div class="spHelper36"><b>{{localize "GDSA.template.type"}}</b></div>
+            <div class="spHelper46"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
+            <div class="spHelper3">
+                <select class="spHelper33" name="system.type">{{selectOptions config.tempTypes selected=system.type blank="" localize=true}}</select>
+            </div>
+        </div>
+
+        <div class="itemRow3">
+            <div class="spHelper16"><b>{{localize "GDSA.templates.value"}}</b></div>
+            <div class="spHelper17"><b>{{localize "GDSA.templates.canRoll"}}</b></div>
+            <div class="spHelper4"><b>{{localize "GDSA.templates.GP"}}</b></div>
+            <div class="spHelper39">
+                <div class="spHelper19"><input class="spHelper5" name="system.trait.value" type="number" value="{{system.trait.value}}" /></div>
+                <div class="spHelper40"><input name="system.trait.canRoll" type="checkbox" {{#if system.trait.canRoll}}checked="isChecked"{{/if}} /></div>
+            </div>
+            <div class="spHelper19">
+                {{#if system.trait.canRoll}}
+                    <input class="spHelper54" name="system.trait.gpEach" type="number" value="{{system.trait.gpEach}}" />
+                    {{localize "GDSA.template.each"}}
+                    <input class="spHelper54" name="system.trait.gpCost" type="number" value="{{system.trait.gpCost}}" />
+                    {{localize "GDSA.templates.GP"}}
+                {{else}}
+                    <input class="spHelper5" name="system.trait.gpCost" type="number" value="{{system.trait.gpCost}}" />
+                {{/if}}
+            </div>
         </div>
     </div>
 
-    <div class="itemRow3">
-        <div class="spHelper16"><b>{{localize "GDSA.templates.value"}}</b></div>
-        <div class="spHelper17"><b>{{localize "GDSA.templates.canRoll"}}</b></div>
-        <div class="spHelper4"><b>{{localize "GDSA.templates.GP"}}</b></div>
-        <div class="spHelper1">
-            <div class="spHelper19"><input class="spHelper5" name="system.trait.value" type="number" value="{{system.trait.value}}" /></div>
-            <div class="spHelper19"><input class="spHelper18" name="system.trait.canRoll" type="checkbox" {{#if system.trait.canRoll}}checked="isChecked"{{/if}} /></div>
-        </div>
-        <div class="spHelper19">
-            {{#if system.trait.canRoll}}
-                <input class="spHelper54" name="system.trait.gpEach" type="number" value="{{system.trait.gpEach}}" />
-                {{localize "GDSA.template.each"}}
-                <input class="spHelper54" name="system.trait.gpCost" type="number" value="{{system.trait.gpCost}}" />
-                {{localize "GDSA.templates.GP"}}
-            {{else}}
-                <input class="spHelper5" name="system.trait.gpCost" type="number" value="{{system.trait.gpCost}}" />
-            {{/if}}
-        </div>
-    </div>
 
-    <div class="itemMenu3">
+    <div class="itemMenu6">
         <nav class="tabs nav spell-tabs" data-group="spell">
-            <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>
-            <a class="item" data-tab="spellVariants"><div class="spellMenu">{{localize "GDSA.template.localize"}}</div></a>
-            <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
+            <a class="item" data-tab="spellNotes"><div class="spellMenu3">{{localize "GDSA.itemsheet.description"}}</div></a>
+            <a class="item" data-tab="spellDetails"><div class="spellMenu4">{{localize "GDSA.template.general"}}</div></a>
         </nav>
     </div>
 
     <div class="spellMenuBox">
 	    <section class="spell-body">
+     
+            <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
+                <textarea class="areaInputDesc" name="system.tale.description">{{system.tale.description}}</textarea>
+                <button class="noteBnt" data-action="postGM">{{localize "GDSA.charactersheet.postGM"}}</button>
+                <button class="noteBnt" data-action="postAll">{{localize "GDSA.charactersheet.postAll"}}</button>
+            </div>
 
             <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
                 <div class="spellLine">{{localize "GDSA.template.requierment"}}:</div>
-                {{#for 1 10 1}}
-                    <select class="spHelper53" name="system.trait.requ.type{{this}}">
+
+                {{#for 1 (countTale system.trait.requ) 1}}
+                    <select class="spHelper41" name="system.trait.requ.type{{this}}">
                         {{selectOptions ../config.requtype selected=(getData ../system.trait.requ (concat "type" this "")) blank="" localize=true}}
                     </select>
-                    <select class="input105s" name="system.trait.requ.tale{{this}}">
+                    <select class="input185" name="system.trait.requ.tale{{this}}">
                         {{#if (equals (getData ../system/trait/requ (concat "type" this "")) "attribut")}}
                             {{selectOptions ../config.requatt selected=(getData ../system.trait.requ (concat "tale" this "")) blank="" localize=true}}
                         {{/if}}
@@ -68,28 +76,16 @@
                             {{selectOptions ../templates/spell/all selected=(getData ../system.trait.requ (concat "tale" this "")) blank="" valueAttr="name" labelAttr="name"}}
                         {{/if}}
                     </select>
-                    <select class="spHelper52" name="system.trait.requ.condition{{this}}">
+                    <select class="spHelper42" name="system.trait.requ.condition{{this}}">
                         {{selectOptions ../config/requCond selected=(getData ../system.trait.requ (concat "condition" this "")) blank="" localize=true}}
                     </select>
                 {{/for}}
-            </div>
 
-            <div class="tab spellVariants" data-group="spell" data-tab="spellVariants">
-                <div class="input100 spellName">{{localize "GDSA.template.DE"}}:</div>
-                <input class="input85s" name="system.tale.DE" type="text" value="{{system.tale.DE}}" />
-                <div class="input100 spellName">{{localize "GDSA.template.EN"}}:</div>
-                <input class="input85s" name="system.tale.EN" type="text" value="{{system.tale.EN}}" />
-            </div>
-            
-            <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
-                <div class="itemNotesOut">{{editor system.notes class="itemNotesIn" target="system.notes" button=true engine="prosemirror" collaborate=false}}</div>
-                <button class="noteBnt note-gm-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postGM"}}</button>
-                <button class="noteBnt note-all-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postAll"}}</button>
             </div>
 
         </section>
     </div>
 
-    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+    <button class="adBnt" data-action="close">{{localize "GDSA.charactersheet.closeLabel"}}</button>
     
-</form>
+</section>

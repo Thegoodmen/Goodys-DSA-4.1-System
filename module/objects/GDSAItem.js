@@ -1,3 +1,5 @@
+const dialog = foundry.applications.api.DialogV2;
+
 export default class GDSAItem extends Item {
 
     prepareDerivedData() {
@@ -7,6 +9,44 @@ export default class GDSAItem extends Item {
         const system = this.system;
 
         system.loc = "GDSA.system." + this.type;
+
+        if(!this.inCompendium && this.type === "Template") {
+
+            switch (this.system.type) {
+                case "trai":
+                    if (this.system.sf.type === "combat")
+                        this.update({ "img": "icons/skills/melee/sword-winged-holy-orange.webp"});
+                    else if (this.system.sf.type === "magic")
+                        this.update({ "img": "icons/magic/symbols/circled-gem-pink.webp"});
+                    else if (this.system.sf.type === "holy")
+                        this.update({ "img": "icons/magic/holy/angel-wings-gray.webp"});
+                    break;
+                case "adva":
+                    this.update({ "img": "icons/sundries/scrolls/scroll-runed-brown-purple.webp"});
+                    break;
+                case "flaw":
+                    this.update({ "img": "icons/environment/traps/spike-skull-white-brown.webp"});
+                    break;
+                case "kult":
+                    this.update({ "img": "icons/magic/holy/barrier-shield-winged-blue.webp"});
+                    break;
+                case "effe":
+                    this.update({ "img": "icons/magic/symbols/runes-star-pentagon-magenta.webp"});
+                    break;
+                case "npct":
+                    this.update({ "img": "icons/skills/trades/smithing-smelter-tongs.webp"});
+                    break;
+                case "npcw":
+                    this.update({ "img": "icons/creatures/claws/claw-bear-paw-swipe-red.webp"});
+                    break;
+                default:
+                    break;
+            }
+
+            if(system.tale === undefined) system.tale = {};
+            system.tale.DE = this.name;
+            system.tale.EN = this.name;
+        }
     }
 
     /* -------------------------------------------- */
@@ -16,69 +56,142 @@ export default class GDSAItem extends Item {
     /**
      * Present a Dialog form to create a new Document of this type.
      * Choose a name and a type from a select menu of types.
-     * @param {object} data              Initial data with which to populate the creation form
-     * @param {object} [context={}]      Additional context options or dialog positioning options
-     * @param {Document|null} [context.parent]   A parent document within which the created Document should belong
-     * @param {string|null} [context.pack]       A compendium pack within which the Document should be created
-     * @returns {Promise<Document|null>} A Promise which resolves to the created Document, or null if the dialog was
-     *                                   closed.
-     * @memberof ClientDocumentMixin
+     * @param {object} data                Document creation data
+     * @param {DatabaseCreateOperation} [createOptions]  Document creation options.
+     * @param {object} [options={}]        Options forwarded to DialogV2.prompt
+     * @param {{id: string; name: string}[]} [options.folders] Available folders in which the new Document can be place
+     * @param {string[]} [options.types]   A restriction of the selectable sub-types of the Dialog.
+     * @param {string} [options.template]  A template to use for the dialog contents instead of the default.
+     * @param {object} [options.context]   Additional render context to provide to the template.
+     * @param {ApplicationRenderOptions} [renderOptions]  Options to forward to the document sheet's render call.
+     * @returns {Promise<Document|null>}   A Promise which resolves to the created Document, or null if the dialog was
+     *                                     closed.
      */
+    static async createDialog(data={}, createOptions={}, { folders, types, template, context, ...dialogOptions }={}, renderOptions={}) {
+      
+        const applicationOptions = {
+            top: "position", 
+            left: "position", 
+            width: "position", 
+            height: "position", 
+            scale: "position", 
+            zIndex: "position",
+            title: "window", 
+            id: "", 
+            classes: "", 
+            jQuery: ""
+        };
 
-    static async createDialog(data={}, {parent=null, pack=null, ...options}={}) {
+        for ( const [k, v] of Object.entries(createOptions) )
+            if ( k in applicationOptions ) {
+                
+                foundry.utils.logCompatibilityWarning("The ClientDocument.createDialog signature has changed. "
+                    + "It now accepts database operation options in its second parameter, "
+                    + "and options for DialogV2.prompt in its third parameter.", { since: 13, until: 15, once: true });
+                
+                const dialogOption = applicationOptions[k];
+          
+                if ( dialogOption ) foundry.utils.setProperty(dialogOptions, `${dialogOption}.${k}`, v);
+                else dialogOptions[k] = v;
+                    
+                delete createOptions[k];
+            }
 
-        // Collect data
 
-        const documentName = this.metadata.name;
-        const types = game.documentTypes[documentName].filter(t => t !== CONST.BASE_DOCUMENT_TYPE);
-        let collection;
+        const {parent, pack} = createOptions;
+        const cls = this.implementation;
 
-        if (!parent)
-          if (pack) collection = game.packs.get(pack);
-          else collection = game.collections.get(documentName);
+        // Identify allowed types
+        const documentTypes = [];
+        const config = CONFIG[this.documentName] ?? {};
+        let defaultType = config.defaultType ?? this.schema.fields.type?.getInitialValue();
+        let defaultTypeAllowed = false;
+        let hasTypes = false;
+        
+        if ( this.TYPES.length > 1 ) {
+            
+            if ( types?.length === 0 ) throw new Error("The array of sub-types to restrict to must not be empty");
 
+            // Register supported types
+            for ( const type of this.TYPES ) {
 
-        const folders = collection?._formatFolderSelectOptions() ?? [];
-        const title = game.i18n.localize("GDSA.system.creaNewItem");
+                if ( (type === "base") && !this.metadata.baseTypeAllowed ) continue;
+                if ( types && !types.includes(type) ) continue;
 
-        const context = {
+                let label = config.typeLabels?.[type];
+                label = label && game.i18n.has(label) ? _loc(label) : type;
+                documentTypes.push({value: type, label});
+                if ( type === defaultType ) defaultTypeAllowed = true;
+            }
 
-            name: game.i18n.localize("GDSA.system.newItem"),
+            if ( !documentTypes.length ) throw new Error("No document types were permitted to be created");
+            if ( !defaultTypeAllowed ) defaultType = documentTypes[0].value;
+            // Sort alphabetically
 
-            folder: data.folder,
-            folders,
-            hasFolders: folders.length >= 1,
-
-            type: data.type || CONFIG[documentName]?.defaultType || types[0],
-            types: types.reduce((obj, t) => {
-              const label = CONFIG[documentName]?.typeLabels?.[t] ?? t;
-              obj[t] = game.i18n.has(label) ? game.i18n.localize(label) : t;
-              return obj;
-            }, {}),
-            hasTypes: types.length > 1
+            documentTypes.sort((a, b) => a.label.localeCompare(b.label, game.i18n.lang));
+            hasTypes = true;
         }
 
-        const html = await renderTemplate("systems/gdsa/templates/ressources/item-create.hbs", context);
-  
-        return Dialog.prompt({
+        // Identify destination collection
+        let collection;
+        if ( !parent ) {
+            if ( pack ) collection = game.packs.get(pack);
+            else collection = game.collections.get(this.documentName);
+        }
 
-            title: title,
-            content: html,
-            label: title,
+        // Collect data
+        folders ??= collection?._formatFolderSelectOptions() ?? [];
+        const label = _loc(this.metadata.label);
+        const title = _loc("DOCUMENT.Create", {type: label});
+        const type = data.type || defaultType;
 
-            onClick: html => {
-                const form = html[0].querySelector("form");
-                const fd = new FormDataExtended(form);
-                foundry.utils.mergeObject(data, fd.object, {inplace: true});
-                if (!data.folder) delete data.folder;
-                if (types.length === 1) data.type = types[0];
-                if (!data.name?.trim()) data.name = this.defaultName();
-                return this.create(data, {parent, pack, renderSheet: true});
-            },
-            
-            rejectClose: false,
-            options
+        // Render the document creation form
+        template ??= "systems/gdsa/templates/ressources/item-create.hbs";
+        const html = await foundry.applications.handlebars.renderTemplate(template, {
+
+            folders, hasTypes, type,
+            name: data.name || "",
+            defaultName: cls.defaultName({type, parent, pack}),
+            folder: data.folder,
+            hasFolders: folders.length >= 1,
+            types: documentTypes,
+            typeHint: _loc(config.typeHints?.[type]),
+            ...context
         });
+        
+        const content = document.createElement("div");
+        content.innerHTML = html;
+
+        // Render the confirmation dialog window
+        return foundry.applications.api.DialogV2.prompt(foundry.utils.mergeObject({
+            content,
+            window: {title}, // FIXME: double localization
+            position: {width: 360},
+            render: (event, dialog) => {
+            if ( !hasTypes ) return;
+            dialog.element.querySelector('[name="type"]').addEventListener("change", e => {
+                const type = e.target.value;
+                const typeHint = dialog.element.querySelector('[name="type"]')?.closest(".form-group")?.querySelector(".hint");
+                if ( typeHint ) typeHint.textContent = _loc(config.typeHints?.[type]);
+                const nameInput = dialog.element.querySelector('[name="name"]');
+                nameInput.placeholder = cls.defaultName({type, parent, pack});
+            });
+            },
+            ok: {
+            label: title, // FIXME: double localization
+            callback: async (event, button) => {
+                const fd = new foundry.applications.ux.FormDataExtended(button.form);
+                foundry.utils.mergeObject(data, fd.object);
+                if ( !data.folder ) delete data.folder;
+                if ( !data.name?.trim() ) data.name = cls.defaultName({type: data.type, parent, pack});
+                const doc = await cls.create(data, { renderSheet: false, ...createOptions });
+                renderOptions.renderContext ??= `create${this.documentName}`;
+                renderOptions.renderData ??= data;
+                doc.sheet.render(true, renderOptions);
+                return doc;
+            }
+            }
+        }, dialogOptions));
     }
 
     setBookItemData(object) {

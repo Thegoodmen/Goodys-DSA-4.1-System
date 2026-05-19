@@ -1,41 +1,48 @@
-<form class="{{cssClass}}" autocomplete="off">
+<section>
 
-    <div class="browserImgBox3"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
-
-    <div class="ritHelper20">
-        <div class="spHelper1"><b>{{localize "GDSA.itemsheet.name"}}</b></div>
-        <div class="spHelper4"><b>{{localize "GDSA.template.type"}}</b></div>
-        <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
-        <div class="spHelper3">
-            <select class="spHelper5" name="system.type">{{selectOptions config.tempTypes selected=system.type blank="" localize=true}}</select>
+    <div class="itemRow5">
+        <div class="ritHelper7">
+            <div class="spHelper1"><b>{{localize "GDSA.itemsheet.name"}}</b></div>
+            <div class="spHelper36"><b>{{localize "GDSA.template.type"}}</b></div>
+            <div class="spHelper46"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
+            <div class="spHelper3">
+                <select class="spHelper33" name="system.type">{{selectOptions config.tempTypes selected=system.type blank="" localize=true}}</select>
+            </div>
         </div>
-        <div class="spHelper1"><b>{{localize "GDSA.itemsheet.cult"}}</b></div>
-        <div class="spHelper1">
-            <select class="spHelper2" name="system.cult.type">{{selectOptions config.cultTypes selected=system.cult.type localize=true}}</select>
+        
+        <div class="itemRow3">
+            <div class="spHelper43"><b>{{localize "GDSA.itemsheet.cult"}}</b></div>
+            <div class="spHelper36"><b>{{localize "GDSA.template.gradZero"}}</b></div>
+            <div class="spHelper43">
+                <select class="spHelper44" name="system.cult.type">{{selectOptions config.cultTypes selected=system.cult.type localize=true}}</select>
+            </div>
+            <div class="spHelper3">
+                <select class="spHelper45" name="system.cult.gradZero">{{selectOptions template.liturgy.grad1 selected=system.cult.gradZero valueAttr="id" labelAttr="name" blank=""}}</select>
+            </div>
         </div>
     </div>
 
-    <div class="itemMenu3">
+    <div class="itemMenu6">
         <nav class="tabs nav spell-tabs" data-group="spell">
-            <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>  
-            <a class="item" data-tab="spellVariants"><div class="spellMenu">{{localize "GDSA.template.mirakel"}}</div></a>
-            <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
+            <a class="item" data-tab="spellNotes"><div class="spellMenu3">{{localize "GDSA.itemsheet.description"}}</div></a>
+            <a class="item" data-tab="spellVariants"><div class="spellMenu4">{{localize "GDSA.template.mirakel"}}</div></a>
         </nav>
     </div>
 
     <div class="spellMenuBox">
 	    <section class="spell-body">
-
-            <div class="tab spellDetails" data-group="spell" data-tab="spellDetails">
-                <div class="input100 skillType">{{localize "GDSA.template.gradZero"}}:</div>
-                <select class="input70sk" name="system.cult.gradZero">{{selectOptions template.liturgy.grad1 selected=system.cult.gradZero valueAttr="id" labelAttr="name" blank=""}}</select>   
+     
+            <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
+                <textarea class="areaInputDesc" name="system.tale.description">{{system.tale.description}}</textarea>
+                <button class="noteBnt" data-action="postGM">{{localize "GDSA.charactersheet.postGM"}}</button>
+                <button class="noteBnt" data-action="postAll">{{localize "GDSA.charactersheet.postAll"}}</button>
             </div>
 
             <div class="tab spellVariants" data-group="spell" data-tab="spellVariants">
 
                 <div class="skillFiller"></div>
                 <div class="form-group subSub">
-                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.attributes"}}<div class="submen"><hr class="subhr" /></div>
+                    <div class="submen"><hr class="subhr" /></div><span class="submenlbl">{{localize "GDSA.charactersheet.attributes"}}</span><div class="submen"><hr class="subhr" /></div>
                 </div>
                 <div class="skillFiller"></div>
 
@@ -61,7 +68,7 @@
 
                 <div class="skillFiller"></div>
                 <div class="form-group subSub">
-                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.meeleSkills"}}<div class="submen"><hr class="subhr" /></div>
+                    <div class="submen"><hr class="subhr" /></div><span class="submenlbl">{{localize "GDSA.charactersheet.meeleSkills"}}</span><div class="submen"><hr class="subhr" /></div>
                 </div>
                 <div class="skillFiller"></div>
 
@@ -73,7 +80,7 @@
 
                 <div class="skillFiller"></div>
                 <div class="form-group subSub">
-                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.rangeSkills"}}<div class="submen"><hr class="subhr" /></div>
+                    <div class="submen"><hr class="subhr" /></div><span class="submenlbl">{{localize "GDSA.charactersheet.rangeSkills"}}</span><div class="submen"><hr class="subhr" /></div>
                 </div>
                 <div class="skillFiller"></div>
 
@@ -85,7 +92,7 @@
 
                 <div class="skillFiller"></div>
                 <div class="form-group subSub">
-                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.bodySkills"}}<div class="submen"><hr class="subhr" /></div>
+                    <div class="submen"><hr class="subhr" /></div><span class="submenlbl">{{localize "GDSA.charactersheet.bodySkills"}}</span><div class="submen"><hr class="subhr" /></div>
                 </div>
                 <div class="skillFiller"></div>
 
@@ -97,7 +104,7 @@
 
                 <div class="skillFiller"></div>
                 <div class="form-group subSub">
-                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.socialSkills"}}<div class="submen"><hr class="subhr" /></div>
+                    <div class="submen"><hr class="subhr" /></div><span class="submenlbl">{{localize "GDSA.charactersheet.socialSkills"}}</span><div class="submen"><hr class="subhr" /></div>
                 </div>
                 <div class="skillFiller"></div>
 
@@ -109,7 +116,7 @@
 
                 <div class="skillFiller"></div>
                 <div class="form-group subSub">
-                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.natureSkills"}}<div class="submen"><hr class="subhr" /></div>
+                    <div class="submen"><hr class="subhr" /></div><span class="submenlbl">{{localize "GDSA.charactersheet.natureSkills"}}</span><div class="submen"><hr class="subhr" /></div>
                 </div>
                 <div class="skillFiller"></div>
 
@@ -121,7 +128,7 @@
 
                 <div class="skillFiller"></div>
                 <div class="form-group subSub">
-                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.knowledgeSkills"}}<div class="submen"><hr class="subhr" /></div>
+                    <div class="submen"><hr class="subhr" /></div><span class="submenlbl">{{localize "GDSA.charactersheet.knowledgeSkills"}}</span><div class="submen"><hr class="subhr" /></div>
                 </div>
                 <div class="skillFiller"></div>
 
@@ -133,7 +140,7 @@
 
                 <div class="skillFiller"></div>
                 <div class="form-group subSub">
-                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.craftSkills"}}<div class="submen"><hr class="subhr" /></div>
+                    <div class="submen"><hr class="subhr" /></div><span class="submenlbl">{{localize "GDSA.charactersheet.craftSkills"}}</span><div class="submen"><hr class="subhr" /></div>
                 </div>
                 <div class="skillFiller"></div>
 
@@ -145,7 +152,7 @@
 
                 <div class="skillFiller"></div>
                 <div class="form-group subSub">
-                    <div class="submen"><hr class="subhr" /></div>{{localize "GDSA.charactersheet.giftSkills"}}<div class="submen"><hr class="subhr" /></div>
+                    <div class="submen"><hr class="subhr" /></div><span class="submenlbl">{{localize "GDSA.charactersheet.giftSkills"}}</span><div class="submen"><hr class="subhr" /></div>
                 </div>
                 <div class="skillFiller"></div>
 
@@ -158,15 +165,10 @@
                 {{/each}}
 
             </div>
-            
-            <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
-                <div class="itemNotesOut">{{editor system.notes class="itemNotesIn" target="system.notes" button=true engine="prosemirror" collaborate=false}}</div>
-                <button class="noteBnt note-gm-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postGM"}}</button>
-                <button class="noteBnt note-all-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postAll"}}</button>
-            </div>
 
         </section>
     </div>
 
-    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
-</form>
+    <button class="adBnt" data-action="close">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+
+</section>

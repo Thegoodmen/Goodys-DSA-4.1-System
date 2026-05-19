@@ -382,7 +382,7 @@ GDSA.holyLast = {
 GDSA.tempTypes = {
     adva: "GDSA.templates.adva",
     flaw: "GDSA.templates.flaw",
-    trai: "GDSA.templates.sf",
+    trai: "GDSA.templates.sonfer",
     tale: "GDSA.templates.tal",
     kult: "GDSA.templates.kult",
     affi: "GDSA.templates.affi",
@@ -408,7 +408,7 @@ GDSA.merchantType = {
 GDSA.requtype = {
     attribut: "GDSA.templates.attribut",
     talent: "GDSA.templates.tal",
-    trait: "GDSA.templates.sf",
+    trait: "GDSA.templates.sonfer",
     advantage: "GDSA.templates.adva",
     flaw: "GDSA.templates.flaw",
     spell: "GDSA.templates.spell"
@@ -490,14 +490,14 @@ GDSA.langFam = {
     secret: "GDSA.template.secret"
 }
 
-GDSA.levelup = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F"
-]
+GDSA.levelup = {
+    "A":"A",
+    "B":"B",
+    "C":"C",
+    "D":"D",
+    "E":"E",
+    "F":"F"
+}
 
 GDSA.cmbttype = {
     meele: "GDSA.charactersheet.meeleSkills",

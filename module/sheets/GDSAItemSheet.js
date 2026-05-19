@@ -1,33 +1,26 @@
+import * as Util from "../../Util.js";
 import * as LsFunction from "../listenerFunctions.js";
 import {templateData} from "../apps/templates.js";
+import * as Dialog from "../dialog.js";
 
-export default class GDSAItemSheet extends ItemSheet {
+const api = foundry.applications.api;
+const sheets = foundry.applications.sheets;
 
-    static get defaultOptions() {
+export default class GDSAItemSheet extends api.HandlebarsApplicationMixin(sheets.ItemSheetV2) {
 
-        // #################################################################################################
-        // #################################################################################################
-        // ##                                                                                             ##
-        // ##            Returns the General HTML of the Sheet and defines some general Stats             ##
-        // ##                                                                                             ##
-        // #################################################################################################
-        // #################################################################################################
-        
-        if(true) 
-            return foundry.utils.mergeObject(super.defaultOptions, {
-                "height": 662,
-                "width": 900,
-                "resizable": false,
-                "tabs": [ {navSelector: ".spell-tabs", contentSelector: ".spell-body", initial: "spellDetails"}],
-                "classes": ["GDSA", "sheet", "itemSheet"]
-            });
-        else return foundry.utils.mergeObject(super.defaultOptions, {
+    sheet = {};
 
-            width: 466,
-            resizable: false,
-            tabs: [ {navSelector: ".spell-tabs", contentSelector: ".spell-body", initial: "spellDetails"}],
-            classes: ["GDSA", "sheet", "itemSheet"]
-        });
+    static DEFAULT_OPTIONS = {
+        tag: "form",
+        classes: ["GDSA", "sheet", "itemSheet"],
+        form: {
+            submitOnChange: true,
+            closeOnSubmit: false
+        },
+        position: {
+            width: 900,
+            height: 662
+        }
     }
 
     get template() {
@@ -35,51 +28,69 @@ export default class GDSAItemSheet extends ItemSheet {
         let itemType = this.item.system.type;
 
         if(itemType === "none" || itemType === "s") itemType = "";
-        if(this.item.type === "Template") return `systems/gdsa/templates/sheets/template/${this.item.type}-${itemType}-sheet.hbs`
+
         if(this.item.type === "Gegenstand" && itemType === "item" && this.item.system.itemType === "book") return `systems/gdsa/templates/sheets/gegenstand/${this.item.type}-${itemType}-book-sheet.hbs`
         if(this.item.type === "Gegenstand") return `systems/gdsa/templates/sheets/gegenstand/${this.item.type}-${itemType}-sheet.hbs`
         if(this.item.type === "objektRitual") return `systems/gdsa/templates/sheets/ritual/${this.item.type}-${itemType}-sheet.hbs`
         return `systems/gdsa/templates/sheets/items/${this.item.type}-sheet.hbs`
     }
+    
+    /** @override */
+    async _prepareContext(options) {
+        
+        // #################################################################################################
+        // #################################################################################################
+        // ##                                                                                             ##
+        // ## Creates Basic Datamodel, which is used to fill the HTML together with Handelbars with Data. ##
+        // ##                                                                                             ##
+        // #################################################################################################
+        // #################################################################################################
+        
+        const baseData = await super._prepareContext(options);
 
-    async getData() {
+        let context = {
+            
+            // Set General Values
 
-        const baseData = super.getData();
-
-        let sheetData = {
-
-            owner: this.item.isOwner,
-            editable: this.isEditable,
-            item: baseData.item,
-            system: baseData.item.system,
+            owner: baseData.document.isOwner,
+            editable: baseData.editable,
+            item: baseData.document,
+            system: baseData.document.system,
             config: CONFIG.GDSA,
+            isGM: baseData.user.isGM,
             template: CONFIG.Templates,
             templates: CONFIG.Templates,
-            effects: baseData.item.effects,
+            effects: baseData.document.effects,
+
+            // Set GDSAItem specific Values
+
             selTalents: this.getSelectTalents(),
             selTraits: this.getSelectTraits(),
             selTalentN: this.getSelectTalentsN(),
-            setWeaponR: this.getWeaponRange(baseData.item.system)
+            setWeaponR: this.getWeaponRange(baseData.document.system),
         };
 
-        if(sheetData.system.value > 0) {
+        // Calculate the Value / Price of the Item 
+        
+        if(context.system.value > 0) {
 
             let length = 0;
-            let value = sheetData.system.value;
+            let value = context.system.value;
 
-            sheetData.system.gold = 0;
-            sheetData.system.silver = value[length-3];
-            sheetData.system.copper = value[length-2];
-            sheetData.system.nickel = value[length-1];
+            context.system.gold = 0;
+            context.system.silver = value[length-3];
+            context.system.copper = value[length-2];
+            context.system.nickel = value[length-1];
         }
-
-        this.sheet = sheetData;
-
-        return sheetData;
+        
+        this.sheet = context;
+        
+        return context;
     }
 
-    activateListeners(html) {
-
+    /** @override */
+    _onRender(context, options) {
+        
         // #################################################################################################
         // #################################################################################################
         // ##                                                                                             ##
@@ -88,35 +99,35 @@ export default class GDSAItemSheet extends ItemSheet {
         // #################################################################################################
         // #################################################################################################
 
+        super._onRender(context, options);
+        
+        new foundry.applications.ux.Tabs({navSelector: ".spell-tabs", contentSelector: ".spell-body", initial: "spellNotes"}).bind(this.element);
+        
         if(this.isEditable) {
 
-            let sheet = this.sheet;
+            //let sheet = this.sheet;
 
             // Set Listener for Item Events
 
-            html.find(".item-close").click(LsFunction.onItemClose.bind(this));
-            html.find(".addSpellVariants").click(LsFunction.addSpellVariants.bind(this, sheet));
-            html.find(".editSpellVariants").click(LsFunction.editSpellVariants.bind(this, sheet));
-            html.find(".deleteSpellVariants").click(LsFunction.deleteSpellVariants.bind(this,sheet));
-            html.find(".note-gm-post").click(LsFunction.noteGMPost.bind(this, sheet));
-            html.find(".note-all-post").click(LsFunction.noteAllPost.bind(this, sheet));
-            html.find(".editBookItem").click(LsFunction.editItemBookDetails.bind(this, sheet));
-            html.find(".openBookItem").click(LsFunction.openItemPage.bind(this, sheet, 2));
-            html.find(".openBookNote").click(LsFunction.openItemPage.bind(this, sheet, 3));
+            //this.element.querySelectorAll(".addSpellVariants").forEach(action => { action.addEventListener("click", (e) => LsFunction.addSpellVariants(sheet, e)) });
+            //this.element.querySelectorAll(".editSpellVariants").forEach(action => { action.addEventListener("click", (e) => LsFunction.editSpellVariants(sheet, e)) });
+            //this.element.querySelectorAll(".deleteSpellVariants").forEach(action => { action.addEventListener("click", (e) => LsFunction.deleteSpellVariants(sheet, e)) });
+            //this.element.querySelectorAll(".editBookItem").forEach(action => { action.addEventListener("click", (e) => LsFunction.editItemBookDetails(sheet, e)) });
+            //this.element.querySelectorAll(".openBookItem").forEach(action => { action.addEventListener("click", (e) => LsFunction.openItemPage(sheet, e, 2)) });
+            //this.element.querySelectorAll(".openBookNote").forEach(action => { action.addEventListener("click", (e) => LsFunction.openItemPage(sheet, e, 3)) });
 
             // Set Listener for Active Effects
 
-            html.find(".effect-control").click(this._onEffectControl.bind(this));
+            //this.element.querySelectorAll(".effect-control").forEach(action => { action.addEventListener("click", (e) => LsFunction._onEffectControl(e)) });
         }
 
-        if(html.get("0").className == "bookItem") {
+        if(this.element.className.includes("bookItem")) {
 
-            html.parent().addClass("bookSection");
-            html.parent().parent().addClass("bookItemSheet");
-            html.parent().parent().children("header").addClass("bookHeader");
+            console.log(this)
+            //this.element.parent().addClass("bookSection");
+            //this.element.parent().parent().addClass("bookItemSheet");
+            //this.element.parent().parent().children("header").addClass("bookHeader");
         }
-
-        super.activateListeners(html);
     }
 
     getSelectTalents() {
@@ -236,8 +247,6 @@ export default class GDSAItemSheet extends ItemSheet {
         return response;
     }
 
-    
-
     getWeaponRange(system) {
 
         if(this.item.type != "Gegenstand") return {};
@@ -281,5 +290,4 @@ export default class GDSAItemSheet extends ItemSheet {
                 return effect.delete();
         }
     }
-
 }

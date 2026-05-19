@@ -1,55 +1,49 @@
-<form class="{{cssClass}}" autocomplete="off">
+<section>
 
-    <div class="browserImgBox3"><img class="browserImg" name="{{item.name}}" data-edit="img" src="{{item.img}}" /></div>
+    <div class="itemRow5">
 
-    <div class="ritHelper7">
-        <div class="spHelper1"><b>{{localize "GDSA.itemsheet.name"}}</b></div>
-        <div class="spHelper4"><b>{{localize "GDSA.template.type"}}</b></div>
-        <div class="spHelper1"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
-        <div class="spHelper3">
-            <select class="spHelper5" name="system.type">{{selectOptions config.tempTypes selected=system.type blank="" localize=true}}</select>
-        </div>
-    </div>
-
-    <div class="itemRow3">
-        <div class="spHelper1"><b>{{localize "GDSA.template.att"}}</b></div>
-        <div class="spHelper4"><b>{{localize "GDSA.template.taw"}}</b></div>
-        {{#for 1 4 1}}
-            <div class="spHelper13">
-                <select class="spHelper5" name="system.tale.att{{this}}">
-                    {{selectOptions ../config.taleAttributes selected=(getData ../system.tale (concat "att" this "")) blank="" localize=true}}
-                </select>
+        <div class="ritHelper7">
+            <div class="spHelper1"><b>{{localize "GDSA.itemsheet.name"}}</b></div>
+            <div class="spHelper36"><b>{{localize "GDSA.template.type"}}</b></div>
+            <div class="spHelper46"><input class="spHelper2" name="name" type="text" value="{{item.name}}" /></div>
+            <div class="spHelper3">
+                <select class="spHelper33" name="system.type">{{selectOptions config.tempTypes selected=system.type blank="" localize=true}}</select>
             </div>
-        {{/for}}
-        <div class="spHelper3">
-            <input class="spHelper5" name="system.tale.taw" type="number" value="{{system.tale.taw}}">
         </div>
+
+        <div class="itemRow3">
+            <div class="spHelper1"><b>{{localize "GDSA.template.att"}}</b></div>
+            <div class="spHelper36"><b>{{localize "GDSA.template.taw"}}</b></div>
+            {{#for 1 4 1}}
+                <div class="spHelper36">
+                    <select class="spHelper34" name="system.tale.att{{this}}">
+                        {{selectOptions ../config.taleAttributes selected=(getData ../system.tale (concat "att" this "")) blank="" localize=true}}
+                    </select>
+                </div>
+            {{/for}}
+            <div class="spHelper35">
+                <input class="spHelper5" name="system.tale.taw" type="number" value="{{system.tale.taw}}">
+            </div>
+        </div>
+        
     </div>
 
-    <div class="itemMenu2">
+    <div class="itemMenu7">
         <nav class="tabs nav spell-tabs" data-group="spell">
-            <a class="item" data-tab="spellDetails"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>
-            <a class="item" data-tab="spellNotes"><div class="spellMenu">{{localize "GDSA.template.note"}}</div></a>
+            <a class="item" data-tab="spellNotes"><div class="spellMenu2">{{localize "GDSA.template.general"}}</div></a>
         </nav>
     </div>
     
     <div class="spellMenuBox">
 	    <section class="spell-body">
-
-            <div class="tab spellDetails" data-group="spell" data-tab="spellDetails"></div>
-
-            <div class="tab spellVariants" data-group="spell" data-tab="spellVariants"></div>
-            
-            <div class="tab spellEffects" data-group="spell" data-tab="spellEffects"></div>
-            
             <div class="tab spellNotes" data-group="spell" data-tab="spellNotes">
-                <div class="itemNotesOut">{{editor system.notes class="itemNotesIn" target="system.notes" button=true engine="prosemirror" collaborate=false}}</div>
-                <button class="noteBnt note-gm-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postGM"}}</button>
-                <button class="noteBnt note-all-post invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.postAll"}}</button>
+                <textarea class="areaInputDesc" name="system.tale.description">{{system.tale.description}}</textarea>
+                <button class="noteBnt" data-action="postGM">{{localize "GDSA.charactersheet.postGM"}}</button>
+                <button class="noteBnt" data-action="postAll">{{localize "GDSA.charactersheet.postAll"}}</button>
             </div>
-
         </section>
     </div>
  
-    <button class="adBnt item-close invItem" data-item-id="{{item._id}}">{{localize "GDSA.charactersheet.closeLabel"}}</button>
-</form>
+    <button class="adBnt" data-action="close">{{localize "GDSA.charactersheet.closeLabel"}}</button>
+
+</section>

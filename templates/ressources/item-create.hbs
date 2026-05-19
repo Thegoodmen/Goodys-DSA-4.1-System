@@ -3,7 +3,7 @@
     <div class="form-group">
         <label>{{localize "GDSA.system.name"}}</label>
         <div class="form-fields">
-            <input id="itemCreOptName" type="text" name="name" placeholder="{{name}}" autofocus>
+            <input id="itemCreOptName" type="text" name="name" placeholder="{{defaultName}}" value="{{name}}" autofocus>
         </div>
     </div>
 
@@ -11,9 +11,9 @@
         <div class="form-group">
             <label>{{localize "GDSA.system.type"}}</label>
             <div class="form-fields">
-                <select class="itemCreOpt" name="type">                    
+                <select class="itemCreOpt" name="type">                 
                     {{#each types as |name type|}}
-                        <option value="{{type}}">{{localize (concat "GDSA.itemtypes." type "")}}</option>
+                        <option value="{{name.value}}">{{localize (concat "GDSA.itemtypes." name.value "")}}</option>
                     {{/each}}
                 </select>
             </div>

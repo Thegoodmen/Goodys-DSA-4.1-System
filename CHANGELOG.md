@@ -11,7 +11,7 @@
       - [] Buch
       - [] Edelstein
       - [] Ressourcen
-      - [] Template
+      - [x] Template
 
 **Additional Features**
 
@@ -23,6 +23,7 @@
 
 **ToDos for this minor Version**
 
++ Update all Flaws, Traits, Advantages and Talents with Text
 + Add Effects to Effect System => More then a number :D
 + Browser for SF, Advantages etc
 + Hinzufügen von Zauberlieder, Zaubezeichen und Runenmagie
