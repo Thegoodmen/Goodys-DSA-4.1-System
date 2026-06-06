@@ -28,6 +28,8 @@
 + Browser for SF, Advantages etc
 + Hinzufügen von Zauberlieder, Zaubezeichen und Runenmagie
 
++ Zunge Lähmen Ritual lässt sich nicht würfeln
+
 ---
 
 # Version 0.9.6

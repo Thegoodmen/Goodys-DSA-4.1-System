@@ -3201,6 +3201,19 @@
   padding: 5px 0px 10px 0px;
   margin-top: -10px;
 }
+.GDSA.sheet.itemSheet .itemDescMainBox {
+  float: left;
+  height: 535px;
+  width: 435px;
+  background-color: #7d7d7d6b;
+  margin-top: -10px;
+  margin-right: 25px;
+  border: 1px solid #e9d2b4;
+  border-radius: 8px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: auto;
+}
 .GDSA.sheet.itemSheet .itemMenu1 {
   width: 100px;
   height: 22px;
@@ -3439,6 +3452,10 @@
   width: 100px;
   margin-left: 10px;
 }
+.GDSA.sheet.itemSheet .input160i {
+  width: 160px;
+  margin-left: 10px;
+}
 .GDSA.sheet.itemSheet .input95 {
   width: 95px;
 }
@@ -3532,6 +3549,8 @@
 }
 .GDSA.sheet.itemSheet .input40 {
   width: 40px;
+  height: 26px;
+  text-align: center;
 }
 .GDSA.sheet.itemSheet .input30 {
   width: 30px;
@@ -3737,13 +3756,19 @@
   width: 20px;
   height: 20px;
   float: left;
-  margin: 3px 9px;
+  margin: 6px 10px;
 }
 .GDSA.sheet.itemSheet .adBnt {
   float: left;
   width: 145px;
   margin-top: 20px;
   margin-left: 155px;
+}
+.GDSA.sheet.itemSheet .adBnt2 {
+  float: left;
+  width: 145px;
+  margin-top: 12px;
+  margin-left: 375px;
 }
 .GDSA.sheet.itemSheet .noteBnt {
   float: left;
@@ -3832,6 +3857,19 @@
   width: 375px;
   height: 48px;
 }
+.GDSA.sheet.itemSheet .ritHelper22 {
+  float: left;
+  width: 355px;
+  height: 55px;
+  padding-top: 6px;
+}
+.GDSA.sheet.itemSheet .ritHelper23 {
+  float: left;
+  width: 355px;
+  height: 55px;
+  padding-top: 14px;
+  padding-left: 5px;
+}
 .GDSA.sheet.itemSheet .sgHelper1 {
   float: left;
   width: 350px;
@@ -3858,10 +3896,6 @@
   height: 20px;
   padding-left: 5px;
 }
-.GDSA.sheet.itemSheet .spHelper23 {
-  float: left;
-  width: 285px;
-}
 .GDSA.sheet.itemSheet .spHelper2 {
   float: left;
   width: 265px;
@@ -3878,28 +3912,6 @@
 }
 .GDSA.sheet.itemSheet .spHelper5 {
   width: 50px;
-  margin-right: 10px;
-}
-.GDSA.sheet.itemSheet .spHelper52 {
-  width: 70px;
-  margin-right: 5px;
-  text-align: center;
-}
-.GDSA.sheet.itemSheet .spHelper53 {
-  width: 110px;
-  margin-right: 10px;
-  margin-left: 5px;
-}
-.GDSA.sheet.itemSheet .spHelper54 {
-  width: 25px;
-}
-.GDSA.sheet.itemSheet .spHelper51 {
-  width: 80px;
-  margin-right: 10px;
-  margin-left: 23px;
-}
-.GDSA.sheet.itemSheet .spHelper55 {
-  width: 160px;
   margin-right: 10px;
 }
 .GDSA.sheet.itemSheet .spHelper6 {
@@ -3980,6 +3992,10 @@
   float: left;
   width: 207px;
   height: 20px;
+}
+.GDSA.sheet.itemSheet .spHelper23 {
+  float: left;
+  width: 285px;
 }
 .GDSA.sheet.itemSheet .spHelper24 {
   width: 110px;
@@ -4099,6 +4115,50 @@
   float: left;
   width: 275px;
   height: 35px;
+}
+.GDSA.sheet.itemSheet .spHelper47 {
+  float: left;
+  width: 255px;
+  height: 20px;
+  padding-left: 5px;
+}
+.GDSA.sheet.itemSheet .spHelper48 {
+  float: left;
+  width: 245px;
+}
+.GDSA.sheet.itemSheet .spHelper49 {
+  float: left;
+  width: 40px;
+}
+.GDSA.sheet.itemSheet .spHelper50 {
+  float: left;
+  width: 50px;
+}
+.GDSA.sheet.itemSheet .spHelper51 {
+  width: 80px;
+  margin-right: 10px;
+  margin-left: 23px;
+}
+.GDSA.sheet.itemSheet .spHelper52 {
+  width: 70px;
+  margin-right: 5px;
+  text-align: center;
+}
+.GDSA.sheet.itemSheet .spHelper53 {
+  width: 110px;
+  margin-right: 10px;
+  margin-left: 5px;
+}
+.GDSA.sheet.itemSheet .spHelper54 {
+  width: 25px;
+}
+.GDSA.sheet.itemSheet .spHelper55 {
+  width: 160px;
+  margin-right: 10px;
+}
+.GDSA.sheet.itemSheet .spHelper56 {
+  width: 59px;
+  margin-right: 10px;
 }
 .GDSA.sheet.itemSheet .tempHelper1 {
   height: 1250px;
@@ -4526,6 +4586,14 @@
   margin-right: 15px;
   margin-left: 10px;
 }
+.GDSA.sheet.itemSheet .browserImgBox5 {
+  width: 60px;
+  height: 80px;
+  float: left;
+  margin-top: 27px;
+  margin-right: 9px;
+  margin-left: 9px;
+}
 .GDSA.sheet.itemSheet .browserImg {
   border: 0px;
 }
@@ -4539,6 +4607,84 @@
   width: 395px;
   height: 300px;
   margin: 5px 10px;
+}
+.GDSA.sheet.itemSheet .spellHeadline {
+  float: left;
+  width: 100%;
+  height: 50px;
+  padding: 9px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  text-wrap-mode: nowrap;
+}
+.GDSA.sheet.itemSheet .spellTechnik {
+  float: left;
+  width: 100%;
+  padding: 5px 15px;
+  color: #e9d2b4;
+  font-size: 14px;
+  font-family: sans-serif;
+}
+.GDSA.sheet.itemSheet .spellCasttime {
+  float: left;
+  width: 100%;
+  padding: 5px 15px;
+  color: #e9d2b4;
+  font-size: 14px;
+  font-family: sans-serif;
+}
+.GDSA.sheet.itemSheet .spellEffect {
+  float: left;
+  width: calc(100% - 10px);
+  max-height: 165px;
+  margin-right: 10px;
+  padding: 5px 2px 5px 15px;
+  color: #e9d2b4;
+  font-size: 14px;
+  font-family: sans-serif;
+  text-align: justify;
+  overflow: scroll;
+}
+.GDSA.sheet.itemSheet .spellFact {
+  float: left;
+  width: 100%;
+  padding: 1px 15px;
+  color: #e9d2b4;
+  font-size: 14px;
+  font-family: sans-serif;
+}
+.GDSA.sheet.itemSheet .spellRef {
+  float: left;
+  width: 100%;
+  padding: 1px 30px;
+  color: #e9d2b4;
+  font-size: 10px;
+  font-family: sans-serif;
+  text-align: right;
+}
+.GDSA.sheet.itemSheet .spellModSel {
+  padding-left: 8px;
+}
+.GDSA.sheet.itemSheet .spellHelper {
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin-top: -5px;
+}
+.GDSA.sheet.itemSheet .spellTechInput {
+  float: left;
+  height: 65px;
+  width: 395px;
+  margin: 5px 10px;
+  resize: none;
+}
+.GDSA.sheet.itemSheet .spellTechInput2 {
+  float: left;
+  height: 165px;
+  width: 395px;
+  margin: 5px 10px;
+  resize: none;
 }
 .bookItemSheet {
   background-color: transparent;

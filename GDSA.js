@@ -6,6 +6,7 @@ import GDSACombat from "./module/combat/combat.js";
 import GDSACombatTracker from "./module/combat/combatTracker.js";
 import GDSAItemSheet from "./module/sheets/GDSAItemSheet.js";
 import GDSATemplateSheet from "./module/sheets/GDSATemplateSheet.js";
+import GDSASpellSheet from "./module/sheets/GDSASpellSheet.js";
 import GDSAPlayerCharakterSheet from "./module/sheets/GDSAPlayerCharakterSheet.js";
 import GDSALootActorSheet from "./module/sheets/GDSALootActorSheet.js";
 import GDSAMerchantSheet from "./module/sheets/GDSAMerchantSheet.js";
@@ -61,6 +62,7 @@ Hooks.once("init", async () => {
 
     DocumentSheetConfig.unregisterSheet(Item, "core", foundry.appv1.sheets.ItemSheet);
     DocumentSheetConfig.registerSheet(Item, "gdsa", GDSATemplateSheet, { types: ["Template"], lable: "GDSA.SheetClassItem"});
+    DocumentSheetConfig.registerSheet(Item, "gdsa", GDSASpellSheet, { types: ["spell"], lable: "GDSA.SheetClassItem"});
     //DocumentSheetConfig.registerSheet(Item, "gdsa", GDSAItemSheet, { makeDefault: true, label: "GDSA.SheetClassItem"});
 
     DocumentSheetConfig.unregisterSheet(Actor, "core", foundry.appv1.sheets.ActorSheet);
@@ -393,6 +395,41 @@ function registerHandelbarsHelpers() {
                     counter ++;
             
         return counter;
+    });
+
+    Handlebars.registerHelper("countMagTrait", function(obj, iniCount) {
+
+        let counter = iniCount;
+
+        if (obj != undefined)
+            for (let index = 1; index < 30; index++)
+                if (obj["trait" + index] != undefined && obj["trait" + index] != "" && obj["trait" + index] != "none")
+                    counter ++;
+            
+        return counter;
+    });
+
+    Handlebars.registerHelper("spellVerb", function(obj) {
+
+        let list = [];
+        
+        if (obj.vMag) list.push({ "lbl": "Mag", "value": obj.vMag});
+        if (obj.vDru) list.push({ "lbl": "Dru", "value": obj.vDru});
+        if (obj.vBor) list.push({ "lbl": "Bor", "value": obj.vBor});
+        if (obj.vSrl) list.push({ "lbl": "Srl", "value": obj.vSrl});
+        if (obj.vHex) list.push({ "lbl": "Hex", "value": obj.vHex});
+        if (obj.vElf) list.push({ "lbl": "Elf", "value": obj.vElf});
+        if (obj.vSch) list.push({ "lbl": "Sch", "value": obj.vSch});
+        if (obj.vGeo) list.push({ "lbl": "Geo", "value": obj.vGeo});
+        if (obj.vAch) list.push({ "lbl": "Ach", "value": obj.vAch});
+
+        list.sort((a, b) => b.value - a.value);
+
+        let result = "";
+
+        list.forEach(element => { result += ", " + element.lbl + element.value; });
+
+        return result.substring(2);
     });
 
     Handlebars.registerHelper("times", function(n, content) {

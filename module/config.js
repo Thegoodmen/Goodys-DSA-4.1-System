@@ -129,6 +129,36 @@ GDSA.magicTraits = {
     erz: "GDSA.magicTraits.erz"
 }
 
+GDSA.targetobj = [
+    "Einzelperson",
+    "Einzelperson, freiwillig",
+    "Einzelwesen",
+    "Einzelobjekt",
+    "Mehrere Personen",
+    "Mehrere Personen, freiwillig",
+    "Mehrere Wesen",
+    "Mehrere Objekte",
+    "Zone",
+    "Einzelner Zauber",
+]
+
+GDSA.rangeSpell = [
+    "Selbst",
+    "Berührung",
+    "Selbst, Berührung",
+    "1 Schritt",
+    "ZfW Spann",
+    "3 Schritt",
+    "ZfW/2 Schritt",
+    "7 Schritt",
+    "ZfW Schritt",
+    "21 Schritt",
+    "ZfW x 3 Schritt",
+    "49 Schritt",
+    "ZfW x 7 Schritt",
+    "Horizont",
+]
+
 GDSA.schamLocation = {
     "-7": "GDSA.ritual.holyPlace",
     "-5": "GDSA.ritual.religPlace",

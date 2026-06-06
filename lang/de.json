@@ -95,7 +95,16 @@
             "quali": "Qualität",
             "counter": "Gegenprobe",
             "talent": "Talent",
-            "switchLang": "Switch to German"
+            "switchLang": "Switch to German",
+            "wirk": "Wirkung",
+            "targetobj": "Zielobjekt",
+            "repVer": "Repräsentation und Verbreitung",
+            "modVar": "Modifikation und Varianten",
+            "reva": "Reversalis",
+            "animag": "Antimagie",
+            "refLcd": "Quelle: Liber Cantiones S.",
+            "spellaction": "Aktionen",
+            "ingameQuote": "Aventurische Quelle"
         },
         "animationIntegration": {
             "enableAttacks.name": "Angriffs-Animationen aktivieren",

@@ -1,6 +1,6 @@
 import GDSAItemSheet from "./GDSAItemSheet.js";
 
-export default class GDSATemplateSheet extends GDSAItemSheet {
+export default class GDSASpellSheet extends GDSAItemSheet {
 
     /** @override */
     static DEFAULT_OPTIONS = {
@@ -16,7 +16,7 @@ export default class GDSATemplateSheet extends GDSAItemSheet {
             closeOnSubmit: false
         },
         position: {
-            width: 467,
+            width: 935,
             height: 630
         }
     }
@@ -24,16 +24,7 @@ export default class GDSATemplateSheet extends GDSAItemSheet {
     /** @override */
     static PARTS = {
 
-        none: { template: "systems/gdsa/templates/sheets/template/Template--sheet.hbs"},
-        adva: { template: "systems/gdsa/templates/sheets/template/Template-adva-sheet.hbs"},
-        affi: { template: "systems/gdsa/templates/sheets/template/Template-affi-sheet.hbs"},
-        effe: { template: "systems/gdsa/templates/sheets/template/Template-effe-sheet.hbs"},
-        flaw: { template: "systems/gdsa/templates/sheets/template/Template-flaw-sheet.hbs"},
-        kult: { template: "systems/gdsa/templates/sheets/template/Template-kult-sheet.hbs"},
-        npct: { template: "systems/gdsa/templates/sheets/template/Template-npct-sheet.hbs"},
-        npcw: { template: "systems/gdsa/templates/sheets/template/Template-npcw-sheet.hbs"},
-        tale: { template: "systems/gdsa/templates/sheets/template/Template-tale-sheet.hbs"},
-        trai: { template: "systems/gdsa/templates/sheets/template/Template-trai-sheet.hbs"},
+        main: { template: "systems/gdsa/templates/sheets/items/spell-sheet.hbs"},
     }
 
     /** @override */
@@ -47,16 +38,7 @@ export default class GDSATemplateSheet extends GDSAItemSheet {
 
         super._configureRenderOptions(options);
 
-        options.parts = [this.tempType]
-    }
-
-    get tempType() {
-
-        let itemType = this.item.system.type;
-
-        if(itemType === "s" || itemType === "") itemType = "none";
-
-        return itemType
+        options.parts = ["main"]
     }
 
     static async postGM() {
